@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ec-0.4.2/src/models/short_weierstrass/group.rs`."><title>group.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ark_ec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ec/models/short_weierstrass/</div>group.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ec-0.5.0/src/models/short_weierstrass/group.rs`."><title>group.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ark_ec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ec/models/short_weierstrass/</div>group.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -647,7 +647,23 @@
 <a href="#646" id="646">646</a>
 <a href="#647" id="647">647</a>
 <a href="#648" id="648">648</a>
-<a href="#649" id="649">649</a></pre></div><pre class="rust"><code><span class="kw">use </span>ark_serialize::{
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a></pre></div><pre class="rust"><code><span class="kw">use super</span>::{Affine, SWCurveConfig};
+<span class="kw">use crate</span>::{
+    scalar_mul::{variable_base::VariableBaseMSM, ScalarMul},
+    AffineRepr, CurveGroup, PrimeGroup,
+};
+<span class="kw">use </span>ark_ff::{fields::Field, AdditiveGroup, PrimeField, ToConstraintField, UniformRand};
+<span class="kw">use </span>ark_serialize::{
     CanonicalDeserialize, CanonicalSerialize, Compress, SerializationError, Valid, Validate,
 };
 <span class="kw">use </span>ark_std::{
@@ -660,28 +676,19 @@
         distributions::{Distribution, Standard},
         Rng,
     },
-    vec::Vec,
+    vec::<span class="kw-2">*</span>,
     One, Zero,
 };
-
-<span class="kw">use </span>ark_ff::{fields::Field, PrimeField, ToConstraintField, UniformRand};
-
-<span class="kw">use </span>zeroize::Zeroize;
-
+<span class="kw">use </span>educe::Educe;
 <span class="attr">#[cfg(feature = <span class="string">"parallel"</span>)]
 </span><span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
-
-<span class="kw">use super</span>::{Affine, SWCurveConfig};
-<span class="kw">use crate</span>::{
-    scalar_mul::{variable_base::VariableBaseMSM, ScalarMul},
-    AffineRepr, CurveGroup, Group,
-};
+<span class="kw">use </span>zeroize::Zeroize;
 
 <span class="doccomment">/// Jacobian coordinates for a point on an elliptic curve in short Weierstrass
 /// form, over the base field `P::BaseField`. This struct implements arithmetic
 /// via the Jacobian formulae
-</span><span class="attr">#[derive(Derivative)]
-#[derivative(Copy(bound = <span class="string">"P: SWCurveConfig"</span>), Clone(bound = <span class="string">"P: SWCurveConfig"</span>))]
+</span><span class="attr">#[derive(Educe)]
+#[educe(Copy, Clone)]
 #[must_use]
 </span><span class="kw">pub struct </span>Projective&lt;P: SWCurveConfig&gt; {
     <span class="doccomment">/// `X / Z` projection of the affine `X`
@@ -809,13 +816,11 @@
     }
 }
 
-<span class="kw">impl</span>&lt;P: SWCurveConfig&gt; Group <span class="kw">for </span>Projective&lt;P&gt; {
-    <span class="kw">type </span>ScalarField = P::ScalarField;
+<span class="kw">impl</span>&lt;P: SWCurveConfig&gt; AdditiveGroup <span class="kw">for </span>Projective&lt;P&gt; {
+    <span class="kw">type </span>Scalar = P::ScalarField;
 
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>generator() -&gt; <span class="self">Self </span>{
-        Affine::generator().into()
-    }
+    <span class="kw">const </span>ZERO: <span class="self">Self </span>=
+        <span class="self">Self</span>::new_unchecked(P::BaseField::ONE, P::BaseField::ONE, P::BaseField::ZERO);
 
     <span class="doccomment">/// Sets `self = 2 * self`. Note that Jacobian formulae are incomplete, and
     /// so doubling cannot be computed as `self + self`. Instead, this
@@ -922,6 +927,15 @@
             <span class="self">self
         </span>}
     }
+}
+
+<span class="kw">impl</span>&lt;P: SWCurveConfig&gt; PrimeGroup <span class="kw">for </span>Projective&lt;P&gt; {
+    <span class="kw">type </span>ScalarField = P::ScalarField;
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>generator() -&gt; <span class="self">Self </span>{
+        Affine::generator().into()
+    }
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>mul_bigint(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw">impl </span>AsRef&lt;[u64]&gt;) -&gt; <span class="self">Self </span>{
@@ -979,10 +993,10 @@
 }
 
 <span class="kw">impl</span>&lt;P: SWCurveConfig, T: Borrow&lt;Affine&lt;P&gt;&gt;&gt; AddAssign&lt;T&gt; <span class="kw">for </span>Projective&lt;P&gt; {
-    <span class="doccomment">/// Using http://www.hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-0.html#addition-madd-2007-bl
+    <span class="doccomment">/// Using &lt;http://www.hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-0.html#addition-madd-2007-bl&gt;
     </span><span class="kw">fn </span>add_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: T) {
         <span class="kw">let </span>other = other.borrow();
-        <span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="kw-2">&amp;</span>other_x, <span class="kw-2">&amp;</span>other_y)) = other.xy() {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>((other_x, other_y)) = other.xy() {
             <span class="kw">if </span><span class="self">self</span>.is_zero() {
                 <span class="self">self</span>.x = other_x;
                 <span class="self">self</span>.y = other_y;
@@ -1003,13 +1017,16 @@
             s2 <span class="kw-2">*</span>= <span class="kw-2">&amp;</span>other_y;
             s2 <span class="kw-2">*</span>= <span class="kw-2">&amp;</span>z1z1;
 
-            <span class="kw">if </span><span class="self">self</span>.x == u2 &amp;&amp; <span class="self">self</span>.y == s2 {
-                <span class="comment">// The two points are equal, so we double.
-                </span><span class="self">self</span>.double_in_place();
+            <span class="kw">if </span><span class="self">self</span>.x == u2 {
+                <span class="kw">if </span><span class="self">self</span>.y == s2 {
+                    <span class="comment">// The two points are equal, so we double.
+                    </span><span class="self">self</span>.double_in_place();
+                } <span class="kw">else </span>{
+                    <span class="comment">// a + (-a) = 0
+                    </span><span class="kw-2">*</span><span class="self">self </span>= <span class="self">Self</span>::zero()
+                }
             } <span class="kw">else </span>{
-                <span class="comment">// If we're adding -a and a together, self.z becomes zero as H becomes zero.
-
-                // H = U2-X1
+                <span class="comment">// H = U2-X1
                 </span><span class="kw">let </span><span class="kw-2">mut </span>h = u2;
                 h -= <span class="kw-2">&amp;</span><span class="self">self</span>.x;
 
@@ -1127,13 +1144,16 @@
         s2 <span class="kw-2">*</span>= <span class="kw-2">&amp;</span><span class="self">self</span>.z;
         s2 <span class="kw-2">*</span>= <span class="kw-2">&amp;</span>z1z1;
 
-        <span class="kw">if </span>u1 == u2 &amp;&amp; s1 == s2 {
-            <span class="comment">// The two points are equal, so we double.
-            </span><span class="self">self</span>.double_in_place();
+        <span class="kw">if </span>u1 == u2 {
+            <span class="kw">if </span>s1 == s2 {
+                <span class="comment">// The two points are equal, so we double.
+                </span><span class="self">self</span>.double_in_place();
+            } <span class="kw">else </span>{
+                <span class="comment">// a + (-a) = 0
+                </span><span class="kw-2">*</span><span class="self">self </span>= <span class="self">Self</span>::zero();
+            }
         } <span class="kw">else </span>{
-            <span class="comment">// If we're adding -a and a together, self.z becomes zero as H becomes zero.
-
-            // H = U2-U1
+            <span class="comment">// H = U2-U1
             </span><span class="kw">let </span><span class="kw-2">mut </span>h = u2;
             h -= <span class="kw-2">&amp;</span>u1;
 
@@ -1213,7 +1233,7 @@
 </span><span class="kw">impl</span>&lt;P: SWCurveConfig&gt; From&lt;Affine&lt;P&gt;&gt; <span class="kw">for </span>Projective&lt;P&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>from(p: Affine&lt;P&gt;) -&gt; Projective&lt;P&gt; {
-        p.xy().map_or(Projective::zero(), |(<span class="kw-2">&amp;</span>x, <span class="kw-2">&amp;</span>y)| <span class="self">Self </span>{
+        p.xy().map_or(Projective::zero(), |(x, y)| <span class="self">Self </span>{
             x,
             y,
             z: P::BaseField::one(),

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-0.38.44/src/pid.rs`."><title>pid.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/</div>pid.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-1.0.3/src/pid.rs`."><title>pid.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/</div>pid.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -102,21 +102,29 @@
 <a href="#101" id="101">101</a>
 <a href="#102" id="102">102</a>
 <a href="#103" id="103">103</a>
-<a href="#104" id="104">104</a></pre></div><pre class="rust"><code><span class="doccomment">//! The `Pid` type.
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a></pre></div><pre class="rust"><code><span class="doccomment">//! The `Pid` type.
 
 </span><span class="attr">#![allow(unsafe_code)]
 
-</span><span class="kw">use </span><span class="kw">crate</span>::backend::c;
-<span class="kw">use </span>core::num::NonZeroI32;
+</span><span class="kw">use </span>core::num::NonZeroI32;
 
 <span class="doccomment">/// A process identifier as a raw integer.
-</span><span class="kw">pub type </span>RawPid = c::pid_t;
+</span><span class="kw">pub type </span>RawPid = i32;
 
 <span class="doccomment">/// `pid_t`—A non-zero Unix process ID.
 ///
 /// This is a pid, and not a pidfd. It is not a file descriptor, and the
 /// process it refers to could disappear at any time and be replaced by
 /// another, unrelated, process.
+///
+/// On Linux, `Pid` values are also used to identify threads.
 </span><span class="attr">#[repr(transparent)]
 #[derive(Copy, Clone, Eq, PartialEq, Debug, Hash)]
 </span><span class="kw">pub struct </span>Pid(NonZeroI32);
@@ -141,12 +149,10 @@
     /// [pidfd]: https://man7.org/linux/man-pages/man2/pidfd_open.2.html
     </span><span class="attr">#[inline]
     </span><span class="kw">pub const fn </span>from_raw(raw: RawPid) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">if </span>raw &gt; <span class="number">0 </span>{
-            <span class="comment">// SAFETY: We just checked that `raw &gt; 0`.
-            </span><span class="kw">unsafe </span>{ <span class="prelude-val">Some</span>(<span class="self">Self</span>::from_raw_unchecked(raw)) }
-        } <span class="kw">else </span>{
-            <span class="prelude-val">None
-        </span>}
+        <span class="kw">match </span>NonZeroI32::new(raw) {
+            <span class="prelude-val">Some</span>(non_zero) =&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>(non_zero)),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
+        }
     }
 
     <span class="doccomment">/// Converts a known positive `RawPid` into a `Pid`.
@@ -178,32 +184,40 @@
 
     <span class="doccomment">/// Converts an `Option&lt;Pid&gt;` into a `RawPid`.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>as_raw(pid: <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;) -&gt; RawPid {
-        pid.map_or(<span class="number">0</span>, |pid| pid.<span class="number">0</span>.get())
+    </span><span class="kw">pub const fn </span>as_raw(pid: <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;) -&gt; RawPid {
+        <span class="kw">match </span>pid {
+            <span class="prelude-val">Some</span>(pid) =&gt; pid.<span class="number">0</span>.get(),
+            <span class="prelude-val">None </span>=&gt; <span class="number">0</span>,
+        }
     }
 
-    <span class="doccomment">/// Test whether this pid represents the init process (pid 1).
+    <span class="doccomment">/// Test whether this pid represents the init process ([`Pid::INIT`]).
     </span><span class="attr">#[inline]
     </span><span class="kw">pub const fn </span>is_init(<span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.<span class="number">0</span>.get() == <span class="self">Self</span>::INIT.<span class="number">0</span>.get()
     }
 }
 
-<span class="attr">#[test]
-</span><span class="kw">fn </span>test_sizes() {
-    <span class="kw">use </span>core::mem::transmute;
+<span class="attr">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="macro">assert_eq_size!</span>(RawPid, NonZeroI32);
-    <span class="macro">assert_eq_size!</span>(RawPid, Pid);
-    <span class="macro">assert_eq_size!</span>(RawPid, <span class="prelude-ty">Option</span>&lt;Pid&gt;);
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_sizes() {
+        <span class="kw">use </span>core::mem::transmute;
 
-    <span class="comment">// Rustix doesn't depend on `Option&lt;Pid&gt;` matching the ABI of a raw integer
-    // for correctness, but it should work nonetheless.
-    </span><span class="macro">const_assert_eq!</span>(<span class="number">0 </span><span class="kw">as </span>RawPid, <span class="kw">unsafe </span>{
-        transmute::&lt;<span class="prelude-ty">Option</span>&lt;Pid&gt;, RawPid&gt;(<span class="prelude-val">None</span>)
-    });
-    <span class="macro">const_assert_eq!</span>(<span class="number">4567 </span><span class="kw">as </span>RawPid, <span class="kw">unsafe </span>{
-        transmute::&lt;<span class="prelude-ty">Option</span>&lt;Pid&gt;, RawPid&gt;(<span class="prelude-val">Some</span>(Pid::from_raw_unchecked(<span class="number">4567</span>)))
-    });
+        <span class="macro">assert_eq_size!</span>(RawPid, NonZeroI32);
+        <span class="macro">assert_eq_size!</span>(RawPid, Pid);
+        <span class="macro">assert_eq_size!</span>(RawPid, <span class="prelude-ty">Option</span>&lt;Pid&gt;);
+
+        <span class="comment">// Rustix doesn't depend on `Option&lt;Pid&gt;` matching the ABI of a raw integer
+        // for correctness, but it should work nonetheless.
+        </span><span class="macro">const_assert_eq!</span>(<span class="number">0 </span><span class="kw">as </span>RawPid, <span class="kw">unsafe </span>{
+            transmute::&lt;<span class="prelude-ty">Option</span>&lt;Pid&gt;, RawPid&gt;(<span class="prelude-val">None</span>)
+        });
+        <span class="macro">const_assert_eq!</span>(<span class="number">4567 </span><span class="kw">as </span>RawPid, <span class="kw">unsafe </span>{
+            transmute::&lt;<span class="prelude-ty">Option</span>&lt;Pid&gt;, RawPid&gt;(<span class="prelude-val">Some</span>(Pid::from_raw_unchecked(<span class="number">4567</span>)))
+        });
+    }
 }
 </code></pre></div></section></main></body></html>

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["CharIter","Encoder","Fe32Iter","WitnessVersionIter"]};
+window.SIDEBAR_ITEMS = {"struct":["ByteIter","CharIter","Encoder","Fe32Iter","WitnessVersionIter"]};

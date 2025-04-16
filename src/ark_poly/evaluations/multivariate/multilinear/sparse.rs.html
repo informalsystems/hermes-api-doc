@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-poly-0.4.2/src/evaluations/multivariate/multilinear/sparse.rs`."><title>sparse.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="ark_poly" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_poly/evaluations/multivariate/multilinear/</div>sparse.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-poly-0.5.0/src/evaluations/multivariate/multilinear/sparse.rs`."><title>sparse.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="ark_poly" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_poly/evaluations/multivariate/multilinear/</div>sparse.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -594,11 +594,26 @@
 <a href="#593" id="593">593</a>
 <a href="#594" id="594">594</a>
 <a href="#595" id="595">595</a>
-<a href="#596" id="596">596</a></pre></div><pre class="rust"><code><span class="doccomment">//! multilinear polynomial represented in sparse evaluation form.
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a></pre></div><pre class="rust"><code><span class="doccomment">//! multilinear polynomial represented in sparse evaluation form.
 
 </span><span class="kw">use crate</span>::{
     evaluations::multivariate::multilinear::swap_bits, DenseMultilinearExtension,
-    MultilinearExtension,
+    MultilinearExtension, Polynomial,
 };
 <span class="kw">use </span>ark_ff::{Field, Zero};
 <span class="kw">use </span>ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
@@ -606,15 +621,16 @@
     collections::BTreeMap,
     fmt,
     fmt::{Debug, Formatter},
-    iter::FromIterator,
     ops::{Add, AddAssign, Index, Neg, Sub, SubAssign},
     rand::Rng,
-    vec::Vec,
+    vec::<span class="kw-2">*</span>,
     UniformRand,
 };
 <span class="kw">use </span>hashbrown::HashMap;
 <span class="attr">#[cfg(feature = <span class="string">"parallel"</span>)]
 </span><span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
+
+<span class="kw">use </span><span class="kw">super</span>::DefaultHasher;
 
 <span class="doccomment">/// Stores a multilinear polynomial in sparse evaluation form.
 </span><span class="attr">#[derive(Clone, PartialEq, Eq, Hash, Default, CanonicalSerialize, CanonicalDeserialize)]
@@ -663,7 +679,8 @@
     ) -&gt; <span class="self">Self </span>{
         <span class="macro">assert!</span>(num_nonzero_entries &lt;= (<span class="number">1 </span>&lt;&lt; num_vars));
 
-        <span class="kw">let </span><span class="kw-2">mut </span>map = HashMap::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>map =
+            HashMap::with_hasher(core::hash::BuildHasherDefault::&lt;DefaultHasher&gt;::default());
         <span class="kw">for _ in </span><span class="number">0</span>..num_nonzero_entries {
             <span class="kw">let </span><span class="kw-2">mut </span>index = usize::rand(rng) &amp; ((<span class="number">1 </span>&lt;&lt; num_vars) - <span class="number">1</span>);
             <span class="kw">while </span>map.get(<span class="kw-2">&amp;</span>index).is_some() {
@@ -716,14 +733,6 @@
         <span class="self">self</span>.num_vars
     }
 
-    <span class="kw">fn </span>evaluate(<span class="kw-2">&amp;</span><span class="self">self</span>, point: <span class="kw-2">&amp;</span>[F]) -&gt; <span class="prelude-ty">Option</span>&lt;F&gt; {
-        <span class="kw">if </span>point.len() == <span class="self">self</span>.num_vars {
-            <span class="prelude-val">Some</span>(<span class="self">self</span>.fix_variables(point)[<span class="number">0</span>])
-        } <span class="kw">else </span>{
-            <span class="prelude-val">None
-        </span>}
-    }
-
     <span class="doccomment">/// Outputs an `l`-variate multilinear extension where value of evaluations
     /// are sampled uniformly at random. The number of nonzero entries is
     /// `sqrt(2^num_vars)` and indices of those nonzero entries are distributed
@@ -760,13 +769,16 @@
         <span class="kw">let </span>dim = partial_point.len();
         <span class="macro">assert!</span>(dim &lt;= <span class="self">self</span>.num_vars, <span class="string">"invalid partial point dimension"</span>);
 
-        <span class="kw">let </span>window = ark_std::log2(<span class="self">self</span>.evaluations.len()) <span class="kw">as </span>usize;
+        <span class="kw">let </span><span class="kw-2">mut </span>window = ark_std::log2(<span class="self">self</span>.evaluations.len()) <span class="kw">as </span>usize;
+        <span class="kw">if </span>window == <span class="number">0 </span>{
+            window = <span class="number">1</span>;
+        }
         <span class="kw">let </span><span class="kw-2">mut </span>point = partial_point;
         <span class="kw">let </span><span class="kw-2">mut </span>last = treemap_to_hashmap(<span class="kw-2">&amp;</span><span class="self">self</span>.evaluations);
 
         <span class="comment">// batch evaluation
         </span><span class="kw">while </span>!point.is_empty() {
-            <span class="kw">let </span>focus_length = <span class="kw">if </span>window &gt; <span class="number">0 </span>&amp;&amp; point.len() &gt; window {
+            <span class="kw">let </span>focus_length = <span class="kw">if </span>point.len() &gt; window {
                 window
             } <span class="kw">else </span>{
                 point.len()
@@ -775,7 +787,8 @@
             point = <span class="kw-2">&amp;</span>point[focus_length..];
             <span class="kw">let </span>pre = precompute_eq(focus);
             <span class="kw">let </span>dim = focus.len();
-            <span class="kw">let </span><span class="kw-2">mut </span>result = HashMap::new();
+            <span class="kw">let </span><span class="kw-2">mut </span>result =
+                HashMap::with_hasher(core::hash::BuildHasherDefault::&lt;DefaultHasher&gt;::default());
             <span class="kw">for </span>src_entry <span class="kw">in </span>last.iter() {
                 <span class="kw">let </span>old_idx = <span class="kw-2">*</span>src_entry.<span class="number">0</span>;
                 <span class="kw">let </span>gz = pre[old_idx &amp; ((<span class="number">1 </span>&lt;&lt; dim) - <span class="number">1</span>)];
@@ -823,6 +836,19 @@
     }
 }
 
+<span class="kw">impl</span>&lt;F: Field&gt; Polynomial&lt;F&gt; <span class="kw">for </span>SparseMultilinearExtension&lt;F&gt; {
+    <span class="kw">type </span>Point = Vec&lt;F&gt;;
+
+    <span class="kw">fn </span>degree(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.num_vars
+    }
+
+    <span class="kw">fn </span>evaluate(<span class="kw-2">&amp;</span><span class="self">self</span>, point: <span class="kw-2">&amp;</span><span class="self">Self</span>::Point) -&gt; F {
+        <span class="macro">assert!</span>(point.len() == <span class="self">self</span>.num_vars);
+        <span class="self">self</span>.fix_variables(point)[<span class="number">0</span>]
+    }
+}
+
 <span class="kw">impl</span>&lt;F: Field&gt; Add <span class="kw">for </span>SparseMultilinearExtension&lt;F&gt; {
     <span class="kw">type </span>Output = SparseMultilinearExtension&lt;F&gt;;
 
@@ -850,7 +876,8 @@
             <span class="string">"trying to add non-zero polynomial with different number of variables"
         </span>);
         <span class="comment">// simply merge the evaluations
-        </span><span class="kw">let </span><span class="kw-2">mut </span>evaluations = HashMap::new();
+        </span><span class="kw">let </span><span class="kw-2">mut </span>evaluations =
+            HashMap::with_hasher(core::hash::BuildHasherDefault::&lt;DefaultHasher&gt;::default());
         <span class="kw">for </span>(<span class="kw-2">&amp;</span>i, <span class="kw-2">&amp;</span>v) <span class="kw">in </span><span class="self">self</span>.evaluations.iter().chain(rhs.evaluations.iter()) {
             <span class="kw-2">*</span>(evaluations.entry(i).or_insert(F::zero())) += v;
         }
@@ -984,22 +1011,25 @@
     BTreeMap::from_iter(tuples.iter().map(|(i, v)| (<span class="kw-2">*</span>i, <span class="kw-2">*</span>v)))
 }
 
-<span class="kw">fn </span>treemap_to_hashmap&lt;F: Field&gt;(map: <span class="kw-2">&amp;</span>BTreeMap&lt;usize, F&gt;) -&gt; HashMap&lt;usize, F&gt; {
+<span class="kw">fn </span>treemap_to_hashmap&lt;F: Field&gt;(
+    map: <span class="kw-2">&amp;</span>BTreeMap&lt;usize, F&gt;,
+) -&gt; HashMap&lt;usize, F, core::hash::BuildHasherDefault&lt;DefaultHasher&gt;&gt; {
     HashMap::from_iter(map.iter().map(|(i, v)| (<span class="kw-2">*</span>i, <span class="kw-2">*</span>v)))
 }
 
-<span class="kw">fn </span>hashmap_to_treemap&lt;F: Field&gt;(map: <span class="kw-2">&amp;</span>HashMap&lt;usize, F&gt;) -&gt; BTreeMap&lt;usize, F&gt; {
+<span class="kw">fn </span>hashmap_to_treemap&lt;F: Field, S&gt;(map: <span class="kw-2">&amp;</span>HashMap&lt;usize, F, S&gt;) -&gt; BTreeMap&lt;usize, F&gt; {
     BTreeMap::from_iter(map.iter().map(|(i, v)| (<span class="kw-2">*</span>i, <span class="kw-2">*</span>v)))
 }
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use crate</span>::{
-        evaluations::multivariate::multilinear::MultilinearExtension, SparseMultilinearExtension,
+        evaluations::multivariate::multilinear::MultilinearExtension, Polynomial,
+        SparseMultilinearExtension,
     };
     <span class="kw">use </span>ark_ff::{One, Zero};
     <span class="kw">use </span>ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
-    <span class="kw">use </span>ark_std::{ops::Neg, test_rng, vec::Vec, UniformRand};
+    <span class="kw">use </span>ark_std::{ops::Neg, test_rng, vec::<span class="kw-2">*</span>, UniformRand};
     <span class="kw">use </span>ark_test_curves::bls12_381::Fr;
     <span class="doccomment">/// Some sanity test to ensure random sparse polynomial make sense.
     </span><span class="attr">#[test]
@@ -1049,7 +1079,7 @@
         </span><span class="kw">let </span><span class="kw-2">mut </span>rng = test_rng();
         <span class="kw">let </span>ev1 = Fr::rand(<span class="kw-2">&amp;mut </span>rng);
         <span class="kw">let </span>poly1 = SparseMultilinearExtension::from_evaluations(<span class="number">0</span>, <span class="kw-2">&amp;</span><span class="macro">vec!</span>[(<span class="number">0</span>, ev1)]);
-        <span class="macro">assert_eq!</span>(poly1.evaluate(<span class="kw-2">&amp;</span>[]).unwrap(), ev1);
+        <span class="macro">assert_eq!</span>(poly1.evaluate(<span class="kw-2">&amp;</span>[].into()), ev1);
 
         <span class="comment">// test single-variate polynomial
         </span><span class="kw">let </span>ev2 = <span class="macro">vec!</span>[Fr::rand(<span class="kw-2">&amp;mut </span>rng), Fr::rand(<span class="kw-2">&amp;mut </span>rng)];
@@ -1058,7 +1088,7 @@
 
         <span class="kw">let </span>x = Fr::rand(<span class="kw-2">&amp;mut </span>rng);
         <span class="macro">assert_eq!</span>(
-            poly2.evaluate(<span class="kw-2">&amp;</span>[x]).unwrap(),
+            poly2.evaluate(<span class="kw-2">&amp;</span>[x].into()),
             x * ev2[<span class="number">1</span>] + (Fr::one() - x) * ev2[<span class="number">0</span>]
         );
 
@@ -1067,7 +1097,7 @@
         <span class="kw">let </span>poly2 = SparseMultilinearExtension::from_evaluations(<span class="number">1</span>, <span class="kw-2">&amp;</span><span class="macro">vec!</span>[(<span class="number">1</span>, ev3)]);
 
         <span class="kw">let </span>x = Fr::rand(<span class="kw-2">&amp;mut </span>rng);
-        <span class="macro">assert_eq!</span>(poly2.evaluate(<span class="kw-2">&amp;</span>[x]).unwrap(), x * ev3);
+        <span class="macro">assert_eq!</span>(poly2.evaluate(<span class="kw-2">&amp;</span>[x].into()), x * ev3);
     }
 
     <span class="attr">#[test]
@@ -1096,32 +1126,32 @@
             <span class="kw">let </span>point: Vec&lt;<span class="kw">_</span>&gt; = (<span class="number">0</span>..NV).map(|<span class="kw">_</span>| Fr::rand(<span class="kw-2">&amp;mut </span>rng)).collect();
             <span class="kw">let </span>poly1 = SparseMultilinearExtension::rand(NV, <span class="kw-2">&amp;mut </span>rng);
             <span class="kw">let </span>poly2 = SparseMultilinearExtension::rand(NV, <span class="kw-2">&amp;mut </span>rng);
-            <span class="kw">let </span>v1 = poly1.evaluate(<span class="kw-2">&amp;</span>point).unwrap();
-            <span class="kw">let </span>v2 = poly2.evaluate(<span class="kw-2">&amp;</span>point).unwrap();
+            <span class="kw">let </span>v1 = poly1.evaluate(<span class="kw-2">&amp;</span>point);
+            <span class="kw">let </span>v2 = poly2.evaluate(<span class="kw-2">&amp;</span>point);
             <span class="comment">// test add
-            </span><span class="macro">assert_eq!</span>((<span class="kw-2">&amp;</span>poly1 + <span class="kw-2">&amp;</span>poly2).evaluate(<span class="kw-2">&amp;</span>point).unwrap(), v1 + v2);
+            </span><span class="macro">assert_eq!</span>((<span class="kw-2">&amp;</span>poly1 + <span class="kw-2">&amp;</span>poly2).evaluate(<span class="kw-2">&amp;</span>point), v1 + v2);
             <span class="comment">// test sub
-            </span><span class="macro">assert_eq!</span>((<span class="kw-2">&amp;</span>poly1 - <span class="kw-2">&amp;</span>poly2).evaluate(<span class="kw-2">&amp;</span>point).unwrap(), v1 - v2);
+            </span><span class="macro">assert_eq!</span>((<span class="kw-2">&amp;</span>poly1 - <span class="kw-2">&amp;</span>poly2).evaluate(<span class="kw-2">&amp;</span>point), v1 - v2);
             <span class="comment">// test negate
-            </span><span class="macro">assert_eq!</span>(poly1.clone().neg().evaluate(<span class="kw-2">&amp;</span>point).unwrap(), -v1);
+            </span><span class="macro">assert_eq!</span>(poly1.clone().neg().evaluate(<span class="kw-2">&amp;</span>point), -v1);
             <span class="comment">// test add assign
             </span>{
                 <span class="kw">let </span><span class="kw-2">mut </span>poly1 = poly1.clone();
                 poly1 += <span class="kw-2">&amp;</span>poly2;
-                <span class="macro">assert_eq!</span>(poly1.evaluate(<span class="kw-2">&amp;</span>point).unwrap(), v1 + v2)
+                <span class="macro">assert_eq!</span>(poly1.evaluate(<span class="kw-2">&amp;</span>point), v1 + v2)
             }
             <span class="comment">// test sub assign
             </span>{
                 <span class="kw">let </span><span class="kw-2">mut </span>poly1 = poly1.clone();
                 poly1 -= <span class="kw-2">&amp;</span>poly2;
-                <span class="macro">assert_eq!</span>(poly1.evaluate(<span class="kw-2">&amp;</span>point).unwrap(), v1 - v2)
+                <span class="macro">assert_eq!</span>(poly1.evaluate(<span class="kw-2">&amp;</span>point), v1 - v2)
             }
             <span class="comment">// test add assign with scalar
             </span>{
                 <span class="kw">let </span><span class="kw-2">mut </span>poly1 = poly1.clone();
                 <span class="kw">let </span>scalar = Fr::rand(<span class="kw-2">&amp;mut </span>rng);
                 poly1 += (scalar, <span class="kw-2">&amp;</span>poly2);
-                <span class="macro">assert_eq!</span>(poly1.evaluate(<span class="kw-2">&amp;</span>point).unwrap(), v1 + scalar * v2)
+                <span class="macro">assert_eq!</span>(poly1.evaluate(<span class="kw-2">&amp;</span>point), v1 + scalar * v2)
             }
             <span class="comment">// test additive identity
             </span>{
@@ -1134,7 +1164,7 @@
                     <span class="kw">let </span><span class="kw-2">mut </span>zero = SparseMultilinearExtension::zero();
                     <span class="kw">let </span>scalar = Fr::rand(<span class="kw-2">&amp;mut </span>rng);
                     zero += (scalar, <span class="kw-2">&amp;</span>poly1);
-                    <span class="macro">assert_eq!</span>(zero.evaluate(<span class="kw-2">&amp;</span>point).unwrap(), scalar * v1);
+                    <span class="macro">assert_eq!</span>(zero.evaluate(<span class="kw-2">&amp;</span>point), scalar * v1);
                 }
             }
         }
@@ -1147,29 +1177,29 @@
             <span class="kw">let </span><span class="kw-2">mut </span>poly = SparseMultilinearExtension::rand(<span class="number">10</span>, <span class="kw-2">&amp;mut </span>rng);
             <span class="kw">let </span><span class="kw-2">mut </span>point: Vec&lt;<span class="kw">_</span>&gt; = (<span class="number">0</span>..<span class="number">10</span>).map(|<span class="kw">_</span>| Fr::rand(<span class="kw-2">&amp;mut </span>rng)).collect();
 
-            <span class="kw">let </span>expected = poly.evaluate(<span class="kw-2">&amp;</span>point).unwrap();
+            <span class="kw">let </span>expected = poly.evaluate(<span class="kw-2">&amp;</span>point);
 
             poly = poly.relabel(<span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>); <span class="comment">// should have no effect
-            </span><span class="macro">assert_eq!</span>(expected, poly.evaluate(<span class="kw-2">&amp;</span>point).unwrap());
+            </span><span class="macro">assert_eq!</span>(expected, poly.evaluate(<span class="kw-2">&amp;</span>point));
 
             poly = poly.relabel(<span class="number">3</span>, <span class="number">4</span>, <span class="number">1</span>); <span class="comment">// should switch 3 and 4
             </span>point.swap(<span class="number">3</span>, <span class="number">4</span>);
-            <span class="macro">assert_eq!</span>(expected, poly.evaluate(<span class="kw-2">&amp;</span>point).unwrap());
+            <span class="macro">assert_eq!</span>(expected, poly.evaluate(<span class="kw-2">&amp;</span>point));
 
             poly = poly.relabel(<span class="number">7</span>, <span class="number">5</span>, <span class="number">1</span>);
             point.swap(<span class="number">7</span>, <span class="number">5</span>);
-            <span class="macro">assert_eq!</span>(expected, poly.evaluate(<span class="kw-2">&amp;</span>point).unwrap());
+            <span class="macro">assert_eq!</span>(expected, poly.evaluate(<span class="kw-2">&amp;</span>point));
 
             poly = poly.relabel(<span class="number">2</span>, <span class="number">5</span>, <span class="number">3</span>);
             point.swap(<span class="number">2</span>, <span class="number">5</span>);
             point.swap(<span class="number">3</span>, <span class="number">6</span>);
             point.swap(<span class="number">4</span>, <span class="number">7</span>);
-            <span class="macro">assert_eq!</span>(expected, poly.evaluate(<span class="kw-2">&amp;</span>point).unwrap());
+            <span class="macro">assert_eq!</span>(expected, poly.evaluate(<span class="kw-2">&amp;</span>point));
 
             poly = poly.relabel(<span class="number">7</span>, <span class="number">0</span>, <span class="number">2</span>);
             point.swap(<span class="number">0</span>, <span class="number">7</span>);
             point.swap(<span class="number">1</span>, <span class="number">8</span>);
-            <span class="macro">assert_eq!</span>(expected, poly.evaluate(<span class="kw-2">&amp;</span>point).unwrap());
+            <span class="macro">assert_eq!</span>(expected, poly.evaluate(<span class="kw-2">&amp;</span>point));
         }
     }
 

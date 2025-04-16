@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-serialize-0.4.2/src/impls.rs`."><title>impls.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="ark_serialize" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_serialize/</div>impls.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-serialize-0.5.0/src/impls.rs`."><title>impls.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="ark_serialize" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_serialize/</div>impls.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -775,18 +775,181 @@
 <a href="#774" id="774">774</a>
 <a href="#775" id="775">775</a>
 <a href="#776" id="776">776</a>
-<a href="#777" id="777">777</a></pre></div><pre class="rust"><code><span class="kw">use </span>ark_std::{
-    borrow::Cow,
-    collections::{BTreeMap, BTreeSet},
+<a href="#777" id="777">777</a>
+<a href="#778" id="778">778</a>
+<a href="#779" id="779">779</a>
+<a href="#780" id="780">780</a>
+<a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
+<a href="#786" id="786">786</a>
+<a href="#787" id="787">787</a>
+<a href="#788" id="788">788</a>
+<a href="#789" id="789">789</a>
+<a href="#790" id="790">790</a>
+<a href="#791" id="791">791</a>
+<a href="#792" id="792">792</a>
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
+<a href="#795" id="795">795</a>
+<a href="#796" id="796">796</a>
+<a href="#797" id="797">797</a>
+<a href="#798" id="798">798</a>
+<a href="#799" id="799">799</a>
+<a href="#800" id="800">800</a>
+<a href="#801" id="801">801</a>
+<a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
+<a href="#809" id="809">809</a>
+<a href="#810" id="810">810</a>
+<a href="#811" id="811">811</a>
+<a href="#812" id="812">812</a>
+<a href="#813" id="813">813</a>
+<a href="#814" id="814">814</a>
+<a href="#815" id="815">815</a>
+<a href="#816" id="816">816</a>
+<a href="#817" id="817">817</a>
+<a href="#818" id="818">818</a>
+<a href="#819" id="819">819</a>
+<a href="#820" id="820">820</a>
+<a href="#821" id="821">821</a>
+<a href="#822" id="822">822</a>
+<a href="#823" id="823">823</a>
+<a href="#824" id="824">824</a>
+<a href="#825" id="825">825</a>
+<a href="#826" id="826">826</a>
+<a href="#827" id="827">827</a>
+<a href="#828" id="828">828</a>
+<a href="#829" id="829">829</a>
+<a href="#830" id="830">830</a>
+<a href="#831" id="831">831</a>
+<a href="#832" id="832">832</a>
+<a href="#833" id="833">833</a>
+<a href="#834" id="834">834</a>
+<a href="#835" id="835">835</a>
+<a href="#836" id="836">836</a>
+<a href="#837" id="837">837</a>
+<a href="#838" id="838">838</a>
+<a href="#839" id="839">839</a>
+<a href="#840" id="840">840</a>
+<a href="#841" id="841">841</a>
+<a href="#842" id="842">842</a>
+<a href="#843" id="843">843</a>
+<a href="#844" id="844">844</a>
+<a href="#845" id="845">845</a>
+<a href="#846" id="846">846</a>
+<a href="#847" id="847">847</a>
+<a href="#848" id="848">848</a>
+<a href="#849" id="849">849</a>
+<a href="#850" id="850">850</a>
+<a href="#851" id="851">851</a>
+<a href="#852" id="852">852</a>
+<a href="#853" id="853">853</a>
+<a href="#854" id="854">854</a>
+<a href="#855" id="855">855</a>
+<a href="#856" id="856">856</a>
+<a href="#857" id="857">857</a>
+<a href="#858" id="858">858</a>
+<a href="#859" id="859">859</a>
+<a href="#860" id="860">860</a>
+<a href="#861" id="861">861</a>
+<a href="#862" id="862">862</a>
+<a href="#863" id="863">863</a>
+<a href="#864" id="864">864</a>
+<a href="#865" id="865">865</a>
+<a href="#866" id="866">866</a>
+<a href="#867" id="867">867</a>
+<a href="#868" id="868">868</a>
+<a href="#869" id="869">869</a>
+<a href="#870" id="870">870</a>
+<a href="#871" id="871">871</a>
+<a href="#872" id="872">872</a>
+<a href="#873" id="873">873</a>
+<a href="#874" id="874">874</a>
+<a href="#875" id="875">875</a>
+<a href="#876" id="876">876</a>
+<a href="#877" id="877">877</a>
+<a href="#878" id="878">878</a>
+<a href="#879" id="879">879</a>
+<a href="#880" id="880">880</a>
+<a href="#881" id="881">881</a>
+<a href="#882" id="882">882</a>
+<a href="#883" id="883">883</a>
+<a href="#884" id="884">884</a>
+<a href="#885" id="885">885</a>
+<a href="#886" id="886">886</a>
+<a href="#887" id="887">887</a>
+<a href="#888" id="888">888</a>
+<a href="#889" id="889">889</a>
+<a href="#890" id="890">890</a>
+<a href="#891" id="891">891</a>
+<a href="#892" id="892">892</a>
+<a href="#893" id="893">893</a>
+<a href="#894" id="894">894</a>
+<a href="#895" id="895">895</a>
+<a href="#896" id="896">896</a>
+<a href="#897" id="897">897</a>
+<a href="#898" id="898">898</a>
+<a href="#899" id="899">899</a>
+<a href="#900" id="900">900</a>
+<a href="#901" id="901">901</a>
+<a href="#902" id="902">902</a>
+<a href="#903" id="903">903</a>
+<a href="#904" id="904">904</a>
+<a href="#905" id="905">905</a>
+<a href="#906" id="906">906</a>
+<a href="#907" id="907">907</a>
+<a href="#908" id="908">908</a>
+<a href="#909" id="909">909</a>
+<a href="#910" id="910">910</a>
+<a href="#911" id="911">911</a>
+<a href="#912" id="912">912</a>
+<a href="#913" id="913">913</a>
+<a href="#914" id="914">914</a>
+<a href="#915" id="915">915</a>
+<a href="#916" id="916">916</a>
+<a href="#917" id="917">917</a>
+<a href="#918" id="918">918</a>
+<a href="#919" id="919">919</a>
+<a href="#920" id="920">920</a>
+<a href="#921" id="921">921</a>
+<a href="#922" id="922">922</a>
+<a href="#923" id="923">923</a>
+<a href="#924" id="924">924</a>
+<a href="#925" id="925">925</a>
+<a href="#926" id="926">926</a>
+<a href="#927" id="927">927</a>
+<a href="#928" id="928">928</a>
+<a href="#929" id="929">929</a>
+<a href="#930" id="930">930</a>
+<a href="#931" id="931">931</a>
+<a href="#932" id="932">932</a>
+<a href="#933" id="933">933</a>
+<a href="#934" id="934">934</a>
+<a href="#935" id="935">935</a>
+<a href="#936" id="936">936</a>
+<a href="#937" id="937">937</a>
+<a href="#938" id="938">938</a></pre></div><pre class="rust"><code><span class="kw">use crate</span>::{
+    CanonicalDeserialize, CanonicalSerialize, Compress, SerializationError, Valid, Validate,
+};
+<span class="kw">use </span>ark_std::{
+    borrow::<span class="kw-2">*</span>,
+    collections::{BTreeMap, BTreeSet, LinkedList, VecDeque},
     io::{Read, Write},
     marker::PhantomData,
     rc::Rc,
-    string::String,
-    vec::Vec,
+    string::<span class="kw-2">*</span>,
+    vec::<span class="kw-2">*</span>,
 };
+<span class="kw">use </span>arrayvec::ArrayVec;
 <span class="kw">use </span>num_bigint::BigUint;
-
-<span class="kw">use crate</span>::<span class="kw-2">*</span>;
 
 <span class="kw">impl </span>Valid <span class="kw">for </span>bool {
     <span class="kw">fn </span>check(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), SerializationError&gt; {
@@ -1082,7 +1245,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+<span class="attr">#[cfg(target_has_atomic = <span class="string">"ptr"</span>)]
 </span><span class="kw">impl</span>&lt;T: CanonicalSerialize + ToOwned&gt; CanonicalSerialize <span class="kw">for </span>ark_std::sync::Arc&lt;T&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>serialize_with_mode&lt;W: Write&gt;(
@@ -1099,7 +1262,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+<span class="attr">#[cfg(target_has_atomic = <span class="string">"ptr"</span>)]
 </span><span class="kw">impl</span>&lt;T: Valid + Sync + Send&gt; Valid <span class="kw">for </span>ark_std::sync::Arc&lt;T&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>check(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), SerializationError&gt; {
@@ -1118,7 +1281,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+<span class="attr">#[cfg(target_has_atomic = <span class="string">"ptr"</span>)]
 </span><span class="kw">impl</span>&lt;T: CanonicalDeserialize + ToOwned + Sync + Send&gt; CanonicalDeserialize
     <span class="kw">for </span>ark_std::sync::Arc&lt;T&gt;
 {
@@ -1234,13 +1397,18 @@
         compress: Compress,
         validate: Validate,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, SerializationError&gt; {
-        <span class="kw">let </span>result = core::array::from_fn(|<span class="kw">_</span>| {
-            T::deserialize_with_mode(<span class="kw-2">&amp;mut </span>reader, compress, Validate::No).unwrap()
-        });
+        <span class="kw">let </span><span class="kw-2">mut </span>array = ArrayVec::&lt;T, N&gt;::new();
+        <span class="kw">for _ in </span><span class="number">0</span>..N {
+            array.push(T::deserialize_with_mode(
+                <span class="kw-2">&amp;mut </span>reader,
+                compress,
+                Validate::No,
+            )<span class="question-mark">?</span>);
+        }
         <span class="kw">if let </span>Validate::Yes = validate {
-            T::batch_check(result.iter())<span class="question-mark">?
+            T::batch_check(array.iter())<span class="question-mark">?
         </span>}
-        <span class="prelude-val">Ok</span>(result)
+        <span class="prelude-val">Ok</span>(array.into_inner().ok().unwrap())
     }
 }
 
@@ -1284,10 +1452,171 @@
         compress: Compress,
         validate: Validate,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, SerializationError&gt; {
-        <span class="kw">let </span>len = u64::deserialize_with_mode(<span class="kw-2">&amp;mut </span>reader, compress, validate)<span class="question-mark">?</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>values = Vec::new();
+        <span class="kw">let </span>len = u64::deserialize_with_mode(<span class="kw-2">&amp;mut </span>reader, compress, validate)<span class="question-mark">?
+            </span>.try_into()
+            .map_err(|<span class="kw">_</span>| SerializationError::NotEnoughSpace)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>values = Vec::with_capacity(len);
         <span class="kw">for _ in </span><span class="number">0</span>..len {
             values.push(T::deserialize_with_mode(
+                <span class="kw-2">&amp;mut </span>reader,
+                compress,
+                Validate::No,
+            )<span class="question-mark">?</span>);
+        }
+
+        <span class="kw">if let </span>Validate::Yes = validate {
+            T::batch_check(values.iter())<span class="question-mark">?
+        </span>}
+        <span class="prelude-val">Ok</span>(values)
+    }
+}
+
+<span class="comment">// Helper function. Serializes any sequential data type to the format
+//     n as u64 || data[0].serialize() || ... || data[n].serialize()
+</span><span class="attr">#[inline]
+</span><span class="kw">fn </span>serialize_seq&lt;T, B, W&gt;(
+    seq: <span class="kw">impl </span>ExactSizeIterator&lt;Item = B&gt;,
+    <span class="kw-2">mut </span>writer: W,
+    compress: Compress,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(), SerializationError&gt;
+<span class="kw">where
+    </span>T: CanonicalSerialize,
+    B: Borrow&lt;T&gt;,
+    W: Write,
+{
+    <span class="kw">let </span>len = seq.len() <span class="kw">as </span>u64;
+    len.serialize_with_mode(<span class="kw-2">&amp;mut </span>writer, compress)<span class="question-mark">?</span>;
+    <span class="kw">for </span>item <span class="kw">in </span>seq {
+        item.borrow().serialize_with_mode(<span class="kw-2">&amp;mut </span>writer, compress)<span class="question-mark">?</span>;
+    }
+    <span class="prelude-val">Ok</span>(())
+}
+
+<span class="comment">// Helper function. Describes the size of any data serialized using the above function
+</span><span class="attr">#[inline]
+</span><span class="kw">fn </span>get_serialized_size_of_seq&lt;T, B&gt;(
+    seq: <span class="kw">impl </span>ExactSizeIterator&lt;Item = B&gt;,
+    compress: Compress,
+) -&gt; usize
+<span class="kw">where
+    </span>T: CanonicalSerialize,
+    B: Borrow&lt;T&gt;,
+{
+    <span class="number">8 </span>+ seq
+        .map(|item| item.borrow().serialized_size(compress))
+        .sum::&lt;usize&gt;()
+}
+
+<span class="kw">impl</span>&lt;T: CanonicalSerialize&gt; CanonicalSerialize <span class="kw">for </span>VecDeque&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>serialize_with_mode&lt;W: Write&gt;(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        writer: W,
+        compress: Compress,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), SerializationError&gt; {
+        serialize_seq::&lt;T, <span class="kw">_</span>, <span class="kw">_</span>&gt;(<span class="self">self</span>.iter(), writer, compress)
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>serialized_size(<span class="kw-2">&amp;</span><span class="self">self</span>, compress: Compress) -&gt; usize {
+        get_serialized_size_of_seq::&lt;T, <span class="kw">_</span>&gt;(<span class="self">self</span>.iter(), compress)
+    }
+}
+
+<span class="comment">// Identical to Valid for Vec&lt;T&gt;
+</span><span class="kw">impl</span>&lt;T: Valid&gt; Valid <span class="kw">for </span>VecDeque&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>check(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), SerializationError&gt; {
+        T::batch_check(<span class="self">self</span>.iter())
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>batch_check&lt;<span class="lifetime">'a</span>&gt;(
+        batch: <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>&gt; + Send,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), SerializationError&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>: <span class="lifetime">'a</span>,
+    {
+        T::batch_check(batch.flat_map(|v| v.iter()))
+    }
+}
+
+<span class="comment">// Identical to CanonicalSerialize for Vec&lt;T&gt;, except using the push_back() method
+</span><span class="kw">impl</span>&lt;T: CanonicalDeserialize&gt; CanonicalDeserialize <span class="kw">for </span>VecDeque&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deserialize_with_mode&lt;R: Read&gt;(
+        <span class="kw-2">mut </span>reader: R,
+        compress: Compress,
+        validate: Validate,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, SerializationError&gt; {
+        <span class="kw">let </span>len = u64::deserialize_with_mode(<span class="kw-2">&amp;mut </span>reader, compress, validate)<span class="question-mark">?
+            </span>.try_into()
+            .map_err(|<span class="kw">_</span>| SerializationError::NotEnoughSpace)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>values = VecDeque::with_capacity(len);
+        <span class="kw">for _ in </span><span class="number">0</span>..len {
+            values.push_back(T::deserialize_with_mode(
+                <span class="kw-2">&amp;mut </span>reader,
+                compress,
+                Validate::No,
+            )<span class="question-mark">?</span>);
+        }
+
+        <span class="kw">if let </span>Validate::Yes = validate {
+            T::batch_check(values.iter())<span class="question-mark">?
+        </span>}
+        <span class="prelude-val">Ok</span>(values)
+    }
+}
+
+<span class="kw">impl</span>&lt;T: CanonicalSerialize&gt; CanonicalSerialize <span class="kw">for </span>LinkedList&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>serialize_with_mode&lt;W: Write&gt;(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        writer: W,
+        compress: Compress,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), SerializationError&gt; {
+        serialize_seq::&lt;T, <span class="kw">_</span>, <span class="kw">_</span>&gt;(<span class="self">self</span>.iter(), writer, compress)
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>serialized_size(<span class="kw-2">&amp;</span><span class="self">self</span>, compress: Compress) -&gt; usize {
+        get_serialized_size_of_seq::&lt;T, <span class="kw">_</span>&gt;(<span class="self">self</span>.iter(), compress)
+    }
+}
+
+<span class="comment">// Identical to Valid for Vec&lt;T&gt;
+</span><span class="kw">impl</span>&lt;T: Valid&gt; Valid <span class="kw">for </span>LinkedList&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>check(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), SerializationError&gt; {
+        T::batch_check(<span class="self">self</span>.iter())
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>batch_check&lt;<span class="lifetime">'a</span>&gt;(
+        batch: <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>&gt; + Send,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), SerializationError&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>: <span class="lifetime">'a</span>,
+    {
+        T::batch_check(batch.flat_map(|v| v.iter()))
+    }
+}
+
+<span class="comment">// Identical to CanonicalSerialize for Vec&lt;T&gt;, except using the push_back() method, and the new()
+// constructor.
+</span><span class="kw">impl</span>&lt;T: CanonicalDeserialize&gt; CanonicalDeserialize <span class="kw">for </span>LinkedList&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deserialize_with_mode&lt;R: Read&gt;(
+        <span class="kw-2">mut </span>reader: R,
+        compress: Compress,
+        validate: Validate,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, SerializationError&gt; {
+        <span class="kw">let </span>len = u64::deserialize_with_mode(<span class="kw-2">&amp;mut </span>reader, compress, validate)<span class="question-mark">?
+            </span>.try_into()
+            .map_err(|<span class="kw">_</span>| SerializationError::NotEnoughSpace)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>values = LinkedList::new();
+        <span class="kw">for _ in </span><span class="number">0</span>..len {
+            values.push_back(T::deserialize_with_mode(
                 <span class="kw-2">&amp;mut </span>reader,
                 compress,
                 Validate::No,
@@ -1305,23 +1634,15 @@
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>serialize_with_mode&lt;W: Write&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw-2">mut </span>writer: W,
+        writer: W,
         compress: Compress,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), SerializationError&gt; {
-        <span class="kw">let </span>len = <span class="self">self</span>.len() <span class="kw">as </span>u64;
-        len.serialize_with_mode(<span class="kw-2">&amp;mut </span>writer, compress)<span class="question-mark">?</span>;
-        <span class="kw">for </span>item <span class="kw">in </span><span class="self">self</span>.iter() {
-            item.serialize_with_mode(<span class="kw-2">&amp;mut </span>writer, compress)<span class="question-mark">?</span>;
-        }
-        <span class="prelude-val">Ok</span>(())
+        serialize_seq::&lt;T, <span class="kw">_</span>, <span class="kw">_</span>&gt;(<span class="self">self</span>.iter(), writer, compress)
     }
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>serialized_size(<span class="kw-2">&amp;</span><span class="self">self</span>, compress: Compress) -&gt; usize {
-        <span class="number">8 </span>+ <span class="self">self
-            </span>.iter()
-            .map(|item| item.serialized_size(compress))
-            .sum::&lt;usize&gt;()
+        get_serialized_size_of_seq::&lt;T, <span class="kw">_</span>&gt;(<span class="self">self</span>.iter(), compress)
     }
 }
 
@@ -1426,6 +1747,7 @@
 <span class="macro">impl_tuple!</span>(A:<span class="number">0</span>, B:<span class="number">1</span>,);
 <span class="macro">impl_tuple!</span>(A:<span class="number">0</span>, B:<span class="number">1</span>, C:<span class="number">2</span>,);
 <span class="macro">impl_tuple!</span>(A:<span class="number">0</span>, B:<span class="number">1</span>, C:<span class="number">2</span>, D:<span class="number">3</span>,);
+<span class="macro">impl_tuple!</span>(A:<span class="number">0</span>, B:<span class="number">1</span>, C:<span class="number">2</span>, D:<span class="number">3</span>, E:<span class="number">4</span>,);
 
 <span class="kw">impl</span>&lt;K, V&gt; CanonicalSerialize <span class="kw">for </span>BTreeMap&lt;K, V&gt;
 <span class="kw">where

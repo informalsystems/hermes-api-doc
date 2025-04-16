@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-0.38.44/src/fs/xattr.rs`."><title>xattr.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/fs/</div>xattr.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-1.0.3/src/fs/xattr.rs`."><title>xattr.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/fs/</div>xattr.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -200,7 +200,66 @@
 <a href="#199" id="199">199</a>
 <a href="#200" id="200">200</a>
 <a href="#201" id="201">201</a>
-<a href="#202" id="202">202</a></pre></div><pre class="rust"><code><span class="kw">use crate</span>::{backend, io, path};
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
+<a href="#229" id="229">229</a>
+<a href="#230" id="230">230</a>
+<a href="#231" id="231">231</a>
+<a href="#232" id="232">232</a>
+<a href="#233" id="233">233</a>
+<a href="#234" id="234">234</a>
+<a href="#235" id="235">235</a>
+<a href="#236" id="236">236</a>
+<a href="#237" id="237">237</a>
+<a href="#238" id="238">238</a>
+<a href="#239" id="239">239</a>
+<a href="#240" id="240">240</a>
+<a href="#241" id="241">241</a>
+<a href="#242" id="242">242</a>
+<a href="#243" id="243">243</a>
+<a href="#244" id="244">244</a>
+<a href="#245" id="245">245</a>
+<a href="#246" id="246">246</a>
+<a href="#247" id="247">247</a>
+<a href="#248" id="248">248</a>
+<a href="#249" id="249">249</a>
+<a href="#250" id="250">250</a>
+<a href="#251" id="251">251</a>
+<a href="#252" id="252">252</a>
+<a href="#253" id="253">253</a>
+<a href="#254" id="254">254</a>
+<a href="#255" id="255">255</a>
+<a href="#256" id="256">256</a></pre></div><pre class="rust"><code><span class="doccomment">//! Extended attribute functions.
+
+</span><span class="attr">#![allow(unsafe_code)]
+
+</span><span class="kw">use </span><span class="kw">crate</span>::buffer::Buffer;
+<span class="kw">use crate</span>::{backend, ffi, io, path};
 <span class="kw">use </span>backend::c;
 <span class="kw">use </span>backend::fd::AsFd;
 <span class="kw">use </span>bitflags::bitflags;
@@ -210,7 +269,7 @@
     /// functions.
     </span><span class="attr">#[repr(transparent)]
     #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
-    </span><span class="kw">pub struct </span>XattrFlags: c::c_uint {
+    </span><span class="kw">pub struct </span>XattrFlags: ffi::c_uint {
         <span class="doccomment">/// `XATTR_CREATE`
         </span><span class="kw">const </span>CREATE = c::XATTR_CREATE <span class="kw">as </span>c::c_uint;
 
@@ -222,21 +281,31 @@
     }
 }
 
-<span class="doccomment">/// `getxattr(path, name, value.as_ptr(), value.len())`—Get extended
-/// filesystem attributes.
+<span class="doccomment">/// `getxattr(path, name, value)`—Get extended filesystem attributes.
+///
+/// For a higher-level API to xattr functionality, see the [xattr] crate.
+///
+/// [xattr]: https://crates.io/crates/xattr
 ///
 /// # References
 ///  - [Linux]
+///  - [Apple]
 ///
 /// [Linux]: https://man7.org/linux/man-pages/man2/getxattr.2.html
+/// [Apple]: https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/getxattr.2.html
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>getxattr&lt;P: path::Arg, Name: path::Arg&gt;(
+</span><span class="kw">pub fn </span>getxattr&lt;P: path::Arg, Name: path::Arg, Buf: Buffer&lt;u8&gt;&gt;(
     path: P,
     name: Name,
-    value: <span class="kw-2">&amp;mut </span>[u8],
-) -&gt; io::Result&lt;usize&gt; {
+    <span class="kw-2">mut </span>value: Buf,
+) -&gt; io::Result&lt;Buf::Output&gt; {
     path.into_with_c_str(|path| {
-        name.into_with_c_str(|name| backend::fs::syscalls::getxattr(path, name, value))
+        name.into_with_c_str(|name| {
+            <span class="comment">// SAFETY: `getxattr` behaves.
+            </span><span class="kw">let </span>len = <span class="kw">unsafe </span>{ backend::fs::syscalls::getxattr(path, name, value.parts_mut())<span class="question-mark">? </span>};
+            <span class="comment">// SAFETY: `getxattr` behaves.
+            </span><span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(value.assume_init(len)) }
+        })
     })
 }
 
@@ -249,13 +318,18 @@
 ///
 /// [Linux]: https://man7.org/linux/man-pages/man2/lgetxattr.2.html
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>lgetxattr&lt;P: path::Arg, Name: path::Arg&gt;(
+</span><span class="kw">pub fn </span>lgetxattr&lt;P: path::Arg, Name: path::Arg, Buf: Buffer&lt;u8&gt;&gt;(
     path: P,
     name: Name,
-    value: <span class="kw-2">&amp;mut </span>[u8],
-) -&gt; io::Result&lt;usize&gt; {
+    <span class="kw-2">mut </span>value: Buf,
+) -&gt; io::Result&lt;Buf::Output&gt; {
     path.into_with_c_str(|path| {
-        name.into_with_c_str(|name| backend::fs::syscalls::lgetxattr(path, name, value))
+        name.into_with_c_str(|name| {
+            <span class="comment">// SAFETY: `lgetxattr` behaves.
+            </span><span class="kw">let </span>len = <span class="kw">unsafe </span>{ backend::fs::syscalls::lgetxattr(path, name, value.parts_mut())<span class="question-mark">? </span>};
+            <span class="comment">// SAFETY: `lgetxattr` behaves.
+            </span><span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(value.assume_init(len)) }
+        })
     })
 }
 
@@ -264,15 +338,22 @@
 ///
 /// # References
 ///  - [Linux]
+///  - [Apple]
 ///
 /// [Linux]: https://man7.org/linux/man-pages/man2/fgetxattr.2.html
+/// [Apple]: https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/fgetxattr.2.html
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fgetxattr&lt;Fd: AsFd, Name: path::Arg&gt;(
+</span><span class="kw">pub fn </span>fgetxattr&lt;Fd: AsFd, Name: path::Arg, Buf: Buffer&lt;u8&gt;&gt;(
     fd: Fd,
     name: Name,
-    value: <span class="kw-2">&amp;mut </span>[u8],
-) -&gt; io::Result&lt;usize&gt; {
-    name.into_with_c_str(|name| backend::fs::syscalls::fgetxattr(fd.as_fd(), name, value))
+    <span class="kw-2">mut </span>value: Buf,
+) -&gt; io::Result&lt;Buf::Output&gt; {
+    name.into_with_c_str(|name| {
+        <span class="comment">// SAFETY: `fgetxattr` behaves.
+        </span><span class="kw">let </span>len = <span class="kw">unsafe </span>{ backend::fs::syscalls::fgetxattr(fd.as_fd(), name, value.parts_mut())<span class="question-mark">? </span>};
+        <span class="comment">// SAFETY: `fgetxattr` behaves.
+        </span><span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(value.assume_init(len)) }
+    })
 }
 
 <span class="doccomment">/// `setxattr(path, name, value.as_ptr(), value.len(), flags)`—Set extended
@@ -280,8 +361,10 @@
 ///
 /// # References
 ///  - [Linux]
+///  - [Apple]
 ///
 /// [Linux]: https://man7.org/linux/man-pages/man2/setxattr.2.html
+/// [Apple]: https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/setxattr.2.html
 </span><span class="attr">#[inline]
 </span><span class="kw">pub fn </span>setxattr&lt;P: path::Arg, Name: path::Arg&gt;(
     path: P,
@@ -319,8 +402,10 @@
 ///
 /// # References
 ///  - [Linux]
+///  - [Apple]
 ///
 /// [Linux]: https://man7.org/linux/man-pages/man2/fsetxattr.2.html
+/// [Apple]: https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/fsetxattr.2.html
 </span><span class="attr">#[inline]
 </span><span class="kw">pub fn </span>fsetxattr&lt;Fd: AsFd, Name: path::Arg&gt;(
     fd: Fd,
@@ -338,9 +423,15 @@
 ///  - [Linux]
 ///
 /// [Linux]: https://man7.org/linux/man-pages/man2/listxattr.2.html
+/// [Apple]: https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/listxattr.2.html
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>listxattr&lt;P: path::Arg&gt;(path: P, list: <span class="kw-2">&amp;mut </span>[c::c_char]) -&gt; io::Result&lt;usize&gt; {
-    path.into_with_c_str(|path| backend::fs::syscalls::listxattr(path, list))
+</span><span class="kw">pub fn </span>listxattr&lt;P: path::Arg, Buf: Buffer&lt;u8&gt;&gt;(path: P, <span class="kw-2">mut </span>list: Buf) -&gt; io::Result&lt;Buf::Output&gt; {
+    path.into_with_c_str(|path| {
+        <span class="comment">// SAFETY: `listxattr` behaves.
+        </span><span class="kw">let </span>len = <span class="kw">unsafe </span>{ backend::fs::syscalls::listxattr(path, list.parts_mut())<span class="question-mark">? </span>};
+        <span class="comment">// SAFETY: `listxattr` behaves.
+        </span><span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(list.assume_init(len)) }
+    })
 }
 
 <span class="doccomment">/// `llistxattr(path, list.as_ptr(), list.len())`—List extended filesystem
@@ -351,8 +442,16 @@
 ///
 /// [Linux]: https://man7.org/linux/man-pages/man2/llistxattr.2.html
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>llistxattr&lt;P: path::Arg&gt;(path: P, list: <span class="kw-2">&amp;mut </span>[c::c_char]) -&gt; io::Result&lt;usize&gt; {
-    path.into_with_c_str(|path| backend::fs::syscalls::llistxattr(path, list))
+</span><span class="kw">pub fn </span>llistxattr&lt;P: path::Arg, Buf: Buffer&lt;u8&gt;&gt;(
+    path: P,
+    <span class="kw-2">mut </span>list: Buf,
+) -&gt; io::Result&lt;Buf::Output&gt; {
+    path.into_with_c_str(|path| {
+        <span class="comment">// SAFETY: `flistxattr` behaves.
+        </span><span class="kw">let </span>len = <span class="kw">unsafe </span>{ backend::fs::syscalls::llistxattr(path, list.parts_mut())<span class="question-mark">? </span>};
+        <span class="comment">// SAFETY: `flistxattr` behaves.
+        </span><span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(list.assume_init(len)) }
+    })
 }
 
 <span class="doccomment">/// `flistxattr(fd, list.as_ptr(), list.len())`—List extended filesystem
@@ -360,19 +459,26 @@
 ///
 /// # References
 ///  - [Linux]
+///  - [Apple]
 ///
 /// [Linux]: https://man7.org/linux/man-pages/man2/flistxattr.2.html
+/// [Apple]: https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/flistxattr.2.html
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>flistxattr&lt;Fd: AsFd&gt;(fd: Fd, list: <span class="kw-2">&amp;mut </span>[c::c_char]) -&gt; io::Result&lt;usize&gt; {
-    backend::fs::syscalls::flistxattr(fd.as_fd(), list)
+</span><span class="kw">pub fn </span>flistxattr&lt;Fd: AsFd, Buf: Buffer&lt;u8&gt;&gt;(fd: Fd, <span class="kw-2">mut </span>list: Buf) -&gt; io::Result&lt;Buf::Output&gt; {
+    <span class="comment">// SAFETY: `flistxattr` behaves.
+    </span><span class="kw">let </span>len = <span class="kw">unsafe </span>{ backend::fs::syscalls::flistxattr(fd.as_fd(), list.parts_mut())<span class="question-mark">? </span>};
+    <span class="comment">// SAFETY: `flistxattr` behaves.
+    </span><span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(list.assume_init(len)) }
 }
 
 <span class="doccomment">/// `removexattr(path, name)`—Remove an extended filesystem attribute.
 ///
 /// # References
 ///  - [Linux]
+///  - [Apple]
 ///
 /// [Linux]: https://man7.org/linux/man-pages/man2/removexattr.2.html
+/// [Apple]: https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/removexattr.2.html
 </span><span class="kw">pub fn </span>removexattr&lt;P: path::Arg, Name: path::Arg&gt;(path: P, name: Name) -&gt; io::Result&lt;()&gt; {
     path.into_with_c_str(|path| {
         name.into_with_c_str(|name| backend::fs::syscalls::removexattr(path, name))
@@ -397,8 +503,10 @@
 ///
 /// # References
 ///  - [Linux]
+///  - [Apple]
 ///
 /// [Linux]: https://man7.org/linux/man-pages/man2/fremovexattr.2.html
+/// [Apple]: https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/fremovexattr.2.html
 </span><span class="kw">pub fn </span>fremovexattr&lt;Fd: AsFd, Name: path::Arg&gt;(fd: Fd, name: Name) -&gt; io::Result&lt;()&gt; {
     name.into_with_c_str(|name| backend::fs::syscalls::fremovexattr(fd.as_fd(), name))
 }

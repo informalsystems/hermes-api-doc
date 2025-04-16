@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/duration-str-0.10.0/src/parser.rs`."><title>parser.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="duration_str" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">duration_str/</div>parser.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/duration-str-0.12.0/src/parser.rs`."><title>parser.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="duration_str" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">duration_str/</div>parser.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -334,7 +334,16 @@
 <a href="#333" id="333">333</a>
 <a href="#334" id="334">334</a>
 <a href="#335" id="335">335</a>
-<a href="#336" id="336">336</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::error::PError;
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::error::PError;
 <span class="kw">use </span><span class="kw">crate</span>::unit::opt_unit_abbr;
 <span class="kw">use crate</span>::{Calc, CondUnit, ExpectErr, TimeUnit};
 <span class="kw">use </span>std::time::Duration;
@@ -349,16 +358,16 @@
 }
 
 <span class="kw">fn </span>opt_cond_unit&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut &amp;</span><span class="lifetime">'a </span>str) -&gt; PResult&lt;CondUnit, PError&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;&gt; {
-    <span class="kw">let </span>multispace = multispace0::&lt;<span class="kw">_</span>, PError&lt;<span class="kw">_</span>&gt;&gt;;
     <span class="kw">let </span>result = cond_unit1
         .parse_next(input)
         .map_err(|err: ErrMode&lt;PError&lt;<span class="kw">_</span>&gt;&gt;| {
             err.map(|x| {
-                <span class="kw">let </span>partial_input = x.partial_input;
+                <span class="kw">let </span>partial_input = x.partial_input();
                 x.append_cause(CondUnit::expect_err(partial_input))
             })
         });
     <span class="kw">if </span>result.is_err() {
+        <span class="kw">let </span>multispace = multispace0::&lt;<span class="kw">_</span>, PError&lt;<span class="kw">_</span>&gt;&gt;;
         <span class="kw">if </span>(multispace, eof).parse_next(input).is_ok() {
             <span class="comment">// The input result is empty except for spaces. Give `TimeUnit` default value
             </span><span class="kw">return </span><span class="prelude-val">Ok</span>(CondUnit::Plus);
@@ -377,7 +386,7 @@
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>parse_expr_time&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut &amp;</span><span class="lifetime">'a </span>str) -&gt; PResult&lt;u64, PError&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;&gt; {
-    (multispace0, digit1, opt_unit_abbr)
+    (multispace0, digit1, opt_unit_abbr, multispace0)
         .map(|x| (x.<span class="number">1</span>, x.<span class="number">2</span>))
         .try_map(|(v, unit)| unit.duration(v))
         .parse_next(input)
@@ -529,7 +538,7 @@ partial_input:mxyz, expect one of :["y", "mon", "w", "d", "h", "m", "s", "ms", "
             <span class="string">r#"
 3ms-2ms
    ^
-partial_input:-2ms, expect one of:["+", "*"], but find:-2ms"#
+partial_input:-2ms, expect one of:['+', '*'], but find:-2ms"#
                 </span>.trim()
         );
     }
@@ -537,6 +546,15 @@ partial_input:-2ms, expect one of:["+", "*"], but find:-2ms"#
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_parse() {
         <span class="kw">let </span>duration = parse(<span class="string">"1d"</span>).unwrap();
+        <span class="macro">assert_eq!</span>(duration, Duration::new(<span class="number">24 </span>* <span class="number">60 </span>* <span class="number">60</span>, <span class="number">0</span>));
+
+        <span class="kw">let </span>duration = parse(<span class="string">"   1d"</span>).unwrap();
+        <span class="macro">assert_eq!</span>(duration, Duration::new(<span class="number">24 </span>* <span class="number">60 </span>* <span class="number">60</span>, <span class="number">0</span>));
+
+        <span class="kw">let </span>duration = parse(<span class="string">"1d   "</span>).unwrap();
+        <span class="macro">assert_eq!</span>(duration, Duration::new(<span class="number">24 </span>* <span class="number">60 </span>* <span class="number">60</span>, <span class="number">0</span>));
+
+        <span class="kw">let </span>duration = parse(<span class="string">"   1d   "</span>).unwrap();
         <span class="macro">assert_eq!</span>(duration, Duration::new(<span class="number">24 </span>* <span class="number">60 </span>* <span class="number">60</span>, <span class="number">0</span>));
 
         <span class="kw">let </span>duration = parse(<span class="string">"3m+31"</span>).unwrap(); <span class="comment">//the default duration unit is second.

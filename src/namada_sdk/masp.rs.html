@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.47.2/src/masp.rs`."><title>masp.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/</div>masp.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.149.1/src/masp.rs`."><title>masp.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/</div>masp.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -221,31 +221,29 @@
 <a href="#220" id="220">220</a>
 <a href="#221" id="221">221</a>
 <a href="#222" id="222">222</a>
-<a href="#223" id="223">223</a>
-<a href="#224" id="224">224</a>
-<a href="#225" id="225">225</a></pre></div><pre class="rust"><code><span class="doccomment">//! MASP verification wrappers.
+<a href="#223" id="223">223</a></pre></div><pre class="rust"><code><span class="doccomment">//! MASP verification wrappers.
 
 </span><span class="kw">mod </span>utilities;
+
+<span class="kw">use </span>std::str::FromStr;
 
 <span class="kw">use </span>masp_primitives::asset_type::AssetType;
 <span class="kw">use </span>masp_primitives::merkle_tree::MerklePath;
 <span class="kw">use </span>masp_primitives::sapling::Node;
-<span class="kw">use </span>masp_primitives::transaction::components::I128Sum;
 <span class="kw">use </span>masp_primitives::transaction::Transaction;
+<span class="kw">use </span>masp_primitives::transaction::components::I128Sum;
 <span class="kw">use </span>namada_core::address::Address;
 <span class="kw">use </span>namada_core::chain::BlockHeight;
 <span class="kw">use </span>namada_core::masp::MaspEpoch;
 <span class="kw">use </span>namada_core::time::DurationSecs;
 <span class="kw">use </span>namada_core::token::{Denomination, MaspDigitPos};
-<span class="kw">use </span>namada_events::extend::{
-    IndexedMaspData, MaspDataRefs <span class="kw">as </span>MaspDataRefsAttr, MaspTxRef, MaspTxRefs,
-    ReadFromEventAttributes,
-};
-<span class="kw">use </span>namada_ibc::{decode_message, extract_masp_tx_from_envelope, IbcMessage};
+<span class="kw">use </span>namada_events::extend::ReadFromEventAttributes;
+<span class="kw">use </span>namada_ibc::{IbcMessage, decode_message, extract_masp_tx_from_envelope};
 <span class="kw">use </span>namada_io::client::Client;
 <span class="kw">use </span>namada_token::masp::shielded_wallet::ShieldedQueries;
 <span class="kw">pub use </span>namada_token::masp::{utils, <span class="kw-2">*</span>};
-<span class="kw">use </span>namada_tx::Tx;
+<span class="kw">use </span>namada_tx::event::{MaspEvent, MaspEventKind, MaspTxRef};
+<span class="kw">use </span>namada_tx::{IndexedTx, Tx};
 <span class="kw">pub use </span>utilities::{IndexerMaspClient, LedgerMaspClient};
 
 <span class="kw">use </span><span class="kw">crate</span>::error::{Error, QueryError};
@@ -253,114 +251,112 @@
     query_block, query_conversion, query_denom, query_masp_epoch,
     query_max_block_time_estimate, query_native_token,
 };
-<span class="kw">use crate</span>::{token, MaybeSend, MaybeSync};
+<span class="kw">use crate</span>::{MaybeSend, MaybeSync, token};
 
 <span class="doccomment">/// Extract the relevant shield portions from a [`Tx`] MASP section or an IBC
 /// message, if any.
 </span><span class="attr">#[allow(clippy::result_large_err)]
 </span><span class="kw">fn </span>extract_masp_tx(
     tx: <span class="kw-2">&amp;</span>Tx,
-    masp_refs: <span class="kw-2">&amp;</span>MaspTxRefs,
-) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;Transaction&gt;, Error&gt; {
-    <span class="comment">// NOTE: It is possible to have two identical references in a same batch:
-    // this is because, some types of MASP data packet can be correctly executed
-    // more than once (output descriptions). We have to make sure we account for
-    // this by using collections that allow for duplicates (both in the args
-    // and in the returned type): if the same reference shows up multiple
-    // times in the input we must process it the same number of times to
-    // ensure we contruct the correct state
-    </span>masp_refs
-        .<span class="number">0
-        </span>.iter()
-        .try_fold(<span class="macro">vec!</span>[], |<span class="kw-2">mut </span>acc, <span class="kw-2">ref </span>masp_ref| {
-            <span class="kw">match </span>masp_ref {
-                MaspTxRef::MaspSection(id) =&gt; {
-                    <span class="comment">// Simply looking for masp sections attached to the tx
-                    // is not safe. We don't validate the sections attached to a
-                    // transaction se we could end up with transactions carrying
-                    // an unnecessary masp section. We must instead look for the
-                    // required masp sections published in the events
-                    </span><span class="kw">let </span>transaction = tx
-                        .get_masp_section(id)
-                        .ok_or_else(|| {
-                            Error::Other(<span class="macro">format!</span>(
-                                <span class="string">"Missing expected masp transaction with id \
-                                 {id}"
-                            </span>))
-                        })<span class="question-mark">?
-                        </span>.clone();
-                    acc.push(transaction);
+    masp_ref: <span class="kw-2">&amp;</span>MaspTxRef,
+) -&gt; <span class="prelude-ty">Result</span>&lt;Transaction, Error&gt; {
+    <span class="kw">match </span>masp_ref {
+        MaspTxRef::MaspSection(id) =&gt; {
+            <span class="comment">// Simply looking for masp sections attached to the tx
+            // is not safe. We don't validate the sections attached to a
+            // transaction se we could end up with transactions carrying
+            // an unnecessary masp section. We must instead look for the
+            // required masp sections published in the events
+            </span><span class="prelude-val">Ok</span>(tx
+                .get_masp_section(id)
+                .ok_or_else(|| {
+                    Error::Other(<span class="macro">format!</span>(
+                        <span class="string">"Missing expected masp transaction with id {id}"
+                    </span>))
+                })<span class="question-mark">?
+                </span>.clone())
+        }
+        MaspTxRef::IbcData(hash) =&gt; {
+            <span class="comment">// Dereference the masp ref to the first instance that
+            // matches it, even if it is not the exact one that produced
+            // the event, the data we extract will be exactly the same
+            </span><span class="kw">let </span>masp_ibc_tx = tx
+                .commitments()
+                .iter()
+                .find(|cmt| cmt.data_sechash() == hash)
+                .ok_or_else(|| {
+                    Error::Other(<span class="macro">format!</span>(
+                        <span class="string">"Couldn't find data section with hash {hash}"
+                    </span>))
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>tx_data = tx.data(masp_ibc_tx).ok_or_else(|| {
+                Error::Other(<span class="string">"Missing expected data section"</span>.to_string())
+            })<span class="question-mark">?</span>;
 
-                    <span class="prelude-val">Ok</span>(acc)
-                }
-                MaspTxRef::IbcData(hash) =&gt; {
-                    <span class="comment">// Dereference the masp ref to the first instance that
-                    // matches is, even if it is not the exact one that produced
-                    // the event, the data we extract will be exactly the same
-                    </span><span class="kw">let </span>masp_ibc_tx = tx
-                        .commitments()
-                        .iter()
-                        .find(|cmt| cmt.data_sechash() == hash)
-                        .ok_or_else(|| {
-                            Error::Other(<span class="macro">format!</span>(
-                                <span class="string">"Couldn't find data section with hash {hash}"
-                            </span>))
-                        })<span class="question-mark">?</span>;
-                    <span class="kw">let </span>tx_data = tx.data(masp_ibc_tx).ok_or_else(|| {
-                        Error::Other(
-                            <span class="string">"Missing expected data section"</span>.to_string(),
-                        )
-                    })<span class="question-mark">?</span>;
+            <span class="kw">let </span>IbcMessage::Envelope(envelope) =
+                decode_message::&lt;token::Transfer&gt;(<span class="kw-2">&amp;</span>tx_data)
+                    .map_err(|e| Error::Other(e.to_string()))<span class="question-mark">?
+            </span><span class="kw">else </span>{
+                <span class="kw">return </span><span class="prelude-val">Err</span>(Error::Other(
+                    <span class="string">"Expected IBC packet to be an envelope"</span>.to_string(),
+                ));
+            };
 
-                    <span class="kw">let </span>IbcMessage::Envelope(envelope) =
-                        decode_message::&lt;token::Transfer&gt;(<span class="kw-2">&amp;</span>tx_data)
-                            .map_err(|e| Error::Other(e.to_string()))<span class="question-mark">?
-                    </span><span class="kw">else </span>{
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(Error::Other(
-                            <span class="string">"Expected IBC packet to be an envelope"</span>.to_string(),
-                        ));
-                    };
-
-                    <span class="kw">if let </span><span class="prelude-val">Some</span>(transaction) =
-                        extract_masp_tx_from_envelope(<span class="kw-2">&amp;</span>envelope)
-                    {
-                        acc.push(transaction);
-
-                        <span class="prelude-val">Ok</span>(acc)
-                    } <span class="kw">else </span>{
-                        <span class="prelude-val">Err</span>(Error::Other(
-                            <span class="string">"Failed to retrieve MASP over IBC transaction"
-                                </span>.to_string(),
-                        ))
-                    }
-                }
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(transaction) = extract_masp_tx_from_envelope(<span class="kw-2">&amp;</span>envelope)
+            {
+                <span class="prelude-val">Ok</span>(transaction)
+            } <span class="kw">else </span>{
+                <span class="prelude-val">Err</span>(Error::Other(
+                    <span class="string">"Failed to retrieve MASP over IBC transaction"</span>.to_string(),
+                ))
             }
-        })
+        }
+    }
 }
 
-<span class="comment">// Retrieves all the indexes at the specified height which refer
-// to a valid masp transaction.
+<span class="comment">// Retrieves all the masp events at the specified height.
 </span><span class="kw">async fn </span>get_indexed_masp_events_at_height&lt;C: Client + Sync&gt;(
     client: <span class="kw-2">&amp;</span>C,
     height: BlockHeight,
-) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;IndexedMaspData&gt;, Error&gt; {
-    <span class="prelude-val">Ok</span>(client
+) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;MaspEvent&gt;, Error&gt; {
+    <span class="kw">let </span>maybe_masp_events: <span class="prelude-ty">Result</span>&lt;Vec&lt;<span class="kw">_</span>&gt;, Error&gt; = client
         .block_results(height.<span class="number">0</span>)
         .<span class="kw">await
         </span>.map_err(|e| Error::from(QueryError::General(e.to_string())))<span class="question-mark">?
         </span>.end_block_events
-        .map(|events| {
-            events
-                .into_iter()
-                .filter_map(|event| {
-                    MaspDataRefsAttr::read_from_event_attributes(
-                        <span class="kw-2">&amp;</span>event.attributes,
-                    )
-                    .ok()
-                })
-                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+        .unwrap_or_default()
+        .into_iter()
+        .map(|event| {
+            <span class="comment">// Check if the event is a Masp one
+            </span><span class="kw">let </span><span class="prelude-val">Ok</span>(kind) = namada_events::EventType::from_str(<span class="kw-2">&amp;</span>event.kind)
+            <span class="kw">else </span>{
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
+            };
+
+            <span class="kw">let </span>kind = <span class="kw">if </span>kind == namada_tx::event::masp_types::TRANSFER {
+                MaspEventKind::Transfer
+            } <span class="kw">else if </span>kind == namada_tx::event::masp_types::FEE_PAYMENT {
+                MaspEventKind::FeePayment
+            } <span class="kw">else </span>{
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
+            };
+
+            <span class="comment">// Extract the data from the event's attributes, propagate errors if
+            // the masp event does not follow the expected format
+            </span><span class="kw">let </span>data =
+                MaspTxRef::read_from_event_attributes(<span class="kw-2">&amp;</span>event.attributes)<span class="question-mark">?</span>;
+            <span class="kw">let </span>tx_index =
+                IndexedTx::read_from_event_attributes(<span class="kw-2">&amp;</span>event.attributes)<span class="question-mark">?</span>;
+
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(MaspEvent {
+                tx_index,
+                kind,
+                data,
+            }))
         })
-        .unwrap_or_default())
+        .collect();
+
+    <span class="prelude-val">Ok</span>(maybe_masp_events<span class="question-mark">?</span>.into_iter().flatten().collect())
 }
 
 <span class="doccomment">/// An implementation of a shielded wallet

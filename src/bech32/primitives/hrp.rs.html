@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bech32-0.10.0-beta/src/primitives/hrp.rs`."><title>hrp.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bech32" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">bech32/primitives/</div>hrp.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bech32-0.11.0/src/primitives/hrp.rs`."><title>hrp.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bech32" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">bech32/primitives/</div>hrp.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -513,9 +513,34 @@
 <a href="#512" id="512">512</a>
 <a href="#513" id="513">513</a>
 <a href="#514" id="514">514</a>
-<a href="#515" id="515">515</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: MIT
+<a href="#515" id="515">515</a>
+<a href="#516" id="516">516</a>
+<a href="#517" id="517">517</a>
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: MIT
 
-</span><span class="doccomment">//! Provides an `Hrp` type that represents the human-readable part of a bech32 encoded string.
+</span><span class="doccomment">//! Provides an [`Hrp`] type that represents the human-readable part of a bech32 encoded string.
 //!
 //! &gt; The human-readable part, which is intended to convey the type of data, or anything else that
 //! &gt; is relevant to the reader. This part MUST contain 1 to 83 US-ASCII characters, with each
@@ -529,7 +554,7 @@
 <span class="kw">use </span>core::cmp::Ordering;
 <span class="kw">use </span>core::fmt::{<span class="self">self</span>, Write};
 <span class="kw">use </span>core::iter::FusedIterator;
-<span class="kw">use </span>core::slice;
+<span class="kw">use </span>core::{slice, str};
 
 <span class="doccomment">/// Maximum length of the human-readable part, as defined by BIP-173.
 </span><span class="kw">const </span>MAX_HRP_LEN: usize = <span class="number">83</span>;
@@ -663,6 +688,16 @@
     #[inline]
     </span><span class="kw">pub fn </span>to_lowercase(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String { <span class="self">self</span>.lowercase_char_iter().collect() }
 
+    <span class="doccomment">/// Returns this human-readable part as bytes.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>as_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] { <span class="kw-2">&amp;</span><span class="self">self</span>.buf[..<span class="self">self</span>.size] }
+
+    <span class="doccomment">/// Returns this human-readable part as str.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        str::from_utf8(<span class="kw-2">&amp;</span><span class="self">self</span>.buf[..<span class="self">self</span>.size]).expect(<span class="string">"we only store ASCII bytes"</span>)
+    }
+
     <span class="doccomment">/// Creates a byte iterator over the ASCII byte values (ASCII characters) of this HRP.
     ///
     /// If an uppercase HRP was parsed during object construction then this iterator will yield
@@ -696,29 +731,29 @@
     #[allow(clippy::len_without_is_empty)] </span><span class="comment">// HRP is never empty.
     </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize { <span class="self">self</span>.size }
 
-    <span class="doccomment">/// Returns `true` if this [`Hrp`] is valid according to the bips.
+    <span class="doccomment">/// Returns `true` if this HRP is valid according to the bips.
     ///
     /// [BIP-173] states that the HRP must be either "bc" or "tb".
     ///
-    /// [BIP-173]: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#user-content-Segwit_address_format
+    /// [BIP-173]: &lt;https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#user-content-Segwit_address_format&gt;
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>is_valid_segwit(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.is_valid_on_mainnet() || <span class="self">self</span>.is_valid_on_testnet()
     }
 
-    <span class="doccomment">/// Returns `true` if this hrpstring is valid on the Bitcoin network i.e., HRP is "bc".
+    <span class="doccomment">/// Returns `true` if this HRP is valid on the Bitcoin network i.e., HRP is "bc".
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>is_valid_on_mainnet(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool { <span class="kw-2">*</span><span class="self">self </span>== <span class="self">self</span>::BC }
 
-    <span class="doccomment">/// Returns `true` if this hrpstring is valid on the Bitcoin testnet network i.e., HRP is "tb".
+    <span class="doccomment">/// Returns `true` if this HRP is valid on the Bitcoin testnet network i.e., HRP is "tb".
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>is_valid_on_testnet(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool { <span class="kw-2">*</span><span class="self">self </span>== <span class="self">self</span>::TB }
 
-    <span class="doccomment">/// Returns `true` if this hrpstring is valid on the Bitcoin signet network i.e., HRP is "tb".
+    <span class="doccomment">/// Returns `true` if this HRP is valid on the Bitcoin signet network i.e., HRP is "tb".
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>is_valid_on_signet(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool { <span class="kw-2">*</span><span class="self">self </span>== <span class="self">self</span>::TB }
 
-    <span class="doccomment">/// Returns `true` if this hrpstring is valid on the Bitcoin regtest network i.e., HRP is "bcrt".
+    <span class="doccomment">/// Returns `true` if this HRP is valid on the Bitcoin regtest network i.e., HRP is "bcrt".
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>is_valid_on_regtest(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool { <span class="kw-2">*</span><span class="self">self </span>== <span class="self">self</span>::BCRT }
 }
@@ -726,7 +761,7 @@
 <span class="doccomment">/// Displays the human-readable part.
 ///
 /// If an uppercase HRP was parsed during object construction then the returned string will be
-/// in uppercase also. For a lowercase string see [`Self::to_lowercase`].
+/// in uppercase also. For a lowercase string see `Self::to_lowercase`.
 </span><span class="kw">impl </span>fmt::Display <span class="kw">for </span>Hrp {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">for </span>c <span class="kw">in </span><span class="self">self</span>.char_iter() {
@@ -876,6 +911,7 @@
 <span class="kw">fn </span>is_ascii_uppercase(b: u8) -&gt; bool { (<span class="number">65</span>..=<span class="number">90</span>).contains(<span class="kw-2">&amp;</span>b) }
 
 <span class="doccomment">/// Errors encountered while checking the human-readable part as defined by [BIP-173].
+///
 /// [BIP-173]: &lt;https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#user-content-Bech32&gt;
 </span><span class="attr">#[derive(Clone, Debug, PartialEq, Eq)]
 #[non_exhaustive]
@@ -1026,6 +1062,20 @@
         <span class="macro">assert_eq!</span>(BC, Hrp::parse_unchecked(<span class="string">"bc"</span>));
         <span class="macro">assert_eq!</span>(TB, Hrp::parse_unchecked(<span class="string">"tb"</span>));
         <span class="macro">assert_eq!</span>(BCRT, Hrp::parse_unchecked(<span class="string">"bcrt"</span>));
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>as_str() {
+        <span class="kw">let </span>s = <span class="string">"arbitraryhrp"</span>;
+        <span class="kw">let </span>hrp = Hrp::parse_unchecked(s);
+        <span class="macro">assert_eq!</span>(hrp.as_str(), s);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>as_bytes() {
+        <span class="kw">let </span>s = <span class="string">"arbitraryhrp"</span>;
+        <span class="kw">let </span>hrp = Hrp::parse_unchecked(s);
+        <span class="macro">assert_eq!</span>(hrp.as_bytes(), s.as_bytes());
     }
 }
 </code></pre></div></section></main></body></html>

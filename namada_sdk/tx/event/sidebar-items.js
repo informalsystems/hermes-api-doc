@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["new_tx_event"],"mod":["types"],"struct":["Batch","Code","TxEvent"]};
+window.SIDEBAR_ITEMS = {"enum":["MaspEventKind","MaspTxRef"],"fn":["new_tx_event"],"mod":["masp_types","types"],"struct":["Batch","Code","MaspEvent","MaspTxRefs","TxEvent"]};

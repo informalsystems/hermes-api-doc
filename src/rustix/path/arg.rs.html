@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-0.38.44/src/path/arg.rs`."><title>arg.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/path/</div>arg.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-1.0.3/src/path/arg.rs`."><title>arg.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/path/</div>arg.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1095,23 +1095,7 @@
 <a href="#1094" id="1094">1094</a>
 <a href="#1095" id="1095">1095</a>
 <a href="#1096" id="1096">1096</a>
-<a href="#1097" id="1097">1097</a>
-<a href="#1098" id="1098">1098</a>
-<a href="#1099" id="1099">1099</a>
-<a href="#1100" id="1100">1100</a>
-<a href="#1101" id="1101">1101</a>
-<a href="#1102" id="1102">1102</a>
-<a href="#1103" id="1103">1103</a>
-<a href="#1104" id="1104">1104</a>
-<a href="#1105" id="1105">1105</a>
-<a href="#1106" id="1106">1106</a>
-<a href="#1107" id="1107">1107</a>
-<a href="#1108" id="1108">1108</a>
-<a href="#1109" id="1109">1109</a>
-<a href="#1110" id="1110">1110</a>
-<a href="#1111" id="1111">1111</a>
-<a href="#1112" id="1112">1112</a>
-<a href="#1113" id="1113">1113</a></pre></div><pre class="rust"><code><span class="doccomment">//! Convenient and efficient string argument passing.
+<a href="#1097" id="1097">1097</a></pre></div><pre class="rust"><code><span class="doccomment">//! Convenient and efficient string argument passing.
 //!
 //! This module defines the `Arg` trait and implements it for several common
 //! string types. This allows users to pass any of these string types directly
@@ -1121,11 +1105,9 @@
 
 </span><span class="kw">use </span><span class="kw">crate</span>::ffi::CStr;
 <span class="kw">use </span><span class="kw">crate</span>::io;
-<span class="attr">#[cfg(feature = <span class="string">"itoa"</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::path::DecInt;
-<span class="kw">use </span><span class="kw">crate</span>::path::SMALL_PATH_BUFFER_SIZE;
-<span class="attr">#[cfg(all(feature = <span class="string">"alloc"</span>, feature = <span class="string">"itoa"</span>))]
-</span><span class="kw">use </span>alloc::borrow::ToOwned;
+<span class="kw">use </span><span class="kw">crate</span>::path::{DecInt, SMALL_PATH_BUFFER_SIZE};
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>alloc::borrow::ToOwned <span class="kw">as _</span>;
 <span class="kw">use </span>core::mem::MaybeUninit;
 <span class="kw">use </span>core::{ptr, slice, str};
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
@@ -1133,10 +1115,14 @@
 <span class="attr">#[cfg(all(feature = <span class="string">"std"</span>, target_os = <span class="string">"hermit"</span>))]
 </span><span class="kw">use </span>std::os::hermit::ext::ffi::{OsStrExt, OsStringExt};
 <span class="attr">#[cfg(all(feature = <span class="string">"std"</span>, unix))]
-</span><span class="kw">use </span>std::os::unix::ffi::{OsStrExt, OsStringExt};
+</span><span class="kw">use </span>std::os::unix::ffi::{OsStrExt <span class="kw">as _</span>, OsStringExt <span class="kw">as _</span>};
 <span class="attr">#[cfg(all(feature = <span class="string">"std"</span>, target_os = <span class="string">"vxworks"</span>))]
 </span><span class="kw">use </span>std::os::vxworks::ext::ffi::{OsStrExt, OsStringExt};
-<span class="attr">#[cfg(all(feature = <span class="string">"std"</span>, target_os = <span class="string">"wasi"</span>))]
+<span class="attr">#[cfg(all(
+    feature = <span class="string">"std"</span>,
+    target_os = <span class="string">"wasi"</span>,
+    any(not(target_env = <span class="string">"p2"</span>), wasip2)
+))]
 </span><span class="kw">use </span>std::os::wasi::ffi::{OsStrExt, OsStringExt};
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">use </span>std::path::{Component, Components, Iter, Path, PathBuf};
@@ -1340,28 +1326,26 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+#[cfg(any(not(target_os = <span class="string">"wasi"</span>), not(target_env = <span class="string">"p2"</span>), wasip2))]
 </span><span class="kw">impl </span>Arg <span class="kw">for </span><span class="kw-2">&amp;</span>OsStr {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>str&gt; {
         <span class="self">self</span>.to_str().ok_or(io::Errno::INVAL)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         OsStr::to_string_lossy(<span class="self">self</span>)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Owned(
             CString::new(<span class="self">self</span>.as_bytes()).map_err(|_cstr_err| io::Errno::INVAL)<span class="question-mark">?</span>,
         ))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1382,20 +1366,19 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+#[cfg(any(not(target_os = <span class="string">"wasi"</span>), not(target_env = <span class="string">"p2"</span>), wasip2))]
 </span><span class="kw">impl </span>Arg <span class="kw">for </span><span class="kw-2">&amp;</span>OsString {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>str&gt; {
         OsString::as_os_str(<span class="self">self</span>).to_str().ok_or(io::Errno::INVAL)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="self">self</span>.as_os_str().to_string_lossy()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Owned(
             CString::new(OsString::as_os_str(<span class="self">self</span>).as_bytes())
@@ -1403,8 +1386,7 @@
         ))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1423,28 +1405,26 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+#[cfg(any(not(target_os = <span class="string">"wasi"</span>), not(target_env = <span class="string">"p2"</span>), wasip2))]
 </span><span class="kw">impl </span>Arg <span class="kw">for </span>OsString {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>str&gt; {
         <span class="self">self</span>.as_os_str().to_str().ok_or(io::Errno::INVAL)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="self">self</span>.as_os_str().to_string_lossy()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Owned(
             CString::new(<span class="self">self</span>.as_bytes()).map_err(|_cstr_err| io::Errno::INVAL)<span class="question-mark">?</span>,
         ))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1465,28 +1445,26 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+#[cfg(any(not(target_os = <span class="string">"wasi"</span>), not(target_env = <span class="string">"p2"</span>), wasip2))]
 </span><span class="kw">impl </span>Arg <span class="kw">for </span><span class="kw-2">&amp;</span>Path {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>str&gt; {
         <span class="self">self</span>.as_os_str().to_str().ok_or(io::Errno::INVAL)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         Path::to_string_lossy(<span class="self">self</span>)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Owned(
             CString::new(<span class="self">self</span>.as_os_str().as_bytes()).map_err(|_cstr_err| io::Errno::INVAL)<span class="question-mark">?</span>,
         ))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1507,6 +1485,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+#[cfg(any(not(target_os = <span class="string">"wasi"</span>), not(target_env = <span class="string">"p2"</span>), wasip2))]
 </span><span class="kw">impl </span>Arg <span class="kw">for </span><span class="kw-2">&amp;</span>PathBuf {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>str&gt; {
@@ -1516,14 +1495,12 @@
             .ok_or(io::Errno::INVAL)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="self">self</span>.as_path().to_string_lossy()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Owned(
             CString::new(PathBuf::as_path(<span class="self">self</span>).as_os_str().as_bytes())
@@ -1531,8 +1508,7 @@
         ))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1551,28 +1527,26 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+#[cfg(any(not(target_os = <span class="string">"wasi"</span>), not(target_env = <span class="string">"p2"</span>), wasip2))]
 </span><span class="kw">impl </span>Arg <span class="kw">for </span>PathBuf {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>str&gt; {
         <span class="self">self</span>.as_os_str().to_str().ok_or(io::Errno::INVAL)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="self">self</span>.as_os_str().to_string_lossy()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Owned(
             CString::new(<span class="self">self</span>.as_os_str().as_bytes()).map_err(|_cstr_err| io::Errno::INVAL)<span class="question-mark">?</span>,
         ))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1639,20 +1613,17 @@
         <span class="macro">unimplemented!</span>()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="macro">unimplemented!</span>()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Borrowed(<span class="self">self</span>))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1677,20 +1648,17 @@
         <span class="self">self</span>.to_str().map_err(|_utf8_err| io::Errno::INVAL)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         CStr::to_string_lossy(<span class="self">self</span>)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Borrowed(<span class="self">self</span>))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1715,22 +1683,19 @@
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         Cow::Borrowed(<span class="self">self</span>)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Owned(
             CString::new(<span class="self">self</span>.as_ref()).map_err(|_cstr_err| io::Errno::INVAL)<span class="question-mark">?</span>,
         ))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1755,29 +1720,26 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
-#[cfg(feature = <span class="string">"alloc"</span>)]
+#[cfg(any(not(target_os = <span class="string">"wasi"</span>), not(target_env = <span class="string">"p2"</span>), wasip2))]
 </span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Arg <span class="kw">for </span>Cow&lt;<span class="lifetime">'a</span>, OsStr&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>str&gt; {
         (<span class="kw-2">**</span><span class="self">self</span>).to_str().ok_or(io::Errno::INVAL)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         (<span class="kw-2">**</span><span class="self">self</span>).to_string_lossy()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Owned(
             CString::new(<span class="self">self</span>.as_bytes()).map_err(|_cstr_err| io::Errno::INVAL)<span class="question-mark">?</span>,
         ))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1808,21 +1770,18 @@
         <span class="self">self</span>.to_str().map_err(|_utf8_err| io::Errno::INVAL)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="kw">let </span>borrow: <span class="kw-2">&amp;</span>CStr = core::borrow::Borrow::borrow(<span class="self">self</span>);
         borrow.to_string_lossy()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Borrowed(<span class="self">self</span>))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1841,28 +1800,26 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+#[cfg(any(not(target_os = <span class="string">"wasi"</span>), not(target_env = <span class="string">"p2"</span>), wasip2))]
 </span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Arg <span class="kw">for </span>Component&lt;<span class="lifetime">'a</span>&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>str&gt; {
         <span class="self">self</span>.as_os_str().to_str().ok_or(io::Errno::INVAL)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="self">self</span>.as_os_str().to_string_lossy()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Owned(
             CString::new(<span class="self">self</span>.as_os_str().as_bytes()).map_err(|_cstr_err| io::Errno::INVAL)<span class="question-mark">?</span>,
         ))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1883,20 +1840,19 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+#[cfg(any(not(target_os = <span class="string">"wasi"</span>), not(target_env = <span class="string">"p2"</span>), wasip2))]
 </span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Arg <span class="kw">for </span>Components&lt;<span class="lifetime">'a</span>&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>str&gt; {
         <span class="self">self</span>.as_path().to_str().ok_or(io::Errno::INVAL)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="self">self</span>.as_path().to_string_lossy()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Owned(
             CString::new(<span class="self">self</span>.as_path().as_os_str().as_bytes())
@@ -1904,8 +1860,7 @@
         ))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -1927,20 +1882,19 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+#[cfg(any(not(target_os = <span class="string">"wasi"</span>), not(target_env = <span class="string">"p2"</span>), wasip2))]
 </span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Arg <span class="kw">for </span>Iter&lt;<span class="lifetime">'a</span>&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>str&gt; {
         <span class="self">self</span>.as_path().to_str().ok_or(io::Errno::INVAL)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>to_string_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="self">self</span>.as_path().to_string_lossy()
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_cow_c_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'_</span>, CStr&gt;&gt; {
         <span class="prelude-val">Ok</span>(Cow::Owned(
             CString::new(<span class="self">self</span>.as_path().as_os_str().as_bytes())
@@ -1948,8 +1902,7 @@
         ))
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-    #[inline]
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_c_str&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; io::Result&lt;Cow&lt;<span class="lifetime">'b</span>, CStr&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: <span class="lifetime">'b</span>,
@@ -2054,6 +2007,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+#[cfg(any(not(target_os = <span class="string">"wasi"</span>), not(target_env = <span class="string">"p2"</span>), wasip2))]
 </span><span class="kw">impl </span>Arg <span class="kw">for </span>Vec&lt;u8&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>str&gt; {
@@ -2095,8 +2049,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">"itoa"</span>)]
-</span><span class="kw">impl </span>Arg <span class="kw">for </span>DecInt {
+<span class="kw">impl </span>Arg <span class="kw">for </span>DecInt {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>str&gt; {
         <span class="prelude-val">Ok</span>(<span class="self">self</span>.as_str())
@@ -2160,14 +2113,14 @@
     </span><span class="macro">debug_assert!</span>(bytes.len() + <span class="number">1 </span>&lt;= SMALL_PATH_BUFFER_SIZE);
 
     <span class="comment">// SAFETY: `bytes.len() &lt; SMALL_PATH_BUFFER_SIZE` which means we have space
-    // for `bytes.len() + 1` u8s:
+    // for `bytes.len() + 1` `u8`s:
     </span><span class="kw">unsafe </span>{
         ptr::copy_nonoverlapping(bytes.as_ptr(), buf_ptr, bytes.len());
-        buf_ptr.add(bytes.len()).write(<span class="number">0</span>);
+        buf_ptr.add(bytes.len()).write(<span class="string">b'\0'</span>);
     }
 
     <span class="comment">// SAFETY: We just wrote the bytes above and they will remain valid for the
-    // duration of `f` b/c buf doesn't get dropped until the end of the
+    // duration of `f` because `buf` doesn't get dropped until the end of the
     // function.
     </span><span class="kw">match </span>CStr::from_bytes_with_nul(<span class="kw">unsafe </span>{ slice::from_raw_parts(buf_ptr, bytes.len() + <span class="number">1</span>) }) {
         <span class="prelude-val">Ok</span>(s) =&gt; f(s),
@@ -2190,11 +2143,26 @@
 
     <span class="attr">#[cfg(not(feature = <span class="string">"alloc"</span>))]
     </span>{
-        <span class="attr">#[cfg(all(libc, not(any(target_os = <span class="string">"hurd"</span>, target_os = <span class="string">"wasi"</span>))))]
+        <span class="attr">#[cfg(all(
+            libc,
+            not(any(
+                target_os = <span class="string">"espidf"</span>,
+                target_os = <span class="string">"horizon"</span>,
+                target_os = <span class="string">"hurd"</span>,
+                target_os = <span class="string">"vita"</span>,
+                target_os = <span class="string">"wasi"
+            </span>))
+        ))]
         </span><span class="kw">const </span>LARGE_PATH_BUFFER_SIZE: usize = libc::PATH_MAX <span class="kw">as </span>usize;
         <span class="attr">#[cfg(linux_raw)]
         </span><span class="kw">const </span>LARGE_PATH_BUFFER_SIZE: usize = linux_raw_sys::general::PATH_MAX <span class="kw">as </span>usize;
-        <span class="attr">#[cfg(any(target_os = <span class="string">"hurd"</span>, target_os = <span class="string">"wasi"</span>))]
+        <span class="attr">#[cfg(any(
+            target_os = <span class="string">"espidf"</span>,
+            target_os = <span class="string">"horizon"</span>,
+            target_os = <span class="string">"hurd"</span>,
+            target_os = <span class="string">"vita"</span>,
+            target_os = <span class="string">"wasi"
+        </span>))]
         </span><span class="kw">const </span>LARGE_PATH_BUFFER_SIZE: usize = <span class="number">4096 </span><span class="kw">as </span>usize; <span class="comment">// TODO: upstream this
 
         // Taken from
@@ -2208,15 +2176,15 @@
         }
 
         <span class="comment">// SAFETY: `bytes.len() &lt; LARGE_PATH_BUFFER_SIZE` which means we have
-        // space for `bytes.len() + 1` u8s:
+        // space for `bytes.len() + 1` `u8`s:
         </span><span class="kw">unsafe </span>{
             ptr::copy_nonoverlapping(bytes.as_ptr(), buf_ptr, bytes.len());
-            buf_ptr.add(bytes.len()).write(<span class="number">0</span>);
+            buf_ptr.add(bytes.len()).write(<span class="string">b'\0'</span>);
         }
 
         <span class="comment">// SAFETY: We just wrote the bytes above and they will remain valid for
-        // the duration of `f` b/c buf doesn't get dropped until the end of the
-        // function.
+        // the duration of `f` because `buf` doesn't get dropped until the end
+        // of the function.
         </span><span class="kw">match </span>CStr::from_bytes_with_nul(<span class="kw">unsafe </span>{ slice::from_raw_parts(buf_ptr, bytes.len() + <span class="number">1</span>) })
         {
             <span class="prelude-val">Ok</span>(s) =&gt; f(s),

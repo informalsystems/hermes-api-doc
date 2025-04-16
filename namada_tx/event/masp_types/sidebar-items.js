@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["FEE_PAYMENT","TRANSFER"]};

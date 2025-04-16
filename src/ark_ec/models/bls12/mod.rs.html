@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ec-0.4.2/src/models/bls12/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ark_ec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ec/models/bls12/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ec-0.5.0/src/models/bls12/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ark_ec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ec/models/bls12/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -221,7 +221,8 @@
 <a href="#220" id="220">220</a>
 <a href="#221" id="221">221</a>
 <a href="#222" id="222">222</a>
-<a href="#223" id="223">223</a></pre></div><pre class="rust"><code><span class="kw">use crate</span>::{
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a></pre></div><pre class="rust"><code><span class="kw">use crate</span>::{
     models::{short_weierstrass::SWCurveConfig, CurveConfig},
     pairing::{MillerLoopOutput, Pairing, PairingOutput},
     AffineRepr,
@@ -235,7 +236,8 @@
     },
     BitIteratorBE, CyclotomicMultSubgroup, Field, PrimeField,
 };
-<span class="kw">use </span>ark_std::{marker::PhantomData, vec::Vec};
+<span class="kw">use </span>ark_std::{cfg_chunks_mut, marker::PhantomData, vec::<span class="kw-2">*</span>};
+<span class="kw">use </span>educe::Educe;
 <span class="kw">use </span>num_traits::{One, Zero};
 
 <span class="attr">#[cfg(feature = <span class="string">"parallel"</span>)]
@@ -311,7 +313,7 @@
     <span class="kw">fn </span>final_exponentiation(
         f: MillerLoopOutput&lt;Bls12&lt;<span class="self">Self</span>&gt;&gt;,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;PairingOutput&lt;Bls12&lt;<span class="self">Self</span>&gt;&gt;&gt; {
-        <span class="comment">// Computing the final exponentation following
+        <span class="comment">// Computing the final exponentiation following
         // https://eprint.iacr.org/2020/875
         // Adapted from the implementation in https://github.com/ConsenSys/gurvy/pull/29
 
@@ -334,7 +336,7 @@
             // r = f^((p^6 - 1)(p^2 + 1))
             </span>r <span class="kw-2">*</span>= <span class="kw-2">&amp;</span>f2;
 
-            <span class="comment">// Hard part of the final exponentation:
+            <span class="comment">// Hard part of the final exponentiation:
             // t[0].CyclotomicSquare(&amp;result)
             </span><span class="kw">let </span><span class="kw-2">mut </span>y0 = r.cyclotomic_square();
             <span class="comment">// t[1].Expt(&amp;result)
@@ -387,8 +389,8 @@
     g2::{G2Affine, G2Prepared, G2Projective},
 };
 
-<span class="attr">#[derive(Derivative)]
-#[derivative(Copy, Clone, PartialEq, Eq, Debug, Hash)]
+<span class="attr">#[derive(Educe)]
+#[educe(Copy, Clone, PartialEq, Eq, Debug, Hash)]
 </span><span class="kw">pub struct </span>Bls12&lt;P: Bls12Config&gt;(PhantomData&lt;<span class="kw">fn</span>() -&gt; P&gt;);
 
 <span class="kw">impl</span>&lt;P: Bls12Config&gt; Bls12&lt;P&gt; {
@@ -401,13 +403,13 @@
 
         <span class="kw">match </span>P::TWIST_TYPE {
             TwistType::M =&gt; {
-                c2.mul_assign_by_fp(py);
-                c1.mul_assign_by_fp(px);
+                c2.mul_assign_by_fp(<span class="kw-2">&amp;</span>py);
+                c1.mul_assign_by_fp(<span class="kw-2">&amp;</span>px);
                 f.mul_by_014(<span class="kw-2">&amp;</span>c0, <span class="kw-2">&amp;</span>c1, <span class="kw-2">&amp;</span>c2);
             },
             TwistType::D =&gt; {
-                c0.mul_assign_by_fp(py);
-                c1.mul_assign_by_fp(px);
+                c0.mul_assign_by_fp(<span class="kw-2">&amp;</span>py);
+                c1.mul_assign_by_fp(<span class="kw-2">&amp;</span>px);
                 f.mul_by_034(<span class="kw-2">&amp;</span>c0, <span class="kw-2">&amp;</span>c1, <span class="kw-2">&amp;</span>c2);
             },
         }

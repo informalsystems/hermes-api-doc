@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["authenticate","authenticate_verify"],"struct":["SecretKey","Tag"]};
+window.SIDEBAR_ITEMS = {"fn":["authenticate","authenticate_verify"],"struct":["SecretKey"]};

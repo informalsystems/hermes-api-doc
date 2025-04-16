@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bech32-0.10.0-beta/src/primitives/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bech32" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">bech32/primitives/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bech32-0.11.0/src/primitives/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bech32" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">bech32/primitives/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -60,7 +60,12 @@
 <a href="#59" id="59">59</a>
 <a href="#60" id="60">60</a>
 <a href="#61" id="61">61</a>
-<a href="#62" id="62">62</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: MIT
+<a href="#62" id="62">62</a>
+<a href="#63" id="63">63</a>
+<a href="#64" id="64">64</a>
+<a href="#65" id="65">65</a>
+<a href="#66" id="66">66</a>
+<a href="#67" id="67">67</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: MIT
 
 </span><span class="doccomment">//! Provides the internal nuts and bolts that enable bech32 encoding/decoding.
 
@@ -79,17 +84,20 @@
 </span><span class="kw">pub enum </span>NoChecksum {}
 
 <span class="doccomment">/// The bech32 checksum algorithm, defined in [BIP-173].
+///
 /// [BIP-173]: &lt;https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki&gt;
 </span><span class="attr">#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 </span><span class="kw">pub enum </span>Bech32 {}
 
 <span class="doccomment">/// The bech32m checksum algorithm, defined in [BIP-350].
-/// [BIP-350]: &lt;https://github.com/bitcoin/bips/blob/master/bip-0359.mediawiki&gt;
+///
+/// [BIP-350]: &lt;https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki&gt;
 </span><span class="attr">#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 </span><span class="kw">pub enum </span>Bech32m {}
 
 <span class="kw">impl </span>Checksum <span class="kw">for </span>NoChecksum {
     <span class="kw">type </span>MidstateRepr = PackedNull;
+    <span class="kw">const </span>CODE_LENGTH: usize = usize::MAX;
     <span class="kw">const </span>CHECKSUM_LENGTH: usize = <span class="number">0</span>;
     <span class="kw">const </span>GENERATOR_SH: [PackedNull; <span class="number">5</span>] = [PackedNull; <span class="number">5</span>];
     <span class="kw">const </span>TARGET_RESIDUE: PackedNull = PackedNull;
@@ -100,6 +108,7 @@
 
 <span class="kw">impl </span>Checksum <span class="kw">for </span>Bech32 {
     <span class="kw">type </span>MidstateRepr = u32;
+    <span class="kw">const </span>CODE_LENGTH: usize = <span class="number">1023</span>;
     <span class="kw">const </span>CHECKSUM_LENGTH: usize = <span class="number">6</span>;
     <span class="kw">const </span>GENERATOR_SH: [u32; <span class="number">5</span>] = GEN;
     <span class="kw">const </span>TARGET_RESIDUE: u32 = <span class="number">1</span>;
@@ -107,6 +116,7 @@
 <span class="comment">// Same as Bech32 except TARGET_RESIDUE is different
 </span><span class="kw">impl </span>Checksum <span class="kw">for </span>Bech32m {
     <span class="kw">type </span>MidstateRepr = u32;
+    <span class="kw">const </span>CODE_LENGTH: usize = <span class="number">1023</span>;
     <span class="kw">const </span>CHECKSUM_LENGTH: usize = <span class="number">6</span>;
     <span class="kw">const </span>GENERATOR_SH: [u32; <span class="number">5</span>] = GEN;
     <span class="kw">const </span>TARGET_RESIDUE: u32 = <span class="number">0x2bc830a3</span>;

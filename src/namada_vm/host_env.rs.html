@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_vm-0.47.2/src/host_env.rs`."><title>host_env.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_vm" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_vm/</div>host_env.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_vm-0.149.1/src/host_env.rs`."><title>host_env.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_vm" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_vm/</div>host_env.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -2473,10 +2473,29 @@
 <a href="#2472" id="2472">2472</a>
 <a href="#2473" id="2473">2473</a>
 <a href="#2474" id="2474">2474</a>
-<a href="#2475" id="2475">2475</a></pre></div><pre class="rust"><code><span class="doccomment">//! Virtual machine's host environment exposes functions that may be called from
+<a href="#2475" id="2475">2475</a>
+<a href="#2476" id="2476">2476</a>
+<a href="#2477" id="2477">2477</a>
+<a href="#2478" id="2478">2478</a>
+<a href="#2479" id="2479">2479</a>
+<a href="#2480" id="2480">2480</a>
+<a href="#2481" id="2481">2481</a>
+<a href="#2482" id="2482">2482</a>
+<a href="#2483" id="2483">2483</a>
+<a href="#2484" id="2484">2484</a>
+<a href="#2485" id="2485">2485</a>
+<a href="#2486" id="2486">2486</a>
+<a href="#2487" id="2487">2487</a>
+<a href="#2488" id="2488">2488</a>
+<a href="#2489" id="2489">2489</a>
+<a href="#2490" id="2490">2490</a>
+<a href="#2491" id="2491">2491</a>
+<a href="#2492" id="2492">2492</a>
+<a href="#2493" id="2493">2493</a></pre></div><pre class="rust"><code><span class="doccomment">//! Virtual machine's host environment exposes functions that may be called from
 //! within a virtual machine.
 
-</span><span class="kw">use </span>std::cell::RefCell;
+</span><span class="kw">use </span>std::borrow::Cow;
+<span class="kw">use </span>std::cell::RefCell;
 <span class="kw">use </span>std::collections::BTreeSet;
 <span class="kw">use </span>std::fmt::Debug;
 <span class="kw">use </span>std::num::TryFromIntError;
@@ -2490,25 +2509,25 @@
 <span class="kw">use </span>namada_core::decode;
 <span class="kw">use </span>namada_core::hash::Hash;
 <span class="kw">use </span>namada_core::internal::{HostEnvResult, KeyVal};
-<span class="kw">use </span>namada_core::storage::{Key, TxIndex, TX_INDEX_LENGTH};
+<span class="kw">use </span>namada_core::storage::{Key, TX_INDEX_LENGTH, TxIndex};
 <span class="kw">use </span>namada_events::{Event, EventTypeBuilder};
 <span class="kw">use </span>namada_gas::{
-    <span class="self">self </span><span class="kw">as </span>gas, Gas, GasMetering, TxGasMeter, VpGasMeter,
-    MEMORY_ACCESS_GAS_PER_BYTE,
+    <span class="self">self </span><span class="kw">as </span>gas, Gas, GasMetering, MEMORY_ACCESS_GAS_PER_BYTE, TxGasMeter,
+    VpGasMeter,
 };
 <span class="kw">use </span>namada_state::prefix_iter::{PrefixIteratorId, PrefixIterators};
 <span class="kw">use </span>namada_state::write_log::{<span class="self">self</span>, WriteLog};
 <span class="kw">use </span>namada_state::{
-    DBIter, InMemory, OptionExt, ResultExt, State, StateRead, StorageHasher,
-    StorageRead, StorageWrite, TxHostEnvState, VpHostEnvState, DB,
+    DB, DBIter, InMemory, OptionExt, ResultExt, State, StateRead,
+    StorageHasher, StorageRead, StorageWrite, TxHostEnvState, VpHostEnvState,
 };
 <span class="kw">pub use </span>namada_state::{Error, <span class="prelude-ty">Result</span>};
+<span class="kw">use </span>namada_token::MaspTransaction;
 <span class="kw">use </span>namada_token::storage_key::{
     is_any_minted_balance_key, is_any_minter_key, is_any_token_balance_key,
     is_any_token_parameter_key,
 };
-<span class="kw">use </span>namada_token::MaspTransaction;
-<span class="kw">use </span>namada_tx::data::TxSentinel;
+<span class="kw">use </span>namada_tx::data::{InnerTxId, TxSentinel};
 <span class="kw">use </span>namada_tx::{BatchedTx, BatchedTxRef, Tx, TxCommitments};
 <span class="kw">use </span>namada_vp::vp_host_fns;
 <span class="kw">use </span>thiserror::Error;
@@ -2591,6 +2610,9 @@
     </span><span class="kw">pub </span>gas_meter: HostRef&lt;RoAccess, RefCell&lt;TxGasMeter&gt;&gt;,
     <span class="doccomment">/// Transaction sentinel. In  `RefCell` to charge gas in read-only fns.
     </span><span class="kw">pub </span>sentinel: HostRef&lt;RoAccess, RefCell&lt;TxSentinel&gt;&gt;,
+    <span class="doccomment">/// Hash of the wrapper transaction associated with
+    /// the current inner tx.
+    </span><span class="kw">pub </span>wrapper_hash: HostRef&lt;RoAccess, Hash&gt;,
     <span class="doccomment">/// The transaction code is used for signature verification
     </span><span class="kw">pub </span>tx: HostRef&lt;RoAccess, Tx&gt;,
     <span class="doccomment">/// The commitments inside the transaction
@@ -2638,6 +2660,7 @@
         iterators: <span class="kw-2">&amp;mut </span>PrefixIterators&lt;<span class="lifetime">'static</span>, D&gt;,
         gas_meter: <span class="kw-2">&amp;</span>RefCell&lt;TxGasMeter&gt;,
         sentinel: <span class="kw-2">&amp;</span>RefCell&lt;TxSentinel&gt;,
+        wrapper_hash: <span class="kw-2">&amp;</span>Hash,
         tx: <span class="kw-2">&amp;</span>Tx,
         cmt: <span class="kw-2">&amp;</span>TxCommitments,
         tx_index: <span class="kw-2">&amp;</span>TxIndex,
@@ -2653,6 +2676,7 @@
         <span class="kw">let </span>iterators = <span class="kw">unsafe </span>{ RwHostRef::new(iterators) };
         <span class="kw">let </span>gas_meter = <span class="kw">unsafe </span>{ RoHostRef::new(gas_meter) };
         <span class="kw">let </span>sentinel = <span class="kw">unsafe </span>{ RoHostRef::new(sentinel) };
+        <span class="kw">let </span>wrapper_hash = <span class="kw">unsafe </span>{ RoHostRef::new(wrapper_hash) };
         <span class="kw">let </span>tx = <span class="kw">unsafe </span>{ RoHostRef::new(tx) };
         <span class="kw">let </span>cmt = <span class="kw">unsafe </span>{ RoHostRef::new(cmt) };
         <span class="kw">let </span>tx_index = <span class="kw">unsafe </span>{ RoHostRef::new(tx_index) };
@@ -2670,6 +2694,7 @@
             iterators,
             gas_meter,
             sentinel,
+            wrapper_hash,
             tx,
             cmt,
             tx_index,
@@ -2754,6 +2779,7 @@
             iterators: <span class="self">self</span>.iterators,
             gas_meter: <span class="self">self</span>.gas_meter,
             sentinel: <span class="self">self</span>.sentinel,
+            wrapper_hash: <span class="self">self</span>.wrapper_hash,
             tx: <span class="self">self</span>.tx,
             cmt: <span class="self">self</span>.cmt,
             tx_index: <span class="self">self</span>.tx_index,
@@ -3530,9 +3556,17 @@
     <span class="kw">let </span>event: Event = BorshDeserialize::try_from_slice(<span class="kw-2">&amp;</span>event)
         .map_err(TxRuntimeError::EncodingError)<span class="question-mark">?</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>state = env.state();
+    <span class="kw">let </span>wrapper_hash = <span class="kw">unsafe </span>{ env.ctx.wrapper_hash.get() };
+    <span class="kw">let </span>cmt = <span class="kw">unsafe </span>{ env.ctx.cmt.get() };
     <span class="kw">let </span>gas = state
         .write_log_mut()
-        .emit_event(event)
+        .emit_event_with_tx_hashes(
+            event,
+            <span class="prelude-val">Some</span>(InnerTxId {
+                wrapper_hash: <span class="prelude-val">Some</span>(Cow::Borrowed(wrapper_hash)),
+                commitments_hash: Cow::Owned(cmt.get_hash()),
+            }),
+        )
         .ok_or(TxRuntimeError::GasOverflow)<span class="question-mark">?</span>;
     consume_tx_gas::&lt;MEM, D, H, CA&gt;(env, gas)
 }
@@ -4840,6 +4874,7 @@
             iterators,
             gas_meter,
             sentinel,
+            <span class="kw-2">&amp;</span>Hash::zero(),
             tx,
             cmt,
             tx_index,
@@ -4889,6 +4924,7 @@
             iterators,
             gas_meter,
             sentinel,
+            <span class="kw-2">&amp;</span>Hash::zero(),
             tx,
             cmt,
             tx_index,

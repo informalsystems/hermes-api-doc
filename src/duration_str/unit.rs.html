@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/duration-str-0.10.0/src/unit.rs`."><title>unit.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="duration_str" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">duration_str/</div>unit.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/duration-str-0.12.0/src/unit.rs`."><title>unit.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="duration_str" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">duration_str/</div>unit.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -265,13 +265,31 @@
 <a href="#264" id="264">264</a>
 <a href="#265" id="265">265</a>
 <a href="#266" id="266">266</a>
-<a href="#267" id="267">267</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::error::PError;
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::error::PError;
 <span class="kw">use crate</span>::{
-    DError, DResult, ExpectErr, ONE_DAY_NANOSECOND, ONE_HOUR_NANOSECOND,
+    CondUnit, DError, DResult, ExpectErr, ONE_DAY_NANOSECOND, ONE_HOUR_NANOSECOND,
     ONE_MICROSECOND_NANOSECOND, ONE_MILLISECOND_NANOSECOND, ONE_MINUTE_NANOSECOND,
     ONE_MONTH_NANOSECOND, ONE_SECOND_NANOSECOND, ONE_WEEK_NANOSECOND, ONE_YEAR_NANOSECOND,
 };
-<span class="kw">use </span>std::fmt::Display;
+<span class="kw">use </span>std::fmt::{Debug, Display, Formatter};
 <span class="kw">use </span>std::str::FromStr;
 <span class="kw">use </span>winnow::ascii::multispace0;
 <span class="kw">use </span>winnow::combinator::{eof, peek};
@@ -294,6 +312,23 @@
     MilliSecond,
     MicroSecond,
     NanoSecond,
+}
+
+<span class="kw">impl </span>Display <span class="kw">for </span>TimeUnit {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; std::fmt::Result {
+        <span class="kw">match </span><span class="self">self </span>{
+            TimeUnit::Year =&gt; <span class="macro">write!</span>(f, <span class="string">"y"</span>),
+            TimeUnit::Month =&gt; <span class="macro">write!</span>(f, <span class="string">"mon"</span>),
+            TimeUnit::Week =&gt; <span class="macro">write!</span>(f, <span class="string">"w"</span>),
+            TimeUnit::Day =&gt; <span class="macro">write!</span>(f, <span class="string">"d"</span>),
+            TimeUnit::Hour =&gt; <span class="macro">write!</span>(f, <span class="string">"h"</span>),
+            TimeUnit::Minute =&gt; <span class="macro">write!</span>(f, <span class="string">"min"</span>),
+            TimeUnit::Second =&gt; <span class="macro">write!</span>(f, <span class="string">"s"</span>),
+            TimeUnit::MilliSecond =&gt; <span class="macro">write!</span>(f, <span class="string">"ms"</span>),
+            TimeUnit::MicroSecond =&gt; <span class="macro">write!</span>(f, <span class="string">"µs"</span>),
+            TimeUnit::NanoSecond =&gt; <span class="macro">write!</span>(f, <span class="string">"ns"</span>),
+        }
+    }
 }
 
 <span class="kw">impl </span>TimeUnit {
@@ -323,25 +358,26 @@
 
     <span class="kw">fn </span>from_str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Err&gt; {
         <span class="kw">match </span><span class="kw-2">&amp;*</span>s.to_lowercase() {
-            <span class="string">"y" </span>| <span class="string">"year" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Year),
-            <span class="string">"mon" </span>| <span class="string">"month" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Month),
-            <span class="string">"w" </span>| <span class="string">"week" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Week),
-            <span class="string">"d" </span>| <span class="string">"day" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Day),
-            <span class="string">"h" </span>| <span class="string">"hour" </span>| <span class="string">"hr" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Hour),
-            <span class="string">"m" </span>| <span class="string">"min" </span>| <span class="string">"minute" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Minute),
-            <span class="string">"s" </span>| <span class="string">"sec" </span>| <span class="string">"second" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Second),
-            <span class="string">"ms" </span>| <span class="string">"msec" </span>| <span class="string">"millisecond" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::MilliSecond),
-            <span class="string">"µs" </span>| <span class="string">"µsec" </span>| <span class="string">"µsecond" </span>| <span class="string">"us" </span>| <span class="string">"usec" </span>| <span class="string">"usecond" </span>| <span class="string">"microsecond" </span>=&gt; {
-                <span class="prelude-val">Ok</span>(TimeUnit::MicroSecond)
-            }
-            <span class="string">"ns" </span>| <span class="string">"nsec" </span>| <span class="string">"nanosecond" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::NanoSecond),
+            <span class="string">"y" </span>| <span class="string">"year" </span>| <span class="string">"years" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Year),
+            <span class="string">"mon" </span>| <span class="string">"month" </span>| <span class="string">"months" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Month),
+            <span class="string">"w" </span>| <span class="string">"week" </span>| <span class="string">"weeks" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Week),
+            <span class="string">"d" </span>| <span class="string">"day" </span>| <span class="string">"days" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Day),
+            <span class="string">"h" </span>| <span class="string">"hr" </span>| <span class="string">"hour" </span>| <span class="string">"hours" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Hour),
+            <span class="string">"m" </span>| <span class="string">"min" </span>| <span class="string">"minute" </span>| <span class="string">"minutes" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Minute),
+            <span class="string">"s" </span>| <span class="string">"sec" </span>| <span class="string">"second" </span>| <span class="string">"seconds" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::Second),
+            <span class="string">"ms" </span>| <span class="string">"msec" </span>| <span class="string">"millisecond" </span>| <span class="string">"milliseconds" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::MilliSecond),
+            <span class="string">"µs" </span>| <span class="string">"µsec" </span>| <span class="string">"µsecond" </span>| <span class="string">"us" </span>| <span class="string">"usec" </span>| <span class="string">"usecond" </span>| <span class="string">"microsecond"
+            </span>| <span class="string">"microseconds" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::MicroSecond),
+            <span class="string">"ns" </span>| <span class="string">"nsec" </span>| <span class="string">"nanosecond" </span>| <span class="string">"nanoseconds" </span>=&gt; <span class="prelude-val">Ok</span>(TimeUnit::NanoSecond),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(DError::ParseError(<span class="self">Self</span>::expect_err(s))),
         }
     }
 }
 
-<span class="kw">impl </span>ExpectErr&lt;<span class="number">11</span>&gt; <span class="kw">for </span>TimeUnit {
-    <span class="kw">fn </span>expect_val() -&gt; [<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str; <span class="number">11</span>] {
+<span class="kw">impl </span>ExpectErr <span class="kw">for </span>TimeUnit {
+    <span class="kw">type </span>Output = [<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str; <span class="number">11</span>];
+
+    <span class="kw">fn </span>expect_val() -&gt; <span class="self">Self</span>::Output {
         [<span class="string">"y"</span>, <span class="string">"mon"</span>, <span class="string">"w"</span>, <span class="string">"d"</span>, <span class="string">"h"</span>, <span class="string">"m"</span>, <span class="string">"s"</span>, <span class="string">"ms"</span>, <span class="string">"µs"</span>, <span class="string">"us"</span>, <span class="string">"ns"</span>]
     }
 
@@ -360,7 +396,7 @@
         .parse_next(input)
         .map_err(|err: ErrMode&lt;PError&lt;<span class="kw">_</span>&gt;&gt;| {
             err.map(|x| {
-                <span class="kw">let </span>partial_input = x.partial_input;
+                <span class="kw">let </span>partial_input = x.partial_input();
                 x.append_cause(TimeUnit::expect_err(partial_input))
             })
         })<span class="question-mark">?</span>;
@@ -371,15 +407,15 @@
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>opt_unit_abbr&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut &amp;</span><span class="lifetime">'a </span>str) -&gt; PResult&lt;TimeUnit, PError&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;&gt; {
-    <span class="kw">let </span>multispace = multispace0::&lt;<span class="kw">_</span>, PError&lt;<span class="kw">_</span>&gt;&gt;;
     <span class="kw">let </span>result = unit_abbr1(input);
     <span class="kw">if </span>result.is_err() {
+        <span class="kw">let </span>multispace = multispace0::&lt;<span class="kw">_</span>, PError&lt;<span class="kw">_</span>&gt;&gt;;
         <span class="kw">if </span>(multispace, eof).parse_next(input).is_ok() {
             <span class="comment">// The input result is empty except for spaces. Give `TimeUnit` default value
             </span><span class="kw">return </span><span class="prelude-val">Ok</span>(TimeUnit::default());
         }
 
-        <span class="kw">if </span>peek((multispace, one_of(|c| c == <span class="string">'+' </span>|| c == <span class="string">'*'</span>)))
+        <span class="kw">if </span>peek((multispace, one_of(CondUnit::contain)))
             .parse_next(input)
             .is_ok()
         {

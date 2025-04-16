@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.47.2/src/tx.rs`."><title>tx.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/</div>tx.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.149.1/src/tx.rs`."><title>tx.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/</div>tx.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -4271,7 +4271,21 @@
 <a href="#4270" id="4270">4270</a>
 <a href="#4271" id="4271">4271</a>
 <a href="#4272" id="4272">4272</a>
-<a href="#4273" id="4273">4273</a></pre></div><pre class="rust"><code><span class="doccomment">//! SDK functions to construct different types of transactions
+<a href="#4273" id="4273">4273</a>
+<a href="#4274" id="4274">4274</a>
+<a href="#4275" id="4275">4275</a>
+<a href="#4276" id="4276">4276</a>
+<a href="#4277" id="4277">4277</a>
+<a href="#4278" id="4278">4278</a>
+<a href="#4279" id="4279">4279</a>
+<a href="#4280" id="4280">4280</a>
+<a href="#4281" id="4281">4281</a>
+<a href="#4282" id="4282">4282</a>
+<a href="#4283" id="4283">4283</a>
+<a href="#4284" id="4284">4284</a>
+<a href="#4285" id="4285">4285</a>
+<a href="#4286" id="4286">4286</a>
+<a href="#4287" id="4287">4287</a></pre></div><pre class="rust"><code><span class="doccomment">//! SDK functions to construct different types of transactions
 
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::collections::BTreeMap;
@@ -4281,7 +4295,9 @@
 
 <span class="kw">use </span>borsh::BorshSerialize;
 <span class="kw">use </span>masp_primitives::asset_type::AssetType;
+<span class="kw">use </span>masp_primitives::transaction::Transaction <span class="kw">as </span>MaspTransaction;
 <span class="kw">use </span>masp_primitives::transaction::builder::Builder;
+<span class="kw">use </span>masp_primitives::transaction::components::I128Sum;
 <span class="kw">use </span>masp_primitives::transaction::components::sapling::builder::{
     BuildParams, RngBuildParams,
 };
@@ -4291,8 +4307,6 @@
 <span class="kw">use </span>masp_primitives::transaction::components::transparent::fees::{
     InputView <span class="kw">as </span>TransparentInputView, OutputView <span class="kw">as </span>TransparentOutputView,
 };
-<span class="kw">use </span>masp_primitives::transaction::components::I128Sum;
-<span class="kw">use </span>masp_primitives::transaction::Transaction <span class="kw">as </span>MaspTransaction;
 <span class="kw">use </span>masp_primitives::zip32::PseudoExtendedKey;
 <span class="kw">use </span>namada_account::{InitAccount, UpdateAccount};
 <span class="kw">use </span>namada_core::address::{Address, IBC, MASP};
@@ -4301,12 +4315,12 @@
 <span class="kw">use </span>namada_core::collections::HashSet;
 <span class="kw">use </span>namada_core::dec::Dec;
 <span class="kw">use </span>namada_core::hash::Hash;
+<span class="kw">use </span>namada_core::ibc::apps::nft_transfer::types::PrefixedClassId;
 <span class="kw">use </span>namada_core::ibc::apps::nft_transfer::types::msgs::transfer::MsgTransfer <span class="kw">as </span>IbcMsgNftTransfer;
 <span class="kw">use </span>namada_core::ibc::apps::nft_transfer::types::packet::PacketData <span class="kw">as </span>NftPacketData;
-<span class="kw">use </span>namada_core::ibc::apps::nft_transfer::types::PrefixedClassId;
+<span class="kw">use </span>namada_core::ibc::apps::transfer::types::PrefixedCoin;
 <span class="kw">use </span>namada_core::ibc::apps::transfer::types::msgs::transfer::MsgTransfer <span class="kw">as </span>IbcMsgTransfer;
 <span class="kw">use </span>namada_core::ibc::apps::transfer::types::packet::PacketData;
-<span class="kw">use </span>namada_core::ibc::apps::transfer::types::PrefixedCoin;
 <span class="kw">use </span>namada_core::ibc::core::channel::types::timeout::{
     TimeoutHeight, TimeoutTimestamp,
 };
@@ -4317,6 +4331,7 @@
 <span class="kw">use </span>namada_core::masp::{AssetData, MaspEpoch, TransferSource, TransferTarget};
 <span class="kw">use </span>namada_core::storage;
 <span class="kw">use </span>namada_core::time::DateTimeUtc;
+<span class="kw">use </span>namada_events::extend::EventAttributeEntry;
 <span class="kw">use </span>namada_governance::cli::onchain::{
     DefaultProposal, OnChainProposal, PgfFundingProposal, PgfStewardProposal,
 };
@@ -4328,20 +4343,20 @@
 <span class="kw">use </span>namada_ibc::storage::channel_key;
 <span class="kw">use </span>namada_ibc::trace::is_nft_trace;
 <span class="kw">use </span>namada_ibc::{MsgNftTransfer, MsgTransfer};
-<span class="kw">use </span>namada_io::{display_line, edisplay_line, Client, Io};
+<span class="kw">use </span>namada_io::{Client, Io, display_line, edisplay_line};
 <span class="kw">use </span>namada_proof_of_stake::parameters::{
-    PosParams, MAX_VALIDATOR_METADATA_LEN,
+    MAX_VALIDATOR_METADATA_LEN, PosParams,
 };
 <span class="kw">use </span>namada_proof_of_stake::types::{CommissionPair, ValidatorState};
 <span class="kw">use </span>namada_token <span class="kw">as </span>token;
+<span class="kw">use </span>namada_token::DenominatedAmount;
 <span class="kw">use </span>namada_token::masp::shielded_wallet::ShieldedApi;
 <span class="kw">use </span>namada_token::masp::{MaspFeeData, MaspTransferData, ShieldedTransfer};
 <span class="kw">use </span>namada_token::storage_key::balance_key;
-<span class="kw">use </span>namada_token::DenominatedAmount;
 <span class="kw">use </span>namada_tx::data::pgf::UpdateStewardCommission;
 <span class="kw">use </span>namada_tx::data::pos::{BecomeValidator, ConsensusKeyChange};
 <span class="kw">use </span>namada_tx::data::{
-    compute_inner_tx_hash, pos, BatchedTxResult, DryRunResult, ResultCode,
+    BatchedTxResult, DryRunResult, ResultCode, compute_inner_tx_hash, pos,
 };
 <span class="kw">pub use </span>namada_tx::{Authorization, <span class="kw-2">*</span>};
 <span class="kw">use </span>num_traits::Zero;
@@ -4355,16 +4370,16 @@
 <span class="kw">use </span><span class="kw">crate</span>::control_flow::time;
 <span class="kw">use </span><span class="kw">crate</span>::error::{EncodingError, Error, QueryError, <span class="prelude-ty">Result</span>, TxSubmitError};
 <span class="kw">use </span><span class="kw">crate</span>::rpc::{
-    <span class="self">self</span>, get_validator_stake, query_wasm_code_hash, validate_amount,
-    InnerTxResult, TxBroadcastData, TxResponse,
+    <span class="self">self</span>, InnerTxResult, TxBroadcastData, TxResponse, get_validator_stake,
+    query_wasm_code_hash, validate_amount,
 };
 <span class="kw">use </span><span class="kw">crate</span>::signing::{
-    <span class="self">self</span>, validate_fee, validate_transparent_fee, SigningTxData,
+    <span class="self">self</span>, SigningTxData, validate_fee, validate_transparent_fee,
 };
 <span class="kw">use </span><span class="kw">crate</span>::tendermint_rpc::endpoint::broadcast::tx_sync::Response;
 <span class="kw">use </span><span class="kw">crate</span>::tendermint_rpc::error::Error <span class="kw">as </span>RpcError;
 <span class="kw">use </span><span class="kw">crate</span>::wallet::WalletIo;
-<span class="kw">use crate</span>::{args, Namada};
+<span class="kw">use crate</span>::{Namada, args, events};
 
 <span class="doccomment">/// Initialize account transaction WASM
 </span><span class="kw">pub const </span>TX_INIT_ACCOUNT_WASM: <span class="kw-2">&amp;</span>str = <span class="string">"tx_init_account.wasm"</span>;
@@ -4434,8 +4449,9 @@
 }
 
 <span class="kw">impl </span>ProcessTxResponse {
-    <span class="doccomment">/// Returns a `TxResult` if the transaction was applied and accepted by
-    /// all VPs. Note that this always returns false for dry-run transactions.
+    <span class="doccomment">/// Returns a `BatchedTxResult` if the transaction was applied and accepted
+    /// by all VPs. Note that this always returns false for dry-run
+    /// transactions.
     </span><span class="kw">pub fn </span>is_applied_and_valid(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         wrapper_hash: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Hash&gt;,
@@ -4473,6 +4489,10 @@
             <span class="string">"Requested wrapper-dump on a tx which is not a wrapper"</span>.to_string(),
         ));
     }
+
+    <span class="comment">// Remove duplicated sections before dumping. This is useful in case the
+    // dumped tx needed to be signed offline
+    </span>tx.prune_duplicated_sections();
 
     <span class="kw">match </span>args.output_folder.clone() {
         <span class="prelude-val">Some</span>(path) =&gt; {
@@ -4699,8 +4719,8 @@
 
     <span class="comment">// The transaction is now on chain. We wait for it to be applied
     </span><span class="kw">let </span>tx_query = rpc::TxEventQuery::Applied(tx_hash.as_str());
-    <span class="kw">let </span>event = rpc::query_tx_status(context, tx_query, deadline).<span class="kw">await</span><span class="question-mark">?</span>;
-    <span class="kw">let </span>response = TxResponse::from_event(event);
+    <span class="kw">let </span>tx_events = rpc::query_tx_status(context, tx_query, deadline).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span>response = TxResponse::from_events(tx_events);
     display_batch_resp(context, <span class="kw-2">&amp;</span>response);
     <span class="prelude-val">Ok</span>(response)
 }
@@ -4779,7 +4799,15 @@
                             event.level(),
                             event.kind(),
                         );
-                        <span class="kw">for </span>(k, v) <span class="kw">in </span>event.into_attributes() {
+                        <span class="kw">for </span>(k, v) <span class="kw">in
+                            </span>event.into_attributes().iter().filter(|(k, _v)| {
+                                <span class="comment">// Filter out data that's already displayed
+                                // above
+                                </span><span class="kw-2">*</span>k != events::extend::TxHash::KEY
+                                    &amp;&amp; <span class="kw-2">*</span>k != events::extend::Height::KEY
+                                    &amp;&amp; <span class="kw-2">*</span>k != events::extend::InnerTxHash::KEY
+                            })
+                        {
                             <span class="macro">display_line!</span>(context.io(), <span class="string">"{:4} - {k}: {v}"</span>, <span class="string">""</span>)
                         }
                     }
@@ -6160,7 +6188,7 @@
         <span class="kw">let </span>to_withdraw = withdrawable.entry(withdraw_epoch).or_default();
         <span class="kw-2">*</span>to_withdraw = <span class="macro">checked!</span>(to_withdraw + amount)<span class="question-mark">?</span>;
     }
-    <span class="kw">let </span>latest_withdrawal_pre = withdrawable.into_iter().last();
+    <span class="kw">let </span>latest_withdrawal_pre = withdrawable.into_iter().next_back();
 
     <span class="kw">let </span>data = pos::Unbond {
         validator: validator.clone(),
@@ -6204,7 +6232,7 @@
         <span class="kw-2">*</span>to_withdraw = <span class="macro">checked!</span>(to_withdraw + amount)<span class="question-mark">?</span>;
     }
     <span class="kw">let </span>(latest_withdraw_epoch_post, latest_withdraw_amount_post) =
-        withdrawable.into_iter().last().ok_or_else(|| {
+        withdrawable.into_iter().next_back().ok_or_else(|| {
             Error::Other(<span class="string">"No withdrawable amount"</span>.to_string())
         })<span class="question-mark">?</span>;
 

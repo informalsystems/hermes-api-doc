@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_shielded_token-0.47.2/src/masp/shielded_wallet.rs`."><title>shielded_wallet.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="namada_shielded_token" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_shielded_token/masp/</div>shielded_wallet.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_shielded_token-0.149.1/src/masp/shielded_wallet.rs`."><title>shielded_wallet.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="namada_shielded_token" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_shielded_token/masp/</div>shielded_wallet.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -3175,10 +3175,23 @@
 <a href="#3174" id="3174">3174</a>
 <a href="#3175" id="3175">3175</a>
 <a href="#3176" id="3176">3176</a>
-<a href="#3177" id="3177">3177</a></pre></div><pre class="rust"><code><span class="doccomment">//! The shielded wallet implementation
-</span><span class="kw">use </span>std::collections::{btree_map, BTreeMap, BTreeSet};
+<a href="#3177" id="3177">3177</a>
+<a href="#3178" id="3178">3178</a>
+<a href="#3179" id="3179">3179</a>
+<a href="#3180" id="3180">3180</a>
+<a href="#3181" id="3181">3181</a>
+<a href="#3182" id="3182">3182</a>
+<a href="#3183" id="3183">3183</a>
+<a href="#3184" id="3184">3184</a>
+<a href="#3185" id="3185">3185</a>
+<a href="#3186" id="3186">3186</a>
+<a href="#3187" id="3187">3187</a>
+<a href="#3188" id="3188">3188</a>
+<a href="#3189" id="3189">3189</a>
+<a href="#3190" id="3190">3190</a></pre></div><pre class="rust"><code><span class="doccomment">//! The shielded wallet implementation
+</span><span class="kw">use </span>std::collections::{BTreeMap, BTreeSet, btree_map};
 
-<span class="kw">use </span>eyre::{eyre, Context};
+<span class="kw">use </span>eyre::{Context, eyre};
 <span class="kw">use </span>masp_primitives::asset_type::AssetType;
 <span class="attr">#[cfg(feature = <span class="string">"mainnet"</span>)]
 </span><span class="kw">use </span>masp_primitives::consensus::MainNetwork <span class="kw">as </span>Network;
@@ -3199,16 +3212,16 @@
     I128Sum, TxOut, U64Sum, ValueSum,
 };
 <span class="kw">use </span>masp_primitives::transaction::fees::fixed::FeeRule;
-<span class="kw">use </span>masp_primitives::transaction::{builder, Transaction};
+<span class="kw">use </span>masp_primitives::transaction::{Transaction, builder};
 <span class="kw">use </span>masp_primitives::zip32::{ExtendedKey, PseudoExtendedKey};
 <span class="kw">use </span>namada_core::address::Address;
-<span class="kw">use </span>namada_core::arith::checked;
+<span class="kw">use </span>namada_core::arith::{CheckedAdd, CheckedSub, checked};
 <span class="kw">use </span>namada_core::borsh::{BorshDeserialize, BorshSerialize};
 <span class="kw">use </span>namada_core::chain::BlockHeight;
 <span class="kw">use </span>namada_core::collections::{HashMap, HashSet};
 <span class="kw">use </span>namada_core::control_flow;
 <span class="kw">use </span>namada_core::masp::{
-    encode_asset_type, AssetData, MaspEpoch, TransferSource, TransferTarget,
+    AssetData, MaspEpoch, TransferSource, TransferTarget, encode_asset_type,
 };
 <span class="kw">use </span>namada_core::task_env::TaskEnvironment;
 <span class="kw">use </span>namada_core::time::{DateTimeUtc, DurationSecs};
@@ -3217,24 +3230,24 @@
 };
 <span class="kw">use </span>namada_io::client::Client;
 <span class="kw">use </span>namada_io::{
-    display_line, edisplay_line, Io, MaybeSend, MaybeSync, NamadaIo,
-    ProgressBar,
+    Io, MaybeSend, MaybeSync, NamadaIo, ProgressBar, display_line,
+    edisplay_line,
 };
-<span class="kw">use </span>namada_tx::IndexedTx;
 <span class="kw">use </span>namada_wallet::{DatedKeypair, DatedSpendingKey};
 <span class="kw">use </span>rand::prelude::StdRng;
 <span class="kw">use </span>rand_core::{OsRng, SeedableRng};
 
+<span class="kw">use </span><span class="kw">super</span>::utils::MaspIndexedTx;
 <span class="kw">use </span><span class="kw">crate</span>::masp::utils::MaspClient;
-<span class="attr">#[cfg(any(test, feature = <span class="string">"testing"</span>))]
-</span><span class="kw">use </span><span class="kw">crate</span>::masp::{testing, ENV_VAR_MASP_TEST_SEED};
 <span class="kw">use </span><span class="kw">crate</span>::masp::{
     ContextSyncStatus, Conversions, MaspAmount, MaspDataLogEntry, MaspFeeData,
     MaspSourceTransferData, MaspTargetTransferData, MaspTransferData,
-    MaspTxReorderedData, NoteIndex, ShieldedSyncConfig, ShieldedTransfer,
-    ShieldedUtils, SpentNotesTracker, TransferErr, WalletMap, WitnessMap,
-    NETWORK,
+    MaspTxReorderedData, NETWORK, NoteIndex, ShieldedSyncConfig,
+    ShieldedTransfer, ShieldedUtils, SpentNotesTracker, TransferErr, WalletMap,
+    WitnessMap,
 };
+<span class="attr">#[cfg(any(test, feature = <span class="string">"testing"</span>))]
+</span><span class="kw">use </span><span class="kw">crate</span>::masp::{ENV_VAR_MASP_TEST_SEED, testing};
 
 <span class="doccomment">/// Represents the current state of the shielded pool from the perspective of
 /// the chosen viewing keys.
@@ -3247,7 +3260,7 @@
     </span><span class="kw">pub </span>tree: CommitmentTree&lt;Node&gt;,
     <span class="doccomment">/// Maps viewing keys to the block height to which they are synced.
     /// In particular, the height given by the value *has been scanned*.
-    </span><span class="kw">pub </span>vk_heights: BTreeMap&lt;ViewingKey, <span class="prelude-ty">Option</span>&lt;IndexedTx&gt;&gt;,
+    </span><span class="kw">pub </span>vk_heights: BTreeMap&lt;ViewingKey, <span class="prelude-ty">Option</span>&lt;MaspIndexedTx&gt;&gt;,
     <span class="doccomment">/// Maps viewing keys to applicable note positions
     </span><span class="kw">pub </span>pos_map: HashMap&lt;ViewingKey, BTreeSet&lt;usize&gt;&gt;,
     <span class="doccomment">/// Maps a nullifier to the note position to which it applies
@@ -3322,11 +3335,11 @@
     /// scan new MASP transactions.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>update_witness_map(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-        indexed_tx: IndexedTx,
+        masp_indexed_tx: MaspIndexedTx,
         shielded: <span class="kw-2">&amp;</span>Transaction,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), eyre::Error&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>note_pos = <span class="self">self</span>.tree.size();
-        <span class="self">self</span>.note_index.insert(indexed_tx, note_pos);
+        <span class="self">self</span>.note_index.insert(masp_indexed_tx, note_pos);
 
         <span class="kw">for </span>so <span class="kw">in </span>shielded
             .sapling_bundle()
@@ -3395,7 +3408,7 @@
             ));
         };
         <span class="prelude-val">Ok</span>(maybe_least_synced_vk_height
-            .map_or_else(BlockHeight::first, |itx| itx.height))
+            .map_or_else(BlockHeight::first, |itx| itx.indexed_tx.block_height))
     }
 
     <span class="attr">#[allow(missing_docs)]
@@ -3525,11 +3538,24 @@
         <span class="comment">// Forget about the trace amount left over because we cannot
         // realize its value
         </span><span class="kw">let </span>trace = I128Sum::from_pair(asset_type, value % threshold);
-        <span class="comment">// Record how much more of the given conversion has been used
-        </span><span class="kw-2">*</span>usage += required;
-        <span class="comment">// Apply the conversions to input and move the trace amount to output
-        </span><span class="kw-2">*</span>input += conv * required - trace.clone();
-        <span class="kw-2">*</span>output += trace;
+        <span class="kw">match </span><span class="macro">checked!</span>(input + <span class="kw-2">&amp;</span>(conv * required) - <span class="kw-2">&amp;</span>trace) {
+            <span class="comment">// If applying the conversion does not overflow or result in
+            // negative input
+            </span><span class="prelude-val">Ok</span>(new_input) <span class="kw">if </span>new_input &gt;= I128Sum::zero() =&gt; {
+                <span class="comment">// Record how much more of the given conversion has been used
+                </span><span class="kw-2">*</span>usage += required;
+                <span class="comment">// Apply conversions to input and move trace amount to output
+                </span><span class="kw-2">*</span>input = new_input;
+                <span class="kw-2">*</span>output += trace;
+            }
+            <span class="kw">_ </span>=&gt; {
+                <span class="comment">// Otherwise don't apply the conversion and simply move value
+                // over to output
+                </span><span class="kw">let </span>comp = I128Sum::from_pair(asset_type, value);
+                <span class="kw-2">*</span>output += comp.clone();
+                <span class="kw-2">*</span>input -= comp;
+            }
+        }
         <span class="prelude-val">Ok</span>(())
     }
 
@@ -3614,7 +3640,7 @@
     </span><span class="kw">async fn </span>precompute_asset_types&lt;C: Client + Sync&gt;(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         client: <span class="kw-2">&amp;</span>C,
-        tokens: Vec&lt;<span class="kw-2">&amp;</span>Address&gt;,
+        tokens: BTreeSet&lt;<span class="kw-2">&amp;</span>Address&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), eyre::Error&gt; {
         <span class="comment">// To facilitate lookups of human-readable token names
         </span><span class="kw">for </span>token <span class="kw">in </span>tokens {
@@ -3998,7 +4024,7 @@
                 </span><span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="kw">_</span>, amt)) = current_exchanged_balance
                     .project(native_asset_type)
                     .into_components()
-                    .last()
+                    .next_back()
                 {
                     current_native_balance +=
                         ValueSum::from_pair(native_asset_epoch0_type, amt);
@@ -4006,7 +4032,7 @@
                 <span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="kw">_</span>, amt)) = next_exchanged_balance
                     .project(native_asset_type)
                     .into_components()
-                    .last()
+                    .next_back()
                 {
                     next_native_balance +=
                         ValueSum::from_pair(native_asset_epoch0_type, amt);
@@ -4195,7 +4221,7 @@
                 <span class="prelude-val">Some</span>(pre_asset_type)
                     <span class="kw">if </span>pre_asset_type
                         .epoch
-                        .map_or(<span class="bool-val">true</span>, |epoch| epoch &lt;= target_epoch) =&gt;
+                        .is_none_or(|epoch| epoch &lt;= target_epoch) =&gt;
                 {
                     <span class="kw">let </span>decoded_change = Change::from_masp_denominated(
                         <span class="kw-2">*</span>val,
@@ -4871,7 +4897,7 @@
             // there must be a demonstrated need for it.
             </span><span class="kw">if </span>decoded.token == token
                 &amp;&amp; decoded.denom == denom
-                &amp;&amp; decoded.epoch.map_or(<span class="bool-val">true</span>, |vbal_epoch| vbal_epoch &lt;= epoch)
+                &amp;&amp; decoded.epoch.is_none_or(|vbal_epoch| vbal_epoch &lt;= epoch)
                 &amp;&amp; <span class="kw-2">*</span>rem_amount &gt; <span class="number">0
             </span>{
                 <span class="kw">let </span>val = u128::try_from(<span class="kw-2">*</span>val).expect(
@@ -4954,10 +4980,10 @@
             .encode()
             .map_err(|<span class="kw">_</span>| <span class="macro">eyre!</span>(<span class="string">"unable to create asset type"</span>))<span class="question-mark">?</span>;
         <span class="kw">if </span><span class="self">self</span>.decode_asset_type(client, asset_type).<span class="kw">await</span>.is_none() {
-            <span class="comment">// If we fail to decode the epoched asset type, then remove the
+            <span class="comment">// If we fail to decode the dated asset type, then remove the
             // epoch
             </span><span class="macro">tracing::debug!</span>(
-                <span class="string">"Failed to decode epoched asset type, undating it: {:#?}"</span>,
+                <span class="string">"Failed to decode dated asset type, undating it: {:#?}"</span>,
                 decoded
             );
             <span class="kw-2">*</span>decoded = decoded.clone().undate();
@@ -5023,7 +5049,7 @@
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::masp::fs::FsShieldedUtils;
     <span class="kw">use </span><span class="kw">crate</span>::masp::test_utils::{
-        arbitrary_pa, arbitrary_vk, create_note, MockNamadaIo, TestingContext,
+        MockNamadaIo, TestingContext, arbitrary_pa, arbitrary_vk, create_note,
     };
 
     <span class="attr">#[tokio::test]

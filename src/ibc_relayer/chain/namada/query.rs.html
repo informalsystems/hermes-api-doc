@@ -344,7 +344,8 @@
 <a href="#343" id="343">343</a>
 <a href="#344" id="344">344</a>
 <a href="#345" id="345">345</a>
-<a href="#346" id="346">346</a></pre></div><pre class="rust"><code><span class="kw">use </span>ibc_relayer_types::core::ics04_channel::packet::Sequence;
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a></pre></div><pre class="rust"><code><span class="kw">use </span>ibc_relayer_types::core::ics04_channel::packet::Sequence;
 <span class="kw">use </span>ibc_relayer_types::core::ics23_commitment::merkle::convert_tm_to_ics_merkle_proof;
 <span class="kw">use </span>ibc_relayer_types::core::ics23_commitment::merkle::MerkleProof;
 <span class="kw">use </span>ibc_relayer_types::events::IbcEvent;
@@ -352,15 +353,14 @@
 <span class="kw">use </span>namada_sdk::address::{Address, InternalAddress};
 <span class="kw">use </span>namada_sdk::borsh::BorshDeserialize;
 <span class="kw">use </span>namada_sdk::events::extend::Height <span class="kw">as </span>HeightAttr;
-<span class="kw">use </span>namada_sdk::events::Event <span class="kw">as </span>NamadaEvent;
 <span class="kw">use </span>namada_sdk::ibc::storage::{ibc_trace_key_prefix, is_ibc_trace_key};
 <span class="kw">use </span>namada_sdk::io::Client;
 <span class="kw">use </span>namada_sdk::io::NamadaIo;
 <span class="kw">use </span>namada_sdk::queries::RPC;
-<span class="kw">use </span>namada_sdk::rpc;
+<span class="kw">use </span>namada_sdk::rpc::TxResponse <span class="kw">as </span>NamadaTxResponse;
+<span class="kw">use </span>namada_sdk::rpc::{<span class="self">self</span>, TxAppliedEvents <span class="kw">as </span>NamadaTxAppliedEvents};
 <span class="kw">use </span>namada_sdk::storage::{BlockHeight, Epoch, Key, PrefixValue};
 <span class="kw">use </span>namada_sdk::tx::data::ResultCode;
-<span class="kw">use </span>namada_sdk::tx::event::{Batch <span class="kw">as </span>BatchAttr, Code <span class="kw">as </span>CodeAttr};
 <span class="kw">use </span>tendermint::block::Height <span class="kw">as </span>TmHeight;
 <span class="kw">use </span>tendermint::merkle::proof::ProofOps;
 <span class="kw">use </span>tendermint::Hash <span class="kw">as </span>TmHash;
@@ -464,27 +464,23 @@
     </span><span class="kw">pub fn </span>query_tx_events(<span class="kw-2">&amp;</span><span class="self">self</span>, tx_hash: <span class="kw-2">&amp;</span>TmHash) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;IbcEventWithHeight&gt;, Error&gt; {
         <span class="kw">match </span><span class="self">self</span>.query_applied_event(tx_hash)<span class="question-mark">? </span>{
             <span class="prelude-val">Some</span>(applied) =&gt; {
-                <span class="kw">let </span>h = applied
-                    .read_attribute::&lt;HeightAttr&gt;()
-                    .map_err(|<span class="kw">_</span>| Error::invalid_height_no_source())<span class="question-mark">?</span>;
-                <span class="kw">let </span>height = ICSHeight::new(<span class="self">self</span>.config.id.version(), h.<span class="number">0</span>)
+                <span class="kw">let </span>tx_response = NamadaTxResponse::try_from(applied)
+                    .expect(<span class="string">"Could not extract tx response from a Namada event"</span>);
+                <span class="kw">let </span>height = ICSHeight::new(<span class="self">self</span>.config.id.version(), tx_response.height.<span class="number">0</span>)
                     .map_err(|<span class="kw">_</span>| Error::invalid_height_no_source())<span class="question-mark">?</span>;
                 <span class="comment">// Check if the tx is valid
-                </span><span class="kw">let </span>tx_result = applied
-                    .read_attribute::&lt;BatchAttr&lt;<span class="lifetime">'_</span>&gt;&gt;()
-                    .expect(<span class="string">"The batch attribute should exist"</span>);
-                <span class="kw">let </span>code = applied
-                    .read_attribute::&lt;CodeAttr&gt;()
-                    .expect(<span class="string">"The code attribute should exist"</span>);
-                <span class="kw">if </span>code != ResultCode::Ok {
+                </span><span class="kw">if </span>tx_response.code != ResultCode::Ok {
                     <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[IbcEventWithHeight::new(
                         IbcEvent::ChainError(<span class="macro">format!</span>(
-                            <span class="string">"The transaction was invalid: TxResult {tx_result}"</span>,
+                            <span class="string">"The transaction was invalid: TxResult {:#?}"</span>,
+                            tx_response.batch
                         )),
                         height,
                     )]);
                 }
-                <span class="kw">let </span>events = tx_result.iter().filter_map(|(<span class="kw">_</span>, r)| {
+                <span class="kw">let </span>events = <span class="kw">match </span>tx_response.batch {
+                    <span class="prelude-val">Some</span>(tx_result) =&gt; {
+                        tx_result.iter().filter_map(|(<span class="kw">_</span>, r)| {
                     r.as_ref().map(|batched_tx_result| {
                         <span class="comment">// Get IBC events when the transaction was accepted
                         </span><span class="kw">if </span>batched_tx_result.is_accepted() {
@@ -502,14 +498,20 @@
                             )]
                         }
                     }).ok()
-                }).flatten().collect();
+                }).flatten().collect()
+                    }
+                    <span class="prelude-val">None </span>=&gt; Default::default(),
+                };
                 <span class="prelude-val">Ok</span>(events)
             }
             <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[]),
         }
     }
 
-    <span class="kw">fn </span>query_applied_event(<span class="kw-2">&amp;</span><span class="self">self</span>, tx_hash: <span class="kw-2">&amp;</span>TmHash) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;NamadaEvent&gt;, Error&gt; {
+    <span class="kw">fn </span>query_applied_event(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        tx_hash: <span class="kw-2">&amp;</span>TmHash,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;NamadaTxAppliedEvents&gt;, Error&gt; {
         <span class="self">self</span>.rt
             .block_on(RPC.shell().applied(
                 <span class="self">self</span>.ctx.client(),

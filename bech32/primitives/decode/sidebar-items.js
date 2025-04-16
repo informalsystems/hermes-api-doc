@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["CharError","CheckedHrpstringError","ChecksumError","PaddingError","SegwitHrpstringError","UncheckedHrpstringError"],"struct":["ByteIter","CheckedHrpstring","Fe32Iter","SegwitHrpstring","UncheckedHrpstring"]};
+window.SIDEBAR_ITEMS = {"enum":["CharError","CheckedHrpstringError","ChecksumError","PaddingError","SegwitHrpstringError","UncheckedHrpstringError"],"struct":["AsciiToFe32Iter","ByteIter","CheckedHrpstring","CodeLengthError","Fe32Iter","SegwitCodeLengthError","SegwitHrpstring","UncheckedHrpstring"]};

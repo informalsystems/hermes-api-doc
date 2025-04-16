@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_shielded_token-0.47.2/src/conversion.rs`."><title>conversion.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_shielded_token" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_shielded_token/</div>conversion.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_shielded_token-0.149.1/src/conversion.rs`."><title>conversion.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_shielded_token" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_shielded_token/</div>conversion.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -881,7 +881,237 @@
 <a href="#880" id="880">880</a>
 <a href="#881" id="881">881</a>
 <a href="#882" id="882">882</a>
-<a href="#883" id="883">883</a></pre></div><pre class="rust"><code><span class="doccomment">//! MASP rewards conversions
+<a href="#883" id="883">883</a>
+<a href="#884" id="884">884</a>
+<a href="#885" id="885">885</a>
+<a href="#886" id="886">886</a>
+<a href="#887" id="887">887</a>
+<a href="#888" id="888">888</a>
+<a href="#889" id="889">889</a>
+<a href="#890" id="890">890</a>
+<a href="#891" id="891">891</a>
+<a href="#892" id="892">892</a>
+<a href="#893" id="893">893</a>
+<a href="#894" id="894">894</a>
+<a href="#895" id="895">895</a>
+<a href="#896" id="896">896</a>
+<a href="#897" id="897">897</a>
+<a href="#898" id="898">898</a>
+<a href="#899" id="899">899</a>
+<a href="#900" id="900">900</a>
+<a href="#901" id="901">901</a>
+<a href="#902" id="902">902</a>
+<a href="#903" id="903">903</a>
+<a href="#904" id="904">904</a>
+<a href="#905" id="905">905</a>
+<a href="#906" id="906">906</a>
+<a href="#907" id="907">907</a>
+<a href="#908" id="908">908</a>
+<a href="#909" id="909">909</a>
+<a href="#910" id="910">910</a>
+<a href="#911" id="911">911</a>
+<a href="#912" id="912">912</a>
+<a href="#913" id="913">913</a>
+<a href="#914" id="914">914</a>
+<a href="#915" id="915">915</a>
+<a href="#916" id="916">916</a>
+<a href="#917" id="917">917</a>
+<a href="#918" id="918">918</a>
+<a href="#919" id="919">919</a>
+<a href="#920" id="920">920</a>
+<a href="#921" id="921">921</a>
+<a href="#922" id="922">922</a>
+<a href="#923" id="923">923</a>
+<a href="#924" id="924">924</a>
+<a href="#925" id="925">925</a>
+<a href="#926" id="926">926</a>
+<a href="#927" id="927">927</a>
+<a href="#928" id="928">928</a>
+<a href="#929" id="929">929</a>
+<a href="#930" id="930">930</a>
+<a href="#931" id="931">931</a>
+<a href="#932" id="932">932</a>
+<a href="#933" id="933">933</a>
+<a href="#934" id="934">934</a>
+<a href="#935" id="935">935</a>
+<a href="#936" id="936">936</a>
+<a href="#937" id="937">937</a>
+<a href="#938" id="938">938</a>
+<a href="#939" id="939">939</a>
+<a href="#940" id="940">940</a>
+<a href="#941" id="941">941</a>
+<a href="#942" id="942">942</a>
+<a href="#943" id="943">943</a>
+<a href="#944" id="944">944</a>
+<a href="#945" id="945">945</a>
+<a href="#946" id="946">946</a>
+<a href="#947" id="947">947</a>
+<a href="#948" id="948">948</a>
+<a href="#949" id="949">949</a>
+<a href="#950" id="950">950</a>
+<a href="#951" id="951">951</a>
+<a href="#952" id="952">952</a>
+<a href="#953" id="953">953</a>
+<a href="#954" id="954">954</a>
+<a href="#955" id="955">955</a>
+<a href="#956" id="956">956</a>
+<a href="#957" id="957">957</a>
+<a href="#958" id="958">958</a>
+<a href="#959" id="959">959</a>
+<a href="#960" id="960">960</a>
+<a href="#961" id="961">961</a>
+<a href="#962" id="962">962</a>
+<a href="#963" id="963">963</a>
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a>
+<a href="#968" id="968">968</a>
+<a href="#969" id="969">969</a>
+<a href="#970" id="970">970</a>
+<a href="#971" id="971">971</a>
+<a href="#972" id="972">972</a>
+<a href="#973" id="973">973</a>
+<a href="#974" id="974">974</a>
+<a href="#975" id="975">975</a>
+<a href="#976" id="976">976</a>
+<a href="#977" id="977">977</a>
+<a href="#978" id="978">978</a>
+<a href="#979" id="979">979</a>
+<a href="#980" id="980">980</a>
+<a href="#981" id="981">981</a>
+<a href="#982" id="982">982</a>
+<a href="#983" id="983">983</a>
+<a href="#984" id="984">984</a>
+<a href="#985" id="985">985</a>
+<a href="#986" id="986">986</a>
+<a href="#987" id="987">987</a>
+<a href="#988" id="988">988</a>
+<a href="#989" id="989">989</a>
+<a href="#990" id="990">990</a>
+<a href="#991" id="991">991</a>
+<a href="#992" id="992">992</a>
+<a href="#993" id="993">993</a>
+<a href="#994" id="994">994</a>
+<a href="#995" id="995">995</a>
+<a href="#996" id="996">996</a>
+<a href="#997" id="997">997</a>
+<a href="#998" id="998">998</a>
+<a href="#999" id="999">999</a>
+<a href="#1000" id="1000">1000</a>
+<a href="#1001" id="1001">1001</a>
+<a href="#1002" id="1002">1002</a>
+<a href="#1003" id="1003">1003</a>
+<a href="#1004" id="1004">1004</a>
+<a href="#1005" id="1005">1005</a>
+<a href="#1006" id="1006">1006</a>
+<a href="#1007" id="1007">1007</a>
+<a href="#1008" id="1008">1008</a>
+<a href="#1009" id="1009">1009</a>
+<a href="#1010" id="1010">1010</a>
+<a href="#1011" id="1011">1011</a>
+<a href="#1012" id="1012">1012</a>
+<a href="#1013" id="1013">1013</a>
+<a href="#1014" id="1014">1014</a>
+<a href="#1015" id="1015">1015</a>
+<a href="#1016" id="1016">1016</a>
+<a href="#1017" id="1017">1017</a>
+<a href="#1018" id="1018">1018</a>
+<a href="#1019" id="1019">1019</a>
+<a href="#1020" id="1020">1020</a>
+<a href="#1021" id="1021">1021</a>
+<a href="#1022" id="1022">1022</a>
+<a href="#1023" id="1023">1023</a>
+<a href="#1024" id="1024">1024</a>
+<a href="#1025" id="1025">1025</a>
+<a href="#1026" id="1026">1026</a>
+<a href="#1027" id="1027">1027</a>
+<a href="#1028" id="1028">1028</a>
+<a href="#1029" id="1029">1029</a>
+<a href="#1030" id="1030">1030</a>
+<a href="#1031" id="1031">1031</a>
+<a href="#1032" id="1032">1032</a>
+<a href="#1033" id="1033">1033</a>
+<a href="#1034" id="1034">1034</a>
+<a href="#1035" id="1035">1035</a>
+<a href="#1036" id="1036">1036</a>
+<a href="#1037" id="1037">1037</a>
+<a href="#1038" id="1038">1038</a>
+<a href="#1039" id="1039">1039</a>
+<a href="#1040" id="1040">1040</a>
+<a href="#1041" id="1041">1041</a>
+<a href="#1042" id="1042">1042</a>
+<a href="#1043" id="1043">1043</a>
+<a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a>
+<a href="#1048" id="1048">1048</a>
+<a href="#1049" id="1049">1049</a>
+<a href="#1050" id="1050">1050</a>
+<a href="#1051" id="1051">1051</a>
+<a href="#1052" id="1052">1052</a>
+<a href="#1053" id="1053">1053</a>
+<a href="#1054" id="1054">1054</a>
+<a href="#1055" id="1055">1055</a>
+<a href="#1056" id="1056">1056</a>
+<a href="#1057" id="1057">1057</a>
+<a href="#1058" id="1058">1058</a>
+<a href="#1059" id="1059">1059</a>
+<a href="#1060" id="1060">1060</a>
+<a href="#1061" id="1061">1061</a>
+<a href="#1062" id="1062">1062</a>
+<a href="#1063" id="1063">1063</a>
+<a href="#1064" id="1064">1064</a>
+<a href="#1065" id="1065">1065</a>
+<a href="#1066" id="1066">1066</a>
+<a href="#1067" id="1067">1067</a>
+<a href="#1068" id="1068">1068</a>
+<a href="#1069" id="1069">1069</a>
+<a href="#1070" id="1070">1070</a>
+<a href="#1071" id="1071">1071</a>
+<a href="#1072" id="1072">1072</a>
+<a href="#1073" id="1073">1073</a>
+<a href="#1074" id="1074">1074</a>
+<a href="#1075" id="1075">1075</a>
+<a href="#1076" id="1076">1076</a>
+<a href="#1077" id="1077">1077</a>
+<a href="#1078" id="1078">1078</a>
+<a href="#1079" id="1079">1079</a>
+<a href="#1080" id="1080">1080</a>
+<a href="#1081" id="1081">1081</a>
+<a href="#1082" id="1082">1082</a>
+<a href="#1083" id="1083">1083</a>
+<a href="#1084" id="1084">1084</a>
+<a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a></pre></div><pre class="rust"><code><span class="doccomment">//! MASP rewards conversions
 
 </span><span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
 </span><span class="kw">use </span>std::collections::BTreeMap;
@@ -889,35 +1119,42 @@
 <span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
 </span><span class="kw">use </span>masp_primitives::asset_type::AssetType;
 <span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
-</span><span class="kw">use </span>masp_primitives::convert::AllowedConversion;
+</span><span class="kw">use </span>masp_primitives::convert::{AllowedConversion, UncheckedAllowedConversion};
 <span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
 </span><span class="kw">use </span>masp_primitives::transaction::components::I128Sum <span class="kw">as </span>MaspAmount;
 <span class="kw">use </span>namada_controller::PDController;
 <span class="kw">use </span>namada_core::address::{Address, MASP};
-<span class="kw">use </span>namada_core::arith::checked;
 <span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
 </span><span class="kw">use </span>namada_core::arith::CheckedAdd;
+<span class="kw">use </span>namada_core::arith::checked;
 <span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
 </span><span class="kw">use </span>namada_core::borsh::BorshSerializeExt;
 <span class="kw">use </span>namada_core::dec::Dec;
 <span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
 </span><span class="kw">use </span>namada_core::hash::Hash;
+<span class="kw">use </span>namada_core::masp::Precision;
 <span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
-</span><span class="kw">use </span>namada_core::masp::encode_asset_type;
-<span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
-</span><span class="kw">use </span>namada_core::masp::MaspEpoch;
+</span><span class="kw">use </span>namada_core::masp::{MaspEpoch, encode_asset_type};
 <span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
 </span><span class="kw">use </span>namada_core::token::MaspDigitPos;
 <span class="kw">use </span>namada_core::token::{Amount, DenominatedAmount, Denomination};
 <span class="kw">use </span>namada_core::uint::Uint;
+<span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
+</span><span class="kw">use </span>namada_state::iter_prefix_with_filter_map;
 <span class="kw">use </span>namada_systems::{parameters, trans_token};
 
 <span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
-</span><span class="kw">use </span><span class="kw">crate</span>::storage_key::{masp_assets_hash_key, masp_token_map_key};
+</span><span class="kw">use </span><span class="kw">crate</span>::storage_key::{
+    is_masp_conversion_key, is_masp_scheduled_reward_precision_key,
+    masp_assets_hash_key, masp_conversion_key_prefix,
+    masp_scheduled_base_native_precision_key,
+    masp_scheduled_reward_precision_key_prefix, masp_token_map_key,
+};
 <span class="kw">use </span><span class="kw">crate</span>::storage_key::{
-    masp_kd_gain_key, masp_kp_gain_key, masp_last_inflation_key,
-    masp_last_locked_amount_key, masp_locked_amount_target_key,
-    masp_max_reward_rate_key,
+    masp_base_native_precision_key, masp_kd_gain_key, masp_kp_gain_key,
+    masp_last_inflation_key, masp_last_locked_amount_key,
+    masp_locked_amount_target_key, masp_max_reward_rate_key,
+    masp_reward_precision_key,
 };
 <span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
 </span><span class="kw">use crate</span>::{ConversionLeaf, Error, OptionExt, ResultExt};
@@ -962,29 +1199,129 @@
         .expect(<span class="string">"Inflation calculation overflow"</span>)
 }
 
+<span class="comment">// Infer the precision of a token from its denomination
+</span><span class="attr">#[deprecated = <span class="string">"Token precisions are now read from storage instead of being \
+                inferred from their denominations."</span>]
+</span><span class="kw">fn </span>infer_token_precision&lt;S, TransToken&gt;(
+    storage: <span class="kw-2">&amp;mut </span>S,
+    addr: <span class="kw-2">&amp;</span>Address,
+) -&gt; <span class="prelude-ty">Result</span>&lt;Precision&gt;
+<span class="kw">where
+    </span>S: StorageWrite + StorageRead + WithConversionState,
+    TransToken: trans_token::Read&lt;S&gt;,
+{
+    <span class="comment">// Since reading reward precision has failed, choose a
+    // thousandth of the given token. But clamp the precision above
+    // by 10^38, the maximum power of 10 that can be contained by a
+    // u128.
+    </span><span class="kw">let </span>denomination = TransToken::read_denom(storage, addr)<span class="question-mark">?
+        </span>.expect(<span class="string">"failed to read token denomination"</span>);
+    <span class="kw">let </span>precision_denom =
+        u32::from(denomination.<span class="number">0</span>).saturating_sub(<span class="number">3</span>).clamp(<span class="number">0</span>, <span class="number">38</span>);
+    <span class="kw">let </span>reward_precision = <span class="macro">checked!</span>(<span class="number">10u128 </span>^ precision_denom)<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(reward_precision)
+}
+
+<span class="comment">// Read the base native precision from storage. And if it is not initialized,
+// fall back to inferring it based on native denomination.
+</span><span class="kw">fn </span>read_base_native_precision&lt;S, TransToken&gt;(
+    storage: <span class="kw-2">&amp;mut </span>S,
+    native_token: <span class="kw-2">&amp;</span>Address,
+) -&gt; <span class="prelude-ty">Result</span>&lt;Precision&gt;
+<span class="kw">where
+    </span>S: StorageWrite + StorageRead + WithConversionState,
+    TransToken: trans_token::Keys + trans_token::Read&lt;S&gt;,
+{
+    <span class="kw">let </span>base_native_precision_key = masp_base_native_precision_key();
+    storage.read(<span class="kw-2">&amp;</span>base_native_precision_key)<span class="question-mark">?</span>.map_or_else(
+        || -&gt; <span class="prelude-ty">Result</span>&lt;Precision&gt; {
+            <span class="attr">#[allow(deprecated)]
+            </span><span class="kw">let </span>precision =
+                infer_token_precision::&lt;<span class="kw">_</span>, TransToken&gt;(storage, native_token)<span class="question-mark">?</span>;
+            storage.write(<span class="kw-2">&amp;</span>base_native_precision_key, precision)<span class="question-mark">?</span>;
+            <span class="prelude-val">Ok</span>(precision)
+        },
+        <span class="prelude-val">Ok</span>,
+    )
+}
+
 <span class="doccomment">/// Compute the precision of MASP rewards for the given token. This function
 /// must be a non-zero constant for a given token.
 </span><span class="kw">pub fn </span>calculate_masp_rewards_precision&lt;S, TransToken&gt;(
     storage: <span class="kw-2">&amp;mut </span>S,
     addr: <span class="kw-2">&amp;</span>Address,
-) -&gt; <span class="prelude-ty">Result</span>&lt;(u128, Denomination)&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;Precision&gt;
 <span class="kw">where
-    </span>S: StorageWrite + StorageRead,
-    TransToken: trans_token::Read&lt;S&gt;,
+    </span>S: StorageWrite + StorageRead + WithConversionState,
+    TransToken: trans_token::Keys + trans_token::Read&lt;S&gt;,
 {
-    <span class="kw">let </span>denomination = TransToken::read_denom(storage, addr)<span class="question-mark">?
-        </span>.expect(<span class="string">"failed to read token denomination"</span>);
     <span class="comment">// Inflation is implicitly denominated by this value. The lower this
     // figure, the less precise inflation computations are. This is especially
     // problematic when inflation is coming from a token with much higher
     // denomination than the native token. The higher this figure, the higher
     // the threshold of holdings required in order to receive non-zero rewards.
-    // This value should be fixed constant for each asset type. Here we choose
-    // a thousandth of the given asset.
-    </span><span class="kw">let </span>precision_denom = std::cmp::max(u32::from(denomination.<span class="number">0</span>), <span class="number">3</span>)
-        .checked_sub(<span class="number">3</span>)
-        .expect(<span class="string">"Cannot underflow"</span>);
-    <span class="prelude-val">Ok</span>((<span class="macro">checked!</span>(<span class="number">10u128 </span>^ precision_denom)<span class="question-mark">?</span>, denomination))
+    // This value should be fixed constant for each asset type. Here we read a
+    // value from storage and failing that we choose a thousandth of the given
+    // asset.
+    // Key to read/write reward precision from
+    </span><span class="kw">let </span>reward_precision_key = masp_reward_precision_key::&lt;TransToken&gt;(addr);
+    <span class="comment">// Now read the desired reward precision for this token address
+    </span><span class="kw">let </span>reward_precision: Precision =
+        storage.read(<span class="kw-2">&amp;</span>reward_precision_key)<span class="question-mark">?</span>.map_or_else(
+            || -&gt; <span class="prelude-ty">Result</span>&lt;Precision&gt; {
+                <span class="kw">let </span>native_token = storage.get_native_token()<span class="question-mark">?</span>;
+                <span class="attr">#[allow(deprecated)]
+                </span><span class="kw">let </span>prec = <span class="kw">match </span>storage.conversion_state().current_precision {
+                    <span class="comment">// If this is the native token, then the precision was
+                    // actually stored in the conversion state.
+                    </span><span class="prelude-val">Some</span>(native_precision) <span class="kw">if </span><span class="kw-2">*</span>addr == native_token =&gt; {
+                        native_precision
+                    }
+                    <span class="comment">// If the current precision is not defined for the native
+                    // token, then attempt to get it from the base native
+                    // precision.
+                    </span><span class="prelude-val">None </span><span class="kw">if </span><span class="kw-2">*</span>addr == native_token =&gt; {
+                        read_base_native_precision::&lt;<span class="kw">_</span>, TransToken&gt;(
+                            storage, addr,
+                        )<span class="question-mark">?
+                    </span>}
+                    <span class="comment">// Otherwise default to inferring the precision from the
+                    // token denomination
+                    </span><span class="kw">_ </span>=&gt; infer_token_precision::&lt;<span class="kw">_</span>, TransToken&gt;(storage, addr)<span class="question-mark">?</span>,
+                };
+                <span class="comment">// Record the precision that is now being used so that it does
+                // not have to be recomputed each time, and to ensure that this
+                // value is not accidentally changed even by a change to this
+                // initialization algorithm.
+                </span>storage.write(<span class="kw-2">&amp;</span>reward_precision_key, prec)<span class="question-mark">?</span>;
+                <span class="prelude-val">Ok</span>(prec)
+            },
+            <span class="prelude-val">Ok</span>,
+        )<span class="question-mark">?</span>;
+
+    <span class="prelude-val">Ok</span>(reward_precision)
+}
+
+<span class="doccomment">/// Get the balance of the given token at the MASP address that is eligble to
+/// receive rewards.
+</span><span class="kw">fn </span>get_masp_dated_balance&lt;S, TransToken&gt;(
+    storage: <span class="kw-2">&amp;mut </span>S,
+    token: <span class="kw-2">&amp;</span>Address,
+) -&gt; <span class="prelude-ty">Result</span>&lt;Amount&gt;
+<span class="kw">where
+    </span>S: StorageWrite + StorageRead,
+    TransToken: trans_token::Keys + trans_token::Read&lt;S&gt;,
+{
+    <span class="kw">use </span><span class="kw">crate</span>::read_undated_balance;
+    <span class="kw">let </span>masp_addr = MASP;
+
+    <span class="comment">// total locked amount in the Shielded pool
+    </span><span class="kw">let </span>total_tokens_in_masp =
+        TransToken::read_balance(storage, token, <span class="kw-2">&amp;</span>masp_addr)<span class="question-mark">?</span>;
+    <span class="comment">// Since dated and undated tokens are stored together in the pool, subtract
+    // the latter to get the dated balance
+    </span><span class="kw">let </span>masp_undated_balance = read_undated_balance(storage, token)<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(<span class="macro">checked!</span>(total_tokens_in_masp - masp_undated_balance)<span class="question-mark">?</span>)
 }
 
 <span class="doccomment">/// Compute the MASP rewards by applying the PD-controller to the genesis
@@ -993,9 +1330,9 @@
     storage: <span class="kw-2">&amp;mut </span>S,
     token: <span class="kw-2">&amp;</span>Address,
     denomination: Denomination,
-    precision: u128,
+    precision: Precision,
     masp_epochs_per_year: u64,
-) -&gt; <span class="prelude-ty">Result</span>&lt;(u128, u128)&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;(u128, Precision)&gt;
 <span class="kw">where
     </span>S: StorageWrite + StorageRead,
     TransToken: trans_token::Keys + trans_token::Read&lt;S&gt;,
@@ -1056,17 +1393,21 @@
         last_locked_dec,
     );
 
+    <span class="comment">// total locked amount in the Shielded pool
+    </span><span class="kw">let </span>rewardable_tokens_in_masp =
+        get_masp_dated_balance::&lt;S, TransToken&gt;(storage, token)<span class="question-mark">?</span>;
+
     <span class="comment">// inflation-per-token = inflation / locked tokens = n/PRECISION
     // ∴ n = (inflation * PRECISION) / locked tokens
     // Since we must put the notes in a compatible format with the
     // note format, we must make the inflation amount discrete.
-    </span><span class="kw">let </span>noterized_inflation = <span class="kw">if </span>total_tokens_in_masp.is_zero() {
+    </span><span class="kw">let </span>noterized_inflation = <span class="kw">if </span>rewardable_tokens_in_masp.is_zero() {
         <span class="number">0u128
     </span>} <span class="kw">else </span>{
         inflation
             .checked_mul_div(
                 Uint::from(precision),
-                total_tokens_in_masp.raw_amount(),
+                rewardable_tokens_in_masp.raw_amount(),
             )
             .and_then(|x| x.<span class="number">0</span>.try_into().ok())
             .unwrap_or_else(|| {
@@ -1081,7 +1422,7 @@
     };
     <span class="kw">let </span>inflation_amount = Amount::from_uint(
         <span class="macro">checked!</span>(
-            total_tokens_in_masp.raw_amount() / precision.into()
+            rewardable_tokens_in_masp.raw_amount() / precision.into()
                 * Uint::from(noterized_inflation)
         )<span class="question-mark">?</span>,
         <span class="number">0</span>,
@@ -1135,15 +1476,14 @@
 </span><span class="kw">fn </span>update_native_conversions&lt;S, TransToken&gt;(
     storage: <span class="kw-2">&amp;mut </span>S,
     token: <span class="kw-2">&amp;</span>Address,
-    normed_inflation: u128,
+    current_precision: <span class="kw-2">&amp;mut </span>u128,
     masp_epochs_per_year: u64,
     masp_epoch: MaspEpoch,
-    total_reward: <span class="kw-2">&amp;mut </span>Amount,
     current_convs: <span class="kw-2">&amp;mut </span>BTreeMap&lt;
         (Address, Denomination, MaspDigitPos),
         AllowedConversion,
     &gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;Denomination&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;(Denomination, (u128, u128))&gt;
 <span class="kw">where
     </span>S: StorageWrite + StorageRead + WithConversionState,
     TransToken:
@@ -1157,25 +1497,24 @@
         storage,
         token,
         denom,
-        normed_inflation,
+        <span class="kw-2">*</span>current_precision,
         masp_epochs_per_year,
     )<span class="question-mark">?</span>;
     <span class="comment">// The amount that will be given of the new native token for
     // every amount of the native token given in the
     // previous epoch
-    </span><span class="kw">let </span>inflation_uint = Uint::from(normed_inflation);
+    </span><span class="kw">let </span>current_precision_uint = Uint::from(<span class="kw-2">*</span>current_precision);
     <span class="kw">let </span>reward = Uint::from(reward);
-    <span class="kw">let </span>new_normed_inflation = <span class="macro">checked!</span>(inflation_uint + reward)<span class="question-mark">?</span>;
-    <span class="kw">let </span>new_normed_inflation = u128::try_from(new_normed_inflation)
-        .unwrap_or_else(|<span class="kw">_</span>| {
-            <span class="macro">tracing::warn!</span>(
-                <span class="string">"MASP inflation for the native token {} is kept the same as \
-                 in the last epoch because the computed value is too large. \
-                 Please check the inflation parameters."</span>,
-                token
-            );
-            normed_inflation
-        });
+    <span class="kw">let </span>new_precision = <span class="macro">checked!</span>(current_precision_uint + reward)<span class="question-mark">?</span>;
+    <span class="kw">let </span>new_precision = u128::try_from(new_precision).unwrap_or_else(|<span class="kw">_</span>| {
+        <span class="macro">tracing::warn!</span>(
+            <span class="string">"MASP precision for the native token {} is kept the same as in \
+             the last epoch because the computed value is too large. Please \
+             check the inflation parameters."</span>,
+            token
+        );
+        <span class="kw-2">*</span>current_precision
+    });
     <span class="kw">for </span>digit <span class="kw">in </span>MaspDigitPos::iter() {
         <span class="comment">// Provide an allowed conversion from previous timestamp. The
         // negative sign allows each instance of the old asset to be
@@ -1195,14 +1534,14 @@
         // tokens cancel/telescope out
         </span><span class="kw">let </span>cur_conv = MaspAmount::from_pair(
             old_asset,
-            i128::try_from(normed_inflation)
+            i128::try_from(<span class="kw-2">*</span>current_precision)
                 .ok()
                 .and_then(i128::checked_neg)
                 .ok_or_err_msg(<span class="string">"Current inflation overflow"</span>)<span class="question-mark">?</span>,
         );
         <span class="kw">let </span>new_conv = MaspAmount::from_pair(
             new_asset,
-            i128::try_from(new_normed_inflation).into_storage_result()<span class="question-mark">?</span>,
+            i128::try_from(new_precision).into_storage_result()<span class="question-mark">?</span>,
         );
         current_convs.insert(
             (token.clone(), denom, digit),
@@ -1221,29 +1560,18 @@
             },
         );
     }
-    <span class="comment">// Dispense a transparent reward in parallel to the shielded rewards
-    </span><span class="kw">let </span>addr_bal = TransToken::read_balance(storage, token, <span class="kw-2">&amp;</span>MASP)<span class="question-mark">?</span>;
-    <span class="comment">// The reward for each reward.1 units of the current asset
-    // is reward.0 units of the reward token
-    </span><span class="kw">let </span>native_reward = addr_bal
-        .u128_eucl_div_rem((new_normed_inflation, normed_inflation))
-        .ok_or_else(|| Error::new_const(<span class="string">"Three digit reward overflow"</span>))<span class="question-mark">?</span>;
-    <span class="kw-2">*</span>total_reward = total_reward
-        .checked_add(
-            native_reward
-                .<span class="number">0
-                </span>.checked_add(native_reward.<span class="number">1</span>)
-                .unwrap_or(Amount::max())
-                .checked_sub(addr_bal)
-                .unwrap_or_default(),
-        )
-        .ok_or_else(|| Error::new_const(<span class="string">"Three digit total reward overflow"</span>))<span class="question-mark">?</span>;
-    <span class="comment">// Save the new normed inflation
-    </span><span class="kw">let _ </span>= storage
-        .conversion_state_mut()
-        .normed_inflation
-        .insert(new_normed_inflation);
-    <span class="prelude-val">Ok</span>(denom)
+    <span class="comment">// Note the fraction used to compute rewards from balance
+    </span><span class="kw">let </span>reward_frac = (
+        new_precision
+            .checked_sub(<span class="kw-2">*</span>current_precision)
+            .unwrap_or_default(),
+        <span class="kw-2">*</span>current_precision,
+    );
+    <span class="comment">// Save the new native reward precision
+    </span><span class="kw">let </span>reward_precision_key = masp_reward_precision_key::&lt;TransToken&gt;(token);
+    storage.write(<span class="kw-2">&amp;</span>reward_precision_key, new_precision)<span class="question-mark">?</span>;
+    <span class="kw-2">*</span>current_precision = new_precision;
+    <span class="prelude-val">Ok</span>((denom, reward_frac))
 }
 
 <span class="doccomment">/// Update the conversions for non-native tokens. Namely calculate the reward,
@@ -1254,8 +1582,8 @@
 </span><span class="kw">fn </span>update_non_native_conversions&lt;S, TransToken&gt;(
     storage: <span class="kw-2">&amp;mut </span>S,
     token: <span class="kw-2">&amp;</span>Address,
-    ref_inflation: u128,
-    normed_inflation: u128,
+    base_native_precision: u128,
+    current_native_precision: u128,
     masp_epochs_per_year: u64,
     masp_epoch: MaspEpoch,
     reward_assets: [AssetType; <span class="number">4</span>],
@@ -1272,7 +1600,9 @@
 {
     <span class="kw">let </span>prev_masp_epoch =
         masp_epoch.prev().ok_or_err_msg(<span class="string">"MASP epoch underflow"</span>)<span class="question-mark">?</span>;
-    <span class="kw">let </span>(precision, denom) =
+    <span class="kw">let </span>denom = TransToken::read_denom(storage, token)<span class="question-mark">?
+        </span>.expect(<span class="string">"failed to read token denomination"</span>);
+    <span class="kw">let </span>precision =
         calculate_masp_rewards_precision::&lt;S, TransToken&gt;(storage, token)<span class="question-mark">?</span>;
     <span class="kw">let </span>(reward, precision) = calculate_masp_rewards::&lt;S, TransToken&gt;(
         storage,
@@ -1284,20 +1614,21 @@
     <span class="comment">// Express the inflation reward in real terms, that is, with
     // respect to the native asset in the zeroth epoch
     </span><span class="kw">let </span>reward_uint = Uint::from(reward);
-    <span class="kw">let </span>ref_inflation_uint = Uint::from(ref_inflation);
-    <span class="kw">let </span>inflation_uint = Uint::from(normed_inflation);
-    <span class="kw">let </span>real_reward =
-        <span class="macro">checked!</span>((reward_uint * ref_inflation_uint) / inflation_uint)<span class="question-mark">?
-            </span>.try_into()
-            .unwrap_or_else(|<span class="kw">_</span>| {
-                <span class="macro">tracing::warn!</span>(
-                    <span class="string">"MASP reward for {} assumed to be 0 because the computed \
-                     value is too large. Please check the inflation \
-                     parameters."</span>,
-                    token
-                );
-                <span class="number">0u128
-            </span>});
+    <span class="kw">let </span>base_native_precision_uint = Uint::from(base_native_precision);
+    <span class="kw">let </span>current_native_precision_uint = Uint::from(current_native_precision);
+    <span class="kw">let </span>real_reward = <span class="macro">checked!</span>(
+        (reward_uint * base_native_precision_uint)
+            / current_native_precision_uint
+    )<span class="question-mark">?
+    </span>.try_into()
+    .unwrap_or_else(|<span class="kw">_</span>| {
+        <span class="macro">tracing::warn!</span>(
+            <span class="string">"MASP reward for {} assumed to be 0 because the computed value is \
+             too large. Please check the inflation parameters."</span>,
+            token
+        );
+        <span class="number">0u128
+    </span>});
     <span class="comment">// The conversion is computed such that if consecutive
     // conversions are added together, the
     // intermediate tokens cancel/ telescope out
@@ -1344,13 +1675,13 @@
         );
     }
     <span class="comment">// Dispense a transparent reward in parallel to the shielded rewards
-    </span><span class="kw">let </span>addr_bal = TransToken::read_balance(storage, token, <span class="kw-2">&amp;</span>MASP)<span class="question-mark">?</span>;
+    </span><span class="kw">let </span>addr_bal = get_masp_dated_balance::&lt;S, TransToken&gt;(storage, token)<span class="question-mark">?</span>;
     <span class="comment">// The reward for each reward.1 units of the current asset
     // is reward.0 units of the reward token
     </span><span class="kw-2">*</span>total_reward = total_reward
         .checked_add(
             addr_bal
-                .u128_eucl_div_rem((reward, precision))
+                .u128_eucl_div_rem((real_reward, precision))
                 .ok_or_else(|| {
                     Error::new_const(<span class="string">"Total reward calculation overflow"</span>)
                 })<span class="question-mark">?
@@ -1358,6 +1689,90 @@
         )
         .ok_or_else(|| Error::new_const(<span class="string">"Total reward overflow"</span>))<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(denom)
+}
+
+<span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
+</span><span class="doccomment">/// Apply the conversion updates that are in storage to the in memory structure
+/// and delete them.
+</span><span class="kw">fn </span>apply_stored_conversion_updates&lt;S, TransToken&gt;(
+    storage: <span class="kw-2">&amp;mut </span>S,
+    ep: <span class="kw-2">&amp;</span>MaspEpoch,
+) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;
+<span class="kw">where
+    </span>S: StorageWrite + StorageRead + WithConversionState,
+    TransToken:
+        trans_token::Keys + trans_token::Read&lt;S&gt; + trans_token::Write&lt;S&gt;,
+{
+    <span class="comment">// Read and apply any scheduled base native precisions
+    </span><span class="kw">let </span>scheduled_base_precision_key =
+        masp_scheduled_base_native_precision_key(ep);
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(precision) = storage.read(<span class="kw-2">&amp;</span>scheduled_base_precision_key)<span class="question-mark">? </span>{
+        <span class="kw">let </span>base_precision_key = masp_base_native_precision_key();
+        storage.write::&lt;Precision&gt;(<span class="kw-2">&amp;</span>base_precision_key, precision)<span class="question-mark">?</span>;
+    }
+
+    <span class="kw">let </span>scheduled_reward_precision_key_prefix =
+        masp_scheduled_reward_precision_key_prefix(ep);
+    <span class="kw">let </span><span class="kw-2">mut </span>precision_updates = BTreeMap::&lt;<span class="kw">_</span>, Precision&gt;::new();
+    <span class="comment">// Read scheduled precisions from storage and store them in a map
+    </span><span class="kw">for </span>prec_result <span class="kw">in </span>iter_prefix_with_filter_map(
+        storage,
+        <span class="kw-2">&amp;</span>scheduled_reward_precision_key_prefix,
+        is_masp_scheduled_reward_precision_key,
+    )<span class="question-mark">? </span>{
+        <span class="kw">match </span>prec_result {
+            <span class="prelude-val">Ok</span>(((_ep, addr), precision)) =&gt; {
+                precision_updates.insert(addr, precision);
+            }
+            <span class="prelude-val">Err</span>(err) =&gt; {
+                <span class="macro">tracing::warn!</span>(<span class="string">"Encountered malformed precision: {}"</span>, err);
+                <span class="kw">continue</span>;
+            }
+        }
+    }
+    <span class="comment">// Apply the precision updates to storage
+    </span><span class="kw">for </span>(addr, precision) <span class="kw">in </span>precision_updates {
+        <span class="comment">// Key to read/write reward precision from
+        </span><span class="kw">let </span>reward_precision_key =
+            masp_reward_precision_key::&lt;TransToken&gt;(<span class="kw-2">&amp;</span>addr);
+        storage.write(<span class="kw-2">&amp;</span>reward_precision_key, precision)<span class="question-mark">?</span>;
+    }
+    <span class="kw">let </span>conversion_key_prefix = masp_conversion_key_prefix(ep);
+    <span class="kw">let </span><span class="kw-2">mut </span>conversion_updates =
+        BTreeMap::&lt;<span class="kw">_</span>, UncheckedAllowedConversion&gt;::new();
+    <span class="comment">// Read conversion updates from storage and store them in a map
+    </span><span class="kw">for </span>conv_result <span class="kw">in </span>iter_prefix_with_filter_map(
+        storage,
+        <span class="kw-2">&amp;</span>conversion_key_prefix,
+        is_masp_conversion_key,
+    )<span class="question-mark">? </span>{
+        <span class="kw">match </span>conv_result {
+            <span class="prelude-val">Ok</span>(((_ep, asset_type), conv)) =&gt; {
+                conversion_updates.insert(asset_type, conv);
+            }
+            <span class="prelude-val">Err</span>(err) =&gt; {
+                <span class="macro">tracing::warn!</span>(<span class="string">"Encountered malformed conversion: {}"</span>, err);
+                <span class="kw">continue</span>;
+            }
+        }
+    }
+    <span class="comment">// Apply the conversion updates to the in memory structure
+    </span><span class="kw">let </span>assets = <span class="kw-2">&amp;mut </span>storage.conversion_state_mut().assets;
+    <span class="kw">for </span>(asset_type, conv) <span class="kw">in </span>conversion_updates {
+        <span class="kw">let </span><span class="prelude-val">Some</span>(leaf) = assets.get_mut(<span class="kw-2">&amp;</span>asset_type) <span class="kw">else </span>{
+            <span class="macro">tracing::warn!</span>(
+                <span class="string">"Encountered non-existent asset type: {}"</span>,
+                asset_type
+            );
+            <span class="kw">continue</span>;
+        };
+        leaf.conversion = conv.<span class="number">0</span>;
+    }
+    <span class="comment">// Delete the updates now that they have been applied
+    </span>storage.delete_prefix(<span class="kw-2">&amp;</span>conversion_key_prefix)<span class="question-mark">?</span>;
+    storage.delete_prefix(<span class="kw-2">&amp;</span>scheduled_reward_precision_key_prefix)<span class="question-mark">?</span>;
+    storage.delete(<span class="kw-2">&amp;</span>scheduled_base_precision_key)<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="attr">#[cfg(any(feature = <span class="string">"multicore"</span>, test))]
@@ -1386,6 +1801,20 @@
 
     <span class="kw">use </span><span class="kw">crate</span>::mint_rewards;
 
+    <span class="comment">// Get the previous MASP epoch if there's any
+    </span><span class="kw">let </span>masp_epoch_multiplier = Params::masp_epoch_multiplier(storage)<span class="question-mark">?</span>;
+    <span class="kw">let </span>masp_epoch = MaspEpoch::try_from_epoch(
+        storage.get_block_epoch()<span class="question-mark">?</span>,
+        masp_epoch_multiplier,
+    )
+    .map_err(Error::new_const)<span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="prelude-val">Some</span>(prev_masp_epoch) = masp_epoch.prev() <span class="kw">else </span>{
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(());
+    };
+    apply_stored_conversion_updates::&lt;<span class="kw">_</span>, TransToken&gt;(
+        storage,
+        <span class="kw-2">&amp;</span>prev_masp_epoch,
+    )<span class="question-mark">?</span>;
     <span class="kw">let </span>token_map_key = masp_token_map_key();
     <span class="kw">let </span>token_map: namada_core::masp::TokenMap =
         storage.read(<span class="kw-2">&amp;</span>token_map_key)<span class="question-mark">?</span>.unwrap_or_default();
@@ -1404,72 +1833,103 @@
         }
     });
     <span class="comment">// The total transparent value of the rewards being distributed
-    </span><span class="kw">let </span><span class="kw-2">mut </span>total_reward = Amount::zero();
+    </span><span class="kw">let </span><span class="kw-2">mut </span>total_deflated_reward = Amount::zero();
 
-    <span class="comment">// Construct MASP asset type for rewards. Always deflate and timestamp
-    // reward tokens with the zeroth epoch to minimize the number of convert
-    // notes clients have to use. This trick works under the assumption that
-    // reward tokens will then be reinflated back to the current epoch.
-    </span><span class="kw">let </span>reward_assets =
+    <span class="kw">let </span>reward_assets =
         encode_reward_asset_types(<span class="kw-2">&amp;</span>native_token).into_storage_result()<span class="question-mark">?</span>;
     <span class="comment">// Conversions from the previous to current asset for each address
     </span><span class="kw">let </span><span class="kw-2">mut </span>current_convs = BTreeMap::&lt;
         (Address, Denomination, MaspDigitPos),
         AllowedConversion,
     &gt;::new();
-    <span class="comment">// Native token inflation values are always with respect to this
-    </span><span class="kw">let </span>ref_inflation = calculate_masp_rewards_precision::&lt;S, TransToken&gt;(
-        storage,
-        <span class="kw-2">&amp;</span>native_token,
-    )<span class="question-mark">?
-    </span>.<span class="number">0</span>;
+    <span class="comment">// This is the base native token precision value
+    </span><span class="kw">let </span>base_native_precision =
+        read_base_native_precision::&lt;<span class="kw">_</span>, TransToken&gt;(storage, <span class="kw-2">&amp;</span>native_token)<span class="question-mark">?</span>;
+    <span class="comment">// Get the last rewarded amount of the native token
+    </span><span class="kw">let </span><span class="kw-2">mut </span>current_native_precision = calculate_masp_rewards_precision::&lt;
+        S,
+        TransToken,
+    &gt;(storage, <span class="kw-2">&amp;</span>native_token)<span class="question-mark">?</span>;
 
     <span class="comment">// Reward all tokens according to above reward rates
-    </span><span class="kw">let </span>masp_epoch_multiplier = Params::masp_epoch_multiplier(storage)<span class="question-mark">?</span>;
-    <span class="kw">let </span>masp_epoch = MaspEpoch::try_from_epoch(
-        storage.get_block_epoch()<span class="question-mark">?</span>,
-        masp_epoch_multiplier,
-    )
-    .map_err(Error::new_const)<span class="question-mark">?</span>;
-    <span class="kw">if </span>masp_epoch.prev().is_none() {
-        <span class="kw">return </span><span class="prelude-val">Ok</span>(());
-    }
-    <span class="kw">let </span>epochs_per_year = Params::epochs_per_year(storage)<span class="question-mark">?</span>;
+    </span><span class="kw">let </span>epochs_per_year = Params::epochs_per_year(storage)<span class="question-mark">?</span>;
     <span class="kw">let </span>masp_epochs_per_year =
         <span class="macro">checked!</span>(epochs_per_year / masp_epoch_multiplier)<span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>native_reward_frac = <span class="prelude-val">None</span>;
     <span class="kw">for </span>token <span class="kw">in </span><span class="kw-2">&amp;</span>masp_reward_keys {
-        <span class="comment">// Get the last rewarded amount of the native token
-        </span><span class="kw">let </span>normed_inflation = <span class="kw-2">*</span>storage
-            .conversion_state_mut()
-            .normed_inflation
-            .get_or_insert(ref_inflation);
-
         <span class="comment">// Generate conversions from the last epoch to the current and update
         // the reward backing accumulator
-        </span><span class="kw">let </span>denom = <span class="kw">if </span><span class="kw-2">*</span>token == native_token {
-            update_native_conversions::&lt;<span class="kw">_</span>, TransToken&gt;(
+        </span><span class="kw">if </span><span class="kw-2">*</span>token == native_token {
+            <span class="kw">let </span>(denom, frac) = update_native_conversions::&lt;<span class="kw">_</span>, TransToken&gt;(
                 storage,
                 token,
-                normed_inflation,
+                <span class="kw-2">&amp;mut </span>current_native_precision,
                 masp_epochs_per_year,
                 masp_epoch,
-                <span class="kw-2">&amp;mut </span>total_reward,
                 <span class="kw-2">&amp;mut </span>current_convs,
-            )
+            )<span class="question-mark">?</span>;
+            masp_reward_denoms.insert(token.clone(), denom);
+            native_reward_frac = <span class="prelude-val">Some</span>(frac);
         } <span class="kw">else </span>{
-            update_non_native_conversions::&lt;<span class="kw">_</span>, TransToken&gt;(
+            <span class="kw">let </span>denom = update_non_native_conversions::&lt;<span class="kw">_</span>, TransToken&gt;(
                 storage,
                 token,
-                ref_inflation,
-                normed_inflation,
+                base_native_precision,
+                current_native_precision,
                 masp_epochs_per_year,
                 masp_epoch,
                 reward_assets,
-                <span class="kw-2">&amp;mut </span>total_reward,
+                <span class="kw-2">&amp;mut </span>total_deflated_reward,
                 <span class="kw-2">&amp;mut </span>current_convs,
+            )<span class="question-mark">?</span>;
+            masp_reward_denoms.insert(token.clone(), denom);
+        }
+    }
+    <span class="comment">// Inflate the non-native rewards for all tokens in one operation
+    </span><span class="kw">let </span>non_native_reward = total_deflated_reward
+        .raw_amount()
+        .checked_mul_div(
+            current_native_precision.into(),
+            base_native_precision.into(),
+        )
+        .ok_or_else(|| Error::new_const(<span class="string">"Total reward calculation overflow"</span>))<span class="question-mark">?</span>;
+    <span class="comment">// The total transparent value of the rewards being distributed. First
+    // accumulate the integer part of the non-native reward.
+    </span><span class="kw">let </span><span class="kw-2">mut </span>total_reward = Amount::from(non_native_reward.<span class="number">0</span>);
+    <span class="comment">// And finally accumulate the fractional parts of the native and non-native
+    // rewards if their sum is more than one
+    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(native_reward_frac) = native_reward_frac {
+        <span class="comment">// Dispense a transparent reward in parallel to the shielded rewards
+        </span><span class="kw">let </span>addr_bal = TransToken::read_balance(storage, <span class="kw-2">&amp;</span>native_token, <span class="kw-2">&amp;</span>MASP)<span class="question-mark">?</span>;
+        <span class="comment">// The reward for each reward.1 units of the current asset is reward.0
+        // units of the reward token
+        </span><span class="kw">let </span>native_reward = addr_bal
+            .raw_amount()
+            .checked_mul_div(
+                native_reward_frac.<span class="number">0</span>.into(),
+                native_reward_frac.<span class="number">1</span>.into(),
             )
-        }<span class="question-mark">?</span>;
-        masp_reward_denoms.insert(token.clone(), denom);
+            .ok_or_else(|| Error::new_const(<span class="string">"Three digit reward overflow"</span>))<span class="question-mark">?</span>;
+        <span class="comment">// Accumulate the integer part of the native reward
+        </span><span class="macro">checked!</span>(total_reward += native_reward.<span class="number">0</span>.into())<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>base_native_precision = Uint::from(base_native_precision);
+        <span class="comment">// Compute the fraction obtained by adding the fractional parts of the
+        // native reward and the non-native reward:
+        // native_reward.1/native_reward_frac.1 +
+        // non_native_reward.1/base_native_precision
+        </span><span class="kw">let </span>numerator = <span class="macro">checked!</span>(
+            native_reward.<span class="number">1 </span>* base_native_precision
+                + Uint::from(native_reward_frac.<span class="number">1</span>) * non_native_reward.<span class="number">1
+        </span>)<span class="question-mark">?</span>;
+        <span class="kw">let </span>denominator =
+            <span class="macro">checked!</span>(base_native_precision * Uint::from(native_reward_frac.<span class="number">1</span>))<span class="question-mark">?</span>;
+        <span class="comment">// A fraction greater than or equal to one corresponds to the situation
+        // where combining non-native rewards with pre-existing NAM balance
+        // gives a greater reward than treating each separately.
+        </span><span class="kw">if </span>numerator &gt;= denominator {
+            <span class="macro">checked!</span>(total_reward += <span class="number">1</span>.into())<span class="question-mark">?</span>;
+        }
     }
 
     <span class="comment">// Try to distribute Merkle leaf updating as evenly as possible across
@@ -1484,7 +1944,7 @@
         .collect();
 
     <span class="attr">#[allow(clippy::arithmetic_side_effects)]
-    </span><span class="kw">let </span>notes_per_thread_max = (assets.len() + num_threads - <span class="number">1</span>) / num_threads;
+    </span><span class="kw">let </span>notes_per_thread_max = assets.len().div_ceil(num_threads);
     <span class="comment">// floor(assets.len() / num_threads)
     </span><span class="attr">#[allow(clippy::arithmetic_side_effects)]
     </span><span class="kw">let </span>notes_per_thread_min = assets.len() / num_threads;

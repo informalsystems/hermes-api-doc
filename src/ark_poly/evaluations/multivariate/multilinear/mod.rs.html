@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-poly-0.4.2/src/evaluations/multivariate/multilinear/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="ark_poly" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_poly/evaluations/multivariate/multilinear/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-poly-0.5.0/src/evaluations/multivariate/multilinear/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="ark_poly" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_poly/evaluations/multivariate/multilinear/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -76,7 +76,24 @@
 <a href="#75" id="75">75</a>
 <a href="#76" id="76">76</a>
 <a href="#77" id="77">77</a>
-<a href="#78" id="78">78</a></pre></div><pre class="rust"><code><span class="kw">mod </span>dense;
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
+<a href="#83" id="83">83</a>
+<a href="#84" id="84">84</a>
+<a href="#85" id="85">85</a>
+<a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a></pre></div><pre class="rust"><code><span class="kw">mod </span>dense;
 <span class="kw">mod </span>sparse;
 
 <span class="kw">pub use </span>dense::DenseMultilinearExtension;
@@ -86,13 +103,33 @@
     fmt::Debug,
     hash::Hash,
     ops::{Add, AddAssign, Index, Neg, SubAssign},
-    vec::Vec,
+    vec::<span class="kw-2">*</span>,
 };
 
 <span class="kw">use </span>ark_ff::{Field, Zero};
 
 <span class="kw">use </span>ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 <span class="kw">use </span>ark_std::rand::Rng;
+
+<span class="kw">use </span><span class="kw">crate</span>::Polynomial;
+
+<span class="attr">#[cfg(all(
+    target_has_atomic = <span class="string">"8"</span>,
+    target_has_atomic = <span class="string">"16"</span>,
+    target_has_atomic = <span class="string">"32"</span>,
+    target_has_atomic = <span class="string">"64"</span>,
+    target_has_atomic = <span class="string">"ptr"
+</span>))]
+</span><span class="kw">type </span>DefaultHasher = ahash::AHasher;
+
+<span class="attr">#[cfg(not(all(
+    target_has_atomic = <span class="string">"8"</span>,
+    target_has_atomic = <span class="string">"16"</span>,
+    target_has_atomic = <span class="string">"32"</span>,
+    target_has_atomic = <span class="string">"64"</span>,
+    target_has_atomic = <span class="string">"ptr"
+</span>)))]
+</span><span class="kw">type </span>DefaultHasher = fnv::FnvHasher;
 
 <span class="doccomment">/// This trait describes an interface for the multilinear extension
 /// of an array.
@@ -117,13 +154,10 @@
     + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; AddAssign&lt;(F, <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>)&gt;
     + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; SubAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>&gt;
     + Index&lt;usize&gt;
+    + Polynomial&lt;F, Point = Vec&lt;F&gt;&gt;
 {
     <span class="doccomment">/// Returns the number of variables in `self`
     </span><span class="kw">fn </span>num_vars(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize;
-
-    <span class="doccomment">/// Evaluates `self` at the given the vector `point` in slice.
-    /// If the number of variables does not match, return `None`.
-    </span><span class="kw">fn </span>evaluate(<span class="kw-2">&amp;</span><span class="self">self</span>, point: <span class="kw-2">&amp;</span>[F]) -&gt; <span class="prelude-ty">Option</span>&lt;F&gt;;
 
     <span class="doccomment">/// Outputs an `l`-variate multilinear extension where value of evaluations
     /// are sampled uniformly at random.
@@ -142,7 +176,7 @@
     </span><span class="kw">fn </span>fix_variables(<span class="kw-2">&amp;</span><span class="self">self</span>, partial_point: <span class="kw-2">&amp;</span>[F]) -&gt; <span class="self">Self</span>;
 
     <span class="doccomment">/// Returns a list of evaluations over the domain, which is the boolean
-    /// hypercube.
+    /// hypercube. The evaluations are in little-endian order.
     </span><span class="kw">fn </span>to_evaluations(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;F&gt;;
 }
 

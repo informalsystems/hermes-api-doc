@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":["ADDRESS_HRP","BECH32M_VARIANT","COMMON_PK_HRP","COMMON_SIG_HRP","MASP_EXT_FULL_VIEWING_KEY_HRP","MASP_EXT_SPENDING_KEY_HRP","MASP_PAYMENT_ADDRESS_HRP"],"enum":["DecodeError"],"fn":["hrp_len"],"struct":["StringEncoded"],"trait":["Format"]};
+window.SIDEBAR_ITEMS = {"constant":["ADDRESS_HRP","COMMON_PK_HRP","COMMON_SIG_HRP","MASP_EXT_FULL_VIEWING_KEY_HRP","MASP_EXT_SPENDING_KEY_HRP","MASP_PAYMENT_ADDRESS_HRP"],"enum":["DecodeError"],"struct":["Hrp","StringEncoded"],"trait":["Format"]};

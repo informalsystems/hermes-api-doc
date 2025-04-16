@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-poly-0.4.2/src/polynomial/univariate/dense.rs`."><title>dense.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ark_poly" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_poly/polynomial/univariate/</div>dense.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-poly-0.5.0/src/polynomial/univariate/dense.rs`."><title>dense.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ark_poly" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_poly/polynomial/univariate/</div>dense.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -910,18 +910,139 @@
 <a href="#909" id="909">909</a>
 <a href="#910" id="910">910</a>
 <a href="#911" id="911">911</a>
-<a href="#912" id="912">912</a></pre></div><pre class="rust"><code><span class="doccomment">//! A dense univariate polynomial represented in coefficient form.
+<a href="#912" id="912">912</a>
+<a href="#913" id="913">913</a>
+<a href="#914" id="914">914</a>
+<a href="#915" id="915">915</a>
+<a href="#916" id="916">916</a>
+<a href="#917" id="917">917</a>
+<a href="#918" id="918">918</a>
+<a href="#919" id="919">919</a>
+<a href="#920" id="920">920</a>
+<a href="#921" id="921">921</a>
+<a href="#922" id="922">922</a>
+<a href="#923" id="923">923</a>
+<a href="#924" id="924">924</a>
+<a href="#925" id="925">925</a>
+<a href="#926" id="926">926</a>
+<a href="#927" id="927">927</a>
+<a href="#928" id="928">928</a>
+<a href="#929" id="929">929</a>
+<a href="#930" id="930">930</a>
+<a href="#931" id="931">931</a>
+<a href="#932" id="932">932</a>
+<a href="#933" id="933">933</a>
+<a href="#934" id="934">934</a>
+<a href="#935" id="935">935</a>
+<a href="#936" id="936">936</a>
+<a href="#937" id="937">937</a>
+<a href="#938" id="938">938</a>
+<a href="#939" id="939">939</a>
+<a href="#940" id="940">940</a>
+<a href="#941" id="941">941</a>
+<a href="#942" id="942">942</a>
+<a href="#943" id="943">943</a>
+<a href="#944" id="944">944</a>
+<a href="#945" id="945">945</a>
+<a href="#946" id="946">946</a>
+<a href="#947" id="947">947</a>
+<a href="#948" id="948">948</a>
+<a href="#949" id="949">949</a>
+<a href="#950" id="950">950</a>
+<a href="#951" id="951">951</a>
+<a href="#952" id="952">952</a>
+<a href="#953" id="953">953</a>
+<a href="#954" id="954">954</a>
+<a href="#955" id="955">955</a>
+<a href="#956" id="956">956</a>
+<a href="#957" id="957">957</a>
+<a href="#958" id="958">958</a>
+<a href="#959" id="959">959</a>
+<a href="#960" id="960">960</a>
+<a href="#961" id="961">961</a>
+<a href="#962" id="962">962</a>
+<a href="#963" id="963">963</a>
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a>
+<a href="#968" id="968">968</a>
+<a href="#969" id="969">969</a>
+<a href="#970" id="970">970</a>
+<a href="#971" id="971">971</a>
+<a href="#972" id="972">972</a>
+<a href="#973" id="973">973</a>
+<a href="#974" id="974">974</a>
+<a href="#975" id="975">975</a>
+<a href="#976" id="976">976</a>
+<a href="#977" id="977">977</a>
+<a href="#978" id="978">978</a>
+<a href="#979" id="979">979</a>
+<a href="#980" id="980">980</a>
+<a href="#981" id="981">981</a>
+<a href="#982" id="982">982</a>
+<a href="#983" id="983">983</a>
+<a href="#984" id="984">984</a>
+<a href="#985" id="985">985</a>
+<a href="#986" id="986">986</a>
+<a href="#987" id="987">987</a>
+<a href="#988" id="988">988</a>
+<a href="#989" id="989">989</a>
+<a href="#990" id="990">990</a>
+<a href="#991" id="991">991</a>
+<a href="#992" id="992">992</a>
+<a href="#993" id="993">993</a>
+<a href="#994" id="994">994</a>
+<a href="#995" id="995">995</a>
+<a href="#996" id="996">996</a>
+<a href="#997" id="997">997</a>
+<a href="#998" id="998">998</a>
+<a href="#999" id="999">999</a>
+<a href="#1000" id="1000">1000</a>
+<a href="#1001" id="1001">1001</a>
+<a href="#1002" id="1002">1002</a>
+<a href="#1003" id="1003">1003</a>
+<a href="#1004" id="1004">1004</a>
+<a href="#1005" id="1005">1005</a>
+<a href="#1006" id="1006">1006</a>
+<a href="#1007" id="1007">1007</a>
+<a href="#1008" id="1008">1008</a>
+<a href="#1009" id="1009">1009</a>
+<a href="#1010" id="1010">1010</a>
+<a href="#1011" id="1011">1011</a>
+<a href="#1012" id="1012">1012</a>
+<a href="#1013" id="1013">1013</a>
+<a href="#1014" id="1014">1014</a>
+<a href="#1015" id="1015">1015</a>
+<a href="#1016" id="1016">1016</a>
+<a href="#1017" id="1017">1017</a>
+<a href="#1018" id="1018">1018</a>
+<a href="#1019" id="1019">1019</a>
+<a href="#1020" id="1020">1020</a>
+<a href="#1021" id="1021">1021</a>
+<a href="#1022" id="1022">1022</a>
+<a href="#1023" id="1023">1023</a>
+<a href="#1024" id="1024">1024</a>
+<a href="#1025" id="1025">1025</a>
+<a href="#1026" id="1026">1026</a>
+<a href="#1027" id="1027">1027</a>
+<a href="#1028" id="1028">1028</a>
+<a href="#1029" id="1029">1029</a>
+<a href="#1030" id="1030">1030</a>
+<a href="#1031" id="1031">1031</a>
+<a href="#1032" id="1032">1032</a>
+<a href="#1033" id="1033">1033</a></pre></div><pre class="rust"><code><span class="doccomment">//! A dense univariate polynomial represented in coefficient form.
 </span><span class="kw">use crate</span>::{
     univariate::{DenseOrSparsePolynomial, SparsePolynomial},
     DenseUVPolynomial, EvaluationDomain, Evaluations, GeneralEvaluationDomain, Polynomial,
 };
 <span class="kw">use </span>ark_ff::{FftField, Field, Zero};
-<span class="kw">use </span>ark_serialize::<span class="kw-2">*</span>;
+<span class="kw">use </span>ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 <span class="kw">use </span>ark_std::{
     fmt,
     ops::{Add, AddAssign, Deref, DerefMut, Div, Mul, Neg, Sub, SubAssign},
     rand::Rng,
-    vec::Vec,
+    vec::<span class="kw-2">*</span>,
 };
 
 <span class="attr">#[cfg(feature = <span class="string">"parallel"</span>)]
@@ -989,7 +1110,7 @@
 
         <span class="comment">// run Horners method on each thread as follows:
         // 1) Split up the coefficients across each thread evenly.
-        // 2) Do polynomial evaluation via horner's method for the thread's coefficeints
+        // 2) Do polynomial evaluation via horner's method for the thread's coefficients
         // 3) Scale the result point^{thread coefficient start index}
         // Then obtain the final polynomial evaluation by summing each threads result.
         </span><span class="kw">let </span>result = <span class="self">self
@@ -1028,13 +1149,39 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>.coeffs
     }
 
-    <span class="doccomment">/// Outputs a univariate polynomial of degree `d` where
-    /// each coefficient is sampled uniformly at random.
+    <span class="doccomment">/// Outputs a univariate polynomial of degree `d` where each non-leading
+    /// coefficient is sampled uniformly at random from `F` and the leading
+    /// coefficient is sampled uniformly at random from among the non-zero
+    /// elements of `F`.
+    ///
+    /// # Example
+    /// ```
+    /// use ark_std::test_rng;
+    /// use ark_test_curves::bls12_381::Fr;
+    /// use ark_poly::{univariate::DensePolynomial, Polynomial, DenseUVPolynomial};
+    ///
+    /// let rng = &amp;mut test_rng();
+    /// let poly = DensePolynomial::&lt;Fr&gt;::rand(8, rng);
+    /// assert_eq!(poly.degree(), 8);
+    /// ```
     </span><span class="kw">fn </span>rand&lt;R: Rng&gt;(d: usize, rng: <span class="kw-2">&amp;mut </span>R) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>random_coeffs = Vec::new();
-        <span class="kw">for _ in </span><span class="number">0</span>..=d {
-            random_coeffs.push(F::rand(rng));
+
+        <span class="kw">if </span>d &gt; <span class="number">0 </span>{
+            <span class="comment">// d - 1 overflows when d = 0
+            </span><span class="kw">for _ in </span><span class="number">0</span>..=(d - <span class="number">1</span>) {
+                random_coeffs.push(F::rand(rng));
+            }
         }
+
+        <span class="kw">let </span><span class="kw-2">mut </span>leading_coefficient = F::rand(rng);
+
+        <span class="kw">while </span>leading_coefficient.is_zero() {
+            leading_coefficient = F::rand(rng);
+        }
+
+        random_coeffs.push(leading_coefficient);
+
         <span class="self">Self</span>::from_coefficients_vec(random_coeffs)
     }
 }
@@ -1056,12 +1203,12 @@
     </span><span class="kw">pub fn </span>divide_by_vanishing_poly&lt;D: EvaluationDomain&lt;F&gt;&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         domain: D,
-    ) -&gt; <span class="prelude-ty">Option</span>&lt;(DensePolynomial&lt;F&gt;, DensePolynomial&lt;F&gt;)&gt; {
+    ) -&gt; (DensePolynomial&lt;F&gt;, DensePolynomial&lt;F&gt;) {
         <span class="kw">let </span>domain_size = domain.size();
 
         <span class="kw">if </span><span class="self">self</span>.coeffs.len() &lt; domain_size {
             <span class="comment">// If degree(self) &lt; len(Domain), then the quotient is zero, and the entire polynomial is the remainder
-            </span><span class="prelude-val">Some</span>((DensePolynomial::&lt;F&gt;::zero(), <span class="self">self</span>.clone()))
+            </span>(DensePolynomial::&lt;F&gt;::zero(), <span class="self">self</span>.clone())
         } <span class="kw">else </span>{
             <span class="comment">// Compute the quotient
             //
@@ -1097,7 +1244,7 @@
 
             <span class="kw">let </span>quotient = DensePolynomial::&lt;F&gt;::from_coefficients_vec(quotient_vec);
             <span class="kw">let </span>remainder = DensePolynomial::&lt;F&gt;::from_coefficients_vec(remainder_vec);
-            <span class="prelude-val">Some</span>((quotient, remainder))
+            (quotient, remainder)
         }
     }
 }
@@ -1168,14 +1315,6 @@
 <span class="kw">impl</span>&lt;F: Field&gt; DerefMut <span class="kw">for </span>DensePolynomial&lt;F&gt; {
     <span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[F] {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.coeffs
-    }
-}
-
-<span class="kw">impl</span>&lt;F: Field&gt; Add <span class="kw">for </span>DensePolynomial&lt;F&gt; {
-    <span class="kw">type </span>Output = DensePolynomial&lt;F&gt;;
-
-    <span class="kw">fn </span>add(<span class="self">self</span>, other: DensePolynomial&lt;F&gt;) -&gt; <span class="self">Self </span>{
-        <span class="kw-2">&amp;</span><span class="self">self </span>+ <span class="kw-2">&amp;</span>other
     }
 }
 
@@ -1265,8 +1404,8 @@
                 .for_each(|(a, b)| {
                     <span class="kw-2">*</span>a += b;
                 });
-            <span class="self">self</span>.truncate_leading_zeros();
         }
+        <span class="self">self</span>.truncate_leading_zeros();
     }
 }
 
@@ -1487,6 +1626,15 @@
     }
 }
 
+<span class="kw">impl</span>&lt;F: Field&gt; Mul&lt;F&gt; <span class="kw">for </span>DensePolynomial&lt;F&gt; {
+    <span class="kw">type </span>Output = DensePolynomial&lt;F&gt;;
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>mul(<span class="self">self</span>, elem: F) -&gt; DensePolynomial&lt;F&gt; {
+        <span class="kw-2">&amp;</span><span class="self">self </span>* elem
+    }
+}
+
 <span class="doccomment">/// Performs O(nlogn) multiplication of polynomials if F is smooth.
 </span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, F: FftField&gt; Mul&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>DensePolynomial&lt;F&gt;&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'b </span>DensePolynomial&lt;F&gt; {
     <span class="kw">type </span>Output = DensePolynomial&lt;F&gt;;
@@ -1496,7 +1644,7 @@
         <span class="kw">if </span><span class="self">self</span>.is_zero() || other.is_zero() {
             DensePolynomial::zero()
         } <span class="kw">else </span>{
-            <span class="kw">let </span>domain = GeneralEvaluationDomain::new(<span class="self">self</span>.coeffs.len() + other.coeffs.len())
+            <span class="kw">let </span>domain = GeneralEvaluationDomain::new(<span class="self">self</span>.coeffs.len() + other.coeffs.len() - <span class="number">1</span>)
                 .expect(<span class="string">"field is not smooth enough to construct domain"</span>);
             <span class="kw">let </span><span class="kw-2">mut </span>self_evals = <span class="self">self</span>.evaluate_over_domain_by_ref(domain);
             <span class="kw">let </span>other_evals = other.evaluate_over_domain_by_ref(domain);
@@ -1504,6 +1652,37 @@
             self_evals.interpolate()
         }
     }
+}
+
+<span class="macro">macro_rules!</span> impl_op {
+    (<span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$method</span>:ident, <span class="macro-nonterminal">$field_bound</span>:ident) =&gt; {
+        <span class="kw">impl</span>&lt;F: <span class="macro-nonterminal">$field_bound</span>&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>&lt;<span class="macro-nonterminal">DensePolynomial</span>&lt;F&gt;&gt; <span class="kw">for </span>DensePolynomial&lt;F&gt; {
+            <span class="kw">type </span>Output = DensePolynomial&lt;F&gt;;
+
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span><span class="macro-nonterminal">$method</span>(<span class="self">self</span>, other: DensePolynomial&lt;F&gt;) -&gt; DensePolynomial&lt;F&gt; {
+                (<span class="kw-2">&amp;</span><span class="self">self</span>).<span class="macro-nonterminal">$method</span>(<span class="kw-2">&amp;</span>other)
+            }
+        }
+
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, F: <span class="macro-nonterminal">$field_bound</span>&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="macro-nonterminal">DensePolynomial</span>&lt;F&gt;&gt; <span class="kw">for </span>DensePolynomial&lt;F&gt; {
+            <span class="kw">type </span>Output = DensePolynomial&lt;F&gt;;
+
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span><span class="macro-nonterminal">$method</span>(<span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>DensePolynomial&lt;F&gt;) -&gt; DensePolynomial&lt;F&gt; {
+                (<span class="kw-2">&amp;</span><span class="self">self</span>).<span class="macro-nonterminal">$method</span>(other)
+            }
+        }
+
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, F: <span class="macro-nonterminal">$field_bound</span>&gt; <span class="macro-nonterminal">$</span><span class="kw">trait</span>&lt;<span class="macro-nonterminal">DensePolynomial</span>&lt;F&gt;&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>DensePolynomial&lt;F&gt; {
+            <span class="kw">type </span>Output = DensePolynomial&lt;F&gt;;
+
+            <span class="attr">#[inline]
+            </span><span class="kw">fn </span><span class="macro-nonterminal">$method</span>(<span class="self">self</span>, other: DensePolynomial&lt;F&gt;) -&gt; DensePolynomial&lt;F&gt; {
+                <span class="self">self</span>.<span class="macro-nonterminal">$method</span>(<span class="kw-2">&amp;</span>other)
+            }
+        }
+    };
 }
 
 <span class="kw">impl</span>&lt;F: Field&gt; Zero <span class="kw">for </span>DensePolynomial&lt;F&gt; {
@@ -1518,11 +1697,17 @@
     }
 }
 
+<span class="macro">impl_op!</span>(Add, add, Field);
+<span class="macro">impl_op!</span>(Sub, sub, Field);
+<span class="macro">impl_op!</span>(Mul, mul, FftField);
+<span class="macro">impl_op!</span>(Div, div, Field);
+
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
-    <span class="kw">use crate</span>::{polynomial::univariate::<span class="kw-2">*</span>, EvaluationDomain, GeneralEvaluationDomain, Polynomial};
-    <span class="kw">use </span>ark_ff::{Field, One, UniformRand, Zero};
-    <span class="kw">use </span>ark_std::{rand::Rng, test_rng, vec::Vec};
+    <span class="kw">use crate</span>::{polynomial::univariate::<span class="kw-2">*</span>, GeneralEvaluationDomain};
+    <span class="kw">use </span>ark_ff::{Fp64, MontBackend, MontConfig};
+    <span class="kw">use </span>ark_ff::{One, UniformRand};
+    <span class="kw">use </span>ark_std::{rand::Rng, test_rng};
     <span class="kw">use </span>ark_test_curves::bls12_381::Fr;
 
     <span class="kw">fn </span>rand_sparse_poly&lt;R: Rng&gt;(degree: usize, rng: <span class="kw-2">&amp;mut </span>R) -&gt; SparsePolynomial&lt;Fr&gt; {
@@ -1534,6 +1719,23 @@
             }
         }
         SparsePolynomial::from_coefficients_vec(coeffs)
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>rand_dense_poly_degree() {
+        <span class="attr">#[derive(MontConfig)]
+        #[modulus = <span class="string">"5"</span>]
+        #[generator = <span class="string">"2"</span>]
+        </span><span class="kw">pub struct </span>F5Config;
+
+        <span class="kw">let </span>rng = <span class="kw-2">&amp;mut </span>test_rng();
+        <span class="kw">pub type </span>F5 = Fp64&lt;MontBackend&lt;F5Config, <span class="number">1</span>&gt;&gt;;
+
+        <span class="comment">// if the leading coefficient were uniformly sampled from all of F, this
+        // test would fail with high probability ~99.9%
+        </span><span class="kw">for </span>i <span class="kw">in </span><span class="number">1</span>..=<span class="number">30 </span>{
+            <span class="macro">assert_eq!</span>(DensePolynomial::&lt;F5&gt;::rand(i, rng).degree(), i);
+        }
     }
 
     <span class="attr">#[test]
@@ -1767,7 +1969,7 @@
             <span class="kw">let </span>domain = GeneralEvaluationDomain::new(<span class="number">1 </span>&lt;&lt; size).unwrap();
             <span class="kw">for </span>degree <span class="kw">in </span><span class="number">0</span>..<span class="number">12 </span>{
                 <span class="kw">let </span>p = DensePolynomial::&lt;Fr&gt;::rand(degree * <span class="number">100</span>, rng);
-                <span class="kw">let </span>(quotient, remainder) = p.divide_by_vanishing_poly(domain).unwrap();
+                <span class="kw">let </span>(quotient, remainder) = p.divide_by_vanishing_poly(domain);
                 <span class="kw">let </span>p_recovered = quotient.mul_by_vanishing_poly(domain) + remainder;
                 <span class="macro">assert_eq!</span>(p, p_recovered);
             }
@@ -1806,13 +2008,20 @@
     </span><span class="kw">fn </span>evaluate_over_domain_test() {
         <span class="kw">let </span>rng = <span class="kw-2">&amp;mut </span>ark_std::test_rng();
         <span class="kw">let </span>domain = <span class="kw">crate</span>::domain::Radix2EvaluationDomain::&lt;Fr&gt;::new(<span class="number">1 </span>&lt;&lt; <span class="number">10</span>).unwrap();
+        <span class="kw">let </span>offset = Fr::GENERATOR;
+        <span class="kw">let </span>coset = domain.get_coset(offset).unwrap();
         <span class="kw">for _ in </span><span class="number">0</span>..<span class="number">100 </span>{
             <span class="kw">let </span>poly = DensePolynomial::&lt;Fr&gt;::rand(<span class="number">1 </span>&lt;&lt; <span class="number">11</span>, rng);
             <span class="kw">let </span>evaluations = domain
                 .elements()
                 .map(|e| poly.evaluate(<span class="kw-2">&amp;</span>e))
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-            <span class="macro">assert_eq!</span>(evaluations, poly.evaluate_over_domain(domain).evals);
+            <span class="macro">assert_eq!</span>(evaluations, poly.evaluate_over_domain_by_ref(domain).evals);
+            <span class="kw">let </span>evaluations = coset
+                .elements()
+                .map(|e| poly.evaluate(<span class="kw-2">&amp;</span>e))
+                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+            <span class="macro">assert_eq!</span>(evaluations, poly.evaluate_over_domain(coset).evals);
         }
         <span class="kw">let </span>zero = DensePolynomial::zero();
         <span class="kw">let </span>evaluations = domain
@@ -1820,6 +2029,39 @@
             .map(|e| zero.evaluate(<span class="kw-2">&amp;</span>e))
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(evaluations, zero.evaluate_over_domain(domain).evals);
+    }
+
+    <span class="kw">use </span><span class="kw">crate</span>::Radix2EvaluationDomain;
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>evaluate_over_domain_regression_test() {
+        <span class="comment">// See https://github.com/arkworks-rs/algebra/issues/745
+        </span><span class="attr">#[derive(MontConfig)]
+        #[modulus = <span class="string">"18446744069414584321"</span>]
+        #[generator = <span class="string">"7"</span>]
+        </span><span class="kw">struct </span>FrConfig64;
+        <span class="kw">type </span>F = Fp64&lt;MontBackend&lt;FrConfig64, <span class="number">1</span>&gt;&gt;;
+
+        <span class="kw">let </span>degree = <span class="number">17</span>;
+        <span class="kw">let </span>eval_domain_size = <span class="number">16</span>;
+
+        <span class="kw">let </span>poly = DensePolynomial::from_coefficients_vec(<span class="macro">vec!</span>[F::ONE; degree]);
+        <span class="kw">let </span>domain = Radix2EvaluationDomain::new(eval_domain_size).unwrap();
+
+        <span class="comment">// Now we get a coset
+        </span><span class="kw">let </span>offset = F::from(<span class="number">42u64</span>);
+        <span class="kw">let </span>domain = domain.get_coset(offset).unwrap();
+
+        <span class="comment">// This is the query points of the domain
+        </span><span class="kw">let </span>query_points: Vec&lt;<span class="kw">_</span>&gt; = domain.elements().collect();
+
+        <span class="kw">let </span>eval1 = poly.evaluate_over_domain_by_ref(domain).evals;
+        <span class="kw">let </span>eval2 = query_points
+            .iter()
+            .map(|x| poly.evaluate(x))
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+        <span class="macro">assert_eq!</span>(eval1, eval2);
     }
 }
 </code></pre></div></section></main></body></html>

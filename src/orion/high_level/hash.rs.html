@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.16.1/src/high_level/hash.rs`."><title>hash.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/high_level/</div>hash.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.9/src/high_level/hash.rs`."><title>hash.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/high_level/</div>hash.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -83,9 +83,58 @@
 <a href="#82" id="82">82</a>
 <a href="#83" id="83">83</a>
 <a href="#84" id="84">84</a>
-<a href="#85" id="85">85</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
+<a href="#85" id="85">85</a>
+<a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
+<a href="#129" id="129">129</a>
+<a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
 
-// Copyright (c) 2020-2021 The orion Developers
+// Copyright (c) 2020-2025 The orion Developers
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -114,6 +163,8 @@
 //! Meaning, checking if a file has been modified since the time the hash was
 //! recorded.
 //!
+//! If you are looking for a keyed hash, please see the [`orion::auth`](super::auth) module.
+//!
 //! # About:
 //! - Uses BLAKE2b with an output size of 32 bytes (i.e BLAKE2b-256).
 //!
@@ -127,27 +178,65 @@
 //! # Security:
 //! - This interface does not support supplying BLAKE2b with a secret key, and
 //!   the hashes retrieved
-//! from using `orion::hash` are therefore not suitable as MACs.
+//!   from using `orion::hash` are therefore not suitable as MACs.
 //! - BLAKE2b is not suitable for password hashing. See [`orion::pwhash`](super::pwhash)
 //!   instead.
 //!
-//! # Example:
+//! # Examples
+//!
+//! ## Hashing in-memory data
 //! ```rust
 //! use orion::hash::{digest, Digest};
 //!
 //! let hash: Digest = digest(b"Some data")?;
 //! # Ok::&lt;(), orion::errors::UnknownCryptoError&gt;(())
 //! ```
+//!
+//! ## Hashing data from an arbitrary reader
+//! ```rust
+//! use orion::hash::{digest_from_reader, Digest};
+//!
+//! // `reader` could instead be `File::open("file.txt")?`
+//! let reader = std::io::Cursor::new(b"some data");
+//! let hash: Digest = digest_from_reader(reader)?;
+//! # Ok::&lt;(), orion::errors::UnknownCryptoError&gt;(())
+//! ```
 
 </span><span class="attr">#![cfg_attr(docsrs, doc(cfg(feature = <span class="string">"safe_api"</span>)))]
 
-</span><span class="kw">pub use </span><span class="kw">crate</span>::hazardous::hash::blake2b::Digest;
-<span class="kw">use crate</span>::{errors::UnknownCryptoError, hazardous::hash::blake2b};
+</span><span class="kw">pub use </span><span class="kw">crate</span>::hazardous::hash::blake2::blake2b::Digest;
+<span class="kw">use crate</span>::{errors::UnknownCryptoError, hazardous::hash::blake2::blake2b};
 
 <span class="attr">#[must_use = <span class="string">"SECURITY WARNING: Ignoring a Result can have real security implications."</span>]
 </span><span class="doccomment">/// Hashing using BLAKE2b-256.
 </span><span class="kw">pub fn </span>digest(data: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;Digest, UnknownCryptoError&gt; {
     blake2b::Hasher::Blake2b256.digest(data)
+}
+
+<span class="doccomment">/// Hash data from a [`Read`](std::io::Read)` type using BLAKE2b-256.
+///
+/// See the [module-level docs](crate::hash) for an example of how to use this function.
+/// Internally calls [`std::io::copy`]() to move data from the reader into the Blake2b writer.
+/// Note that the [`std::io::copy`]() function buffers reads, so passing in a
+/// [`BufReader`](std::io::BufReader) may be unnecessary.
+///
+/// For lower-level control over reads, writes, buffer sizes, *etc.*, consider using the
+/// [`Blake2b`](crate::hazardous::hash::blake2::blake2b::Blake2b) type and its
+/// [`Write`](std::io::Write) implementation directly. See `Blake2b`'s `Write` implementation
+/// and/or its `Write` documentation for an example.
+///
+/// ## Errors:
+/// This function will only ever return the [`std::io::ErrorKind::Other`]()
+/// variant when it returns an error. Additionally, this will always contain Orion's
+/// [`UnknownCryptoError`](crate::errors::UnknownCryptoError) type.
+///
+/// Note that if an error is returned, data may still have been consumed from the given reader.
+</span><span class="attr">#[cfg(feature = <span class="string">"safe_api"</span>)]
+#[must_use = <span class="string">"SECURITY WARNING: Ignoring a Result can have real security implications."</span>]
+</span><span class="kw">pub fn </span>digest_from_reader(<span class="kw-2">mut </span>reader: <span class="kw">impl </span>std::io::Read) -&gt; <span class="prelude-ty">Result</span>&lt;Digest, UnknownCryptoError&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>hasher = blake2b::Blake2b::new(<span class="number">32</span>)<span class="question-mark">?</span>;
+    std::io::copy(<span class="kw-2">&amp;mut </span>reader, <span class="kw-2">&amp;mut </span>hasher).map_err(|<span class="kw">_</span>| UnknownCryptoError)<span class="question-mark">?</span>;
+    hasher.finalize()
 }
 
 <span class="comment">// Testing public functions in the module.
@@ -160,6 +249,15 @@
     </span><span class="doccomment">/// Hashing twice with same input should always produce same output.
     </span><span class="kw">fn </span>prop_digest_same_result(input: Vec&lt;u8&gt;) -&gt; bool {
         digest(<span class="kw-2">&amp;</span>input[..]).unwrap() == digest(<span class="kw-2">&amp;</span>input[..]).unwrap()
+    }
+
+    <span class="attr">#[quickcheck]
+    </span><span class="doccomment">/// Hashing all input should be the same as wrapping it in a
+    /// cursor and using digest_from_reader.
+    </span><span class="kw">fn </span>prop_digest_same_as_digest_from_reader(input: Vec&lt;u8&gt;) -&gt; bool {
+        <span class="kw">let </span>digest_a = digest_from_reader(std::io::Cursor::new(<span class="kw-2">&amp;</span>input)).unwrap();
+        <span class="kw">let </span>digest_b = digest(<span class="kw-2">&amp;</span>input).unwrap();
+        digest_a == digest_b
     }
 
     <span class="attr">#[quickcheck]

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_core-0.47.2/src/string_encoding.rs`."><title>string_encoding.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_core/</div>string_encoding.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_core-0.149.1/src/string_encoding.rs`."><title>string_encoding.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_core/</div>string_encoding.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -239,7 +239,9 @@
 <a href="#238" id="238">238</a>
 <a href="#239" id="239">239</a>
 <a href="#240" id="240">240</a>
-<a href="#241" id="241">241</a></pre></div><pre class="rust"><code><span class="doccomment">//! Namada's standard string encoding for public types.
+<a href="#241" id="241">241</a>
+<a href="#242" id="242">242</a>
+<a href="#243" id="243">243</a></pre></div><pre class="rust"><code><span class="doccomment">//! Namada's standard string encoding for public types.
 //!
 //! We're using [bech32m](https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki),
 //! a format with a human-readable, followed by base32 encoding with a limited
@@ -252,13 +254,11 @@
 <span class="kw">use </span>std::ops::Deref;
 <span class="kw">use </span>std::str::FromStr;
 
-<span class="kw">use </span>bech32::{FromBase32, ToBase32, Variant};
+<span class="kw">use </span>bech32::Bech32m;
+<span class="kw">pub use </span>bech32::Hrp;
 <span class="kw">use </span>borsh::{BorshDeserialize, BorshSerialize};
 <span class="kw">use </span>serde::{Deserialize, Serialize};
 <span class="kw">use </span>thiserror::Error;
-
-<span class="doccomment">/// We're using "Bech32m" variant
-</span><span class="kw">pub const </span>BECH32M_VARIANT: bech32::Variant = Variant::Bech32m;
 
 <span class="comment">// Human-readable parts of Bech32m encoding
 //
@@ -281,13 +281,9 @@
 #[derive(Error, Debug)]
 </span><span class="kw">pub enum </span>DecodeError {
     <span class="attr">#[error(<span class="string">"Error decoding from Bech32m: {0}"</span>)]
-    </span>DecodeBech32(bech32::Error),
-    <span class="attr">#[error(<span class="string">"Error decoding from base32: {0}"</span>)]
-    </span>DecodeBase32(bech32::Error),
+    </span>DecodeBech32(bech32::DecodeError),
     <span class="attr">#[error(<span class="string">"Unexpected Bech32m human-readable part {0}, expected {1}"</span>)]
     </span>UnexpectedBech32Hrp(String, String),
-    <span class="attr">#[error(<span class="string">"Unexpected Bech32m variant {0:?}, expected {BECH32M_VARIANT:?}"</span>)]
-    </span>UnexpectedBech32Variant(bech32::Variant),
     <span class="attr">#[error(<span class="string">"Invalid address encoding: {0}"</span>)]
     </span>InvalidInnerEncoding(String),
     <span class="attr">#[error(<span class="string">"Invalid bytes: {0}"</span>)]
@@ -299,7 +295,7 @@
 <span class="doccomment">/// Format to string with bech32m
 </span><span class="kw">pub trait </span>Format: Sized {
     <span class="doccomment">/// Human-readable part
-    </span><span class="kw">const </span>HRP: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str;
+    </span><span class="kw">const </span>HRP: Hrp;
 
     <span class="doccomment">/// Encoded bytes representation of `Self`.
     </span><span class="kw">type </span>EncodedBytes&lt;<span class="lifetime">'a</span>&gt;: AsRef&lt;[u8]&gt;
@@ -308,34 +304,25 @@
 
     <span class="doccomment">/// Encode `Self` to a string
     </span><span class="kw">fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
-        <span class="kw">let </span>base32 = <span class="self">self</span>.to_bytes().to_base32();
-        bech32::encode(<span class="self">Self</span>::HRP, base32, BECH32M_VARIANT).unwrap_or_else(
-            |<span class="kw">_</span>| {
+        bech32::encode::&lt;Bech32m&gt;(<span class="self">Self</span>::HRP, <span class="self">self</span>.to_bytes().as_ref())
+            .unwrap_or_else(|<span class="kw">_</span>| {
                 <span class="macro">panic!</span>(
                     <span class="string">"The human-readable part {} should never cause a failure"</span>,
                     <span class="self">Self</span>::HRP
                 )
-            },
-        )
+            })
     }
 
     <span class="doccomment">/// Try to decode `Self` from a string
     </span><span class="kw">fn </span>decode(string: <span class="kw">impl </span>AsRef&lt;str&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, DecodeError&gt; {
-        <span class="kw">let </span>(hrp, hash_base32, variant) = bech32::decode(string.as_ref())
+        <span class="kw">let </span>(hrp, bytes) = bech32::decode(string.as_ref())
             .map_err(DecodeError::DecodeBech32)<span class="question-mark">?</span>;
         <span class="kw">if </span>hrp != <span class="self">Self</span>::HRP {
             <span class="kw">return </span><span class="prelude-val">Err</span>(DecodeError::UnexpectedBech32Hrp(
-                hrp,
-                <span class="self">Self</span>::HRP.into(),
+                hrp.to_string(),
+                <span class="self">Self</span>::HRP.to_string(),
             ));
         }
-        <span class="kw">match </span>variant {
-            BECH32M_VARIANT =&gt; {}
-            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(DecodeError::UnexpectedBech32Variant(variant)),
-        }
-        <span class="kw">let </span>bytes: Vec&lt;u8&gt; = FromBase32::from_base32(<span class="kw-2">&amp;</span>hash_base32)
-            .map_err(DecodeError::DecodeBase32)<span class="question-mark">?</span>;
-
         <span class="self">Self</span>::decode_bytes(<span class="kw-2">&amp;</span>bytes)
     }
 
@@ -367,13 +354,14 @@
     };
 }
 
-<span class="doccomment">/// Get the length of the human-readable part
-</span><span class="comment">// Not in the `Format` trait, cause functions in traits cannot be const
-</span><span class="kw">pub const fn </span>hrp_len&lt;T: Format&gt;() -&gt; usize {
-    T::HRP.len()
-}
+<span class="comment">// Not const in bench32 0.10. Requires &lt;https://github.com/rust-bitcoin/rust-bech32/pull/212&gt;
+// /// Get the length of the human-readable part
+// // Not in the `Format` trait, cause functions in traits cannot be const
+// pub const fn hrp_len&lt;T: Format&gt;() -&gt; usize {
+//     T::HRP.len()
+// }
 
-<span class="doccomment">/// Wrapper for `T` to serde encode via `Display` and decode via `FromStr`
+</span><span class="doccomment">/// Wrapper for `T` to serde encode via `Display` and decode via `FromStr`
 </span><span class="attr">#[derive(
     Clone,
     Debug,
@@ -464,6 +452,22 @@
 {
     <span class="kw">let </span>val_str: String = serde::Deserialize::deserialize(deserializer)<span class="question-mark">?</span>;
     FromStr::from_str(<span class="kw-2">&amp;</span>val_str).map_err(serde::de::Error::custom)
+}
+
+<span class="attr">#[cfg(test)]
+</span><span class="kw">mod </span>test {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_hrps() {
+        <span class="comment">// Make sure that all HRPs are valid
+        </span><span class="macro">assert!</span>(Hrp::parse(ADDRESS_HRP).is_ok());
+        <span class="macro">assert!</span>(Hrp::parse(MASP_EXT_FULL_VIEWING_KEY_HRP).is_ok());
+        <span class="macro">assert!</span>(Hrp::parse(MASP_PAYMENT_ADDRESS_HRP).is_ok());
+        <span class="macro">assert!</span>(Hrp::parse(MASP_EXT_SPENDING_KEY_HRP).is_ok());
+        <span class="macro">assert!</span>(Hrp::parse(COMMON_PK_HRP).is_ok());
+        <span class="macro">assert!</span>(Hrp::parse(COMMON_SIG_HRP).is_ok());
+    }
 }
 
 <span class="doccomment">/// Testing helpers

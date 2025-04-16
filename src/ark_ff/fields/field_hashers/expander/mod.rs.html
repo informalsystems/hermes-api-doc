@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ff-0.4.2/src/fields/field_hashers/expander/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="ark_ff" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ff/fields/field_hashers/expander/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ff-0.5.0/src/fields/field_hashers/expander/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="ark_ff" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ff/fields/field_hashers/expander/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -113,102 +113,147 @@
 <a href="#112" id="112">112</a>
 <a href="#113" id="113">113</a>
 <a href="#114" id="114">114</a>
-<a href="#115" id="115">115</a></pre></div><pre class="rust"><code><span class="comment">// The below implementation is a rework of https://github.com/armfazh/h2c-rust-ref
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
+<a href="#129" id="129">129</a>
+<a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a></pre></div><pre class="rust"><code><span class="comment">// The below implementation is a rework of https://github.com/armfazh/h2c-rust-ref
 // With some optimisations
 
-</span><span class="kw">use </span>ark_std::vec::Vec;
-<span class="kw">use </span>digest::{DynDigest, ExtendableOutput, Update};
+</span><span class="kw">use </span>core::marker::PhantomData;
+
+<span class="kw">use </span>ark_std::vec::<span class="kw-2">*</span>;
+
+<span class="kw">use </span>arrayvec::ArrayVec;
+<span class="kw">use </span>digest::{ExtendableOutput, FixedOutputReset, Update};
+
 <span class="kw">pub trait </span>Expander {
-    <span class="kw">fn </span>construct_dst_prime(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;u8&gt;;
     <span class="kw">fn </span>expand(<span class="kw-2">&amp;</span><span class="self">self</span>, msg: <span class="kw-2">&amp;</span>[u8], length: usize) -&gt; Vec&lt;u8&gt;;
 }
 <span class="kw">const </span>MAX_DST_LENGTH: usize = <span class="number">255</span>;
 
-<span class="kw">const </span>LONG_DST_PREFIX: [u8; <span class="number">17</span>] = [
-    <span class="comment">//'H', '2', 'C', '-', 'O', 'V', 'E', 'R', 'S', 'I', 'Z', 'E', '-', 'D', 'S', 'T', '-',
-    </span><span class="number">0x48</span>, <span class="number">0x32</span>, <span class="number">0x43</span>, <span class="number">0x2d</span>, <span class="number">0x4f</span>, <span class="number">0x56</span>, <span class="number">0x45</span>, <span class="number">0x52</span>, <span class="number">0x53</span>, <span class="number">0x49</span>, <span class="number">0x5a</span>, <span class="number">0x45</span>, <span class="number">0x2d</span>, <span class="number">0x44</span>, <span class="number">0x53</span>, <span class="number">0x54</span>,
-    <span class="number">0x2d</span>,
-];
+<span class="kw">const </span>LONG_DST_PREFIX: <span class="kw-2">&amp;</span>[u8; <span class="number">17</span>] = <span class="string">b"H2C-OVERSIZE-DST-"</span>;
 
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>ExpanderXof&lt;T: Update + Clone + ExtendableOutput&gt; {
-    <span class="kw">pub</span>(<span class="kw">super</span>) xofer: T,
+<span class="doccomment">/// Implements section [5.3.3](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-hash-to-curve-16#section-5.3.3)
+/// "Using DSTs longer than 255 bytes" of the
+/// [IRTF CFRG hash-to-curve draft #16](https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-hash-to-curve-16#section-5.3.3).
+</span><span class="kw">pub struct </span>DST(arrayvec::ArrayVec&lt;u8, MAX_DST_LENGTH&gt;);
+
+<span class="kw">impl </span>DST {
+    <span class="kw">pub fn </span>new_xmd&lt;H: FixedOutputReset + Default&gt;(dst: <span class="kw-2">&amp;</span>[u8]) -&gt; DST {
+        <span class="kw">let </span>array = <span class="kw">if </span>dst.len() &gt; MAX_DST_LENGTH {
+            <span class="kw">let </span><span class="kw-2">mut </span>long = H::default();
+            long.update(<span class="kw-2">&amp;</span>LONG_DST_PREFIX[..]);
+            long.update(<span class="kw-2">&amp;</span>dst);
+            ArrayVec::try_from(long.finalize_fixed().as_ref()).unwrap()
+        } <span class="kw">else </span>{
+            ArrayVec::try_from(dst).unwrap()
+        };
+        DST(array)
+    }
+
+    <span class="attr">#[allow(dead_code)]
+    </span><span class="kw">pub fn </span>new_xof&lt;H: ExtendableOutput + Default&gt;(dst: <span class="kw-2">&amp;</span>[u8], k: usize) -&gt; DST {
+        <span class="kw">let </span>array = <span class="kw">if </span>dst.len() &gt; MAX_DST_LENGTH {
+            <span class="kw">let </span><span class="kw-2">mut </span>long = H::default();
+            long.update(<span class="kw-2">&amp;</span>LONG_DST_PREFIX[..]);
+            long.update(<span class="kw-2">&amp;</span>dst);
+
+            <span class="kw">let </span><span class="kw-2">mut </span>new_dst = [<span class="number">0u8</span>; MAX_DST_LENGTH];
+            <span class="kw">let </span>new_dst = <span class="kw-2">&amp;mut </span>new_dst[<span class="number">0</span>..((<span class="number">2 </span>* k + <span class="number">7</span>) &gt;&gt; <span class="number">3</span>)];
+            long.finalize_xof_into(new_dst);
+            ArrayVec::try_from(<span class="kw-2">&amp;*</span>new_dst).unwrap()
+        } <span class="kw">else </span>{
+            ArrayVec::try_from(dst).unwrap()
+        };
+        DST(array)
+    }
+
+    <span class="kw">pub fn </span>update&lt;H: Update&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, h: <span class="kw-2">&amp;mut </span>H) {
+        h.update(<span class="self">self</span>.<span class="number">0</span>.as_ref());
+        <span class="comment">// I2OSP(len,1) https://www.rfc-editor.org/rfc/rfc8017.txt
+        </span>h.update(<span class="kw-2">&amp;</span>[<span class="self">self</span>.<span class="number">0</span>.len() <span class="kw">as </span>u8]);
+    }
+}
+
+<span class="attr">#[allow(dead_code)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>ExpanderXof&lt;H: ExtendableOutput + Clone + Default&gt; {
+    <span class="kw">pub</span>(<span class="kw">super</span>) xofer: PhantomData&lt;H&gt;,
     <span class="kw">pub</span>(<span class="kw">super</span>) dst: Vec&lt;u8&gt;,
     <span class="kw">pub</span>(<span class="kw">super</span>) k: usize,
 }
 
-<span class="kw">impl</span>&lt;T: Update + Clone + ExtendableOutput&gt; Expander <span class="kw">for </span>ExpanderXof&lt;T&gt; {
-    <span class="kw">fn </span>construct_dst_prime(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;u8&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>dst_prime = <span class="kw">if </span><span class="self">self</span>.dst.len() &gt; MAX_DST_LENGTH {
-            <span class="kw">let </span><span class="kw-2">mut </span>xofer = <span class="self">self</span>.xofer.clone();
-            xofer.update(<span class="kw-2">&amp;</span>LONG_DST_PREFIX.clone());
-            xofer.update(<span class="kw-2">&amp;</span><span class="self">self</span>.dst);
-            xofer.finalize_boxed((<span class="number">2 </span>* <span class="self">self</span>.k + <span class="number">7</span>) &gt;&gt; <span class="number">3</span>).to_vec()
-        } <span class="kw">else </span>{
-            <span class="self">self</span>.dst.clone()
-        };
-        dst_prime.push(dst_prime.len() <span class="kw">as </span>u8);
-        dst_prime
-    }
+<span class="kw">impl</span>&lt;H: ExtendableOutput + Clone + Default&gt; Expander <span class="kw">for </span>ExpanderXof&lt;H&gt; {
     <span class="kw">fn </span>expand(<span class="kw-2">&amp;</span><span class="self">self</span>, msg: <span class="kw-2">&amp;</span>[u8], n: usize) -&gt; Vec&lt;u8&gt; {
-        <span class="kw">let </span>dst_prime = <span class="self">self</span>.construct_dst_prime();
-        <span class="kw">let </span>lib_str = <span class="kw-2">&amp;</span>[((n &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>) <span class="kw">as </span>u8, (n &amp; <span class="number">0xFF</span>) <span class="kw">as </span>u8];
-
-        <span class="kw">let </span><span class="kw-2">mut </span>xofer = <span class="self">self</span>.xofer.clone();
+        <span class="kw">let </span><span class="kw-2">mut </span>xofer = H::default();
         xofer.update(msg);
-        xofer.update(lib_str);
-        xofer.update(<span class="kw-2">&amp;</span>dst_prime);
-        xofer.finalize_boxed(n).to_vec()
+
+        <span class="comment">// I2OSP(len,2) https://www.rfc-editor.org/rfc/rfc8017.txt
+        </span><span class="kw">let </span>lib_str = (n <span class="kw">as </span>u16).to_be_bytes();
+        xofer.update(<span class="kw-2">&amp;</span>lib_str);
+
+        DST::new_xof::&lt;H&gt;(<span class="self">self</span>.dst.as_ref(), <span class="self">self</span>.k).update(<span class="kw-2">&amp;mut </span>xofer);
+        xofer.finalize_boxed(n).into_vec()
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>ExpanderXmd&lt;T: DynDigest + Clone&gt; {
-    <span class="kw">pub</span>(<span class="kw">super</span>) hasher: T,
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>ExpanderXmd&lt;H: FixedOutputReset + Default + Clone&gt; {
+    <span class="kw">pub</span>(<span class="kw">super</span>) hasher: PhantomData&lt;H&gt;,
     <span class="kw">pub</span>(<span class="kw">super</span>) dst: Vec&lt;u8&gt;,
     <span class="kw">pub</span>(<span class="kw">super</span>) block_size: usize,
 }
 
-<span class="kw">impl</span>&lt;T: DynDigest + Clone&gt; Expander <span class="kw">for </span>ExpanderXmd&lt;T&gt; {
-    <span class="kw">fn </span>construct_dst_prime(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;u8&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>dst_prime = <span class="kw">if </span><span class="self">self</span>.dst.len() &gt; MAX_DST_LENGTH {
-            <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.hasher.clone();
-            hasher.update(<span class="kw-2">&amp;</span>LONG_DST_PREFIX);
-            hasher.update(<span class="kw-2">&amp;</span><span class="self">self</span>.dst);
-            hasher.finalize_reset().to_vec()
-        } <span class="kw">else </span>{
-            <span class="self">self</span>.dst.clone()
-        };
-        dst_prime.push(dst_prime.len() <span class="kw">as </span>u8);
-        dst_prime
-    }
+<span class="kw">static </span>Z_PAD: [u8; <span class="number">256</span>] = [<span class="number">0u8</span>; <span class="number">256</span>];
+
+<span class="kw">impl</span>&lt;H: FixedOutputReset + Default + Clone&gt; Expander <span class="kw">for </span>ExpanderXmd&lt;H&gt; {
     <span class="kw">fn </span>expand(<span class="kw-2">&amp;</span><span class="self">self</span>, msg: <span class="kw-2">&amp;</span>[u8], n: usize) -&gt; Vec&lt;u8&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.hasher.clone();
+        <span class="kw">use </span>digest::typenum::Unsigned;
         <span class="comment">// output size of the hash function, e.g. 32 bytes = 256 bits for sha2::Sha256
-        </span><span class="kw">let </span>b_len = hasher.output_size();
+        </span><span class="kw">let </span>b_len = H::OutputSize::to_usize();
         <span class="kw">let </span>ell = (n + (b_len - <span class="number">1</span>)) / b_len;
         <span class="macro">assert!</span>(
             ell &lt;= <span class="number">255</span>,
             <span class="string">"The ratio of desired output to the output size of hash function is too large!"
         </span>);
 
-        <span class="kw">let </span>dst_prime = <span class="self">self</span>.construct_dst_prime();
-        <span class="kw">let </span>z_pad: Vec&lt;u8&gt; = <span class="macro">vec!</span>[<span class="number">0</span>; <span class="self">self</span>.block_size];
-        <span class="comment">// // Represent `len_in_bytes` as a 2-byte array.
-        // // As per I2OSP method outlined in https://tools.ietf.org/pdf/rfc8017.pdf,
-        // // The program should abort if integer that we're trying to convert is too large.
+        <span class="kw">let </span>dst_prime = DST::new_xmd::&lt;H&gt;(<span class="self">self</span>.dst.as_ref());
+        <span class="comment">// Represent `len_in_bytes` as a 2-byte array.
+        // As per I2OSP method outlined in https://tools.ietf.org/pdf/rfc8017.pdf,
+        // The program should abort if integer that we're trying to convert is too large.
         </span><span class="macro">assert!</span>(n &lt; (<span class="number">1 </span>&lt;&lt; <span class="number">16</span>), <span class="string">"Length should be smaller than 2^16"</span>);
         <span class="kw">let </span>lib_str: [u8; <span class="number">2</span>] = (n <span class="kw">as </span>u16).to_be_bytes();
 
-        hasher.update(<span class="kw-2">&amp;</span>z_pad);
+        <span class="kw">let </span><span class="kw-2">mut </span>hasher = H::default();
+        hasher.update(<span class="kw-2">&amp;</span>Z_PAD[<span class="number">0</span>..<span class="self">self</span>.block_size]);
         hasher.update(msg);
         hasher.update(<span class="kw-2">&amp;</span>lib_str);
         hasher.update(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>]);
-        hasher.update(<span class="kw-2">&amp;</span>dst_prime);
-        <span class="kw">let </span>b0 = hasher.finalize_reset();
+        dst_prime.update(<span class="kw-2">&amp;mut </span>hasher);
+        <span class="kw">let </span>b0 = hasher.finalize_fixed_reset();
 
         hasher.update(<span class="kw-2">&amp;</span>b0);
         hasher.update(<span class="kw-2">&amp;</span>[<span class="number">1u8</span>]);
-        hasher.update(<span class="kw-2">&amp;</span>dst_prime);
-        <span class="kw">let </span><span class="kw-2">mut </span>bi = hasher.finalize_reset();
+        dst_prime.update(<span class="kw-2">&amp;mut </span>hasher);
+        <span class="kw">let </span><span class="kw-2">mut </span>bi = hasher.finalize_fixed_reset();
 
         <span class="kw">let </span><span class="kw-2">mut </span>uniform_bytes: Vec&lt;u8&gt; = Vec::with_capacity(n);
         uniform_bytes.extend_from_slice(<span class="kw-2">&amp;</span>bi);
@@ -218,11 +263,12 @@
                 hasher.update(<span class="kw-2">&amp;</span>[<span class="kw-2">*</span>l ^ <span class="kw-2">*</span>r]);
             }
             hasher.update(<span class="kw-2">&amp;</span>[i <span class="kw">as </span>u8]);
-            hasher.update(<span class="kw-2">&amp;</span>dst_prime);
-            bi = hasher.finalize_reset();
+            dst_prime.update(<span class="kw-2">&amp;mut </span>hasher);
+            bi = hasher.finalize_fixed_reset();
             uniform_bytes.extend_from_slice(<span class="kw-2">&amp;</span>bi);
         }
-        uniform_bytes[<span class="number">0</span>..n].to_vec()
+        uniform_bytes.truncate(n);
+        uniform_bytes
     }
 }
 

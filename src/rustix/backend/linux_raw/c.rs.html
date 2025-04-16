@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-0.38.44/src/backend/linux_raw/c.rs`."><title>c.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/backend/linux_raw/</div>c.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-1.0.3/src/backend/linux_raw/c.rs`."><title>c.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/backend/linux_raw/</div>c.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -314,7 +314,76 @@
 <a href="#313" id="313">313</a>
 <a href="#314" id="314">314</a>
 <a href="#315" id="315">315</a>
-<a href="#316" id="316">316</a></pre></div><pre class="rust"><code><span class="doccomment">//! Adapt the Linux API to resemble a POSIX-style libc API.
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a></pre></div><pre class="rust"><code><span class="doccomment">//! Adapt the Linux API to resemble a POSIX-style libc API.
 //!
 //! The linux_raw backend doesn't use actual libc; this just defines certain
 //! types that are convenient to have defined.
@@ -328,16 +397,37 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::general::{__kernel_fd_set <span class="kw">as </span>fd_set, __FD_SETSIZE <span class="kw">as </span>FD_SETSIZE};
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::ioctl::{FIONBIO, FIONREAD};
 <span class="comment">// Import the kernel's `uid_t` and `gid_t` if they're 32-bit.
-</span><span class="attr">#[cfg(not(any(target_arch = <span class="string">"arm"</span>, target_arch = <span class="string">"sparc"</span>, target_arch = <span class="string">"x86"</span>)))]
+</span><span class="attr">#[cfg(feature = <span class="string">"thread"</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::general::futex_waitv;
+<span class="attr">#[cfg(not(any(target_arch = <span class="string">"arm"</span>, target_arch = <span class="string">"sparc"</span>, target_arch = <span class="string">"x86"</span>)))]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::general::{__kernel_gid_t <span class="kw">as </span>gid_t, __kernel_uid_t <span class="kw">as </span>uid_t};
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::general::{
     __kernel_pid_t <span class="kw">as </span>pid_t, __kernel_time64_t <span class="kw">as </span>time_t, __kernel_timespec <span class="kw">as </span>timespec, iovec,
     O_CLOEXEC, O_NOCTTY, O_NONBLOCK, O_RDWR,
 };
+<span class="attr">#[cfg(feature = <span class="string">"system"</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::system::sysinfo;
+
+<span class="attr">#[cfg(feature = <span class="string">"fs"</span>)]
+#[cfg(target_arch = <span class="string">"x86"</span>)]
+#[cfg(test)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::general::stat64;
+<span class="attr">#[cfg(feature = <span class="string">"fs"</span>)]
+#[cfg(test)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::general::{
+    __kernel_fsid_t <span class="kw">as </span>fsid_t, stat, statfs64, statx, statx_timestamp,
+};
 
 <span class="attr">#[cfg(feature = <span class="string">"event"</span>)]
 #[cfg(test)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::general::epoll_event;
+
+<span class="attr">#[cfg(feature = <span class="string">"mm"</span>)]
+</span><span class="kw">mod </span>mm {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::general::{MAP_HUGETLB, MAP_HUGE_SHIFT};
+}
+<span class="attr">#[cfg(feature = <span class="string">"mm"</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>mm::<span class="kw-2">*</span>;
 
 <span class="attr">#[cfg(any(
     feature = <span class="string">"fs"</span>,
@@ -346,8 +436,8 @@
         not(feature = <span class="string">"use-explicitly-provided-auxv"</span>),
         any(
             feature = <span class="string">"param"</span>,
-            feature = <span class="string">"process"</span>,
             feature = <span class="string">"runtime"</span>,
+            feature = <span class="string">"thread"</span>,
             feature = <span class="string">"time"</span>,
             target_arch = <span class="string">"x86"</span>,
         )
@@ -373,28 +463,28 @@
     general::{O_CLOEXEC <span class="kw">as </span>SOCK_CLOEXEC, O_NONBLOCK <span class="kw">as </span>SOCK_NONBLOCK},
     if_ether::<span class="kw-2">*</span>,
     net::{
-        linger, msghdr, sockaddr, sockaddr_in, sockaddr_in6, sockaddr_un, socklen_t, AF_DECnet,
         __kernel_sa_family_t <span class="kw">as </span>sa_family_t, __kernel_sockaddr_storage <span class="kw">as </span>sockaddr_storage,
-        cmsghdr, in6_addr, in_addr, ip_mreq, ip_mreq_source, ip_mreqn, ipv6_mreq, AF_APPLETALK,
-        AF_ASH, AF_ATMPVC, AF_ATMSVC, AF_AX25, AF_BLUETOOTH, AF_BRIDGE, AF_CAN, AF_ECONET,
-        AF_IEEE802154, AF_INET, AF_INET6, AF_IPX, AF_IRDA, AF_ISDN, AF_IUCV, AF_KEY, AF_LLC,
-        AF_NETBEUI, AF_NETLINK, AF_NETROM, AF_PACKET, AF_PHONET, AF_PPPOX, AF_RDS, AF_ROSE,
+        cmsghdr, in6_addr, in_addr, ip_mreq, ip_mreq_source, ip_mreqn, ipv6_mreq, linger, mmsghdr,
+        msghdr, sockaddr, sockaddr_in, sockaddr_in6, sockaddr_un, socklen_t, AF_DECnet,
+        AF_APPLETALK, AF_ASH, AF_ATMPVC, AF_ATMSVC, AF_AX25, AF_BLUETOOTH, AF_BRIDGE, AF_CAN,
+        AF_ECONET, AF_IEEE802154, AF_INET, AF_INET6, AF_IPX, AF_IRDA, AF_ISDN, AF_IUCV, AF_KEY,
+        AF_LLC, AF_NETBEUI, AF_NETLINK, AF_NETROM, AF_PACKET, AF_PHONET, AF_PPPOX, AF_RDS, AF_ROSE,
         AF_RXRPC, AF_SECURITY, AF_SNA, AF_TIPC, AF_UNIX, AF_UNSPEC, AF_WANPIPE, AF_X25, AF_XDP,
         IP6T_SO_ORIGINAL_DST, IPPROTO_FRAGMENT, IPPROTO_ICMPV6, IPPROTO_MH, IPPROTO_ROUTING,
         IPV6_ADD_MEMBERSHIP, IPV6_DROP_MEMBERSHIP, IPV6_FREEBIND, IPV6_MULTICAST_HOPS,
         IPV6_MULTICAST_LOOP, IPV6_RECVTCLASS, IPV6_TCLASS, IPV6_UNICAST_HOPS, IPV6_V6ONLY,
         IP_ADD_MEMBERSHIP, IP_ADD_SOURCE_MEMBERSHIP, IP_DROP_MEMBERSHIP, IP_DROP_SOURCE_MEMBERSHIP,
         IP_FREEBIND, IP_MULTICAST_LOOP, IP_MULTICAST_TTL, IP_RECVTOS, IP_TOS, IP_TTL,
-        MSG_CMSG_CLOEXEC, MSG_CONFIRM, MSG_DONTROUTE, MSG_DONTWAIT, MSG_EOR, MSG_ERRQUEUE,
-        MSG_MORE, MSG_NOSIGNAL, MSG_OOB, MSG_PEEK, MSG_TRUNC, MSG_WAITALL, SCM_CREDENTIALS,
-        SCM_RIGHTS, SHUT_RD, SHUT_RDWR, SHUT_WR, SOCK_DGRAM, SOCK_RAW, SOCK_RDM, SOCK_SEQPACKET,
-        SOCK_STREAM, SOL_SOCKET, SOL_XDP, SO_ACCEPTCONN, SO_BROADCAST, SO_COOKIE, SO_DOMAIN,
-        SO_ERROR, SO_INCOMING_CPU, SO_KEEPALIVE, SO_LINGER, SO_OOBINLINE, SO_ORIGINAL_DST,
-        SO_PASSCRED, SO_PROTOCOL, SO_RCVBUF, SO_RCVBUFFORCE, SO_RCVTIMEO_NEW,
+        MSG_CMSG_CLOEXEC, MSG_CONFIRM, MSG_CTRUNC, MSG_DONTROUTE, MSG_DONTWAIT, MSG_EOR,
+        MSG_ERRQUEUE, MSG_MORE, MSG_NOSIGNAL, MSG_OOB, MSG_PEEK, MSG_TRUNC, MSG_WAITALL,
+        SCM_CREDENTIALS, SCM_RIGHTS, SHUT_RD, SHUT_RDWR, SHUT_WR, SOCK_DGRAM, SOCK_RAW, SOCK_RDM,
+        SOCK_SEQPACKET, SOCK_STREAM, SOL_SOCKET, SOL_XDP, SO_ACCEPTCONN, SO_BROADCAST, SO_COOKIE,
+        SO_DOMAIN, SO_ERROR, SO_INCOMING_CPU, SO_KEEPALIVE, SO_LINGER, SO_OOBINLINE,
+        SO_ORIGINAL_DST, SO_PASSCRED, SO_PROTOCOL, SO_RCVBUF, SO_RCVBUFFORCE, SO_RCVTIMEO_NEW,
         SO_RCVTIMEO_NEW <span class="kw">as </span>SO_RCVTIMEO, SO_RCVTIMEO_OLD, SO_REUSEADDR, SO_REUSEPORT, SO_SNDBUF,
-        SO_SNDTIMEO_NEW, SO_SNDTIMEO_NEW <span class="kw">as </span>SO_SNDTIMEO, SO_SNDTIMEO_OLD, SO_TYPE, TCP_CONGESTION,
-        TCP_CORK, TCP_KEEPCNT, TCP_KEEPIDLE, TCP_KEEPINTVL, TCP_NODELAY, TCP_QUICKACK,
-        TCP_THIN_LINEAR_TIMEOUTS, TCP_USER_TIMEOUT,
+        SO_SNDBUFFORCE, SO_SNDTIMEO_NEW, SO_SNDTIMEO_NEW <span class="kw">as </span>SO_SNDTIMEO, SO_SNDTIMEO_OLD, SO_TYPE,
+        TCP_CONGESTION, TCP_CORK, TCP_KEEPCNT, TCP_KEEPIDLE, TCP_KEEPINTVL, TCP_NODELAY,
+        TCP_QUICKACK, TCP_THIN_LINEAR_TIMEOUTS, TCP_USER_TIMEOUT,
     },
     netlink::<span class="kw-2">*</span>,
     xdp::{
@@ -481,11 +571,20 @@
 <span class="attr">#[cfg(feature = <span class="string">"process"</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::{
     general::{
-        CLD_CONTINUED, CLD_DUMPED, CLD_EXITED, CLD_KILLED, CLD_STOPPED, CLD_TRAPPED,
-        O_NONBLOCK <span class="kw">as </span>PIDFD_NONBLOCK, P_ALL, P_PGID, P_PID, P_PIDFD,
+        CLD_CONTINUED, CLD_DUMPED, CLD_EXITED, CLD_KILLED, CLD_STOPPED, CLD_TRAPPED, F_RDLCK,
+        F_UNLCK, F_WRLCK, O_NONBLOCK <span class="kw">as </span>PIDFD_NONBLOCK, P_ALL, P_PGID, P_PID, P_PIDFD, SEEK_CUR,
+        SEEK_END, SEEK_SET,
     },
     ioctl::TIOCSCTTY,
 };
+
+<span class="attr">#[cfg(feature = <span class="string">"process"</span>)]
+#[cfg(target_pointer_width = <span class="string">"32"</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::general::{flock64 <span class="kw">as </span>flock, F_GETLK64};
+
+<span class="attr">#[cfg(feature = <span class="string">"process"</span>)]
+#[cfg(target_pointer_width = <span class="string">"64"</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::general::{flock, F_GETLK};
 
 <span class="attr">#[cfg(feature = <span class="string">"pty"</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::ioctl::TIOCGPTPEER;
@@ -591,13 +690,13 @@
     linux_raw_sys::general::CLOCK_THREAD_CPUTIME_ID <span class="kw">as _</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>CLOCK_PROCESS_CPUTIME_ID: c_int =
     linux_raw_sys::general::CLOCK_PROCESS_CPUTIME_ID <span class="kw">as _</span>;
-<span class="attr">#[cfg(any(feature = <span class="string">"thread"</span>, feature = <span class="string">"time"</span>, target_arch = <span class="string">"x86"</span>))]
+<span class="attr">#[cfg(any(feature = <span class="string">"thread"</span>, feature = <span class="string">"time"</span>))]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>CLOCK_BOOTTIME: c_int = linux_raw_sys::general::CLOCK_BOOTTIME <span class="kw">as _</span>;
-<span class="attr">#[cfg(any(feature = <span class="string">"thread"</span>, feature = <span class="string">"time"</span>, target_arch = <span class="string">"x86"</span>))]
+<span class="attr">#[cfg(any(feature = <span class="string">"thread"</span>, feature = <span class="string">"time"</span>))]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>CLOCK_BOOTTIME_ALARM: c_int = linux_raw_sys::general::CLOCK_BOOTTIME_ALARM <span class="kw">as _</span>;
-<span class="attr">#[cfg(any(feature = <span class="string">"thread"</span>, feature = <span class="string">"time"</span>, target_arch = <span class="string">"x86"</span>))]
+<span class="attr">#[cfg(any(feature = <span class="string">"thread"</span>, feature = <span class="string">"time"</span>))]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>CLOCK_TAI: c_int = linux_raw_sys::general::CLOCK_TAI <span class="kw">as _</span>;
-<span class="attr">#[cfg(any(feature = <span class="string">"thread"</span>, feature = <span class="string">"time"</span>, target_arch = <span class="string">"x86"</span>))]
+<span class="attr">#[cfg(any(feature = <span class="string">"thread"</span>, feature = <span class="string">"time"</span>))]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>CLOCK_REALTIME_ALARM: c_int = linux_raw_sys::general::CLOCK_REALTIME_ALARM <span class="kw">as _</span>;
 
 <span class="attr">#[cfg(feature = <span class="string">"system"</span>)]
@@ -625,9 +724,48 @@
 <span class="attr">#[cfg(feature = <span class="string">"system"</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>reboot_symbols::<span class="kw-2">*</span>;
 
-<span class="comment">// TODO: This is new in Linux 6.11; remove when linux-raw-sys is updated.
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>MAP_DROPPABLE: u32 = <span class="number">0x8</span>;
+<span class="attr">#[cfg(any(
+    feature = <span class="string">"fs"</span>,
+    all(
+        linux_raw,
+        not(feature = <span class="string">"use-libc-auxv"</span>),
+        not(feature = <span class="string">"use-explicitly-provided-auxv"</span>),
+        any(
+            feature = <span class="string">"param"</span>,
+            feature = <span class="string">"runtime"</span>,
+            feature = <span class="string">"thread"</span>,
+            feature = <span class="string">"time"</span>,
+            target_arch = <span class="string">"x86"</span>,
+        )
+    )
+))]
+</span><span class="kw">mod </span>statx_flags {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::general::{
+        STATX_ALL, STATX_ATIME, STATX_BASIC_STATS, STATX_BLOCKS, STATX_BTIME, STATX_CTIME,
+        STATX_DIOALIGN, STATX_GID, STATX_INO, STATX_MNT_ID, STATX_MODE, STATX_MTIME, STATX_NLINK,
+        STATX_SIZE, STATX_TYPE, STATX_UID,
+    };
 
-<span class="comment">// TODO: This is new in Linux 6.5; remove when linux-raw-sys is updated.
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>MOVE_MOUNT_BENEATH: u32 = <span class="number">0x200</span>;
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>linux_raw_sys::general::{
+        STATX_ATTR_APPEND, STATX_ATTR_AUTOMOUNT, STATX_ATTR_COMPRESSED, STATX_ATTR_DAX,
+        STATX_ATTR_ENCRYPTED, STATX_ATTR_IMMUTABLE, STATX_ATTR_MOUNT_ROOT, STATX_ATTR_NODUMP,
+        STATX_ATTR_VERITY,
+    };
+}
+<span class="attr">#[cfg(any(
+    feature = <span class="string">"fs"</span>,
+    all(
+        linux_raw,
+        not(feature = <span class="string">"use-libc-auxv"</span>),
+        not(feature = <span class="string">"use-explicitly-provided-auxv"</span>),
+        any(
+            feature = <span class="string">"param"</span>,
+            feature = <span class="string">"runtime"</span>,
+            feature = <span class="string">"thread"</span>,
+            feature = <span class="string">"time"</span>,
+            target_arch = <span class="string">"x86"</span>,
+        )
+    )
+))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>statx_flags::<span class="kw-2">*</span>;
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bech32-0.10.0-beta/src/primitives/decode.rs`."><title>decode.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bech32" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">bech32/primitives/</div>decode.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bech32-0.11.0/src/primitives/decode.rs`."><title>decode.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bech32" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">bech32/primitives/</div>decode.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -981,14 +981,280 @@
 <a href="#980" id="980">980</a>
 <a href="#981" id="981">981</a>
 <a href="#982" id="982">982</a>
-<a href="#983" id="983">983</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: MIT
+<a href="#983" id="983">983</a>
+<a href="#984" id="984">984</a>
+<a href="#985" id="985">985</a>
+<a href="#986" id="986">986</a>
+<a href="#987" id="987">987</a>
+<a href="#988" id="988">988</a>
+<a href="#989" id="989">989</a>
+<a href="#990" id="990">990</a>
+<a href="#991" id="991">991</a>
+<a href="#992" id="992">992</a>
+<a href="#993" id="993">993</a>
+<a href="#994" id="994">994</a>
+<a href="#995" id="995">995</a>
+<a href="#996" id="996">996</a>
+<a href="#997" id="997">997</a>
+<a href="#998" id="998">998</a>
+<a href="#999" id="999">999</a>
+<a href="#1000" id="1000">1000</a>
+<a href="#1001" id="1001">1001</a>
+<a href="#1002" id="1002">1002</a>
+<a href="#1003" id="1003">1003</a>
+<a href="#1004" id="1004">1004</a>
+<a href="#1005" id="1005">1005</a>
+<a href="#1006" id="1006">1006</a>
+<a href="#1007" id="1007">1007</a>
+<a href="#1008" id="1008">1008</a>
+<a href="#1009" id="1009">1009</a>
+<a href="#1010" id="1010">1010</a>
+<a href="#1011" id="1011">1011</a>
+<a href="#1012" id="1012">1012</a>
+<a href="#1013" id="1013">1013</a>
+<a href="#1014" id="1014">1014</a>
+<a href="#1015" id="1015">1015</a>
+<a href="#1016" id="1016">1016</a>
+<a href="#1017" id="1017">1017</a>
+<a href="#1018" id="1018">1018</a>
+<a href="#1019" id="1019">1019</a>
+<a href="#1020" id="1020">1020</a>
+<a href="#1021" id="1021">1021</a>
+<a href="#1022" id="1022">1022</a>
+<a href="#1023" id="1023">1023</a>
+<a href="#1024" id="1024">1024</a>
+<a href="#1025" id="1025">1025</a>
+<a href="#1026" id="1026">1026</a>
+<a href="#1027" id="1027">1027</a>
+<a href="#1028" id="1028">1028</a>
+<a href="#1029" id="1029">1029</a>
+<a href="#1030" id="1030">1030</a>
+<a href="#1031" id="1031">1031</a>
+<a href="#1032" id="1032">1032</a>
+<a href="#1033" id="1033">1033</a>
+<a href="#1034" id="1034">1034</a>
+<a href="#1035" id="1035">1035</a>
+<a href="#1036" id="1036">1036</a>
+<a href="#1037" id="1037">1037</a>
+<a href="#1038" id="1038">1038</a>
+<a href="#1039" id="1039">1039</a>
+<a href="#1040" id="1040">1040</a>
+<a href="#1041" id="1041">1041</a>
+<a href="#1042" id="1042">1042</a>
+<a href="#1043" id="1043">1043</a>
+<a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a>
+<a href="#1048" id="1048">1048</a>
+<a href="#1049" id="1049">1049</a>
+<a href="#1050" id="1050">1050</a>
+<a href="#1051" id="1051">1051</a>
+<a href="#1052" id="1052">1052</a>
+<a href="#1053" id="1053">1053</a>
+<a href="#1054" id="1054">1054</a>
+<a href="#1055" id="1055">1055</a>
+<a href="#1056" id="1056">1056</a>
+<a href="#1057" id="1057">1057</a>
+<a href="#1058" id="1058">1058</a>
+<a href="#1059" id="1059">1059</a>
+<a href="#1060" id="1060">1060</a>
+<a href="#1061" id="1061">1061</a>
+<a href="#1062" id="1062">1062</a>
+<a href="#1063" id="1063">1063</a>
+<a href="#1064" id="1064">1064</a>
+<a href="#1065" id="1065">1065</a>
+<a href="#1066" id="1066">1066</a>
+<a href="#1067" id="1067">1067</a>
+<a href="#1068" id="1068">1068</a>
+<a href="#1069" id="1069">1069</a>
+<a href="#1070" id="1070">1070</a>
+<a href="#1071" id="1071">1071</a>
+<a href="#1072" id="1072">1072</a>
+<a href="#1073" id="1073">1073</a>
+<a href="#1074" id="1074">1074</a>
+<a href="#1075" id="1075">1075</a>
+<a href="#1076" id="1076">1076</a>
+<a href="#1077" id="1077">1077</a>
+<a href="#1078" id="1078">1078</a>
+<a href="#1079" id="1079">1079</a>
+<a href="#1080" id="1080">1080</a>
+<a href="#1081" id="1081">1081</a>
+<a href="#1082" id="1082">1082</a>
+<a href="#1083" id="1083">1083</a>
+<a href="#1084" id="1084">1084</a>
+<a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a>
+<a href="#1114" id="1114">1114</a>
+<a href="#1115" id="1115">1115</a>
+<a href="#1116" id="1116">1116</a>
+<a href="#1117" id="1117">1117</a>
+<a href="#1118" id="1118">1118</a>
+<a href="#1119" id="1119">1119</a>
+<a href="#1120" id="1120">1120</a>
+<a href="#1121" id="1121">1121</a>
+<a href="#1122" id="1122">1122</a>
+<a href="#1123" id="1123">1123</a>
+<a href="#1124" id="1124">1124</a>
+<a href="#1125" id="1125">1125</a>
+<a href="#1126" id="1126">1126</a>
+<a href="#1127" id="1127">1127</a>
+<a href="#1128" id="1128">1128</a>
+<a href="#1129" id="1129">1129</a>
+<a href="#1130" id="1130">1130</a>
+<a href="#1131" id="1131">1131</a>
+<a href="#1132" id="1132">1132</a>
+<a href="#1133" id="1133">1133</a>
+<a href="#1134" id="1134">1134</a>
+<a href="#1135" id="1135">1135</a>
+<a href="#1136" id="1136">1136</a>
+<a href="#1137" id="1137">1137</a>
+<a href="#1138" id="1138">1138</a>
+<a href="#1139" id="1139">1139</a>
+<a href="#1140" id="1140">1140</a>
+<a href="#1141" id="1141">1141</a>
+<a href="#1142" id="1142">1142</a>
+<a href="#1143" id="1143">1143</a>
+<a href="#1144" id="1144">1144</a>
+<a href="#1145" id="1145">1145</a>
+<a href="#1146" id="1146">1146</a>
+<a href="#1147" id="1147">1147</a>
+<a href="#1148" id="1148">1148</a>
+<a href="#1149" id="1149">1149</a>
+<a href="#1150" id="1150">1150</a>
+<a href="#1151" id="1151">1151</a>
+<a href="#1152" id="1152">1152</a>
+<a href="#1153" id="1153">1153</a>
+<a href="#1154" id="1154">1154</a>
+<a href="#1155" id="1155">1155</a>
+<a href="#1156" id="1156">1156</a>
+<a href="#1157" id="1157">1157</a>
+<a href="#1158" id="1158">1158</a>
+<a href="#1159" id="1159">1159</a>
+<a href="#1160" id="1160">1160</a>
+<a href="#1161" id="1161">1161</a>
+<a href="#1162" id="1162">1162</a>
+<a href="#1163" id="1163">1163</a>
+<a href="#1164" id="1164">1164</a>
+<a href="#1165" id="1165">1165</a>
+<a href="#1166" id="1166">1166</a>
+<a href="#1167" id="1167">1167</a>
+<a href="#1168" id="1168">1168</a>
+<a href="#1169" id="1169">1169</a>
+<a href="#1170" id="1170">1170</a>
+<a href="#1171" id="1171">1171</a>
+<a href="#1172" id="1172">1172</a>
+<a href="#1173" id="1173">1173</a>
+<a href="#1174" id="1174">1174</a>
+<a href="#1175" id="1175">1175</a>
+<a href="#1176" id="1176">1176</a>
+<a href="#1177" id="1177">1177</a>
+<a href="#1178" id="1178">1178</a>
+<a href="#1179" id="1179">1179</a>
+<a href="#1180" id="1180">1180</a>
+<a href="#1181" id="1181">1181</a>
+<a href="#1182" id="1182">1182</a>
+<a href="#1183" id="1183">1183</a>
+<a href="#1184" id="1184">1184</a>
+<a href="#1185" id="1185">1185</a>
+<a href="#1186" id="1186">1186</a>
+<a href="#1187" id="1187">1187</a>
+<a href="#1188" id="1188">1188</a>
+<a href="#1189" id="1189">1189</a>
+<a href="#1190" id="1190">1190</a>
+<a href="#1191" id="1191">1191</a>
+<a href="#1192" id="1192">1192</a>
+<a href="#1193" id="1193">1193</a>
+<a href="#1194" id="1194">1194</a>
+<a href="#1195" id="1195">1195</a>
+<a href="#1196" id="1196">1196</a>
+<a href="#1197" id="1197">1197</a>
+<a href="#1198" id="1198">1198</a>
+<a href="#1199" id="1199">1199</a>
+<a href="#1200" id="1200">1200</a>
+<a href="#1201" id="1201">1201</a>
+<a href="#1202" id="1202">1202</a>
+<a href="#1203" id="1203">1203</a>
+<a href="#1204" id="1204">1204</a>
+<a href="#1205" id="1205">1205</a>
+<a href="#1206" id="1206">1206</a>
+<a href="#1207" id="1207">1207</a>
+<a href="#1208" id="1208">1208</a>
+<a href="#1209" id="1209">1209</a>
+<a href="#1210" id="1210">1210</a>
+<a href="#1211" id="1211">1211</a>
+<a href="#1212" id="1212">1212</a>
+<a href="#1213" id="1213">1213</a>
+<a href="#1214" id="1214">1214</a>
+<a href="#1215" id="1215">1215</a>
+<a href="#1216" id="1216">1216</a>
+<a href="#1217" id="1217">1217</a>
+<a href="#1218" id="1218">1218</a>
+<a href="#1219" id="1219">1219</a>
+<a href="#1220" id="1220">1220</a>
+<a href="#1221" id="1221">1221</a>
+<a href="#1222" id="1222">1222</a>
+<a href="#1223" id="1223">1223</a>
+<a href="#1224" id="1224">1224</a>
+<a href="#1225" id="1225">1225</a>
+<a href="#1226" id="1226">1226</a>
+<a href="#1227" id="1227">1227</a>
+<a href="#1228" id="1228">1228</a>
+<a href="#1229" id="1229">1229</a>
+<a href="#1230" id="1230">1230</a>
+<a href="#1231" id="1231">1231</a>
+<a href="#1232" id="1232">1232</a>
+<a href="#1233" id="1233">1233</a>
+<a href="#1234" id="1234">1234</a>
+<a href="#1235" id="1235">1235</a>
+<a href="#1236" id="1236">1236</a>
+<a href="#1237" id="1237">1237</a>
+<a href="#1238" id="1238">1238</a>
+<a href="#1239" id="1239">1239</a>
+<a href="#1240" id="1240">1240</a>
+<a href="#1241" id="1241">1241</a>
+<a href="#1242" id="1242">1242</a>
+<a href="#1243" id="1243">1243</a>
+<a href="#1244" id="1244">1244</a>
+<a href="#1245" id="1245">1245</a>
+<a href="#1246" id="1246">1246</a>
+<a href="#1247" id="1247">1247</a>
+<a href="#1248" id="1248">1248</a>
+<a href="#1249" id="1249">1249</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: MIT
 
 </span><span class="doccomment">//! Decoding of bech32 encoded strings as specified by [BIP-173] and [BIP-350].
 //!
 //! You should only need to use this module directly if you want control over exactly what is
 //! checked and when it is checked (correct bech32 characters, valid checksum, valid checksum for
 //! specific checksum algorithm, etc). If you are parsing/validating modern (post BIP-350) bitcoin
-//! segwit addresses consider using the higher crate level API.
+//! segwit addresses consider using the [`crate::segwit`] API.
 //!
 //! If you do find yourself using this module directly then consider using the most general type
 //! that serves your purposes, each type can be created by parsing an address string to `new`. You
@@ -1100,8 +1366,10 @@
     </span>hrp: Hrp,
     <span class="doccomment">/// This is ASCII byte values of the parsed string, guaranteed to be valid bech32 characters.
     ///
-    /// Contains the checksum if one was present in the parsed string.
-    </span>data: <span class="kw-2">&amp;</span><span class="lifetime">'s </span>[u8],
+    /// The characters after the separator i.e., the "data part" defined by BIP-173.
+    </span>data_part_ascii: <span class="kw-2">&amp;</span><span class="lifetime">'s </span>[u8],
+    <span class="doccomment">/// The length of the parsed hrpstring.
+    </span>hrpstring_length: usize,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'s</span>&gt; UncheckedHrpstring&lt;<span class="lifetime">'s</span>&gt; {
@@ -1111,12 +1379,13 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>new(s: <span class="kw-2">&amp;</span><span class="lifetime">'s </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, UncheckedHrpstringError&gt; {
         <span class="kw">let </span>sep_pos = check_characters(s)<span class="question-mark">?</span>;
-        <span class="kw">let </span>(hrp, data) = s.split_at(sep_pos);
+        <span class="kw">let </span>(hrp, rest) = s.split_at(sep_pos);
 
         <span class="kw">let </span>ret = UncheckedHrpstring {
             hrp: Hrp::parse(hrp)<span class="question-mark">?</span>,
-            data: data[<span class="number">1</span>..].as_bytes(), <span class="comment">// Skip the separator.
-        </span>};
+            data_part_ascii: rest[<span class="number">1</span>..].as_bytes(), <span class="comment">// Skip the separator.
+            </span>hrpstring_length: s.len(),
+        };
 
         <span class="prelude-val">Ok</span>(ret)
     }
@@ -1124,6 +1393,88 @@
     <span class="doccomment">/// Returns the human-readable part.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>hrp(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Hrp { <span class="self">self</span>.hrp }
+
+    <span class="doccomment">/// Returns the data part as ASCII bytes i.e., everything after the separator '1'.
+    ///
+    /// The byte values are guaranteed to be valid bech32 characters. Includes the checksum
+    /// if one was present in the parsed string.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use bech32::primitives::decode::UncheckedHrpstring;
+    ///
+    /// let addr = "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq";
+    /// let ascii = "qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq";
+    ///
+    /// let unchecked = UncheckedHrpstring::new(&amp;addr).unwrap();
+    /// assert!(unchecked.data_part_ascii().iter().eq(ascii.as_bytes().iter()))
+    /// ```
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>data_part_ascii(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'s </span>[u8] { <span class="self">self</span>.data_part_ascii }
+
+    <span class="doccomment">/// Attempts to remove the first byte of the data part, treating it as a witness version.
+    ///
+    /// If [`Self::witness_version`] succeeds this function removes the first character (witness
+    /// version byte) from the internal ASCII data part buffer. Future calls to
+    /// [`Self::data_part_ascii`] will no longer include it.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use bech32::{primitives::decode::UncheckedHrpstring, Fe32};
+    ///
+    /// let addr = "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq";
+    /// let ascii = "ar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq";
+    ///
+    /// let mut unchecked = UncheckedHrpstring::new(&amp;addr).unwrap();
+    /// let witness_version = unchecked.remove_witness_version().unwrap();
+    /// assert_eq!(witness_version, Fe32::Q);
+    /// assert!(unchecked.data_part_ascii().iter().eq(ascii.as_bytes().iter()))
+    /// ```
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>remove_witness_version(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Fe32&gt; {
+        <span class="self">self</span>.witness_version().map(|witver| {
+            <span class="self">self</span>.data_part_ascii = <span class="kw-2">&amp;</span><span class="self">self</span>.data_part_ascii[<span class="number">1</span>..]; <span class="comment">// Remove the witness version byte.
+            </span>witver
+        })
+    }
+
+    <span class="doccomment">/// Returns the segwit witness version if there is one.
+    ///
+    /// Attempts to convert the first character of the data part to a witness version. If this
+    /// succeeds, and it is a valid version (0..16 inclusive) we return it, otherwise `None`.
+    ///
+    /// Future calls to [`Self::data_part_ascii`] will still include the witness version, use
+    /// [`Self::remove_witness_version`] to remove it.
+    ///
+    /// This function makes no guarantees on the validity of the checksum.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use bech32::{primitives::decode::UncheckedHrpstring, Fe32};
+    ///
+    /// // Note the invalid checksum!
+    /// let addr = "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzffffff";
+    ///
+    /// let unchecked = UncheckedHrpstring::new(&amp;addr).unwrap();
+    /// assert_eq!(unchecked.witness_version(), Some(Fe32::Q));
+    /// ```
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>witness_version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Fe32&gt; {
+        <span class="kw">let </span>data_part = <span class="self">self</span>.data_part_ascii();
+        <span class="kw">if </span>data_part.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+
+        <span class="comment">// unwrap ok because we know we gave valid bech32 characters.
+        </span><span class="kw">let </span>witness_version = Fe32::from_char(data_part[<span class="number">0</span>].into()).unwrap();
+        <span class="kw">if </span>witness_version.to_u8() &gt; <span class="number">16 </span>{
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+        <span class="prelude-val">Some</span>(witness_version)
+    }
 
     <span class="doccomment">/// Validates that data has a valid checksum for the `Ck` algorithm and returns a [`CheckedHrpstring`].
     </span><span class="attr">#[inline]
@@ -1151,25 +1502,32 @@
     </span><span class="kw">pub fn </span>validate_checksum&lt;Ck: Checksum&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), ChecksumError&gt; {
         <span class="kw">use </span>ChecksumError::<span class="kw-2">*</span>;
 
+        <span class="kw">if </span><span class="self">self</span>.hrpstring_length &gt; Ck::CODE_LENGTH {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(ChecksumError::CodeLength(CodeLengthError {
+                encoded_length: <span class="self">self</span>.hrpstring_length,
+                code_length: Ck::CODE_LENGTH,
+            }));
+        }
+
         <span class="kw">if </span>Ck::CHECKSUM_LENGTH == <span class="number">0 </span>{
             <span class="comment">// Called with NoChecksum
             </span><span class="kw">return </span><span class="prelude-val">Ok</span>(());
         }
 
-        <span class="kw">if </span><span class="self">self</span>.data.len() &lt; Ck::CHECKSUM_LENGTH {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidChecksumLength);
+        <span class="kw">if </span><span class="self">self</span>.data_part_ascii.len() &lt; Ck::CHECKSUM_LENGTH {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidLength);
         }
 
         <span class="kw">let </span><span class="kw-2">mut </span>checksum_eng = checksum::Engine::&lt;Ck&gt;::new();
-        checksum_eng.input_hrp(<span class="kw-2">&amp;</span><span class="self">self</span>.hrp());
+        checksum_eng.input_hrp(<span class="self">self</span>.hrp());
 
         <span class="comment">// Unwrap ok since we checked all characters in our constructor.
-        </span><span class="kw">for </span>fe <span class="kw">in </span><span class="self">self</span>.data.iter().map(|<span class="kw-2">&amp;</span>b| Fe32::from_char_unchecked(b)) {
+        </span><span class="kw">for </span>fe <span class="kw">in </span><span class="self">self</span>.data_part_ascii.iter().map(|<span class="kw-2">&amp;</span>b| Fe32::from_char_unchecked(b)) {
             checksum_eng.input_fe(fe);
         }
 
         <span class="kw">if </span>checksum_eng.residue() != <span class="kw-2">&amp;</span>Ck::TARGET_RESIDUE {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidChecksum);
+            <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidResidue);
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -1186,16 +1544,20 @@
     /// May panic if data is not valid.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>remove_checksum&lt;Ck: Checksum&gt;(<span class="self">self</span>) -&gt; CheckedHrpstring&lt;<span class="lifetime">'s</span>&gt; {
-        <span class="kw">let </span>data_len = <span class="self">self</span>.data.len() - Ck::CHECKSUM_LENGTH;
+        <span class="kw">let </span>end = <span class="self">self</span>.data_part_ascii.len() - Ck::CHECKSUM_LENGTH;
 
-        CheckedHrpstring { hrp: <span class="self">self</span>.hrp(), data: <span class="kw-2">&amp;</span><span class="self">self</span>.data[..data_len] }
+        CheckedHrpstring {
+            hrp: <span class="self">self</span>.hrp(),
+            ascii: <span class="kw-2">&amp;</span><span class="self">self</span>.data_part_ascii[..end],
+            hrpstring_length: <span class="self">self</span>.hrpstring_length,
+        }
     }
 }
 
 <span class="doccomment">/// An HRP string that has been parsed and had the checksum validated.
 ///
-/// This type does not treat the first byte of the data in any special way i.e., as the witness
-/// version byte. If you are parsing Bitcoin segwit addresses you likely want to use [`SegwitHrpstring`].
+/// This type does not treat the first byte of the data part in any special way i.e., as the witness
+/// version byte. If you are parsing Bitcoin segwit addresses consider using [`SegwitHrpstring`].
 ///
 /// &gt; We first describe the general checksummed base32 format called Bech32 and then
 /// &gt; define Segregated Witness addresses using it.
@@ -1219,10 +1581,13 @@
 </span><span class="kw">pub struct </span>CheckedHrpstring&lt;<span class="lifetime">'s</span>&gt; {
     <span class="doccomment">/// The human-readable part, guaranteed to be lowercase ASCII characters.
     </span>hrp: Hrp,
-    <span class="doccomment">/// This is ASCII byte values of the parsed string, guaranteed to be valid bech32 characters,
-    /// with the checksum removed.
-    </span>data: <span class="kw-2">&amp;</span><span class="lifetime">'s </span>[u8],
-}
+    <span class="doccomment">/// This is ASCII byte values of the parsed string, guaranteed to be valid bech32 characters.
+    ///
+    /// The characters after the '1' separator and the before the checksum.
+    </span>ascii: <span class="kw-2">&amp;</span><span class="lifetime">'s </span>[u8],
+    <span class="doccomment">/// The length of the parsed hrpstring.
+    </span>hrpstring_length: usize, <span class="comment">// Guaranteed to be &lt;= CK::CODE_LENGTH
+</span>}
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'s</span>&gt; CheckedHrpstring&lt;<span class="lifetime">'s</span>&gt; {
     <span class="doccomment">/// Parses and validates an HRP string, without treating the first data character specially.
@@ -1241,44 +1606,139 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>hrp(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Hrp { <span class="self">self</span>.hrp }
 
+    <span class="doccomment">/// Returns a partial slice of the data part, as ASCII bytes, everything after the separator '1'
+    /// before the checksum.
+    ///
+    /// The byte values are guaranteed to be valid bech32 characters.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use bech32::{Bech32, primitives::decode::CheckedHrpstring};
+    ///
+    /// let addr = "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq";
+    /// let ascii = "qar0srrr7xfkvy5l643lydnw9re59gtzz";
+    ///
+    /// let checked = CheckedHrpstring::new::&lt;Bech32&gt;(&amp;addr).unwrap();
+    /// assert!(checked.data_part_ascii_no_checksum().iter().eq(ascii.as_bytes().iter()))
+    /// ```
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>data_part_ascii_no_checksum(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'s </span>[u8] { <span class="self">self</span>.ascii }
+
+    <span class="doccomment">/// Attempts to remove the first byte of the data part, treating it as a witness version.
+    ///
+    /// If [`Self::witness_version`] succeeds this function removes the first character (witness
+    /// version byte) from the internal ASCII data part buffer. Future calls to
+    /// [`Self::data_part_ascii_no_checksum`] will no longer include it.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use bech32::{primitives::decode::CheckedHrpstring, Bech32, Fe32};
+    ///
+    /// let addr = "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq";
+    /// let ascii = "ar0srrr7xfkvy5l643lydnw9re59gtzz";
+    ///
+    /// let mut checked = CheckedHrpstring::new::&lt;Bech32&gt;(&amp;addr).unwrap();
+    /// let witness_version = checked.remove_witness_version().unwrap();
+    /// assert_eq!(witness_version, Fe32::Q);
+    /// assert!(checked.data_part_ascii_no_checksum().iter().eq(ascii.as_bytes().iter()))
+    /// ```
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>remove_witness_version(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Fe32&gt; {
+        <span class="self">self</span>.witness_version().map(|witver| {
+            <span class="self">self</span>.ascii = <span class="kw-2">&amp;</span><span class="self">self</span>.ascii[<span class="number">1</span>..]; <span class="comment">// Remove the witness version byte.
+            </span>witver
+        })
+    }
+
+    <span class="doccomment">/// Returns the segwit witness version if there is one.
+    ///
+    /// Attempts to convert the first character of the data part to a witness version. If this
+    /// succeeds, and it is a valid version (0..16 inclusive) we return it, otherwise `None`.
+    ///
+    /// Future calls to [`Self::data_part_ascii_no_checksum`] will still include the witness
+    /// version, use [`Self::remove_witness_version`] to remove it.
+    ///
+    /// This function makes no guarantees on the validity of the checksum.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use bech32::{primitives::decode::CheckedHrpstring, Bech32, Fe32};
+    ///
+    /// let addr = "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq";
+    ///
+    /// let checked = CheckedHrpstring::new::&lt;Bech32&gt;(&amp;addr).unwrap();
+    /// assert_eq!(checked.witness_version(), Some(Fe32::Q));
+    /// ```
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>witness_version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Fe32&gt; {
+        <span class="kw">let </span>data_part = <span class="self">self</span>.data_part_ascii_no_checksum();
+        <span class="kw">if </span>data_part.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+
+        <span class="comment">// unwrap ok because we know we gave valid bech32 characters.
+        </span><span class="kw">let </span>witness_version = Fe32::from_char(data_part[<span class="number">0</span>].into()).unwrap();
+        <span class="kw">if </span>witness_version.to_u8() &gt; <span class="number">16 </span>{
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+        <span class="prelude-val">Some</span>(witness_version)
+    }
+
+    <span class="doccomment">/// Returns an iterator that yields the data part of the parsed bech32 encoded string as [`Fe32`]s.
+    ///
+    /// Converts the ASCII bytes representing field elements to the respective field elements.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>fe32_iter&lt;I: Iterator&lt;Item = u8&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; AsciiToFe32Iter {
+        AsciiToFe32Iter { iter: <span class="self">self</span>.ascii.iter().copied() }
+    }
+
     <span class="doccomment">/// Returns an iterator that yields the data part of the parsed bech32 encoded string.
     ///
     /// Converts the ASCII bytes representing field elements to the respective field elements, then
     /// converts the stream of field elements to a stream of bytes.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>byte_iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ByteIter {
-        ByteIter { iter: AsciiToFe32Iter { iter: <span class="self">self</span>.data.iter().copied() }.fes_to_bytes() }
+        ByteIter { iter: AsciiToFe32Iter { iter: <span class="self">self</span>.ascii.iter().copied() }.fes_to_bytes() }
     }
 
     <span class="doccomment">/// Converts this type to a [`SegwitHrpstring`] after validating the witness and HRP.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>validate_segwit(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;SegwitHrpstring&lt;<span class="lifetime">'s</span>&gt;, SegwitHrpstringError&gt; {
-        <span class="kw">if </span><span class="self">self</span>.data.is_empty() {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(SegwitHrpstringError::MissingWitnessVersion);
+        <span class="kw">if </span><span class="self">self</span>.ascii.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(SegwitHrpstringError::NoData);
         }
-        <span class="comment">// Unwrap ok since check_characters checked the bech32-ness of this char.
-        </span><span class="kw">let </span>witness_version = Fe32::from_char(<span class="self">self</span>.data[<span class="number">0</span>].into()).unwrap();
-        <span class="self">self</span>.data = <span class="kw-2">&amp;</span><span class="self">self</span>.data[<span class="number">1</span>..]; <span class="comment">// Remove the witness version byte from data.
 
-        </span><span class="self">self</span>.validate_padding()<span class="question-mark">?</span>;
+        <span class="kw">if </span><span class="self">self</span>.hrpstring_length &gt; segwit::MAX_STRING_LENGTH {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(SegwitHrpstringError::TooLong(<span class="self">self</span>.hrpstring_length));
+        }
+
+        <span class="comment">// Unwrap ok since check_characters checked the bech32-ness of this char.
+        </span><span class="kw">let </span>witness_version = Fe32::from_char(<span class="self">self</span>.ascii[<span class="number">0</span>].into()).unwrap();
+        <span class="self">self</span>.ascii = <span class="kw-2">&amp;</span><span class="self">self</span>.ascii[<span class="number">1</span>..]; <span class="comment">// Remove the witness version byte.
+
+        </span><span class="self">self</span>.validate_segwit_padding()<span class="question-mark">?</span>;
         <span class="self">self</span>.validate_witness_program_length(witness_version)<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>(SegwitHrpstring { hrp: <span class="self">self</span>.hrp(), witness_version, data: <span class="self">self</span>.data })
+        <span class="prelude-val">Ok</span>(SegwitHrpstring { hrp: <span class="self">self</span>.hrp(), witness_version, ascii: <span class="self">self</span>.ascii })
     }
 
     <span class="doccomment">/// Validates the segwit padding rules.
     ///
-    /// Must be called after the witness version byte is removed from the data.
+    /// Must be called after the witness version byte is removed from the data part.
     ///
     /// From BIP-173:
     /// &gt; Re-arrange those bits into groups of 8 bits. Any incomplete group at the
     /// &gt; end MUST be 4 bits or less, MUST be all zeroes, and is discarded.
-    </span><span class="kw">fn </span>validate_padding(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), PaddingError&gt; {
-        <span class="kw">if </span><span class="self">self</span>.data.is_empty() {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>validate_segwit_padding(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), PaddingError&gt; {
+        <span class="kw">if </span><span class="self">self</span>.ascii.is_empty() {
             <span class="kw">return </span><span class="prelude-val">Ok</span>(()); <span class="comment">// Empty data implies correct padding.
         </span>}
 
-        <span class="kw">let </span>fe_iter = AsciiToFe32Iter { iter: <span class="self">self</span>.data.iter().copied() };
+        <span class="kw">let </span>fe_iter = AsciiToFe32Iter { iter: <span class="self">self</span>.ascii.iter().copied() };
         <span class="kw">let </span>padding_len = fe_iter.len() * <span class="number">5 </span>% <span class="number">8</span>;
 
         <span class="kw">if </span>padding_len &gt; <span class="number">4 </span>{
@@ -1305,8 +1765,9 @@
 
     <span class="doccomment">/// Validates the segwit witness length rules.
     ///
-    /// Must be called after the witness version byte is removed from the data.
-    </span><span class="kw">fn </span>validate_witness_program_length(
+    /// Must be called after the witness version byte is removed from the data part.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>validate_witness_program_length(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         witness_version: Fe32,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), WitnessLengthError&gt; {
@@ -1314,8 +1775,8 @@
     }
 }
 
-<span class="doccomment">/// An HRP string that has been parsed, had the checksum validated, had the witness version
-/// validated, had the witness data length checked, and the had witness version and checksum
+<span class="doccomment">/// An valid length HRP string that has been parsed, had the checksum validated, had the witness
+/// version validated, had the witness data length checked, and the had witness version and checksum
 /// removed.
 ///
 /// # Examples
@@ -1334,11 +1795,12 @@
 </span><span class="kw">pub struct </span>SegwitHrpstring&lt;<span class="lifetime">'s</span>&gt; {
     <span class="doccomment">/// The human-readable part, valid for segwit addresses.
     </span>hrp: Hrp,
-    <span class="doccomment">/// The first byte of the parsed data.
+    <span class="doccomment">/// The first byte of the parsed data part.
     </span>witness_version: Fe32,
-    <span class="doccomment">/// This is ASCII byte values of the parsed string, guaranteed to be valid bech32 characters,
-    /// with the witness version and checksum removed.
-    </span>data: <span class="kw-2">&amp;</span><span class="lifetime">'s </span>[u8],
+    <span class="doccomment">/// This is ASCII byte values of the parsed string, guaranteed to be valid bech32 characters.
+    ///
+    /// The characters after the witness version and before the checksum.
+    </span>ascii: <span class="kw-2">&amp;</span><span class="lifetime">'s </span>[u8],
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'s</span>&gt; SegwitHrpstring&lt;<span class="lifetime">'s</span>&gt; {
@@ -1351,14 +1813,21 @@
     /// to get strict BIP conformance (also [`Hrp::is_valid_on_mainnet`] and friends).
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>new(s: <span class="kw-2">&amp;</span><span class="lifetime">'s </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, SegwitHrpstringError&gt; {
+        <span class="kw">let </span>len = s.len();
+        <span class="kw">if </span>len &gt; segwit::MAX_STRING_LENGTH {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(SegwitHrpstringError::TooLong(len));
+        }
+
         <span class="kw">let </span>unchecked = UncheckedHrpstring::new(s)<span class="question-mark">?</span>;
 
-        <span class="kw">if </span>unchecked.data.is_empty() {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(SegwitHrpstringError::MissingWitnessVersion);
+        <span class="kw">let </span>data_part = unchecked.data_part_ascii();
+
+        <span class="kw">if </span>data_part.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(SegwitHrpstringError::NoData);
         }
 
         <span class="comment">// Unwrap ok since check_characters (in `Self::new`) checked the bech32-ness of this char.
-        </span><span class="kw">let </span>witness_version = Fe32::from_char(unchecked.data[<span class="number">0</span>].into()).unwrap();
+        </span><span class="kw">let </span>witness_version = Fe32::from_char(data_part[<span class="number">0</span>].into()).unwrap();
         <span class="kw">if </span>witness_version.to_u8() &gt; <span class="number">16 </span>{
             <span class="kw">return </span><span class="prelude-val">Err</span>(SegwitHrpstringError::InvalidWitnessVersion(witness_version));
         }
@@ -1386,9 +1855,10 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>new_bech32(s: <span class="kw-2">&amp;</span><span class="lifetime">'s </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, SegwitHrpstringError&gt; {
         <span class="kw">let </span>unchecked = UncheckedHrpstring::new(s)<span class="question-mark">?</span>;
+        <span class="kw">let </span>data_part = unchecked.data_part_ascii();
 
         <span class="comment">// Unwrap ok since check_characters (in `Self::new`) checked the bech32-ness of this char.
-        </span><span class="kw">let </span>witness_version = Fe32::from_char(unchecked.data[<span class="number">0</span>].into()).unwrap();
+        </span><span class="kw">let </span>witness_version = Fe32::from_char(data_part[<span class="number">0</span>].into()).unwrap();
         <span class="kw">if </span>witness_version.to_u8() &gt; <span class="number">16 </span>{
             <span class="kw">return </span><span class="prelude-val">Err</span>(SegwitHrpstringError::InvalidWitnessVersion(witness_version));
         }
@@ -1413,6 +1883,25 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>witness_version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Fe32 { <span class="self">self</span>.witness_version }
 
+    <span class="doccomment">/// Returns a partial slice of the data part, as ASCII bytes, everything after the witness
+    /// version and before the checksum.
+    ///
+    /// The byte values are guaranteed to be valid bech32 characters.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use bech32::{Bech32, primitives::decode::SegwitHrpstring};
+    ///
+    /// let addr = "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq";
+    /// let ascii = "ar0srrr7xfkvy5l643lydnw9re59gtzz";
+    ///
+    /// let segwit = SegwitHrpstring::new(&amp;addr).unwrap();
+    /// assert!(segwit.data_part_ascii_no_witver_no_checksum().iter().eq(ascii.as_bytes().iter()))
+    /// ```
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>data_part_ascii_no_witver_no_checksum(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'s </span>[u8] { <span class="self">self</span>.ascii }
+
     <span class="doccomment">/// Returns an iterator that yields the data part, excluding the witness version, of the parsed
     /// bech32 encoded string.
     ///
@@ -1422,12 +1911,12 @@
     /// Use `self.witness_version()` to get the witness version.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>byte_iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ByteIter {
-        ByteIter { iter: AsciiToFe32Iter { iter: <span class="self">self</span>.data.iter().copied() }.fes_to_bytes() }
+        ByteIter { iter: AsciiToFe32Iter { iter: <span class="self">self</span>.ascii.iter().copied() }.fes_to_bytes() }
     }
 }
 
-<span class="doccomment">/// Checks whether a given HRP string has data characters in the bech32 alphabet (incl. checksum
-/// characters), and that the whole string has consistent casing (hrp, data, and checksum).
+<span class="doccomment">/// Checks whether a given HRP string has data part characters in the bech32 alphabet (incl.
+/// checksum characters), and that the whole string has consistent casing (hrp and data part).
 ///
 /// # Returns
 ///
@@ -1464,7 +1953,7 @@
 
 <span class="doccomment">/// An iterator over a parsed HRP string data as bytes.
 </span><span class="kw">pub struct </span>ByteIter&lt;<span class="lifetime">'s</span>&gt; {
-    iter: FesToBytes&lt;AsciiToFe32Iter&lt;iter::Copied&lt;slice::Iter&lt;<span class="lifetime">'s</span>, u8&gt;&gt;&gt;&gt;,
+    iter: FesToBytes&lt;AsciiToFe32Iter&lt;<span class="lifetime">'s</span>&gt;&gt;,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'s</span>&gt; Iterator <span class="kw">for </span>ByteIter&lt;<span class="lifetime">'s</span>&gt; {
@@ -1482,7 +1971,7 @@
 
 <span class="doccomment">/// An iterator over a parsed HRP string data as field elements.
 </span><span class="kw">pub struct </span>Fe32Iter&lt;<span class="lifetime">'s</span>&gt; {
-    iter: AsciiToFe32Iter&lt;iter::Copied&lt;slice::Iter&lt;<span class="lifetime">'s</span>, u8&gt;&gt;&gt;,
+    iter: AsciiToFe32Iter&lt;<span class="lifetime">'s</span>&gt;,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'s</span>&gt; Iterator <span class="kw">for </span>Fe32Iter&lt;<span class="lifetime">'s</span>&gt; {
@@ -1493,21 +1982,18 @@
     </span><span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) { <span class="self">self</span>.iter.size_hint() }
 }
 
-<span class="doccomment">/// Helper iterator adaptor that maps an iterator of valid bech32 character ASCII bytes to an
+<span class="doccomment">/// Iterator adaptor that maps an iterator of valid bech32 character ASCII bytes to an
 /// iterator of field elements.
 ///
 /// # Panics
 ///
 /// If any `u8` in the input iterator is out of range for an [`Fe32`]. Should only be used on data
 /// that has already been checked for validity (eg, by using `check_characters`).
-</span><span class="kw">struct </span>AsciiToFe32Iter&lt;I: Iterator&lt;Item = u8&gt;&gt; {
-    iter: I,
+</span><span class="kw">pub struct </span>AsciiToFe32Iter&lt;<span class="lifetime">'s</span>&gt; {
+    iter: iter::Copied&lt;slice::Iter&lt;<span class="lifetime">'s</span>, u8&gt;&gt;,
 }
 
-<span class="kw">impl</span>&lt;I&gt; Iterator <span class="kw">for </span>AsciiToFe32Iter&lt;I&gt;
-<span class="kw">where
-    </span>I: Iterator&lt;Item = u8&gt;,
-{
+<span class="kw">impl</span>&lt;<span class="lifetime">'s</span>&gt; Iterator <span class="kw">for </span>AsciiToFe32Iter&lt;<span class="lifetime">'s</span>&gt; {
     <span class="kw">type </span>Item = Fe32;
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Fe32&gt; { <span class="self">self</span>.iter.next().map(Fe32::from_char_unchecked) }
@@ -1518,10 +2004,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;I&gt; ExactSizeIterator <span class="kw">for </span>AsciiToFe32Iter&lt;I&gt;
-<span class="kw">where
-    </span>I: Iterator&lt;Item = u8&gt; + ExactSizeIterator,
-{
+<span class="kw">impl</span>&lt;<span class="lifetime">'s</span>&gt; ExactSizeIterator <span class="kw">for </span>AsciiToFe32Iter&lt;<span class="lifetime">'s</span>&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize { <span class="self">self</span>.iter.len() }
 }
@@ -1532,8 +2015,10 @@
 </span><span class="kw">pub enum </span>SegwitHrpstringError {
     <span class="doccomment">/// Error while parsing the encoded address string.
     </span>Unchecked(UncheckedHrpstringError),
-    <span class="doccomment">/// The witness version byte is missing.
-    </span>MissingWitnessVersion,
+    <span class="doccomment">/// No data found after removing the checksum.
+    </span>NoData,
+    <span class="doccomment">/// String exceeds maximum allowed length.
+    </span>TooLong(usize),
     <span class="doccomment">/// Invalid witness version (must be 0-16 inclusive).
     </span>InvalidWitnessVersion(Fe32),
     <span class="doccomment">/// Invalid padding on the witness data.
@@ -1544,14 +2029,18 @@
     </span>Checksum(ChecksumError),
 }
 
-<span class="kw">impl </span>fmt::Display <span class="kw">for </span>SegwitHrpstringError {
+<span class="attr">#[rustfmt::skip]
+</span><span class="kw">impl </span>fmt::Display <span class="kw">for </span>SegwitHrpstringError {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">use </span>SegwitHrpstringError::<span class="kw-2">*</span>;
 
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             Unchecked(<span class="kw-2">ref </span>e) =&gt; <span class="macro">write_err!</span>(f, <span class="string">"parsing unchecked hrpstring failed"</span>; e),
-            MissingWitnessVersion =&gt; <span class="macro">write!</span>(f, <span class="string">"the witness version byte is missing"</span>),
-            InvalidWitnessVersion(fe) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid segwit witness version: {}"</span>, fe),
+            NoData =&gt; <span class="macro">write!</span>(f, <span class="string">"no data found after removing the checksum"</span>),
+            TooLong(len) =&gt;
+                <span class="macro">write!</span>(f, <span class="string">"encoded length {} exceeds spec limit {} chars"</span>, len, segwit::MAX_STRING_LENGTH),
+            InvalidWitnessVersion(fe) =&gt;
+                <span class="macro">write!</span>(f, <span class="string">"invalid segwit witness version: {} (bech32 character: '{}')"</span>, fe.to_u8(), fe),
             Padding(<span class="kw-2">ref </span>e) =&gt; <span class="macro">write_err!</span>(f, <span class="string">"invalid padding on the witness data"</span>; e),
             WitnessLength(<span class="kw-2">ref </span>e) =&gt; <span class="macro">write_err!</span>(f, <span class="string">"invalid witness length"</span>; e),
             Checksum(<span class="kw-2">ref </span>e) =&gt; <span class="macro">write_err!</span>(f, <span class="string">"invalid checksum"</span>; e),
@@ -1569,7 +2058,7 @@
             Padding(<span class="kw-2">ref </span>e) =&gt; <span class="prelude-val">Some</span>(e),
             WitnessLength(<span class="kw-2">ref </span>e) =&gt; <span class="prelude-val">Some</span>(e),
             Checksum(<span class="kw-2">ref </span>e) =&gt; <span class="prelude-val">Some</span>(e),
-            MissingWitnessVersion | InvalidWitnessVersion(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
+            NoData | TooLong(<span class="kw">_</span>) | InvalidWitnessVersion(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
         }
     }
 }
@@ -1688,10 +2177,6 @@
     </span>MissingSeparator,
     <span class="doccomment">/// No characters after the separator.
     </span>NothingAfterSeparator,
-    <span class="doccomment">/// The checksum does not match the rest of the data.
-    </span>InvalidChecksum,
-    <span class="doccomment">/// The checksum is not a valid length.
-    </span>InvalidChecksumLength,
     <span class="doccomment">/// Some part of the string contains an invalid character.
     </span>InvalidChar(char),
     <span class="doccomment">/// The whole string must be of one case.
@@ -1705,8 +2190,6 @@
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             MissingSeparator =&gt; <span class="macro">write!</span>(f, <span class="string">"missing human-readable separator, \"{}\""</span>, SEP),
             NothingAfterSeparator =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid data - no characters after the separator"</span>),
-            InvalidChecksum =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid checksum"</span>),
-            InvalidChecksumLength =&gt; <span class="macro">write!</span>(f, <span class="string">"the checksum is not a valid length"</span>),
             InvalidChar(n) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid character (code={})"</span>, n),
             MixedCase =&gt; <span class="macro">write!</span>(f, <span class="string">"mixed-case strings not allowed"</span>),
         }
@@ -1719,12 +2202,7 @@
         <span class="kw">use </span>CharError::<span class="kw-2">*</span>;
 
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            MissingSeparator
-            | NothingAfterSeparator
-            | InvalidChecksum
-            | InvalidChecksumLength
-            | InvalidChar(<span class="kw">_</span>)
-            | MixedCase =&gt; <span class="prelude-val">None</span>,
+            MissingSeparator | NothingAfterSeparator | InvalidChar(<span class="kw">_</span>) | MixedCase =&gt; <span class="prelude-val">None</span>,
         }
     }
 }
@@ -1733,10 +2211,12 @@
 </span><span class="attr">#[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
 </span><span class="kw">pub enum </span>ChecksumError {
-    <span class="doccomment">/// The checksum does not match the rest of the data.
-    </span>InvalidChecksum,
-    <span class="doccomment">/// The checksum is not a valid length.
-    </span>InvalidChecksumLength,
+    <span class="doccomment">/// String exceeds maximum allowed length.
+    </span>CodeLength(CodeLengthError),
+    <span class="doccomment">/// The checksum residue is not valid for the data.
+    </span>InvalidResidue,
+    <span class="doccomment">/// The checksummed string is not a valid length.
+    </span>InvalidLength,
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>ChecksumError {
@@ -1744,8 +2224,9 @@
         <span class="kw">use </span>ChecksumError::<span class="kw-2">*</span>;
 
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            InvalidChecksum =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid checksum"</span>),
-            InvalidChecksumLength =&gt; <span class="macro">write!</span>(f, <span class="string">"the checksum is not a valid length"</span>),
+            CodeLength(<span class="kw-2">ref </span>e) =&gt; <span class="macro">write_err!</span>(f, <span class="string">"string exceeds maximum allowed length"</span>; e),
+            InvalidResidue =&gt; <span class="macro">write!</span>(f, <span class="string">"the checksum residue is not valid for the data"</span>),
+            InvalidLength =&gt; <span class="macro">write!</span>(f, <span class="string">"the checksummed string is not a valid length"</span>),
         }
     }
 }
@@ -1756,9 +2237,60 @@
         <span class="kw">use </span>ChecksumError::<span class="kw-2">*</span>;
 
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            InvalidChecksum | InvalidChecksumLength =&gt; <span class="prelude-val">None</span>,
+            CodeLength(<span class="kw-2">ref </span>e) =&gt; <span class="prelude-val">Some</span>(e),
+            InvalidResidue | InvalidLength =&gt; <span class="prelude-val">None</span>,
         }
     }
+}
+
+<span class="doccomment">/// Encoding HRP and data into a bech32 string exceeds the checksum code length.
+</span><span class="attr">#[derive(Debug, Clone, PartialEq, Eq)]
+#[non_exhaustive]
+</span><span class="kw">pub struct </span>CodeLengthError {
+    <span class="doccomment">/// The length of the string if encoded with checksum.
+    </span><span class="kw">pub </span>encoded_length: usize,
+    <span class="doccomment">/// The checksum specific code length.
+    </span><span class="kw">pub </span>code_length: usize,
+}
+
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>CodeLengthError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        <span class="macro">write!</span>(
+            f,
+            <span class="string">"encoded length {} exceeds maximum (code length) {}"</span>,
+            <span class="self">self</span>.encoded_length, <span class="self">self</span>.code_length
+        )
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">impl </span>std::error::Error <span class="kw">for </span>CodeLengthError {
+    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>std::error::Error + <span class="lifetime">'static</span>)&gt; { <span class="prelude-val">None </span>}
+}
+
+<span class="doccomment">/// Encoding HRP, witver, and program into an address exceeds maximum allowed.
+</span><span class="attr">#[derive(Debug, Clone, PartialEq, Eq)]
+#[non_exhaustive]
+</span><span class="kw">pub struct </span>SegwitCodeLengthError(<span class="kw">pub </span>usize);
+
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>SegwitCodeLengthError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        <span class="macro">write!</span>(
+            f,
+            <span class="string">"encoded length {} exceeds maximum (code length) {}"</span>,
+            <span class="self">self</span>.<span class="number">0</span>,
+            segwit::MAX_STRING_LENGTH
+        )
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">impl </span>std::error::Error <span class="kw">for </span>SegwitCodeLengthError {
+    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>std::error::Error + <span class="lifetime">'static</span>)&gt; { <span class="prelude-val">None </span>}
+}
+
+<span class="kw">impl </span>From&lt;CodeLengthError&gt; <span class="kw">for </span>SegwitCodeLengthError {
+    <span class="kw">fn </span>from(e: CodeLengthError) -&gt; <span class="self">Self </span>{ <span class="self">Self</span>(e.encoded_length) }
 }
 
 <span class="doccomment">/// Error validating the padding bits on the witness data.
@@ -1841,13 +2373,13 @@
             .expect(<span class="string">"string parses correctly"</span>)
             .validate_checksum::&lt;Bech32&gt;()
             .unwrap_err();
-        <span class="macro">assert_eq!</span>(err, InvalidChecksumLength);
+        <span class="macro">assert_eq!</span>(err, InvalidLength);
 
         <span class="kw">let </span>err = UncheckedHrpstring::new(<span class="string">"A1G7SGD8"</span>)
             .expect(<span class="string">"string parses correctly"</span>)
             .validate_checksum::&lt;Bech32&gt;()
             .unwrap_err();
-        <span class="macro">assert_eq!</span>(err, InvalidChecksum);
+        <span class="macro">assert_eq!</span>(err, InvalidResidue);
     }
 
     <span class="attr">#[test]
@@ -1901,14 +2433,14 @@
         <span class="kw">for </span>s <span class="kw">in </span>invalid {
             <span class="kw">let </span>err =
                 UncheckedHrpstring::new(s).unwrap().validate_checksum::&lt;Bech32m&gt;().unwrap_err();
-            <span class="macro">assert_eq!</span>(err, InvalidChecksumLength);
+            <span class="macro">assert_eq!</span>(err, InvalidLength);
         }
 
         <span class="kw">let </span>err = UncheckedHrpstring::new(<span class="string">"M1VUXWEZ"</span>)
             .unwrap()
             .validate_checksum::&lt;Bech32m&gt;()
             .unwrap_err();
-        <span class="macro">assert_eq!</span>(err, InvalidChecksum);
+        <span class="macro">assert_eq!</span>(err, InvalidResidue);
     }
 
     <span class="attr">#[test]

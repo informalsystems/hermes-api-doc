@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_ibc-0.47.2/src/context/middlewares/pfm_mod.rs`."><title>pfm_mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="namada_ibc" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_ibc/context/middlewares/</div>pfm_mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_ibc-0.149.1/src/context/middlewares/pfm_mod.rs`."><title>pfm_mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="namada_ibc" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_ibc/context/middlewares/</div>pfm_mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -279,31 +279,7 @@
 <a href="#278" id="278">278</a>
 <a href="#279" id="279">279</a>
 <a href="#280" id="280">280</a>
-<a href="#281" id="281">281</a>
-<a href="#282" id="282">282</a>
-<a href="#283" id="283">283</a>
-<a href="#284" id="284">284</a>
-<a href="#285" id="285">285</a>
-<a href="#286" id="286">286</a>
-<a href="#287" id="287">287</a>
-<a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a>
-<a href="#290" id="290">290</a>
-<a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
-<a href="#298" id="298">298</a>
-<a href="#299" id="299">299</a>
-<a href="#300" id="300">300</a>
-<a href="#301" id="301">301</a>
-<a href="#302" id="302">302</a>
-<a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a></pre></div><pre class="rust"><code><span class="doccomment">//! Implementation of Packet Forward Middleware on top of the ICS-20
+<a href="#281" id="281">281</a></pre></div><pre class="rust"><code><span class="doccomment">//! Implementation of Packet Forward Middleware on top of the ICS-20
 //! [`TransferModule`].
 
 </span><span class="kw">use </span>std::fmt::{Debug, Formatter};
@@ -315,16 +291,16 @@
 };
 <span class="kw">use </span>ibc::apps::transfer::types::msgs::transfer::MsgTransfer;
 <span class="kw">use </span>ibc::apps::transfer::types::packet::PacketData;
-<span class="kw">use </span>ibc::apps::transfer::types::{is_receiver_chain_source, TracePrefix};
+<span class="kw">use </span>ibc::apps::transfer::types::{TracePrefix, is_receiver_chain_source};
 <span class="kw">use </span>ibc::core::channel::handler::{
     commit_packet_acknowledgment, emit_packet_acknowledgement_event,
 };
+<span class="kw">use </span>ibc::core::channel::types::Version;
 <span class="kw">use </span>ibc::core::channel::types::acknowledgement::Acknowledgement;
 <span class="kw">use </span>ibc::core::channel::types::channel::{Counterparty, Order};
 <span class="kw">use </span>ibc::core::channel::types::error::ChannelError;
 <span class="kw">use </span>ibc::core::channel::types::packet::Packet;
 <span class="kw">use </span>ibc::core::channel::types::timeout::TimeoutTimestamp;
-<span class="kw">use </span>ibc::core::channel::types::Version;
 <span class="kw">use </span>ibc::core::host::types::identifiers::{
     ChannelId, ConnectionId, PortId, Sequence,
 };
@@ -339,8 +315,8 @@
 <span class="kw">use </span>namada_core::address::{IBC <span class="kw">as </span>IBC_ADDRESS, MULTITOKEN};
 <span class="kw">use </span>namada_state::{StorageRead, StorageWrite};
 
-<span class="kw">use </span><span class="kw">crate</span>::context::transfer_mod::TransferModule;
 <span class="kw">use </span><span class="kw">crate</span>::context::IbcContext;
+<span class="kw">use </span><span class="kw">crate</span>::context::transfer_mod::TransferModule;
 <span class="kw">use </span><span class="kw">crate</span>::storage::inflight_packet_key;
 <span class="kw">use crate</span>::{Error, IbcCommonContext, IbcStorageContext, TokenTransferContext};
 
@@ -385,30 +361,6 @@
 
     <span class="kw">fn </span>next_middleware_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self</span>::NextMiddleware {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.transfer_module
-    }
-
-    <span class="kw">fn </span>middleware_on_recv_packet_execute(
-        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-        packet: <span class="kw-2">&amp;</span>Packet,
-        relayer: <span class="kw-2">&amp;</span>Signer,
-    ) -&gt; (ModuleExtras, <span class="prelude-ty">Option</span>&lt;Acknowledgement&gt;) {
-        <span class="kw">let </span><span class="prelude-val">Ok</span>(packet_data) =
-            serde_json::from_slice::&lt;PacketData&gt;(<span class="kw-2">&amp;</span>packet.data)
-        <span class="kw">else </span>{
-            <span class="kw">return </span><span class="self">self
-                </span>.transfer_module
-                .on_recv_packet_execute(packet, relayer);
-        };
-
-        <span class="kw">if </span><span class="kw">crate</span>::is_packet_forward(<span class="kw-2">&amp;</span>packet_data) {
-            <span class="self">self</span>.transfer_module.ctx.enable_parse_addr_as_governance();
-            <span class="kw">let </span>ret =
-                <span class="self">self</span>.transfer_module.on_recv_packet_execute(packet, relayer);
-            <span class="self">self</span>.transfer_module.ctx.disable_parse_addr_as_governance();
-            ret
-        } <span class="kw">else </span>{
-            <span class="self">self</span>.transfer_module.on_recv_packet_execute(packet, relayer)
-        }
     }
 }
 

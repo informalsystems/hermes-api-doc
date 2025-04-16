@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_governance-0.47.2/src/vp/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="namada_governance" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_governance/vp/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_governance-0.149.1/src/vp/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="namada_governance" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_governance/vp/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -3128,17 +3128,17 @@
 <span class="kw">use </span>namada_core::chain::Epoch;
 <span class="kw">use </span>namada_core::storage;
 <span class="kw">use </span>namada_systems::{proof_of_stake, trans_token <span class="kw">as </span>token};
-<span class="kw">use </span>namada_tx::action::{Action, GovAction};
 <span class="kw">use </span>namada_tx::BatchedTxRef;
+<span class="kw">use </span>namada_tx::action::{Action, GovAction};
 <span class="kw">use </span>namada_vp_env::{Error, <span class="prelude-ty">Result</span>, StorageRead, VpEnv};
 <span class="kw">use </span>thiserror::Error;
 
 <span class="kw">use </span><span class="self">self</span>::utils::ReadType;
+<span class="kw">use </span><span class="kw">crate</span>::ProposalVote;
 <span class="kw">use </span><span class="kw">crate</span>::address::{Address, InternalAddress};
 <span class="kw">use </span><span class="kw">crate</span>::storage::proposal::{AddRemove, PGFAction, ProposalType};
 <span class="kw">use </span><span class="kw">crate</span>::storage::{is_proposal_accepted, keys <span class="kw">as </span>gov_storage};
 <span class="kw">use </span><span class="kw">crate</span>::utils::is_valid_validator_voting_period;
-<span class="kw">use </span><span class="kw">crate</span>::ProposalVote;
 
 <span class="doccomment">/// The governance internal address
 </span><span class="kw">pub const </span>ADDRESS: Address = Address::Internal(InternalAddress::Governance);
@@ -4278,14 +4278,14 @@
     <span class="kw">use </span>std::collections::BTreeSet;
 
     <span class="kw">use </span>assert_matches::assert_matches;
+    <span class="kw">use </span>namada_core::address::Address;
     <span class="kw">use </span>namada_core::address::testing::{
         established_address_1, established_address_3, nam,
     };
-    <span class="kw">use </span>namada_core::address::Address;
     <span class="kw">use </span>namada_core::borsh::BorshSerializeExt;
     <span class="kw">use </span>namada_core::chain::testing::get_dummy_header;
-    <span class="kw">use </span>namada_core::key::testing::keypair_1;
     <span class="kw">use </span>namada_core::key::RefTo;
+    <span class="kw">use </span>namada_core::key::testing::keypair_1;
     <span class="kw">use </span>namada_core::parameters::Parameters;
     <span class="kw">use </span>namada_core::time::DateTimeUtc;
     <span class="kw">use </span>namada_gas::{TxGasMeter, VpGasMeter};
@@ -4302,9 +4302,9 @@
     <span class="kw">use </span>namada_tx::action::{Action, GovAction, Write};
     <span class="kw">use </span>namada_tx::data::TxType;
     <span class="kw">use </span>namada_tx::{Authorization, Code, Data, Section, Tx};
-    <span class="kw">use </span>namada_vm::wasm::run::VpEvalWasm;
     <span class="kw">use </span>namada_vm::wasm::VpCache;
-    <span class="kw">use </span>namada_vm::{wasm, WasmCacheRwAccess};
+    <span class="kw">use </span>namada_vm::wasm::run::VpEvalWasm;
+    <span class="kw">use </span>namada_vm::{WasmCacheRwAccess, wasm};
     <span class="kw">use </span>namada_vp::native_vp::{<span class="self">self</span>, CtxPreStorageRead};
 
     <span class="kw">use </span><span class="kw">crate</span>::storage::keys::{
@@ -4313,7 +4313,7 @@
         get_vote_proposal_key, get_voting_end_epoch_key,
         get_voting_start_epoch_key,
     };
-    <span class="kw">use crate</span>::{ProposalType, ProposalVote, ADDRESS};
+    <span class="kw">use crate</span>::{ADDRESS, ProposalType, ProposalVote};
 
     <span class="kw">type </span>CA = WasmCacheRwAccess;
     <span class="kw">type </span>Eval&lt;S&gt; = VpEvalWasm&lt;&lt;S <span class="kw">as </span>StateRead&gt;::D, &lt;S <span class="kw">as </span>StateRead&gt;::H, CA&gt;;

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_merkle_tree-0.47.2/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_merkle_tree" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_merkle_tree/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_merkle_tree-0.149.1/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_merkle_tree" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_merkle_tree/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1634,29 +1634,29 @@
 <span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::str::FromStr;
 
+<span class="kw">pub use </span>arse_merkle_tree::H256;
 <span class="kw">use </span>arse_merkle_tree::default_store::DefaultStore;
 <span class="kw">use </span>arse_merkle_tree::error::Error <span class="kw">as </span>MtError;
-<span class="kw">pub use </span>arse_merkle_tree::H256;
 <span class="kw">use </span>arse_merkle_tree::{
     Hash <span class="kw">as </span>SmtHash, Key <span class="kw">as </span>TreeKey, SparseMerkleTree <span class="kw">as </span>ArseMerkleTree,
 };
 <span class="kw">use </span>eth_bridge_pool::{BridgePoolProof, BridgePoolTree};
-<span class="kw">use </span>ics23::commitment_proof::Proof <span class="kw">as </span>Ics23Proof;
 <span class="kw">pub use </span>ics23::CommitmentProof;
+<span class="kw">use </span>ics23::commitment_proof::Proof <span class="kw">as </span>Ics23Proof;
 <span class="kw">use </span>ics23::{ExistenceProof, NonExistenceProof};
 <span class="kw">use </span>ics23_specs::ibc_leaf_spec;
 <span class="kw">use </span>namada_core::address::{Address, InternalAddress};
 <span class="kw">use </span>namada_core::borsh::{BorshDeserialize, BorshSerialize, BorshSerializeExt};
 <span class="kw">use </span>namada_core::bytes::HEXLOWER;
 <span class="kw">pub use </span>namada_core::chain::{BlockHeight, Epoch};
-<span class="kw">use </span>namada_core::eth_bridge_pool::{is_pending_transfer_key, PendingTransfer};
+<span class="kw">use </span>namada_core::eth_bridge_pool::{PendingTransfer, is_pending_transfer_key};
 <span class="kw">pub use </span>namada_core::hash::{Hash, StorageHasher};
 <span class="kw">pub use </span>namada_core::keccak::KeccakHash;
 <span class="kw">pub use </span>namada_core::storage::Key;
 <span class="kw">use </span>namada_core::storage::{
-    <span class="self">self</span>, DbKeySeg, KeySeg, StringKey, TreeBytes, TreeKeyError, IBC_KEY_LIMIT,
+    <span class="self">self</span>, DbKeySeg, IBC_KEY_LIMIT, KeySeg, StringKey, TreeBytes, TreeKeyError,
 };
-<span class="kw">use </span>namada_core::{decode, DecodeError};
+<span class="kw">use </span>namada_core::{DecodeError, decode};
 <span class="kw">use </span>namada_macros::BorshDeserializer;
 <span class="attr">#[cfg(feature = <span class="string">"migrations"</span>)]
 </span><span class="kw">use </span>namada_migrations::<span class="kw-2">*</span>;
@@ -1857,7 +1857,7 @@
     </span>CommitData,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; StoreRef&lt;<span class="lifetime">'a</span>&gt; {
+<span class="kw">impl </span>StoreRef&lt;<span class="lifetime">'_</span>&gt; {
     <span class="doccomment">/// Get owned copies of backing stores of our Merkle tree.
     </span><span class="kw">pub fn </span>to_owned(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Store {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
@@ -2538,7 +2538,7 @@
     commit: Hash,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; MerkleTreeStoresWrite&lt;<span class="lifetime">'a</span>&gt; {
+<span class="kw">impl </span>MerkleTreeStoresWrite&lt;<span class="lifetime">'_</span>&gt; {
     <span class="doccomment">/// Get the root of the given store type
     </span><span class="kw">pub fn </span>root(<span class="kw-2">&amp;</span><span class="self">self</span>, store_type: <span class="kw-2">&amp;</span>StoreType) -&gt; <span class="kw-2">&amp;</span>Hash {
         <span class="kw">match </span>store_type {
@@ -2615,7 +2615,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, H: StorageHasher + Default&gt; SubTreeRead <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>Smt&lt;H&gt; {
+<span class="kw">impl</span>&lt;H: StorageHasher + Default&gt; SubTreeRead <span class="kw">for </span><span class="kw-2">&amp;</span>Smt&lt;H&gt; {
     <span class="kw">fn </span>root(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; MerkleRoot {
         Smt::&lt;H&gt;::root(<span class="self">self</span>).into()
     }
@@ -2666,7 +2666,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, H: StorageHasher + Default&gt; SubTreeWrite <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Smt&lt;H&gt; {
+<span class="kw">impl</span>&lt;H: StorageHasher + Default&gt; SubTreeWrite <span class="kw">for </span><span class="kw-2">&amp;mut </span>Smt&lt;H&gt; {
     <span class="kw">fn </span>subtree_update(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         key: <span class="kw-2">&amp;</span>Key,
@@ -2686,7 +2686,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, H: StorageHasher + Default&gt; SubTreeRead <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>Amt&lt;H&gt; {
+<span class="kw">impl</span>&lt;H: StorageHasher + Default&gt; SubTreeRead <span class="kw">for </span><span class="kw-2">&amp;</span>Amt&lt;H&gt; {
     <span class="kw">fn </span>root(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; MerkleRoot {
         Amt::&lt;H&gt;::root(<span class="self">self</span>).into()
     }
@@ -2737,7 +2737,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, H: StorageHasher + Default&gt; SubTreeWrite <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Amt&lt;H&gt; {
+<span class="kw">impl</span>&lt;H: StorageHasher + Default&gt; SubTreeWrite <span class="kw">for </span><span class="kw-2">&amp;mut </span>Amt&lt;H&gt; {
     <span class="kw">fn </span>subtree_update(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         key: <span class="kw-2">&amp;</span>Key,
@@ -2759,7 +2759,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; SubTreeRead <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>BridgePoolTree {
+<span class="kw">impl </span>SubTreeRead <span class="kw">for </span><span class="kw-2">&amp;</span>BridgePoolTree {
     <span class="kw">fn </span>root(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; MerkleRoot {
         BridgePoolTree::root(<span class="self">self</span>).into()
     }
@@ -2795,7 +2795,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; SubTreeWrite <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>BridgePoolTree {
+<span class="kw">impl </span>SubTreeWrite <span class="kw">for </span><span class="kw-2">&amp;mut </span>BridgePoolTree {
     <span class="kw">fn </span>subtree_update(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         key: <span class="kw-2">&amp;</span>Key,
@@ -2814,7 +2814,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; SubTreeRead <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>CommitDataRoot {
+<span class="kw">impl </span>SubTreeRead <span class="kw">for </span><span class="kw-2">&amp;</span>CommitDataRoot {
     <span class="kw">fn </span>root(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; MerkleRoot {
         <span class="self">self</span>.<span class="number">0</span>.into()
     }
@@ -2847,7 +2847,7 @@
     </span>}
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; SubTreeWrite <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>CommitDataRoot {
+<span class="kw">impl </span>SubTreeWrite <span class="kw">for </span><span class="kw-2">&amp;mut </span>CommitDataRoot {
     <span class="kw">fn </span>subtree_update(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         _key: <span class="kw-2">&amp;</span>Key,

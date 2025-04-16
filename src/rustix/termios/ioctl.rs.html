@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-0.38.44/src/termios/ioctl.rs`."><title>ioctl.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/termios/</div>ioctl.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-1.0.3/src/termios/ioctl.rs`."><title>ioctl.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/termios/</div>ioctl.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -51,7 +51,20 @@
 <a href="#50" id="50">50</a>
 <a href="#51" id="51">51</a>
 <a href="#52" id="52">52</a>
-<a href="#53" id="53">53</a></pre></div><pre class="rust"><code><span class="doccomment">//! Terminal-related `ioctl` functions.
+<a href="#53" id="53">53</a>
+<a href="#54" id="54">54</a>
+<a href="#55" id="55">55</a>
+<a href="#56" id="56">56</a>
+<a href="#57" id="57">57</a>
+<a href="#58" id="58">58</a>
+<a href="#59" id="59">59</a>
+<a href="#60" id="60">60</a>
+<a href="#61" id="61">61</a>
+<a href="#62" id="62">62</a>
+<a href="#63" id="63">63</a>
+<a href="#64" id="64">64</a>
+<a href="#65" id="65">65</a>
+<a href="#66" id="66">66</a></pre></div><pre class="rust"><code><span class="doccomment">//! Terminal-related `ioctl` functions.
 
 </span><span class="attr">#![allow(unsafe_code)]
 
@@ -60,6 +73,9 @@
 <span class="kw">use </span>backend::c;
 
 <span class="doccomment">/// `ioctl(fd, TIOCEXCL)`—Enables exclusive mode on a terminal.
+///
+/// In exclusive mode, subsequent unprivileged `open` calls on the terminal
+/// device fail with [`io::Errno::BUSY`].
 ///
 /// # References
 ///  - [Linux]
@@ -71,13 +87,18 @@
 /// [FreeBSD]: https://man.freebsd.org/cgi/man.cgi?query=tty&amp;sektion=4
 /// [NetBSD]: https://man.netbsd.org/tty.4
 /// [OpenBSD]: https://man.openbsd.org/tty.4
-</span><span class="attr">#[cfg(not(any(windows, target_os = <span class="string">"redox"</span>, target_os = <span class="string">"wasi"</span>)))]
+</span><span class="attr">#[cfg(not(any(
+    windows,
+    target_os = <span class="string">"horizon"</span>,
+    target_os = <span class="string">"redox"</span>,
+    target_os = <span class="string">"wasi"
+</span>)))]
 #[inline]
 #[doc(alias = <span class="string">"TIOCEXCL"</span>)]
 </span><span class="kw">pub fn </span>ioctl_tiocexcl&lt;Fd: AsFd&gt;(fd: Fd) -&gt; io::Result&lt;()&gt; {
     <span class="comment">// SAFETY: `TIOCEXCL` is a no-argument setter opcode.
     </span><span class="kw">unsafe </span>{
-        <span class="kw">let </span>ctl = ioctl::NoArg::&lt;ioctl::BadOpcode&lt;{ c::TIOCEXCL <span class="kw">as _ </span>}&gt;&gt;::new();
+        <span class="kw">let </span>ctl = ioctl::NoArg::&lt;{ c::TIOCEXCL <span class="kw">as _ </span>}&gt;::new();
         ioctl::ioctl(fd, ctl)
     }
 }
@@ -94,13 +115,18 @@
 /// [FreeBSD]: https://man.freebsd.org/cgi/man.cgi?query=tty&amp;sektion=4
 /// [NetBSD]: https://man.netbsd.org/tty.4
 /// [OpenBSD]: https://man.openbsd.org/tty.4
-</span><span class="attr">#[cfg(not(any(windows, target_os = <span class="string">"redox"</span>, target_os = <span class="string">"wasi"</span>)))]
+</span><span class="attr">#[cfg(not(any(
+    windows,
+    target_os = <span class="string">"horizon"</span>,
+    target_os = <span class="string">"redox"</span>,
+    target_os = <span class="string">"wasi"
+</span>)))]
 #[inline]
 #[doc(alias = <span class="string">"TIOCNXCL"</span>)]
 </span><span class="kw">pub fn </span>ioctl_tiocnxcl&lt;Fd: AsFd&gt;(fd: Fd) -&gt; io::Result&lt;()&gt; {
     <span class="comment">// SAFETY: `TIOCNXCL` is a no-argument setter opcode.
     </span><span class="kw">unsafe </span>{
-        <span class="kw">let </span>ctl = ioctl::NoArg::&lt;ioctl::BadOpcode&lt;{ c::TIOCNXCL <span class="kw">as _ </span>}&gt;&gt;::new();
+        <span class="kw">let </span>ctl = ioctl::NoArg::&lt;{ c::TIOCNXCL <span class="kw">as _ </span>}&gt;::new();
         ioctl::ioctl(fd, ctl)
     }
 }

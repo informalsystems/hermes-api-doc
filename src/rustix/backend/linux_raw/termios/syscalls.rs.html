@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-0.38.44/src/backend/linux_raw/termios/syscalls.rs`."><title>syscalls.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/backend/linux_raw/termios/</div>syscalls.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-1.0.3/src/backend/linux_raw/termios/syscalls.rs`."><title>syscalls.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/backend/linux_raw/termios/</div>syscalls.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -412,7 +412,18 @@
 <a href="#411" id="411">411</a>
 <a href="#412" id="412">412</a>
 <a href="#413" id="413">413</a>
-<a href="#414" id="414">414</a></pre></div><pre class="rust"><code><span class="doccomment">//! linux_raw syscalls supporting `rustix::termios`.
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a></pre></div><pre class="rust"><code><span class="doccomment">//! linux_raw syscalls supporting `rustix::termios`.
 //!
 //! # Safety
 //!
@@ -422,16 +433,17 @@
 </span><span class="kw">use </span><span class="kw">crate</span>::backend::c;
 <span class="kw">use </span><span class="kw">crate</span>::backend::conv::{by_ref, c_uint, ret};
 <span class="kw">use </span><span class="kw">crate</span>::fd::BorrowedFd;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::ffi::CStr;
 <span class="kw">use </span><span class="kw">crate</span>::io;
 <span class="kw">use </span><span class="kw">crate</span>::pid::Pid;
-<span class="attr">#[cfg(all(feature = <span class="string">"alloc"</span>, feature = <span class="string">"procfs"</span>))]
-</span><span class="kw">use </span><span class="kw">crate</span>::procfs;
 <span class="kw">use </span><span class="kw">crate</span>::termios::{
     speed, Action, ControlModes, InputModes, LocalModes, OptionalActions, OutputModes,
     QueueSelector, SpecialCodeIndex, Termios, Winsize,
 };
-<span class="attr">#[cfg(all(feature = <span class="string">"alloc"</span>, feature = <span class="string">"procfs"</span>))]
-</span><span class="kw">use crate</span>::{ffi::CStr, fs::FileType, path::DecInt};
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+#[cfg(feature = <span class="string">"fs"</span>)]
+</span><span class="kw">use crate</span>::{fs::FileType, path::DecInt};
 <span class="kw">use </span>core::mem::MaybeUninit;
 
 <span class="attr">#[inline]
@@ -780,7 +792,8 @@
     </span>tcgetwinsize(fd).is_ok()
 }
 
-<span class="attr">#[cfg(all(feature = <span class="string">"alloc"</span>, feature = <span class="string">"procfs"</span>))]
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+#[cfg(feature = <span class="string">"fs"</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>ttyname(fd: BorrowedFd&lt;<span class="lifetime">'_</span>&gt;, buf: <span class="kw-2">&amp;mut </span>[MaybeUninit&lt;u8&gt;]) -&gt; io::Result&lt;usize&gt; {
     <span class="kw">let </span>fd_stat = <span class="kw">crate</span>::backend::fs::syscalls::fstat(fd)<span class="question-mark">?</span>;
 
@@ -792,31 +805,39 @@
     <span class="comment">// Check that `fd` is really a tty.
     </span>tcgetwinsize(fd)<span class="question-mark">?</span>;
 
-    <span class="comment">// Get a fd to "/proc/self/fd".
-    </span><span class="kw">let </span>proc_self_fd = procfs::proc_self_fd()<span class="question-mark">?</span>;
+    <span class="comment">// Create the "/proc/self/fd/&lt;fd&gt;" string.
+    </span><span class="kw">let </span><span class="kw-2">mut </span>proc_self_fd_buf: [u8; <span class="number">25</span>] = <span class="kw-2">*</span><span class="string">b"/proc/self/fd/\0\0\0\0\0\0\0\0\0\0\0"</span>;
+    <span class="kw">let </span>dec_int = DecInt::from_fd(fd);
+    <span class="kw">let </span>bytes_with_nul = dec_int.as_bytes_with_nul();
+    proc_self_fd_buf[<span class="string">b"/proc/self/fd/"</span>.len()..][..bytes_with_nul.len()]
+        .copy_from_slice(bytes_with_nul);
 
-    <span class="comment">// Gather the ttyname by reading the "fd" file inside `proc_self_fd`.
-    </span><span class="kw">let </span>r = <span class="kw">crate</span>::backend::fs::syscalls::readlinkat(
-        proc_self_fd,
-        DecInt::from_fd(fd).as_c_str(),
-        buf,
-    )<span class="question-mark">?</span>;
+    <span class="comment">// SAFETY: We just wrote a valid C String.
+    </span><span class="kw">let </span>proc_self_fd_path = <span class="kw">unsafe </span>{ CStr::from_ptr(proc_self_fd_buf.as_ptr().cast()) };
 
-    <span class="comment">// If the number of bytes is equal to the buffer length, truncation may
-    // have occurred. This check also ensures that we have enough space for
-    // adding a NUL terminator.
-    </span><span class="kw">if </span>r == buf.len() {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(io::Errno::RANGE);
-    }
+    <span class="kw">let </span>ptr = buf.as_mut_ptr();
+    <span class="kw">let </span>len = {
+        <span class="comment">// Gather the ttyname by reading the "fd" file inside `proc_self_fd`.
+        </span><span class="kw">let </span>(init, uninit) = <span class="kw">crate</span>::fs::readlinkat_raw(<span class="kw">crate</span>::fs::CWD, proc_self_fd_path, buf)<span class="question-mark">?</span>;
 
-    <span class="comment">// `readlinkat` returns the number of bytes placed in the buffer.
-    // NUL-terminate the string at that offset.
-    </span>buf[r].write(<span class="string">b'\0'</span>);
+        <span class="comment">// If the number of bytes is equal to the buffer length, truncation may
+        // have occurred. This check also ensures that we have enough space for
+        // adding a NUL terminator.
+        </span><span class="kw">if </span>uninit.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(io::Errno::RANGE);
+        }
+
+        <span class="comment">// `readlinkat` returns the number of bytes placed in the buffer.
+        // NUL-terminate the string at that offset.
+        </span>uninit[<span class="number">0</span>].write(<span class="string">b'\0'</span>);
+
+        init.len()
+    };
 
     <span class="comment">// Check that the path we read refers to the same file as `fd`.
     </span>{
-        <span class="comment">// SAFETY: We just wrote the NUL byte above
-        </span><span class="kw">let </span>path = <span class="kw">unsafe </span>{ CStr::from_ptr(buf.as_ptr().cast()) };
+        <span class="comment">// SAFETY: We just wrote the NUL byte above.
+        </span><span class="kw">let </span>path = <span class="kw">unsafe </span>{ CStr::from_ptr(ptr.cast()) };
 
         <span class="kw">let </span>path_stat = <span class="kw">crate</span>::backend::fs::syscalls::stat(path)<span class="question-mark">?</span>;
         <span class="kw">if </span>path_stat.st_dev != fd_stat.st_dev || path_stat.st_ino != fd_stat.st_ino {
@@ -824,6 +845,7 @@
         }
     }
 
-    <span class="prelude-val">Ok</span>(r)
+    <span class="comment">// Return the length, excluding the NUL terminator.
+    </span><span class="prelude-val">Ok</span>(len)
 }
 </code></pre></div></section></main></body></html>

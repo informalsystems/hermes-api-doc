@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_ibc-0.47.2/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_ibc" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_ibc/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_ibc-0.149.1/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_ibc" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_ibc/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1418,7 +1418,70 @@
 <a href="#1417" id="1417">1417</a>
 <a href="#1418" id="1418">1418</a>
 <a href="#1419" id="1419">1419</a>
-<a href="#1420" id="1420">1420</a></pre></div><pre class="rust"><code><span class="doccomment">//! IBC library code
+<a href="#1420" id="1420">1420</a>
+<a href="#1421" id="1421">1421</a>
+<a href="#1422" id="1422">1422</a>
+<a href="#1423" id="1423">1423</a>
+<a href="#1424" id="1424">1424</a>
+<a href="#1425" id="1425">1425</a>
+<a href="#1426" id="1426">1426</a>
+<a href="#1427" id="1427">1427</a>
+<a href="#1428" id="1428">1428</a>
+<a href="#1429" id="1429">1429</a>
+<a href="#1430" id="1430">1430</a>
+<a href="#1431" id="1431">1431</a>
+<a href="#1432" id="1432">1432</a>
+<a href="#1433" id="1433">1433</a>
+<a href="#1434" id="1434">1434</a>
+<a href="#1435" id="1435">1435</a>
+<a href="#1436" id="1436">1436</a>
+<a href="#1437" id="1437">1437</a>
+<a href="#1438" id="1438">1438</a>
+<a href="#1439" id="1439">1439</a>
+<a href="#1440" id="1440">1440</a>
+<a href="#1441" id="1441">1441</a>
+<a href="#1442" id="1442">1442</a>
+<a href="#1443" id="1443">1443</a>
+<a href="#1444" id="1444">1444</a>
+<a href="#1445" id="1445">1445</a>
+<a href="#1446" id="1446">1446</a>
+<a href="#1447" id="1447">1447</a>
+<a href="#1448" id="1448">1448</a>
+<a href="#1449" id="1449">1449</a>
+<a href="#1450" id="1450">1450</a>
+<a href="#1451" id="1451">1451</a>
+<a href="#1452" id="1452">1452</a>
+<a href="#1453" id="1453">1453</a>
+<a href="#1454" id="1454">1454</a>
+<a href="#1455" id="1455">1455</a>
+<a href="#1456" id="1456">1456</a>
+<a href="#1457" id="1457">1457</a>
+<a href="#1458" id="1458">1458</a>
+<a href="#1459" id="1459">1459</a>
+<a href="#1460" id="1460">1460</a>
+<a href="#1461" id="1461">1461</a>
+<a href="#1462" id="1462">1462</a>
+<a href="#1463" id="1463">1463</a>
+<a href="#1464" id="1464">1464</a>
+<a href="#1465" id="1465">1465</a>
+<a href="#1466" id="1466">1466</a>
+<a href="#1467" id="1467">1467</a>
+<a href="#1468" id="1468">1468</a>
+<a href="#1469" id="1469">1469</a>
+<a href="#1470" id="1470">1470</a>
+<a href="#1471" id="1471">1471</a>
+<a href="#1472" id="1472">1472</a>
+<a href="#1473" id="1473">1473</a>
+<a href="#1474" id="1474">1474</a>
+<a href="#1475" id="1475">1475</a>
+<a href="#1476" id="1476">1476</a>
+<a href="#1477" id="1477">1477</a>
+<a href="#1478" id="1478">1478</a>
+<a href="#1479" id="1479">1479</a>
+<a href="#1480" id="1480">1480</a>
+<a href="#1481" id="1481">1481</a>
+<a href="#1482" id="1482">1482</a>
+<a href="#1483" id="1483">1483</a></pre></div><pre class="rust"><code><span class="doccomment">//! IBC library code
 
 </span><span class="attr">#![doc(html_favicon_url = <span class="string">"https://dev.namada.net/master/favicon.png"</span>)]
 #![doc(html_logo_url = <span class="string">"https://dev.namada.net/master/rustdoc-logo.png"</span>)]
@@ -1436,6 +1499,7 @@
     clippy::print_stdout,
     clippy::print_stderr
 )]
+#![cfg_attr(feature = <span class="string">"arbitrary"</span>, allow(clippy::disallowed_methods))]
 
 </span><span class="kw">mod </span>actions;
 <span class="kw">pub mod </span>context;
@@ -1455,9 +1519,11 @@
 <span class="kw">use </span>std::str::FromStr;
 
 <span class="kw">pub use </span>actions::transfer_over_ibc;
-<span class="kw">use </span>apps::transfer::types::packet::PacketData;
 <span class="kw">use </span>apps::transfer::types::PORT_ID_STR;
+<span class="kw">use </span>apps::transfer::types::packet::PacketData;
 <span class="kw">use </span>borsh::BorshDeserialize;
+<span class="kw">use </span>context::IbcContext;
+<span class="kw">pub use </span>context::ValidationParams;
 <span class="kw">pub use </span>context::common::IbcCommonContext;
 <span class="kw">pub use </span>context::nft_transfer::NftTransferContext;
 <span class="kw">pub use </span>context::nft_transfer_mod::NftTransferModule;
@@ -1465,17 +1531,15 @@
 <span class="kw">pub use </span>context::storage::{IbcStorageContext, ProofSpec};
 <span class="kw">pub use </span>context::token_transfer::TokenTransferContext;
 <span class="kw">pub use </span>context::transfer_mod::{ModuleWrapper, TransferModule};
-<span class="kw">use </span>context::IbcContext;
-<span class="kw">pub use </span>context::ValidationParams;
 <span class="kw">use </span>ibc::apps::nft_transfer::handler::{
     send_nft_transfer_execute, send_nft_transfer_validate,
 };
 <span class="kw">use </span>ibc::apps::nft_transfer::types::error::NftTransferError;
 <span class="kw">use </span>ibc::apps::nft_transfer::types::msgs::transfer::MsgTransfer <span class="kw">as </span>IbcMsgNftTransfer;
 <span class="kw">use </span>ibc::apps::nft_transfer::types::{
-    ack_success_b64, is_receiver_chain_source <span class="kw">as </span>is_nft_receiver_chain_source,
-    PrefixedClassId, TokenId, TracePrefix <span class="kw">as </span>NftTracePrefix,
-    PORT_ID_STR <span class="kw">as </span>NFT_PORT_ID_STR,
+    PORT_ID_STR <span class="kw">as </span>NFT_PORT_ID_STR, PrefixedClassId, TokenId,
+    TracePrefix <span class="kw">as </span>NftTracePrefix, ack_success_b64,
+    is_receiver_chain_source <span class="kw">as </span>is_nft_receiver_chain_source,
 };
 <span class="kw">use </span>ibc::apps::transfer::handler::{
     send_transfer_execute, send_transfer_validate,
@@ -1483,7 +1547,7 @@
 <span class="kw">use </span>ibc::apps::transfer::types::error::TokenTransferError;
 <span class="kw">use </span>ibc::apps::transfer::types::msgs::transfer::MsgTransfer <span class="kw">as </span>IbcMsgTransfer;
 <span class="kw">use </span>ibc::apps::transfer::types::{
-    is_receiver_chain_source, TracePrefix, PORT_ID_STR <span class="kw">as </span>FT_PORT_ID_STR,
+    PORT_ID_STR <span class="kw">as </span>FT_PORT_ID_STR, TracePrefix, is_receiver_chain_source,
 };
 <span class="kw">use </span>ibc::core::channel::types::acknowledgement::AcknowledgementStatus;
 <span class="kw">use </span>ibc::core::channel::types::commitment::compute_ack_commitment;
@@ -1505,19 +1569,19 @@
 <span class="kw">use </span>masp_primitives::transaction::Transaction <span class="kw">as </span>MaspTransaction;
 <span class="kw">pub use </span>msg::<span class="kw-2">*</span>;
 <span class="kw">use </span>namada_core::address::{<span class="self">self</span>, Address};
-<span class="kw">use </span>namada_core::arith::{checked, CheckedAdd, CheckedSub};
+<span class="kw">use </span>namada_core::arith::{CheckedAdd, CheckedSub, checked};
 <span class="kw">use </span>namada_core::ibc::apps::nft_transfer::types::packet::PacketData <span class="kw">as </span>NftPacketData;
 <span class="kw">use </span>namada_core::ibc::core::channel::types::commitment::{
-    compute_packet_commitment, AcknowledgementCommitment, PacketCommitment,
+    AcknowledgementCommitment, PacketCommitment, compute_packet_commitment,
 };
 <span class="kw">pub use </span>namada_core::ibc::<span class="kw-2">*</span>;
-<span class="kw">use </span>namada_core::masp::{addr_taddr, ibc_taddr, TAddrData};
+<span class="kw">use </span>namada_core::masp::{TAddrData, addr_taddr, ibc_taddr};
 <span class="kw">use </span>namada_core::masp_primitives::transaction::components::ValueSum;
 <span class="kw">use </span>namada_core::token::Amount;
 <span class="kw">use </span>namada_events::EmitEvents;
 <span class="kw">use </span>namada_state::{
-    DBIter, Error <span class="kw">as </span>StorageError, Key, <span class="prelude-ty">Result </span><span class="kw">as </span>StorageResult, ResultExt,
-    State, StorageHasher, StorageRead, StorageWrite, WlState, DB,
+    DB, DBIter, Error <span class="kw">as </span>StorageError, Key, <span class="prelude-ty">Result </span><span class="kw">as </span>StorageResult, ResultExt,
+    State, StorageHasher, StorageRead, StorageWrite, WlState,
 };
 <span class="kw">use </span>namada_systems::ibc::ChangedBalances;
 <span class="kw">use </span>namada_systems::trans_token;
@@ -1991,6 +2055,17 @@
     <span class="prelude-val">Ok</span>(accum)
 }
 
+<span class="doccomment">/// Internal transfer data extracted from the wrapping IBC transaction
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>InternalData&lt;Transfer&gt; {
+    <span class="doccomment">/// The transparent transfer that happens in parallel to IBC processes
+    </span><span class="kw">pub </span>transparent: <span class="prelude-ty">Option</span>&lt;Transfer&gt;,
+    <span class="doccomment">/// The shielded transaction that happens in parallel to IBC processes
+    </span><span class="kw">pub </span>shielded: <span class="prelude-ty">Option</span>&lt;MaspTransaction&gt;,
+    <span class="doccomment">/// IBC tokens that are credited/debited to internal accounts
+    </span><span class="kw">pub </span>ibc_tokens: BTreeSet&lt;Address&gt;,
+}
+
 <span class="doccomment">/// IBC actions to handle IBC operations
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>IbcActions&lt;<span class="lifetime">'a</span>, C, Params, Token&gt;
@@ -2036,7 +2111,7 @@
     </span><span class="kw">pub fn </span>execute&lt;Transfer: BorshDeserialize&gt;(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         tx_data: <span class="kw-2">&amp;</span>[u8],
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(<span class="prelude-ty">Option</span>&lt;Transfer&gt;, <span class="prelude-ty">Option</span>&lt;MaspTransaction&gt;), Error&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;InternalData&lt;Transfer&gt;, Error&gt; {
         <span class="kw">let </span>message = decode_message::&lt;Transfer&gt;(tx_data)<span class="question-mark">?</span>;
         <span class="kw">let </span>result = <span class="kw">match </span>message {
             IbcMessage::Transfer(msg) =&gt; {
@@ -2062,13 +2137,22 @@
                 <span class="kw">if </span>msg.transfer.is_some() {
                     token_transfer_ctx.enable_shielded_transfer();
                 }
+                <span class="comment">// Record the token credited/debited in this transfer
+                </span><span class="kw">let </span>denom = msg.message.packet_data.token.denom.to_string();
+                <span class="kw">let </span>token = convert_to_address(denom)
+                    .into_storage_result()
+                    .map_err(Error::Storage)<span class="question-mark">?</span>;
                 send_transfer_execute(
                     <span class="kw-2">&amp;mut </span><span class="self">self</span>.ctx,
                     <span class="kw-2">&amp;mut </span>token_transfer_ctx,
                     msg.message,
                 )
                 .map_err(Error::TokenTransfer)<span class="question-mark">?</span>;
-                <span class="prelude-val">Ok</span>((msg.transfer, <span class="prelude-val">None</span>))
+                <span class="prelude-val">Ok</span>(InternalData {
+                    transparent: msg.transfer,
+                    shielded: <span class="prelude-val">None</span>,
+                    ibc_tokens: [token].into(),
+                })
             }
             IbcMessage::NftTransfer(msg) =&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>nft_transfer_ctx =
@@ -2091,13 +2175,34 @@
                             )
                         })<span class="question-mark">?</span>,
                 );
+                <span class="comment">// Record the tokens credited/debited in this NFT transfer
+                </span><span class="kw">let </span>tokens = msg
+                    .message
+                    .packet_data
+                    .token_ids
+                    .<span class="number">0
+                    </span>.iter()
+                    .map(|token_id| {
+                        convert_to_address(ibc_trace_for_nft(
+                            <span class="kw-2">&amp;</span>msg.message.packet_data.class_id,
+                            token_id,
+                        ))
+                        .into_storage_result()
+                        .map_err(Error::Storage)
+                    })
+                    .collect::&lt;<span class="prelude-ty">Result</span>&lt;<span class="kw">_</span>, <span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
+
                 send_nft_transfer_execute(
                     <span class="kw-2">&amp;mut </span><span class="self">self</span>.ctx,
                     <span class="kw-2">&amp;mut </span>nft_transfer_ctx,
                     msg.message,
                 )
                 .map_err(Error::NftTransfer)<span class="question-mark">?</span>;
-                <span class="prelude-val">Ok</span>((msg.transfer, <span class="prelude-val">None</span>))
+                <span class="prelude-val">Ok</span>(InternalData {
+                    transparent: msg.transfer,
+                    shielded: <span class="prelude-val">None</span>,
+                    ibc_tokens: tokens,
+                })
             }
             IbcMessage::Envelope(envelope) =&gt; {
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(verifier) = get_envelope_verifier(envelope.as_ref())
@@ -2115,24 +2220,45 @@
                     .map_err(|e| Error::Handler(Box::new(e)))<span class="question-mark">?</span>;
 
                 <span class="comment">// Extract MASP tx from the memo in the packet if needed
-                </span><span class="kw">let </span>masp_tx = <span class="kw">match </span><span class="kw-2">&amp;*</span>envelope {
+                </span><span class="kw">let </span>(masp_tx, tokens) = <span class="kw">match </span><span class="kw-2">&amp;*</span>envelope {
                     MsgEnvelope::Packet(PacketMsg::Recv(msg))
                         <span class="kw">if </span><span class="self">self
                             </span>.is_receiving_success(msg)<span class="question-mark">?
                             </span>.is_some_and(|ack_succ| ack_succ) =&gt;
                     {
-                        extract_masp_tx_from_packet(<span class="kw-2">&amp;</span>msg.packet)
+                        <span class="kw">let </span>ibc_traces = extract_traces_from_recv_msg(msg)
+                            .map_err(StorageError::new)
+                            .map_err(Error::Storage)<span class="question-mark">?</span>;
+                        <span class="kw">let </span><span class="kw-2">mut </span>tokens = BTreeSet::new();
+                        <span class="kw">for </span>ibc_trace <span class="kw">in </span>ibc_traces {
+                            <span class="comment">// Get the received token
+                            </span><span class="kw">let </span>token = received_ibc_token(
+                                ibc_trace,
+                                <span class="kw-2">&amp;</span>msg.packet.port_id_on_a,
+                                <span class="kw-2">&amp;</span>msg.packet.chan_id_on_a,
+                                <span class="kw-2">&amp;</span>msg.packet.port_id_on_b,
+                                <span class="kw-2">&amp;</span>msg.packet.chan_id_on_b,
+                            )
+                            .into_storage_result()
+                            .map_err(Error::Storage)<span class="question-mark">?</span>;
+                            tokens.insert(token);
+                        }
+                        (extract_masp_tx_from_packet(<span class="kw-2">&amp;</span>msg.packet), tokens)
                     }
                     <span class="attr">#[cfg(is_apple_silicon)]
                     </span>MsgEnvelope::Packet(PacketMsg::Ack(msg)) =&gt; {
                         <span class="comment">// NOTE: This is unneeded but wasm compilation error
                         // happened if deleted on macOS with Apple Silicon
                         </span><span class="kw">let _ </span>= extract_masp_tx_from_packet(<span class="kw-2">&amp;</span>msg.packet);
-                        <span class="prelude-val">None
-                    </span>}
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                        (<span class="prelude-val">None</span>, BTreeSet::new())
+                    }
+                    <span class="kw">_ </span>=&gt; (<span class="prelude-val">None</span>, BTreeSet::new()),
                 };
-                <span class="prelude-val">Ok</span>((<span class="prelude-val">None</span>, masp_tx))
+                <span class="prelude-val">Ok</span>(InternalData {
+                    transparent: <span class="prelude-val">None</span>,
+                    shielded: masp_tx,
+                    ibc_tokens: tokens,
+                })
             }
         };
         <span class="self">self</span>.insert_verifiers()<span class="question-mark">?</span>;

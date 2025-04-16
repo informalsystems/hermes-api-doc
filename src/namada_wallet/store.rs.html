@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_wallet-0.47.2/src/store.rs`."><title>store.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_wallet" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_wallet/</div>store.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_wallet-0.149.1/src/store.rs`."><title>store.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_wallet" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_wallet/</div>store.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1074,7 +1074,94 @@
 <a href="#1073" id="1073">1073</a>
 <a href="#1074" id="1074">1074</a>
 <a href="#1075" id="1075">1075</a>
-<a href="#1076" id="1076">1076</a></pre></div><pre class="rust"><code><span class="doccomment">//! Wallet Store information
+<a href="#1076" id="1076">1076</a>
+<a href="#1077" id="1077">1077</a>
+<a href="#1078" id="1078">1078</a>
+<a href="#1079" id="1079">1079</a>
+<a href="#1080" id="1080">1080</a>
+<a href="#1081" id="1081">1081</a>
+<a href="#1082" id="1082">1082</a>
+<a href="#1083" id="1083">1083</a>
+<a href="#1084" id="1084">1084</a>
+<a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a>
+<a href="#1114" id="1114">1114</a>
+<a href="#1115" id="1115">1115</a>
+<a href="#1116" id="1116">1116</a>
+<a href="#1117" id="1117">1117</a>
+<a href="#1118" id="1118">1118</a>
+<a href="#1119" id="1119">1119</a>
+<a href="#1120" id="1120">1120</a>
+<a href="#1121" id="1121">1121</a>
+<a href="#1122" id="1122">1122</a>
+<a href="#1123" id="1123">1123</a>
+<a href="#1124" id="1124">1124</a>
+<a href="#1125" id="1125">1125</a>
+<a href="#1126" id="1126">1126</a>
+<a href="#1127" id="1127">1127</a>
+<a href="#1128" id="1128">1128</a>
+<a href="#1129" id="1129">1129</a>
+<a href="#1130" id="1130">1130</a>
+<a href="#1131" id="1131">1131</a>
+<a href="#1132" id="1132">1132</a>
+<a href="#1133" id="1133">1133</a>
+<a href="#1134" id="1134">1134</a>
+<a href="#1135" id="1135">1135</a>
+<a href="#1136" id="1136">1136</a>
+<a href="#1137" id="1137">1137</a>
+<a href="#1138" id="1138">1138</a>
+<a href="#1139" id="1139">1139</a>
+<a href="#1140" id="1140">1140</a>
+<a href="#1141" id="1141">1141</a>
+<a href="#1142" id="1142">1142</a>
+<a href="#1143" id="1143">1143</a>
+<a href="#1144" id="1144">1144</a>
+<a href="#1145" id="1145">1145</a>
+<a href="#1146" id="1146">1146</a>
+<a href="#1147" id="1147">1147</a>
+<a href="#1148" id="1148">1148</a>
+<a href="#1149" id="1149">1149</a>
+<a href="#1150" id="1150">1150</a>
+<a href="#1151" id="1151">1151</a>
+<a href="#1152" id="1152">1152</a>
+<a href="#1153" id="1153">1153</a>
+<a href="#1154" id="1154">1154</a>
+<a href="#1155" id="1155">1155</a>
+<a href="#1156" id="1156">1156</a>
+<a href="#1157" id="1157">1157</a>
+<a href="#1158" id="1158">1158</a>
+<a href="#1159" id="1159">1159</a>
+<a href="#1160" id="1160">1160</a>
+<a href="#1161" id="1161">1161</a>
+<a href="#1162" id="1162">1162</a>
+<a href="#1163" id="1163">1163</a></pre></div><pre class="rust"><code><span class="doccomment">//! Wallet Store information
 
 </span><span class="attr">#![allow(clippy::print_stdout, clippy::print_stderr)]
 
@@ -1090,7 +1177,7 @@
 <span class="kw">use </span>namada_core::collections::HashSet;
 <span class="kw">use </span>namada_core::key::<span class="kw-2">*</span>;
 <span class="kw">use </span>namada_core::masp::{
-    ExtendedSpendingKey, ExtendedViewingKey, PaymentAddress,
+    DiversifierIndex, ExtendedSpendingKey, ExtendedViewingKey, PaymentAddress,
 };
 <span class="kw">use </span>serde::{Deserialize, Serialize};
 <span class="kw">use </span>zeroize::Zeroizing;
@@ -1146,6 +1233,9 @@
     </span>spend_keys: BTreeMap&lt;Alias, StoredKeypair&lt;StoreSpendingKey&gt;&gt;,
     <span class="doccomment">/// Payment address book
     </span>payment_addrs: BiBTreeMap&lt;Alias, PaymentAddress&gt;,
+    <span class="doccomment">/// Diverisifier index of the next payment address to be generated for a
+    /// given key.
+    </span>diversifier_indices: BTreeMap&lt;Alias, DiversifierIndex&gt;,
     <span class="doccomment">/// Cryptographic keypairs
     </span>secret_keys: BTreeMap&lt;Alias, StoredKeypair&lt;common::SecretKey&gt;&gt;,
     <span class="doccomment">/// Known public keys
@@ -1230,6 +1320,14 @@
         alias: <span class="kw">impl </span>AsRef&lt;str&gt;,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>BlockHeight&gt; {
         <span class="self">self</span>.birthdays.get(<span class="kw-2">&amp;</span>alias.into())
+    }
+
+    <span class="doccomment">/// Find the diversifier of the given alias
+    </span><span class="kw">pub fn </span>find_diversifier_index(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        alias: <span class="kw">impl </span>AsRef&lt;str&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>DiversifierIndex&gt; {
+        <span class="self">self</span>.diversifier_indices.get(<span class="kw-2">&amp;</span>alias.into())
     }
 
     <span class="doccomment">/// Find the payment address with the given alias and return it
@@ -1411,8 +1509,7 @@
         <span class="kw">let </span>address = address
             .unwrap_or_else(|| Address::Implicit(ImplicitAddress(pkh.clone())));
         <span class="kw">if </span>!force {
-            <span class="kw">if </span><span class="self">self</span>.pkhs.contains_key(<span class="kw-2">&amp;</span>pkh) {
-                <span class="kw">let </span>alias = <span class="self">self</span>.pkhs.get(<span class="kw-2">&amp;</span>pkh).unwrap();
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(alias) = <span class="self">self</span>.pkhs.get(<span class="kw-2">&amp;</span>pkh) {
                 <span class="macro">println!</span>(<span class="string">"The key already exists with alias {}"</span>, alias);
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             } <span class="kw">else if let </span><span class="prelude-val">Some</span>(alias) = <span class="self">self</span>.addresses.get_by_right(<span class="kw-2">&amp;</span>address) {
@@ -1560,8 +1657,7 @@
         <span class="kw">let </span>address = address
             .unwrap_or_else(|| Address::Implicit(ImplicitAddress(pkh.clone())));
         <span class="kw">if </span>!force {
-            <span class="kw">if </span><span class="self">self</span>.pkhs.contains_key(<span class="kw-2">&amp;</span>pkh) {
-                <span class="kw">let </span>alias = <span class="self">self</span>.pkhs.get(<span class="kw-2">&amp;</span>pkh).unwrap();
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(alias) = <span class="self">self</span>.pkhs.get(<span class="kw-2">&amp;</span>pkh) {
                 <span class="macro">println!</span>(<span class="string">"The key already exists with alias {}"</span>, alias);
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             } <span class="kw">else if let </span><span class="prelude-val">Some</span>(alias) = <span class="self">self</span>.addresses.get_by_right(<span class="kw-2">&amp;</span>address) {
@@ -1635,6 +1731,27 @@
         <span class="prelude-val">Some</span>(alias)
     }
 
+    <span class="doccomment">/// Insert the given diversifier index under the given alias. Useful for
+    /// sequential payment address generation.
+    </span><span class="kw">pub fn </span>insert_diversifier_index(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        alias: Alias,
+        div_index: DiversifierIndex,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;Alias&gt; {
+        <span class="comment">// abort if the alias is reserved
+        </span><span class="kw">if </span>Alias::is_reserved(<span class="kw-2">&amp;</span>alias).is_some() {
+            <span class="macro">println!</span>(<span class="string">"The alias {} is reserved."</span>, alias);
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+
+        <span class="kw">if </span>alias.is_empty() {
+            <span class="macro">eprintln!</span>(<span class="string">"Empty alias given."</span>);
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+        <span class="self">self</span>.diversifier_indices.insert(alias.clone(), div_index);
+        <span class="prelude-val">Some</span>(alias)
+    }
+
     <span class="doccomment">/// Insert a new address with the given alias. If the alias is already used,
     /// will prompt for overwrite/reselection confirmation, which when declined,
     /// the address won't be added. Return the selected alias if the address has
@@ -1699,6 +1816,7 @@
         <span class="self">self</span>.public_keys.remove(alias);
         <span class="self">self</span>.derivation_paths.remove(alias);
         <span class="self">self</span>.birthdays.remove(alias);
+        <span class="self">self</span>.diversifier_indices.remove(alias);
     }
 
     <span class="doccomment">/// Extend this store from another store (typically pre-genesis).
@@ -1709,6 +1827,7 @@
             view_keys,
             spend_keys,
             payment_addrs,
+            diversifier_indices,
             secret_keys,
             public_keys,
             derivation_paths,
@@ -1721,6 +1840,7 @@
         view_keys.extend(store.view_keys);
         spend_keys.extend(store.spend_keys);
         payment_addrs.extend(store.payment_addrs);
+        diversifier_indices.extend(store.diversifier_indices);
         secret_keys.extend(store.secret_keys);
         public_keys.extend(store.public_keys);
         derivation_paths.extend(store.derivation_paths);
@@ -1809,20 +1929,26 @@
             .insert(address);
     }
 
-    <span class="doccomment">/// Decode a Store from the given bytes
-    </span><span class="kw">pub fn </span>decode(data: Vec&lt;u8&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, toml::de::Error&gt; {
+    <span class="doccomment">/// Decode a Store from the given string
+    </span><span class="kw">pub fn </span>decode(data: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, toml::de::Error&gt; {
         <span class="comment">// First try to decode Store from current version (with separate
         // birthdays)
-        </span>toml::from_slice(<span class="kw-2">&amp;</span>data).or_else(
-            <span class="comment">// Otherwise try to decode Store from older version (with
-            // integrated birthdays)
-            </span>|<span class="kw">_</span>| toml::from_slice::&lt;StoreV0&gt;(<span class="kw-2">&amp;</span>data).map(Into::into),
-        )
+        </span>toml::from_str(data)
+            .or_else(
+                <span class="comment">// Otherwise try to decode Store from older version (without
+                // diversifier indices)
+                </span>|<span class="kw">_</span>| toml::from_str::&lt;StoreV1&gt;(data).map(Into::into),
+            )
+            .or_else(
+                <span class="comment">// Otherwise try to decode Store from older version (with
+                // integrated birthdays)
+                </span>|<span class="kw">_</span>| toml::from_str::&lt;StoreV0&gt;(data).map(Into::into),
+            )
     }
 
-    <span class="doccomment">/// Encode a store into a string of bytes
-    </span><span class="kw">pub fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;u8&gt; {
-        toml::to_vec(<span class="self">self</span>).expect(<span class="string">"Serializing of store shouldn't fail"</span>)
+    <span class="doccomment">/// Encode a store into a string
+    </span><span class="kw">pub fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
+        toml::to_string(<span class="self">self</span>).expect(<span class="string">"Serializing of store shouldn't fail"</span>)
     }
 }
 
@@ -1985,6 +2111,54 @@
             }
         }
         to
+    }
+}
+
+<span class="comment">// A Storage area for keys and addresses. This is a deprecated format but it
+// is required for compatability purposes.
+</span><span class="attr">#[derive(Serialize, Deserialize, Debug, Default)]
+</span><span class="kw">pub struct </span>StoreV1 {
+    <span class="doccomment">/// Known birthdays
+    </span>birthdays: BTreeMap&lt;Alias, BlockHeight&gt;,
+    <span class="doccomment">/// Known viewing keys
+    </span>view_keys: BTreeMap&lt;Alias, ExtendedViewingKey&gt;,
+    <span class="doccomment">/// Known spending keys
+    </span>spend_keys: BTreeMap&lt;Alias, StoredKeypair&lt;StoreSpendingKey&gt;&gt;,
+    <span class="doccomment">/// Payment address book
+    </span>payment_addrs: BiBTreeMap&lt;Alias, PaymentAddress&gt;,
+    <span class="doccomment">/// Cryptographic keypairs
+    </span>secret_keys: BTreeMap&lt;Alias, StoredKeypair&lt;common::SecretKey&gt;&gt;,
+    <span class="doccomment">/// Known public keys
+    </span>public_keys: BTreeMap&lt;Alias, common::PublicKey&gt;,
+    <span class="doccomment">/// Known derivation paths
+    </span>derivation_paths: BTreeMap&lt;Alias, DerivationPath&gt;,
+    <span class="doccomment">/// Namada address book
+    </span>addresses: BiBTreeMap&lt;Alias, Address&gt;,
+    <span class="doccomment">/// Known mappings of public key hashes to their aliases in the `keys`
+    /// field. Used for look-up by a public key.
+    </span>pkhs: BTreeMap&lt;PublicKeyHash, Alias&gt;,
+    <span class="doccomment">/// Special keys if the wallet belongs to a validator
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) validator_data: <span class="prelude-ty">Option</span>&lt;ValidatorData&gt;,
+    <span class="doccomment">/// Namada address vp type
+    </span>address_vp_types: BTreeMap&lt;AddressVpType, HashSet&lt;Address&gt;&gt;,
+}
+
+<span class="kw">impl </span>From&lt;StoreV1&gt; <span class="kw">for </span>Store {
+    <span class="kw">fn </span>from(store: StoreV1) -&gt; <span class="self">Self </span>{
+        Store {
+            payment_addrs: store.payment_addrs,
+            secret_keys: store.secret_keys,
+            public_keys: store.public_keys,
+            derivation_paths: store.derivation_paths,
+            addresses: store.addresses,
+            pkhs: store.pkhs,
+            validator_data: store.validator_data,
+            address_vp_types: store.address_vp_types,
+            view_keys: store.view_keys,
+            spend_keys: store.spend_keys,
+            birthdays: store.birthdays,
+            ..Store::default()
+        }
     }
 }
 

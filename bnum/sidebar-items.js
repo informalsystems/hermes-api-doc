@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["cast","errors","prelude","types"],"struct":["BInt","BIntD16","BIntD32","BIntD8","BUint","BUintD16","BUintD32","BUintD8"]};

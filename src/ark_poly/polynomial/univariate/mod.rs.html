@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-poly-0.4.2/src/polynomial/univariate/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ark_poly" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_poly/polynomial/univariate/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-poly-0.5.0/src/polynomial/univariate/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ark_poly" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_poly/polynomial/univariate/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -189,11 +189,23 @@
 <a href="#188" id="188">188</a>
 <a href="#189" id="189">189</a>
 <a href="#190" id="190">190</a>
-<a href="#191" id="191">191</a></pre></div><pre class="rust"><code><span class="doccomment">//! Work with sparse and dense polynomials.
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a></pre></div><pre class="rust"><code><span class="doccomment">//! Work with sparse and dense polynomials.
 
 </span><span class="kw">use crate</span>::{DenseUVPolynomial, EvaluationDomain, Evaluations, Polynomial};
 <span class="kw">use </span>ark_ff::{FftField, Field, Zero};
-<span class="kw">use </span>ark_std::{borrow::Cow, convert::TryInto, vec::Vec};
+<span class="kw">use </span>ark_std::{borrow::Cow, vec::<span class="kw-2">*</span>};
 <span class="kw">use </span>DenseOrSparsePolynomial::<span class="kw-2">*</span>;
 
 <span class="kw">mod </span>dense;
@@ -337,41 +349,53 @@
     }
 
     <span class="kw">fn </span>eval_over_domain_helper&lt;D: EvaluationDomain&lt;F&gt;&gt;(<span class="self">self</span>, domain: D) -&gt; Evaluations&lt;F, D&gt; {
+        <span class="kw">let </span>eval_sparse_poly = |s: <span class="kw-2">&amp;</span>SparsePolynomial&lt;F&gt;| {
+            <span class="kw">let </span>evals = domain.elements().map(|elem| s.evaluate(<span class="kw-2">&amp;</span>elem)).collect();
+            Evaluations::from_vec_and_domain(evals, domain)
+        };
+
         <span class="kw">match </span><span class="self">self </span>{
-            SPolynomial(Cow::Borrowed(s)) =&gt; {
-                <span class="kw">let </span>evals = domain.elements().map(|elem| s.evaluate(<span class="kw-2">&amp;</span>elem)).collect();
-                Evaluations::from_vec_and_domain(evals, domain)
-            },
-            SPolynomial(Cow::Owned(s)) =&gt; {
-                <span class="kw">let </span>evals = domain.elements().map(|elem| s.evaluate(<span class="kw-2">&amp;</span>elem)).collect();
-                Evaluations::from_vec_and_domain(evals, domain)
-            },
+            SPolynomial(Cow::Borrowed(s)) =&gt; eval_sparse_poly(s),
+            SPolynomial(Cow::Owned(s)) =&gt; eval_sparse_poly(<span class="kw-2">&amp;</span>s),
             DPolynomial(Cow::Borrowed(d)) =&gt; {
                 <span class="kw">if </span>d.is_zero() {
-                    Evaluations::from_vec_and_domain(<span class="macro">vec!</span>[F::zero(); domain.size()], domain)
+                    Evaluations::zero(domain)
                 } <span class="kw">else </span>{
+                    <span class="kw">let </span><span class="kw-2">mut </span>chunks = d.coeffs.chunks(domain.size());
+                    <span class="kw">let </span><span class="kw-2">mut </span>first = chunks.next().unwrap().to_vec();
+                    <span class="kw">let </span>offset = domain.coset_offset();
                     <span class="comment">// Reduce the coefficients of the polynomial mod X^domain.size()
-                    </span><span class="kw">let </span><span class="kw-2">mut </span>chunks = d.coeffs.chunks(domain.size());
-                    <span class="kw">let </span><span class="kw-2">mut </span>reduced = chunks.next().unwrap().to_vec();
-                    <span class="kw">for </span>chunk <span class="kw">in </span>chunks {
-                        <span class="macro">cfg_iter_mut!</span>(reduced).zip(chunk).for_each(|(x, y)| {
-                            <span class="kw-2">*</span>x += y;
-                        });
+                    </span><span class="kw">for </span>(i, chunk) <span class="kw">in </span>chunks.enumerate() {
+                        <span class="kw">if </span>offset.is_one() {
+                            <span class="macro">cfg_iter_mut!</span>(first).zip(chunk).for_each(|(x, y)| <span class="kw-2">*</span>x += y);
+                        } <span class="kw">else </span>{
+                            <span class="kw">let </span>offset_power = offset.pow(<span class="kw-2">&amp;</span>[((i + <span class="number">1</span>) * domain.size()) <span class="kw">as </span>u64]);
+                            <span class="macro">cfg_iter_mut!</span>(first)
+                                .zip(chunk)
+                                .for_each(|(x, y)| <span class="kw-2">*</span>x += offset_power * y);
+                        }
                     }
-                    Evaluations::from_vec_and_domain(domain.fft(<span class="kw-2">&amp;</span>reduced), domain)
+                    domain.fft_in_place(<span class="kw-2">&amp;mut </span>first);
+                    Evaluations::from_vec_and_domain(first, domain)
                 }
             },
             DPolynomial(Cow::Owned(<span class="kw-2">mut </span>d)) =&gt; {
-                <span class="comment">// Reduce the coefficients of the polynomial mod X^domain.size()
-                </span><span class="kw">if </span>d.is_zero() {
-                    Evaluations::from_vec_and_domain(<span class="macro">vec!</span>[F::zero(); domain.size()], domain)
+                <span class="kw">if </span>d.is_zero() {
+                    Evaluations::zero(domain)
                 } <span class="kw">else </span>{
                     <span class="kw">let </span><span class="kw-2">mut </span>chunks = d.coeffs.chunks_mut(domain.size());
-                    <span class="kw">let </span>coeffs = chunks.next().unwrap();
-                    <span class="kw">for </span>chunk <span class="kw">in </span>chunks {
-                        <span class="macro">cfg_iter_mut!</span>(coeffs).zip(chunk).for_each(|(x, y)| {
-                            <span class="kw-2">*</span>x += y;
-                        });
+                    <span class="kw">let </span>first = chunks.next().unwrap();
+                    <span class="kw">let </span>offset = domain.coset_offset();
+                    <span class="comment">// Reduce the coefficients of the polynomial mod X^domain.size()
+                    </span><span class="kw">for </span>(i, chunk) <span class="kw">in </span>chunks.enumerate() {
+                        <span class="kw">if </span>offset.is_one() {
+                            <span class="macro">cfg_iter_mut!</span>(first).zip(chunk).for_each(|(x, y)| <span class="kw-2">*</span>x += y);
+                        } <span class="kw">else </span>{
+                            <span class="kw">let </span>offset_power = offset.pow(<span class="kw-2">&amp;</span>[((i + <span class="number">1</span>) * domain.size()) <span class="kw">as </span>u64]);
+                            <span class="macro">cfg_iter_mut!</span>(first)
+                                .zip(chunk)
+                                .for_each(|(x, y)| <span class="kw-2">*</span>x += offset_power * y);
+                        }
                     }
                     domain.fft_in_place(<span class="kw-2">&amp;mut </span>d.coeffs);
                     Evaluations::from_vec_and_domain(d.coeffs, domain)

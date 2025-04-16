@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["DefaultFieldHasher"],"trait":["HashToField"]};
+window.SIDEBAR_ITEMS = {"fn":["hash_to_field"],"struct":["DefaultFieldHasher"],"trait":["HashToField"]};

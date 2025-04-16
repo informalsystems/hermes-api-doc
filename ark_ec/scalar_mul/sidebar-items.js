@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["fixed_base","glv","variable_base","wnaf"],"trait":["ScalarMul"]};
+window.SIDEBAR_ITEMS = {"fn":["sw_double_and_add_affine","sw_double_and_add_projective"],"mod":["glv","variable_base","wnaf"],"struct":["BatchMulPreprocessing"],"trait":["ScalarMul"]};

@@ -1168,7 +1168,7 @@
     </span><span class="kw">let </span>consensus_state_height_before_infraction_height = consensus_state_heights
         .into_iter()
         .filter(|height| height.revision_height() &lt; infraction_height.value())
-        .last();
+        .next_back();
 
     <span class="kw">let </span><span class="prelude-val">Some</span>(trusted_height) = consensus_state_height_before_infraction_height <span class="kw">else </span>{
         <span class="macro">error!</span>(
@@ -1478,8 +1478,8 @@
 ///
 /// 1. Fetch all connections on the given chain
 /// 2. For each connection:
-///     2.1. Fetch the client state of the counterparty client of that connection.
-///     2.2. From the client state, extract the chain id of the counterparty chain.
+///    2.1. Fetch the client state of the counterparty client of that connection.
+///    2.2. From the client state, extract the chain id of the counterparty chain.
 /// 4. Return a list of all counterparty chains and counterparty clients.
 </span><span class="kw">fn </span>fetch_all_counterparty_clients(
     config: <span class="kw-2">&amp;</span>Config,

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.16.1/src/hazardous/aead/chacha20poly1305.rs`."><title>chacha20poly1305.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/aead/</div>chacha20poly1305.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.9/src/hazardous/aead/chacha20poly1305.rs`."><title>chacha20poly1305.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/aead/</div>chacha20poly1305.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -336,9 +336,92 @@
 <a href="#335" id="335">335</a>
 <a href="#336" id="336">336</a>
 <a href="#337" id="337">337</a>
-<a href="#338" id="338">338</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
 
-// Copyright (c) 2018-2021 The orion Developers
+// Copyright (c) 2018-2025 The orion Developers
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -378,6 +461,9 @@
 //! counter encrypted with block ciphers with 128-bit or 256-bit blocks,
 //! because such a truncation may repeat after a short time." See [RFC] for more information.
 //!
+//! `dst_out`: The output buffer may have a capacity greater than the input. If this is the case,
+//! only the first input length amount of bytes in `dst_out` are modified, while the rest remain untouched.
+//!
 //! # Errors:
 //! An error will be returned if:
 //! - The length of `dst_out` is less than `plaintext` + [`POLY1305_OUTSIZE`] when calling [`seal()`].
@@ -387,6 +473,9 @@
 //! - The received tag does not match the calculated tag when  calling [`open()`].
 //! - `plaintext.len()` + [`POLY1305_OUTSIZE`] overflows when  calling [`seal()`].
 //! - Converting `usize` to `u64` would be a lossy conversion.
+//! - `plaintext.len() &gt;` [`P_MAX`]
+//! - `ad.len() &gt;` [`A_MAX`]
+//! - `ciphertext_with_tag.len() &gt;` [`C_MAX`]
 //!
 //! # Panics:
 //! A panic will occur if:
@@ -406,6 +495,7 @@
 //!
 //! # Example:
 //! ```rust
+//! # #[cfg(feature = "safe_api")] {
 //! use orion::hazardous::aead;
 //!
 //! let secret_key = aead::chacha20poly1305::SecretKey::generate();
@@ -427,6 +517,7 @@
 //! aead::chacha20poly1305::open(&amp;secret_key, &amp;nonce, &amp;dst_out_ct, Some(&amp;ad), &amp;mut dst_out_pt)?;
 //!
 //! assert_eq!(dst_out_pt.as_ref(), message.as_ref());
+//! # }
 //! # Ok::&lt;(), orion::errors::UnknownCryptoError&gt;(())
 //! ```
 //! [`SecretKey::generate()`]: super::stream::chacha20::SecretKey::generate
@@ -436,6 +527,9 @@
 //! [`open()`]: chacha20poly1305::open
 //! [RFC]: https://tools.ietf.org/html/rfc8439#section-3
 //! [libsodium docs]: https://download.libsodium.org/doc/secret-key_cryptography/aead#additional-data
+//! [`P_MAX`]: chacha20poly1305::P_MAX
+//! [`A_MAX`]: chacha20poly1305::A_MAX
+//! [`C_MAX`]: chacha20poly1305::C_MAX
 
 </span><span class="kw">pub use </span><span class="kw">crate</span>::hazardous::stream::chacha20::{Nonce, SecretKey};
 <span class="kw">use crate</span>::{
@@ -450,10 +544,19 @@
 <span class="kw">use </span>zeroize::Zeroizing;
 
 <span class="doccomment">/// The initial counter used for encryption and decryption.
-</span><span class="kw">const </span>ENC_CTR: u32 = <span class="number">1</span>;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>ENC_CTR: u32 = <span class="number">1</span>;
 
 <span class="doccomment">/// The initial counter used for Poly1305 key generation.
-</span><span class="kw">const </span>AUTH_CTR: u32 = <span class="number">0</span>;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>AUTH_CTR: u32 = <span class="number">0</span>;
+
+<span class="doccomment">/// The maximum size of the plaintext (see [RFC 8439](https://www.rfc-editor.org/rfc/rfc8439#section-2.8)).
+</span><span class="kw">pub const </span>P_MAX: u64 = (u32::MAX <span class="kw">as </span>u64) * <span class="number">64</span>;
+
+<span class="doccomment">/// The maximum size of the ciphertext (see [RFC 8439](https://www.rfc-editor.org/rfc/rfc8439#section-2.8)).
+</span><span class="kw">pub const </span>C_MAX: u64 = P_MAX + (POLY1305_OUTSIZE <span class="kw">as </span>u64);
+
+<span class="doccomment">/// The maximum size of the associated data (see [RFC 8439](https://www.rfc-editor.org/rfc/rfc8439#section-2.8)).
+</span><span class="kw">pub const </span>A_MAX: u64 = u64::MAX;
 
 <span class="doccomment">/// Poly1305 key generation using IETF ChaCha20.
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>poly1305_key_gen(
@@ -465,7 +568,7 @@
 }
 
 <span class="doccomment">/// Authenticates the ciphertext, ad and their lengths.
-</span><span class="kw">fn </span>process_authentication(
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>process_authentication(
     auth_ctx: <span class="kw-2">&amp;mut </span>Poly1305,
     ad: <span class="kw-2">&amp;</span>[u8],
     ciphertext: <span class="kw-2">&amp;</span>[u8],
@@ -493,6 +596,16 @@
     ad: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt;,
     dst_out: <span class="kw-2">&amp;mut </span>[u8],
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(), UnknownCryptoError&gt; {
+    <span class="kw">if </span>u64::try_from(plaintext.len()).map_err(|<span class="kw">_</span>| UnknownCryptoError)<span class="question-mark">? </span>&gt; P_MAX {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
+    }
+
+    <span class="kw">let </span>ad = ad.unwrap_or(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">0</span>]);
+    <span class="attr">#[allow(clippy::absurd_extreme_comparisons)]
+    </span><span class="kw">if </span>u64::try_from(ad.len()).map_err(|<span class="kw">_</span>| UnknownCryptoError)<span class="question-mark">? </span>&gt; A_MAX {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
+    }
+
     <span class="kw">match </span>plaintext.len().checked_add(POLY1305_OUTSIZE) {
         <span class="prelude-val">Some</span>(out_min_len) =&gt; {
             <span class="kw">if </span>dst_out.len() &lt; out_min_len {
@@ -502,20 +615,66 @@
         <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError),
     };
 
-    <span class="kw">let </span><span class="kw-2">mut </span>enc_ctx =
+    <span class="kw">let </span><span class="kw-2">mut </span>stream =
         ChaCha20::new(secret_key.unprotected_as_bytes(), nonce.as_ref(), <span class="bool-val">true</span>).unwrap();
     <span class="kw">let </span><span class="kw-2">mut </span>tmp = Zeroizing::new([<span class="number">0u8</span>; CHACHA_BLOCKSIZE]);
 
-    <span class="kw">let </span>pt_len = plaintext.len();
-    <span class="kw">if </span>pt_len != <span class="number">0 </span>{
-        dst_out[..pt_len].copy_from_slice(plaintext);
-        chacha20::xor_keystream(<span class="kw-2">&amp;mut </span>enc_ctx, ENC_CTR, tmp.as_mut(), <span class="kw-2">&amp;mut </span>dst_out[..pt_len])<span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>auth_ctx = Poly1305::new(<span class="kw-2">&amp;</span>poly1305_key_gen(<span class="kw-2">&amp;mut </span>stream, <span class="kw-2">&amp;mut </span>tmp));
+    <span class="kw">let </span>ad_len = ad.len();
+    <span class="kw">let </span>ct_len = plaintext.len();
+
+    auth_ctx.process_pad_to_blocksize(ad)<span class="question-mark">?</span>;
+
+    <span class="kw">if </span>ct_len != <span class="number">0 </span>{
+        <span class="kw">for </span>(ctr, (p_block, c_block)) <span class="kw">in </span>plaintext
+            .chunks(CHACHA_BLOCKSIZE)
+            .zip(dst_out.chunks_mut(CHACHA_BLOCKSIZE))
+            .enumerate()
+        {
+            <span class="kw">match </span>ENC_CTR.checked_add(ctr <span class="kw">as </span>u32) {
+                <span class="prelude-val">Some</span>(counter) =&gt; {
+                    <span class="comment">// See https://github.com/orion-rs/orion/issues/308
+                    </span>stream.next_produceable()<span class="question-mark">?</span>;
+                    <span class="comment">// We know at this point that:
+                    // 1) ENC_CTR + ctr does __not__ overflow/panic
+                    // 2) ChaCha20 instance will not panic on the next keystream produced
+
+                    // Copy keystream directly into the dst_out block in there is
+                    // enough space, too avoid copying from `tmp` each time and only
+                    // on the last block instead. `c_block` must be full blocksize,
+                    // or we leave behind keystream data in it, if `p_block` is not full length
+                    // while `c_block` is.
+                    </span><span class="kw">if </span>p_block.len() == CHACHA_BLOCKSIZE &amp;&amp; c_block.len() == CHACHA_BLOCKSIZE {
+                        stream.keystream_block(counter, c_block);
+                        <span class="macro">xor_slices!</span>(p_block, c_block);
+                        auth_ctx.update(c_block)<span class="question-mark">?</span>;
+                    }
+
+                    <span class="comment">// We only pad this last block to the Poly1305 blocksize since `CHACHA_BLOCKSIZE`
+                    // already is evenly divisible by 16, so the previous full-length blocks do not matter.
+                    </span><span class="kw">if </span>p_block.len() &lt; CHACHA_BLOCKSIZE {
+                        stream.keystream_block(counter, tmp.as_mut());
+                        <span class="macro">xor_slices!</span>(p_block, tmp.as_mut());
+                        c_block[..p_block.len()].copy_from_slice(<span class="kw-2">&amp;</span>tmp.as_ref()[..p_block.len()]);
+                        auth_ctx.process_pad_to_blocksize(<span class="kw-2">&amp;</span>c_block[..p_block.len()])<span class="question-mark">?</span>;
+                    }
+                }
+                <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError),
+            }
+        }
     }
 
-    <span class="kw">let </span><span class="kw-2">mut </span>auth_ctx = Poly1305::new(<span class="kw-2">&amp;</span>poly1305_key_gen(<span class="kw-2">&amp;mut </span>enc_ctx, <span class="kw-2">&amp;mut </span>tmp));
-    <span class="kw">let </span>ad = ad.unwrap_or(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">0</span>]);
-    process_authentication(<span class="kw-2">&amp;mut </span>auth_ctx, ad, <span class="kw-2">&amp;</span>dst_out[..pt_len])<span class="question-mark">?</span>;
-    dst_out[pt_len..(pt_len + POLY1305_OUTSIZE)]
+    <span class="kw">let </span>(adlen, ctlen): (u64, u64) = <span class="kw">match </span>(ad_len.try_into(), ct_len.try_into()) {
+        (<span class="prelude-val">Ok</span>(alen), <span class="prelude-val">Ok</span>(clen)) =&gt; (alen, clen),
+        <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError),
+    };
+
+    <span class="kw">let </span><span class="kw-2">mut </span>tmp_pad = [<span class="number">0u8</span>; <span class="number">16</span>];
+    tmp_pad[<span class="number">0</span>..<span class="number">8</span>].copy_from_slice(<span class="kw-2">&amp;</span>adlen.to_le_bytes());
+    tmp_pad[<span class="number">8</span>..<span class="number">16</span>].copy_from_slice(<span class="kw-2">&amp;</span>ctlen.to_le_bytes());
+    auth_ctx.update(tmp_pad.as_ref())<span class="question-mark">?</span>;
+
+    dst_out[ct_len..(ct_len + POLY1305_OUTSIZE)]
         .copy_from_slice(auth_ctx.finalize()<span class="question-mark">?</span>.unprotected_as_bytes());
 
     <span class="prelude-val">Ok</span>(())
@@ -530,6 +689,14 @@
     ad: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt;,
     dst_out: <span class="kw-2">&amp;mut </span>[u8],
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(), UnknownCryptoError&gt; {
+    <span class="kw">if </span>u64::try_from(ciphertext_with_tag.len()).map_err(|<span class="kw">_</span>| UnknownCryptoError)<span class="question-mark">? </span>&gt; C_MAX {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
+    }
+    <span class="kw">let </span>ad = ad.unwrap_or(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">0</span>]);
+    <span class="attr">#[allow(clippy::absurd_extreme_comparisons)]
+    </span><span class="kw">if </span>u64::try_from(ad.len()).map_err(|<span class="kw">_</span>| UnknownCryptoError)<span class="question-mark">? </span>&gt; A_MAX {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
+    }
     <span class="kw">if </span>ciphertext_with_tag.len() &lt; POLY1305_OUTSIZE {
         <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
     }
@@ -543,7 +710,6 @@
     <span class="kw">let </span><span class="kw-2">mut </span>auth_ctx = Poly1305::new(<span class="kw-2">&amp;</span>poly1305_key_gen(<span class="kw-2">&amp;mut </span>dec_ctx, <span class="kw-2">&amp;mut </span>tmp));
 
     <span class="kw">let </span>ciphertext_len = ciphertext_with_tag.len() - POLY1305_OUTSIZE;
-    <span class="kw">let </span>ad = ad.unwrap_or(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">0</span>]);
     process_authentication(<span class="kw-2">&amp;mut </span>auth_ctx, ad, <span class="kw-2">&amp;</span>ciphertext_with_tag[..ciphertext_len])<span class="question-mark">?</span>;
     util::secure_cmp(
         auth_ctx.finalize()<span class="question-mark">?</span>.unprotected_as_bytes(),

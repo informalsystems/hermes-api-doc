@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.47.2/src/args.rs`."><title>args.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/</div>args.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.149.1/src/args.rs`."><title>args.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/</div>args.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -3276,7 +3276,9 @@
 <a href="#3275" id="3275">3275</a>
 <a href="#3276" id="3276">3276</a>
 <a href="#3277" id="3277">3277</a>
-<a href="#3278" id="3278">3278</a></pre></div><pre class="rust"><code><span class="doccomment">//! Structures encapsulating SDK arguments
+<a href="#3278" id="3278">3278</a>
+<a href="#3279" id="3279">3279</a>
+<a href="#3280" id="3280">3280</a></pre></div><pre class="rust"><code><span class="doccomment">//! Structures encapsulating SDK arguments
 
 </span><span class="kw">use </span>std::fmt::Display;
 <span class="kw">use </span>std::path::PathBuf;
@@ -3292,8 +3294,8 @@
 <span class="kw">use </span>namada_core::dec::Dec;
 <span class="kw">use </span>namada_core::ethereum_events::EthAddress;
 <span class="kw">use </span>namada_core::keccak::KeccakHash;
-<span class="kw">use </span>namada_core::key::{common, SchemeType};
-<span class="kw">use </span>namada_core::masp::{MaspEpoch, PaymentAddress};
+<span class="kw">use </span>namada_core::key::{SchemeType, common};
+<span class="kw">use </span>namada_core::masp::{DiversifierIndex, MaspEpoch, PaymentAddress};
 <span class="kw">use </span>namada_core::string_encoding::StringEncoded;
 <span class="kw">use </span>namada_core::time::DateTimeUtc;
 <span class="kw">use </span>namada_core::token::Amount;
@@ -3302,10 +3304,10 @@
     DefaultProposal, PgfFundingProposal, PgfStewardProposal,
 };
 <span class="kw">use </span>namada_ibc::IbcShieldingData;
-<span class="kw">use </span>namada_io::{display_line, Io};
+<span class="kw">use </span>namada_io::{Io, display_line};
 <span class="kw">use </span>namada_token::masp::utils::RetryStrategy;
-<span class="kw">use </span>namada_tx::data::GasLimit;
 <span class="kw">use </span>namada_tx::Memo;
+<span class="kw">use </span>namada_tx::data::GasLimit;
 <span class="kw">use </span>serde::{Deserialize, Serialize};
 <span class="kw">use </span>zeroize::Zeroizing;
 
@@ -3317,9 +3319,9 @@
     get_registry_from_xcs_osmosis_contract, osmosis_denom_from_namada_denom,
     query_osmosis_pool_routes,
 };
-<span class="kw">use </span><span class="kw">crate</span>::signing::{gen_disposable_signing_key, SigningTxData};
+<span class="kw">use </span><span class="kw">crate</span>::signing::{SigningTxData, gen_disposable_signing_key};
 <span class="kw">use </span><span class="kw">crate</span>::wallet::{DatedSpendingKey, DatedViewingKey};
-<span class="kw">use crate</span>::{rpc, tx, Namada};
+<span class="kw">use crate</span>::{Namada, rpc, tx};
 
 <span class="doccomment">/// [`Duration`](StdDuration) wrapper that provides a
 /// method to parse a value from a string.
@@ -3918,7 +3920,7 @@
 
         <span class="comment">// validate `local_recovery_addr` and the contract addr
         </span><span class="kw">if </span>!bech32::decode(<span class="kw-2">&amp;</span>local_recovery_addr)
-            .is_ok_and(|(hrp, <span class="kw">_</span>, <span class="kw">_</span>)| hrp == <span class="string">"osmo"</span>)
+            .is_ok_and(|(hrp, <span class="kw">_</span>)| hrp.as_str() == <span class="string">"osmo"</span>)
         {
             <span class="comment">// TODO: validate that addr has 20 bytes?
             </span><span class="kw">return </span><span class="prelude-val">Err</span>(Error::Other(<span class="macro">format!</span>(
@@ -3926,7 +3928,7 @@
             </span>)));
         }
         <span class="kw">if </span>!bech32::decode(<span class="kw-2">&amp;</span>transfer.receiver)
-            .is_ok_and(|(hrp, <span class="kw">_</span>, <span class="kw">_</span>)| hrp == <span class="string">"osmo"</span>)
+            .is_ok_and(|(hrp, <span class="kw">_</span>)| hrp.as_str() == <span class="string">"osmo"</span>)
         {
             <span class="comment">// TODO: validate that addr has 32 bytes?
             </span><span class="kw">return </span><span class="prelude-val">Err</span>(Error::Other(<span class="macro">format!</span>(
@@ -6284,13 +6286,15 @@
 
 <span class="doccomment">/// Generate payment address arguments
 </span><span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>PayAddressGen&lt;C: NamadaTypes = SdkTypes&gt; {
-    <span class="doccomment">/// Key alias
+</span><span class="kw">pub struct </span>PayAddressGen {
+    <span class="doccomment">/// Payment address alias
     </span><span class="kw">pub </span>alias: String,
     <span class="doccomment">/// Whether to force overwrite the alias
     </span><span class="kw">pub </span>alias_force: bool,
     <span class="doccomment">/// Viewing key
-    </span><span class="kw">pub </span>viewing_key: C::ViewingKey,
+    </span><span class="kw">pub </span>viewing_key: String,
+    <span class="doccomment">/// Diversifier index to start search at
+    </span><span class="kw">pub </span>diversifier_index: <span class="prelude-ty">Option</span>&lt;DiversifierIndex&gt;,
 }
 
 <span class="doccomment">/// Bridge pool batch recommendation.

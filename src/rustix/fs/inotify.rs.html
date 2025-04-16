@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-0.38.44/src/fs/inotify.rs`."><title>inotify.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/fs/</div>inotify.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-1.0.3/src/fs/inotify.rs`."><title>inotify.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/fs/</div>inotify.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -217,16 +217,7 @@
 <a href="#216" id="216">216</a>
 <a href="#217" id="217">217</a>
 <a href="#218" id="218">218</a>
-<a href="#219" id="219">219</a>
-<a href="#220" id="220">220</a>
-<a href="#221" id="221">221</a>
-<a href="#222" id="222">222</a>
-<a href="#223" id="223">223</a>
-<a href="#224" id="224">224</a>
-<a href="#225" id="225">225</a>
-<a href="#226" id="226">226</a>
-<a href="#227" id="227">227</a>
-<a href="#228" id="228">228</a></pre></div><pre class="rust"><code><span class="doccomment">//! inotify support for working with inotify objects.
+<a href="#219" id="219">219</a></pre></div><pre class="rust"><code><span class="doccomment">//! inotify support for working with inotify objects.
 //!
 //! # Examples
 //!
@@ -275,19 +266,9 @@
 <span class="kw">use </span><span class="kw">crate</span>::fd::{AsFd, OwnedFd};
 <span class="kw">use </span><span class="kw">crate</span>::ffi::CStr;
 <span class="kw">use </span><span class="kw">crate</span>::io;
-<span class="kw">use </span><span class="kw">crate</span>::io::{read_uninit, Errno};
+<span class="kw">use </span><span class="kw">crate</span>::io::{read, Errno};
 <span class="kw">use </span>core::mem::{align_of, size_of, MaybeUninit};
 <span class="kw">use </span>linux_raw_sys::general::inotify_event;
-
-<span class="attr">#[deprecated(note = <span class="string">"Use `inotify::add_watch`."</span>)]
-#[doc(hidden)]
-</span><span class="kw">pub use </span>add_watch <span class="kw">as </span>inotify_add_watch;
-<span class="attr">#[deprecated(note = <span class="string">"Use `inotify::init`."</span>)]
-#[doc(hidden)]
-</span><span class="kw">pub use </span>init <span class="kw">as </span>inotify_init;
-<span class="attr">#[deprecated(note = <span class="string">"Use `inotify::remove_watch`."</span>)]
-#[doc(hidden)]
-</span><span class="kw">pub use </span>remove_watch <span class="kw">as </span>inotify_remove_watch;
 
 <span class="doccomment">/// `inotify_init1(flags)`—Creates a new inotify object.
 ///
@@ -309,8 +290,8 @@
 /// application should keep track of this externally to avoid logic errors.
 </span><span class="attr">#[doc(alias = <span class="string">"inotify_add_watch"</span>)]
 #[inline]
-</span><span class="kw">pub fn </span>add_watch&lt;P: <span class="kw">crate</span>::path::Arg&gt;(
-    inot: <span class="kw">impl </span>AsFd,
+</span><span class="kw">pub fn </span>add_watch&lt;P: <span class="kw">crate</span>::path::Arg, Fd: AsFd&gt;(
+    inot: Fd,
     path: P,
     flags: inotify::WatchFlags,
 ) -&gt; io::Result&lt;i32&gt; {
@@ -323,7 +304,7 @@
 /// [`inotify::add_watch`] and not previously have been removed.
 </span><span class="attr">#[doc(alias = <span class="string">"inotify_rm_watch"</span>)]
 #[inline]
-</span><span class="kw">pub fn </span>remove_watch(inot: <span class="kw">impl </span>AsFd, wd: i32) -&gt; io::Result&lt;()&gt; {
+</span><span class="kw">pub fn </span>remove_watch&lt;Fd: AsFd&gt;(inot: Fd, wd: i32) -&gt; io::Result&lt;()&gt; {
     syscalls::inotify_rm_watch(inot.as_fd(), wd)
 }
 
@@ -360,15 +341,16 @@
 }
 
 <span class="doccomment">/// An inotify event.
-</span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>InotifyEvent&lt;<span class="lifetime">'a</span>&gt; {
+</span><span class="attr">#[doc(alias = <span class="string">"inotify_event"</span>)]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>Event&lt;<span class="lifetime">'a</span>&gt; {
     wd: i32,
     events: ReadFlags,
     cookie: u32,
     file_name: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>CStr&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; InotifyEvent&lt;<span class="lifetime">'a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Event&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Returns the watch for which this event occurs.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>wd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; i32 {
@@ -398,7 +380,7 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">'buf</span>, Fd: AsFd&gt; Reader&lt;<span class="lifetime">'buf</span>, Fd&gt; {
     <span class="doccomment">/// Read the next inotify event.
     ///
-    /// This is similar to `[Iterator::next`] except that it doesn't return an
+    /// This is similar to [`Iterator::next`] except that it doesn't return an
     /// `Option`, because the stream doesn't have an ending. It always returns
     /// events or errors.
     ///
@@ -410,9 +392,9 @@
     ///    error occurs.
     </span><span class="attr">#[allow(unsafe_code)]
     #[allow(clippy::should_implement_trait)]
-    </span><span class="kw">pub fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; io::Result&lt;InotifyEvent&lt;<span class="lifetime">'_</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; io::Result&lt;Event&lt;<span class="lifetime">'_</span>&gt;&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_buffer_empty() {
-            <span class="kw">match </span>read_uninit(<span class="self">self</span>.fd.as_fd(), <span class="self">self</span>.buf).map(|(init, <span class="kw">_</span>)| init.len()) {
+            <span class="kw">match </span>read(<span class="self">self</span>.fd.as_fd(), <span class="kw-2">&amp;mut *</span><span class="self">self</span>.buf).map(|(init, <span class="kw">_</span>)| init.len()) {
                 <span class="prelude-val">Ok</span>(<span class="number">0</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(Errno::INVAL),
                 <span class="prelude-val">Ok</span>(bytes_read) =&gt; {
                     <span class="self">self</span>.initialized = bytes_read;
@@ -433,7 +415,7 @@
 
         <span class="self">self</span>.offset += size_of::&lt;inotify_event&gt;() + usize::try_from(event.len).unwrap();
 
-        <span class="prelude-val">Ok</span>(InotifyEvent {
+        <span class="prelude-val">Ok</span>(Event {
             wd: event.wd,
             events: ReadFlags::from_bits_retain(event.mask),
             cookie: event.cookie,

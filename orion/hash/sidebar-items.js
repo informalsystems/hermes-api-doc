@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["digest"]};
+window.SIDEBAR_ITEMS = {"fn":["digest","digest_from_reader"]};

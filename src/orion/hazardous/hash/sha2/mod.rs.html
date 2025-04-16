@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.16.1/src/hazardous/hash/sha2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/hash/sha2/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.9/src/hazardous/hash/sha2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/hash/sha2/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1056,29 +1056,9 @@
 <a href="#1055" id="1055">1055</a>
 <a href="#1056" id="1056">1056</a>
 <a href="#1057" id="1057">1057</a>
-<a href="#1058" id="1058">1058</a>
-<a href="#1059" id="1059">1059</a>
-<a href="#1060" id="1060">1060</a>
-<a href="#1061" id="1061">1061</a>
-<a href="#1062" id="1062">1062</a>
-<a href="#1063" id="1063">1063</a>
-<a href="#1064" id="1064">1064</a>
-<a href="#1065" id="1065">1065</a>
-<a href="#1066" id="1066">1066</a>
-<a href="#1067" id="1067">1067</a>
-<a href="#1068" id="1068">1068</a>
-<a href="#1069" id="1069">1069</a>
-<a href="#1070" id="1070">1070</a>
-<a href="#1071" id="1071">1071</a>
-<a href="#1072" id="1072">1072</a>
-<a href="#1073" id="1073">1073</a>
-<a href="#1074" id="1074">1074</a>
-<a href="#1075" id="1075">1075</a>
-<a href="#1076" id="1076">1076</a>
-<a href="#1077" id="1077">1077</a>
-<a href="#1078" id="1078">1078</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
+<a href="#1058" id="1058">1058</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
 
-// Copyright (c) 2020-2021 The orion Developers
+// Copyright (c) 2020-2025 The orion Developers
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -1129,7 +1109,8 @@
         + PartialEq&lt;<span class="self">Self</span>&gt;
         + Zeroize
     {
-        <span class="kw">const </span>MAX: <span class="self">Self</span>;
+        <span class="attr">#[cfg(any(debug_assertions, test))]
+        </span><span class="kw">const </span>MAX: <span class="self">Self</span>;
 
         <span class="kw">fn </span>wrapping_add(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>;
 
@@ -1137,7 +1118,7 @@
 
         <span class="kw">fn </span>checked_add(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;;
 
-        <span class="kw">fn </span>checked_shl(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: u32) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;;
+        <span class="kw">fn </span>checked_mul(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;;
 
         <span class="kw">fn </span>rotate_right(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: u32) -&gt; <span class="self">Self</span>;
 
@@ -1258,21 +1239,22 @@
     {
         <span class="doccomment">/// Increment the message length during processing of data.
         </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>increment_mlen(<span class="kw-2">&amp;mut </span><span class="self">self</span>, length: <span class="kw-2">&amp;</span>W) {
-            <span class="comment">// The checked shift checks that the right-hand side is a legal shift.
-            // The result can still overflow if length &gt; $primitive::MAX / 8.
-            // Should be impossible for a user to trigger, because update() processes
-            // in SHA(256/384/512)_BLOCKSIZE chunks.
-            </span><span class="attr">#[cfg(any(debug_assertions, test))]
+            <span class="attr">#[cfg(any(debug_assertions, test))]
             </span><span class="macro">debug_assert!</span>(length.less_than_or_equal(W::MAX / W::from(<span class="number">8</span>)));
 
-            <span class="comment">// left-shift to get bit-sized representation of length
-            // using .unwrap() because it should not panic in practice
-            </span><span class="kw">let </span>len = length.checked_shl(<span class="number">3</span>).unwrap();
+            <span class="comment">// Length in bits
+            </span><span class="kw">let </span>len: W = <span class="kw">match </span>length.checked_mul(W::from(<span class="number">8</span>)) {
+                <span class="prelude-val">Some</span>(bitlen) =&gt; bitlen,
+                <span class="comment">// Should be impossible for a user to trigger, because update() processes
+                // in SHA(256/384/512)_BLOCKSIZE chunks.
+                </span><span class="prelude-val">None </span>=&gt; <span class="macro">unreachable!</span>(),
+            };
+
             <span class="kw">let </span>(res, was_overflow) = <span class="self">self</span>.message_len[<span class="number">1</span>].overflowing_add(len);
             <span class="self">self</span>.message_len[<span class="number">1</span>] = res;
 
             <span class="kw">if </span>was_overflow {
-                <span class="comment">// If this panics size limit is reached.
+                <span class="comment">// If this panics, then size limit is reached.
                 </span><span class="self">self</span>.message_len[<span class="number">0</span>] = <span class="self">self</span>.message_len[<span class="number">0</span>].checked_add(W::one()).unwrap();
             }
         }
@@ -1489,7 +1471,7 @@
     <span class="kw">use </span>core::ops::<span class="kw-2">*</span>;
     <span class="kw">use </span>zeroize::Zeroize;
 
-    <span class="attr">#[derive(Debug, PartialEq, Copy, Clone)]
+    <span class="attr">#[derive(Debug, PartialEq, Copy, Clone, Default)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>WordU32(<span class="kw">pub</span>(<span class="kw">crate</span>) u32);
 
     <span class="kw">impl </span>Zeroize <span class="kw">for </span>WordU32 {
@@ -1519,12 +1501,6 @@
 
         <span class="kw">fn </span>bitxor(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
             <span class="self">Self</span>(<span class="self">self</span>.<span class="number">0 </span>^ rhs.<span class="number">0</span>)
-        }
-    }
-
-    <span class="kw">impl </span>Default <span class="kw">for </span>WordU32 {
-        <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-            <span class="self">Self</span>(<span class="number">0u32</span>)
         }
     }
 
@@ -1559,7 +1535,8 @@
     }
 
     <span class="kw">impl </span><span class="kw">super</span>::sha2_core::Word <span class="kw">for </span>WordU32 {
-        <span class="kw">const </span>MAX: <span class="self">Self </span>= <span class="self">Self</span>(u32::MAX);
+        <span class="attr">#[cfg(any(debug_assertions, test))]
+        </span><span class="kw">const </span>MAX: <span class="self">Self </span>= <span class="self">Self</span>(u32::MAX);
 
         <span class="attr">#[inline]
         </span><span class="kw">fn </span>wrapping_add(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self </span>{
@@ -1579,8 +1556,8 @@
         }
 
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>checked_shl(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: u32) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
-            <span class="self">self</span>.<span class="number">0</span>.checked_shl(rhs).map(<span class="self">Self</span>)
+        </span><span class="kw">fn </span>checked_mul(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+            <span class="self">self</span>.<span class="number">0</span>.checked_mul(rhs.<span class="number">0</span>).map(<span class="self">Self</span>)
         }
 
         <span class="attr">#[inline]
@@ -1595,7 +1572,7 @@
 
         <span class="attr">#[inline]
         </span><span class="kw">fn </span>size_of() -&gt; usize {
-            core::mem::size_of::&lt;u32&gt;()
+            size_of::&lt;u32&gt;()
         }
 
         <span class="attr">#[inline]
@@ -1637,7 +1614,7 @@
     <span class="kw">use </span>core::ops::<span class="kw-2">*</span>;
     <span class="kw">use </span>zeroize::Zeroize;
 
-    <span class="attr">#[derive(Debug, PartialEq, Copy, Clone)]
+    <span class="attr">#[derive(Debug, PartialEq, Copy, Clone, Default)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>WordU64(<span class="kw">pub</span>(<span class="kw">crate</span>) u64);
 
     <span class="kw">impl </span>Zeroize <span class="kw">for </span>WordU64 {
@@ -1667,12 +1644,6 @@
 
         <span class="kw">fn </span>bitxor(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
             <span class="self">Self</span>(<span class="self">self</span>.<span class="number">0 </span>^ rhs.<span class="number">0</span>)
-        }
-    }
-
-    <span class="kw">impl </span>Default <span class="kw">for </span>WordU64 {
-        <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-            <span class="self">Self</span>(<span class="number">0u64</span>)
         }
     }
 
@@ -1707,7 +1678,8 @@
     }
 
     <span class="kw">impl </span><span class="kw">super</span>::sha2_core::Word <span class="kw">for </span>WordU64 {
-        <span class="kw">const </span>MAX: <span class="self">Self </span>= <span class="self">Self</span>(u64::MAX);
+        <span class="attr">#[cfg(any(debug_assertions, test))]
+        </span><span class="kw">const </span>MAX: <span class="self">Self </span>= <span class="self">Self</span>(u64::MAX);
 
         <span class="attr">#[inline]
         </span><span class="kw">fn </span>wrapping_add(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self </span>{
@@ -1727,8 +1699,8 @@
         }
 
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>checked_shl(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: u32) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
-            <span class="self">self</span>.<span class="number">0</span>.checked_shl(rhs).map(<span class="self">Self</span>)
+        </span><span class="kw">fn </span>checked_mul(<span class="kw-2">&amp;</span><span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+            <span class="self">self</span>.<span class="number">0</span>.checked_mul(rhs.<span class="number">0</span>).map(<span class="self">Self</span>)
         }
 
         <span class="attr">#[inline]
@@ -1743,7 +1715,7 @@
 
         <span class="attr">#[inline]
         </span><span class="kw">fn </span>size_of() -&gt; usize {
-            core::mem::size_of::&lt;u64&gt;()
+            size_of::&lt;u64&gt;()
         }
 
         <span class="attr">#[inline]
@@ -1797,14 +1769,6 @@
     }
 
     <span class="attr">#[test]
-    #[should_panic]
-    #[cfg(target_pointer_width = <span class="string">"128"</span>)]
-    </span><span class="comment">// See above note.
-    </span><span class="kw">fn </span>w64_panic_on_above_from() {
-        WordU64::from((u64::MAX <span class="kw">as </span>usize) + <span class="number">1</span>);
-    }
-
-    <span class="attr">#[test]
     </span><span class="kw">fn </span>equiv_max() {
         <span class="macro">assert_eq!</span>(WordU32::MAX.<span class="number">0</span>, u32::MAX);
         <span class="macro">assert_eq!</span>(WordU64::MAX.<span class="number">0</span>, u64::MAX);
@@ -1812,8 +1776,8 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>equiv_sizeof() {
-        <span class="macro">assert_eq!</span>(WordU32::size_of(), core::mem::size_of::&lt;u32&gt;());
-        <span class="macro">assert_eq!</span>(WordU64::size_of(), core::mem::size_of::&lt;u64&gt;());
+        <span class="macro">assert_eq!</span>(WordU32::size_of(), size_of::&lt;u32&gt;());
+        <span class="macro">assert_eq!</span>(WordU64::size_of(), size_of::&lt;u64&gt;());
     }
 
     <span class="attr">#[test]
@@ -1991,7 +1955,7 @@
             <span class="comment">// Implicitly assume there's no panic
             </span><span class="kw">if </span>WordU32::from(n).<span class="number">0 </span>!= n { <span class="kw">return </span><span class="bool-val">false</span>; }
             <span class="kw">if </span>WordU64::from(m).<span class="number">0 </span>!= m { <span class="kw">return </span><span class="bool-val">false</span>; }
-    
+
             <span class="bool-val">true
         </span>}
 
@@ -2001,31 +1965,27 @@
             <span class="comment">// WordU32
             </span><span class="kw">let </span>w32n1 = WordU32::from(n1);
             <span class="kw">let </span>w32n2 = WordU32::from(n2);
-    
-            <span class="kw">if </span>!((w32n1 | w32n2).<span class="number">0  </span>== n1 | n2)  { <span class="kw">return </span><span class="bool-val">false</span>; }
-            <span class="kw">if </span>!((w32n1 &amp; w32n2).<span class="number">0  </span>== n1 &amp; n2)  { <span class="kw">return </span><span class="bool-val">false</span>; }
-            <span class="kw">if </span>!((w32n1 ^ w32n2).<span class="number">0  </span>== n1 ^ n2)  { <span class="kw">return </span><span class="bool-val">false</span>; }
+
+            <span class="kw">if </span>(w32n1 | w32n2).<span class="number">0 </span>!= n1 | n2  { <span class="kw">return </span><span class="bool-val">false</span>; }
+            <span class="kw">if </span>(w32n1 &amp; w32n2).<span class="number">0 </span>!= n1 &amp; n2  { <span class="kw">return </span><span class="bool-val">false</span>; }
+            <span class="kw">if </span>(w32n1 ^ w32n2).<span class="number">0 </span>!= n1 ^ n2  { <span class="kw">return </span><span class="bool-val">false</span>; }
             <span class="comment">// Test only specific values used with Shr (in sigma functions)
-            </span><span class="kw">if </span>!((w32n1 &gt;&gt; WordU32::from(<span class="number">10usize</span>)).<span class="number">0 </span>== n1 &gt;&gt; <span class="number">10</span>) { <span class="kw">return </span><span class="bool-val">false</span>; }
-            <span class="kw">if </span>!((w32n1 &gt;&gt; WordU32::from(<span class="number">3usize</span>)).<span class="number">0  </span>== n1 &gt;&gt; <span class="number">3</span>)  { <span class="kw">return </span><span class="bool-val">false</span>; }
-            <span class="kw">if </span>!w32n2.<span class="number">0 </span>== <span class="number">0 </span>{
-                <span class="kw">if </span>!((w32n1 / w32n2).<span class="number">0  </span>== n1 / n2)  { <span class="kw">return </span><span class="bool-val">false </span>};
-            }
-    
+            </span><span class="kw">if </span>(w32n1 &gt;&gt; WordU32::from(<span class="number">10usize</span>)).<span class="number">0 </span>!= n1 &gt;&gt; <span class="number">10 </span>{ <span class="kw">return </span><span class="bool-val">false</span>; }
+            <span class="kw">if </span>(w32n1 &gt;&gt; WordU32::from(<span class="number">3usize</span>)).<span class="number">0 </span>!= n1 &gt;&gt; <span class="number">3  </span>{ <span class="kw">return </span><span class="bool-val">false</span>; }
+            <span class="kw">if </span>w32n2.<span class="number">0 </span>!= <span class="number">0 </span>&amp;&amp; ((w32n1 / w32n2).<span class="number">0 </span>!= n1 / n2) { <span class="kw">return </span><span class="bool-val">false </span>}
+
             <span class="comment">// WordU64
             </span><span class="kw">let </span>w64m1 = WordU64::from(m1);
             <span class="kw">let </span>w64m2 = WordU64::from(m2);
-    
-            <span class="kw">if </span>!((w64m1 | w64m2).<span class="number">0  </span>== m1 | m2)  { <span class="kw">return </span><span class="bool-val">false</span>; }
-            <span class="kw">if </span>!((w64m1 &amp; w64m2).<span class="number">0  </span>== m1 &amp; m2)  { <span class="kw">return </span><span class="bool-val">false</span>; }
-            <span class="kw">if </span>!((w64m1 ^ w64m2).<span class="number">0  </span>== m1 ^ m2)  { <span class="kw">return </span><span class="bool-val">false</span>; }
+
+            <span class="kw">if </span>(w64m1 | w64m2).<span class="number">0 </span>!= m1 | m2  { <span class="kw">return </span><span class="bool-val">false</span>; }
+            <span class="kw">if </span>(w64m1 &amp; w64m2).<span class="number">0 </span>!= m1 &amp; m2  { <span class="kw">return </span><span class="bool-val">false</span>; }
+            <span class="kw">if </span>(w64m1 ^ w64m2).<span class="number">0 </span>!= m1 ^ m2  { <span class="kw">return </span><span class="bool-val">false</span>; }
             <span class="comment">// Test only specific values used with Shr (in sigma functions)
-            </span><span class="kw">if </span>!((w64m1 &gt;&gt; WordU64::from(<span class="number">7usize</span>)).<span class="number">0 </span>== m1 &gt;&gt; <span class="number">7</span>) { <span class="kw">return </span><span class="bool-val">false</span>; }
-            <span class="kw">if </span>!((w64m1 &gt;&gt; WordU64::from(<span class="number">6usize</span>)).<span class="number">0 </span>== m1 &gt;&gt; <span class="number">6</span>) { <span class="kw">return </span><span class="bool-val">false</span>; }
-            <span class="kw">if </span>!w64m2.<span class="number">0 </span>== <span class="number">0 </span>{
-                <span class="kw">if </span>!((w64m1 / w64m2).<span class="number">0  </span>== m1 / m2)  { <span class="kw">return </span><span class="bool-val">false </span>};
-            }
-    
+            </span><span class="kw">if </span>(w64m1 &gt;&gt; WordU64::from(<span class="number">7usize</span>)).<span class="number">0 </span>!= m1 &gt;&gt; <span class="number">7 </span>{ <span class="kw">return </span><span class="bool-val">false</span>; }
+            <span class="kw">if </span>(w64m1 &gt;&gt; WordU64::from(<span class="number">6usize</span>)).<span class="number">0 </span>!= m1 &gt;&gt; <span class="number">6 </span>{ <span class="kw">return </span><span class="bool-val">false</span>; }
+            <span class="kw">if </span>w64m2.<span class="number">0 </span>!= <span class="number">0 </span>&amp;&amp; ((w64m1 / w64m2).<span class="number">0 </span>!= m1 / m2) { <span class="kw">return </span><span class="bool-val">false </span>}
+
             <span class="bool-val">true
         </span>}
 
@@ -2039,7 +1999,7 @@
             <span class="kw">let </span>w64m2 = WordU64::from(m2);
             <span class="kw">let </span>ret64 = w64m1.wrapping_add(w64m2).<span class="number">0 </span>== m1.wrapping_add(m2);
 
-            (ret32 == <span class="bool-val">true</span>) &amp;&amp; (ret64 == <span class="bool-val">true</span>)
+            ret32 &amp;&amp; ret64
         }
 
         <span class="attr">#[quickcheck]
@@ -2060,7 +2020,7 @@
                 <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
             };
 
-            (ret32 == <span class="bool-val">true</span>) &amp;&amp; (ret64 == <span class="bool-val">true</span>)
+            ret32 &amp;&amp; ret64
         }
 
         <span class="attr">#[quickcheck]
@@ -2081,26 +2041,26 @@
                 <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
             };
 
-            (ret32 == <span class="bool-val">true</span>) &amp;&amp; (ret64 == <span class="bool-val">true</span>)
+            ret32 &amp;&amp; ret64
         }
 
         <span class="attr">#[quickcheck]
-        </span><span class="kw">fn </span>equiv_checked_shl(n: u32, m: u64, x: u32) -&gt; bool {
+        </span><span class="kw">fn </span>equiv_checked_mul(n: u32, m: u64, x: u32, y: u64) -&gt; bool {
             <span class="kw">let </span>w32n = WordU32::from(n);
-            <span class="kw">let </span>ret32: bool = <span class="kw">match </span>(w32n.checked_shl(x), n.checked_shl(x)) {
+            <span class="kw">let </span>ret32: bool = <span class="kw">match </span>(w32n.checked_mul(WordU32::from(x)), n.checked_mul(x)) {
                 (<span class="prelude-val">Some</span>(w32), <span class="prelude-val">Some</span>(n1)) =&gt; w32.<span class="number">0 </span>== n1,
                 (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="bool-val">true</span>,
                 <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
             };
 
             <span class="kw">let </span>w64m = WordU64::from(m);
-            <span class="kw">let </span>ret64: bool = <span class="kw">match </span>(w64m.checked_shl(x), m.checked_shl(x)) {
+            <span class="kw">let </span>ret64: bool = <span class="kw">match </span>(w64m.checked_mul(WordU64::from(y)), m.checked_mul(y)) {
                 (<span class="prelude-val">Some</span>(w64), <span class="prelude-val">Some</span>(n1)) =&gt; w64.<span class="number">0 </span>== n1,
                 (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="bool-val">true</span>,
                 <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
             };
 
-            (ret32 == <span class="bool-val">true</span>) &amp;&amp; (ret64 == <span class="bool-val">true</span>)
+            ret32 &amp;&amp; ret64
         }
 
         <span class="attr">#[quickcheck]
@@ -2108,32 +2068,32 @@
         </span><span class="kw">fn </span>equiv_rotate_right(n: u32, m: u64, x: u32) -&gt; bool {
             <span class="kw">let </span>w32n = WordU32::from(n);
             <span class="kw">let </span>w64m = WordU64::from(m);
-    
+
             <span class="kw">if </span>w32n.rotate_right(x).<span class="number">0 </span>!= n.rotate_right(x) { <span class="kw">return </span><span class="bool-val">false</span>; }
             <span class="kw">if </span>w64m.rotate_right(x).<span class="number">0 </span>!= m.rotate_right(x) { <span class="kw">return </span><span class="bool-val">false</span>; }
-    
+
             <span class="bool-val">true
         </span>}
 
         <span class="attr">#[quickcheck]
         #[rustfmt::skip]
         </span><span class="kw">fn </span>equiv_into_from_be(n: u32, m: u64) -&gt; bool {
-    
+
             <span class="kw">let </span>w32n = WordU32::from(n);
             <span class="kw">let </span>w64m = WordU64::from(m);
-    
-            <span class="kw">let </span><span class="kw-2">mut </span>dest32 = [<span class="number">0u8</span>; core::mem::size_of::&lt;u32&gt;()];
-            <span class="kw">let </span><span class="kw-2">mut </span>dest64 = [<span class="number">0u8</span>; core::mem::size_of::&lt;u64&gt;()];
+
+            <span class="kw">let </span><span class="kw-2">mut </span>dest32 = [<span class="number">0u8</span>; size_of::&lt;u32&gt;()];
+            <span class="kw">let </span><span class="kw-2">mut </span>dest64 = [<span class="number">0u8</span>; size_of::&lt;u64&gt;()];
             w32n.as_be(<span class="kw-2">&amp;mut </span>dest32);
             w64m.as_be(<span class="kw-2">&amp;mut </span>dest64);
-    
-            <span class="kw">if </span><span class="kw-2">&amp;</span>dest32 != <span class="kw-2">&amp;</span>n.to_be_bytes() { <span class="kw">return </span><span class="bool-val">false</span>; }
-            <span class="kw">if </span><span class="kw-2">&amp;</span>dest64 != <span class="kw-2">&amp;</span>m.to_be_bytes() { <span class="kw">return </span><span class="bool-val">false</span>; }
-    
-    
+
+            <span class="kw">if </span>dest32 != n.to_be_bytes() { <span class="kw">return </span><span class="bool-val">false</span>; }
+            <span class="kw">if </span>dest64 != m.to_be_bytes() { <span class="kw">return </span><span class="bool-val">false</span>; }
+
+
             <span class="kw">if </span>w32n.<span class="number">0 </span>!= u32::from_be_bytes(dest32) { <span class="kw">return </span><span class="bool-val">false</span>; }
             <span class="kw">if </span>w64m.<span class="number">0 </span>!= u64::from_be_bytes(dest64) { <span class="kw">return </span><span class="bool-val">false</span>; }
-    
+
             <span class="bool-val">true
         </span>}
 
@@ -2146,10 +2106,10 @@
             <span class="kw">let </span>w32n2 = WordU32::from(n2);
             <span class="kw">let </span>w64m1 = WordU64::from(m1);
             <span class="kw">let </span>w64m2 = WordU64::from(m2);
-    
+
             <span class="kw">if </span>w32n1.less_than_or_equal(w32n2) != (n1 &lt;= n2) { <span class="kw">return </span><span class="bool-val">false</span>; }
             <span class="kw">if </span>w64m1.less_than_or_equal(w64m2) != (m1 &lt;= m2) { <span class="kw">return </span><span class="bool-val">false</span>; }
-    
+
             <span class="bool-val">true
         </span>}
     }

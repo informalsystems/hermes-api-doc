@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.16.1/src/hazardous/kdf/argon2i.rs`."><title>argon2i.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/kdf/</div>argon2i.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.9/src/hazardous/kdf/argon2i.rs`."><title>argon2i.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/kdf/</div>argon2i.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -2594,9 +2594,21 @@
 <a href="#2593" id="2593">2593</a>
 <a href="#2594" id="2594">2594</a>
 <a href="#2595" id="2595">2595</a>
-<a href="#2596" id="2596">2596</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
+<a href="#2596" id="2596">2596</a>
+<a href="#2597" id="2597">2597</a>
+<a href="#2598" id="2598">2598</a>
+<a href="#2599" id="2599">2599</a>
+<a href="#2600" id="2600">2600</a>
+<a href="#2601" id="2601">2601</a>
+<a href="#2602" id="2602">2602</a>
+<a href="#2603" id="2603">2603</a>
+<a href="#2604" id="2604">2604</a>
+<a href="#2605" id="2605">2605</a>
+<a href="#2606" id="2606">2606</a>
+<a href="#2607" id="2607">2607</a>
+<a href="#2608" id="2608">2608</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
 
-// Copyright (c) 2020-2021 The orion Developers
+// Copyright (c) 2020-2025 The orion Developers
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -2659,8 +2671,12 @@
 //! in depth against an attacker reading your application's private memory, then you as
 //! the user are responsible for zeroing out this buffer (see the [`zeroize` crate]).
 //!
+//! The cost parameters were the recommended values at time of writing. Please be sure to also check
+//! [OWASP] for the latest recommended values.
+//!
 //! # Example:
 //! ```rust
+//! # #[cfg(feature = "safe_api")] {
 //! use orion::{hazardous::kdf::argon2i, util};
 //!
 //! let mut salt = [0u8; 16];
@@ -2683,13 +2699,16 @@
 //!     &amp;mut dst_out
 //! )
 //! .is_ok());
+//! # }
 //! # Ok::&lt;(), orion::errors::UnknownCryptoError&gt;(())
 //! ```
 //! [`secure_rand_bytes()`]: crate::util::secure_rand_bytes
 //! [`zeroize` crate]: https://crates.io/crates/zeroize
+//! [OWASP]: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
 
 </span><span class="kw">use </span><span class="kw">crate</span>::errors::UnknownCryptoError;
-<span class="kw">use </span><span class="kw">crate</span>::hazardous::hash::blake2b::{Blake2b, BLAKE2B_OUTSIZE};
+<span class="kw">use </span><span class="kw">crate</span>::hazardous::hash::blake2::blake2b::Blake2b;
+<span class="kw">use </span><span class="kw">crate</span>::hazardous::hash::blake2::blake2b_core::BLAKE2B_OUTSIZE;
 <span class="kw">use </span><span class="kw">crate</span>::util;
 <span class="kw">use </span><span class="kw">crate</span>::util::endianness::{load_u64_into_le, store_u64_into_le};
 <span class="kw">use </span>zeroize::Zeroize;
@@ -2774,7 +2793,7 @@
     <span class="comment">// We save additional 8 bytes in H0 for when the first two blocks are processed,
     // so that this may contain two little-endian integers.
     </span><span class="kw">let </span><span class="kw-2">mut </span>h0 = [<span class="number">0u8</span>; <span class="number">72</span>];
-    <span class="kw">let </span><span class="kw-2">mut </span>hasher = Blake2b::new(<span class="prelude-val">None</span>, BLAKE2B_OUTSIZE)<span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>hasher = Blake2b::new(BLAKE2B_OUTSIZE)<span class="question-mark">?</span>;
 
     <span class="comment">// Collect the first part to reduce times we update the hasher state.
     </span>h0[<span class="number">0</span>..<span class="number">4</span>].copy_from_slice(<span class="kw-2">&amp;</span>LANES.to_le_bytes());
@@ -2807,12 +2826,12 @@
     <span class="kw">let </span>outlen = dst.len() <span class="kw">as </span>u32;
 
     <span class="kw">if </span>dst.len() &lt;= BLAKE2B_OUTSIZE {
-        <span class="kw">let </span><span class="kw-2">mut </span>ctx = Blake2b::new(<span class="prelude-val">None</span>, dst.len())<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>ctx = Blake2b::new(dst.len())<span class="question-mark">?</span>;
         ctx.update(<span class="kw-2">&amp;</span>outlen.to_le_bytes())<span class="question-mark">?</span>;
         ctx.update(input)<span class="question-mark">?</span>;
         dst.copy_from_slice(ctx.finalize()<span class="question-mark">?</span>.as_ref());
     } <span class="kw">else </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>ctx = Blake2b::new(<span class="prelude-val">None</span>, BLAKE2B_OUTSIZE)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>ctx = Blake2b::new(BLAKE2B_OUTSIZE)<span class="question-mark">?</span>;
         ctx.update(<span class="kw-2">&amp;</span>outlen.to_le_bytes())<span class="question-mark">?</span>;
         ctx.update(input)<span class="question-mark">?</span>;
 
@@ -2823,7 +2842,7 @@
         <span class="kw">let </span><span class="kw-2">mut </span>toproduce = dst.len() - BLAKE2B_OUTSIZE / <span class="number">2</span>;
 
         <span class="kw">while </span>toproduce &gt; BLAKE2B_OUTSIZE {
-            ctx.reset(<span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+            ctx.reset()<span class="question-mark">?</span>;
             ctx.update(tmp.as_ref())<span class="question-mark">?</span>;
             tmp = ctx.finalize()<span class="question-mark">?</span>;
 
@@ -2832,7 +2851,7 @@
             toproduce -= BLAKE2B_OUTSIZE / <span class="number">2</span>;
         }
 
-        ctx = Blake2b::new(<span class="prelude-val">None</span>, toproduce)<span class="question-mark">?</span>;
+        ctx = Blake2b::new(toproduce)<span class="question-mark">?</span>;
         ctx.update(tmp.as_ref())<span class="question-mark">?</span>;
         tmp = ctx.finalize()<span class="question-mark">?</span>;
         dst[pos..outlen <span class="kw">as </span>usize].copy_from_slice(<span class="kw-2">&amp;</span>tmp.as_ref()[..toproduce]);
@@ -2843,14 +2862,14 @@
 
 <span class="attr">#[rustfmt::skip]
 </span><span class="kw">fn </span>fill_block(w: <span class="kw-2">&amp;mut </span>[u64; <span class="number">128</span>]) {
-	
+
 	<span class="kw">let </span><span class="kw-2">mut </span>v0:  u64; <span class="kw">let </span><span class="kw-2">mut </span>v1:  u64; <span class="kw">let </span><span class="kw-2">mut </span>v2:  u64; <span class="kw">let </span><span class="kw-2">mut </span>v3:  u64;
-	<span class="kw">let </span><span class="kw-2">mut </span>v4:  u64; <span class="kw">let </span><span class="kw-2">mut </span>v5:  u64; <span class="kw">let </span><span class="kw-2">mut </span>v6:  u64; <span class="kw">let </span><span class="kw-2">mut </span>v7:  u64; 
+	<span class="kw">let </span><span class="kw-2">mut </span>v4:  u64; <span class="kw">let </span><span class="kw-2">mut </span>v5:  u64; <span class="kw">let </span><span class="kw-2">mut </span>v6:  u64; <span class="kw">let </span><span class="kw-2">mut </span>v7:  u64;
 	<span class="kw">let </span><span class="kw-2">mut </span>v8:  u64; <span class="kw">let </span><span class="kw-2">mut </span>v9:  u64; <span class="kw">let </span><span class="kw-2">mut </span>v10: u64; <span class="kw">let </span><span class="kw-2">mut </span>v11: u64;
 	<span class="kw">let </span><span class="kw-2">mut </span>v12: u64; <span class="kw">let </span><span class="kw-2">mut </span>v13: u64; <span class="kw">let </span><span class="kw-2">mut </span>v14: u64; <span class="kw">let </span><span class="kw-2">mut </span>v15: u64;
 
 	<span class="kw">let </span><span class="kw-2">mut </span>idx = <span class="number">0</span>;
-	
+
 	<span class="comment">// Operate on columns.
 	</span><span class="kw">while </span>idx &lt; <span class="number">128 </span>{
 		v0  = w[idx      ]; v1  = w[idx +  <span class="number">1</span>]; v2  = w[idx +  <span class="number">2</span>]; v3  = w[idx +  <span class="number">3</span>];
@@ -2859,9 +2878,9 @@
 		v12 = w[idx +  <span class="number">12</span>]; v13 = w[idx + <span class="number">13</span>]; v14 = w[idx + <span class="number">14</span>]; v15 = w[idx + <span class="number">15</span>];
 
 		permutation_p(
-			<span class="kw-2">&amp;mut </span>v0,  <span class="kw-2">&amp;mut </span>v1,  <span class="kw-2">&amp;mut </span>v2,  <span class="kw-2">&amp;mut </span>v3, 
-			<span class="kw-2">&amp;mut </span>v4,  <span class="kw-2">&amp;mut </span>v5,  <span class="kw-2">&amp;mut </span>v6,  <span class="kw-2">&amp;mut </span>v7, 
-			<span class="kw-2">&amp;mut </span>v8,  <span class="kw-2">&amp;mut </span>v9,  <span class="kw-2">&amp;mut </span>v10, <span class="kw-2">&amp;mut </span>v11, 
+			<span class="kw-2">&amp;mut </span>v0,  <span class="kw-2">&amp;mut </span>v1,  <span class="kw-2">&amp;mut </span>v2,  <span class="kw-2">&amp;mut </span>v3,
+			<span class="kw-2">&amp;mut </span>v4,  <span class="kw-2">&amp;mut </span>v5,  <span class="kw-2">&amp;mut </span>v6,  <span class="kw-2">&amp;mut </span>v7,
+			<span class="kw-2">&amp;mut </span>v8,  <span class="kw-2">&amp;mut </span>v9,  <span class="kw-2">&amp;mut </span>v10, <span class="kw-2">&amp;mut </span>v11,
 			<span class="kw-2">&amp;mut </span>v12, <span class="kw-2">&amp;mut </span>v13, <span class="kw-2">&amp;mut </span>v14, <span class="kw-2">&amp;mut </span>v15
 		);
 
@@ -2882,9 +2901,9 @@
 		v12 = w[idx + <span class="number">96</span>]; v13 = w[idx + <span class="number">97</span>]; v14 = w[idx + <span class="number">112</span>]; v15 = w[idx + <span class="number">113</span>];
 
 		permutation_p(
-			<span class="kw-2">&amp;mut </span>v0,  <span class="kw-2">&amp;mut </span>v1,  <span class="kw-2">&amp;mut </span>v2,  <span class="kw-2">&amp;mut </span>v3, 
-			<span class="kw-2">&amp;mut </span>v4,  <span class="kw-2">&amp;mut </span>v5,  <span class="kw-2">&amp;mut </span>v6,  <span class="kw-2">&amp;mut </span>v7, 
-			<span class="kw-2">&amp;mut </span>v8,  <span class="kw-2">&amp;mut </span>v9,  <span class="kw-2">&amp;mut </span>v10, <span class="kw-2">&amp;mut </span>v11, 
+			<span class="kw-2">&amp;mut </span>v0,  <span class="kw-2">&amp;mut </span>v1,  <span class="kw-2">&amp;mut </span>v2,  <span class="kw-2">&amp;mut </span>v3,
+			<span class="kw-2">&amp;mut </span>v4,  <span class="kw-2">&amp;mut </span>v5,  <span class="kw-2">&amp;mut </span>v6,  <span class="kw-2">&amp;mut </span>v7,
+			<span class="kw-2">&amp;mut </span>v8,  <span class="kw-2">&amp;mut </span>v9,  <span class="kw-2">&amp;mut </span>v10, <span class="kw-2">&amp;mut </span>v11,
 			<span class="kw-2">&amp;mut </span>v12, <span class="kw-2">&amp;mut </span>v13, <span class="kw-2">&amp;mut </span>v14, <span class="kw-2">&amp;mut </span>v15
 		);
 
@@ -3053,23 +3072,16 @@
         x,
     )<span class="question-mark">?</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>tmp = [<span class="number">0u8</span>; <span class="number">1024</span>];
-    <span class="macro">debug_assert_eq!</span>(
-        h0.len(),
-        ((core::mem::size_of::&lt;u32&gt;() * <span class="number">2</span>) + BLAKE2B_OUTSIZE)
-    );
+    <span class="macro">debug_assert_eq!</span>(h0.len(), ((size_of::&lt;u32&gt;() * <span class="number">2</span>) + BLAKE2B_OUTSIZE));
     <span class="macro">debug_assert!</span>(
-        h0[BLAKE2B_OUTSIZE..(BLAKE2B_OUTSIZE + core::mem::size_of::&lt;u32&gt;())]
-            == [<span class="number">0u8</span>; core::mem::size_of::&lt;u32&gt;()]
+        h0[BLAKE2B_OUTSIZE..(BLAKE2B_OUTSIZE + size_of::&lt;u32&gt;())] == [<span class="number">0u8</span>; size_of::&lt;u32&gt;()]
     ); <span class="comment">// Block 0
-    </span><span class="macro">debug_assert!</span>(
-        h0[BLAKE2B_OUTSIZE + core::mem::size_of::&lt;u32&gt;()..] == [<span class="number">0u8</span>; core::mem::size_of::&lt;u32&gt;()]
-    ); <span class="comment">// Lane
+    </span><span class="macro">debug_assert!</span>(h0[BLAKE2B_OUTSIZE + size_of::&lt;u32&gt;()..] == [<span class="number">0u8</span>; size_of::&lt;u32&gt;()]); <span class="comment">// Lane
 
     // H' into the first two blocks
     </span>extended_hash(<span class="kw-2">&amp;</span>h0, <span class="kw-2">&amp;mut </span>tmp)<span class="question-mark">?</span>;
     load_u64_into_le(<span class="kw-2">&amp;</span>tmp, <span class="kw-2">&amp;mut </span>blocks[<span class="number">0</span>]);
-    h0[BLAKE2B_OUTSIZE..(BLAKE2B_OUTSIZE + core::mem::size_of::&lt;u32&gt;())]
-        .copy_from_slice(<span class="kw-2">&amp;</span><span class="number">1u32</span>.to_le_bytes()); <span class="comment">// Block 1
+    h0[BLAKE2B_OUTSIZE..(BLAKE2B_OUTSIZE + size_of::&lt;u32&gt;())].copy_from_slice(<span class="kw-2">&amp;</span><span class="number">1u32</span>.to_le_bytes()); <span class="comment">// Block 1
     </span>extended_hash(<span class="kw-2">&amp;</span>h0, <span class="kw-2">&amp;mut </span>tmp)<span class="question-mark">?</span>;
     load_u64_into_le(<span class="kw-2">&amp;</span>tmp, <span class="kw-2">&amp;mut </span>blocks[<span class="number">1</span>]);
 
@@ -3087,7 +3099,7 @@
 
             <span class="kw">for </span>segment_idx <span class="kw">in </span>offset..segment_length {
                 <span class="kw">let </span>reference_idx = gidx.get_next(segment_idx, <span class="kw-2">&amp;mut </span>working_block);
-                <span class="kw">let </span>current_idx = segment_n <span class="kw">as </span>u32 * segment_length + segment_idx <span class="kw">as </span>u32;
+                <span class="kw">let </span>current_idx = segment_n <span class="kw">as </span>u32 * segment_length + segment_idx;
                 <span class="kw">let </span>previous_idx = <span class="kw">if </span>current_idx &gt; <span class="number">0 </span>{
                     current_idx - <span class="number">1
                 </span>} <span class="kw">else </span>{
@@ -3162,10 +3174,14 @@
             x: Vec&lt;u8&gt;,
         ) -&gt; bool {
             <span class="kw">let </span>passes = <span class="number">1</span>;
-            <span class="kw">let </span>mem = <span class="kw">if </span>kib &lt; <span class="number">8 </span>|| kib &gt; <span class="number">4096 </span>{ <span class="number">1024 </span>} <span class="kw">else </span>{ kib };
+            <span class="kw">let </span>mem = <span class="kw">if </span>!(<span class="number">8</span>..=<span class="number">4096</span>).contains(<span class="kw-2">&amp;</span>kib) {
+                <span class="number">1024
+            </span>} <span class="kw">else </span>{
+                kib
+            };
             <span class="kw">let </span>salt = <span class="kw">if </span>s.len() &lt; <span class="number">8 </span>{ <span class="macro">vec!</span>[<span class="number">37u8</span>; <span class="number">8</span>] } <span class="kw">else </span>{ s };
 
-            <span class="kw">let </span><span class="kw-2">mut </span>dst_out = <span class="kw">if </span>hlen &lt; <span class="number">4 </span>|| hlen &gt; <span class="number">512 </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>dst_out = <span class="kw">if </span>!(<span class="number">4</span>..=<span class="number">512</span>).contains(<span class="kw-2">&amp;</span>hlen) {
                 <span class="macro">vec!</span>[<span class="number">0u8</span>; <span class="number">32</span>]
             } <span class="kw">else </span>{
                 <span class="macro">vec!</span>[<span class="number">0u8</span>; hlen <span class="kw">as </span>usize]
@@ -3955,6 +3971,10 @@
         <span class="attr">#[quickcheck]
         #[cfg(feature = <span class="string">"safe_api"</span>)]
         </span><span class="kw">fn </span>prop_test_same_result(input: Vec&lt;u8&gt;, out: Vec&lt;u8&gt;) -&gt; bool {
+            <span class="kw">if </span>out.len() &lt; <span class="number">4 </span>{
+                <span class="kw">return </span><span class="bool-val">true</span>;
+            }
+
             <span class="kw">let </span><span class="kw-2">mut </span>first = out.clone();
             <span class="kw">let </span><span class="kw-2">mut </span>second = out.clone();
 
@@ -3971,6 +3991,10 @@
         <span class="attr">#[quickcheck]
         #[cfg(feature = <span class="string">"safe_api"</span>)]
         </span><span class="kw">fn </span>prop_test_diff_result(input: Vec&lt;u8&gt;, out: Vec&lt;u8&gt;) -&gt; bool {
+            <span class="kw">if </span>out.len() &lt; <span class="number">4 </span>{
+                <span class="kw">return </span><span class="bool-val">true</span>;
+            }
+
             <span class="kw">let </span><span class="kw-2">mut </span>first = out.clone();
             <span class="kw">let </span><span class="kw-2">mut </span>second = out.clone();
 
@@ -4070,7 +4094,7 @@
                 <span class="comment">// Mimic offset..segment_length runs with idx
                 </span><span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>expected,
-                    gidx.get_next(idx <span class="kw">as </span>u32, <span class="kw-2">&amp;mut </span>tmp_block),
+                    gidx.get_next(idx, <span class="kw-2">&amp;mut </span>tmp_block),
                     <span class="string">"Invalid at {}"</span>,
                     idx
                 );
@@ -4161,7 +4185,7 @@
                 <span class="comment">// Mimic offset..segment_length runs with idx
                 </span><span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>expected,
-                    gidx.get_next(idx <span class="kw">as </span>u32, <span class="kw-2">&amp;mut </span>tmp_block),
+                    gidx.get_next(idx, <span class="kw-2">&amp;mut </span>tmp_block),
                     <span class="string">"Invalid at {}"</span>,
                     idx
                 );
@@ -4255,7 +4279,7 @@
                 <span class="comment">// Mimic offset..segment_length runs with idx
                 </span><span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>expected,
-                    gidx.get_next(idx <span class="kw">as </span>u32, <span class="kw-2">&amp;mut </span>tmp_block),
+                    gidx.get_next(idx, <span class="kw-2">&amp;mut </span>tmp_block),
                     <span class="string">"Invalid at {}"</span>,
                     idx
                 );
@@ -4349,7 +4373,7 @@
                 <span class="comment">// Mimic offset..segment_length runs with idx
                 </span><span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>expected,
-                    gidx.get_next(idx <span class="kw">as </span>u32, <span class="kw-2">&amp;mut </span>tmp_block),
+                    gidx.get_next(idx, <span class="kw-2">&amp;mut </span>tmp_block),
                     <span class="string">"Invalid at {}"</span>,
                     idx
                 );
@@ -4440,7 +4464,7 @@
                 <span class="comment">// Mimic offset..segment_length runs with idx
                 </span><span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>expected,
-                    gidx.get_next(idx <span class="kw">as </span>u32, <span class="kw-2">&amp;mut </span>tmp_block),
+                    gidx.get_next(idx, <span class="kw-2">&amp;mut </span>tmp_block),
                     <span class="string">"Invalid at {}"</span>,
                     idx
                 );
@@ -4533,7 +4557,7 @@
                 <span class="comment">// Mimic offset..segment_length runs with idx
                 </span><span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>expected,
-                    gidx.get_next(idx <span class="kw">as </span>u32, <span class="kw-2">&amp;mut </span>tmp_block),
+                    gidx.get_next(idx, <span class="kw-2">&amp;mut </span>tmp_block),
                     <span class="string">"Invalid at {}"</span>,
                     idx
                 );
@@ -4627,7 +4651,7 @@
                 <span class="comment">// Mimic offset..segment_length runs with idx
                 </span><span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>expected,
-                    gidx.get_next(idx <span class="kw">as </span>u32, <span class="kw-2">&amp;mut </span>tmp_block),
+                    gidx.get_next(idx, <span class="kw-2">&amp;mut </span>tmp_block),
                     <span class="string">"Invalid at {}"</span>,
                     idx
                 );
@@ -4721,7 +4745,7 @@
                 <span class="comment">// Mimic offset..segment_length runs with idx
                 </span><span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>expected,
-                    gidx.get_next(idx <span class="kw">as </span>u32, <span class="kw-2">&amp;mut </span>tmp_block),
+                    gidx.get_next(idx, <span class="kw-2">&amp;mut </span>tmp_block),
                     <span class="string">"Invalid at {}"</span>,
                     idx
                 );
@@ -4813,7 +4837,7 @@
                 <span class="comment">// Mimic offset..segment_length runs with idx
                 </span><span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>expected,
-                    gidx.get_next(idx <span class="kw">as </span>u32, <span class="kw-2">&amp;mut </span>tmp_block),
+                    gidx.get_next(idx, <span class="kw-2">&amp;mut </span>tmp_block),
                     <span class="string">"Invalid at {}"</span>,
                     idx
                 );
@@ -4906,7 +4930,7 @@
                 <span class="comment">// Mimic offset..segment_length runs with idx
                 </span><span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>expected,
-                    gidx.get_next(idx <span class="kw">as </span>u32, <span class="kw-2">&amp;mut </span>tmp_block),
+                    gidx.get_next(idx, <span class="kw-2">&amp;mut </span>tmp_block),
                     <span class="string">"Invalid at {}"</span>,
                     idx
                 );
@@ -5000,7 +5024,7 @@
                 <span class="comment">// Mimic offset..segment_length runs with idx
                 </span><span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>expected,
-                    gidx.get_next(idx <span class="kw">as </span>u32, <span class="kw-2">&amp;mut </span>tmp_block),
+                    gidx.get_next(idx, <span class="kw-2">&amp;mut </span>tmp_block),
                     <span class="string">"Invalid at {}"</span>,
                     idx
                 );
@@ -5094,7 +5118,7 @@
                 <span class="comment">// Mimic offset..segment_length runs with idx
                 </span><span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>expected,
-                    gidx.get_next(idx <span class="kw">as </span>u32, <span class="kw-2">&amp;mut </span>tmp_block),
+                    gidx.get_next(idx, <span class="kw-2">&amp;mut </span>tmp_block),
                     <span class="string">"Invalid at {}"</span>,
                     idx
                 );

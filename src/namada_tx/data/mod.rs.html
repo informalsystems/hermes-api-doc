@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_tx-0.47.2/src/data/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="namada_tx" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_tx/data/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_tx-0.149.1/src/data/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="namada_tx" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_tx/data/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -758,7 +758,64 @@
 <a href="#757" id="757">757</a>
 <a href="#758" id="758">758</a>
 <a href="#759" id="759">759</a>
-<a href="#760" id="760">760</a></pre></div><pre class="rust"><code><span class="doccomment">//! Data-Types that are used in transactions.
+<a href="#760" id="760">760</a>
+<a href="#761" id="761">761</a>
+<a href="#762" id="762">762</a>
+<a href="#763" id="763">763</a>
+<a href="#764" id="764">764</a>
+<a href="#765" id="765">765</a>
+<a href="#766" id="766">766</a>
+<a href="#767" id="767">767</a>
+<a href="#768" id="768">768</a>
+<a href="#769" id="769">769</a>
+<a href="#770" id="770">770</a>
+<a href="#771" id="771">771</a>
+<a href="#772" id="772">772</a>
+<a href="#773" id="773">773</a>
+<a href="#774" id="774">774</a>
+<a href="#775" id="775">775</a>
+<a href="#776" id="776">776</a>
+<a href="#777" id="777">777</a>
+<a href="#778" id="778">778</a>
+<a href="#779" id="779">779</a>
+<a href="#780" id="780">780</a>
+<a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
+<a href="#786" id="786">786</a>
+<a href="#787" id="787">787</a>
+<a href="#788" id="788">788</a>
+<a href="#789" id="789">789</a>
+<a href="#790" id="790">790</a>
+<a href="#791" id="791">791</a>
+<a href="#792" id="792">792</a>
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
+<a href="#795" id="795">795</a>
+<a href="#796" id="796">796</a>
+<a href="#797" id="797">797</a>
+<a href="#798" id="798">798</a>
+<a href="#799" id="799">799</a>
+<a href="#800" id="800">800</a>
+<a href="#801" id="801">801</a>
+<a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
+<a href="#809" id="809">809</a>
+<a href="#810" id="810">810</a>
+<a href="#811" id="811">811</a>
+<a href="#812" id="812">812</a>
+<a href="#813" id="813">813</a>
+<a href="#814" id="814">814</a>
+<a href="#815" id="815">815</a>
+<a href="#816" id="816">816</a>
+<a href="#817" id="817">817</a></pre></div><pre class="rust"><code><span class="doccomment">//! Data-Types that are used in transactions.
 
 </span><span class="kw">pub mod </span>eval_vp;
 <span class="doccomment">/// txs to manage pgf
@@ -770,9 +827,11 @@
 <span class="doccomment">/// wrapper txs
 </span><span class="kw">pub mod </span>wrapper;
 
-<span class="kw">use </span>std::collections::{BTreeMap, BTreeSet};
+<span class="kw">use </span>std::borrow::Cow;
+<span class="kw">use </span>std::collections::BTreeSet;
 <span class="kw">use </span>std::fmt::{<span class="self">self</span>, Display};
 <span class="kw">use </span>std::marker::PhantomData;
+<span class="kw">use </span>std::ops::{Deref, DerefMut};
 <span class="kw">use </span>std::str::FromStr;
 
 <span class="kw">use </span>bitflags::bitflags;
@@ -781,9 +840,9 @@
 <span class="kw">use </span>namada_core::borsh::{
     BorshDeserialize, BorshSchema, BorshSerialize, BorshSerializeExt,
 };
+<span class="kw">use </span>namada_core::collections::HashMap;
 <span class="kw">use </span>namada_core::hash::Hash;
 <span class="kw">use </span>namada_core::storage;
-<span class="kw">use </span>namada_events::extend::MaspTxRefs;
 <span class="kw">use </span>namada_events::Event;
 <span class="kw">use </span>namada_gas::WholeGas;
 <span class="kw">use </span>namada_macros::BorshDeserializer;
@@ -796,8 +855,8 @@
 <span class="kw">use </span>sha2::{Digest, Sha256};
 <span class="kw">pub use </span>wrapper::<span class="kw-2">*</span>;
 
-<span class="kw">use </span><span class="kw">crate</span>::data::protocol::ProtocolTx;
 <span class="kw">use </span><span class="kw">crate</span>::TxCommitments;
+<span class="kw">use </span><span class="kw">crate</span>::data::protocol::ProtocolTx;
 
 <span class="doccomment">/// The different result codes that the ledger may send back to a client
 /// indicating the status of their submitted tx.
@@ -943,27 +1002,35 @@
     Hash(state.finalize_reset().into())
 }
 
-<span class="doccomment">/// The extended transaction result, containing the references to masp
-/// sections (if any)
-</span><span class="kw">pub struct </span>ExtendedTxResult&lt;T&gt; {
-    <span class="doccomment">/// The transaction result
-    </span><span class="kw">pub </span>tx_result: TxResult&lt;T&gt;,
-    <span class="doccomment">/// The optional references to masp data (either MASP sections or tx Data
-    /// for shielded actions)
-    </span><span class="comment">// NOTE: it's paramount to enforce a single, ordered collection for all the
-    // masp transactions to ensure that the exact view on the tx sequence is
-    // preserved in the events. Also, it is possible for two refs to be exactly
-    // the same, we must make sure to emit events for both so that the
-    // client/indexer can properly construct their internal state
-    </span><span class="kw">pub </span>masp_tx_refs: MaspTxRefs,
+<span class="doccomment">/// Identifier of an inner transaction in a batch.
+</span><span class="kw">pub struct </span>InnerTxId&lt;<span class="lifetime">'tx</span>&gt; {
+    <span class="doccomment">/// Hash of the wrapper transaction, if any.
+    </span><span class="kw">pub </span>wrapper_hash: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'tx</span>, Hash&gt;&gt;,
+    <span class="doccomment">/// Hash of the inner transaction's commitments.
+    </span><span class="kw">pub </span>commitments_hash: Cow&lt;<span class="lifetime">'tx</span>, Hash&gt;,
 }
 
-<span class="kw">impl</span>&lt;T&gt; Default <span class="kw">for </span>ExtendedTxResult&lt;T&gt; {
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            tx_result: Default::default(),
-            masp_tx_refs: Default::default(),
-        }
+<span class="kw">impl </span>InnerTxId&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="doccomment">/// Compute the hash of the wrapper transaction.
+    ///
+    /// The zero hash is returned in case no wrapper is
+    /// present.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>wrapper_hash(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Hash {
+        <span class="self">self</span>.wrapper_hash
+            .as_ref()
+            .map_or_else(Hash::zero, |wrapper_hash| {
+                wrapper_hash.clone().into_owned()
+            })
+    }
+
+    <span class="doccomment">/// Compute the hash of the inner transaction.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>inner_hash(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Hash {
+        compute_inner_tx_hash(
+            <span class="self">self</span>.wrapper_hash.as_ref().map(|hash| hash.as_ref()),
+            Either::Left(<span class="kw-2">&amp;</span><span class="self">self</span>.commitments_hash),
+        )
     }
 }
 
@@ -979,7 +1046,7 @@
 // strings
 // TODO derive BorshSchema after &lt;https://github.com/near/borsh-rs/issues/82&gt;
 </span><span class="attr">#[derive(Clone, Debug, BorshSerialize, BorshDeserialize)]
-</span><span class="kw">pub struct </span>TxResult&lt;T&gt;(<span class="kw">pub </span>BTreeMap&lt;Hash, <span class="prelude-ty">Result</span>&lt;BatchedTxResult, T&gt;&gt;);
+</span><span class="kw">pub struct </span>TxResult&lt;T&gt;(HashMap&lt;Hash, <span class="prelude-ty">Result</span>&lt;BatchedTxResult, T&gt;&gt;);
 
 <span class="kw">impl</span>&lt;T&gt; Default <span class="kw">for </span>TxResult&lt;T&gt; {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
@@ -1052,8 +1119,8 @@
 <span class="kw">impl</span>&lt;T: Display&gt; TxResult&lt;T&gt; {
     <span class="doccomment">/// Convert the batched result to a string
     </span><span class="kw">pub fn </span>to_result_string(<span class="self">self</span>) -&gt; TxResult&lt;String&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>batch_results: BTreeMap&lt;Hash, <span class="prelude-ty">Result</span>&lt;BatchedTxResult, String&gt;&gt; =
-            BTreeMap::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>batch_results: HashMap&lt;Hash, <span class="prelude-ty">Result</span>&lt;BatchedTxResult, String&gt;&gt; =
+            HashMap::new();
 
         <span class="kw">for </span>(hash, res) <span class="kw">in </span><span class="self">self</span>.<span class="number">0 </span>{
             <span class="kw">let </span>res = <span class="kw">match </span>res {
@@ -1065,23 +1132,26 @@
 
         TxResult(batch_results)
     }
+}
 
-    <span class="doccomment">/// Converts this result to [`ExtendedTxResult`]
-    </span><span class="kw">pub fn </span>to_extended_result(
-        <span class="self">self</span>,
-        masp_tx_refs: <span class="prelude-ty">Option</span>&lt;MaspTxRefs&gt;,
-    ) -&gt; ExtendedTxResult&lt;T&gt; {
-        ExtendedTxResult {
-            tx_result: <span class="self">self</span>,
-            masp_tx_refs: masp_tx_refs.unwrap_or_default(),
-        }
-    }
+<span class="kw">impl</span>&lt;T&gt; Deref <span class="kw">for </span>TxResult&lt;T&gt; {
+    <span class="kw">type </span>Target = HashMap&lt;Hash, <span class="prelude-ty">Result</span>&lt;BatchedTxResult, T&gt;&gt;;
+
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
+    </span>}
+}
+
+<span class="kw">impl</span>&lt;T&gt; DerefMut <span class="kw">for </span>TxResult&lt;T&gt; {
+    <span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Target {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0
+    </span>}
 }
 
 <span class="kw">impl</span>&lt;T&gt; TxResult&lt;T&gt; {
     <span class="doccomment">/// Return a new set of tx results.
-    </span><span class="kw">pub const fn </span>new() -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>(BTreeMap::new())
+    </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>(HashMap::new())
     }
 
     <span class="doccomment">/// Insert an inner tx result into this [`TxResult`].
@@ -1105,26 +1175,6 @@
     ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="prelude-ty">Result</span>&lt;BatchedTxResult, T&gt;&gt; {
         <span class="self">self</span>.<span class="number">0
             </span>.get(<span class="kw-2">&amp;</span>compute_inner_tx_hash(wrapper_hash, commitments))
-    }
-
-    <span class="doccomment">/// Iterate over all the inner tx results.
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>iter(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (<span class="kw-2">&amp;</span>Hash, <span class="kw-2">&amp;</span><span class="prelude-ty">Result</span>&lt;BatchedTxResult, T&gt;)&gt; + <span class="lifetime">'_ </span>{
-        <span class="self">self</span>.<span class="number">0</span>.iter()
-    }
-
-    <span class="doccomment">/// Return the length of the collection of inner tx results.
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="self">self</span>.<span class="number">0</span>.len()
-    }
-
-    <span class="doccomment">/// Check if the collection of inner tx results is empty.
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.<span class="number">0</span>.is_empty()
     }
 
     <span class="doccomment">/// Check if all the inner txs in the collection have been successfully
@@ -1170,6 +1220,8 @@
     <span class="doccomment">/// New established addresses created by the transaction
     </span><span class="kw">pub </span>initialized_accounts: Vec&lt;Address&gt;,
     <span class="doccomment">/// Events emitted by the transaction
+    </span><span class="attr">#[serde(skip_serializing, skip_deserializing)]
+    #[borsh(skip)]
     </span><span class="kw">pub </span>events: BTreeSet&lt;Event&gt;,
 }
 
@@ -1384,9 +1436,14 @@
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>test_process_tx {
     <span class="kw">use </span>assert_matches::assert_matches;
-    <span class="kw">use </span>namada_core::address::testing::nam;
+    <span class="kw">use </span>namada_core::address::testing::{
+        established_address_1, established_address_3, nam,
+    };
+    <span class="kw">use </span>namada_core::address::{MASP, POS};
     <span class="kw">use </span>namada_core::key::<span class="kw-2">*</span>;
     <span class="kw">use </span>namada_core::token::{Amount, DenominatedAmount};
+    <span class="kw">use </span>namada_events::extend::{ComposeEvent, TxHash};
+    <span class="kw">use </span>namada_events::{EventLevel, EventType};
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use crate</span>::{Authorization, Code, Data, Section, Tx, TxError};
@@ -1516,6 +1573,63 @@
         tx.set_data(Data::new(<span class="string">"transaction data"</span>.as_bytes().to_owned()));
         <span class="kw">let </span>result = tx.validate_tx().expect_err(<span class="string">"Test failed"</span>);
         <span class="macro">assert_matches!</span>(result, TxError::SigError(<span class="kw">_</span>));
+    }
+
+    <span class="comment">// Test that the serialization process for [`BatchedTxResult`] skips the
+    // events field
+    </span><span class="attr">#[test]
+    </span><span class="kw">fn </span>batched_tx_result_ser() {
+        <span class="kw">let </span>event = Event::new(EventType::new(<span class="string">"test-event"</span>), EventLevel::Tx)
+            .with(TxHash(Hash::zero()))
+            .into();
+        <span class="kw">let </span>event2 =
+            Event::new(EventType::new(<span class="string">"test-event-2"</span>), EventLevel::Block)
+                .with(TxHash(Hash::zero()))
+                .into();
+
+        <span class="kw">let </span>batched_result = BatchedTxResult {
+            changed_keys: [
+                namada_account::Key::wasm_code_name(<span class="string">"test-name"</span>.to_string()),
+                namada_account::Key::wasm_hash(<span class="string">"test-name"</span>),
+            ]
+            .into(),
+            vps_result: VpsResult {
+                accepted_vps: [MASP].into(),
+                rejected_vps: [POS].into(),
+                errors: <span class="macro">vec!</span>[(POS, <span class="string">"Pos error"</span>.to_string())],
+                status_flags: VpStatusFlags::empty(),
+            },
+            initialized_accounts: <span class="macro">vec!</span>[
+                established_address_1(),
+                established_address_3(),
+            ],
+            events: BTreeSet::from([event, event2]),
+        };
+
+        <span class="kw">let </span>serialized = serde_json::to_vec(<span class="kw-2">&amp;</span>batched_result).unwrap();
+        <span class="kw">let </span>BatchedTxResult {
+            changed_keys,
+            vps_result,
+            initialized_accounts,
+            events,
+        } = serde_json::from_slice(<span class="kw-2">&amp;</span>serialized).unwrap();
+
+        <span class="macro">assert_eq!</span>(changed_keys, batched_result.changed_keys);
+        <span class="macro">assert_eq!</span>(
+            vps_result.accepted_vps,
+            batched_result.vps_result.accepted_vps
+        );
+        <span class="macro">assert_eq!</span>(
+            vps_result.rejected_vps,
+            batched_result.vps_result.rejected_vps
+        );
+        <span class="macro">assert_eq!</span>(vps_result.errors, batched_result.vps_result.errors);
+        <span class="macro">assert_eq!</span>(
+            vps_result.status_flags,
+            batched_result.vps_result.status_flags
+        );
+        <span class="macro">assert_eq!</span>(initialized_accounts, batched_result.initialized_accounts);
+        <span class="macro">assert!</span>(events.is_empty());
     }
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/reqwest-0.11.27/src/connect.rs`."><title>connect.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="reqwest" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">reqwest/</div>connect.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/reqwest-0.12.12/src/connect.rs`."><title>connect.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="reqwest" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">reqwest/</div>connect.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1329,17 +1329,259 @@
 <a href="#1328" id="1328">1328</a>
 <a href="#1329" id="1329">1329</a>
 <a href="#1330" id="1330">1330</a>
-<a href="#1331" id="1331">1331</a></pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
+<a href="#1331" id="1331">1331</a>
+<a href="#1332" id="1332">1332</a>
+<a href="#1333" id="1333">1333</a>
+<a href="#1334" id="1334">1334</a>
+<a href="#1335" id="1335">1335</a>
+<a href="#1336" id="1336">1336</a>
+<a href="#1337" id="1337">1337</a>
+<a href="#1338" id="1338">1338</a>
+<a href="#1339" id="1339">1339</a>
+<a href="#1340" id="1340">1340</a>
+<a href="#1341" id="1341">1341</a>
+<a href="#1342" id="1342">1342</a>
+<a href="#1343" id="1343">1343</a>
+<a href="#1344" id="1344">1344</a>
+<a href="#1345" id="1345">1345</a>
+<a href="#1346" id="1346">1346</a>
+<a href="#1347" id="1347">1347</a>
+<a href="#1348" id="1348">1348</a>
+<a href="#1349" id="1349">1349</a>
+<a href="#1350" id="1350">1350</a>
+<a href="#1351" id="1351">1351</a>
+<a href="#1352" id="1352">1352</a>
+<a href="#1353" id="1353">1353</a>
+<a href="#1354" id="1354">1354</a>
+<a href="#1355" id="1355">1355</a>
+<a href="#1356" id="1356">1356</a>
+<a href="#1357" id="1357">1357</a>
+<a href="#1358" id="1358">1358</a>
+<a href="#1359" id="1359">1359</a>
+<a href="#1360" id="1360">1360</a>
+<a href="#1361" id="1361">1361</a>
+<a href="#1362" id="1362">1362</a>
+<a href="#1363" id="1363">1363</a>
+<a href="#1364" id="1364">1364</a>
+<a href="#1365" id="1365">1365</a>
+<a href="#1366" id="1366">1366</a>
+<a href="#1367" id="1367">1367</a>
+<a href="#1368" id="1368">1368</a>
+<a href="#1369" id="1369">1369</a>
+<a href="#1370" id="1370">1370</a>
+<a href="#1371" id="1371">1371</a>
+<a href="#1372" id="1372">1372</a>
+<a href="#1373" id="1373">1373</a>
+<a href="#1374" id="1374">1374</a>
+<a href="#1375" id="1375">1375</a>
+<a href="#1376" id="1376">1376</a>
+<a href="#1377" id="1377">1377</a>
+<a href="#1378" id="1378">1378</a>
+<a href="#1379" id="1379">1379</a>
+<a href="#1380" id="1380">1380</a>
+<a href="#1381" id="1381">1381</a>
+<a href="#1382" id="1382">1382</a>
+<a href="#1383" id="1383">1383</a>
+<a href="#1384" id="1384">1384</a>
+<a href="#1385" id="1385">1385</a>
+<a href="#1386" id="1386">1386</a>
+<a href="#1387" id="1387">1387</a>
+<a href="#1388" id="1388">1388</a>
+<a href="#1389" id="1389">1389</a>
+<a href="#1390" id="1390">1390</a>
+<a href="#1391" id="1391">1391</a>
+<a href="#1392" id="1392">1392</a>
+<a href="#1393" id="1393">1393</a>
+<a href="#1394" id="1394">1394</a>
+<a href="#1395" id="1395">1395</a>
+<a href="#1396" id="1396">1396</a>
+<a href="#1397" id="1397">1397</a>
+<a href="#1398" id="1398">1398</a>
+<a href="#1399" id="1399">1399</a>
+<a href="#1400" id="1400">1400</a>
+<a href="#1401" id="1401">1401</a>
+<a href="#1402" id="1402">1402</a>
+<a href="#1403" id="1403">1403</a>
+<a href="#1404" id="1404">1404</a>
+<a href="#1405" id="1405">1405</a>
+<a href="#1406" id="1406">1406</a>
+<a href="#1407" id="1407">1407</a>
+<a href="#1408" id="1408">1408</a>
+<a href="#1409" id="1409">1409</a>
+<a href="#1410" id="1410">1410</a>
+<a href="#1411" id="1411">1411</a>
+<a href="#1412" id="1412">1412</a>
+<a href="#1413" id="1413">1413</a>
+<a href="#1414" id="1414">1414</a>
+<a href="#1415" id="1415">1415</a>
+<a href="#1416" id="1416">1416</a>
+<a href="#1417" id="1417">1417</a>
+<a href="#1418" id="1418">1418</a>
+<a href="#1419" id="1419">1419</a>
+<a href="#1420" id="1420">1420</a>
+<a href="#1421" id="1421">1421</a>
+<a href="#1422" id="1422">1422</a>
+<a href="#1423" id="1423">1423</a>
+<a href="#1424" id="1424">1424</a>
+<a href="#1425" id="1425">1425</a>
+<a href="#1426" id="1426">1426</a>
+<a href="#1427" id="1427">1427</a>
+<a href="#1428" id="1428">1428</a>
+<a href="#1429" id="1429">1429</a>
+<a href="#1430" id="1430">1430</a>
+<a href="#1431" id="1431">1431</a>
+<a href="#1432" id="1432">1432</a>
+<a href="#1433" id="1433">1433</a>
+<a href="#1434" id="1434">1434</a>
+<a href="#1435" id="1435">1435</a>
+<a href="#1436" id="1436">1436</a>
+<a href="#1437" id="1437">1437</a>
+<a href="#1438" id="1438">1438</a>
+<a href="#1439" id="1439">1439</a>
+<a href="#1440" id="1440">1440</a>
+<a href="#1441" id="1441">1441</a>
+<a href="#1442" id="1442">1442</a>
+<a href="#1443" id="1443">1443</a>
+<a href="#1444" id="1444">1444</a>
+<a href="#1445" id="1445">1445</a>
+<a href="#1446" id="1446">1446</a>
+<a href="#1447" id="1447">1447</a>
+<a href="#1448" id="1448">1448</a>
+<a href="#1449" id="1449">1449</a>
+<a href="#1450" id="1450">1450</a>
+<a href="#1451" id="1451">1451</a>
+<a href="#1452" id="1452">1452</a>
+<a href="#1453" id="1453">1453</a>
+<a href="#1454" id="1454">1454</a>
+<a href="#1455" id="1455">1455</a>
+<a href="#1456" id="1456">1456</a>
+<a href="#1457" id="1457">1457</a>
+<a href="#1458" id="1458">1458</a>
+<a href="#1459" id="1459">1459</a>
+<a href="#1460" id="1460">1460</a>
+<a href="#1461" id="1461">1461</a>
+<a href="#1462" id="1462">1462</a>
+<a href="#1463" id="1463">1463</a>
+<a href="#1464" id="1464">1464</a>
+<a href="#1465" id="1465">1465</a>
+<a href="#1466" id="1466">1466</a>
+<a href="#1467" id="1467">1467</a>
+<a href="#1468" id="1468">1468</a>
+<a href="#1469" id="1469">1469</a>
+<a href="#1470" id="1470">1470</a>
+<a href="#1471" id="1471">1471</a>
+<a href="#1472" id="1472">1472</a>
+<a href="#1473" id="1473">1473</a>
+<a href="#1474" id="1474">1474</a>
+<a href="#1475" id="1475">1475</a>
+<a href="#1476" id="1476">1476</a>
+<a href="#1477" id="1477">1477</a>
+<a href="#1478" id="1478">1478</a>
+<a href="#1479" id="1479">1479</a>
+<a href="#1480" id="1480">1480</a>
+<a href="#1481" id="1481">1481</a>
+<a href="#1482" id="1482">1482</a>
+<a href="#1483" id="1483">1483</a>
+<a href="#1484" id="1484">1484</a>
+<a href="#1485" id="1485">1485</a>
+<a href="#1486" id="1486">1486</a>
+<a href="#1487" id="1487">1487</a>
+<a href="#1488" id="1488">1488</a>
+<a href="#1489" id="1489">1489</a>
+<a href="#1490" id="1490">1490</a>
+<a href="#1491" id="1491">1491</a>
+<a href="#1492" id="1492">1492</a>
+<a href="#1493" id="1493">1493</a>
+<a href="#1494" id="1494">1494</a>
+<a href="#1495" id="1495">1495</a>
+<a href="#1496" id="1496">1496</a>
+<a href="#1497" id="1497">1497</a>
+<a href="#1498" id="1498">1498</a>
+<a href="#1499" id="1499">1499</a>
+<a href="#1500" id="1500">1500</a>
+<a href="#1501" id="1501">1501</a>
+<a href="#1502" id="1502">1502</a>
+<a href="#1503" id="1503">1503</a>
+<a href="#1504" id="1504">1504</a>
+<a href="#1505" id="1505">1505</a>
+<a href="#1506" id="1506">1506</a>
+<a href="#1507" id="1507">1507</a>
+<a href="#1508" id="1508">1508</a>
+<a href="#1509" id="1509">1509</a>
+<a href="#1510" id="1510">1510</a>
+<a href="#1511" id="1511">1511</a>
+<a href="#1512" id="1512">1512</a>
+<a href="#1513" id="1513">1513</a>
+<a href="#1514" id="1514">1514</a>
+<a href="#1515" id="1515">1515</a>
+<a href="#1516" id="1516">1516</a>
+<a href="#1517" id="1517">1517</a>
+<a href="#1518" id="1518">1518</a>
+<a href="#1519" id="1519">1519</a>
+<a href="#1520" id="1520">1520</a>
+<a href="#1521" id="1521">1521</a>
+<a href="#1522" id="1522">1522</a>
+<a href="#1523" id="1523">1523</a>
+<a href="#1524" id="1524">1524</a>
+<a href="#1525" id="1525">1525</a>
+<a href="#1526" id="1526">1526</a>
+<a href="#1527" id="1527">1527</a>
+<a href="#1528" id="1528">1528</a>
+<a href="#1529" id="1529">1529</a>
+<a href="#1530" id="1530">1530</a>
+<a href="#1531" id="1531">1531</a>
+<a href="#1532" id="1532">1532</a>
+<a href="#1533" id="1533">1533</a>
+<a href="#1534" id="1534">1534</a>
+<a href="#1535" id="1535">1535</a>
+<a href="#1536" id="1536">1536</a>
+<a href="#1537" id="1537">1537</a>
+<a href="#1538" id="1538">1538</a>
+<a href="#1539" id="1539">1539</a>
+<a href="#1540" id="1540">1540</a>
+<a href="#1541" id="1541">1541</a>
+<a href="#1542" id="1542">1542</a>
+<a href="#1543" id="1543">1543</a>
+<a href="#1544" id="1544">1544</a>
+<a href="#1545" id="1545">1545</a>
+<a href="#1546" id="1546">1546</a>
+<a href="#1547" id="1547">1547</a>
+<a href="#1548" id="1548">1548</a>
+<a href="#1549" id="1549">1549</a>
+<a href="#1550" id="1550">1550</a>
+<a href="#1551" id="1551">1551</a>
+<a href="#1552" id="1552">1552</a>
+<a href="#1553" id="1553">1553</a>
+<a href="#1554" id="1554">1554</a>
+<a href="#1555" id="1555">1555</a>
+<a href="#1556" id="1556">1556</a>
+<a href="#1557" id="1557">1557</a>
+<a href="#1558" id="1558">1558</a>
+<a href="#1559" id="1559">1559</a>
+<a href="#1560" id="1560">1560</a>
+<a href="#1561" id="1561">1561</a>
+<a href="#1562" id="1562">1562</a>
+<a href="#1563" id="1563">1563</a>
+<a href="#1564" id="1564">1564</a>
+<a href="#1565" id="1565">1565</a>
+<a href="#1566" id="1566">1566</a>
+<a href="#1567" id="1567">1567</a>
+<a href="#1568" id="1568">1568</a>
+<a href="#1569" id="1569">1569</a></pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
 </span><span class="kw">use </span>http::header::HeaderValue;
 <span class="kw">use </span>http::uri::{Authority, Scheme};
 <span class="kw">use </span>http::Uri;
-<span class="kw">use </span>hyper::client::connect::{Connected, Connection};
-<span class="kw">use </span>hyper::service::Service;
-<span class="attr">#[cfg(feature = <span class="string">"native-tls-crate"</span>)]
+<span class="kw">use </span>hyper::rt::{Read, ReadBufCursor, Write};
+<span class="kw">use </span>hyper_util::client::legacy::connect::{Connected, Connection};
+<span class="attr">#[cfg(any(feature = <span class="string">"socks"</span>, feature = <span class="string">"__tls"</span>))]
+</span><span class="kw">use </span>hyper_util::rt::TokioIo;
+<span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
 </span><span class="kw">use </span>native_tls_crate::{TlsConnector, TlsConnectorBuilder};
-<span class="kw">use </span>tokio::io::{AsyncRead, AsyncWrite, ReadBuf};
-
 <span class="kw">use </span>pin_project_lite::pin_project;
+<span class="kw">use </span>tower::util::{BoxCloneSyncServiceLayer, MapRequestLayer};
+<span class="kw">use </span>tower::{timeout::TimeoutLayer, util::BoxCloneSyncService, ServiceBuilder};
+<span class="kw">use </span>tower_service::Service;
+
 <span class="kw">use </span>std::future::Future;
 <span class="kw">use </span>std::io::{<span class="self">self</span>, IoSlice};
 <span class="kw">use </span>std::net::IpAddr;
@@ -1353,17 +1595,291 @@
 <span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
 </span><span class="kw">use </span><span class="self">self</span>::rustls_tls_conn::RustlsTlsConn;
 <span class="kw">use </span><span class="kw">crate</span>::dns::DynResolver;
-<span class="kw">use </span><span class="kw">crate</span>::error::BoxError;
+<span class="kw">use </span><span class="kw">crate</span>::error::{cast_to_internal_error, BoxError};
 <span class="kw">use </span><span class="kw">crate</span>::proxy::{Proxy, ProxyScheme};
+<span class="kw">use </span>sealed::{Conn, Unnameable};
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>HttpConnector = hyper::client::HttpConnector&lt;DynResolver&gt;;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>HttpConnector = hyper_util::client::legacy::connect::HttpConnector&lt;DynResolver&gt;;
 
 <span class="attr">#[derive(Clone)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Connector {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>Connector {
+    <span class="comment">// base service, with or without an embedded timeout
+    </span>Simple(ConnectorService),
+    <span class="comment">// at least one custom layer along with maybe an outer timeout layer
+    // from `builder.connect_timeout()`
+    </span>WithLayers(BoxCloneSyncService&lt;Unnameable, Conn, BoxError&gt;),
+}
+
+<span class="kw">impl </span>Service&lt;Uri&gt; <span class="kw">for </span>Connector {
+    <span class="kw">type </span>Response = Conn;
+    <span class="kw">type </span>Error = BoxError;
+    <span class="kw">type </span>Future = Connecting;
+
+    <span class="kw">fn </span>poll_ready(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            Connector::Simple(service) =&gt; service.poll_ready(cx),
+            Connector::WithLayers(service) =&gt; service.poll_ready(cx),
+        }
+    }
+
+    <span class="kw">fn </span>call(<span class="kw-2">&amp;mut </span><span class="self">self</span>, dst: Uri) -&gt; <span class="self">Self</span>::Future {
+        <span class="kw">match </span><span class="self">self </span>{
+            Connector::Simple(service) =&gt; service.call(dst),
+            Connector::WithLayers(service) =&gt; service.call(Unnameable(dst)),
+        }
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>BoxedConnectorService = BoxCloneSyncService&lt;Unnameable, Conn, BoxError&gt;;
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>BoxedConnectorLayer =
+    BoxCloneSyncServiceLayer&lt;BoxedConnectorService, Unnameable, Conn, BoxError&gt;;
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ConnectorBuilder {
     inner: Inner,
     proxies: Arc&lt;Vec&lt;Proxy&gt;&gt;,
     verbose: verbose::Wrapper,
     timeout: <span class="prelude-ty">Option</span>&lt;Duration&gt;,
+    <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
+    </span>nodelay: bool,
+    <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
+    </span>tls_info: bool,
+    <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
+    </span>user_agent: <span class="prelude-ty">Option</span>&lt;HeaderValue&gt;,
+}
+
+<span class="kw">impl </span>ConnectorBuilder {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>build(<span class="self">self</span>, layers: Vec&lt;BoxedConnectorLayer&gt;) -&gt; Connector
+<span class="kw">where </span>{
+        <span class="comment">// construct the inner tower service
+        </span><span class="kw">let </span><span class="kw-2">mut </span>base_service = ConnectorService {
+            inner: <span class="self">self</span>.inner,
+            proxies: <span class="self">self</span>.proxies,
+            verbose: <span class="self">self</span>.verbose,
+            <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
+            </span>nodelay: <span class="self">self</span>.nodelay,
+            <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
+            </span>tls_info: <span class="self">self</span>.tls_info,
+            <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
+            </span>user_agent: <span class="self">self</span>.user_agent,
+            simple_timeout: <span class="prelude-val">None</span>,
+        };
+
+        <span class="kw">if </span>layers.is_empty() {
+            <span class="comment">// we have no user-provided layers, only use concrete types
+            </span>base_service.simple_timeout = <span class="self">self</span>.timeout;
+            <span class="kw">return </span>Connector::Simple(base_service);
+        }
+
+        <span class="comment">// otherwise we have user provided layers
+        // so we need type erasure all the way through
+        // as well as mapping the unnameable type of the layers back to Uri for the inner service
+        </span><span class="kw">let </span>unnameable_service = ServiceBuilder::new()
+            .layer(MapRequestLayer::new(|request: Unnameable| request.<span class="number">0</span>))
+            .service(base_service);
+        <span class="kw">let </span><span class="kw-2">mut </span>service = BoxCloneSyncService::new(unnameable_service);
+
+        <span class="kw">for </span>layer <span class="kw">in </span>layers {
+            service = ServiceBuilder::new().layer(layer).service(service);
+        }
+
+        <span class="comment">// now we handle the concrete stuff - any `connect_timeout`,
+        // plus a final map_err layer we can use to cast default tower layer
+        // errors to internal errors
+        </span><span class="kw">match </span><span class="self">self</span>.timeout {
+            <span class="prelude-val">Some</span>(timeout) =&gt; {
+                <span class="kw">let </span>service = ServiceBuilder::new()
+                    .layer(TimeoutLayer::new(timeout))
+                    .service(service);
+                <span class="kw">let </span>service = ServiceBuilder::new()
+                    .map_err(|error: BoxError| cast_to_internal_error(error))
+                    .service(service);
+                <span class="kw">let </span>service = BoxCloneSyncService::new(service);
+
+                Connector::WithLayers(service)
+            }
+            <span class="prelude-val">None </span>=&gt; {
+                <span class="comment">// no timeout, but still map err
+                // no named timeout layer but we still map errors since
+                // we might have user-provided timeout layer
+                </span><span class="kw">let </span>service = ServiceBuilder::new().service(service);
+                <span class="kw">let </span>service = ServiceBuilder::new()
+                    .map_err(|error: BoxError| cast_to_internal_error(error))
+                    .service(service);
+                <span class="kw">let </span>service = BoxCloneSyncService::new(service);
+                Connector::WithLayers(service)
+            }
+        }
+    }
+
+    <span class="attr">#[cfg(not(feature = <span class="string">"__tls"</span>))]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new&lt;T&gt;(
+        <span class="kw-2">mut </span>http: HttpConnector,
+        proxies: Arc&lt;Vec&lt;Proxy&gt;&gt;,
+        local_addr: T,
+        <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+        </span>interface: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
+        nodelay: bool,
+    ) -&gt; ConnectorBuilder
+    <span class="kw">where
+        </span>T: Into&lt;<span class="prelude-ty">Option</span>&lt;IpAddr&gt;&gt;,
+    {
+        http.set_local_address(local_addr.into());
+        <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(interface) = interface {
+            http.set_interface(interface.to_owned());
+        }
+        http.set_nodelay(nodelay);
+
+        ConnectorBuilder {
+            inner: Inner::Http(http),
+            proxies,
+            verbose: verbose::OFF,
+            timeout: <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_default_tls&lt;T&gt;(
+        http: HttpConnector,
+        tls: TlsConnectorBuilder,
+        proxies: Arc&lt;Vec&lt;Proxy&gt;&gt;,
+        user_agent: <span class="prelude-ty">Option</span>&lt;HeaderValue&gt;,
+        local_addr: T,
+        <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+        </span>interface: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
+        nodelay: bool,
+        tls_info: bool,
+    ) -&gt; <span class="kw">crate</span>::Result&lt;ConnectorBuilder&gt;
+    <span class="kw">where
+        </span>T: Into&lt;<span class="prelude-ty">Option</span>&lt;IpAddr&gt;&gt;,
+    {
+        <span class="kw">let </span>tls = tls.build().map_err(<span class="kw">crate</span>::error::builder)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="self">Self</span>::from_built_default_tls(
+            http,
+            tls,
+            proxies,
+            user_agent,
+            local_addr,
+            <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+            </span>interface,
+            nodelay,
+            tls_info,
+        ))
+    }
+
+    <span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_built_default_tls&lt;T&gt;(
+        <span class="kw-2">mut </span>http: HttpConnector,
+        tls: TlsConnector,
+        proxies: Arc&lt;Vec&lt;Proxy&gt;&gt;,
+        user_agent: <span class="prelude-ty">Option</span>&lt;HeaderValue&gt;,
+        local_addr: T,
+        <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+        </span>interface: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
+        nodelay: bool,
+        tls_info: bool,
+    ) -&gt; ConnectorBuilder
+    <span class="kw">where
+        </span>T: Into&lt;<span class="prelude-ty">Option</span>&lt;IpAddr&gt;&gt;,
+    {
+        http.set_local_address(local_addr.into());
+        <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(interface) = interface {
+            http.set_interface(interface);
+        }
+        http.set_nodelay(nodelay);
+        http.enforce_http(<span class="bool-val">false</span>);
+
+        ConnectorBuilder {
+            inner: Inner::DefaultTls(http, tls),
+            proxies,
+            verbose: verbose::OFF,
+            nodelay,
+            tls_info,
+            user_agent,
+            timeout: <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_rustls_tls&lt;T&gt;(
+        <span class="kw-2">mut </span>http: HttpConnector,
+        tls: rustls::ClientConfig,
+        proxies: Arc&lt;Vec&lt;Proxy&gt;&gt;,
+        user_agent: <span class="prelude-ty">Option</span>&lt;HeaderValue&gt;,
+        local_addr: T,
+        <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+        </span>interface: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
+        nodelay: bool,
+        tls_info: bool,
+    ) -&gt; ConnectorBuilder
+    <span class="kw">where
+        </span>T: Into&lt;<span class="prelude-ty">Option</span>&lt;IpAddr&gt;&gt;,
+    {
+        http.set_local_address(local_addr.into());
+        <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(interface) = interface {
+            http.set_interface(interface.to_owned());
+        }
+        http.set_nodelay(nodelay);
+        http.enforce_http(<span class="bool-val">false</span>);
+
+        <span class="kw">let </span>(tls, tls_proxy) = <span class="kw">if </span>proxies.is_empty() {
+            <span class="kw">let </span>tls = Arc::new(tls);
+            (tls.clone(), tls)
+        } <span class="kw">else </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>tls_proxy = tls.clone();
+            tls_proxy.alpn_protocols.clear();
+            (Arc::new(tls), Arc::new(tls_proxy))
+        };
+
+        ConnectorBuilder {
+            inner: Inner::RustlsTls {
+                http,
+                tls,
+                tls_proxy,
+            },
+            proxies,
+            verbose: verbose::OFF,
+            nodelay,
+            tls_info,
+            user_agent,
+            timeout: <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_timeout(<span class="kw-2">&amp;mut </span><span class="self">self</span>, timeout: <span class="prelude-ty">Option</span>&lt;Duration&gt;) {
+        <span class="self">self</span>.timeout = timeout;
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_verbose(<span class="kw-2">&amp;mut </span><span class="self">self</span>, enabled: bool) {
+        <span class="self">self</span>.verbose.<span class="number">0 </span>= enabled;
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_keepalive(<span class="kw-2">&amp;mut </span><span class="self">self</span>, dur: <span class="prelude-ty">Option</span>&lt;Duration&gt;) {
+        <span class="kw">match </span><span class="kw-2">&amp;mut </span><span class="self">self</span>.inner {
+            <span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
+            </span>Inner::DefaultTls(http, _tls) =&gt; http.set_keepalive(dur),
+            <span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
+            </span>Inner::RustlsTls { http, .. } =&gt; http.set_keepalive(dur),
+            <span class="attr">#[cfg(not(feature = <span class="string">"__tls"</span>))]
+            </span>Inner::Http(http) =&gt; http.set_keepalive(dur),
+        }
+    }
+}
+
+<span class="attr">#[allow(missing_debug_implementations)]
+#[derive(Clone)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ConnectorService {
+    inner: Inner,
+    proxies: Arc&lt;Vec&lt;Proxy&gt;&gt;,
+    verbose: verbose::Wrapper,
+    <span class="doccomment">/// When there is a single timeout layer and no other layers,
+    /// we embed it directly inside our base Service::call().
+    /// This lets us avoid an extra `Box::pin` indirection layer
+    /// since `tokio::time::Timeout` is `Unpin`
+    </span>simple_timeout: <span class="prelude-ty">Option</span>&lt;Duration&gt;,
     <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
     </span>nodelay: bool,
     <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
@@ -1386,127 +1902,11 @@
     },
 }
 
-<span class="kw">impl </span>Connector {
-    <span class="attr">#[cfg(not(feature = <span class="string">"__tls"</span>))]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new&lt;T&gt;(
-        <span class="kw-2">mut </span>http: HttpConnector,
-        proxies: Arc&lt;Vec&lt;Proxy&gt;&gt;,
-        local_addr: T,
-        nodelay: bool,
-    ) -&gt; Connector
-    <span class="kw">where
-        </span>T: Into&lt;<span class="prelude-ty">Option</span>&lt;IpAddr&gt;&gt;,
-    {
-        http.set_local_address(local_addr.into());
-        http.set_nodelay(nodelay);
-
-        Connector {
-            inner: Inner::Http(http),
-            verbose: verbose::OFF,
-            proxies,
-            timeout: <span class="prelude-val">None</span>,
-        }
-    }
-
-    <span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_default_tls&lt;T&gt;(
-        http: HttpConnector,
-        tls: TlsConnectorBuilder,
-        proxies: Arc&lt;Vec&lt;Proxy&gt;&gt;,
-        user_agent: <span class="prelude-ty">Option</span>&lt;HeaderValue&gt;,
-        local_addr: T,
-        nodelay: bool,
-        tls_info: bool,
-    ) -&gt; <span class="kw">crate</span>::Result&lt;Connector&gt;
-    <span class="kw">where
-        </span>T: Into&lt;<span class="prelude-ty">Option</span>&lt;IpAddr&gt;&gt;,
-    {
-        <span class="kw">let </span>tls = tls.build().map_err(<span class="kw">crate</span>::error::builder)<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span>::from_built_default_tls(
-            http, tls, proxies, user_agent, local_addr, nodelay, tls_info,
-        ))
-    }
-
-    <span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_built_default_tls&lt;T&gt;(
-        <span class="kw-2">mut </span>http: HttpConnector,
-        tls: TlsConnector,
-        proxies: Arc&lt;Vec&lt;Proxy&gt;&gt;,
-        user_agent: <span class="prelude-ty">Option</span>&lt;HeaderValue&gt;,
-        local_addr: T,
-        nodelay: bool,
-        tls_info: bool,
-    ) -&gt; Connector
-    <span class="kw">where
-        </span>T: Into&lt;<span class="prelude-ty">Option</span>&lt;IpAddr&gt;&gt;,
-    {
-        http.set_local_address(local_addr.into());
-        http.set_nodelay(nodelay);
-        http.enforce_http(<span class="bool-val">false</span>);
-
-        Connector {
-            inner: Inner::DefaultTls(http, tls),
-            proxies,
-            verbose: verbose::OFF,
-            timeout: <span class="prelude-val">None</span>,
-            nodelay,
-            tls_info,
-            user_agent,
-        }
-    }
-
-    <span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_rustls_tls&lt;T&gt;(
-        <span class="kw-2">mut </span>http: HttpConnector,
-        tls: rustls::ClientConfig,
-        proxies: Arc&lt;Vec&lt;Proxy&gt;&gt;,
-        user_agent: <span class="prelude-ty">Option</span>&lt;HeaderValue&gt;,
-        local_addr: T,
-        nodelay: bool,
-        tls_info: bool,
-    ) -&gt; Connector
-    <span class="kw">where
-        </span>T: Into&lt;<span class="prelude-ty">Option</span>&lt;IpAddr&gt;&gt;,
-    {
-        http.set_local_address(local_addr.into());
-        http.set_nodelay(nodelay);
-        http.enforce_http(<span class="bool-val">false</span>);
-
-        <span class="kw">let </span>(tls, tls_proxy) = <span class="kw">if </span>proxies.is_empty() {
-            <span class="kw">let </span>tls = Arc::new(tls);
-            (tls.clone(), tls)
-        } <span class="kw">else </span>{
-            <span class="kw">let </span><span class="kw-2">mut </span>tls_proxy = tls.clone();
-            tls_proxy.alpn_protocols.clear();
-            (Arc::new(tls), Arc::new(tls_proxy))
-        };
-
-        Connector {
-            inner: Inner::RustlsTls {
-                http,
-                tls,
-                tls_proxy,
-            },
-            proxies,
-            verbose: verbose::OFF,
-            timeout: <span class="prelude-val">None</span>,
-            nodelay,
-            tls_info,
-            user_agent,
-        }
-    }
-
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_timeout(<span class="kw-2">&amp;mut </span><span class="self">self</span>, timeout: <span class="prelude-ty">Option</span>&lt;Duration&gt;) {
-        <span class="self">self</span>.timeout = timeout;
-    }
-
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_verbose(<span class="kw-2">&amp;mut </span><span class="self">self</span>, enabled: bool) {
-        <span class="self">self</span>.verbose.<span class="number">0 </span>= enabled;
-    }
-
+<span class="kw">impl </span>ConnectorService {
     <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
     </span><span class="kw">async fn </span>connect_socks(<span class="kw-2">&amp;</span><span class="self">self</span>, dst: Uri, proxy: ProxyScheme) -&gt; <span class="prelude-ty">Result</span>&lt;Conn, BoxError&gt; {
         <span class="kw">let </span>dns = <span class="kw">match </span>proxy {
+            ProxyScheme::Socks4 { .. } =&gt; socks::DnsResolve::Local,
             ProxyScheme::Socks5 {
                 remote_dns: <span class="bool-val">false</span>, ..
             } =&gt; socks::DnsResolve::Local,
@@ -1524,8 +1924,11 @@
                 <span class="kw">if </span>dst.scheme() == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Scheme::HTTPS) {
                     <span class="kw">let </span>host = dst.host().ok_or(<span class="string">"no host in url"</span>)<span class="question-mark">?</span>.to_string();
                     <span class="kw">let </span>conn = socks::connect(proxy, dst, dns).<span class="kw">await</span><span class="question-mark">?</span>;
+                    <span class="kw">let </span>conn = TokioIo::new(conn);
+                    <span class="kw">let </span>conn = TokioIo::new(conn);
                     <span class="kw">let </span>tls_connector = tokio_native_tls::TlsConnector::from(tls.clone());
                     <span class="kw">let </span>io = tls_connector.connect(<span class="kw-2">&amp;</span>host, conn).<span class="kw">await</span><span class="question-mark">?</span>;
+                    <span class="kw">let </span>io = TokioIo::new(io);
                     <span class="kw">return </span><span class="prelude-val">Ok</span>(Conn {
                         inner: <span class="self">self</span>.verbose.wrap(NativeTlsConn { inner: io }),
                         is_proxy: <span class="bool-val">false</span>,
@@ -1534,19 +1937,23 @@
                 }
             }
             <span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
-            </span>Inner::RustlsTls { tls_proxy, .. } =&gt; {
+            </span>Inner::RustlsTls { tls, .. } =&gt; {
                 <span class="kw">if </span>dst.scheme() == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Scheme::HTTPS) {
                     <span class="kw">use </span>std::convert::TryFrom;
                     <span class="kw">use </span>tokio_rustls::TlsConnector <span class="kw">as </span>RustlsConnector;
 
-                    <span class="kw">let </span>tls = tls_proxy.clone();
+                    <span class="kw">let </span>tls = tls.clone();
                     <span class="kw">let </span>host = dst.host().ok_or(<span class="string">"no host in url"</span>)<span class="question-mark">?</span>.to_string();
                     <span class="kw">let </span>conn = socks::connect(proxy, dst, dns).<span class="kw">await</span><span class="question-mark">?</span>;
-                    <span class="kw">let </span>server_name = rustls::ServerName::try_from(host.as_str())
-                        .map_err(|<span class="kw">_</span>| <span class="string">"Invalid Server Name"</span>)<span class="question-mark">?</span>;
+                    <span class="kw">let </span>conn = TokioIo::new(conn);
+                    <span class="kw">let </span>conn = TokioIo::new(conn);
+                    <span class="kw">let </span>server_name =
+                        rustls_pki_types::ServerName::try_from(host.as_str().to_owned())
+                            .map_err(|<span class="kw">_</span>| <span class="string">"Invalid Server Name"</span>)<span class="question-mark">?</span>;
                     <span class="kw">let </span>io = RustlsConnector::from(tls)
                         .connect(server_name, conn)
                         .<span class="kw">await</span><span class="question-mark">?</span>;
+                    <span class="kw">let </span>io = TokioIo::new(io);
                     <span class="kw">return </span><span class="prelude-val">Ok</span>(Conn {
                         inner: <span class="self">self</span>.verbose.wrap(RustlsTlsConn { inner: io }),
                         is_proxy: <span class="bool-val">false</span>,
@@ -1559,7 +1966,7 @@
         }
 
         socks::connect(proxy, dst, dns).<span class="kw">await</span>.map(|tcp| Conn {
-            inner: <span class="self">self</span>.verbose.wrap(tcp),
+            inner: <span class="self">self</span>.verbose.wrap(TokioIo::new(tcp)),
             is_proxy: <span class="bool-val">false</span>,
             tls_info: <span class="bool-val">false</span>,
         })
@@ -1593,7 +2000,14 @@
 
                 <span class="kw">if let </span>hyper_tls::MaybeHttpsStream::Https(stream) = io {
                     <span class="kw">if </span>!<span class="self">self</span>.nodelay {
-                        stream.get_ref().get_ref().get_ref().set_nodelay(<span class="bool-val">false</span>)<span class="question-mark">?</span>;
+                        stream
+                            .inner()
+                            .get_ref()
+                            .get_ref()
+                            .get_ref()
+                            .inner()
+                            .inner()
+                            .set_nodelay(<span class="bool-val">false</span>)<span class="question-mark">?</span>;
                     }
                     <span class="prelude-val">Ok</span>(Conn {
                         inner: <span class="self">self</span>.verbose.wrap(NativeTlsConn { inner: stream }),
@@ -1624,8 +2038,8 @@
 
                 <span class="kw">if let </span>hyper_rustls::MaybeHttpsStream::Https(stream) = io {
                     <span class="kw">if </span>!<span class="self">self</span>.nodelay {
-                        <span class="kw">let </span>(io, <span class="kw">_</span>) = stream.get_ref();
-                        io.set_nodelay(<span class="bool-val">false</span>)<span class="question-mark">?</span>;
+                        <span class="kw">let </span>(io, <span class="kw">_</span>) = stream.inner().get_ref();
+                        io.inner().inner().set_nodelay(<span class="bool-val">false</span>)<span class="question-mark">?</span>;
                     }
                     <span class="prelude-val">Ok</span>(Conn {
                         inner: <span class="self">self</span>.verbose.wrap(RustlsTlsConn { inner: stream }),
@@ -1654,6 +2068,8 @@
             ProxyScheme::Http { host, auth } =&gt; (into_uri(Scheme::HTTP, host), auth),
             ProxyScheme::Https { host, auth } =&gt; (into_uri(Scheme::HTTPS, host), auth),
             <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
+            </span>ProxyScheme::Socks4 { .. } =&gt; <span class="kw">return </span><span class="self">self</span>.connect_socks(dst, proxy_scheme).<span class="kw">await</span>,
+            <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
             </span>ProxyScheme::Socks5 { .. } =&gt; <span class="kw">return </span><span class="self">self</span>.connect_socks(dst, proxy_scheme).<span class="kw">await</span>,
         };
 
@@ -1681,10 +2097,12 @@
                     .<span class="kw">await</span><span class="question-mark">?</span>;
                     <span class="kw">let </span>tls_connector = tokio_native_tls::TlsConnector::from(tls.clone());
                     <span class="kw">let </span>io = tls_connector
-                        .connect(host.ok_or(<span class="string">"no host in url"</span>)<span class="question-mark">?</span>, tunneled)
+                        .connect(host.ok_or(<span class="string">"no host in url"</span>)<span class="question-mark">?</span>, TokioIo::new(tunneled))
                         .<span class="kw">await</span><span class="question-mark">?</span>;
                     <span class="kw">return </span><span class="prelude-val">Ok</span>(Conn {
-                        inner: <span class="self">self</span>.verbose.wrap(NativeTlsConn { inner: io }),
+                        inner: <span class="self">self</span>.verbose.wrap(NativeTlsConn {
+                            inner: TokioIo::new(io),
+                        }),
                         is_proxy: <span class="bool-val">false</span>,
                         tls_info: <span class="bool-val">false</span>,
                     });
@@ -1697,7 +2115,7 @@
                 tls_proxy,
             } =&gt; {
                 <span class="kw">if </span>dst.scheme() == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Scheme::HTTPS) {
-                    <span class="kw">use </span>rustls::ServerName;
+                    <span class="kw">use </span>rustls_pki_types::ServerName;
                     <span class="kw">use </span>std::convert::TryFrom;
                     <span class="kw">use </span>tokio_rustls::TlsConnector <span class="kw">as </span>RustlsConnector;
 
@@ -1708,16 +2126,18 @@
                     <span class="kw">let </span>tls = tls.clone();
                     <span class="kw">let </span>conn = http.call(proxy_dst).<span class="kw">await</span><span class="question-mark">?</span>;
                     <span class="macro">log::trace!</span>(<span class="string">"tunneling HTTPS over proxy"</span>);
-                    <span class="kw">let </span>maybe_server_name =
-                        ServerName::try_from(host.as_str()).map_err(|<span class="kw">_</span>| <span class="string">"Invalid Server Name"</span>);
+                    <span class="kw">let </span>maybe_server_name = ServerName::try_from(host.as_str().to_owned())
+                        .map_err(|<span class="kw">_</span>| <span class="string">"Invalid Server Name"</span>);
                     <span class="kw">let </span>tunneled = tunnel(conn, host, port, <span class="self">self</span>.user_agent.clone(), auth).<span class="kw">await</span><span class="question-mark">?</span>;
                     <span class="kw">let </span>server_name = maybe_server_name<span class="question-mark">?</span>;
                     <span class="kw">let </span>io = RustlsConnector::from(tls)
-                        .connect(server_name, tunneled)
+                        .connect(server_name, TokioIo::new(tunneled))
                         .<span class="kw">await</span><span class="question-mark">?</span>;
 
                     <span class="kw">return </span><span class="prelude-val">Ok</span>(Conn {
-                        inner: <span class="self">self</span>.verbose.wrap(RustlsTlsConn { inner: io }),
+                        inner: <span class="self">self</span>.verbose.wrap(RustlsTlsConn {
+                            inner: TokioIo::new(io),
+                        }),
                         is_proxy: <span class="bool-val">false</span>,
                         tls_info: <span class="bool-val">false</span>,
                     });
@@ -1729,17 +2149,6 @@
 
         <span class="self">self</span>.connect_with_maybe_proxy(proxy_dst, <span class="bool-val">true</span>).<span class="kw">await
     </span>}
-
-    <span class="kw">pub fn </span>set_keepalive(<span class="kw-2">&amp;mut </span><span class="self">self</span>, dur: <span class="prelude-ty">Option</span>&lt;Duration&gt;) {
-        <span class="kw">match </span><span class="kw-2">&amp;mut </span><span class="self">self</span>.inner {
-            <span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
-            </span>Inner::DefaultTls(http, _tls) =&gt; http.set_keepalive(dur),
-            <span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
-            </span>Inner::RustlsTls { http, .. } =&gt; http.set_keepalive(dur),
-            <span class="attr">#[cfg(not(feature = <span class="string">"__tls"</span>))]
-            </span>Inner::Http(http) =&gt; http.set_keepalive(dur),
-        }
-    }
 }
 
 <span class="kw">fn </span>into_uri(scheme: Scheme, host: Authority) -&gt; Uri {
@@ -1767,7 +2176,7 @@
     </span>}
 }
 
-<span class="kw">impl </span>Service&lt;Uri&gt; <span class="kw">for </span>Connector {
+<span class="kw">impl </span>Service&lt;Uri&gt; <span class="kw">for </span>ConnectorService {
     <span class="kw">type </span>Response = Conn;
     <span class="kw">type </span>Error = BoxError;
     <span class="kw">type </span>Future = Connecting;
@@ -1778,7 +2187,7 @@
 
     <span class="kw">fn </span>call(<span class="kw-2">&amp;mut </span><span class="self">self</span>, dst: Uri) -&gt; <span class="self">Self</span>::Future {
         <span class="macro">log::debug!</span>(<span class="string">"starting new connection: {dst:?}"</span>);
-        <span class="kw">let </span>timeout = <span class="self">self</span>.timeout;
+        <span class="kw">let </span>timeout = <span class="self">self</span>.simple_timeout;
         <span class="kw">for </span>prox <span class="kw">in </span><span class="self">self</span>.proxies.iter() {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(proxy_scheme) = prox.intercept(<span class="kw-2">&amp;</span>dst) {
                 <span class="kw">return </span>Box::pin(with_timeout(
@@ -1807,8 +2216,45 @@
     </span>}
 }
 
+<span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
+</span><span class="kw">impl</span>&lt;T: TlsInfoFactory&gt; TlsInfoFactory <span class="kw">for </span>TokioIo&lt;T&gt; {
+    <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
+        <span class="self">self</span>.inner().tls_info()
+    }
+}
+
 <span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
-</span><span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>hyper_tls::MaybeHttpsStream&lt;tokio::net::TcpStream&gt; {
+</span><span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>tokio_native_tls::TlsStream&lt;TokioIo&lt;TokioIo&lt;tokio::net::TcpStream&gt;&gt;&gt; {
+    <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
+        <span class="kw">let </span>peer_certificate = <span class="self">self
+            </span>.get_ref()
+            .peer_certificate()
+            .ok()
+            .flatten()
+            .and_then(|c| c.to_der().ok());
+        <span class="prelude-val">Some</span>(<span class="kw">crate</span>::tls::TlsInfo { peer_certificate })
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
+</span><span class="kw">impl </span>TlsInfoFactory
+    <span class="kw">for </span>tokio_native_tls::TlsStream&lt;
+        TokioIo&lt;hyper_tls::MaybeHttpsStream&lt;TokioIo&lt;tokio::net::TcpStream&gt;&gt;&gt;,
+    &gt;
+{
+    <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
+        <span class="kw">let </span>peer_certificate = <span class="self">self
+            </span>.get_ref()
+            .peer_certificate()
+            .ok()
+            .flatten()
+            .and_then(|c| c.to_der().ok());
+        <span class="prelude-val">Some</span>(<span class="kw">crate</span>::tls::TlsInfo { peer_certificate })
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
+</span><span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>hyper_tls::MaybeHttpsStream&lt;TokioIo&lt;tokio::net::TcpStream&gt;&gt; {
     <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             hyper_tls::MaybeHttpsStream::Https(tls) =&gt; tls.tls_info(),
@@ -1817,34 +2263,38 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
-</span><span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>hyper_tls::TlsStream&lt;hyper_tls::MaybeHttpsStream&lt;tokio::net::TcpStream&gt;&gt; {
+<span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
+</span><span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>tokio_rustls::client::TlsStream&lt;TokioIo&lt;TokioIo&lt;tokio::net::TcpStream&gt;&gt;&gt; {
     <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
         <span class="kw">let </span>peer_certificate = <span class="self">self
             </span>.get_ref()
-            .peer_certificate()
-            .ok()
-            .flatten()
-            .and_then(|c| c.to_der().ok());
-        <span class="prelude-val">Some</span>(<span class="kw">crate</span>::tls::TlsInfo { peer_certificate })
-    }
-}
-
-<span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
-</span><span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>tokio_native_tls::TlsStream&lt;tokio::net::TcpStream&gt; {
-    <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
-        <span class="kw">let </span>peer_certificate = <span class="self">self
-            </span>.get_ref()
-            .peer_certificate()
-            .ok()
-            .flatten()
-            .and_then(|c| c.to_der().ok());
+            .<span class="number">1
+            </span>.peer_certificates()
+            .and_then(|certs| certs.first())
+            .map(|c| c.to_vec());
         <span class="prelude-val">Some</span>(<span class="kw">crate</span>::tls::TlsInfo { peer_certificate })
     }
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
-</span><span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>hyper_rustls::MaybeHttpsStream&lt;tokio::net::TcpStream&gt; {
+</span><span class="kw">impl </span>TlsInfoFactory
+    <span class="kw">for </span>tokio_rustls::client::TlsStream&lt;
+        TokioIo&lt;hyper_rustls::MaybeHttpsStream&lt;TokioIo&lt;tokio::net::TcpStream&gt;&gt;&gt;,
+    &gt;
+{
+    <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
+        <span class="kw">let </span>peer_certificate = <span class="self">self
+            </span>.get_ref()
+            .<span class="number">1
+            </span>.peer_certificates()
+            .and_then(|certs| certs.first())
+            .map(|c| c.to_vec());
+        <span class="prelude-val">Some</span>(<span class="kw">crate</span>::tls::TlsInfo { peer_certificate })
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
+</span><span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>hyper_rustls::MaybeHttpsStream&lt;TokioIo&lt;tokio::net::TcpStream&gt;&gt; {
     <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             hyper_rustls::MaybeHttpsStream::Https(tls) =&gt; tls.tls_info(),
@@ -1853,53 +2303,12 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
-</span><span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>tokio_rustls::TlsStream&lt;tokio::net::TcpStream&gt; {
-    <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
-        <span class="kw">let </span>peer_certificate = <span class="self">self
-            </span>.get_ref()
-            .<span class="number">1
-            </span>.peer_certificates()
-            .and_then(|certs| certs.first())
-            .map(|c| c.<span class="number">0</span>.clone());
-        <span class="prelude-val">Some</span>(<span class="kw">crate</span>::tls::TlsInfo { peer_certificate })
-    }
-}
-
-<span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
-</span><span class="kw">impl </span>TlsInfoFactory
-    <span class="kw">for </span>tokio_rustls::client::TlsStream&lt;hyper_rustls::MaybeHttpsStream&lt;tokio::net::TcpStream&gt;&gt;
-{
-    <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
-        <span class="kw">let </span>peer_certificate = <span class="self">self
-            </span>.get_ref()
-            .<span class="number">1
-            </span>.peer_certificates()
-            .and_then(|certs| certs.first())
-            .map(|c| c.<span class="number">0</span>.clone());
-        <span class="prelude-val">Some</span>(<span class="kw">crate</span>::tls::TlsInfo { peer_certificate })
-    }
-}
-
-<span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
-</span><span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>tokio_rustls::client::TlsStream&lt;tokio::net::TcpStream&gt; {
-    <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
-        <span class="kw">let </span>peer_certificate = <span class="self">self
-            </span>.get_ref()
-            .<span class="number">1
-            </span>.peer_certificates()
-            .and_then(|certs| certs.first())
-            .map(|c| c.<span class="number">0</span>.clone());
-        <span class="prelude-val">Some</span>(<span class="kw">crate</span>::tls::TlsInfo { peer_certificate })
-    }
-}
-
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>AsyncConn:
-    AsyncRead + AsyncWrite + Connection + Send + Sync + Unpin + <span class="lifetime">'static
+    Read + Write + Connection + Send + Sync + Unpin + <span class="lifetime">'static
 </span>{
 }
 
-<span class="kw">impl</span>&lt;T: AsyncRead + AsyncWrite + Connection + Send + Sync + Unpin + <span class="lifetime">'static</span>&gt; AsyncConn <span class="kw">for </span>T {}
+<span class="kw">impl</span>&lt;T: Read + Write + Connection + Send + Sync + Unpin + <span class="lifetime">'static</span>&gt; AsyncConn <span class="kw">for </span>T {}
 
 <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
 </span><span class="kw">trait </span>AsyncConnWithInfo: AsyncConn + TlsInfoFactory {}
@@ -1913,80 +2322,87 @@
 
 <span class="kw">type </span>BoxConn = Box&lt;<span class="kw">dyn </span>AsyncConnWithInfo&gt;;
 
-<span class="macro">pin_project!</span> {
-    <span class="doccomment">/// Note: the `is_proxy` member means *is plain text HTTP proxy*.
-    /// This tells hyper whether the URI should be written in
-    /// * origin-form (`GET /just/a/path HTTP/1.1`), when `is_proxy == false`, or
-    /// * absolute-form (`GET http://foo.bar/and/a/path HTTP/1.1`), otherwise.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Conn {
-        <span class="attr">#[pin]
-        </span>inner: BoxConn,
-        is_proxy: bool,
-        <span class="comment">// Only needed for __tls, but #[cfg()] on fields breaks pin_project!
-        </span>tls_info: bool,
-    }
-}
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>sealed {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="attr">#[derive(Debug)]
+    </span><span class="kw">pub struct </span>Unnameable(<span class="kw">pub</span>(<span class="kw">super</span>) Uri);
 
-<span class="kw">impl </span>Connection <span class="kw">for </span>Conn {
-    <span class="kw">fn </span>connected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Connected {
-        <span class="kw">let </span>connected = <span class="self">self</span>.inner.connected().proxy(<span class="self">self</span>.is_proxy);
-        <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
-        </span><span class="kw">if </span><span class="self">self</span>.tls_info {
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(tls_info) = <span class="self">self</span>.inner.tls_info() {
-                connected.extra(tls_info)
+    <span class="macro">pin_project!</span> {
+        <span class="doccomment">/// Note: the `is_proxy` member means *is plain text HTTP proxy*.
+        /// This tells hyper whether the URI should be written in
+        /// * origin-form (`GET /just/a/path HTTP/1.1`), when `is_proxy == false`, or
+        /// * absolute-form (`GET http://foo.bar/and/a/path HTTP/1.1`), otherwise.
+        </span><span class="attr">#[allow(missing_debug_implementations)]
+        </span><span class="kw">pub struct </span>Conn {
+            <span class="attr">#[pin]
+            </span><span class="kw">pub</span>(<span class="kw">super</span>)inner: BoxConn,
+            <span class="kw">pub</span>(<span class="kw">super</span>) is_proxy: bool,
+            <span class="comment">// Only needed for __tls, but #[cfg()] on fields breaks pin_project!
+            </span><span class="kw">pub</span>(<span class="kw">super</span>) tls_info: bool,
+        }
+    }
+
+    <span class="kw">impl </span>Connection <span class="kw">for </span>Conn {
+        <span class="kw">fn </span>connected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Connected {
+            <span class="kw">let </span>connected = <span class="self">self</span>.inner.connected().proxy(<span class="self">self</span>.is_proxy);
+            <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
+            </span><span class="kw">if </span><span class="self">self</span>.tls_info {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(tls_info) = <span class="self">self</span>.inner.tls_info() {
+                    connected.extra(tls_info)
+                } <span class="kw">else </span>{
+                    connected
+                }
             } <span class="kw">else </span>{
                 connected
             }
-        } <span class="kw">else </span>{
-            connected
+            <span class="attr">#[cfg(not(feature = <span class="string">"__tls"</span>))]
+            </span>connected
         }
-        <span class="attr">#[cfg(not(feature = <span class="string">"__tls"</span>))]
-        </span>connected
-    }
-}
-
-<span class="kw">impl </span>AsyncRead <span class="kw">for </span>Conn {
-    <span class="kw">fn </span>poll_read(
-        <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context,
-        buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">'_</span>&gt;,
-    ) -&gt; Poll&lt;io::Result&lt;()&gt;&gt; {
-        <span class="kw">let </span>this = <span class="self">self</span>.project();
-        AsyncRead::poll_read(this.inner, cx, buf)
-    }
-}
-
-<span class="kw">impl </span>AsyncWrite <span class="kw">for </span>Conn {
-    <span class="kw">fn </span>poll_write(
-        <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context,
-        buf: <span class="kw-2">&amp;</span>[u8],
-    ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;usize, io::Error&gt;&gt; {
-        <span class="kw">let </span>this = <span class="self">self</span>.project();
-        AsyncWrite::poll_write(this.inner, cx, buf)
     }
 
-    <span class="kw">fn </span>poll_write_vectored(
-        <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;,
-        bufs: <span class="kw-2">&amp;</span>[IoSlice&lt;<span class="lifetime">'_</span>&gt;],
-    ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;usize, io::Error&gt;&gt; {
-        <span class="kw">let </span>this = <span class="self">self</span>.project();
-        AsyncWrite::poll_write_vectored(this.inner, cx, bufs)
+    <span class="kw">impl </span>Read <span class="kw">for </span>Conn {
+        <span class="kw">fn </span>poll_read(
+            <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
+            cx: <span class="kw-2">&amp;mut </span>Context,
+            buf: ReadBufCursor&lt;<span class="lifetime">'_</span>&gt;,
+        ) -&gt; Poll&lt;io::Result&lt;()&gt;&gt; {
+            <span class="kw">let </span>this = <span class="self">self</span>.project();
+            Read::poll_read(this.inner, cx, buf)
+        }
     }
 
-    <span class="kw">fn </span>is_write_vectored(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.inner.is_write_vectored()
-    }
+    <span class="kw">impl </span>Write <span class="kw">for </span>Conn {
+        <span class="kw">fn </span>poll_write(
+            <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
+            cx: <span class="kw-2">&amp;mut </span>Context,
+            buf: <span class="kw-2">&amp;</span>[u8],
+        ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;usize, io::Error&gt;&gt; {
+            <span class="kw">let </span>this = <span class="self">self</span>.project();
+            Write::poll_write(this.inner, cx, buf)
+        }
 
-    <span class="kw">fn </span>poll_flush(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), io::Error&gt;&gt; {
-        <span class="kw">let </span>this = <span class="self">self</span>.project();
-        AsyncWrite::poll_flush(this.inner, cx)
-    }
+        <span class="kw">fn </span>poll_write_vectored(
+            <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
+            cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;,
+            bufs: <span class="kw-2">&amp;</span>[IoSlice&lt;<span class="lifetime">'_</span>&gt;],
+        ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;usize, io::Error&gt;&gt; {
+            <span class="kw">let </span>this = <span class="self">self</span>.project();
+            Write::poll_write_vectored(this.inner, cx, bufs)
+        }
 
-    <span class="kw">fn </span>poll_shutdown(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), io::Error&gt;&gt; {
-        <span class="kw">let </span>this = <span class="self">self</span>.project();
-        AsyncWrite::poll_shutdown(this.inner, cx)
+        <span class="kw">fn </span>is_write_vectored(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+            <span class="self">self</span>.inner.is_write_vectored()
+        }
+
+        <span class="kw">fn </span>poll_flush(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), io::Error&gt;&gt; {
+            <span class="kw">let </span>this = <span class="self">self</span>.project();
+            Write::poll_flush(this.inner, cx)
+        }
+
+        <span class="kw">fn </span>poll_shutdown(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), io::Error&gt;&gt; {
+            <span class="kw">let </span>this = <span class="self">self</span>.project();
+            Write::poll_shutdown(this.inner, cx)
+        }
     }
 }
 
@@ -2001,8 +2417,9 @@
     auth: <span class="prelude-ty">Option</span>&lt;HeaderValue&gt;,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;T, BoxError&gt;
 <span class="kw">where
-    </span>T: AsyncRead + AsyncWrite + Unpin,
+    </span>T: Read + Write + Unpin,
 {
+    <span class="kw">use </span>hyper_util::rt::TokioIo;
     <span class="kw">use </span>tokio::io::{AsyncReadExt, AsyncWriteExt};
 
     <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">format!</span>(
@@ -2031,13 +2448,15 @@
     <span class="comment">// headers end
     </span>buf.extend_from_slice(<span class="string">b"\r\n"</span>);
 
-    conn.write_all(<span class="kw-2">&amp;</span>buf).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>tokio_conn = TokioIo::new(<span class="kw-2">&amp;mut </span>conn);
+
+    tokio_conn.write_all(<span class="kw-2">&amp;</span>buf).<span class="kw">await</span><span class="question-mark">?</span>;
 
     <span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0</span>; <span class="number">8192</span>];
     <span class="kw">let </span><span class="kw-2">mut </span>pos = <span class="number">0</span>;
 
     <span class="kw">loop </span>{
-        <span class="kw">let </span>n = conn.read(<span class="kw-2">&amp;mut </span>buf[pos..]).<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="kw">let </span>n = tokio_conn.read(<span class="kw-2">&amp;mut </span>buf[pos..]).<span class="kw">await</span><span class="question-mark">?</span>;
 
         <span class="kw">if </span>n == <span class="number">0 </span>{
             <span class="kw">return </span><span class="prelude-val">Err</span>(tunnel_eof());
@@ -2069,62 +2488,85 @@
 <span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
 </span><span class="kw">mod </span>native_tls_conn {
     <span class="kw">use </span><span class="kw">super</span>::TlsInfoFactory;
-    <span class="kw">use </span>hyper::client::connect::{Connected, Connection};
+    <span class="kw">use </span>hyper::rt::{Read, ReadBufCursor, Write};
+    <span class="kw">use </span>hyper_tls::MaybeHttpsStream;
+    <span class="kw">use </span>hyper_util::client::legacy::connect::{Connected, Connection};
+    <span class="kw">use </span>hyper_util::rt::TokioIo;
     <span class="kw">use </span>pin_project_lite::pin_project;
     <span class="kw">use </span>std::{
         io::{<span class="self">self</span>, IoSlice},
         pin::Pin,
         task::{Context, Poll},
     };
-    <span class="kw">use </span>tokio::io::{AsyncRead, AsyncWrite, ReadBuf};
+    <span class="kw">use </span>tokio::io::{AsyncRead, AsyncWrite};
+    <span class="kw">use </span>tokio::net::TcpStream;
     <span class="kw">use </span>tokio_native_tls::TlsStream;
 
     <span class="macro">pin_project!</span> {
         <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>NativeTlsConn&lt;T&gt; {
-            <span class="attr">#[pin] </span><span class="kw">pub</span>(<span class="kw">super</span>) inner: TlsStream&lt;T&gt;,
+            <span class="attr">#[pin] </span><span class="kw">pub</span>(<span class="kw">super</span>) inner: TokioIo&lt;TlsStream&lt;T&gt;&gt;,
         }
     }
 
-    <span class="kw">impl</span>&lt;T: Connection + AsyncRead + AsyncWrite + Unpin&gt; Connection <span class="kw">for </span>NativeTlsConn&lt;T&gt; {
-        <span class="attr">#[cfg(feature = <span class="string">"native-tls-alpn"</span>)]
-        </span><span class="kw">fn </span>connected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Connected {
-            <span class="kw">match </span><span class="self">self</span>.inner.get_ref().negotiated_alpn().ok() {
-                <span class="prelude-val">Some</span>(<span class="prelude-val">Some</span>(alpn_protocol)) <span class="kw">if </span>alpn_protocol == <span class="string">b"h2" </span>=&gt; <span class="self">self
-                    </span>.inner
-                    .get_ref()
-                    .get_ref()
-                    .get_ref()
-                    .connected()
-                    .negotiated_h2(),
-                <span class="kw">_ </span>=&gt; <span class="self">self</span>.inner.get_ref().get_ref().get_ref().connected(),
+    <span class="kw">impl </span>Connection <span class="kw">for </span>NativeTlsConn&lt;TokioIo&lt;TokioIo&lt;TcpStream&gt;&gt;&gt; {
+        <span class="kw">fn </span>connected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Connected {
+            <span class="kw">let </span>connected = <span class="self">self
+                </span>.inner
+                .inner()
+                .get_ref()
+                .get_ref()
+                .get_ref()
+                .inner()
+                .connected();
+            <span class="attr">#[cfg(feature = <span class="string">"native-tls-alpn"</span>)]
+            </span><span class="kw">match </span><span class="self">self</span>.inner.inner().get_ref().negotiated_alpn().ok() {
+                <span class="prelude-val">Some</span>(<span class="prelude-val">Some</span>(alpn_protocol)) <span class="kw">if </span>alpn_protocol == <span class="string">b"h2" </span>=&gt; connected.negotiated_h2(),
+                <span class="kw">_ </span>=&gt; connected,
             }
-        }
-
-        <span class="attr">#[cfg(not(feature = <span class="string">"native-tls-alpn"</span>))]
-        </span><span class="kw">fn </span>connected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Connected {
-            <span class="self">self</span>.inner.get_ref().get_ref().get_ref().connected()
+            <span class="attr">#[cfg(not(feature = <span class="string">"native-tls-alpn"</span>))]
+            </span>connected
         }
     }
 
-    <span class="kw">impl</span>&lt;T: AsyncRead + AsyncWrite + Unpin&gt; AsyncRead <span class="kw">for </span>NativeTlsConn&lt;T&gt; {
+    <span class="kw">impl </span>Connection <span class="kw">for </span>NativeTlsConn&lt;TokioIo&lt;MaybeHttpsStream&lt;TokioIo&lt;TcpStream&gt;&gt;&gt;&gt; {
+        <span class="kw">fn </span>connected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Connected {
+            <span class="kw">let </span>connected = <span class="self">self
+                </span>.inner
+                .inner()
+                .get_ref()
+                .get_ref()
+                .get_ref()
+                .inner()
+                .connected();
+            <span class="attr">#[cfg(feature = <span class="string">"native-tls-alpn"</span>)]
+            </span><span class="kw">match </span><span class="self">self</span>.inner.inner().get_ref().negotiated_alpn().ok() {
+                <span class="prelude-val">Some</span>(<span class="prelude-val">Some</span>(alpn_protocol)) <span class="kw">if </span>alpn_protocol == <span class="string">b"h2" </span>=&gt; connected.negotiated_h2(),
+                <span class="kw">_ </span>=&gt; connected,
+            }
+            <span class="attr">#[cfg(not(feature = <span class="string">"native-tls-alpn"</span>))]
+            </span>connected
+        }
+    }
+
+    <span class="kw">impl</span>&lt;T: AsyncRead + AsyncWrite + Unpin&gt; Read <span class="kw">for </span>NativeTlsConn&lt;T&gt; {
         <span class="kw">fn </span>poll_read(
             <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
             cx: <span class="kw-2">&amp;mut </span>Context,
-            buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">'_</span>&gt;,
+            buf: ReadBufCursor&lt;<span class="lifetime">'_</span>&gt;,
         ) -&gt; Poll&lt;tokio::io::Result&lt;()&gt;&gt; {
             <span class="kw">let </span>this = <span class="self">self</span>.project();
-            AsyncRead::poll_read(this.inner, cx, buf)
+            Read::poll_read(this.inner, cx, buf)
         }
     }
 
-    <span class="kw">impl</span>&lt;T: AsyncRead + AsyncWrite + Unpin&gt; AsyncWrite <span class="kw">for </span>NativeTlsConn&lt;T&gt; {
+    <span class="kw">impl</span>&lt;T: AsyncRead + AsyncWrite + Unpin&gt; Write <span class="kw">for </span>NativeTlsConn&lt;T&gt; {
         <span class="kw">fn </span>poll_write(
             <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
             cx: <span class="kw-2">&amp;mut </span>Context,
             buf: <span class="kw-2">&amp;</span>[u8],
         ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;usize, tokio::io::Error&gt;&gt; {
             <span class="kw">let </span>this = <span class="self">self</span>.project();
-            AsyncWrite::poll_write(this.inner, cx, buf)
+            Write::poll_write(this.inner, cx, buf)
         }
 
         <span class="kw">fn </span>poll_write_vectored(
@@ -2133,7 +2575,7 @@
             bufs: <span class="kw-2">&amp;</span>[IoSlice&lt;<span class="lifetime">'_</span>&gt;],
         ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;usize, io::Error&gt;&gt; {
             <span class="kw">let </span>this = <span class="self">self</span>.project();
-            AsyncWrite::poll_write_vectored(this.inner, cx, bufs)
+            Write::poll_write_vectored(this.inner, cx, bufs)
         }
 
         <span class="kw">fn </span>is_write_vectored(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
@@ -2145,7 +2587,7 @@
             cx: <span class="kw-2">&amp;mut </span>Context,
         ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), tokio::io::Error&gt;&gt; {
             <span class="kw">let </span>this = <span class="self">self</span>.project();
-            AsyncWrite::poll_flush(this.inner, cx)
+            Write::poll_flush(this.inner, cx)
         }
 
         <span class="kw">fn </span>poll_shutdown(
@@ -2153,17 +2595,14 @@
             cx: <span class="kw-2">&amp;mut </span>Context,
         ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), tokio::io::Error&gt;&gt; {
             <span class="kw">let </span>this = <span class="self">self</span>.project();
-            AsyncWrite::poll_shutdown(this.inner, cx)
+            Write::poll_shutdown(this.inner, cx)
         }
     }
 
-    <span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>NativeTlsConn&lt;tokio::net::TcpStream&gt; {
-        <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
-            <span class="self">self</span>.inner.tls_info()
-        }
-    }
-
-    <span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>NativeTlsConn&lt;hyper_tls::MaybeHttpsStream&lt;tokio::net::TcpStream&gt;&gt; {
+    <span class="kw">impl</span>&lt;T&gt; TlsInfoFactory <span class="kw">for </span>NativeTlsConn&lt;T&gt;
+    <span class="kw">where
+        </span>TokioIo&lt;TlsStream&lt;T&gt;&gt;: TlsInfoFactory,
+    {
         <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
             <span class="self">self</span>.inner.tls_info()
         }
@@ -2173,51 +2612,76 @@
 <span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
 </span><span class="kw">mod </span>rustls_tls_conn {
     <span class="kw">use </span><span class="kw">super</span>::TlsInfoFactory;
-    <span class="kw">use </span>hyper::client::connect::{Connected, Connection};
+    <span class="kw">use </span>hyper::rt::{Read, ReadBufCursor, Write};
+    <span class="kw">use </span>hyper_rustls::MaybeHttpsStream;
+    <span class="kw">use </span>hyper_util::client::legacy::connect::{Connected, Connection};
+    <span class="kw">use </span>hyper_util::rt::TokioIo;
     <span class="kw">use </span>pin_project_lite::pin_project;
     <span class="kw">use </span>std::{
         io::{<span class="self">self</span>, IoSlice},
         pin::Pin,
         task::{Context, Poll},
     };
-    <span class="kw">use </span>tokio::io::{AsyncRead, AsyncWrite, ReadBuf};
+    <span class="kw">use </span>tokio::io::{AsyncRead, AsyncWrite};
+    <span class="kw">use </span>tokio::net::TcpStream;
     <span class="kw">use </span>tokio_rustls::client::TlsStream;
 
     <span class="macro">pin_project!</span> {
         <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>RustlsTlsConn&lt;T&gt; {
-            <span class="attr">#[pin] </span><span class="kw">pub</span>(<span class="kw">super</span>) inner: TlsStream&lt;T&gt;,
+            <span class="attr">#[pin] </span><span class="kw">pub</span>(<span class="kw">super</span>) inner: TokioIo&lt;TlsStream&lt;T&gt;&gt;,
         }
     }
 
-    <span class="kw">impl</span>&lt;T: Connection + AsyncRead + AsyncWrite + Unpin&gt; Connection <span class="kw">for </span>RustlsTlsConn&lt;T&gt; {
+    <span class="kw">impl </span>Connection <span class="kw">for </span>RustlsTlsConn&lt;TokioIo&lt;TokioIo&lt;TcpStream&gt;&gt;&gt; {
         <span class="kw">fn </span>connected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Connected {
-            <span class="kw">if </span><span class="self">self</span>.inner.get_ref().<span class="number">1</span>.alpn_protocol() == <span class="prelude-val">Some</span>(<span class="string">b"h2"</span>) {
-                <span class="self">self</span>.inner.get_ref().<span class="number">0</span>.connected().negotiated_h2()
+            <span class="kw">if </span><span class="self">self</span>.inner.inner().get_ref().<span class="number">1</span>.alpn_protocol() == <span class="prelude-val">Some</span>(<span class="string">b"h2"</span>) {
+                <span class="self">self</span>.inner
+                    .inner()
+                    .get_ref()
+                    .<span class="number">0
+                    </span>.inner()
+                    .connected()
+                    .negotiated_h2()
             } <span class="kw">else </span>{
-                <span class="self">self</span>.inner.get_ref().<span class="number">0</span>.connected()
+                <span class="self">self</span>.inner.inner().get_ref().<span class="number">0</span>.inner().connected()
+            }
+        }
+    }
+    <span class="kw">impl </span>Connection <span class="kw">for </span>RustlsTlsConn&lt;TokioIo&lt;MaybeHttpsStream&lt;TokioIo&lt;TcpStream&gt;&gt;&gt;&gt; {
+        <span class="kw">fn </span>connected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Connected {
+            <span class="kw">if </span><span class="self">self</span>.inner.inner().get_ref().<span class="number">1</span>.alpn_protocol() == <span class="prelude-val">Some</span>(<span class="string">b"h2"</span>) {
+                <span class="self">self</span>.inner
+                    .inner()
+                    .get_ref()
+                    .<span class="number">0
+                    </span>.inner()
+                    .connected()
+                    .negotiated_h2()
+            } <span class="kw">else </span>{
+                <span class="self">self</span>.inner.inner().get_ref().<span class="number">0</span>.inner().connected()
             }
         }
     }
 
-    <span class="kw">impl</span>&lt;T: AsyncRead + AsyncWrite + Unpin&gt; AsyncRead <span class="kw">for </span>RustlsTlsConn&lt;T&gt; {
+    <span class="kw">impl</span>&lt;T: AsyncRead + AsyncWrite + Unpin&gt; Read <span class="kw">for </span>RustlsTlsConn&lt;T&gt; {
         <span class="kw">fn </span>poll_read(
             <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
             cx: <span class="kw-2">&amp;mut </span>Context,
-            buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">'_</span>&gt;,
+            buf: ReadBufCursor&lt;<span class="lifetime">'_</span>&gt;,
         ) -&gt; Poll&lt;tokio::io::Result&lt;()&gt;&gt; {
             <span class="kw">let </span>this = <span class="self">self</span>.project();
-            AsyncRead::poll_read(this.inner, cx, buf)
+            Read::poll_read(this.inner, cx, buf)
         }
     }
 
-    <span class="kw">impl</span>&lt;T: AsyncRead + AsyncWrite + Unpin&gt; AsyncWrite <span class="kw">for </span>RustlsTlsConn&lt;T&gt; {
+    <span class="kw">impl</span>&lt;T: AsyncRead + AsyncWrite + Unpin&gt; Write <span class="kw">for </span>RustlsTlsConn&lt;T&gt; {
         <span class="kw">fn </span>poll_write(
             <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
             cx: <span class="kw-2">&amp;mut </span>Context,
             buf: <span class="kw-2">&amp;</span>[u8],
         ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;usize, tokio::io::Error&gt;&gt; {
             <span class="kw">let </span>this = <span class="self">self</span>.project();
-            AsyncWrite::poll_write(this.inner, cx, buf)
+            Write::poll_write(this.inner, cx, buf)
         }
 
         <span class="kw">fn </span>poll_write_vectored(
@@ -2226,7 +2690,7 @@
             bufs: <span class="kw-2">&amp;</span>[IoSlice&lt;<span class="lifetime">'_</span>&gt;],
         ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;usize, io::Error&gt;&gt; {
             <span class="kw">let </span>this = <span class="self">self</span>.project();
-            AsyncWrite::poll_write_vectored(this.inner, cx, bufs)
+            Write::poll_write_vectored(this.inner, cx, bufs)
         }
 
         <span class="kw">fn </span>is_write_vectored(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
@@ -2238,7 +2702,7 @@
             cx: <span class="kw-2">&amp;mut </span>Context,
         ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), tokio::io::Error&gt;&gt; {
             <span class="kw">let </span>this = <span class="self">self</span>.project();
-            AsyncWrite::poll_flush(this.inner, cx)
+            Write::poll_flush(this.inner, cx)
         }
 
         <span class="kw">fn </span>poll_shutdown(
@@ -2246,17 +2710,13 @@
             cx: <span class="kw-2">&amp;mut </span>Context,
         ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), tokio::io::Error&gt;&gt; {
             <span class="kw">let </span>this = <span class="self">self</span>.project();
-            AsyncWrite::poll_shutdown(this.inner, cx)
+            Write::poll_shutdown(this.inner, cx)
         }
     }
-
-    <span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>RustlsTlsConn&lt;tokio::net::TcpStream&gt; {
-        <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
-            <span class="self">self</span>.inner.tls_info()
-        }
-    }
-
-    <span class="kw">impl </span>TlsInfoFactory <span class="kw">for </span>RustlsTlsConn&lt;hyper_rustls::MaybeHttpsStream&lt;tokio::net::TcpStream&gt;&gt; {
+    <span class="kw">impl</span>&lt;T&gt; TlsInfoFactory <span class="kw">for </span>RustlsTlsConn&lt;T&gt;
+    <span class="kw">where
+        </span>TokioIo&lt;TlsStream&lt;T&gt;&gt;: TlsInfoFactory,
+    {
         <span class="kw">fn </span>tls_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::tls::TlsInfo&gt; {
             <span class="self">self</span>.inner.tls_info()
         }
@@ -2270,7 +2730,7 @@
 
     <span class="kw">use </span>http::Uri;
     <span class="kw">use </span>tokio::net::TcpStream;
-    <span class="kw">use </span>tokio_socks::tcp::Socks5Stream;
+    <span class="kw">use </span>tokio_socks::tcp::{Socks4Stream, Socks5Stream};
 
     <span class="kw">use super</span>::{BoxError, Scheme};
     <span class="kw">use </span><span class="kw">crate</span>::proxy::ProxyScheme;
@@ -2303,39 +2763,44 @@
             }
         }
 
-        <span class="kw">let </span>(socket_addr, auth) = <span class="kw">match </span>proxy {
-            ProxyScheme::Socks5 { addr, auth, .. } =&gt; (addr, auth),
+        <span class="kw">match </span>proxy {
+            ProxyScheme::Socks4 { addr } =&gt; {
+                <span class="kw">let </span>stream = Socks4Stream::connect(addr, (host.as_str(), port))
+                    .<span class="kw">await
+                    </span>.map_err(|e| <span class="macro">format!</span>(<span class="string">"socks connect error: {e}"</span>))<span class="question-mark">?</span>;
+                <span class="prelude-val">Ok</span>(stream.into_inner())
+            }
+            ProxyScheme::Socks5 { addr, <span class="kw-2">ref </span>auth, .. } =&gt; {
+                <span class="kw">let </span>stream = <span class="kw">if let </span><span class="prelude-val">Some</span>((username, password)) = auth {
+                    Socks5Stream::connect_with_password(
+                        addr,
+                        (host.as_str(), port),
+                        <span class="kw-2">&amp;</span>username,
+                        <span class="kw-2">&amp;</span>password,
+                    )
+                    .<span class="kw">await
+                    </span>.map_err(|e| <span class="macro">format!</span>(<span class="string">"socks connect error: {e}"</span>))<span class="question-mark">?
+                </span>} <span class="kw">else </span>{
+                    Socks5Stream::connect(addr, (host.as_str(), port))
+                        .<span class="kw">await
+                        </span>.map_err(|e| <span class="macro">format!</span>(<span class="string">"socks connect error: {e}"</span>))<span class="question-mark">?
+                </span>};
+
+                <span class="prelude-val">Ok</span>(stream.into_inner())
+            }
             <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
-        };
-
-        <span class="comment">// Get a Tokio TcpStream
-        </span><span class="kw">let </span>stream = <span class="kw">if let </span><span class="prelude-val">Some</span>((username, password)) = auth {
-            Socks5Stream::connect_with_password(
-                socket_addr,
-                (host.as_str(), port),
-                <span class="kw-2">&amp;</span>username,
-                <span class="kw-2">&amp;</span>password,
-            )
-            .<span class="kw">await
-            </span>.map_err(|e| <span class="macro">format!</span>(<span class="string">"socks connect error: {e}"</span>))<span class="question-mark">?
-        </span>} <span class="kw">else </span>{
-            Socks5Stream::connect(socket_addr, (host.as_str(), port))
-                .<span class="kw">await
-                </span>.map_err(|e| <span class="macro">format!</span>(<span class="string">"socks connect error: {e}"</span>))<span class="question-mark">?
-        </span>};
-
-        <span class="prelude-val">Ok</span>(stream.into_inner())
+        }
     }
 }
 
 <span class="kw">mod </span>verbose {
-    <span class="kw">use </span>hyper::client::connect::{Connected, Connection};
+    <span class="kw">use </span>hyper::rt::{Read, ReadBufCursor, Write};
+    <span class="kw">use </span>hyper_util::client::legacy::connect::{Connected, Connection};
     <span class="kw">use </span>std::cmp::min;
     <span class="kw">use </span>std::fmt;
     <span class="kw">use </span>std::io::{<span class="self">self</span>, IoSlice};
     <span class="kw">use </span>std::pin::Pin;
     <span class="kw">use </span>std::task::{Context, Poll};
-    <span class="kw">use </span>tokio::io::{AsyncRead, AsyncWrite, ReadBuf};
 
     <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const </span>OFF: Wrapper = Wrapper(<span class="bool-val">false</span>);
 
@@ -2361,21 +2826,31 @@
         inner: T,
     }
 
-    <span class="kw">impl</span>&lt;T: Connection + AsyncRead + AsyncWrite + Unpin&gt; Connection <span class="kw">for </span>Verbose&lt;T&gt; {
+    <span class="kw">impl</span>&lt;T: Connection + Read + Write + Unpin&gt; Connection <span class="kw">for </span>Verbose&lt;T&gt; {
         <span class="kw">fn </span>connected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Connected {
             <span class="self">self</span>.inner.connected()
         }
     }
 
-    <span class="kw">impl</span>&lt;T: AsyncRead + AsyncWrite + Unpin&gt; AsyncRead <span class="kw">for </span>Verbose&lt;T&gt; {
+    <span class="kw">impl</span>&lt;T: Read + Write + Unpin&gt; Read <span class="kw">for </span>Verbose&lt;T&gt; {
         <span class="kw">fn </span>poll_read(
             <span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
             cx: <span class="kw-2">&amp;mut </span>Context,
-            buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">'_</span>&gt;,
+            <span class="kw-2">mut </span>buf: ReadBufCursor&lt;<span class="lifetime">'_</span>&gt;,
         ) -&gt; Poll&lt;std::io::Result&lt;()&gt;&gt; {
-            <span class="kw">match </span>Pin::new(<span class="kw-2">&amp;mut </span><span class="self">self</span>.inner).poll_read(cx, buf) {
+            <span class="comment">// TODO: This _does_ forget the `init` len, so it could result in
+            // re-initializing twice. Needs upstream support, perhaps.
+            // SAFETY: Passing to a ReadBuf will never de-initialize any bytes.
+            </span><span class="kw">let </span><span class="kw-2">mut </span>vbuf = hyper::rt::ReadBuf::uninit(<span class="kw">unsafe </span>{ buf.as_mut() });
+            <span class="kw">match </span>Pin::new(<span class="kw-2">&amp;mut </span><span class="self">self</span>.inner).poll_read(cx, vbuf.unfilled()) {
                 Poll::Ready(<span class="prelude-val">Ok</span>(())) =&gt; {
-                    <span class="macro">log::trace!</span>(<span class="string">"{:08x} read: {:?}"</span>, <span class="self">self</span>.id, Escape(buf.filled()));
+                    <span class="macro">log::trace!</span>(<span class="string">"{:08x} read: {:?}"</span>, <span class="self">self</span>.id, Escape(vbuf.filled()));
+                    <span class="kw">let </span>len = vbuf.filled().len();
+                    <span class="comment">// SAFETY: The two cursors were for the same buffer. What was
+                    // filled in one is safe in the other.
+                    </span><span class="kw">unsafe </span>{
+                        buf.advance(len);
+                    }
                     Poll::Ready(<span class="prelude-val">Ok</span>(()))
                 }
                 Poll::Ready(<span class="prelude-val">Err</span>(e)) =&gt; Poll::Ready(<span class="prelude-val">Err</span>(e)),
@@ -2384,7 +2859,7 @@
         }
     }
 
-    <span class="kw">impl</span>&lt;T: AsyncRead + AsyncWrite + Unpin&gt; AsyncWrite <span class="kw">for </span>Verbose&lt;T&gt; {
+    <span class="kw">impl</span>&lt;T: Read + Write + Unpin&gt; Write <span class="kw">for </span>Verbose&lt;T&gt; {
         <span class="kw">fn </span>poll_write(
             <span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
             cx: <span class="kw-2">&amp;mut </span>Context,
@@ -2500,6 +2975,7 @@
 </span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">super</span>::tunnel;
     <span class="kw">use </span><span class="kw">crate</span>::proxy;
+    <span class="kw">use </span>hyper_util::rt::TokioIo;
     <span class="kw">use </span>std::io::{Read, Write};
     <span class="kw">use </span>std::net::TcpListener;
     <span class="kw">use </span>std::thread;
@@ -2562,7 +3038,7 @@
             .build()
             .expect(<span class="string">"new rt"</span>);
         <span class="kw">let </span>f = <span class="kw">async move </span>{
-            <span class="kw">let </span>tcp = TcpStream::connect(<span class="kw-2">&amp;</span>addr).<span class="kw">await</span><span class="question-mark">?</span>;
+            <span class="kw">let </span>tcp = TokioIo::new(TcpStream::connect(<span class="kw-2">&amp;</span>addr).<span class="kw">await</span><span class="question-mark">?</span>);
             <span class="kw">let </span>host = addr.ip().to_string();
             <span class="kw">let </span>port = addr.port();
             tunnel(tcp, host, port, ua(), <span class="prelude-val">None</span>).<span class="kw">await
@@ -2580,7 +3056,7 @@
             .build()
             .expect(<span class="string">"new rt"</span>);
         <span class="kw">let </span>f = <span class="kw">async move </span>{
-            <span class="kw">let </span>tcp = TcpStream::connect(<span class="kw-2">&amp;</span>addr).<span class="kw">await</span><span class="question-mark">?</span>;
+            <span class="kw">let </span>tcp = TokioIo::new(TcpStream::connect(<span class="kw-2">&amp;</span>addr).<span class="kw">await</span><span class="question-mark">?</span>);
             <span class="kw">let </span>host = addr.ip().to_string();
             <span class="kw">let </span>port = addr.port();
             tunnel(tcp, host, port, ua(), <span class="prelude-val">None</span>).<span class="kw">await
@@ -2598,7 +3074,7 @@
             .build()
             .expect(<span class="string">"new rt"</span>);
         <span class="kw">let </span>f = <span class="kw">async move </span>{
-            <span class="kw">let </span>tcp = TcpStream::connect(<span class="kw-2">&amp;</span>addr).<span class="kw">await</span><span class="question-mark">?</span>;
+            <span class="kw">let </span>tcp = TokioIo::new(TcpStream::connect(<span class="kw-2">&amp;</span>addr).<span class="kw">await</span><span class="question-mark">?</span>);
             <span class="kw">let </span>host = addr.ip().to_string();
             <span class="kw">let </span>port = addr.port();
             tunnel(tcp, host, port, ua(), <span class="prelude-val">None</span>).<span class="kw">await
@@ -2622,7 +3098,7 @@
             .build()
             .expect(<span class="string">"new rt"</span>);
         <span class="kw">let </span>f = <span class="kw">async move </span>{
-            <span class="kw">let </span>tcp = TcpStream::connect(<span class="kw-2">&amp;</span>addr).<span class="kw">await</span><span class="question-mark">?</span>;
+            <span class="kw">let </span>tcp = TokioIo::new(TcpStream::connect(<span class="kw-2">&amp;</span>addr).<span class="kw">await</span><span class="question-mark">?</span>);
             <span class="kw">let </span>host = addr.ip().to_string();
             <span class="kw">let </span>port = addr.port();
             tunnel(tcp, host, port, ua(), <span class="prelude-val">None</span>).<span class="kw">await
@@ -2644,7 +3120,7 @@
             .build()
             .expect(<span class="string">"new rt"</span>);
         <span class="kw">let </span>f = <span class="kw">async move </span>{
-            <span class="kw">let </span>tcp = TcpStream::connect(<span class="kw-2">&amp;</span>addr).<span class="kw">await</span><span class="question-mark">?</span>;
+            <span class="kw">let </span>tcp = TokioIo::new(TcpStream::connect(<span class="kw-2">&amp;</span>addr).<span class="kw">await</span><span class="question-mark">?</span>);
             <span class="kw">let </span>host = addr.ip().to_string();
             <span class="kw">let </span>port = addr.port();
             tunnel(

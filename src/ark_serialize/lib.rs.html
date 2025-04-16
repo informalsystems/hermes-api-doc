@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-serialize-0.4.2/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="ark_serialize" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_serialize/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-serialize-0.5.0/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="ark_serialize" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_serialize/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -243,248 +243,7 @@
 <a href="#242" id="242">242</a>
 <a href="#243" id="243">243</a>
 <a href="#244" id="244">244</a>
-<a href="#245" id="245">245</a>
-<a href="#246" id="246">246</a>
-<a href="#247" id="247">247</a>
-<a href="#248" id="248">248</a>
-<a href="#249" id="249">249</a>
-<a href="#250" id="250">250</a>
-<a href="#251" id="251">251</a>
-<a href="#252" id="252">252</a>
-<a href="#253" id="253">253</a>
-<a href="#254" id="254">254</a>
-<a href="#255" id="255">255</a>
-<a href="#256" id="256">256</a>
-<a href="#257" id="257">257</a>
-<a href="#258" id="258">258</a>
-<a href="#259" id="259">259</a>
-<a href="#260" id="260">260</a>
-<a href="#261" id="261">261</a>
-<a href="#262" id="262">262</a>
-<a href="#263" id="263">263</a>
-<a href="#264" id="264">264</a>
-<a href="#265" id="265">265</a>
-<a href="#266" id="266">266</a>
-<a href="#267" id="267">267</a>
-<a href="#268" id="268">268</a>
-<a href="#269" id="269">269</a>
-<a href="#270" id="270">270</a>
-<a href="#271" id="271">271</a>
-<a href="#272" id="272">272</a>
-<a href="#273" id="273">273</a>
-<a href="#274" id="274">274</a>
-<a href="#275" id="275">275</a>
-<a href="#276" id="276">276</a>
-<a href="#277" id="277">277</a>
-<a href="#278" id="278">278</a>
-<a href="#279" id="279">279</a>
-<a href="#280" id="280">280</a>
-<a href="#281" id="281">281</a>
-<a href="#282" id="282">282</a>
-<a href="#283" id="283">283</a>
-<a href="#284" id="284">284</a>
-<a href="#285" id="285">285</a>
-<a href="#286" id="286">286</a>
-<a href="#287" id="287">287</a>
-<a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a>
-<a href="#290" id="290">290</a>
-<a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
-<a href="#298" id="298">298</a>
-<a href="#299" id="299">299</a>
-<a href="#300" id="300">300</a>
-<a href="#301" id="301">301</a>
-<a href="#302" id="302">302</a>
-<a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a>
-<a href="#306" id="306">306</a>
-<a href="#307" id="307">307</a>
-<a href="#308" id="308">308</a>
-<a href="#309" id="309">309</a>
-<a href="#310" id="310">310</a>
-<a href="#311" id="311">311</a>
-<a href="#312" id="312">312</a>
-<a href="#313" id="313">313</a>
-<a href="#314" id="314">314</a>
-<a href="#315" id="315">315</a>
-<a href="#316" id="316">316</a>
-<a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
-<a href="#320" id="320">320</a>
-<a href="#321" id="321">321</a>
-<a href="#322" id="322">322</a>
-<a href="#323" id="323">323</a>
-<a href="#324" id="324">324</a>
-<a href="#325" id="325">325</a>
-<a href="#326" id="326">326</a>
-<a href="#327" id="327">327</a>
-<a href="#328" id="328">328</a>
-<a href="#329" id="329">329</a>
-<a href="#330" id="330">330</a>
-<a href="#331" id="331">331</a>
-<a href="#332" id="332">332</a>
-<a href="#333" id="333">333</a>
-<a href="#334" id="334">334</a>
-<a href="#335" id="335">335</a>
-<a href="#336" id="336">336</a>
-<a href="#337" id="337">337</a>
-<a href="#338" id="338">338</a>
-<a href="#339" id="339">339</a>
-<a href="#340" id="340">340</a>
-<a href="#341" id="341">341</a>
-<a href="#342" id="342">342</a>
-<a href="#343" id="343">343</a>
-<a href="#344" id="344">344</a>
-<a href="#345" id="345">345</a>
-<a href="#346" id="346">346</a>
-<a href="#347" id="347">347</a>
-<a href="#348" id="348">348</a>
-<a href="#349" id="349">349</a>
-<a href="#350" id="350">350</a>
-<a href="#351" id="351">351</a>
-<a href="#352" id="352">352</a>
-<a href="#353" id="353">353</a>
-<a href="#354" id="354">354</a>
-<a href="#355" id="355">355</a>
-<a href="#356" id="356">356</a>
-<a href="#357" id="357">357</a>
-<a href="#358" id="358">358</a>
-<a href="#359" id="359">359</a>
-<a href="#360" id="360">360</a>
-<a href="#361" id="361">361</a>
-<a href="#362" id="362">362</a>
-<a href="#363" id="363">363</a>
-<a href="#364" id="364">364</a>
-<a href="#365" id="365">365</a>
-<a href="#366" id="366">366</a>
-<a href="#367" id="367">367</a>
-<a href="#368" id="368">368</a>
-<a href="#369" id="369">369</a>
-<a href="#370" id="370">370</a>
-<a href="#371" id="371">371</a>
-<a href="#372" id="372">372</a>
-<a href="#373" id="373">373</a>
-<a href="#374" id="374">374</a>
-<a href="#375" id="375">375</a>
-<a href="#376" id="376">376</a>
-<a href="#377" id="377">377</a>
-<a href="#378" id="378">378</a>
-<a href="#379" id="379">379</a>
-<a href="#380" id="380">380</a>
-<a href="#381" id="381">381</a>
-<a href="#382" id="382">382</a>
-<a href="#383" id="383">383</a>
-<a href="#384" id="384">384</a>
-<a href="#385" id="385">385</a>
-<a href="#386" id="386">386</a>
-<a href="#387" id="387">387</a>
-<a href="#388" id="388">388</a>
-<a href="#389" id="389">389</a>
-<a href="#390" id="390">390</a>
-<a href="#391" id="391">391</a>
-<a href="#392" id="392">392</a>
-<a href="#393" id="393">393</a>
-<a href="#394" id="394">394</a>
-<a href="#395" id="395">395</a>
-<a href="#396" id="396">396</a>
-<a href="#397" id="397">397</a>
-<a href="#398" id="398">398</a>
-<a href="#399" id="399">399</a>
-<a href="#400" id="400">400</a>
-<a href="#401" id="401">401</a>
-<a href="#402" id="402">402</a>
-<a href="#403" id="403">403</a>
-<a href="#404" id="404">404</a>
-<a href="#405" id="405">405</a>
-<a href="#406" id="406">406</a>
-<a href="#407" id="407">407</a>
-<a href="#408" id="408">408</a>
-<a href="#409" id="409">409</a>
-<a href="#410" id="410">410</a>
-<a href="#411" id="411">411</a>
-<a href="#412" id="412">412</a>
-<a href="#413" id="413">413</a>
-<a href="#414" id="414">414</a>
-<a href="#415" id="415">415</a>
-<a href="#416" id="416">416</a>
-<a href="#417" id="417">417</a>
-<a href="#418" id="418">418</a>
-<a href="#419" id="419">419</a>
-<a href="#420" id="420">420</a>
-<a href="#421" id="421">421</a>
-<a href="#422" id="422">422</a>
-<a href="#423" id="423">423</a>
-<a href="#424" id="424">424</a>
-<a href="#425" id="425">425</a>
-<a href="#426" id="426">426</a>
-<a href="#427" id="427">427</a>
-<a href="#428" id="428">428</a>
-<a href="#429" id="429">429</a>
-<a href="#430" id="430">430</a>
-<a href="#431" id="431">431</a>
-<a href="#432" id="432">432</a>
-<a href="#433" id="433">433</a>
-<a href="#434" id="434">434</a>
-<a href="#435" id="435">435</a>
-<a href="#436" id="436">436</a>
-<a href="#437" id="437">437</a>
-<a href="#438" id="438">438</a>
-<a href="#439" id="439">439</a>
-<a href="#440" id="440">440</a>
-<a href="#441" id="441">441</a>
-<a href="#442" id="442">442</a>
-<a href="#443" id="443">443</a>
-<a href="#444" id="444">444</a>
-<a href="#445" id="445">445</a>
-<a href="#446" id="446">446</a>
-<a href="#447" id="447">447</a>
-<a href="#448" id="448">448</a>
-<a href="#449" id="449">449</a>
-<a href="#450" id="450">450</a>
-<a href="#451" id="451">451</a>
-<a href="#452" id="452">452</a>
-<a href="#453" id="453">453</a>
-<a href="#454" id="454">454</a>
-<a href="#455" id="455">455</a>
-<a href="#456" id="456">456</a>
-<a href="#457" id="457">457</a>
-<a href="#458" id="458">458</a>
-<a href="#459" id="459">459</a>
-<a href="#460" id="460">460</a>
-<a href="#461" id="461">461</a>
-<a href="#462" id="462">462</a>
-<a href="#463" id="463">463</a>
-<a href="#464" id="464">464</a>
-<a href="#465" id="465">465</a>
-<a href="#466" id="466">466</a>
-<a href="#467" id="467">467</a>
-<a href="#468" id="468">468</a>
-<a href="#469" id="469">469</a>
-<a href="#470" id="470">470</a>
-<a href="#471" id="471">471</a>
-<a href="#472" id="472">472</a>
-<a href="#473" id="473">473</a>
-<a href="#474" id="474">474</a>
-<a href="#475" id="475">475</a>
-<a href="#476" id="476">476</a>
-<a href="#477" id="477">477</a>
-<a href="#478" id="478">478</a>
-<a href="#479" id="479">479</a>
-<a href="#480" id="480">480</a>
-<a href="#481" id="481">481</a>
-<a href="#482" id="482">482</a>
-<a href="#483" id="483">483</a>
-<a href="#484" id="484">484</a>
-<a href="#485" id="485">485</a>
-<a href="#486" id="486">486</a></pre></div><pre class="rust"><code><span class="attr">#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
+<a href="#245" id="245">245</a></pre></div><pre class="rust"><code><span class="attr">#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
 #![warn(
     unused,
     future_incompatible,
@@ -498,17 +257,39 @@
 <span class="kw">mod </span>flags;
 <span class="kw">mod </span>impls;
 
-<span class="kw">use </span>ark_std::borrow::ToOwned;
 <span class="kw">pub use </span>ark_std::io::{Read, Write};
 
 <span class="kw">pub use </span>error::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>flags::<span class="kw-2">*</span>;
+
+<span class="attr">#[cfg(test)]
+</span><span class="kw">mod </span>test;
 
 <span class="attr">#[cfg(feature = <span class="string">"derive"</span>)]
 #[doc(hidden)]
 </span><span class="kw">pub use </span>ark_serialize_derive::<span class="kw-2">*</span>;
 
 <span class="kw">use </span>digest::{generic_array::GenericArray, Digest, OutputSizeUser};
+
+<span class="doccomment">/// Serializes the given `CanonicalSerialize` items in sequence. `serialize_to_vec![a, b, c, d, e]`
+/// is identical to the value of `buf` after `(a, b, c, d, e).serialize_compressed(&amp;mut buf)`.
+</span><span class="attr">#[macro_export]
+</span><span class="macro">macro_rules!</span> serialize_to_vec {
+    ($(<span class="macro-nonterminal">$x</span>:expr),<span class="kw-2">*</span>) =&gt; ({
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">::ark_std::vec!</span>[];
+        {<span class="macro-nonterminal">$</span><span class="macro">crate::serialize_to_vec!</span>(@<span class="macro-nonterminal">inner </span>buf, $(<span class="macro-nonterminal">$x</span>),<span class="kw-2">*</span>)}.map(|<span class="kw">_</span>| buf)
+    });
+
+    (@inner <span class="macro-nonterminal">$buf</span>:expr, <span class="macro-nonterminal">$y</span>:expr, $(<span class="macro-nonterminal">$x</span>:expr),<span class="kw-2">*</span>) =&gt; ({
+        {
+            <span class="macro-nonterminal">$crate::CanonicalSerialize::serialize_uncompressed</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$y</span>, <span class="kw-2">&amp;mut </span><span class="macro-nonterminal">$buf</span>)
+        }.and({<span class="macro-nonterminal">$</span><span class="macro">crate::serialize_to_vec!</span>(@<span class="macro-nonterminal">inner $buf</span>, $(<span class="macro-nonterminal">$x</span>),<span class="kw-2">*</span>)})
+    });
+
+    (@inner <span class="macro-nonterminal">$buf</span>:expr, <span class="macro-nonterminal">$x</span>:expr) =&gt; ({
+        <span class="macro-nonterminal">$crate::CanonicalSerialize::serialize_uncompressed</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$x</span>, <span class="kw-2">&amp;mut </span><span class="macro-nonterminal">$buf</span>)
+    });
+}
 
 <span class="doccomment">/// Whether to use a compressed version of the serialization algorithm. Specific behavior depends
 /// on implementation. If no compressed version exists (e.g. on `Fp`), mode is ignored.
@@ -707,267 +488,4 @@
 </span><span class="kw">pub const fn </span>buffer_byte_size(modulus_bits: usize) -&gt; usize {
     (modulus_bits + <span class="number">7</span>) / <span class="number">8
 </span>}
-
-<span class="attr">#[cfg(test)]
-</span><span class="kw">mod </span>test {
-    <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span>ark_std::{
-        collections::{BTreeMap, BTreeSet},
-        rand::RngCore,
-        string::String,
-        vec,
-        vec::Vec,
-    };
-    <span class="kw">use </span>num_bigint::BigUint;
-
-    <span class="attr">#[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Debug)]
-    </span><span class="kw">struct </span>Dummy;
-
-    <span class="kw">impl </span>CanonicalSerialize <span class="kw">for </span>Dummy {
-        <span class="attr">#[inline]
-        </span><span class="kw">fn </span>serialize_with_mode&lt;W: Write&gt;(
-            <span class="kw-2">&amp;</span><span class="self">self</span>,
-            <span class="kw-2">mut </span>writer: W,
-            compress: Compress,
-        ) -&gt; <span class="prelude-ty">Result</span>&lt;(), SerializationError&gt; {
-            <span class="kw">match </span>compress {
-                Compress::Yes =&gt; <span class="number">100u8</span>.serialize_compressed(<span class="kw-2">&amp;mut </span>writer),
-                Compress::No =&gt; [<span class="number">100u8</span>, <span class="number">200u8</span>].serialize_compressed(<span class="kw-2">&amp;mut </span>writer),
-            }
-        }
-
-        <span class="kw">fn </span>serialized_size(<span class="kw-2">&amp;</span><span class="self">self</span>, compress: Compress) -&gt; usize {
-            <span class="kw">match </span>compress {
-                Compress::Yes =&gt; <span class="number">1</span>,
-                Compress::No =&gt; <span class="number">2</span>,
-            }
-        }
-    }
-
-    <span class="kw">impl </span>Valid <span class="kw">for </span>Dummy {
-        <span class="kw">fn </span>check(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), SerializationError&gt; {
-            <span class="prelude-val">Ok</span>(())
-        }
-    }
-    <span class="kw">impl </span>CanonicalDeserialize <span class="kw">for </span>Dummy {
-        <span class="attr">#[inline]
-        </span><span class="kw">fn </span>deserialize_with_mode&lt;R: Read&gt;(
-            reader: R,
-            compress: Compress,
-            _validate: Validate,
-        ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, SerializationError&gt; {
-            <span class="kw">match </span>compress {
-                Compress::Yes =&gt; <span class="macro">assert_eq!</span>(u8::deserialize_compressed(reader)<span class="question-mark">?</span>, <span class="number">100u8</span>),
-                Compress::No =&gt; {
-                    <span class="macro">assert_eq!</span>(&lt;[u8; <span class="number">2</span>]&gt;::deserialize_compressed(reader)<span class="question-mark">?</span>, [<span class="number">100u8</span>, <span class="number">200u8</span>])
-                },
-            }
-            <span class="prelude-val">Ok</span>(Dummy)
-        }
-    }
-
-    <span class="kw">fn </span>test_serialize&lt;
-        T: PartialEq + core::fmt::Debug + CanonicalSerialize + CanonicalDeserialize,
-    &gt;(
-        data: T,
-    ) {
-        <span class="kw">for </span>compress <span class="kw">in </span>[Compress::Yes, Compress::No] {
-            <span class="kw">for </span>validate <span class="kw">in </span>[Validate::Yes, Validate::No] {
-                <span class="kw">let </span><span class="kw-2">mut </span>serialized = <span class="macro">vec!</span>[<span class="number">0</span>; data.serialized_size(compress)];
-                data.serialize_with_mode(<span class="kw-2">&amp;mut </span>serialized[..], compress)
-                    .unwrap();
-                <span class="kw">let </span>de = T::deserialize_with_mode(<span class="kw-2">&amp;</span>serialized[..], compress, validate).unwrap();
-                <span class="macro">assert_eq!</span>(data, de);
-            }
-        }
-    }
-
-    <span class="kw">fn </span>test_hash&lt;T: CanonicalSerialize, H: Digest + core::fmt::Debug&gt;(data: T) {
-        <span class="kw">let </span>h1 = data.hash::&lt;H&gt;();
-
-        <span class="kw">let </span><span class="kw-2">mut </span>hash = H::new();
-        <span class="kw">let </span><span class="kw-2">mut </span>serialized = <span class="macro">vec!</span>[<span class="number">0</span>; data.serialized_size(Compress::Yes)];
-        data.serialize_compressed(<span class="kw-2">&amp;mut </span>serialized[..]).unwrap();
-        hash.update(<span class="kw-2">&amp;</span>serialized);
-        <span class="kw">let </span>h2 = hash.finalize();
-
-        <span class="macro">assert_eq!</span>(h1, h2);
-
-        <span class="kw">let </span>h3 = data.hash_uncompressed::&lt;H&gt;();
-
-        <span class="kw">let </span><span class="kw-2">mut </span>hash = H::new();
-        serialized = <span class="macro">vec!</span>[<span class="number">0</span>; data.uncompressed_size()];
-        data.serialize_uncompressed(<span class="kw-2">&amp;mut </span>serialized[..]).unwrap();
-        hash.update(<span class="kw-2">&amp;</span>serialized);
-        <span class="kw">let </span>h4 = hash.finalize();
-
-        <span class="macro">assert_eq!</span>(h3, h4);
-    }
-
-    <span class="comment">// Serialize T, randomly mutate the data, and deserialize it.
-    // Ensure it fails.
-    // Up to the caller to provide a valid mutation criterion
-    // to ensure that this test always fails.
-    // This method requires a concrete instance of the data to be provided,
-    // to get the serialized size.
-    </span><span class="kw">fn </span>ensure_non_malleable_encoding&lt;
-        T: PartialEq + core::fmt::Debug + CanonicalSerialize + CanonicalDeserialize,
-    &gt;(
-        data: T,
-        valid_mutation: <span class="kw">fn</span>(<span class="kw-2">&amp;</span>[u8]) -&gt; bool,
-    ) {
-        <span class="kw">let </span><span class="kw-2">mut </span>r = ark_std::test_rng();
-        <span class="kw">let </span><span class="kw-2">mut </span>serialized = <span class="macro">vec!</span>[<span class="number">0</span>; data.compressed_size()];
-        r.fill_bytes(<span class="kw-2">&amp;mut </span>serialized);
-        <span class="kw">while </span>!valid_mutation(<span class="kw-2">&amp;</span>serialized) {
-            r.fill_bytes(<span class="kw-2">&amp;mut </span>serialized);
-        }
-        <span class="kw">let </span>de = T::deserialize_compressed(<span class="kw-2">&amp;</span>serialized[..]);
-        <span class="macro">assert!</span>(de.is_err());
-
-        <span class="kw">let </span><span class="kw-2">mut </span>serialized = <span class="macro">vec!</span>[<span class="number">0</span>; data.uncompressed_size()];
-        r.fill_bytes(<span class="kw-2">&amp;mut </span>serialized);
-        <span class="kw">while </span>!valid_mutation(<span class="kw-2">&amp;</span>serialized) {
-            r.fill_bytes(<span class="kw-2">&amp;mut </span>serialized);
-        }
-        <span class="kw">let </span>de = T::deserialize_uncompressed(<span class="kw-2">&amp;</span>serialized[..]);
-        <span class="macro">assert!</span>(de.is_err());
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_array() {
-        test_serialize([<span class="number">1u64</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]);
-        test_serialize([<span class="number">1u8</span>; <span class="number">33</span>]);
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_vec() {
-        test_serialize(<span class="macro">vec!</span>[<span class="number">1u64</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]);
-        test_serialize(Vec::&lt;u64&gt;::new());
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_uint() {
-        test_serialize(<span class="number">192830918usize</span>);
-        test_serialize(<span class="number">192830918u64</span>);
-        test_serialize(<span class="number">192830918u32</span>);
-        test_serialize(<span class="number">22313u16</span>);
-        test_serialize(<span class="number">123u8</span>);
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_string() {
-        test_serialize(String::from(<span class="string">"arkworks"</span>));
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_tuple() {
-        test_serialize(());
-        test_serialize((<span class="number">123u64</span>, Dummy));
-        test_serialize((<span class="number">123u64</span>, <span class="number">234u32</span>, Dummy));
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_tuple_vec() {
-        test_serialize(<span class="macro">vec!</span>[
-            (Dummy, Dummy, Dummy),
-            (Dummy, Dummy, Dummy),
-            (Dummy, Dummy, Dummy),
-        ]);
-        test_serialize(<span class="macro">vec!</span>[
-            (<span class="number">86u8</span>, <span class="number">98u64</span>, Dummy),
-            (<span class="number">86u8</span>, <span class="number">98u64</span>, Dummy),
-            (<span class="number">86u8</span>, <span class="number">98u64</span>, Dummy),
-        ]);
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_option() {
-        test_serialize(<span class="prelude-val">Some</span>(Dummy));
-        test_serialize(<span class="prelude-val">None</span>::&lt;Dummy&gt;);
-
-        test_serialize(<span class="prelude-val">Some</span>(<span class="number">10u64</span>));
-        test_serialize(<span class="prelude-val">None</span>::&lt;u64&gt;);
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_bool() {
-        test_serialize(<span class="bool-val">true</span>);
-        test_serialize(<span class="bool-val">false</span>);
-
-        <span class="kw">let </span>valid_mutation = |data: <span class="kw-2">&amp;</span>[u8]| -&gt; bool { data.len() == <span class="number">1 </span>&amp;&amp; data[<span class="number">0</span>] &gt; <span class="number">1 </span>};
-        <span class="kw">for _ in </span><span class="number">0</span>..<span class="number">10 </span>{
-            ensure_non_malleable_encoding(<span class="bool-val">true</span>, valid_mutation);
-            ensure_non_malleable_encoding(<span class="bool-val">false</span>, valid_mutation);
-        }
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_btreemap() {
-        <span class="kw">let </span><span class="kw-2">mut </span>map = BTreeMap::new();
-        map.insert(<span class="number">0u64</span>, Dummy);
-        map.insert(<span class="number">5u64</span>, Dummy);
-        test_serialize(map);
-        <span class="kw">let </span><span class="kw-2">mut </span>map = BTreeMap::new();
-        map.insert(<span class="number">10u64</span>, <span class="macro">vec!</span>[<span class="number">1u8</span>, <span class="number">2u8</span>, <span class="number">3u8</span>]);
-        map.insert(<span class="number">50u64</span>, <span class="macro">vec!</span>[<span class="number">4u8</span>, <span class="number">5u8</span>, <span class="number">6u8</span>]);
-        test_serialize(map);
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_btreeset() {
-        <span class="kw">let </span><span class="kw-2">mut </span>set = BTreeSet::new();
-        set.insert(Dummy);
-        set.insert(Dummy);
-        test_serialize(set);
-        <span class="kw">let </span><span class="kw-2">mut </span>set = BTreeSet::new();
-        set.insert(<span class="macro">vec!</span>[<span class="number">1u8</span>, <span class="number">2u8</span>, <span class="number">3u8</span>]);
-        set.insert(<span class="macro">vec!</span>[<span class="number">4u8</span>, <span class="number">5u8</span>, <span class="number">6u8</span>]);
-        test_serialize(set);
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_phantomdata() {
-        test_serialize(core::marker::PhantomData::&lt;Dummy&gt;);
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_sha2() {
-        test_hash::&lt;<span class="kw">_</span>, sha2::Sha256&gt;(Dummy);
-        test_hash::&lt;<span class="kw">_</span>, sha2::Sha512&gt;(Dummy);
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_blake2() {
-        test_hash::&lt;<span class="kw">_</span>, blake2::Blake2b512&gt;(Dummy);
-        test_hash::&lt;<span class="kw">_</span>, blake2::Blake2s256&gt;(Dummy);
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_sha3() {
-        test_hash::&lt;<span class="kw">_</span>, sha3::Sha3_256&gt;(Dummy);
-        test_hash::&lt;<span class="kw">_</span>, sha3::Sha3_512&gt;(Dummy);
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_biguint() {
-        <span class="kw">let </span>biguint = BigUint::from(<span class="number">123456u64</span>);
-        test_serialize(biguint.clone());
-
-        <span class="kw">let </span><span class="kw-2">mut </span>expected = (biguint.to_bytes_le().len() <span class="kw">as </span>u64).to_le_bytes().to_vec();
-        expected.extend_from_slice(<span class="kw-2">&amp;</span>biguint.to_bytes_le());
-
-        <span class="kw">let </span><span class="kw-2">mut </span>bytes = Vec::new();
-        biguint
-            .serialize_with_mode(<span class="kw-2">&amp;mut </span>bytes, Compress::Yes)
-            .unwrap();
-        <span class="macro">assert_eq!</span>(bytes, expected);
-
-        <span class="kw">let </span><span class="kw-2">mut </span>bytes = Vec::new();
-        biguint
-            .serialize_with_mode(<span class="kw-2">&amp;mut </span>bytes, Compress::No)
-            .unwrap();
-        <span class="macro">assert_eq!</span>(bytes, expected);
-    }
-}
 </code></pre></div></section></main></body></html>

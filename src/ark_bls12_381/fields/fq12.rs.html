@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-bls12-381-0.3.0/src/fields/fq12.rs`."><title>fq12.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="ark_bls12_381" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_bls12_381/fields/</div>fq12.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-bls12-381-0.5.0/src/fields/fq12.rs`."><title>fq12.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="ark_bls12_381" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_bls12_381/fields/</div>fq12.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -74,79 +74,81 @@
 <a href="#73" id="73">73</a>
 <a href="#74" id="74">74</a>
 <a href="#75" id="75">75</a>
-<a href="#76" id="76">76</a></pre></div><pre class="rust"><code><span class="kw">use crate</span>::<span class="kw-2">*</span>;
-<span class="kw">use </span>ark_ff::{field_new, fields::<span class="kw-2">*</span>};
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a></pre></div><pre class="rust"><code><span class="kw">use </span>ark_ff::{fields::<span class="kw-2">*</span>, MontFp};
 
-<span class="kw">pub type </span>Fq12 = Fp12&lt;Fq12Parameters&gt;;
+<span class="kw">use crate</span>::<span class="kw-2">*</span>;
+
+<span class="kw">pub type </span>Fq12 = Fp12&lt;Fq12Config&gt;;
 
 <span class="attr">#[derive(Clone, Copy)]
-</span><span class="kw">pub struct </span>Fq12Parameters;
+</span><span class="kw">pub struct </span>Fq12Config;
 
-<span class="kw">impl </span>Fp12Parameters <span class="kw">for </span>Fq12Parameters {
-    <span class="kw">type </span>Fp6Params = Fq6Parameters;
+<span class="kw">impl </span>Fp12Config <span class="kw">for </span>Fq12Config {
+    <span class="kw">type </span>Fp6Config = Fq6Config;
 
-    <span class="kw">const </span>NONRESIDUE: Fq6 = <span class="macro">field_new!</span>(Fq6, FQ2_ZERO, FQ2_ONE, FQ2_ZERO);
+    <span class="kw">const </span>NONRESIDUE: Fq6 = Fq6::new(Fq2::ZERO, Fq2::ONE, Fq2::ZERO);
 
     <span class="kw">const </span>FROBENIUS_COEFF_FP12_C1: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[Fq2] = <span class="kw-2">&amp;</span>[
         <span class="comment">// Fp2::NONRESIDUE^(((q^0) - 1) / 6)
-        </span><span class="macro">field_new!</span>(Fq2,
-            <span class="macro">field_new!</span>(Fq, <span class="string">"1"</span>),
-            <span class="macro">field_new!</span>(Fq, <span class="string">"0"</span>),
+        </span>Fq2::new(
+            Fq::ONE,
+            Fq::ZERO,
         ),
         <span class="comment">// Fp2::NONRESIDUE^(((q^1) - 1) / 6)
-        </span><span class="macro">field_new!</span>(Fq2,
-            <span class="macro">field_new!</span>(Fq, <span class="string">"3850754370037169011952147076051364057158807420970682438676050522613628423219637725072182697113062777891589506424760"</span>),
-            <span class="macro">field_new!</span>(Fq, <span class="string">"151655185184498381465642749684540099398075398968325446656007613510403227271200139370504932015952886146304766135027"</span>),
+        </span>Fq2::new(
+            <span class="macro">MontFp!</span>(<span class="string">"3850754370037169011952147076051364057158807420970682438676050522613628423219637725072182697113062777891589506424760"</span>),
+            <span class="macro">MontFp!</span>(<span class="string">"151655185184498381465642749684540099398075398968325446656007613510403227271200139370504932015952886146304766135027"</span>),
         ),
         <span class="comment">// Fp2::NONRESIDUE^(((q^2) - 1) / 6)
-        </span><span class="macro">field_new!</span>(Fq2,
-            <span class="macro">field_new!</span>(Fq, <span class="string">"793479390729215512621379701633421447060886740281060493010456487427281649075476305620758731620351"</span>),
-            <span class="macro">field_new!</span>(Fq, <span class="string">"0"</span>),
+        </span>Fq2::new(
+            <span class="macro">MontFp!</span>(<span class="string">"793479390729215512621379701633421447060886740281060493010456487427281649075476305620758731620351"</span>),
+            Fq::ZERO,
         ),
         <span class="comment">// Fp2::NONRESIDUE^(((q^3) - 1) / 6)
-        </span><span class="macro">field_new!</span>(Fq2,
-            <span class="macro">field_new!</span>(Fq, <span class="string">"2973677408986561043442465346520108879172042883009249989176415018091420807192182638567116318576472649347015917690530"</span>),
-            <span class="macro">field_new!</span>(Fq, <span class="string">"1028732146235106349975324479215795277384839936929757896155643118032610843298655225875571310552543014690878354869257"</span>),
+        </span>Fq2::new(
+            <span class="macro">MontFp!</span>(<span class="string">"2973677408986561043442465346520108879172042883009249989176415018091420807192182638567116318576472649347015917690530"</span>),
+            <span class="macro">MontFp!</span>(<span class="string">"1028732146235106349975324479215795277384839936929757896155643118032610843298655225875571310552543014690878354869257"</span>),
         ),
         <span class="comment">// Fp2::NONRESIDUE^(((q^4) - 1) / 6)
-        </span><span class="macro">field_new!</span>(Fq2,
-            <span class="macro">field_new!</span>(Fq, <span class="string">"793479390729215512621379701633421447060886740281060493010456487427281649075476305620758731620350"</span>),
-            <span class="macro">field_new!</span>(Fq, <span class="string">"0"</span>),
+        </span>Fq2::new(
+            <span class="macro">MontFp!</span>(<span class="string">"793479390729215512621379701633421447060886740281060493010456487427281649075476305620758731620350"</span>),
+            Fq::ZERO,
         ),
         <span class="comment">// Fp2::NONRESIDUE^(((q^5) - 1) / 6)
-        </span><span class="macro">field_new!</span>(Fq2,
-            <span class="macro">field_new!</span>(Fq, <span class="string">"3125332594171059424908108096204648978570118281977575435832422631601824034463382777937621250592425535493320683825557"</span>),
-            <span class="macro">field_new!</span>(Fq, <span class="string">"877076961050607968509681729531255177986764537961432449499635504522207616027455086505066378536590128544573588734230"</span>),
+        </span>Fq2::new(
+            <span class="macro">MontFp!</span>(<span class="string">"3125332594171059424908108096204648978570118281977575435832422631601824034463382777937621250592425535493320683825557"</span>),
+            <span class="macro">MontFp!</span>(<span class="string">"877076961050607968509681729531255177986764537961432449499635504522207616027455086505066378536590128544573588734230"</span>),
         ),
         <span class="comment">// Fp2::NONRESIDUE^(((q^6) - 1) / 6)
-        </span><span class="macro">field_new!</span>(Fq2,
-            <span class="macro">field_new!</span>(Fq, <span class="string">"-1"</span>),
-            <span class="macro">field_new!</span>(Fq, <span class="string">"0"</span>),
+        </span>Fq2::new(
+            <span class="macro">MontFp!</span>(<span class="string">"-1"</span>),
+            Fq::ZERO,
         ),
         <span class="comment">// Fp2::NONRESIDUE^(((q^7) - 1) / 6)
-        </span><span class="macro">field_new!</span>(Fq2,
-            <span class="macro">field_new!</span>(Fq, <span class="string">"151655185184498381465642749684540099398075398968325446656007613510403227271200139370504932015952886146304766135027"</span>),
-            <span class="macro">field_new!</span>(Fq, <span class="string">"3850754370037169011952147076051364057158807420970682438676050522613628423219637725072182697113062777891589506424760"</span>),
+        </span>Fq2::new(
+            <span class="macro">MontFp!</span>(<span class="string">"151655185184498381465642749684540099398075398968325446656007613510403227271200139370504932015952886146304766135027"</span>),
+            <span class="macro">MontFp!</span>(<span class="string">"3850754370037169011952147076051364057158807420970682438676050522613628423219637725072182697113062777891589506424760"</span>),
         ),
         <span class="comment">// Fp2::NONRESIDUE^(((q^8) - 1) / 6)
-        </span><span class="macro">field_new!</span>(Fq2,
-            <span class="macro">field_new!</span>(Fq, <span class="string">"4002409555221667392624310435006688643935503118305586438271171395842971157480381377015405980053539358417135540939436"</span>),
-            <span class="macro">field_new!</span>(Fq, <span class="string">"0"</span>),
+        </span>Fq2::new(
+            <span class="macro">MontFp!</span>(<span class="string">"4002409555221667392624310435006688643935503118305586438271171395842971157480381377015405980053539358417135540939436"</span>),
+            Fq::ZERO,
         ),
         <span class="comment">// Fp2::NONRESIDUE^(((q^9) - 1) / 6)
-        </span><span class="macro">field_new!</span>(Fq2,
-            <span class="macro">field_new!</span>(Fq, <span class="string">"1028732146235106349975324479215795277384839936929757896155643118032610843298655225875571310552543014690878354869257"</span>),
-            <span class="macro">field_new!</span>(Fq, <span class="string">"2973677408986561043442465346520108879172042883009249989176415018091420807192182638567116318576472649347015917690530"</span>),
+        </span>Fq2::new(
+            <span class="macro">MontFp!</span>(<span class="string">"1028732146235106349975324479215795277384839936929757896155643118032610843298655225875571310552543014690878354869257"</span>),
+            <span class="macro">MontFp!</span>(<span class="string">"2973677408986561043442465346520108879172042883009249989176415018091420807192182638567116318576472649347015917690530"</span>),
         ),
         <span class="comment">// Fp2::NONRESIDUE^(((q^10) - 1) / 6)
-        </span><span class="macro">field_new!</span>(Fq2,
-            <span class="macro">field_new!</span>(Fq, <span class="string">"4002409555221667392624310435006688643935503118305586438271171395842971157480381377015405980053539358417135540939437"</span>),
-            <span class="macro">field_new!</span>(Fq, <span class="string">"0"</span>),
+        </span>Fq2::new(
+            <span class="macro">MontFp!</span>(<span class="string">"4002409555221667392624310435006688643935503118305586438271171395842971157480381377015405980053539358417135540939437"</span>),
+            Fq::ZERO,
         ),
         <span class="comment">// Fp2::NONRESIDUE^(((q^11) - 1) / 6)
-        </span><span class="macro">field_new!</span>(Fq2,
-            <span class="macro">field_new!</span>(Fq, <span class="string">"877076961050607968509681729531255177986764537961432449499635504522207616027455086505066378536590128544573588734230"</span>),
-            <span class="macro">field_new!</span>(Fq, <span class="string">"3125332594171059424908108096204648978570118281977575435832422631601824034463382777937621250592425535493320683825557"</span>),
+        </span>Fq2::new(
+            <span class="macro">MontFp!</span>(<span class="string">"877076961050607968509681729531255177986764537961432449499635504522207616027455086505066378536590128544573588734230"</span>),
+            <span class="macro">MontFp!</span>(<span class="string">"3125332594171059424908108096204648978570118281977575435832422631601824034463382777937621250592425535493320683825557"</span>),
         ),
     ];
 }

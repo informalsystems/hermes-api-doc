@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["AllowedConversion"]};
+window.SIDEBAR_ITEMS = {"struct":["AllowedConversion","UncheckedAllowedConversion"]};

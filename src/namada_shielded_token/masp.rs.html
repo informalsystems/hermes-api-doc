@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_shielded_token-0.47.2/src/masp.rs`."><title>masp.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_shielded_token" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_shielded_token/</div>masp.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_shielded_token-0.149.1/src/masp.rs`."><title>masp.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_shielded_token" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_shielded_token/</div>masp.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1210,10 +1210,10 @@
 <span class="kw">use </span>masp_primitives::merkle_tree::{IncrementalWitness, MerklePath};
 <span class="kw">use </span>masp_primitives::sapling::keys::FullViewingKey;
 <span class="kw">use </span>masp_primitives::sapling::{Diversifier, Node, ViewingKey};
+<span class="kw">use </span>masp_primitives::transaction::Transaction;
 <span class="kw">use </span>masp_primitives::transaction::builder::{<span class="self">self</span>, <span class="kw-2">*</span>};
 <span class="kw">use </span>masp_primitives::transaction::components::sapling::builder::SaplingMetadata;
 <span class="kw">use </span>masp_primitives::transaction::components::{I128Sum, ValueSum};
-<span class="kw">use </span>masp_primitives::transaction::Transaction;
 <span class="kw">use </span>masp_primitives::zip32::{
     ExtendedFullViewingKey, ExtendedKey,
     ExtendedSpendingKey <span class="kw">as </span>MaspExtendedSpendingKey, PseudoExtendedKey,
@@ -1230,20 +1230,20 @@
 <span class="kw">use </span>namada_macros::BorshDeserializer;
 <span class="attr">#[cfg(feature = <span class="string">"migrations"</span>)]
 </span><span class="kw">use </span>namada_migrations::<span class="kw-2">*</span>;
-<span class="kw">use </span>namada_tx::IndexedTx;
 <span class="kw">use </span>rand_core::{CryptoRng, RngCore};
 <span class="kw">pub use </span>shielded_wallet::ShieldedWallet;
 <span class="kw">use </span>thiserror::Error;
 
-<span class="kw">pub use </span><span class="kw">crate</span>::masp::shielded_sync::dispatcher::{Dispatcher, DispatcherCache};
+<span class="kw">use </span><span class="self">self</span>::utils::MaspIndexedTx;
 <span class="attr">#[cfg(not(target_family = <span class="string">"wasm"</span>))]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::masp::shielded_sync::MaspLocalTaskEnv;
+<span class="kw">pub use </span><span class="kw">crate</span>::masp::shielded_sync::dispatcher::{Dispatcher, DispatcherCache};
 <span class="kw">pub use </span><span class="kw">crate</span>::masp::shielded_sync::{
-    utils, ShieldedSyncConfig, ShieldedSyncConfigBuilder,
+    ShieldedSyncConfig, ShieldedSyncConfigBuilder, utils,
 };
 <span class="kw">pub use </span><span class="kw">crate</span>::validation::{
-    partial_deauthorize, preload_verifying_keys, PVKs, CONVERT_NAME,
-    ENV_VAR_MASP_PARAMS_DIR, OUTPUT_NAME, SPEND_NAME,
+    CONVERT_NAME, ENV_VAR_MASP_PARAMS_DIR, OUTPUT_NAME, PVKs, SPEND_NAME,
+    partial_deauthorize, preload_verifying_keys,
 };
 
 <span class="doccomment">/// Randomness seed for MASP integration tests to build proofs with
@@ -1498,7 +1498,7 @@
 </span><span class="kw">pub type </span>TransactionDelta = HashMap&lt;ViewingKey, I128Sum&gt;;
 
 <span class="doccomment">/// Maps a shielded tx to the index of its first output note.
-</span><span class="kw">pub type </span>NoteIndex = BTreeMap&lt;IndexedTx, usize&gt;;
+</span><span class="kw">pub type </span>NoteIndex = BTreeMap&lt;MaspIndexedTx, usize&gt;;
 
 <span class="doccomment">/// Maps the note index (in the commitment tree) to a witness
 </span><span class="kw">pub type </span>WitnessMap = HashMap&lt;usize, IncrementalWitness&lt;Node&gt;&gt;;
@@ -1508,7 +1508,7 @@
 </span><span class="kw">pub enum </span>ContextSyncStatus {
     <span class="doccomment">/// The context contains data that has been confirmed by the protocol
     </span>Confirmed,
-    <span class="doccomment">/// The context possibly contains that that has not yet been confirmed by
+    <span class="doccomment">/// The context possibly contains data that has not yet been confirmed by
     /// the protocol and could be incomplete or invalid
     </span>Speculative,
 }
@@ -1555,7 +1555,7 @@
     </span><span class="kw">fn </span>test_wrong_masp_params_hash() {
         <span class="kw">use </span>masp_primitives::ff::PrimeField;
         <span class="kw">use </span>masp_proofs::bellman::groth16::{
-            generate_random_parameters, Parameters,
+            Parameters, generate_random_parameters,
         };
         <span class="kw">use </span>masp_proofs::bellman::{Circuit, ConstraintSystem, SynthesisError};
         <span class="kw">use </span>masp_proofs::bls12_381::Scalar;
@@ -1631,8 +1631,8 @@
     <span class="kw">use </span>std::ops::AddAssign;
     <span class="kw">use </span>std::sync::Mutex;
 
-    <span class="kw">use </span>masp_primitives::consensus::testing::arb_height;
     <span class="kw">use </span>masp_primitives::consensus::BranchId;
+    <span class="kw">use </span>masp_primitives::consensus::testing::arb_height;
     <span class="kw">use </span>masp_primitives::constants::{
         SPENDING_KEY_GENERATOR, VALUE_COMMITMENT_RANDOMNESS_GENERATOR,
     };
@@ -1642,7 +1642,7 @@
     <span class="kw">use </span>masp_primitives::keys::OutgoingViewingKey;
     <span class="kw">use </span>masp_primitives::memo::MemoBytes;
     <span class="kw">use </span>masp_primitives::sapling::note_encryption::{
-        try_sapling_note_decryption, PreparedIncomingViewingKey,
+        PreparedIncomingViewingKey, try_sapling_note_decryption,
     };
     <span class="kw">use </span>masp_primitives::sapling::prover::TxProver;
     <span class="kw">use </span>masp_primitives::sapling::redjubjub::{
@@ -1652,7 +1652,7 @@
     <span class="kw">use </span>masp_primitives::transaction::components::sapling::builder::RngBuildParams;
     <span class="kw">use </span>masp_primitives::transaction::components::transparent::testing::arb_transparent_address;
     <span class="kw">use </span>masp_primitives::transaction::components::{
-        OutputDescription, TxOut, U64Sum, GROTH_PROOF_SIZE,
+        GROTH_PROOF_SIZE, OutputDescription, TxOut, U64Sum,
     };
     <span class="kw">use </span>masp_primitives::transaction::fees::fixed::FeeRule;
     <span class="kw">use </span>masp_primitives::transaction::{
@@ -1662,8 +1662,8 @@
     <span class="kw">use </span>masp_proofs::bls12_381;
     <span class="kw">use </span>masp_proofs::bls12_381::{Bls12, G1Affine, G2Affine};
     <span class="kw">use </span>namada_core::address::testing::arb_address;
-    <span class="kw">use </span>namada_core::token::testing::arb_denomination;
     <span class="kw">use </span>namada_core::token::MaspDigitPos;
+    <span class="kw">use </span>namada_core::token::testing::arb_denomination;
     <span class="kw">use </span>proptest::prelude::<span class="kw-2">*</span>;
     <span class="kw">use </span>proptest::test_runner::TestRng;
     <span class="kw">use </span>proptest::{collection, option, prop_compose};
@@ -2163,8 +2163,8 @@
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::validation::{
-        get_params_dir, CONVERT_NAME, ENV_VAR_MASP_PARAMS_DIR, OUTPUT_NAME,
-        SPEND_NAME,
+        CONVERT_NAME, ENV_VAR_MASP_PARAMS_DIR, OUTPUT_NAME, SPEND_NAME,
+        get_params_dir,
     };
 
     <span class="doccomment">/// Shielded context file name

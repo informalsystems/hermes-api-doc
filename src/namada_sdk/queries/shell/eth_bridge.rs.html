@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.47.2/src/queries/shell/eth_bridge.rs`."><title>eth_bridge.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/queries/shell/</div>eth_bridge.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.149.1/src/queries/shell/eth_bridge.rs`."><title>eth_bridge.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/queries/shell/</div>eth_bridge.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1817,8 +1817,8 @@
 <span class="kw">use </span>namada_ethereum_bridge::storage::bridge_pool::get_key_from_hash;
 <span class="kw">use </span>namada_ethereum_bridge::storage::eth_bridge_queries::EthBridgeQueries;
 <span class="kw">use </span>namada_ethereum_bridge::storage::parameters::UpgradeableContract;
-<span class="kw">use </span>namada_ethereum_bridge::storage::proof::{sort_sigs, EthereumProof};
-<span class="kw">use </span>namada_ethereum_bridge::storage::vote_tallies::{eth_msgs_prefix, Keys};
+<span class="kw">use </span>namada_ethereum_bridge::storage::proof::{EthereumProof, sort_sigs};
+<span class="kw">use </span>namada_ethereum_bridge::storage::vote_tallies::{Keys, eth_msgs_prefix};
 <span class="kw">use </span>namada_ethereum_bridge::storage::{
     bridge_contract_key, native_erc20_key, vote_tallies,
 };
@@ -1826,7 +1826,7 @@
 <span class="attr">#[cfg(feature = <span class="string">"migrations"</span>)]
 </span><span class="kw">use </span>namada_migrations::<span class="kw-2">*</span>;
 <span class="kw">use </span>namada_state::MembershipProof::BridgePool;
-<span class="kw">use </span>namada_state::{DBIter, StorageHasher, StoreRef, StoreType, DB};
+<span class="kw">use </span>namada_state::{DB, DBIter, StorageHasher, StoreRef, StoreType};
 <span class="kw">use </span>namada_storage::{CustomError, ResultExt, StorageRead};
 <span class="kw">use </span>namada_vote_ext::validator_set_update::{
     ValidatorSetArgs, VotingPowersMap,
@@ -2640,14 +2640,14 @@
     <span class="kw">use </span>namada_core::voting_power::EthBridgeVotingPower;
     <span class="kw">use </span>namada_ethereum_bridge::protocol::transactions::validator_set_update::aggregate_votes;
     <span class="kw">use </span>namada_ethereum_bridge::storage::bridge_pool::{
-        get_pending_key, get_signed_root_key, BridgePoolTree,
+        BridgePoolTree, get_pending_key, get_signed_root_key,
     };
     <span class="kw">use </span>namada_ethereum_bridge::storage::proof::BridgePoolRootProof;
     <span class="kw">use </span>namada_ethereum_bridge::storage::whitelist;
     <span class="kw">use </span>namada_ethereum_bridge::test_utils::GovStore;
     <span class="kw">use </span>namada_proof_of_stake::queries::get_total_voting_power;
-    <span class="kw">use </span>namada_storage::mockdb::MockDBWriteBatch;
     <span class="kw">use </span>namada_storage::StorageWrite;
+    <span class="kw">use </span>namada_storage::mockdb::MockDBWriteBatch;
     <span class="kw">use </span>namada_vote_ext::validator_set_update;
     <span class="kw">use </span>namada_vote_ext::validator_set_update::{
         EthAddrBook, VotingPowersMapExt,
@@ -2655,8 +2655,8 @@
 
     <span class="kw">use </span><span class="kw">super</span>::test_utils::bertha_address;
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span><span class="kw">crate</span>::queries::testing::TestClient;
     <span class="kw">use </span><span class="kw">crate</span>::queries::RPC;
+    <span class="kw">use </span><span class="kw">crate</span>::queries::testing::TestClient;
 
     <span class="doccomment">/// Test that reading the bridge validator set works.
     </span><span class="attr">#[tokio::test]

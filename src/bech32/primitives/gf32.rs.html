@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bech32-0.10.0-beta/src/primitives/gf32.rs`."><title>gf32.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bech32" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">bech32/primitives/</div>gf32.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bech32-0.11.0/src/primitives/gf32.rs`."><title>gf32.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bech32" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">bech32/primitives/</div>gf32.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -503,17 +503,62 @@
 <a href="#502" id="502">502</a>
 <a href="#503" id="503">503</a>
 <a href="#504" id="504">504</a>
-<a href="#505" id="505">505</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: MIT
+<a href="#505" id="505">505</a>
+<a href="#506" id="506">506</a>
+<a href="#507" id="507">507</a>
+<a href="#508" id="508">508</a>
+<a href="#509" id="509">509</a>
+<a href="#510" id="510">510</a>
+<a href="#511" id="511">511</a>
+<a href="#512" id="512">512</a>
+<a href="#513" id="513">513</a>
+<a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
+<a href="#516" id="516">516</a>
+<a href="#517" id="517">517</a>
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: MIT
 
 </span><span class="doccomment">//! GF32 - Galois Field over 32 elements.
 //!
-//! Implements GF32 arithmetic, defined and encoded as in BIP-0173 "bech32".
+//! Implements GF32 arithmetic, defined and encoded as in [BIP-173] "bech32".
 //!
 //! &gt; A finite field is a finite set which is a field; this means that multiplication, addition,
 //! &gt; subtraction and division (excluding division by zero) are defined and satisfy the rules of
 //! &gt; arithmetic known as the field axioms.
 //!
 //! ref: &lt;https://en.wikipedia.org/wiki/Finite_field&gt;
+//!
+//! [BIP-173]: &lt;https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki&gt;
 
 </span><span class="kw">use </span>core::convert::{Infallible, TryFrom};
 <span class="kw">use </span>core::{fmt, num, ops};
@@ -682,18 +727,30 @@
     }
 
     <span class="doccomment">/// Creates a field element from a single bech32 character.
+    ///
+    /// # Errors
+    ///
+    /// If the input char is not part of the bech32 alphabet.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>from_char(c: char) -&gt; <span class="prelude-ty">Result</span>&lt;Fe32, Error&gt; {
+    </span><span class="kw">pub fn </span>from_char(c: char) -&gt; <span class="prelude-ty">Result</span>&lt;Fe32, FromCharError&gt; {
+        <span class="kw">use </span>FromCharError::<span class="kw-2">*</span>;
+
         <span class="comment">// i8::try_from gets a value in the range 0..=127 since char is unsigned.
-        </span><span class="kw">let </span>byte = i8::try_from(u32::from(c)).map_err(|<span class="kw">_</span>| Error::InvalidChar(c))<span class="question-mark">?</span>;
+        </span><span class="kw">let </span>byte = i8::try_from(u32::from(c)).map_err(|<span class="kw">_</span>| NotAscii(c))<span class="question-mark">?</span>;
         <span class="comment">// Now we have a valid ASCII value cast is safe.
         </span><span class="kw">let </span>ascii = byte <span class="kw">as </span>usize;
         <span class="comment">// We use -1 for any array element that is an invalid char to trigger error from u8::try_from
-        </span><span class="kw">let </span>u5 = u8::try_from(CHARS_INV[ascii]).map_err(|<span class="kw">_</span>| Error::InvalidChar(c))<span class="question-mark">?</span>;
+        </span><span class="kw">let </span>u5 = u8::try_from(CHARS_INV[ascii]).map_err(|<span class="kw">_</span>| Invalid(c))<span class="question-mark">?</span>;
+
         <span class="prelude-val">Ok</span>(Fe32(u5))
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_char_unchecked(c: u8) -&gt; Fe32 { Fe32(CHARS_INV[usize::from(c)] <span class="kw">as </span>u8) }
+    <span class="doccomment">/// Creates a field element from a single bech32 character.
+    ///
+    /// # Panics
+    ///
+    /// If the input character is not part of the bech32 alphabet.
+    </span><span class="kw">pub fn </span>from_char_unchecked(c: u8) -&gt; Fe32 { Fe32(CHARS_INV[usize::from(c)] <span class="kw">as </span>u8) }
 
     <span class="doccomment">/// Converts the field element to a lowercase bech32 character.
     </span><span class="attr">#[inline]
@@ -750,7 +807,7 @@
     ($(<span class="macro-nonterminal">$ty</span>:ident)+) =&gt; {
         $(
             <span class="kw">impl </span>TryFrom&lt;<span class="macro-nonterminal">$ty</span>&gt; <span class="kw">for </span>Fe32 {
-                <span class="kw">type </span>Error = Error;
+                <span class="kw">type </span>Error = TryFromError;
 
                 <span class="doccomment">/// Tries to create an [`Fe32`] type from a signed source number type.
                 ///
@@ -761,7 +818,7 @@
                 </span><span class="kw">fn </span>try_from(value: <span class="macro-nonterminal">$ty</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
                     <span class="kw">let </span>byte = u8::try_from(value)<span class="question-mark">?</span>;
                     <span class="kw">if </span>byte &gt; <span class="number">31 </span>{
-                        <span class="prelude-val">Err</span>(Error::InvalidByte(byte))<span class="question-mark">?</span>;
+                        <span class="prelude-val">Err</span>(TryFromError::InvalidByte(byte))<span class="question-mark">?</span>;
                     }
                     <span class="prelude-val">Ok</span>(Fe32(byte))
                 }
@@ -829,48 +886,77 @@
     </span><span class="kw">fn </span>div_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Fe32) { <span class="kw-2">*</span><span class="self">self </span>= <span class="kw-2">*</span><span class="self">self </span>/ other; }
 }
 
-<span class="doccomment">/// A galois field related error.
+<span class="doccomment">/// A galois field error when converting from a character.
 </span><span class="attr">#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 #[non_exhaustive]
-</span><span class="kw">pub enum </span>Error {
-    <span class="doccomment">/// Tried to interpret an integer as a GF32 element but it could not be converted to an u8.
-    </span>NotAByte(num::TryFromIntError),
-    <span class="doccomment">/// Tried to interpret a byte as a GF32 element but its numeric value was outside of [0, 32).
-    </span>InvalidByte(u8),
+</span><span class="kw">pub enum </span>FromCharError {
+    <span class="doccomment">/// Tried to interpret a character as a GF32 element but it is not an ASCII character.
+    </span>NotAscii(char),
     <span class="doccomment">/// Tried to interpret a character as a GF32 element but it is not part of the bech32 character set.
-    </span>InvalidChar(char),
+    </span>Invalid(char),
 }
 
-<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Error {
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>FromCharError {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
-        <span class="kw">use </span>Error::<span class="kw-2">*</span>;
+        <span class="kw">use </span>FromCharError::<span class="kw-2">*</span>;
 
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            NotAByte(<span class="kw-2">ref </span>e) =&gt; <span class="macro">write_err!</span>(f, <span class="string">"invalid field element"</span>; e),
-            InvalidByte(<span class="kw-2">ref </span>b) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid byte in field element: {:#04x}"</span>, b),
-            InvalidChar(<span class="kw-2">ref </span>c) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid char in field element: {}"</span>, c),
+            NotAscii(c) =&gt; <span class="macro">write!</span>(f, <span class="string">"non-ascii char in field element: {}"</span>, c),
+            Invalid(c) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid char in field element: {}"</span>, c),
         }
     }
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
-</span><span class="kw">impl </span>std::error::Error <span class="kw">for </span>Error {
+</span><span class="kw">impl </span>std::error::Error <span class="kw">for </span>FromCharError {
     <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>std::error::Error + <span class="lifetime">'static</span>)&gt; {
-        <span class="kw">use </span>Error::<span class="kw-2">*</span>;
+        <span class="kw">use </span>FromCharError::<span class="kw-2">*</span>;
 
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            NotAByte(<span class="kw-2">ref </span>e) =&gt; <span class="prelude-val">Some</span>(e),
-            InvalidByte(<span class="kw">_</span>) | InvalidChar(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
+            NotAscii(<span class="kw">_</span>) | Invalid(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
         }
     }
 }
 
-<span class="kw">impl </span>From&lt;num::TryFromIntError&gt; <span class="kw">for </span>Error {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from(e: num::TryFromIntError) -&gt; <span class="self">Self </span>{ Error::NotAByte(e) }
+<span class="doccomment">/// A galois field error when converting from an integer.
+</span><span class="attr">#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+#[non_exhaustive]
+</span><span class="kw">pub enum </span>TryFromError {
+    <span class="doccomment">/// Tried to interpret an integer as a GF32 element but it could not be converted to an u8.
+    </span>NotAByte(num::TryFromIntError),
+    <span class="doccomment">/// Tried to interpret a byte as a GF32 element but its numeric value was outside of [0, 32).
+    </span>InvalidByte(u8),
 }
 
-<span class="kw">impl </span>From&lt;Infallible&gt; <span class="kw">for </span>Error {
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>TryFromError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">use </span>TryFromError::<span class="kw-2">*</span>;
+
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            NotAByte(<span class="kw-2">ref </span>e) =&gt; <span class="macro">write_err!</span>(f, <span class="string">"invalid field element"</span>; e),
+            InvalidByte(<span class="kw-2">ref </span>b) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid byte in field element: {:#04x}"</span>, b),
+        }
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">impl </span>std::error::Error <span class="kw">for </span>TryFromError {
+    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>std::error::Error + <span class="lifetime">'static</span>)&gt; {
+        <span class="kw">use </span>TryFromError::<span class="kw-2">*</span>;
+
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            NotAByte(<span class="kw-2">ref </span>e) =&gt; <span class="prelude-val">Some</span>(e),
+            InvalidByte(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+
+<span class="kw">impl </span>From&lt;num::TryFromIntError&gt; <span class="kw">for </span>TryFromError {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>from(e: num::TryFromIntError) -&gt; <span class="self">Self </span>{ <span class="self">Self</span>::NotAByte(e) }
+}
+
+<span class="kw">impl </span>From&lt;Infallible&gt; <span class="kw">for </span>TryFromError {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>from(i: Infallible) -&gt; <span class="self">Self </span>{ <span class="kw">match </span>i {} }
 }

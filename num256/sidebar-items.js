@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["int256","uint256"]};
+window.SIDEBAR_ITEMS = {"mod":["error","int256","uint256"]};

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_ibc-0.47.2/src/vp/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="namada_ibc" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_ibc/vp/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_ibc-0.149.1/src/vp/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="namada_ibc" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_ibc/vp/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -3490,10 +3490,24 @@
 <a href="#3489" id="3489">3489</a>
 <a href="#3490" id="3490">3490</a>
 <a href="#3491" id="3491">3491</a>
-<a href="#3492" id="3492">3492</a></pre></div><pre class="rust"><code><span class="doccomment">//! IBC integration as a native validity predicate
+<a href="#3492" id="3492">3492</a>
+<a href="#3493" id="3493">3493</a>
+<a href="#3494" id="3494">3494</a>
+<a href="#3495" id="3495">3495</a>
+<a href="#3496" id="3496">3496</a>
+<a href="#3497" id="3497">3497</a>
+<a href="#3498" id="3498">3498</a>
+<a href="#3499" id="3499">3499</a>
+<a href="#3500" id="3500">3500</a>
+<a href="#3501" id="3501">3501</a>
+<a href="#3502" id="3502">3502</a>
+<a href="#3503" id="3503">3503</a>
+<a href="#3504" id="3504">3504</a>
+<a href="#3505" id="3505">3505</a></pre></div><pre class="rust"><code><span class="doccomment">//! IBC integration as a native validity predicate
 
 </span><span class="kw">pub mod </span>context;
 
+<span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::cell::RefCell;
 <span class="kw">use </span>std::collections::BTreeSet;
 <span class="kw">use </span>std::fmt::Debug;
@@ -3509,14 +3523,17 @@
 <span class="kw">use </span>namada_core::arith::checked;
 <span class="kw">use </span>namada_core::collections::HashSet;
 <span class="kw">use </span>namada_core::storage::Key;
+<span class="kw">use </span>namada_events::extend::{
+    InnerTxHash <span class="kw">as </span>InnerTxHashAttr, TxHash <span class="kw">as </span>TxHashAttr,
+};
 <span class="kw">use </span>namada_gas::{IBC_ACTION_EXECUTE_GAS, IBC_ACTION_VALIDATE_GAS};
 <span class="kw">use </span>namada_state::write_log::StorageModification;
 <span class="kw">use </span>namada_state::{Error, <span class="prelude-ty">Result</span>, StateRead};
 <span class="kw">use </span>namada_systems::trans_token::{<span class="self">self </span><span class="kw">as </span>token, Amount};
 <span class="kw">use </span>namada_systems::{governance, parameters, proof_of_stake};
 <span class="kw">use </span>namada_tx::BatchedTxRef;
-<span class="kw">use </span>namada_vp::native_vp::{Ctx, CtxPreStorageRead, NativeVp, VpEvaluator};
 <span class="kw">use </span>namada_vp::VpEnv;
+<span class="kw">use </span>namada_vp::native_vp::{Ctx, CtxPreStorageRead, NativeVp, VpEvaluator};
 <span class="kw">use </span>thiserror::Error;
 
 <span class="kw">use </span><span class="kw">crate</span>::context::middlewares::create_transfer_middlewares;
@@ -3529,8 +3546,8 @@
 };
 <span class="kw">use </span><span class="kw">crate</span>::trace::calc_hash;
 <span class="kw">use crate</span>::{
-    Error <span class="kw">as </span>ActionError, IbcActions, NftTransferModule, ValidationParams,
-    COMMITMENT_PREFIX,
+    COMMITMENT_PREFIX, Error <span class="kw">as </span>ActionError, IbcActions, NftTransferModule,
+    ValidationParams,
 };
 
 <span class="attr">#[allow(missing_docs)]
@@ -3772,9 +3789,18 @@
             .state
             .write_log()
             .get_events_of::&lt;IbcEvent&gt;()
+            .cloned()
+            .map(|<span class="kw-2">mut </span>event| {
+                <span class="comment">// NB: these attributes are attached to wasm txs
+                // by the protocol.
+                </span>event.delete_attribute::&lt;TxHashAttr&gt;();
+                event.delete_attribute::&lt;InnerTxHashAttr&gt;();
+                Cow::Owned(event)
+            })
             .collect();
         <span class="kw">let </span>ctx_borrow = ctx.borrow();
-        <span class="kw">let </span>expected: BTreeSet&lt;<span class="kw">_</span>&gt; = ctx_borrow.storage.event.iter().collect();
+        <span class="kw">let </span>expected: BTreeSet&lt;<span class="kw">_</span>&gt; =
+            ctx_borrow.storage.event.iter().map(Cow::Borrowed).collect();
         <span class="kw">if </span>actual != expected {
             <span class="kw">return </span><span class="prelude-val">Err</span>(VpError::IbcEvent(<span class="macro">format!</span>(
                 <span class="string">"The IBC event is invalid: Actual {actual:?}, Expected \
@@ -3958,14 +3984,14 @@
     <span class="kw">use </span>ibc::core::channel::types::timeout::TimeoutTimestamp;
     <span class="kw">use </span>ibc::primitives::IntoTimestamp;
     <span class="kw">use </span>ibc_testkit::testapp::ibc::clients::mock::client_state::{
-        client_type, MockClientState, MOCK_CLIENT_TYPE,
+        MOCK_CLIENT_TYPE, MockClientState, client_type,
     };
     <span class="kw">use </span>ibc_testkit::testapp::ibc::clients::mock::consensus_state::MockConsensusState;
     <span class="kw">use </span>ibc_testkit::testapp::ibc::clients::mock::header::MockHeader;
+    <span class="kw">use </span>namada_core::address::InternalAddress;
     <span class="kw">use </span>namada_core::address::testing::{
         established_address_1, established_address_2, nam,
     };
-    <span class="kw">use </span>namada_core::address::InternalAddress;
     <span class="kw">use </span>namada_core::borsh::{BorshDeserialize, BorshSerializeExt};
     <span class="kw">use </span>namada_core::chain::testing::get_dummy_header;
     <span class="kw">use </span>namada_core::chain::{BlockHeight, Epoch};
@@ -3975,18 +4001,18 @@
     <span class="kw">use </span>namada_core::time::DurationSecs;
     <span class="kw">use </span>namada_gas::{TxGasMeter, VpGasMeter};
     <span class="kw">use </span>namada_governance::parameters::GovernanceParameters;
-    <span class="kw">use </span>namada_parameters::storage::get_epoch_duration_storage_key;
     <span class="kw">use </span>namada_parameters::EpochDuration;
+    <span class="kw">use </span>namada_parameters::storage::get_epoch_duration_storage_key;
     <span class="kw">use </span>namada_proof_of_stake::test_utils::get_dummy_genesis_validator;
-    <span class="kw">use </span>namada_state::testing::TestState;
     <span class="kw">use </span>namada_state::StorageRead;
-    <span class="kw">use </span>namada_token::storage_key::balance_key;
+    <span class="kw">use </span>namada_state::testing::TestState;
     <span class="kw">use </span>namada_token::Transfer;
+    <span class="kw">use </span>namada_token::storage_key::balance_key;
     <span class="kw">use </span>namada_tx::data::TxType;
     <span class="kw">use </span>namada_tx::{Authorization, Code, Data, Section, Tx};
-    <span class="kw">use </span>namada_vm::wasm::run::VpEvalWasm;
     <span class="kw">use </span>namada_vm::wasm::VpCache;
-    <span class="kw">use </span>namada_vm::{wasm, WasmCacheRwAccess};
+    <span class="kw">use </span>namada_vm::wasm::run::VpEvalWasm;
+    <span class="kw">use </span>namada_vm::{WasmCacheRwAccess, wasm};
     <span class="kw">use </span>prost::Message;
     <span class="kw">use </span>sha2::Digest;
 
@@ -4007,8 +4033,9 @@
     <span class="kw">use </span><span class="kw">crate</span>::apps::transfer::types::msgs::transfer::MsgTransfer <span class="kw">as </span>IbcMsgTransfer;
     <span class="kw">use </span><span class="kw">crate</span>::apps::transfer::types::packet::PacketData;
     <span class="kw">use </span><span class="kw">crate</span>::apps::transfer::types::{
-        ack_success_b64, PrefixedCoin, TracePrefix, VERSION,
+        PrefixedCoin, TracePrefix, VERSION, ack_success_b64,
     };
+    <span class="kw">use </span><span class="kw">crate</span>::core::channel::types::Version <span class="kw">as </span>ChanVersion;
     <span class="kw">use </span><span class="kw">crate</span>::core::channel::types::acknowledgement::{
         Acknowledgement, AcknowledgementStatus,
     };
@@ -4029,10 +4056,9 @@
     };
     <span class="kw">use </span><span class="kw">crate</span>::core::channel::types::packet::Packet;
     <span class="kw">use </span><span class="kw">crate</span>::core::channel::types::timeout::TimeoutHeight;
-    <span class="kw">use </span><span class="kw">crate</span>::core::channel::types::Version <span class="kw">as </span>ChanVersion;
+    <span class="kw">use </span><span class="kw">crate</span>::core::client::types::Height;
     <span class="kw">use </span><span class="kw">crate</span>::core::client::types::events::{CreateClient, UpdateClient};
     <span class="kw">use </span><span class="kw">crate</span>::core::client::types::msgs::{MsgCreateClient, MsgUpdateClient};
-    <span class="kw">use </span><span class="kw">crate</span>::core::client::types::Height;
     <span class="kw">use </span><span class="kw">crate</span>::core::commitment_types::commitment::{
         CommitmentPrefix, CommitmentProofBytes,
     };
@@ -4070,8 +4096,8 @@
     };
     <span class="kw">use </span><span class="kw">crate</span>::trace::{calc_hash, ibc_token};
     <span class="kw">use crate</span>::{
-        init_genesis_storage, MsgNftTransfer, MsgTransfer, NftClass,
-        NftMetadata,
+        MsgNftTransfer, MsgTransfer, NftClass, NftMetadata,
+        init_genesis_storage,
     };
 
     <span class="kw">type </span>CA = WasmCacheRwAccess;

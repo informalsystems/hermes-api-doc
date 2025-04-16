@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ff-0.4.2/src/fields/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="ark_ff" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ff/fields/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ff-0.5.0/src/fields/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="ark_ff" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ff/fields/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -552,7 +552,74 @@
 <a href="#551" id="551">551</a>
 <a href="#552" id="552">552</a>
 <a href="#553" id="553">553</a>
-<a href="#554" id="554">554</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::UniformRand;
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::UniformRand;
 <span class="kw">use </span>ark_serialize::{
     CanonicalDeserialize, CanonicalDeserializeWithFlags, CanonicalSerialize,
     CanonicalSerializeWithFlags, EmptyFlags, Flags,
@@ -560,12 +627,13 @@
 <span class="kw">use </span>ark_std::{
     fmt::{Debug, Display},
     hash::Hash,
+    iter::<span class="kw-2">*</span>,
     ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
-    vec::Vec,
+    vec::<span class="kw-2">*</span>,
 };
 
 <span class="kw">pub use </span>ark_ff_macros;
-<span class="kw">use </span>num_traits::{One, Zero};
+<span class="kw">pub use </span>num_traits::{One, Zero};
 <span class="kw">use </span>zeroize::Zeroize;
 
 <span class="kw">pub mod </span>utils;
@@ -596,14 +664,78 @@
 <span class="attr">#[cfg(feature = <span class="string">"parallel"</span>)]
 </span><span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 
-<span class="doccomment">/// The interface for a generic field.  
+<span class="kw">pub trait </span>AdditiveGroup:
+    Eq
+    + <span class="lifetime">'static
+    </span>+ Sized
+    + CanonicalSerialize
+    + CanonicalDeserialize
+    + Copy
+    + Clone
+    + Default
+    + Send
+    + Sync
+    + Hash
+    + Debug
+    + Display
+    + UniformRand
+    + Zeroize
+    + Zero
+    + Neg&lt;Output = <span class="self">Self</span>&gt;
+    + Add&lt;<span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
+    + Sub&lt;<span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
+    + Mul&lt;&lt;<span class="self">Self </span><span class="kw">as </span>AdditiveGroup&gt;::Scalar, Output = <span class="self">Self</span>&gt;
+    + AddAssign&lt;<span class="self">Self</span>&gt;
+    + SubAssign&lt;<span class="self">Self</span>&gt;
+    + MulAssign&lt;&lt;<span class="self">Self </span><span class="kw">as </span>AdditiveGroup&gt;::Scalar&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Add&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Sub&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Mul&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;<span class="self">Self </span><span class="kw">as </span>AdditiveGroup&gt;::Scalar, Output = <span class="self">Self</span>&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; AddAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; SubAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; MulAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;<span class="self">Self </span><span class="kw">as </span>AdditiveGroup&gt;::Scalar&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Add&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Sub&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Mul&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>&lt;<span class="self">Self </span><span class="kw">as </span>AdditiveGroup&gt;::Scalar, Output = <span class="self">Self</span>&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; AddAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self</span>&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; SubAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self</span>&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; MulAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>&lt;<span class="self">Self </span><span class="kw">as </span>AdditiveGroup&gt;::Scalar&gt;
+    + ark_std::iter::Sum&lt;<span class="self">Self</span>&gt;
+    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; ark_std::iter::Sum&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>&gt;
+{
+    <span class="kw">type </span>Scalar: Field;
+
+    <span class="doccomment">/// The additive identity of the field.
+    </span><span class="kw">const </span>ZERO: <span class="self">Self</span>;
+
+    <span class="doccomment">/// Doubles `self`.
+    </span><span class="attr">#[must_use]
+    </span><span class="kw">fn </span>double(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>copy = <span class="kw-2">*</span><span class="self">self</span>;
+        copy.double_in_place();
+        copy
+    }
+    <span class="doccomment">/// Doubles `self` in place.
+    </span><span class="kw">fn </span>double_in_place(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
+        <span class="self">self</span>.add_assign(<span class="kw-2">*</span><span class="self">self</span>);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Negates `self` in place.
+    </span><span class="kw">fn </span>neg_in_place(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
+        <span class="kw-2">*</span><span class="self">self </span>= -(<span class="kw-2">*</span><span class="self">self</span>);
+        <span class="self">self
+    </span>}
+}
+
+<span class="doccomment">/// The interface for a generic field.
 /// Types implementing [`Field`] support common field operations such as addition, subtraction, multiplication, and inverses.
 ///
 /// ## Defining your own field
 /// To demonstrate the various field operations, we can first define a prime ordered field $\mathbb{F}_{p}$ with $p = 17$. When defining a field $\mathbb{F}_p$, we need to provide the modulus(the $p$ in $\mathbb{F}_p$) and a generator. Recall that a generator $g \in \mathbb{F}_p$ is a field element whose powers comprise the entire field: $\mathbb{F}_p =\\{g, g^1, \ldots, g^{p-1}\\}$.
 /// We can then manually construct the field element associated with an integer with `Fp::from` and perform field addition, subtraction, multiplication, and inversion on it.
 /// ```rust
-/// use ark_ff::fields::{Field, Fp64, MontBackend, MontConfig};
+/// use ark_ff::{AdditiveGroup, fields::{Field, Fp64, MontBackend, MontConfig}};
 ///
 /// #[derive(MontConfig)]
 /// #[modulus = "17"]
@@ -628,7 +760,7 @@
 /// ## Using pre-defined fields
 /// In the following example, we’ll use the field associated with the BLS12-381 pairing-friendly group.
 /// ```rust
-/// use ark_ff::Field;
+/// use ark_ff::{AdditiveGroup, Field};
 /// use ark_test_curves::bls12_381::Fq as F;
 /// use ark_std::{One, UniformRand, test_rng};
 ///
@@ -667,50 +799,32 @@
     + CanonicalSerializeWithFlags
     + CanonicalDeserialize
     + CanonicalDeserializeWithFlags
-    + Add&lt;<span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
-    + Sub&lt;<span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
-    + Mul&lt;<span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
+    + AdditiveGroup&lt;Scalar = <span class="self">Self</span>&gt;
     + Div&lt;<span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
-    + AddAssign&lt;<span class="self">Self</span>&gt;
-    + SubAssign&lt;<span class="self">Self</span>&gt;
-    + MulAssign&lt;<span class="self">Self</span>&gt;
     + DivAssign&lt;<span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Add&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Sub&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Mul&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
     + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Div&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; AddAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; SubAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; MulAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>&gt;
     + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; DivAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Add&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Sub&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Mul&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
     + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Div&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self</span>, Output = <span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; AddAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; SubAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; MulAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self</span>&gt;
     + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; DivAssign&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self</span>&gt;
-    + core::iter::Sum&lt;<span class="self">Self</span>&gt;
-    + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; core::iter::Sum&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>&gt;
-    + core::iter::Product&lt;<span class="self">Self</span>&gt;
     + <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; core::iter::Product&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>&gt;
     + From&lt;u128&gt;
     + From&lt;u64&gt;
     + From&lt;u32&gt;
     + From&lt;u16&gt;
     + From&lt;u8&gt;
+    + From&lt;i128&gt;
+    + From&lt;i64&gt;
+    + From&lt;i32&gt;
+    + From&lt;i16&gt;
+    + From&lt;i8&gt;
     + From&lt;bool&gt;
+    + Product&lt;<span class="self">Self</span>&gt;
 {
     <span class="kw">type </span>BasePrimeField: PrimeField;
-
-    <span class="kw">type </span>BasePrimeFieldIter: Iterator&lt;Item = <span class="self">Self</span>::BasePrimeField&gt;;
 
     <span class="doccomment">/// Determines the algorithm for computing square roots.
     </span><span class="kw">const </span>SQRT_PRECOMP: <span class="prelude-ty">Option</span>&lt;SqrtPrecomputation&lt;<span class="self">Self</span>&gt;&gt;;
 
-    <span class="doccomment">/// The additive identity of the field.
-    </span><span class="kw">const </span>ZERO: <span class="self">Self</span>;
     <span class="doccomment">/// The multiplicative identity of the field.
     </span><span class="kw">const </span>ONE: <span class="self">Self</span>;
 
@@ -724,11 +838,13 @@
     /// to `Self::BasePrimeField`.
     </span><span class="kw">fn </span>extension_degree() -&gt; u64;
 
-    <span class="kw">fn </span>to_base_prime_field_elements(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span>::BasePrimeFieldIter;
+    <span class="kw">fn </span>to_base_prime_field_elements(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="self">Self</span>::BasePrimeField&gt;;
 
     <span class="doccomment">/// Convert a slice of base prime field elements into a field element.
     /// If the slice length != Self::extension_degree(), must return None.
-    </span><span class="kw">fn </span>from_base_prime_field_elems(elems: <span class="kw-2">&amp;</span>[<span class="self">Self</span>::BasePrimeField]) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;;
+    </span><span class="kw">fn </span>from_base_prime_field_elems(
+        elems: <span class="kw">impl </span>IntoIterator&lt;Item = <span class="self">Self</span>::BasePrimeField&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;;
 
     <span class="doccomment">/// Constructs a field element from a single base prime field elements.
     /// ```
@@ -739,16 +855,6 @@
     /// assert_eq!(F2::from_base_prime_field(F::one()), F2::one());
     /// ```
     </span><span class="kw">fn </span>from_base_prime_field(elem: <span class="self">Self</span>::BasePrimeField) -&gt; <span class="self">Self</span>;
-
-    <span class="doccomment">/// Returns `self + self`.
-    </span><span class="attr">#[must_use]
-    </span><span class="kw">fn </span>double(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span>;
-
-    <span class="doccomment">/// Doubles `self` in place.
-    </span><span class="kw">fn </span>double_in_place(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self</span>;
-
-    <span class="doccomment">/// Negates `self` in place.
-    </span><span class="kw">fn </span>neg_in_place(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self</span>;
 
     <span class="doccomment">/// Attempt to deserialize a field element. Returns `None` if the
     /// deserialization fails.
@@ -861,6 +967,8 @@
         }
         <span class="prelude-val">Some</span>(res)
     }
+
+    <span class="kw">fn </span>mul_by_base_prime_field(<span class="kw-2">&amp;</span><span class="self">self</span>, elem: <span class="kw-2">&amp;</span><span class="self">Self</span>::BasePrimeField) -&gt; <span class="self">Self</span>;
 }
 
 <span class="comment">// Given a vector of field elements {v_i}, compute the vector {v_i^(-1)}
@@ -956,7 +1064,10 @@
     <span class="comment">// TODO: only Fr &amp; FrConfig should need to be imported.
     // The rest of imports are caused by cargo not resolving the deps properly
     // from this crate and from ark_test_curves
-    </span><span class="kw">use </span>ark_test_curves::{batch_inversion, batch_inversion_and_mul, bls12_381::Fr, PrimeField};
+    </span><span class="kw">use </span>ark_test_curves::{
+        ark_ff::{batch_inversion, batch_inversion_and_mul, PrimeField},
+        bls12_381::Fr,
+    };
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_batch_inversion() {
@@ -981,6 +1092,29 @@
                 rand_multiplier
             );
         }
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">pub fn </span>test_from_ints() {
+        <span class="kw">let </span>felt2 = Fr::one() + Fr::one();
+        <span class="kw">let </span>felt16 = felt2 * felt2 * felt2 * felt2;
+
+        <span class="macro">assert_eq!</span>(Fr::from(<span class="number">1u8</span>), Fr::one());
+        <span class="macro">assert_eq!</span>(Fr::from(<span class="number">1u16</span>), Fr::one());
+        <span class="macro">assert_eq!</span>(Fr::from(<span class="number">1u32</span>), Fr::one());
+        <span class="macro">assert_eq!</span>(Fr::from(<span class="number">1u64</span>), Fr::one());
+        <span class="macro">assert_eq!</span>(Fr::from(<span class="number">1u128</span>), Fr::one());
+        <span class="macro">assert_eq!</span>(Fr::from(-<span class="number">1i8</span>), -Fr::one());
+        <span class="macro">assert_eq!</span>(Fr::from(-<span class="number">1i64</span>), -Fr::one());
+
+        <span class="macro">assert_eq!</span>(Fr::from(<span class="number">0</span>), Fr::zero());
+
+        <span class="macro">assert_eq!</span>(Fr::from(-<span class="number">16i32</span>), -felt16);
+        <span class="macro">assert_eq!</span>(Fr::from(<span class="number">16u32</span>), felt16);
+        <span class="macro">assert_eq!</span>(Fr::from(<span class="number">16i64</span>), felt16);
+
+        <span class="macro">assert_eq!</span>(Fr::from(-<span class="number">2i128</span>), -felt2);
+        <span class="macro">assert_eq!</span>(Fr::from(<span class="number">2u16</span>), felt2);
     }
 
     <span class="attr">#[test]
@@ -1011,7 +1145,7 @@
         // TODO: Eventually generate all the test vector bytes via computation with the
         // modulus
         </span><span class="kw">use </span>ark_std::{rand::Rng, string::ToString};
-        <span class="kw">use </span>ark_test_curves::BigInteger;
+        <span class="kw">use </span>ark_test_curves::ark_ff::BigInteger;
         <span class="kw">use </span>num_bigint::BigUint;
 
         <span class="kw">let </span>ref_modulus = BigUint::from_bytes_be(<span class="kw-2">&amp;</span>Fr::MODULUS.to_bytes_be());

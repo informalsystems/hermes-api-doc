@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ff-0.4.2/src/biginteger/arithmetic.rs`."><title>arithmetic.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="ark_ff" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ff/biginteger/</div>arithmetic.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ff-0.5.0/src/biginteger/arithmetic.rs`."><title>arithmetic.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="ark_ff" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ff/biginteger/</div>arithmetic.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -254,7 +254,30 @@
 <a href="#253" id="253">253</a>
 <a href="#254" id="254">254</a>
 <a href="#255" id="255">255</a>
-<a href="#256" id="256">256</a></pre></div><pre class="rust"><code><span class="kw">use </span>ark_std::{vec, vec::Vec};
+<a href="#256" id="256">256</a>
+<a href="#257" id="257">257</a>
+<a href="#258" id="258">258</a>
+<a href="#259" id="259">259</a>
+<a href="#260" id="260">260</a>
+<a href="#261" id="261">261</a>
+<a href="#262" id="262">262</a>
+<a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a></pre></div><pre class="rust"><code><span class="kw">use </span>ark_std::{vec, vec::<span class="kw-2">*</span>};
 
 <span class="macro">macro_rules!</span> adc {
     (<span class="macro-nonterminal">$a</span>:expr, <span class="macro-nonterminal">$b</span>:expr, <span class="kw-2">&amp;mut </span><span class="macro-nonterminal">$carry</span>:expr$(,)<span class="question-mark">?</span>) =&gt; {{
@@ -338,12 +361,34 @@
     }
 }
 
+<span class="attr">#[inline(always)]
+#[doc(hidden)]
+</span><span class="kw">pub const fn </span>widening_mul(a: u64, b: u64) -&gt; u128 {
+    <span class="attr">#[cfg(not(target_family = <span class="string">"wasm"</span>))]
+    </span>{
+        a <span class="kw">as </span>u128 * b <span class="kw">as </span>u128
+    }
+    <span class="attr">#[cfg(target_family = <span class="string">"wasm"</span>)]
+    </span>{
+        <span class="kw">let </span>a_lo = a <span class="kw">as </span>u32 <span class="kw">as </span>u64;
+        <span class="kw">let </span>a_hi = a &gt;&gt; <span class="number">32</span>;
+        <span class="kw">let </span>b_lo = b <span class="kw">as </span>u32 <span class="kw">as </span>u64;
+        <span class="kw">let </span>b_hi = b &gt;&gt; <span class="number">32</span>;
+
+        <span class="kw">let </span>lolo = (a_lo * b_lo) <span class="kw">as </span>u128;
+        <span class="kw">let </span>lohi = ((a_lo * b_hi) <span class="kw">as </span>u128) &lt;&lt; <span class="number">32</span>;
+        <span class="kw">let </span>hilo = ((a_hi * b_lo) <span class="kw">as </span>u128) &lt;&lt; <span class="number">32</span>;
+        <span class="kw">let </span>hihi = ((a_hi * b_hi) <span class="kw">as </span>u128) &lt;&lt; <span class="number">64</span>;
+        (lolo | hihi) + (lohi + hilo)
+    }
+}
+
 <span class="doccomment">/// Calculate a + b * c, returning the lower 64 bits of the result and setting
 /// `carry` to the upper 64 bits.
 </span><span class="attr">#[inline(always)]
 #[doc(hidden)]
 </span><span class="kw">pub fn </span>mac(a: u64, b: u64, c: u64, carry: <span class="kw-2">&amp;mut </span>u64) -&gt; u64 {
-    <span class="kw">let </span>tmp = (a <span class="kw">as </span>u128) + (b <span class="kw">as </span>u128 * c <span class="kw">as </span>u128);
+    <span class="kw">let </span>tmp = (a <span class="kw">as </span>u128) + widening_mul(b, c);
     <span class="kw-2">*</span>carry = (tmp &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>u64;
     tmp <span class="kw">as </span>u64
 }
@@ -353,13 +398,14 @@
 </span><span class="attr">#[inline(always)]
 #[doc(hidden)]
 </span><span class="kw">pub fn </span>mac_discard(a: u64, b: u64, c: u64, carry: <span class="kw-2">&amp;mut </span>u64) {
-    <span class="kw">let </span>tmp = (a <span class="kw">as </span>u128) + (b <span class="kw">as </span>u128 * c <span class="kw">as </span>u128);
+    <span class="kw">let </span>tmp = (a <span class="kw">as </span>u128) + widening_mul(b, c);
     <span class="kw-2">*</span>carry = (tmp &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>u64;
 }
 
 <span class="macro">macro_rules!</span> mac_with_carry {
     (<span class="macro-nonterminal">$a</span>:expr, <span class="macro-nonterminal">$b</span>:expr, <span class="macro-nonterminal">$c</span>:expr, <span class="kw-2">&amp;mut </span><span class="macro-nonterminal">$carry</span>:expr$(,)<span class="question-mark">?</span>) =&gt; {{
-        <span class="kw">let </span>tmp = (<span class="macro-nonterminal">$a </span><span class="kw">as </span>u128) + (<span class="macro-nonterminal">$b </span><span class="kw">as </span>u128 * <span class="macro-nonterminal">$c </span><span class="kw">as </span>u128) + (<span class="macro-nonterminal">$carry </span><span class="kw">as </span>u128);
+        <span class="kw">let </span>tmp =
+            (<span class="macro-nonterminal">$a </span><span class="kw">as </span>u128) + <span class="macro-nonterminal">$crate::biginteger::arithmetic::widening_mul</span>(<span class="macro-nonterminal">$b</span>, <span class="macro-nonterminal">$c</span>) + (<span class="macro-nonterminal">$carry </span><span class="kw">as </span>u128);
         <span class="macro-nonterminal">$carry </span>= (tmp &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>u64;
         tmp <span class="kw">as </span>u64
     }};
@@ -367,7 +413,7 @@
 
 <span class="macro">macro_rules!</span> mac {
     (<span class="macro-nonterminal">$a</span>:expr, <span class="macro-nonterminal">$b</span>:expr, <span class="macro-nonterminal">$c</span>:expr, <span class="kw-2">&amp;mut </span><span class="macro-nonterminal">$carry</span>:expr$(,)<span class="question-mark">?</span>) =&gt; {{
-        <span class="kw">let </span>tmp = (<span class="macro-nonterminal">$a </span><span class="kw">as </span>u128) + (<span class="macro-nonterminal">$b </span><span class="kw">as </span>u128 * <span class="macro-nonterminal">$c </span><span class="kw">as </span>u128);
+        <span class="kw">let </span>tmp = (<span class="macro-nonterminal">$a </span><span class="kw">as </span>u128) + <span class="macro-nonterminal">$crate::biginteger::arithmetic::widening_mul</span>(<span class="macro-nonterminal">$b</span>, <span class="macro-nonterminal">$c</span>);
         <span class="macro-nonterminal">$carry </span>= (tmp &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>u64;
         tmp <span class="kw">as </span>u64
     }};
@@ -378,7 +424,7 @@
 </span><span class="attr">#[inline(always)]
 #[doc(hidden)]
 </span><span class="kw">pub fn </span>mac_with_carry(a: u64, b: u64, c: u64, carry: <span class="kw-2">&amp;mut </span>u64) -&gt; u64 {
-    <span class="kw">let </span>tmp = (a <span class="kw">as </span>u128) + (b <span class="kw">as </span>u128 * c <span class="kw">as </span>u128) + (<span class="kw-2">*</span>carry <span class="kw">as </span>u128);
+    <span class="kw">let </span>tmp = (a <span class="kw">as </span>u128) + widening_mul(b, c) + (<span class="kw-2">*</span>carry <span class="kw">as </span>u128);
     <span class="kw-2">*</span>carry = (tmp &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>u64;
     tmp <span class="kw">as </span>u64
 }

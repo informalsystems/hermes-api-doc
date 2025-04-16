@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.16.1/src/hazardous/ecc/x25519.rs`."><title>x25519.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/ecc/</div>x25519.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.9/src/hazardous/ecc/x25519.rs`."><title>x25519.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/ecc/</div>x25519.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -800,9 +800,30 @@
 <a href="#799" id="799">799</a>
 <a href="#800" id="800">800</a>
 <a href="#801" id="801">801</a>
-<a href="#802" id="802">802</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
+<a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
+<a href="#809" id="809">809</a>
+<a href="#810" id="810">810</a>
+<a href="#811" id="811">811</a>
+<a href="#812" id="812">812</a>
+<a href="#813" id="813">813</a>
+<a href="#814" id="814">814</a>
+<a href="#815" id="815">815</a>
+<a href="#816" id="816">816</a>
+<a href="#817" id="817">817</a>
+<a href="#818" id="818">818</a>
+<a href="#819" id="819">819</a>
+<a href="#820" id="820">820</a>
+<a href="#821" id="821">821</a>
+<a href="#822" id="822">822</a>
+<a href="#823" id="823">823</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
 
-// Copyright (c) 2021 The orion Developers
+// Copyright (c) 2021-2025 The orion Developers
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -841,6 +862,7 @@
 //!
 //! # Example:
 //! ```rust
+//! # #[cfg(feature = "safe_api")] {
 //! use orion::hazardous::ecc::x25519::{PrivateKey, PublicKey, SharedKey, key_agreement};
 //! use core::convert::TryFrom;
 //!
@@ -857,15 +879,23 @@
 //! let bob_shared = key_agreement(&amp;bob_sk, &amp;alice_pk)?;
 //!
 //! assert_eq!(alice_shared, bob_shared);
+//! # }
 //! # Ok::&lt;(), orion::errors::UnknownCryptoError&gt;(())
 //! ```
 //! [`PrivateKey::generate()`]: crate::hazardous::ecc::x25519::PrivateKey::generate
 //! [`orion::kex`]: crate::kex
 
-</span><span class="kw">use </span><span class="kw">super</span>::fiat_curve25519_u64;
-<span class="kw">use </span><span class="kw">crate</span>::errors::UnknownCryptoError;
+</span><span class="kw">use </span><span class="kw">crate</span>::errors::UnknownCryptoError;
 <span class="kw">use </span><span class="kw">crate</span>::util::secure_cmp;
 <span class="kw">use </span>core::ops::{Add, Mul, Sub};
+
+<span class="doccomment">/// Formally verified Curve25519 field arithmetic from: &lt;https://github.com/mit-plv/fiat-crypto&gt;.
+</span><span class="kw">use </span>fiat_crypto::curve25519_64 <span class="kw">as </span>fiat_curve25519_u64;
+<span class="kw">use </span>fiat_curve25519_u64::{
+    fiat_25519_add, fiat_25519_carry, fiat_25519_carry_mul, fiat_25519_carry_scmul_121666,
+    fiat_25519_carry_square, fiat_25519_loose_field_element, fiat_25519_relax, fiat_25519_sub,
+    fiat_25519_tight_field_element,
+};
 
 <span class="doccomment">/// The size of a public key used in X25519.
 </span><span class="kw">pub const </span>PUBLIC_KEY_SIZE: usize = <span class="number">32</span>;
@@ -884,9 +914,9 @@
 <span class="doccomment">/// The result of computing a shared secret with a low order point.
 </span><span class="kw">const </span>LOW_ORDER_POINT_RESULT: [u8; <span class="number">32</span>] = [<span class="number">0u8</span>; <span class="number">32</span>];
 
-<span class="attr">#[derive(Clone, Copy, Debug)]
+<span class="attr">#[derive(Clone, Copy)]
 </span><span class="doccomment">/// Represent an element in the curve field.
-</span><span class="kw">struct </span>FieldElement([u64; <span class="number">5</span>]);
+</span><span class="kw">struct </span>FieldElement(fiat_25519_tight_field_element);
 
 <span class="kw">impl </span>Eq <span class="kw">for </span>FieldElement {}
 
@@ -897,15 +927,25 @@
     }
 }
 
+<span class="kw">impl </span>core::fmt::Debug <span class="kw">for </span>FieldElement {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; core::fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"FieldElement({:?})"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span>.<span class="number">0</span>)
+    }
+}
+
 <span class="doccomment">/// The function fiat_25519_carry_mul multiplies two field elements and reduces the result.
 </span><span class="kw">impl </span>Mul <span class="kw">for </span>FieldElement {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
     <span class="kw">fn </span>mul(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
-        <span class="kw">use </span>fiat_curve25519_u64::fiat_25519_carry_mul;
+        <span class="kw">let </span><span class="kw-2">mut </span>ret = fiat_25519_tight_field_element([<span class="number">0u64</span>; <span class="number">5</span>]);
+        <span class="kw">let </span><span class="kw-2">mut </span>self_relaxed = fiat_25519_loose_field_element([<span class="number">0u64</span>; <span class="number">5</span>]);
+        <span class="kw">let </span><span class="kw-2">mut </span>rhs_relaxed = fiat_25519_loose_field_element([<span class="number">0u64</span>; <span class="number">5</span>]);
 
-        <span class="kw">let </span><span class="kw-2">mut </span>ret = [<span class="number">0u64</span>; <span class="number">5</span>];
-        fiat_25519_carry_mul(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span>rhs.<span class="number">0</span>);
+        fiat_25519_relax(<span class="kw-2">&amp;mut </span>self_relaxed, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>);
+        fiat_25519_relax(<span class="kw-2">&amp;mut </span>rhs_relaxed, <span class="kw-2">&amp;</span>rhs.<span class="number">0</span>);
+
+        fiat_25519_carry_mul(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span>self_relaxed, <span class="kw-2">&amp;</span>rhs_relaxed);
 
         <span class="self">Self</span>(ret)
     }
@@ -916,12 +956,11 @@
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
     <span class="kw">fn </span>add(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
-        <span class="kw">use </span>fiat_curve25519_u64::{fiat_25519_add, fiat_25519_carry};
+        <span class="kw">let </span><span class="kw-2">mut </span>ret = fiat_25519_tight_field_element([<span class="number">0u64</span>; <span class="number">5</span>]);
+        <span class="kw">let </span><span class="kw-2">mut </span>ret_add = fiat_25519_loose_field_element([<span class="number">0u64</span>; <span class="number">5</span>]);
 
-        <span class="kw">let </span><span class="kw-2">mut </span>ret = [<span class="number">0u64</span>; <span class="number">5</span>];
-        fiat_25519_add(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span>rhs.<span class="number">0</span>);
-        <span class="kw">let </span>tmp = ret;
-        fiat_25519_carry(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span>tmp);
+        fiat_25519_add(<span class="kw-2">&amp;mut </span>ret_add, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span>rhs.<span class="number">0</span>);
+        fiat_25519_carry(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span>ret_add);
 
         <span class="self">Self</span>(ret)
     }
@@ -932,12 +971,11 @@
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
     <span class="kw">fn </span>sub(<span class="self">self</span>, rhs: <span class="self">Self</span>) -&gt; <span class="self">Self</span>::Output {
-        <span class="kw">use </span>fiat_curve25519_u64::{fiat_25519_carry, fiat_25519_sub};
+        <span class="kw">let </span><span class="kw-2">mut </span>ret = fiat_25519_tight_field_element([<span class="number">0u64</span>; <span class="number">5</span>]);
+        <span class="kw">let </span><span class="kw-2">mut </span>ret_sub = fiat_25519_loose_field_element([<span class="number">0u64</span>; <span class="number">5</span>]);
 
-        <span class="kw">let </span><span class="kw-2">mut </span>ret = [<span class="number">0u64</span>; <span class="number">5</span>];
-        fiat_25519_sub(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span>rhs.<span class="number">0</span>);
-        <span class="kw">let </span>tmp = ret;
-        fiat_25519_carry(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span>tmp);
+        fiat_25519_sub(<span class="kw-2">&amp;mut </span>ret_sub, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span>rhs.<span class="number">0</span>);
+        fiat_25519_carry(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span>ret_sub);
 
         <span class="self">Self</span>(ret)
     }
@@ -946,12 +984,16 @@
 <span class="kw">impl </span>FieldElement {
     <span class="doccomment">/// Create a `FieldElement` that is `0`.
     </span><span class="kw">fn </span>zero() -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>([<span class="number">0u64</span>, <span class="number">0u64</span>, <span class="number">0u64</span>, <span class="number">0u64</span>, <span class="number">0u64</span>])
+        <span class="self">Self</span>(fiat_25519_tight_field_element([
+            <span class="number">0u64</span>, <span class="number">0u64</span>, <span class="number">0u64</span>, <span class="number">0u64</span>, <span class="number">0u64</span>,
+        ]))
     }
 
     <span class="doccomment">/// Create a `FieldElement` that is `1`.
     </span><span class="kw">fn </span>one() -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>([<span class="number">1u64</span>, <span class="number">0u64</span>, <span class="number">0u64</span>, <span class="number">0u64</span>, <span class="number">0u64</span>])
+        <span class="self">Self</span>(fiat_25519_tight_field_element([
+            <span class="number">1u64</span>, <span class="number">0u64</span>, <span class="number">0u64</span>, <span class="number">0u64</span>, <span class="number">0u64</span>,
+        ]))
     }
 
     <span class="doccomment">/// Serialize the `FieldElement` as a byte-array.
@@ -977,7 +1019,7 @@
         temp[<span class="number">31</span>] &amp;= <span class="number">127u8</span>; <span class="comment">// See RFC: "When receiving such an array, implementations of X25519
                            // (but not X448) MUST mask the most significant bit in the final byte."
 
-        </span><span class="kw">let </span><span class="kw-2">mut </span>ret = [<span class="number">0u64</span>; <span class="number">5</span>];
+        </span><span class="kw">let </span><span class="kw-2">mut </span>ret = fiat_25519_tight_field_element([<span class="number">0u64</span>; <span class="number">5</span>]);
         fiat_25519_from_bytes(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span>temp);
 
         <span class="self">Self</span>(ret)
@@ -994,26 +1036,28 @@
         <span class="kw">let </span>tmp_a = <span class="kw-2">*</span>a;
         <span class="kw">let </span>tmp_b = <span class="kw-2">*</span>b;
 
-        fiat_25519_selectznz(<span class="kw-2">&amp;mut </span>a.<span class="number">0</span>, swap, <span class="kw-2">&amp;</span>tmp_a.<span class="number">0</span>, <span class="kw-2">&amp;</span>tmp_b.<span class="number">0</span>);
-        fiat_25519_selectznz(<span class="kw-2">&amp;mut </span>b.<span class="number">0</span>, swap, <span class="kw-2">&amp;</span>tmp_b.<span class="number">0</span>, <span class="kw-2">&amp;</span>tmp_a.<span class="number">0</span>);
+        fiat_25519_selectznz(<span class="kw-2">&amp;mut </span>a.<span class="number">0 </span>.<span class="number">0</span>, swap, <span class="kw-2">&amp;</span>tmp_a.<span class="number">0 </span>.<span class="number">0</span>, <span class="kw-2">&amp;</span>tmp_b.<span class="number">0 </span>.<span class="number">0</span>);
+        fiat_25519_selectznz(<span class="kw-2">&amp;mut </span>b.<span class="number">0 </span>.<span class="number">0</span>, swap, <span class="kw-2">&amp;</span>tmp_b.<span class="number">0 </span>.<span class="number">0</span>, <span class="kw-2">&amp;</span>tmp_a.<span class="number">0 </span>.<span class="number">0</span>);
     }
 
     <span class="doccomment">/// Square the `FieldElement` and reduce the result.
     </span><span class="kw">fn </span>square(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="kw">use </span>fiat_curve25519_u64::fiat_25519_carry_square;
+        <span class="kw">let </span><span class="kw-2">mut </span>self_relaxed = fiat_25519_loose_field_element([<span class="number">0u64</span>; <span class="number">5</span>]);
+        <span class="kw">let </span><span class="kw-2">mut </span>ret = fiat_25519_tight_field_element([<span class="number">0u64</span>; <span class="number">5</span>]);
 
-        <span class="kw">let </span><span class="kw-2">mut </span>ret = [<span class="number">0u64</span>; <span class="number">5</span>];
-        fiat_25519_carry_square(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>);
+        fiat_25519_relax(<span class="kw-2">&amp;mut </span>self_relaxed, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>);
+        fiat_25519_carry_square(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span>self_relaxed);
 
         <span class="self">Self</span>(ret)
     }
 
     <span class="doccomment">/// Multiply the `FieldElement` by 121666 and reduce the result.
     </span><span class="kw">fn </span>mul_121666(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="kw">use </span>fiat_curve25519_u64::fiat_25519_carry_scmul_121666;
+        <span class="kw">let </span><span class="kw-2">mut </span>self_relaxed = fiat_25519_loose_field_element([<span class="number">0u64</span>; <span class="number">5</span>]);
+        <span class="kw">let </span><span class="kw-2">mut </span>ret = fiat_25519_tight_field_element([<span class="number">0u64</span>; <span class="number">5</span>]);
 
-        <span class="kw">let </span><span class="kw-2">mut </span>ret = [<span class="number">0u64</span>; <span class="number">5</span>];
-        fiat_25519_carry_scmul_121666(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>);
+        fiat_25519_relax(<span class="kw-2">&amp;mut </span>self_relaxed, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>);
+        fiat_25519_carry_scmul_121666(<span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;</span>self_relaxed);
 
         <span class="self">Self</span>(ret)
     }
@@ -1022,18 +1066,13 @@
     ///
     /// Ref: https://github.com/golang/crypto/blob/0c34fe9e7dc2486962ef9867e3edb3503537209f/curve25519/curve25519_generic.go#L718
     </span><span class="kw">fn </span>invert(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="kw">let </span><span class="kw-2">mut </span>t0: FieldElement;
-        <span class="kw">let </span><span class="kw-2">mut </span>t1: FieldElement;
-        <span class="kw">let </span><span class="kw-2">mut </span>t2: FieldElement;
-        <span class="kw">let </span><span class="kw-2">mut </span>t3: FieldElement;
-
-        t0 = <span class="self">self</span>.square();
-        t1 = t0.square();
+        <span class="kw">let </span><span class="kw-2">mut </span>t0 = <span class="self">self</span>.square();
+        <span class="kw">let </span><span class="kw-2">mut </span>t1 = t0.square();
         t1 = t1.square();
 
         t1 = <span class="kw-2">*</span><span class="self">self </span>* t1;
         t0 = t0 * t1;
-        t2 = t0.square();
+        <span class="kw">let </span><span class="kw-2">mut </span>t2 = t0.square();
 
         t1 = t1 * t2;
         t2 = t1.square();
@@ -1046,7 +1085,7 @@
             t2 = t2.square();
         }
         t2 = t2 * t1;
-        t3 = t2.square();
+        <span class="kw">let </span><span class="kw-2">mut </span>t3 = t2.square();
         <span class="kw">for _ in </span><span class="number">1</span>..<span class="number">20 </span>{
             t3 = t3.square();
         }
@@ -1175,7 +1214,8 @@
     x2
 }
 
-<span class="comment">// NOTE: FieldElement contains a constant-time PartialEq&lt;FieldElement&gt; impl.
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+</span><span class="comment">// NOTE: FieldElement contains a constant-time PartialEq&lt;FieldElement&gt; impl.
 </span><span class="doccomment">/// A type that represents a `PublicKey` that X25519 uses.
 ///
 /// This type holds a field element and is used internally as the u-coordinate.
@@ -1191,8 +1231,6 @@
 
 <span class="kw">impl </span>PartialEq&lt;<span class="kw-2">&amp;</span>[u8]&gt; <span class="kw">for </span>PublicKey {
     <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: &amp;&amp;[u8]) -&gt; bool {
-        <span class="kw">use </span>core::convert::TryInto;
-
         <span class="kw">if </span>other.len() != PUBLIC_KEY_SIZE {
             <span class="kw">return </span><span class="bool-val">false</span>;
         }
@@ -1215,7 +1253,7 @@
 <span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
 </span><span class="macro">impl_serde_traits!</span>(PublicKey, to_bytes);
 
-<span class="kw">impl </span>core::convert::TryFrom&lt;<span class="kw-2">&amp;</span>PrivateKey&gt; <span class="kw">for </span>PublicKey {
+<span class="kw">impl </span>TryFrom&lt;<span class="kw-2">&amp;</span>PrivateKey&gt; <span class="kw">for </span>PublicKey {
     <span class="kw">type </span>Error = UnknownCryptoError;
 
     <span class="kw">fn </span>try_from(private_key: <span class="kw-2">&amp;</span>PrivateKey) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
@@ -1233,8 +1271,6 @@
     <span class="attr">#[must_use = <span class="string">"SECURITY WARNING: Ignoring a Result can have real security implications."</span>]
     </span><span class="doccomment">/// Construct from a given byte slice.
     </span><span class="kw">pub fn </span>from_slice(slice: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, UnknownCryptoError&gt; {
-        <span class="kw">use </span>core::convert::TryInto;
-
         <span class="kw">let </span>slice_len = slice.len();
 
         <span class="kw">if </span>slice_len != PUBLIC_KEY_SIZE {
@@ -1268,7 +1304,8 @@
     }
 }
 
-<span class="comment">// NOTE: Scalar contains a constant-time PartialEq&lt;Scalar&gt; impl.
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+</span><span class="comment">// NOTE: Scalar contains a constant-time PartialEq&lt;Scalar&gt; impl.
 // NOTE: All newtypes impl Drop by default and Scalar has zeroizing Drop
 </span><span class="doccomment">/// A type to represent the `PrivateKey` that X25519 uses.
 ///
@@ -1286,14 +1323,16 @@
 ///
 /// # Security:
 /// - __**Avoid using**__ `unprotected_as_bytes()` whenever possible, as it breaks all protections
-/// that the type implements.
+///   that the type implements.
 ///
 /// - The trait `PartialEq&lt;&amp;'_ [u8]&gt;` is implemented for this type so that users are not tempted
-/// to call `unprotected_as_bytes` to compare this sensitive value to a byte slice. The trait
-/// is implemented in such a way that the comparison happens in constant time. Thus, users should
-/// prefer `SecretType == &amp;[u8]` over `SecretType.unprotected_as_bytes() == &amp;[u8]`.
+///   to call `unprotected_as_bytes` to compare this sensitive value to a byte slice. The trait
+///   is implemented in such a way that the comparison happens in constant time. Thus, users should
+///   prefer `SecretType == &amp;[u8]` over `SecretType.unprotected_as_bytes() == &amp;[u8]`.
+///
 /// Examples are shown below. The examples apply to any type that implements `PartialEq&lt;&amp;'_ [u8]&gt;`.
 /// ```rust
+/// # #[cfg(feature = "safe_api")] {
 /// use orion::hazardous::ecc::x25519::PrivateKey;
 ///
 /// // Initialize a secret key with random bytes.
@@ -1304,6 +1343,8 @@
 ///
 /// // Secure, constant-time comparison with another SecretKey
 /// assert_ne!(secret_key, PrivateKey::generate());
+/// # }
+/// # Ok::&lt;(), orion::errors::UnknownCryptoError&gt;(())
 /// ```
 </span><span class="attr">#[derive(PartialEq)]
 </span><span class="kw">pub struct </span>PrivateKey {
@@ -1312,7 +1353,7 @@
 
 <span class="kw">impl </span>PartialEq&lt;<span class="kw-2">&amp;</span>[u8]&gt; <span class="kw">for </span>PrivateKey {
     <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: &amp;&amp;[u8]) -&gt; bool {
-        <span class="kw">match </span>Scalar::from_slice(<span class="kw-2">*</span>other) {
+        <span class="kw">match </span>Scalar::from_slice(other) {
             <span class="prelude-val">Ok</span>(other_scalar) =&gt; <span class="self">self</span>.scalar == other_scalar,
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
         }
@@ -1367,6 +1408,7 @@
     }
 
     <span class="attr">#[cfg(feature = <span class="string">"safe_api"</span>)]
+    #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"safe_api"</span>)))]
     </span><span class="doccomment">/// Randomly generate using a CSPRNG. Not available in `no_std` context.
     </span><span class="kw">pub fn </span>generate() -&gt; PrivateKey {
         <span class="kw">let </span><span class="kw-2">mut </span>value = [<span class="number">0u8</span>; PRIVATE_KEY_SIZE];

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_token-0.47.2/src/tx.rs`."><title>tx.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_token" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_token/</div>tx.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_token-0.149.1/src/tx.rs`."><title>tx.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_token" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_token/</div>tx.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -287,19 +287,121 @@
 <a href="#286" id="286">286</a>
 <a href="#287" id="287">287</a>
 <a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a></pre></div><pre class="rust"><code><span class="doccomment">//! Token transaction
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a></pre></div><pre class="rust"><code><span class="doccomment">//! Token transaction
 
 </span><span class="kw">use </span>std::borrow::Cow;
-<span class="kw">use </span>std::collections::BTreeSet;
+<span class="kw">use </span>std::collections::{BTreeMap, BTreeSet};
 
+<span class="kw">use </span>namada_core::arith::CheckedSub;
 <span class="kw">use </span>namada_core::collections::HashSet;
-<span class="kw">use </span>namada_core::masp;
+<span class="kw">use </span>namada_core::masp::encode_asset_type;
+<span class="kw">use </span>namada_core::masp_primitives::transaction::Transaction;
+<span class="kw">use </span>namada_core::token::MaspDigitPos;
+<span class="kw">use </span>namada_core::uint::I320;
+<span class="kw">use </span>namada_core::{masp, token};
 <span class="kw">use </span>namada_events::EmitEvents;
-<span class="kw">use </span>namada_shielded_token::{utils, MaspTxId};
+<span class="kw">use </span>namada_shielded_token::storage_key::masp_undated_balance_key;
+<span class="kw">use </span>namada_shielded_token::{MaspTxId, read_undated_balance, utils};
 <span class="kw">use </span>namada_storage::{Error, OptionExt, ResultExt};
+<span class="kw">use </span>namada_trans_token::read_denom;
 <span class="kw">pub use </span>namada_trans_token::tx::transfer;
-<span class="kw">use </span>namada_tx::action::{<span class="self">self</span>, Action, MaspAction};
 <span class="kw">use </span>namada_tx::BatchedTx;
+<span class="kw">use </span>namada_tx::action::{<span class="self">self</span>, Action, MaspAction};
 <span class="kw">use </span>namada_tx_env::{Address, <span class="prelude-ty">Result</span>, TxEnv};
 
 <span class="kw">use crate</span>::{Transfer, TransparentTransfersRef};
@@ -315,12 +417,12 @@
     </span>ENV: TxEnv + EmitEvents + action::Write&lt;<span class="prelude-val">Err </span>= Error&gt;,
 {
     <span class="comment">// Effect the transparent multi transfer(s)
-    </span><span class="kw">let </span>debited_accounts =
+    </span><span class="kw">let </span>(debited_accounts, tokens) =
         <span class="kw">if let </span><span class="prelude-val">Some</span>(transparent) = transfers.transparent_part() {
             apply_transparent_transfers(env, transparent, event_desc)
                 .wrap_err(<span class="string">"Transparent token transfer failed"</span>)<span class="question-mark">?
         </span>} <span class="kw">else </span>{
-            HashSet::new()
+            (HashSet::new(), HashSet::new())
         };
 
     <span class="comment">// Apply the shielded transfer if there is a link to one
@@ -329,6 +431,7 @@
             env,
             masp_section_ref,
             debited_accounts,
+            tokens,
             tx_data,
         )
         .wrap_err(<span class="string">"Shielded token transfer failed"</span>)<span class="question-mark">?</span>;
@@ -345,16 +448,93 @@
     env: <span class="kw-2">&amp;mut </span>ENV,
     transfers: TransparentTransfersRef&lt;<span class="lifetime">'_</span>&gt;,
     event_desc: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;HashSet&lt;Address&gt;&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;(HashSet&lt;Address&gt;, HashSet&lt;Address&gt;)&gt;
 <span class="kw">where
     </span>ENV: TxEnv + EmitEvents,
 {
     <span class="kw">let </span>sources = transfers.sources();
     <span class="kw">let </span>targets = transfers.targets();
-    <span class="kw">let </span>debited_accounts = namada_trans_token::tx::multi_transfer(
+    <span class="kw">let </span>(debited_accounts, tokens) = namada_trans_token::tx::multi_transfer(
         env, sources, targets, event_desc,
     )<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>(debited_accounts)
+    <span class="prelude-val">Ok</span>((debited_accounts, tokens))
+}
+
+<span class="doccomment">/// Update the undated balance keys to reflect the net changes implied by the
+/// given shielded transaction.
+///
+/// This function takes the set of token addresses impacted by the transaction
+/// in order to help it decode the asset types in its value balance.
+</span><span class="kw">pub fn </span>update_undated_balances&lt;ENV&gt;(
+    env: <span class="kw-2">&amp;mut </span>ENV,
+    shielded: <span class="kw-2">&amp;</span>Transaction,
+    tokens: HashSet&lt;Address&gt;,
+) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;
+<span class="kw">where
+    </span>ENV: TxEnv + EmitEvents + action::Write&lt;<span class="prelude-val">Err </span>= Error&gt;,
+{
+    <span class="comment">// Record undated balance changes
+    </span><span class="kw">let </span><span class="kw-2">mut </span>undated_balances = BTreeMap::new();
+    <span class="kw">let </span><span class="kw-2">mut </span>undated_asset_types = BTreeMap::new();
+    <span class="kw">let </span>asset_type_err =
+        |err| Error::new_alloc(<span class="macro">format!</span>(<span class="string">"unable to create asset type: {err}"</span>));
+    <span class="comment">// First construct a map to decode asset types
+    </span><span class="kw">for </span>token <span class="kw">in </span>tokens {
+        <span class="kw">let </span><span class="prelude-val">Some</span>(denom) = read_denom(env, <span class="kw-2">&amp;</span>token)<span class="question-mark">? </span><span class="kw">else </span>{
+            <span class="comment">// Ignore asset type if denomination cannot be read
+            </span><span class="kw">continue</span>;
+        };
+        <span class="comment">// Read the undated balance of the current token
+        </span><span class="kw">let </span>undated_balance = read_undated_balance(env, <span class="kw-2">&amp;</span>token)<span class="question-mark">?</span>;
+        <span class="comment">// Save the undated balance in a map for updating
+        </span>undated_balances.insert(token.clone(), I320::from(undated_balance));
+        <span class="comment">// Store the encoding for each digit
+        </span><span class="kw">for </span>digit <span class="kw">in </span>MaspDigitPos::iter() {
+            <span class="kw">let </span>atype = encode_asset_type(token.clone(), denom, digit, <span class="prelude-val">None</span>)
+                .map_err(asset_type_err)<span class="question-mark">?</span>;
+            undated_asset_types.insert(atype, (token.clone(), denom, digit));
+        }
+    }
+    <span class="comment">// Update the undated balances with the Sapling value balance
+    </span><span class="kw">for </span>(asset_type, val) <span class="kw">in </span>shielded.sapling_value_balance().components() {
+        <span class="kw">let </span><span class="prelude-val">Some</span>((token, _denom, digit)) = undated_asset_types.get(asset_type)
+        <span class="kw">else </span>{
+            <span class="comment">// Assume that token cannot be decoded because it's dated
+            </span><span class="kw">continue</span>;
+        };
+        <span class="comment">// Retrieve the current undated balance
+        </span><span class="kw">let </span>undated_balance =
+            undated_balances.get_mut(token).ok_or_else(|| {
+                Error::new_alloc(<span class="macro">format!</span>(
+                    <span class="string">"unable to retrieve undated balance for {token}"
+                </span>))
+            })<span class="question-mark">?</span>;
+        <span class="comment">// Construct the undated balance change from value and digit
+        </span><span class="kw">let </span>change =
+            I320::from_masp_denominated(<span class="kw-2">*</span>val, <span class="kw-2">*</span>digit).map_err(|<span class="kw">_</span>| {
+                Error::new_alloc(<span class="macro">format!</span>(
+                    <span class="string">"overflow in undated balance for {token}"
+                </span>))
+            })<span class="question-mark">?</span>;
+        <span class="comment">// Update the undated balance
+        </span><span class="kw-2">*</span>undated_balance =
+            undated_balance.checked_sub(change).ok_or_else(|| {
+                Error::new_alloc(<span class="macro">format!</span>(
+                    <span class="string">"overflow in undated balance for {token}"
+                </span>))
+            })<span class="question-mark">?</span>;
+    }
+    <span class="comment">// Now commit to the updated balances to storage
+    </span><span class="kw">for </span>(token, balance) <span class="kw">in </span>undated_balances {
+        <span class="kw">let </span>undated_balance_key = masp_undated_balance_key(<span class="kw-2">&amp;</span>token);
+        <span class="comment">// Convert the undated balance back into an Amount
+        </span><span class="kw">let </span>balance: token::Amount = balance.try_into().map_err(|<span class="kw">_</span>| {
+            Error::new_alloc(<span class="macro">format!</span>(<span class="string">"overflow in undated balance for {token}"</span>))
+        })<span class="question-mark">?</span>;
+        <span class="comment">// Save the unddated balance back into storage
+        </span>env.write(<span class="kw-2">&amp;</span>undated_balance_key, balance)<span class="question-mark">?</span>;
+    }
+    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="doccomment">/// Apply a shielded transfer
@@ -362,6 +542,7 @@
     env: <span class="kw-2">&amp;mut </span>ENV,
     masp_section_ref: MaspTxId,
     debited_accounts: HashSet&lt;Address&gt;,
+    tokens: HashSet&lt;Address&gt;,
     tx_data: <span class="kw-2">&amp;</span>BatchedTx,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;
 <span class="kw">where
@@ -383,6 +564,7 @@
     env.push_action(Action::Masp(MaspAction::MaspSectionRef(
         masp_section_ref,
     )))<span class="question-mark">?</span>;
+    update_undated_balances(env, <span class="kw-2">&amp;</span>shielded, tokens)<span class="question-mark">?</span>;
     <span class="comment">// Extract the debited accounts for the masp part of the transfer and
     // push the relative actions
     </span><span class="kw">let </span>vin_addresses =
@@ -424,7 +606,7 @@
     <span class="kw">use </span>namada_core::token;
     <span class="kw">use </span>namada_tests::tx::{ctx, tx_host_env};
     <span class="kw">use </span>namada_trans_token::testing::arb_amount;
-    <span class="kw">use </span>namada_trans_token::{read_balance, Amount, DenominatedAmount};
+    <span class="kw">use </span>namada_trans_token::{Amount, DenominatedAmount, read_balance};
     <span class="kw">use </span>namada_tx::{Tx, TxCommitments};
     <span class="kw">use </span>proptest::prelude::<span class="kw-2">*</span>;
 
@@ -483,25 +665,6 @@
             &gt;,
         &gt;::new();
 
-        <span class="kw">for </span>SingleTransfer {
-            src,
-            dest,
-            token,
-            amount,
-        } <span class="kw">in </span><span class="kw-2">&amp;</span>transfers
-        {
-            tx_host_env::with(|tx_env| {
-                tx_env.spawn_accounts([src, dest, token]);
-                tx_env.credit_tokens(src, token, <span class="kw-2">*</span>amount);
-            });
-            <span class="comment">// Store the credited token balances
-            </span><span class="kw-2">*</span>genesis_balances
-                .entry(token.clone())
-                .or_default()
-                .entry(src.clone())
-                .or_default() += <span class="kw-2">*</span>amount;
-        }
-
         <span class="kw">let </span><span class="kw-2">mut </span>transfer = Transfer::default();
         <span class="kw">for </span>SingleTransfer {
             src,
@@ -514,6 +677,29 @@
             transfer = transfer
                 .transfer(src.clone(), dest.clone(), token.clone(), denom)
                 .unwrap();
+        }
+
+        <span class="kw">for </span>(account, amount) <span class="kw">in </span><span class="kw-2">&amp;</span>transfer.sources {
+            tx_host_env::with(|tx_env| {
+                tx_env.spawn_accounts([<span class="kw-2">&amp;</span>account.owner, <span class="kw-2">&amp;</span>account.token]);
+                tx_env.credit_tokens(
+                    <span class="kw-2">&amp;</span>account.owner,
+                    <span class="kw-2">&amp;</span>account.token,
+                    amount.amount(),
+                );
+            });
+            <span class="comment">// Store the credited token balances
+            </span><span class="kw-2">*</span>genesis_balances
+                .entry(account.token.clone())
+                .or_default()
+                .entry(account.owner.clone())
+                .or_default() += amount.amount();
+        }
+
+        <span class="kw">for </span>account <span class="kw">in </span>transfer.targets.keys() {
+            tx_host_env::with(|tx_env| {
+                tx_env.spawn_accounts([<span class="kw-2">&amp;</span>account.owner, <span class="kw-2">&amp;</span>account.token]);
+            });
         }
 
         <span class="kw">let </span>tx_data = BatchedTx {
@@ -545,15 +731,19 @@
             <span class="kw-2">*</span>token_changes.entry(src.clone()).or_default() -= change;
             <span class="kw-2">*</span>token_changes.entry(dest.clone()).or_default() += change;
 
-            <span class="comment">// Every address has to be in the verifier set
-            </span>tx_host_env::with(|tx_env| {
-                <span class="comment">// Internal token address have to be part of the verifier set
-                </span><span class="macro">assert!</span>(
-                    !token.is_internal() || tx_env.verifiers.contains(token)
-                );
-                <span class="macro">assert!</span>(tx_env.verifiers.contains(src));
-                <span class="macro">assert!</span>(tx_env.verifiers.contains(dest));
-            })
+            <span class="kw">if </span>!amount.is_zero() {
+                <span class="comment">// Every address has to be in the verifier set
+                </span>tx_host_env::with(|tx_env| {
+                    <span class="comment">// Internal token address have to be part of the verifier
+                    // set
+                    </span><span class="macro">assert!</span>(
+                        !token.is_internal()
+                            || tx_env.verifiers.contains(token)
+                    );
+                    <span class="macro">assert!</span>(tx_env.verifiers.contains(src));
+                    <span class="macro">assert!</span>(tx_env.verifiers.contains(dest));
+                })
+            }
         }
 
         <span class="comment">// Check all the changed balances

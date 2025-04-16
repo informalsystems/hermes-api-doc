@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.16.1/src/high_level/pwhash.rs`."><title>pwhash.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/high_level/</div>pwhash.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.9/src/high_level/pwhash.rs`."><title>pwhash.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/high_level/</div>pwhash.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -983,9 +983,15 @@
 <a href="#982" id="982">982</a>
 <a href="#983" id="983">983</a>
 <a href="#984" id="984">984</a>
-<a href="#985" id="985">985</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
+<a href="#985" id="985">985</a>
+<a href="#986" id="986">986</a>
+<a href="#987" id="987">987</a>
+<a href="#988" id="988">988</a>
+<a href="#989" id="989">989</a>
+<a href="#990" id="990">990</a>
+<a href="#991" id="991">991</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
 
-// Copyright (c) 2020-2021 The orion Developers
+// Copyright (c) 2020-2025 The orion Developers
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -1022,7 +1028,7 @@
 //!
 //! [`PasswordHash`] provides two ways of retrieving the hashed password:
 //! - [`PasswordHash::unprotected_as_encoded()`] returns the hashed password in an encoded form.
-//! The encoding specifies the settings used to hash the password.
+//!   The encoding specifies the settings used to hash the password.
 //! - [`PasswordHash::unprotected_as_bytes()`] returns only the hashed password in raw bytes.
 //!
 //! The following is an example of how the encoded password hash might look:
@@ -1054,10 +1060,12 @@
 //!
 //! # Security:
 //! - [`PasswordHash::unprotected_as_encoded()`] and [`PasswordHash::unprotected_as_bytes()`] should never
-//! be used to compare password hashes, as these will not run in constant-time.
-//! Either use [`hash_password_verify()`] or compare two [`PasswordHash`]es.
+//!   be used to compare password hashes, as these will not run in constant-time.
+//!   Either use [`hash_password_verify()`] or compare two [`PasswordHash`]es.
 //! - Choosing the correct cost parameters is important for security. Please refer to [libsodium's docs]
-//! for a description of how to do this.
+//!   for a description of how to do this.
+//!
+//! If the concrete cost parameters needed are unclear, please refer to [OWASP] for recommended minimum values.
 //!
 //! # Example:
 //! ```rust
@@ -1071,6 +1079,7 @@
 //! ```
 //! [encoding format here]: https://github.com/P-H-C/phc-string-format/blob/master/phc-sf-spec.md
 //! [libsodium's docs]: https://download.libsodium.org/doc/password_hashing/default_phf#guidelines-for-choosing-the-parameters
+//! [OWASP]: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
 
 </span><span class="attr">#![cfg_attr(docsrs, doc(cfg(feature = <span class="string">"safe_api"</span>)))]
 
@@ -1100,38 +1109,39 @@
 
 <span class="doccomment">/// A type to represent the `PasswordHash` that Argon2i returns when used for password hashing.
 ///
-///  
+///
 /// # Errors:
 /// An error will be returned if:
 /// - The encoded password hash contains whitespace.
 /// - The encoded password hash has a parallelism count other than 1.
 /// - The encoded password contains any other fields than: The algorithm name,
-/// version, m, t, p and the salt and password hash.
+///   version, m, t, p and the salt and password hash.
 /// - The encoded password hash contains invalid Base64 encoding.
 /// - Any decimal parameter value, such as m, contains leading zeroes and is longer
-/// than a single character.
+///   than a single character.
 /// - `iterations` is less than 3.
 /// - `memory` is less than 8.
 /// - `password` is not 32 bytes.
 /// - `salt` is not 16 bytes.
 /// - The encoded password hash contains numerical values that cannot
-/// be represented as a `u32`.
+///   be represented as a `u32`.
 /// - The encoded password hash length is less than [`PasswordHash::MIN_ENCODED_LEN`] or greater than [`PasswordHash::MAX_ENCODED_LEN`].
 /// - The parameters in the encoded password hash are not correctly ordered. The ordering must be:
-/// `$argon2i$v=19$m=&lt;value&gt;,t=&lt;value&gt;,p=&lt;value&gt;$&lt;salt&gt;$&lt;hash&gt;`
+///   `$argon2i$v=19$m=&lt;value&gt;,t=&lt;value&gt;,p=&lt;value&gt;$&lt;salt&gt;$&lt;hash&gt;`
 /// # Panics:
 /// A panic will occur if:
 /// - Overflowing calculations happen on `usize` when decoding the password and salt from Base64.
 ///
 /// # Security:
 /// - __**Avoid using**__ `unprotected_as_bytes()` whenever possible, as it breaks all protections
-/// that the type implements.
+///   that the type implements.
 /// - Never use `unprotected_as_bytes()` or `unprotected_as_encoded()` to compare password hashes,
-/// as that will not run in constant-time. Compare `PasswordHash`es directly using `==` instead.
+///   as that will not run in constant-time. Compare `PasswordHash`es directly using `==` instead.
 /// - The trait `PartialEq&lt;&amp;'_ [u8]&gt;` is implemented for this type so that users are not tempted
-/// to call `unprotected_as_bytes` to compare this sensitive value to a byte slice. The trait
-/// is implemented in such a way that the comparison happens in constant time. Thus, users should
-/// prefer `SecretType == &amp;[u8]` over `SecretType.unprotected_as_bytes() == &amp;[u8]`.
+///   to call `unprotected_as_bytes` to compare this sensitive value to a byte slice. The trait
+///   is implemented in such a way that the comparison happens in constant time. Thus, users should
+///   prefer `SecretType == &amp;[u8]` over `SecretType.unprotected_as_bytes() == &amp;[u8]`.
+///
 /// Examples are shown below. The examples apply to any type that implements `PartialEq&lt;&amp;'_ [u8]&gt;`.
 /// ```rust
 /// use orion::hazardous::mac::hmac::sha512::Tag;
@@ -1260,7 +1270,7 @@
         </span><span class="kw">let </span>param_parts_split = parts
             .next()
             .unwrap()
-            .split(|v| v == <span class="string">'=' </span>|| v == <span class="string">','</span>)
+            .split([<span class="string">'='</span>, <span class="string">','</span>])
             .collect::&lt;Vec&lt;<span class="kw-2">&amp;</span>str&gt;&gt;();
         <span class="kw">if </span>param_parts_split.len() != <span class="number">6 </span>{
             <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
@@ -1296,7 +1306,7 @@
         <span class="kw">if </span>salt.len() != SALT_LENGTH {
             <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
         }
-        <span class="kw">let </span>password_hash_raw = Base64NoPadding::decode_to_vec(<span class="kw-2">&amp;</span>parts.next().unwrap(), <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+        <span class="kw">let </span>password_hash_raw = Base64NoPadding::decode_to_vec(parts.next().unwrap(), <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
         <span class="kw">if </span>password_hash_raw.len() != PWHASH_LENGTH {
             <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
         }
@@ -1356,8 +1366,9 @@
 <span class="macro">impl_ct_partialeq_trait!</span>(PasswordHash, unprotected_as_bytes);
 
 <span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
+#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"serde"</span>)))]
 </span><span class="doccomment">/// `PasswordHash` serializes as would a [`String`](std::string::String). Note that
-/// the serialized type likely does not have the same protections that orion
+/// the serialized type likely does not have the same protections that Orion
 /// provides, such as constant-time operations. A good rule of thumb is to only
 /// serialize these types for storage. Don't operate on the serialized types.
 </span><span class="kw">impl </span>Serialize <span class="kw">for </span>PasswordHash {
@@ -1371,6 +1382,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
+#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"serde"</span>)))]
 </span><span class="doccomment">/// `PasswordHash` deserializes from a [`String`](std::string::String).
 </span><span class="kw">impl</span>&lt;<span class="lifetime">'de</span>&gt; Deserialize&lt;<span class="lifetime">'de</span>&gt; <span class="kw">for </span>PasswordHash {
     <span class="kw">fn </span>deserialize&lt;D&gt;(deserializer: D) -&gt; <span class="prelude-ty">Result</span>&lt;PasswordHash, D::Error&gt;
@@ -1936,7 +1948,7 @@
             <span class="kw">let </span><span class="kw-2">mut </span>salt_mod = dk.salt.as_ref().to_vec();
             salt_mod[<span class="number">0</span>..<span class="number">16</span>].copy_from_slice(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">16</span>]);
             <span class="kw">let </span>modified =
-                PasswordHash::from_slice(<span class="kw-2">&amp;</span>dk.unprotected_as_bytes(), <span class="kw-2">&amp;</span>salt_mod, <span class="number">3</span>, <span class="number">4096</span>).unwrap();
+                PasswordHash::from_slice(dk.unprotected_as_bytes(), <span class="kw-2">&amp;</span>salt_mod, <span class="number">3</span>, <span class="number">4096</span>).unwrap();
 
             <span class="macro">assert!</span>(hash_password_verify(<span class="kw-2">&amp;</span>modified, <span class="kw-2">&amp;</span>password).is_err());
         }

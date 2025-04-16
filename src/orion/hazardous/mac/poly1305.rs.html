@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.16.1/src/hazardous/mac/poly1305.rs`."><title>poly1305.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/mac/</div>poly1305.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.9/src/hazardous/mac/poly1305.rs`."><title>poly1305.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/mac/</div>poly1305.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -571,75 +571,9 @@
 <a href="#570" id="570">570</a>
 <a href="#571" id="571">571</a>
 <a href="#572" id="572">572</a>
-<a href="#573" id="573">573</a>
-<a href="#574" id="574">574</a>
-<a href="#575" id="575">575</a>
-<a href="#576" id="576">576</a>
-<a href="#577" id="577">577</a>
-<a href="#578" id="578">578</a>
-<a href="#579" id="579">579</a>
-<a href="#580" id="580">580</a>
-<a href="#581" id="581">581</a>
-<a href="#582" id="582">582</a>
-<a href="#583" id="583">583</a>
-<a href="#584" id="584">584</a>
-<a href="#585" id="585">585</a>
-<a href="#586" id="586">586</a>
-<a href="#587" id="587">587</a>
-<a href="#588" id="588">588</a>
-<a href="#589" id="589">589</a>
-<a href="#590" id="590">590</a>
-<a href="#591" id="591">591</a>
-<a href="#592" id="592">592</a>
-<a href="#593" id="593">593</a>
-<a href="#594" id="594">594</a>
-<a href="#595" id="595">595</a>
-<a href="#596" id="596">596</a>
-<a href="#597" id="597">597</a>
-<a href="#598" id="598">598</a>
-<a href="#599" id="599">599</a>
-<a href="#600" id="600">600</a>
-<a href="#601" id="601">601</a>
-<a href="#602" id="602">602</a>
-<a href="#603" id="603">603</a>
-<a href="#604" id="604">604</a>
-<a href="#605" id="605">605</a>
-<a href="#606" id="606">606</a>
-<a href="#607" id="607">607</a>
-<a href="#608" id="608">608</a>
-<a href="#609" id="609">609</a>
-<a href="#610" id="610">610</a>
-<a href="#611" id="611">611</a>
-<a href="#612" id="612">612</a>
-<a href="#613" id="613">613</a>
-<a href="#614" id="614">614</a>
-<a href="#615" id="615">615</a>
-<a href="#616" id="616">616</a>
-<a href="#617" id="617">617</a>
-<a href="#618" id="618">618</a>
-<a href="#619" id="619">619</a>
-<a href="#620" id="620">620</a>
-<a href="#621" id="621">621</a>
-<a href="#622" id="622">622</a>
-<a href="#623" id="623">623</a>
-<a href="#624" id="624">624</a>
-<a href="#625" id="625">625</a>
-<a href="#626" id="626">626</a>
-<a href="#627" id="627">627</a>
-<a href="#628" id="628">628</a>
-<a href="#629" id="629">629</a>
-<a href="#630" id="630">630</a>
-<a href="#631" id="631">631</a>
-<a href="#632" id="632">632</a>
-<a href="#633" id="633">633</a>
-<a href="#634" id="634">634</a>
-<a href="#635" id="635">635</a>
-<a href="#636" id="636">636</a>
-<a href="#637" id="637">637</a>
-<a href="#638" id="638">638</a>
-<a href="#639" id="639">639</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
+<a href="#573" id="573">573</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
 
-// Copyright (c) 2018-2021 The orion Developers
+// Copyright (c) 2018-2025 The orion Developers
 // Based on the algorithm from https://github.com/floodyberry/poly1305-donna
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -688,6 +622,7 @@
 //!
 //! # Example:
 //! ```rust
+//! # #[cfg(feature = "safe_api")] {
 //! use orion::hazardous::mac::poly1305::{OneTimeKey, Poly1305};
 //!
 //! let one_time_key = OneTimeKey::generate();
@@ -698,6 +633,7 @@
 //! let tag = poly1305_state.finalize()?;
 //!
 //! assert!(Poly1305::verify(&amp;tag, &amp;one_time_key, msg.as_bytes()).is_ok());
+//! # }
 //! # Ok::&lt;(), orion::errors::UnknownCryptoError&gt;(())
 //! ```
 //! [`update()`]: poly1305::Poly1305::update
@@ -711,6 +647,11 @@
 </span><span class="kw">use crate</span>::{
     errors::UnknownCryptoError,
     util::endianness::{load_u32_le, store_u32_into_le},
+};
+<span class="kw">use </span>fiat_crypto::poly1305_32::{
+    fiat_poly1305_add, fiat_poly1305_carry, fiat_poly1305_carry_mul, fiat_poly1305_from_bytes,
+    fiat_poly1305_loose_field_element, fiat_poly1305_relax, fiat_poly1305_selectznz,
+    fiat_poly1305_subborrowx_u26, fiat_poly1305_tight_field_element, fiat_poly1305_u1,
 };
 
 <span class="doccomment">/// The blocksize which Poly1305 operates on.
@@ -751,8 +692,8 @@
 <span class="attr">#[derive(Clone)]
 </span><span class="doccomment">/// Poly1305 streaming state.
 </span><span class="kw">pub struct </span>Poly1305 {
-    a: [u32; <span class="number">5</span>],
-    r: [u32; <span class="number">5</span>],
+    a: fiat_poly1305_tight_field_element,
+    r: fiat_poly1305_loose_field_element,
     s: [u32; <span class="number">4</span>],
     leftover: usize,
     buffer: [u8; POLY1305_BLOCKSIZE],
@@ -762,8 +703,8 @@
 <span class="kw">impl </span>Drop <span class="kw">for </span>Poly1305 {
     <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">use </span>zeroize::Zeroize;
-        <span class="self">self</span>.a.zeroize();
-        <span class="self">self</span>.r.zeroize();
+        <span class="self">self</span>.a.<span class="number">0</span>.zeroize();
+        <span class="self">self</span>.r.<span class="number">0</span>.zeroize();
         <span class="self">self</span>.s.zeroize();
         <span class="self">self</span>.buffer.zeroize();
     }
@@ -780,138 +721,64 @@
 }
 
 <span class="kw">impl </span>Poly1305 {
-    <span class="attr">#[rustfmt::skip]
-    #[allow(clippy::cast_lossless)]
-    #[allow(clippy::identity_op)]
-    #[allow(clippy::unreadable_literal)]
-    #[allow(clippy::assign_op_pattern)]
-    </span><span class="doccomment">/// Process a datablock of `POLY1305_BLOCKSIZE` length.
+    <span class="doccomment">/// Prime 2^130-5 in little-endian.
+    </span><span class="kw">const </span>PRIME: [u8; <span class="number">17</span>] = [
+        <span class="number">251</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>, <span class="number">3</span>,
+    ];
+
+    <span class="doccomment">/// Process a datablock of `POLY1305_BLOCKSIZE` length.
     </span><span class="kw">fn </span>process_block(<span class="kw-2">&amp;mut </span><span class="self">self</span>, data: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), UnknownCryptoError&gt; {
         <span class="kw">if </span>data.len() != POLY1305_BLOCKSIZE {
             <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
         }
 
-        <span class="kw">let </span>hibit: u32 = <span class="kw">if </span><span class="self">self</span>.is_finalized {
-            <span class="number">0
-        </span>} <span class="kw">else </span>{
-            <span class="number">1 </span>&lt;&lt; <span class="number">24
-        </span>};
+        <span class="kw">let </span><span class="kw-2">mut </span>mb = [<span class="number">0u8</span>; <span class="number">17</span>];
+        mb[..<span class="number">16</span>].copy_from_slice(data);
+        <span class="comment">// One byte is appended to detect trailing zeroes if not last chunk.
+        // See https://cr.yp.to/mac/poly1305-20050329.pdf, Section 2 "Conversion and padding".
+        </span>mb[<span class="number">16</span>] = u8::from(!<span class="self">self</span>.is_finalized);
+        <span class="kw">let </span><span class="kw-2">mut </span>m = fiat_poly1305_tight_field_element([<span class="number">0u32</span>; <span class="number">5</span>]);
+        fiat_poly1305_from_bytes(<span class="kw-2">&amp;mut </span>m, <span class="kw-2">&amp;</span>mb);
 
-        <span class="kw">let </span>r0: u32 = <span class="self">self</span>.r[<span class="number">0</span>];
-        <span class="kw">let </span>r1: u32 = <span class="self">self</span>.r[<span class="number">1</span>];
-        <span class="kw">let </span>r2: u32 = <span class="self">self</span>.r[<span class="number">2</span>];
-        <span class="kw">let </span>r3: u32 = <span class="self">self</span>.r[<span class="number">3</span>];
-        <span class="kw">let </span>r4: u32 = <span class="self">self</span>.r[<span class="number">4</span>];
-
-        <span class="kw">let </span>s1: u32 = r1 * <span class="number">5</span>;
-        <span class="kw">let </span>s2: u32 = r2 * <span class="number">5</span>;
-        <span class="kw">let </span>s3: u32 = r3 * <span class="number">5</span>;
-        <span class="kw">let </span>s4: u32 = r4 * <span class="number">5</span>;
-
-        <span class="kw">let </span><span class="kw-2">mut </span>h0: u32 = <span class="self">self</span>.a[<span class="number">0</span>];
-        <span class="kw">let </span><span class="kw-2">mut </span>h1: u32 = <span class="self">self</span>.a[<span class="number">1</span>];
-        <span class="kw">let </span><span class="kw-2">mut </span>h2: u32 = <span class="self">self</span>.a[<span class="number">2</span>];
-        <span class="kw">let </span><span class="kw-2">mut </span>h3: u32 = <span class="self">self</span>.a[<span class="number">3</span>];
-        <span class="kw">let </span><span class="kw-2">mut </span>h4: u32 = <span class="self">self</span>.a[<span class="number">4</span>];
-
-        <span class="comment">// h += m[i]
-        </span>h0 += (load_u32_le(<span class="kw-2">&amp;</span>data[<span class="number">0</span>..<span class="number">4</span>])) &amp; <span class="number">0x3ffffff</span>;
-        h1 += (load_u32_le(<span class="kw-2">&amp;</span>data[<span class="number">3</span>..<span class="number">7</span>]) &gt;&gt; <span class="number">2</span>) &amp; <span class="number">0x3ffffff</span>;
-        h2 += (load_u32_le(<span class="kw-2">&amp;</span>data[<span class="number">6</span>..<span class="number">10</span>]) &gt;&gt; <span class="number">4</span>) &amp; <span class="number">0x3ffffff</span>;
-        h3 += (load_u32_le(<span class="kw-2">&amp;</span>data[<span class="number">9</span>..<span class="number">13</span>]) &gt;&gt; <span class="number">6</span>) &amp; <span class="number">0x3ffffff</span>;
-        h4 += (load_u32_le(<span class="kw-2">&amp;</span>data[<span class="number">12</span>..<span class="number">16</span>]) &gt;&gt; <span class="number">8</span>) | hibit;
-
-        <span class="comment">// h *= r
-        </span><span class="kw">let </span>d0: u64 =
-            (h0 <span class="kw">as </span>u64 * r0 <span class="kw">as </span>u64) +
-            (h1 <span class="kw">as </span>u64 * s4 <span class="kw">as </span>u64) +
-            (h2 <span class="kw">as </span>u64 * s3 <span class="kw">as </span>u64) +
-            (h3 <span class="kw">as </span>u64 * s2 <span class="kw">as </span>u64) +
-            (h4 <span class="kw">as </span>u64 * s1 <span class="kw">as </span>u64);
-        <span class="kw">let </span><span class="kw-2">mut </span>d1: u64 =
-            (h0 <span class="kw">as </span>u64 * r1 <span class="kw">as </span>u64) +
-            (h1 <span class="kw">as </span>u64 * r0 <span class="kw">as </span>u64) +
-            (h2 <span class="kw">as </span>u64 * s4 <span class="kw">as </span>u64) +
-            (h3 <span class="kw">as </span>u64 * s3 <span class="kw">as </span>u64) +
-            (h4 <span class="kw">as </span>u64 * s2 <span class="kw">as </span>u64);
-        <span class="kw">let </span><span class="kw-2">mut </span>d2: u64 =
-            (h0 <span class="kw">as </span>u64 * r2 <span class="kw">as </span>u64) +
-            (h1 <span class="kw">as </span>u64 * r1 <span class="kw">as </span>u64) +
-            (h2 <span class="kw">as </span>u64 * r0 <span class="kw">as </span>u64) +
-            (h3 <span class="kw">as </span>u64 * s4 <span class="kw">as </span>u64) +
-            (h4 <span class="kw">as </span>u64 * s3 <span class="kw">as </span>u64);
-        <span class="kw">let </span><span class="kw-2">mut </span>d3: u64 =
-            (h0 <span class="kw">as </span>u64 * r3 <span class="kw">as </span>u64) +
-            (h1 <span class="kw">as </span>u64 * r2 <span class="kw">as </span>u64) +
-            (h2 <span class="kw">as </span>u64 * r1 <span class="kw">as </span>u64) +
-            (h3 <span class="kw">as </span>u64 * r0 <span class="kw">as </span>u64) +
-            (h4 <span class="kw">as </span>u64 * s4 <span class="kw">as </span>u64);
-        <span class="kw">let </span><span class="kw-2">mut </span>d4: u64 =
-            (h0 <span class="kw">as </span>u64 * r4 <span class="kw">as </span>u64) +
-            (h1 <span class="kw">as </span>u64 * r3 <span class="kw">as </span>u64) +
-            (h2 <span class="kw">as </span>u64 * r2 <span class="kw">as </span>u64) +
-            (h3 <span class="kw">as </span>u64 * r1 <span class="kw">as </span>u64) +
-            (h4 <span class="kw">as </span>u64 * r0 <span class="kw">as </span>u64);
-
-        <span class="comment">// (partial) h %= p
-        </span><span class="kw">let </span><span class="kw-2">mut </span>c: u32 = (d0 &gt;&gt; <span class="number">26</span>) <span class="kw">as </span>u32; h0 = (d0 &amp; <span class="number">0x3ffffff</span>) <span class="kw">as </span>u32;
-        d1 += c <span class="kw">as </span>u64; c = (d1 &gt;&gt; <span class="number">26</span>) <span class="kw">as </span>u32; h1 = (d1 &amp; <span class="number">0x3ffffff</span>) <span class="kw">as </span>u32;
-        d2 += c <span class="kw">as </span>u64; c = (d2 &gt;&gt; <span class="number">26</span>) <span class="kw">as </span>u32; h2 = (d2 &amp; <span class="number">0x3ffffff</span>) <span class="kw">as </span>u32;
-        d3 += c <span class="kw">as </span>u64; c = (d3 &gt;&gt; <span class="number">26</span>) <span class="kw">as </span>u32; h3 = (d3 &amp; <span class="number">0x3ffffff</span>) <span class="kw">as </span>u32;
-        d4 += c <span class="kw">as </span>u64; c = (d4 &gt;&gt; <span class="number">26</span>) <span class="kw">as </span>u32; h4 = (d4 &amp; <span class="number">0x3ffffff</span>) <span class="kw">as </span>u32;
-        h0 += c * <span class="number">5</span>; c = h0 &gt;&gt; <span class="number">26</span>; h0 = h0 &amp; <span class="number">0x3ffffff</span>;
-        h1 += c;
-
-        <span class="self">self</span>.a[<span class="number">0</span>] = h0;
-        <span class="self">self</span>.a[<span class="number">1</span>] = h1;
-        <span class="self">self</span>.a[<span class="number">2</span>] = h2;
-        <span class="self">self</span>.a[<span class="number">3</span>] = h3;
-        <span class="self">self</span>.a[<span class="number">4</span>] = h4;
+        <span class="comment">// h += m
+        </span><span class="kw">let </span><span class="kw-2">mut </span>h = fiat_poly1305_loose_field_element([<span class="number">0u32</span>; <span class="number">5</span>]);
+        fiat_poly1305_add(<span class="kw-2">&amp;mut </span>h, <span class="kw-2">&amp;</span><span class="self">self</span>.a, <span class="kw-2">&amp;</span>m);
+        <span class="comment">// h *= r with partial reduction modulo p
+        </span>fiat_poly1305_carry_mul(<span class="kw-2">&amp;mut </span><span class="self">self</span>.a, <span class="kw-2">&amp;</span>h, <span class="kw-2">&amp;</span><span class="self">self</span>.r);
 
         <span class="prelude-val">Ok</span>(())
     }
 
     <span class="attr">#[rustfmt::skip]
-    #[allow(clippy::cast_lossless)]
     #[allow(clippy::identity_op)]
-    #[allow(clippy::unreadable_literal)]
-    #[allow(clippy::assign_op_pattern)]
     </span><span class="doccomment">/// Remaining processing after all data blocks have been processed.
     </span><span class="kw">fn </span>process_end_of_stream(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="comment">// full carry h
-        </span><span class="kw">let </span><span class="kw-2">mut </span>h0: u32 = <span class="self">self</span>.a[<span class="number">0</span>];
-        <span class="kw">let </span><span class="kw-2">mut </span>h1: u32 = <span class="self">self</span>.a[<span class="number">1</span>];
-        <span class="kw">let </span><span class="kw-2">mut </span>h2: u32 = <span class="self">self</span>.a[<span class="number">2</span>];
-        <span class="kw">let </span><span class="kw-2">mut </span>h3: u32 = <span class="self">self</span>.a[<span class="number">3</span>];
-        <span class="kw">let </span><span class="kw-2">mut </span>h4: u32 = <span class="self">self</span>.a[<span class="number">4</span>];
-
-        <span class="kw">let </span><span class="kw-2">mut </span>c: u32 = h1 &gt;&gt; <span class="number">26</span>; h1 = h1 &amp; <span class="number">0x3ffffff</span>;
-        h2 += c; c = h2 &gt;&gt; <span class="number">26</span>; h2 = h2 &amp; <span class="number">0x3ffffff</span>;
-        h3 += c; c = h3 &gt;&gt; <span class="number">26</span>; h3 = h3 &amp; <span class="number">0x3ffffff</span>;
-        h4 += c; c = h4 &gt;&gt; <span class="number">26</span>; h4 = h4 &amp; <span class="number">0x3ffffff</span>;
-        h0 += c * <span class="number">5</span>; c = h0 &gt;&gt; <span class="number">26</span>; h0 = h0 &amp; <span class="number">0x3ffffff</span>;
-        h1 += c;
+        </span><span class="kw">let </span><span class="kw-2">mut </span>buf_h = fiat_poly1305_tight_field_element([<span class="number">0u32</span>; <span class="number">5</span>]);
+        <span class="kw">let </span><span class="kw-2">mut </span>a_relaxed = fiat_poly1305_loose_field_element([<span class="number">0u32</span>; <span class="number">5</span>]);
+        fiat_poly1305_relax(<span class="kw-2">&amp;mut </span>a_relaxed, <span class="kw-2">&amp;</span><span class="self">self</span>.a);
+        fiat_poly1305_carry(<span class="kw-2">&amp;mut </span>buf_h, <span class="kw-2">&amp;</span>a_relaxed);
 
         <span class="comment">// compute h + -p
-        </span><span class="kw">let </span><span class="kw-2">mut </span>g0: u32 = h0.wrapping_add(<span class="number">5</span>); c = g0 &gt;&gt; <span class="number">26</span>; g0 &amp;= <span class="number">0x3ffffff</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>g1: u32 = h1.wrapping_add(c); c = g1 &gt;&gt; <span class="number">26</span>; g1 &amp;= <span class="number">0x3ffffff</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>g2: u32 = h2.wrapping_add(c); c = g2 &gt;&gt; <span class="number">26</span>; g2 &amp;= <span class="number">0x3ffffff</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>g3: u32 = h3.wrapping_add(c); c = g3 &gt;&gt; <span class="number">26</span>; g3 &amp;= <span class="number">0x3ffffff</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>g4: u32 = h4.wrapping_add(c).wrapping_sub(<span class="number">1 </span>&lt;&lt; <span class="number">26</span>);
+        </span><span class="kw">let </span><span class="kw-2">mut </span>p = fiat_poly1305_tight_field_element([<span class="number">0u32</span>; <span class="number">5</span>]);
+        fiat_poly1305_from_bytes(<span class="kw-2">&amp;mut </span>p, <span class="kw-2">&amp;</span><span class="self">Self</span>::PRIME);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>carry: fiat_poly1305_u1 = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>g0: u32 = <span class="number">0</span>; <span class="kw">let </span>c = carry; fiat_poly1305_subborrowx_u26(<span class="kw-2">&amp;mut </span>g0, <span class="kw-2">&amp;mut </span>carry, c, buf_h[<span class="number">0</span>], p[<span class="number">0</span>]);
+        <span class="kw">let </span><span class="kw-2">mut </span>g1: u32 = <span class="number">0</span>; <span class="kw">let </span>c = carry; fiat_poly1305_subborrowx_u26(<span class="kw-2">&amp;mut </span>g1, <span class="kw-2">&amp;mut </span>carry, c, buf_h[<span class="number">1</span>], p[<span class="number">1</span>]);
+        <span class="kw">let </span><span class="kw-2">mut </span>g2: u32 = <span class="number">0</span>; <span class="kw">let </span>c = carry; fiat_poly1305_subborrowx_u26(<span class="kw-2">&amp;mut </span>g2, <span class="kw-2">&amp;mut </span>carry, c, buf_h[<span class="number">2</span>], p[<span class="number">2</span>]);
+        <span class="kw">let </span><span class="kw-2">mut </span>g3: u32 = <span class="number">0</span>; <span class="kw">let </span>c = carry; fiat_poly1305_subborrowx_u26(<span class="kw-2">&amp;mut </span>g3, <span class="kw-2">&amp;mut </span>carry, c, buf_h[<span class="number">3</span>], p[<span class="number">3</span>]);
+        <span class="kw">let </span><span class="kw-2">mut </span>g4: u32 = <span class="number">0</span>; <span class="kw">let </span>c = carry; fiat_poly1305_subborrowx_u26(<span class="kw-2">&amp;mut </span>g4, <span class="kw-2">&amp;mut </span>carry, c, buf_h[<span class="number">4</span>], p[<span class="number">4</span>]);
 
         <span class="comment">// select h if h &lt; p, or h + -p if h &gt;= p
-        </span><span class="kw">let </span><span class="kw-2">mut </span>mask = (g4 &gt;&gt; (<span class="number">32 </span>- <span class="number">1</span>)).wrapping_sub(<span class="number">1</span>);
-        g0 &amp;= mask;
-        g1 &amp;= mask;
-        g2 &amp;= mask;
-        g3 &amp;= mask;
-        g4 &amp;= mask;
-        mask = !mask;
-        h0 = (h0 &amp; mask) | g0;
-    	h1 = (h1 &amp; mask) | g1;
-    	h2 = (h2 &amp; mask) | g2;
-    	h3 = (h3 &amp; mask) | g3;
-    	h4 = (h4 &amp; mask) | g4;
+        </span><span class="kw">let </span><span class="kw-2">mut </span>ret = [<span class="number">0u32</span>; <span class="number">5</span>];
+        fiat_poly1305_selectznz(<span class="kw-2">&amp;mut </span>ret, carry,<span class="kw-2">&amp;</span>[g0, g1, g2, g3, g4], <span class="kw-2">&amp;</span>buf_h.<span class="number">0</span>);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>h0 = ret[<span class="number">0</span>];
+        <span class="kw">let </span><span class="kw-2">mut </span>h1 = ret[<span class="number">1</span>];
+        <span class="kw">let </span><span class="kw-2">mut </span>h2 = ret[<span class="number">2</span>];
+        <span class="kw">let </span><span class="kw-2">mut </span>h3 = ret[<span class="number">3</span>];
+        <span class="kw">let </span>h4 = ret[<span class="number">4</span>];
 
         <span class="comment">// h = h % (2^128)
         </span>h0 = ((h0) | (h1 &lt;&lt; <span class="number">26</span>)) &amp; <span class="number">0xffffffff</span>;
@@ -936,8 +803,8 @@
     </span><span class="doccomment">/// Initialize a `Poly1305` struct with a given one-time key.
     </span><span class="kw">pub fn </span>new(one_time_key: <span class="kw-2">&amp;</span>OneTimeKey) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>state = <span class="self">Self </span>{
-            a: [<span class="number">0u32</span>; <span class="number">5</span>],
-            r: [<span class="number">0u32</span>; <span class="number">5</span>],
+            a: fiat_poly1305_tight_field_element([<span class="number">0u32</span>; <span class="number">5</span>]),
+            r: fiat_poly1305_loose_field_element([<span class="number">0u32</span>; <span class="number">5</span>]),
             s: [<span class="number">0u32</span>; <span class="number">4</span>],
             leftover: <span class="number">0</span>,
             buffer: [<span class="number">0u8</span>; POLY1305_BLOCKSIZE],
@@ -988,7 +855,7 @@
 
     <span class="doccomment">/// Reset to `new()` state.
     </span><span class="kw">pub fn </span>reset(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="self">self</span>.a = [<span class="number">0u32</span>; <span class="number">5</span>];
+        <span class="self">self</span>.a = fiat_poly1305_tight_field_element([<span class="number">0u32</span>; <span class="number">5</span>]);
         <span class="self">self</span>.leftover = <span class="number">0</span>;
         <span class="self">self</span>.is_finalized = <span class="bool-val">false</span>;
         <span class="self">self</span>.buffer = [<span class="number">0u8</span>; POLY1305_BLOCKSIZE];
@@ -1066,7 +933,7 @@
         }
 
         <span class="self">self</span>.process_end_of_stream();
-        store_u32_into_le(<span class="kw-2">&amp;</span><span class="self">self</span>.a[<span class="number">0</span>..<span class="number">4</span>], <span class="kw-2">&amp;mut </span>local_buffer);
+        store_u32_into_le(<span class="kw-2">&amp;</span><span class="self">self</span>.a.<span class="number">0</span>[<span class="number">0</span>..<span class="number">4</span>], <span class="kw-2">&amp;mut </span>local_buffer);
 
         <span class="prelude-val">Ok</span>(Tag::from(local_buffer))
     }
@@ -1140,7 +1007,8 @@
 
         <span class="kw">impl </span>TestableStreamingContext&lt;Tag&gt; <span class="kw">for </span>Poly1305 {
             <span class="kw">fn </span>reset(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), UnknownCryptoError&gt; {
-                <span class="prelude-val">Ok</span>(<span class="self">self</span>.reset())
+                <span class="self">self</span>.reset();
+                <span class="prelude-val">Ok</span>(())
             }
 
             <span class="kw">fn </span>update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, input: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), UnknownCryptoError&gt; {
@@ -1162,8 +1030,8 @@
             }
 
             <span class="kw">fn </span>compare_states(state_1: <span class="kw-2">&amp;</span>Poly1305, state_2: <span class="kw-2">&amp;</span>Poly1305) {
-                <span class="macro">assert_eq!</span>(state_1.a, state_2.a);
-                <span class="macro">assert_eq!</span>(state_1.r, state_2.r);
+                <span class="macro">assert_eq!</span>(state_1.a.<span class="number">0</span>, state_2.a.<span class="number">0</span>);
+                <span class="macro">assert_eq!</span>(state_1.r.<span class="number">0</span>, state_2.r.<span class="number">0</span>);
                 <span class="macro">assert_eq!</span>(state_1.s, state_2.s);
                 <span class="macro">assert_eq!</span>(state_1.leftover, state_2.leftover);
                 <span class="macro">assert_eq!</span>(state_1.buffer[..], state_2.buffer[..]);

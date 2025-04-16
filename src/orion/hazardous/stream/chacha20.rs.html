@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.16.1/src/hazardous/stream/chacha20.rs`."><title>chacha20.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/stream/</div>chacha20.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.9/src/hazardous/stream/chacha20.rs`."><title>chacha20.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/stream/</div>chacha20.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1262,9 +1262,76 @@
 <a href="#1261" id="1261">1261</a>
 <a href="#1262" id="1262">1262</a>
 <a href="#1263" id="1263">1263</a>
-<a href="#1264" id="1264">1264</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
+<a href="#1264" id="1264">1264</a>
+<a href="#1265" id="1265">1265</a>
+<a href="#1266" id="1266">1266</a>
+<a href="#1267" id="1267">1267</a>
+<a href="#1268" id="1268">1268</a>
+<a href="#1269" id="1269">1269</a>
+<a href="#1270" id="1270">1270</a>
+<a href="#1271" id="1271">1271</a>
+<a href="#1272" id="1272">1272</a>
+<a href="#1273" id="1273">1273</a>
+<a href="#1274" id="1274">1274</a>
+<a href="#1275" id="1275">1275</a>
+<a href="#1276" id="1276">1276</a>
+<a href="#1277" id="1277">1277</a>
+<a href="#1278" id="1278">1278</a>
+<a href="#1279" id="1279">1279</a>
+<a href="#1280" id="1280">1280</a>
+<a href="#1281" id="1281">1281</a>
+<a href="#1282" id="1282">1282</a>
+<a href="#1283" id="1283">1283</a>
+<a href="#1284" id="1284">1284</a>
+<a href="#1285" id="1285">1285</a>
+<a href="#1286" id="1286">1286</a>
+<a href="#1287" id="1287">1287</a>
+<a href="#1288" id="1288">1288</a>
+<a href="#1289" id="1289">1289</a>
+<a href="#1290" id="1290">1290</a>
+<a href="#1291" id="1291">1291</a>
+<a href="#1292" id="1292">1292</a>
+<a href="#1293" id="1293">1293</a>
+<a href="#1294" id="1294">1294</a>
+<a href="#1295" id="1295">1295</a>
+<a href="#1296" id="1296">1296</a>
+<a href="#1297" id="1297">1297</a>
+<a href="#1298" id="1298">1298</a>
+<a href="#1299" id="1299">1299</a>
+<a href="#1300" id="1300">1300</a>
+<a href="#1301" id="1301">1301</a>
+<a href="#1302" id="1302">1302</a>
+<a href="#1303" id="1303">1303</a>
+<a href="#1304" id="1304">1304</a>
+<a href="#1305" id="1305">1305</a>
+<a href="#1306" id="1306">1306</a>
+<a href="#1307" id="1307">1307</a>
+<a href="#1308" id="1308">1308</a>
+<a href="#1309" id="1309">1309</a>
+<a href="#1310" id="1310">1310</a>
+<a href="#1311" id="1311">1311</a>
+<a href="#1312" id="1312">1312</a>
+<a href="#1313" id="1313">1313</a>
+<a href="#1314" id="1314">1314</a>
+<a href="#1315" id="1315">1315</a>
+<a href="#1316" id="1316">1316</a>
+<a href="#1317" id="1317">1317</a>
+<a href="#1318" id="1318">1318</a>
+<a href="#1319" id="1319">1319</a>
+<a href="#1320" id="1320">1320</a>
+<a href="#1321" id="1321">1321</a>
+<a href="#1322" id="1322">1322</a>
+<a href="#1323" id="1323">1323</a>
+<a href="#1324" id="1324">1324</a>
+<a href="#1325" id="1325">1325</a>
+<a href="#1326" id="1326">1326</a>
+<a href="#1327" id="1327">1327</a>
+<a href="#1328" id="1328">1328</a>
+<a href="#1329" id="1329">1329</a>
+<a href="#1330" id="1330">1330</a>
+<a href="#1331" id="1331">1331</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
 
-// Copyright (c) 2018-2021 The orion Developers
+// Copyright (c) 2018-2025 The orion Developers
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -1300,6 +1367,9 @@
 //! because such a truncation may repeat after a short time." See [RFC]
 //! for more information.
 //!
+//! `dst_out`: The output buffer may have a capacity greater than the input. If this is the case,
+//! only the first input length amount of bytes in `dst_out` are modified, while the rest remain untouched.
+//!
 //! # Errors:
 //! An error will be returned if:
 //! - The length of `dst_out` is less than `plaintext` or `ciphertext`.
@@ -1330,6 +1400,7 @@
 //!
 //! # Example:
 //! ```rust
+//! # #[cfg(feature = "safe_api")] {
 //! use orion::hazardous::stream::chacha20;
 //!
 //! let secret_key = chacha20::SecretKey::generate();
@@ -1349,6 +1420,7 @@
 //! chacha20::decrypt(&amp;secret_key, &amp;nonce, 0, &amp;dst_out_ct, &amp;mut dst_out_pt)?;
 //!
 //! assert_eq!(dst_out_pt, message);
+//! # }
 //! # Ok::&lt;(), orion::errors::UnknownCryptoError&gt;(())
 //! ```
 //! [`SecretKey::generate()`]: chacha20::SecretKey::generate()
@@ -1498,6 +1570,17 @@
         })
     }
 
+    <span class="doccomment">/// Check that we can produce one more keystream block, given the current state.
+    ///
+    /// If the internal counter would overflow, we return an error.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>next_produceable(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), UnknownCryptoError&gt; {
+        <span class="kw">if </span><span class="self">self</span>.internal_counter.checked_add(<span class="number">1</span>).is_none() {
+            <span class="prelude-val">Err</span>(UnknownCryptoError)
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Ok</span>(())
+        }
+    }
+
     <span class="doccomment">/// Process the next keystream and copy into destination array.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>keystream_block(<span class="kw-2">&amp;mut </span><span class="self">self</span>, block_counter: u32, inplace: <span class="kw-2">&amp;mut </span>[u8]) {
         <span class="macro">debug_assert!</span>(<span class="kw">if </span><span class="self">self</span>.is_ietf {
@@ -1532,8 +1615,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>iter = inplace.chunks_exact_mut(<span class="number">16</span>);
 
-        <span class="attr">#[allow(clippy::branches_sharing_code)]
-        </span><span class="kw">if </span><span class="self">self</span>.is_ietf {
+        <span class="kw">if </span><span class="self">self</span>.is_ietf {
             wr0 = wr0.wrapping_add(<span class="self">self</span>.state[<span class="number">0</span>]);
             wr1 = wr1.wrapping_add(<span class="self">self</span>.state[<span class="number">1</span>]);
             wr2 = wr2.wrapping_add(<span class="self">self</span>.state[<span class="number">2</span>]);
@@ -1607,13 +1689,29 @@
         <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
     }
 
-    dst_out[..plaintext.len()].copy_from_slice(plaintext);
-    encrypt_in_place(
-        secret_key,
-        nonce,
-        initial_counter,
-        <span class="kw-2">&amp;mut </span>dst_out[..plaintext.len()],
-    )
+    <span class="kw">let </span><span class="kw-2">mut </span>ctx = ChaCha20::new(secret_key.unprotected_as_bytes(), nonce.as_ref(), <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>keystream_block = Zeroizing::new([<span class="number">0u8</span>; CHACHA_BLOCKSIZE]);
+
+    <span class="kw">for </span>(ctr, (p_block, c_block)) <span class="kw">in </span>plaintext
+        .chunks(CHACHA_BLOCKSIZE)
+        .zip(dst_out.chunks_mut(CHACHA_BLOCKSIZE))
+        .enumerate()
+    {
+        <span class="kw">match </span>initial_counter.checked_add(ctr <span class="kw">as </span>u32) {
+            <span class="prelude-val">Some</span>(counter) =&gt; {
+                <span class="comment">// See https://github.com/orion-rs/orion/issues/308
+                </span>ctx.next_produceable()<span class="question-mark">?</span>;
+
+                ctx.keystream_block(counter, keystream_block.as_mut());
+                <span class="macro">xor_slices!</span>(p_block, keystream_block.as_mut());
+                c_block[..p_block.len()]
+                    .copy_from_slice(<span class="kw-2">&amp;</span>keystream_block.as_ref()[..p_block.len()]);
+            }
+            <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError),
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="attr">#[must_use = <span class="string">"SECURITY WARNING: Ignoring a Result can have real security implications."</span>]
@@ -1644,6 +1742,22 @@
 </span><span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>public {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="attr">#[cfg(feature = <span class="string">"safe_api"</span>)]
+    #[test]
+    </span><span class="comment">// See https://github.com/orion-rs/orion/issues/308
+    </span><span class="kw">fn </span>test_plaintext_left_in_dst_out() {
+        <span class="kw">let </span>k = SecretKey::generate();
+        <span class="kw">let </span>n = Nonce::from_slice(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">12</span>]).unwrap();
+        <span class="kw">let </span>ic: u32 = u32::MAX - <span class="number">1</span>;
+
+        <span class="kw">let </span>text = [<span class="string">b'x'</span>; <span class="number">128 </span>+ <span class="number">4</span>];
+        <span class="kw">let </span><span class="kw-2">mut </span>dst_out = [<span class="number">0u8</span>; <span class="number">128 </span>+ <span class="number">4</span>];
+
+        <span class="kw">let </span>_err = encrypt(<span class="kw-2">&amp;</span>k, <span class="kw-2">&amp;</span>n, ic, <span class="kw-2">&amp;</span>text, <span class="kw-2">&amp;mut </span>dst_out).unwrap_err();
+
+        <span class="macro">assert_ne!</span>(<span class="kw-2">&amp;</span>[<span class="string">b'x'</span>; <span class="number">4</span>], <span class="kw-2">&amp;</span>dst_out[dst_out.len() - <span class="number">4</span>..]);
+    }
 
     <span class="attr">#[cfg(feature = <span class="string">"safe_api"</span>)]
     </span><span class="kw">mod </span>test_encrypt_decrypt {
@@ -2292,6 +2406,26 @@
                 chacha_state_ietf.keystream_block(<span class="number">0</span>, <span class="kw-2">&amp;mut </span>keystream_block);
             }
         }
+
+        <span class="attr">#[test]
+        </span><span class="kw">fn </span>test_error_if_internal_counter_would_overflow() {
+            <span class="kw">let </span><span class="kw-2">mut </span>chacha_state = ChaCha20 {
+                state: [
+                    U32x4(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>),
+                    U32x4(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>),
+                    U32x4(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>),
+                    U32x4(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>),
+                ],
+                internal_counter: (u32::MAX - <span class="number">2</span>),
+                is_ietf: <span class="bool-val">false</span>,
+            };
+
+            <span class="macro">assert!</span>(chacha_state.next_produceable().is_ok());
+            chacha_state.internal_counter += <span class="number">1</span>;
+            <span class="macro">assert!</span>(chacha_state.next_produceable().is_ok());
+            chacha_state.internal_counter += <span class="number">1</span>;
+            <span class="macro">assert!</span>(chacha_state.next_produceable().is_err());
+        }
     }
 }
 
@@ -2310,7 +2444,7 @@
 
     <span class="comment">// Convenience function for testing.
     </span><span class="kw">fn </span>init(key: <span class="kw-2">&amp;</span>[u8], nonce: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;ChaCha20, UnknownCryptoError&gt; {
-        <span class="prelude-val">Ok</span>(ChaCha20::new(key, nonce, <span class="bool-val">true</span>)<span class="question-mark">?</span>)
+        ChaCha20::new(key, nonce, <span class="bool-val">true</span>)
     }
     <span class="attr">#[test]
     </span><span class="kw">fn </span>rfc8439_chacha20_block_results() {

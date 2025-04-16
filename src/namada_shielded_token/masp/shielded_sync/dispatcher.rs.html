@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_shielded_token-0.47.2/src/masp/shielded_sync/dispatcher.rs`."><title>dispatcher.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="namada_shielded_token" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_shielded_token/masp/shielded_sync/</div>dispatcher.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_shielded_token-0.149.1/src/masp/shielded_sync/dispatcher.rs`."><title>dispatcher.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="namada_shielded_token" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_shielded_token/masp/shielded_sync/</div>dispatcher.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1484,40 +1484,110 @@
 <a href="#1483" id="1483">1483</a>
 <a href="#1484" id="1484">1484</a>
 <a href="#1485" id="1485">1485</a>
-<a href="#1486" id="1486">1486</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::cell::RefCell;
+<a href="#1486" id="1486">1486</a>
+<a href="#1487" id="1487">1487</a>
+<a href="#1488" id="1488">1488</a>
+<a href="#1489" id="1489">1489</a>
+<a href="#1490" id="1490">1490</a>
+<a href="#1491" id="1491">1491</a>
+<a href="#1492" id="1492">1492</a>
+<a href="#1493" id="1493">1493</a>
+<a href="#1494" id="1494">1494</a>
+<a href="#1495" id="1495">1495</a>
+<a href="#1496" id="1496">1496</a>
+<a href="#1497" id="1497">1497</a>
+<a href="#1498" id="1498">1498</a>
+<a href="#1499" id="1499">1499</a>
+<a href="#1500" id="1500">1500</a>
+<a href="#1501" id="1501">1501</a>
+<a href="#1502" id="1502">1502</a>
+<a href="#1503" id="1503">1503</a>
+<a href="#1504" id="1504">1504</a>
+<a href="#1505" id="1505">1505</a>
+<a href="#1506" id="1506">1506</a>
+<a href="#1507" id="1507">1507</a>
+<a href="#1508" id="1508">1508</a>
+<a href="#1509" id="1509">1509</a>
+<a href="#1510" id="1510">1510</a>
+<a href="#1511" id="1511">1511</a>
+<a href="#1512" id="1512">1512</a>
+<a href="#1513" id="1513">1513</a>
+<a href="#1514" id="1514">1514</a>
+<a href="#1515" id="1515">1515</a>
+<a href="#1516" id="1516">1516</a>
+<a href="#1517" id="1517">1517</a>
+<a href="#1518" id="1518">1518</a>
+<a href="#1519" id="1519">1519</a>
+<a href="#1520" id="1520">1520</a>
+<a href="#1521" id="1521">1521</a>
+<a href="#1522" id="1522">1522</a>
+<a href="#1523" id="1523">1523</a>
+<a href="#1524" id="1524">1524</a>
+<a href="#1525" id="1525">1525</a>
+<a href="#1526" id="1526">1526</a>
+<a href="#1527" id="1527">1527</a>
+<a href="#1528" id="1528">1528</a>
+<a href="#1529" id="1529">1529</a>
+<a href="#1530" id="1530">1530</a>
+<a href="#1531" id="1531">1531</a>
+<a href="#1532" id="1532">1532</a>
+<a href="#1533" id="1533">1533</a>
+<a href="#1534" id="1534">1534</a>
+<a href="#1535" id="1535">1535</a>
+<a href="#1536" id="1536">1536</a>
+<a href="#1537" id="1537">1537</a>
+<a href="#1538" id="1538">1538</a>
+<a href="#1539" id="1539">1539</a>
+<a href="#1540" id="1540">1540</a>
+<a href="#1541" id="1541">1541</a>
+<a href="#1542" id="1542">1542</a>
+<a href="#1543" id="1543">1543</a>
+<a href="#1544" id="1544">1544</a>
+<a href="#1545" id="1545">1545</a>
+<a href="#1546" id="1546">1546</a>
+<a href="#1547" id="1547">1547</a>
+<a href="#1548" id="1548">1548</a>
+<a href="#1549" id="1549">1549</a>
+<a href="#1550" id="1550">1550</a>
+<a href="#1551" id="1551">1551</a>
+<a href="#1552" id="1552">1552</a>
+<a href="#1553" id="1553">1553</a>
+<a href="#1554" id="1554">1554</a>
+<a href="#1555" id="1555">1555</a>
+<a href="#1556" id="1556">1556</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::cell::RefCell;
 <span class="kw">use </span>std::collections::BTreeMap;
 <span class="kw">use </span>std::future::Future;
 <span class="kw">use </span>std::ops::ControlFlow;
 <span class="kw">use </span>std::pin::Pin;
-<span class="kw">use </span>std::sync::atomic::{<span class="self">self</span>, AtomicBool, AtomicUsize};
 <span class="kw">use </span>std::sync::Arc;
+<span class="kw">use </span>std::sync::atomic::{<span class="self">self</span>, AtomicBool, AtomicUsize};
 <span class="kw">use </span>std::task::{Context, Poll};
 
 <span class="kw">use </span>borsh::{BorshDeserialize, BorshSerialize};
-<span class="kw">use </span>eyre::{eyre, WrapErr};
-<span class="kw">use </span>futures::future::{select, Either};
+<span class="kw">use </span>eyre::{WrapErr, eyre};
+<span class="kw">use </span>futures::future::{Either, select};
 <span class="kw">use </span>futures::task::AtomicWaker;
 <span class="kw">use </span>masp_primitives::merkle_tree::{CommitmentTree, IncrementalWitness};
 <span class="kw">use </span>masp_primitives::sapling::{Node, ViewingKey};
 <span class="kw">use </span>masp_primitives::transaction::Transaction;
 <span class="kw">use </span>namada_core::chain::BlockHeight;
 <span class="kw">use </span>namada_core::collections::HashMap;
-<span class="kw">use </span>namada_core::control_flow::time::{Duration, LinearBackoff, Sleep};
 <span class="kw">use </span>namada_core::control_flow::ShutdownSignal;
+<span class="kw">use </span>namada_core::control_flow::time::{Duration, LinearBackoff, Sleep};
 <span class="kw">use </span>namada_core::hints;
 <span class="kw">use </span>namada_core::task_env::TaskSpawner;
 <span class="kw">use </span>namada_io::{MaybeSend, MaybeSync, ProgressBar};
 <span class="kw">use </span>namada_tx::IndexedTx;
 <span class="kw">use </span>namada_wallet::{DatedKeypair, DatedSpendingKey};
 
-<span class="kw">use </span><span class="kw">super</span>::utils::{IndexedNoteEntry, MaspClient};
+<span class="kw">use </span><span class="kw">super</span>::utils::{IndexedNoteEntry, MaspClient, MaspIndexedTx, MaspTxKind};
 <span class="kw">use </span><span class="kw">crate</span>::masp::shielded_sync::trial_decrypt;
 <span class="kw">use </span><span class="kw">crate</span>::masp::utils::{
-    blocks_left_to_fetch, DecryptedData, Fetched, RetryStrategy, TrialDecrypted,
+    DecryptedData, Fetched, RetryStrategy, TrialDecrypted, blocks_left_to_fetch,
 };
 <span class="kw">use </span><span class="kw">crate</span>::masp::{
-    to_viewing_key, MaspExtendedSpendingKey, NoteIndex, ShieldedUtils,
-    ShieldedWallet, WitnessMap,
+    MaspExtendedSpendingKey, NoteIndex, ShieldedUtils, ShieldedWallet,
+    WitnessMap, to_viewing_key,
 };
 
 <span class="kw">struct </span>AsyncCounterInner {
@@ -1639,7 +1709,9 @@
 <span class="attr">#[allow(clippy::large_enum_variant)]
 </span><span class="kw">enum </span>Message {
     UpdateCommitmentTree(<span class="prelude-ty">Result</span>&lt;CommitmentTree&lt;Node&gt;, TaskError&lt;BlockHeight&gt;&gt;),
-    UpdateNotesMap(<span class="prelude-ty">Result</span>&lt;BTreeMap&lt;IndexedTx, usize&gt;, TaskError&lt;BlockHeight&gt;&gt;),
+    UpdateNotesMap(
+        <span class="prelude-ty">Result</span>&lt;BTreeMap&lt;MaspIndexedTx, usize&gt;, TaskError&lt;BlockHeight&gt;&gt;,
+    ),
     UpdateWitnessMap(
         <span class="prelude-ty">Result</span>&lt;
             HashMap&lt;usize, IncrementalWitness&lt;Node&gt;&gt;,
@@ -1653,7 +1725,7 @@
         &gt;,
     ),
     TrialDecrypt(
-        IndexedTx,
+        MaspIndexedTx,
         ViewingKey,
         ControlFlow&lt;(), BTreeMap&lt;usize, DecryptedData&gt;&gt;,
     ),
@@ -1708,7 +1780,7 @@
 
 <span class="attr">#[derive(Default, Debug)]
 </span><span class="kw">struct </span>InitialState {
-    last_witnessed_tx: <span class="prelude-ty">Option</span>&lt;IndexedTx&gt;,
+    last_witnessed_tx: <span class="prelude-ty">Option</span>&lt;MaspIndexedTx&gt;,
     start_height: BlockHeight,
     last_query_height: BlockHeight,
 }
@@ -1836,7 +1908,7 @@
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
             }
             DispatcherState::Normal =&gt; {
-                <span class="self">self</span>.apply_cache_to_shielded_context(<span class="kw-2">&amp;</span>initial_state)<span class="question-mark">?</span>;
+                <span class="self">self</span>.apply_cache_to_shielded_context(<span class="kw-2">&amp;</span>initial_state).<span class="kw">await</span><span class="question-mark">?</span>;
                 <span class="self">self</span>.finish_progress_bars();
                 <span class="self">self</span>.ctx.save().<span class="kw">await</span>.map_err(|err| {
                     <span class="macro">eyre!</span>(<span class="string">"Failed to save the shielded context: {err}"</span>)
@@ -1867,7 +1939,7 @@
         }
     }
 
-    <span class="kw">fn </span>apply_cache_to_shielded_context(
+    <span class="kw">async fn </span>apply_cache_to_shielded_context(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         InitialState {
             last_witnessed_tx,
@@ -1885,28 +1957,28 @@
             <span class="self">self</span>.ctx.note_index = nm;
         }
 
-        <span class="kw">for </span>(indexed_tx, stx_batch) <span class="kw">in </span><span class="self">self</span>.cache.fetched.take() {
+        <span class="kw">for </span>(masp_indexed_tx, stx_batch) <span class="kw">in </span><span class="self">self</span>.cache.fetched.take() {
             <span class="kw">let </span>needs_witness_map_update =
                 <span class="self">self</span>.client.capabilities().needs_witness_map_update();
             <span class="self">self</span>.ctx
                 .save_shielded_spends(<span class="kw-2">&amp;</span>stx_batch, needs_witness_map_update);
             <span class="kw">if </span>needs_witness_map_update
-                &amp;&amp; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>indexed_tx) &gt; last_witnessed_tx.as_ref()
+                &amp;&amp; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>masp_indexed_tx) &gt; last_witnessed_tx.as_ref()
             {
-                <span class="self">self</span>.ctx.update_witness_map(indexed_tx, <span class="kw-2">&amp;</span>stx_batch)<span class="question-mark">?</span>;
+                <span class="self">self</span>.ctx.update_witness_map(masp_indexed_tx, <span class="kw-2">&amp;</span>stx_batch)<span class="question-mark">?</span>;
             }
-            <span class="kw">let </span>first_note_pos = <span class="self">self</span>.ctx.note_index[<span class="kw-2">&amp;</span>indexed_tx];
+            <span class="kw">let </span>first_note_pos = <span class="self">self</span>.ctx.note_index[<span class="kw-2">&amp;</span>masp_indexed_tx];
             <span class="kw">let </span><span class="kw-2">mut </span>vk_heights = BTreeMap::new();
             std::mem::swap(<span class="kw-2">&amp;mut </span>vk_heights, <span class="kw-2">&amp;mut </span><span class="self">self</span>.ctx.vk_heights);
             <span class="kw">for </span>(vk, <span class="kw">_</span>) <span class="kw">in </span>vk_heights
                 .iter()
                 <span class="comment">// NB: skip keys that are synced past the given `indexed_tx`
-                </span>.filter(|(_vk, h)| h.as_ref() &lt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>indexed_tx))
+                </span>.filter(|(_vk, h)| h.as_ref() &lt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>masp_indexed_tx))
             {
                 <span class="kw">for </span>(note_pos_offset, (note, pa, memo)) <span class="kw">in </span><span class="self">self
                     </span>.cache
                     .trial_decrypted
-                    .take(<span class="kw-2">&amp;</span>indexed_tx, vk)
+                    .take(<span class="kw-2">&amp;</span>masp_indexed_tx, vk)
                     .unwrap_or_default()
                 {
                     <span class="self">self</span>.ctx.save_decrypted_shielded_outputs(
@@ -1928,11 +2000,15 @@
             .iter_mut()
             <span class="comment">// NB: skip keys that are synced past the last input height
             </span>.filter(|(_vk, h)| {
-                h.as_ref().map(|itx| <span class="kw-2">&amp;</span>itx.height) &lt; <span class="prelude-val">Some</span>(last_query_height)
+                h.as_ref().map(|itx| <span class="kw-2">&amp;</span>itx.indexed_tx.block_height)
+                    &lt; <span class="prelude-val">Some</span>(last_query_height)
             })
         {
             <span class="comment">// NB: the entire block is synced
-            </span><span class="kw-2">*</span>h = <span class="prelude-val">Some</span>(IndexedTx::entire_block(<span class="kw-2">*</span>last_query_height));
+            </span><span class="kw-2">*</span>h = <span class="prelude-val">Some</span>(MaspIndexedTx {
+                indexed_tx: IndexedTx::entire_block(<span class="kw-2">*</span>last_query_height),
+                kind: MaspTxKind::Transfer,
+            });
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -1964,13 +2040,17 @@
         {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(h) = <span class="self">self</span>.ctx.vk_heights.entry(vk.key).or_default() {
                 <span class="kw">let </span>birthday = IndexedTx::entire_block(vk.birthday);
-                <span class="kw">if </span>birthday &gt; <span class="kw-2">*</span>h {
-                    <span class="kw-2">*</span>h = birthday;
+                <span class="kw">if </span>birthday &gt; h.indexed_tx {
+                    h.indexed_tx = birthday;
                 }
             } <span class="kw">else if </span>vk.birthday &gt;= BlockHeight::first() {
-                <span class="self">self</span>.ctx
-                    .vk_heights
-                    .insert(vk.key, <span class="prelude-val">Some</span>(IndexedTx::entire_block(vk.birthday)));
+                <span class="self">self</span>.ctx.vk_heights.insert(
+                    vk.key,
+                    <span class="prelude-val">Some</span>(MaspIndexedTx {
+                        indexed_tx: IndexedTx::entire_block(vk.birthday),
+                        kind: MaspTxKind::Transfer,
+                    }),
+                );
             }
         }
 
@@ -2150,8 +2230,8 @@
                 }
             }
             Message::FetchTxs(<span class="prelude-val">Ok</span>((from, to, tx_batch))) =&gt; {
-                <span class="kw">for </span>(itx, txs) <span class="kw">in </span><span class="kw-2">&amp;</span>tx_batch {
-                    <span class="self">self</span>.spawn_trial_decryptions(<span class="kw-2">*</span>itx, txs);
+                <span class="kw">for </span>(itx, tx) <span class="kw">in </span><span class="kw-2">&amp;</span>tx_batch {
+                    <span class="self">self</span>.spawn_trial_decryptions(<span class="kw-2">*</span>itx, tx);
                 }
                 <span class="self">self</span>.cache.fetched.extend(tx_batch);
 
@@ -2269,7 +2349,7 @@
                         .<span class="kw">await
                         </span>.wrap_err(<span class="string">"Failed to fetch shielded transfers"</span>)
                         .map_err(|error| TaskError {
-                            error: <span class="macro">eyre!</span>(<span class="string">"{error}"</span>),
+                            error,
                             context: [from, to],
                         })
                         .map(|batch| (from, to, batch)),
@@ -2280,7 +2360,7 @@
         spawned_tasks
     }
 
-    <span class="kw">fn </span>spawn_trial_decryptions(<span class="kw-2">&amp;</span><span class="self">self</span>, itx: IndexedTx, tx: <span class="kw-2">&amp;</span>Transaction) {
+    <span class="kw">fn </span>spawn_trial_decryptions(<span class="kw-2">&amp;</span><span class="self">self</span>, itx: MaspIndexedTx, tx: <span class="kw-2">&amp;</span>Transaction) {
         <span class="kw">for </span>(vk, vk_height) <span class="kw">in </span><span class="self">self</span>.ctx.vk_heights.iter() {
             <span class="kw">let </span>key_is_outdated = vk_height.as_ref() &lt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>itx);
             <span class="kw">let </span>cached = <span class="self">self</span>.cache.trial_decrypted.get(<span class="kw-2">&amp;</span>itx, vk).is_some();
@@ -2368,9 +2448,11 @@
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::masp::fs::FsShieldedUtils;
     <span class="kw">use </span><span class="kw">crate</span>::masp::test_utils::{
-        arbitrary_masp_tx, arbitrary_masp_tx_with_fee_unshielding,
-        arbitrary_vk, dated_arbitrary_vk, TestingMaspClient,
+        TestingMaspClient, arbitrary_masp_tx,
+        arbitrary_masp_tx_with_fee_unshielding, arbitrary_vk,
+        dated_arbitrary_vk,
     };
+    <span class="kw">use </span><span class="kw">crate</span>::masp::utils::MaspIndexedTx;
     <span class="kw">use </span><span class="kw">crate</span>::masp::{MaspLocalTaskEnv, ShieldedSyncConfig};
 
     <span class="attr">#[tokio::test]
@@ -2396,10 +2478,13 @@
                     BTreeMap::from([(arbitrary_vk(), <span class="prelude-val">None</span>)]);
                 <span class="comment">// fill up the dispatcher's cache
                 </span><span class="kw">for </span>h <span class="kw">in </span><span class="number">0u64</span>..<span class="number">10 </span>{
-                    <span class="kw">let </span>itx = IndexedTx {
-                        height: h.into(),
-                        index: Default::default(),
-                        batch_index: <span class="prelude-val">None</span>,
+                    <span class="kw">let </span>itx = MaspIndexedTx {
+                        indexed_tx: IndexedTx {
+                            block_height: h.into(),
+                            block_index: Default::default(),
+                            batch_index: <span class="prelude-val">None</span>,
+                        },
+                        kind: MaspTxKind::Transfer,
                     };
                     dispatcher.cache.fetched.insert((itx, arbitrary_masp_tx()));
                     dispatcher.ctx.note_index.insert(itx, h <span class="kw">as </span>usize);
@@ -2416,12 +2501,16 @@
                         start_height: Default::default(),
                         last_query_height: <span class="number">9</span>.into(),
                     })
-                    .expect(<span class="string">"Test failed"</span>);
+                    .<span class="kw">await
+                    </span>.expect(<span class="string">"Test failed"</span>);
                 <span class="macro">assert!</span>(dispatcher.cache.fetched.is_empty());
                 <span class="macro">assert!</span>(dispatcher.cache.trial_decrypted.is_empty());
                 <span class="kw">let </span>expected = BTreeMap::from([(
                     arbitrary_vk(),
-                    <span class="prelude-val">Some</span>(IndexedTx::entire_block(<span class="number">9</span>.into())),
+                    <span class="prelude-val">Some</span>(MaspIndexedTx {
+                        indexed_tx: IndexedTx::entire_block(<span class="number">9</span>.into()),
+                        kind: MaspTxKind::Transfer,
+                    }),
                 )]);
                 <span class="macro">assert_eq!</span>(expected, dispatcher.ctx.vk_heights);
             })
@@ -2602,10 +2691,13 @@
         <span class="macro">assert_eq!</span>(height, BlockHeight(<span class="number">1</span>));
 
         <span class="comment">// let's bump the vk height
-        </span><span class="kw-2">*</span>shielded_ctx.vk_heights.get_mut(<span class="kw-2">&amp;</span>vk).unwrap() = <span class="prelude-val">Some</span>(IndexedTx {
-            height: <span class="number">6</span>.into(),
-            index: TxIndex(<span class="number">0</span>),
-            batch_index: <span class="prelude-val">None</span>,
+        </span><span class="kw-2">*</span>shielded_ctx.vk_heights.get_mut(<span class="kw-2">&amp;</span>vk).unwrap() = <span class="prelude-val">Some</span>(MaspIndexedTx {
+            indexed_tx: IndexedTx {
+                block_height: <span class="number">6</span>.into(),
+                block_index: TxIndex(<span class="number">0</span>),
+                batch_index: <span class="prelude-val">None</span>,
+            },
+            kind: MaspTxKind::Transfer,
         });
 
         <span class="comment">// the min height should now be 6
@@ -2682,20 +2774,26 @@
                 masp_tx_sender.send(<span class="prelude-val">None</span>).expect(<span class="string">"Test failed"</span>);
                 masp_tx_sender
                     .send(<span class="prelude-val">Some</span>((
-                        IndexedTx {
-                            height: <span class="number">1</span>.into(),
-                            index: TxIndex(<span class="number">1</span>),
-                            batch_index: <span class="prelude-val">None</span>,
+                        MaspIndexedTx {
+                            indexed_tx: IndexedTx {
+                                block_height: <span class="number">1</span>.into(),
+                                block_index: TxIndex(<span class="number">1</span>),
+                                batch_index: <span class="prelude-val">None</span>,
+                            },
+                            kind: MaspTxKind::Transfer,
                         },
                         masp_tx.clone(),
                     )))
                     .expect(<span class="string">"Test failed"</span>);
                 masp_tx_sender
                     .send(<span class="prelude-val">Some</span>((
-                        IndexedTx {
-                            height: <span class="number">1</span>.into(),
-                            index: TxIndex(<span class="number">2</span>),
-                            batch_index: <span class="prelude-val">None</span>,
+                        MaspIndexedTx {
+                            indexed_tx: IndexedTx {
+                                block_height: <span class="number">1</span>.into(),
+                                block_index: TxIndex(<span class="number">2</span>),
+                                batch_index: <span class="prelude-val">None</span>,
+                            },
+                            kind: MaspTxKind::Transfer,
                         },
                         masp_tx.clone(),
                     )))
@@ -2711,22 +2809,31 @@
                 <span class="kw">let </span>keys =
                     ctx.note_index.keys().cloned().collect::&lt;BTreeSet&lt;<span class="kw">_</span>&gt;&gt;();
                 <span class="kw">let </span>expected = BTreeSet::from([
-                    IndexedTx {
-                        height: <span class="number">1</span>.into(),
-                        index: TxIndex(<span class="number">1</span>),
-                        batch_index: <span class="prelude-val">None</span>,
+                    MaspIndexedTx {
+                        indexed_tx: IndexedTx {
+                            block_height: <span class="number">1</span>.into(),
+                            block_index: TxIndex(<span class="number">1</span>),
+                            batch_index: <span class="prelude-val">None</span>,
+                        },
+                        kind: MaspTxKind::Transfer,
                     },
-                    IndexedTx {
-                        height: <span class="number">1</span>.into(),
-                        index: TxIndex(<span class="number">2</span>),
-                        batch_index: <span class="prelude-val">None</span>,
+                    MaspIndexedTx {
+                        indexed_tx: IndexedTx {
+                            block_height: <span class="number">1</span>.into(),
+                            block_index: TxIndex(<span class="number">2</span>),
+                            batch_index: <span class="prelude-val">None</span>,
+                        },
+                        kind: MaspTxKind::Transfer,
                     },
                 ]);
 
                 <span class="macro">assert_eq!</span>(keys, expected);
                 <span class="macro">assert_eq!</span>(
                     <span class="kw-2">*</span>ctx.vk_heights[<span class="kw-2">&amp;</span>vk.key].as_ref().unwrap(),
-                    IndexedTx::entire_block(<span class="number">2</span>.into(),)
+                    MaspIndexedTx {
+                        indexed_tx: IndexedTx::entire_block(<span class="number">2</span>.into(),),
+                        kind: MaspTxKind::Transfer
+                    }
                 );
                 <span class="macro">assert_eq!</span>(ctx.note_map.len(), <span class="number">2</span>);
             })
@@ -2762,20 +2869,26 @@
                 <span class="kw">let </span>masp_tx = arbitrary_masp_tx();
                 masp_tx_sender
                     .send(<span class="prelude-val">Some</span>((
-                        IndexedTx {
-                            height: <span class="number">1</span>.into(),
-                            index: TxIndex(<span class="number">1</span>),
-                            batch_index: <span class="prelude-val">None</span>,
+                        MaspIndexedTx {
+                            indexed_tx: IndexedTx {
+                                block_height: <span class="number">1</span>.into(),
+                                block_index: TxIndex(<span class="number">1</span>),
+                                batch_index: <span class="prelude-val">None</span>,
+                            },
+                            kind: MaspTxKind::Transfer,
                         },
                         masp_tx.clone(),
                     )))
                     .expect(<span class="string">"Test failed"</span>);
                 masp_tx_sender
                     .send(<span class="prelude-val">Some</span>((
-                        IndexedTx {
-                            height: <span class="number">1</span>.into(),
-                            index: TxIndex(<span class="number">2</span>),
-                            batch_index: <span class="prelude-val">None</span>,
+                        MaspIndexedTx {
+                            indexed_tx: IndexedTx {
+                                block_height: <span class="number">1</span>.into(),
+                                block_index: TxIndex(<span class="number">2</span>),
+                                batch_index: <span class="prelude-val">None</span>,
+                            },
+                            kind: MaspTxKind::Transfer,
                         },
                         masp_tx.clone(),
                     )))
@@ -2794,18 +2907,24 @@
                 <span class="kw">let </span>cache = utils.cache_load().<span class="kw">await</span>.expect(<span class="string">"Test failed"</span>);
                 <span class="kw">let </span>expected = BTreeMap::from([
                     (
-                        IndexedTx {
-                            height: <span class="number">1</span>.into(),
-                            index: TxIndex(<span class="number">1</span>),
-                            batch_index: <span class="prelude-val">None</span>,
+                        MaspIndexedTx {
+                            indexed_tx: IndexedTx {
+                                block_height: <span class="number">1</span>.into(),
+                                block_index: TxIndex(<span class="number">1</span>),
+                                batch_index: <span class="prelude-val">None</span>,
+                            },
+                            kind: MaspTxKind::Transfer,
                         },
                         masp_tx.clone(),
                     ),
                     (
-                        IndexedTx {
-                            height: <span class="number">1</span>.into(),
-                            index: TxIndex(<span class="number">2</span>),
-                            batch_index: <span class="prelude-val">None</span>,
+                        MaspIndexedTx {
+                            indexed_tx: IndexedTx {
+                                block_height: <span class="number">1</span>.into(),
+                                block_index: TxIndex(<span class="number">2</span>),
+                                batch_index: <span class="prelude-val">None</span>,
+                            },
+                            kind: MaspTxKind::Transfer,
                         },
                         masp_tx.clone(),
                     ),
@@ -2844,10 +2963,13 @@
                 </span><span class="kw">let </span>masp_tx = arbitrary_masp_tx();
                 masp_tx_sender
                     .send(<span class="prelude-val">Some</span>((
-                        IndexedTx {
-                            height: <span class="number">1</span>.into(),
-                            index: TxIndex(<span class="number">1</span>),
-                            batch_index: <span class="prelude-val">None</span>,
+                        MaspIndexedTx {
+                            indexed_tx: IndexedTx {
+                                block_height: <span class="number">1</span>.into(),
+                                block_index: TxIndex(<span class="number">1</span>),
+                                batch_index: <span class="prelude-val">None</span>,
+                            },
+                            kind: MaspTxKind::Transfer,
                         },
                         masp_tx.clone(),
                     )))
@@ -2891,10 +3013,13 @@
         <span class="kw">let </span>masp_tx = arbitrary_masp_tx();
         masp_tx_sender
             .send(<span class="prelude-val">Some</span>((
-                IndexedTx {
-                    height: <span class="number">1</span>.into(),
-                    index: TxIndex(<span class="number">1</span>),
-                    batch_index: <span class="prelude-val">None</span>,
+                MaspIndexedTx {
+                    indexed_tx: IndexedTx {
+                        block_height: <span class="number">1</span>.into(),
+                        block_index: TxIndex(<span class="number">1</span>),
+                        batch_index: <span class="prelude-val">None</span>,
+                    },
+                    kind: MaspTxKind::Transfer,
                 },
                 masp_tx.clone(),
             )))
@@ -2926,8 +3051,14 @@
         <span class="macro">assert_eq!</span>(
             birthdays,
             <span class="macro">vec!</span>[
-                <span class="prelude-val">Some</span>(IndexedTx::entire_block(BlockHeight(<span class="number">30</span>))),
-                <span class="prelude-val">Some</span>(IndexedTx::entire_block(BlockHeight(<span class="number">10</span>)))
+                <span class="prelude-val">Some</span>(MaspIndexedTx {
+                    indexed_tx: IndexedTx::entire_block(BlockHeight(<span class="number">30</span>)),
+                    kind: MaspTxKind::Transfer
+                }),
+                <span class="prelude-val">Some</span>(MaspIndexedTx {
+                    indexed_tx: IndexedTx::entire_block(BlockHeight(<span class="number">10</span>)),
+                    kind: MaspTxKind::Transfer
+                })
             ]
         );
 
@@ -2938,10 +3069,13 @@
         sk.birthday = <span class="number">60</span>.into();
         masp_tx_sender
             .send(<span class="prelude-val">Some</span>((
-                IndexedTx {
-                    height: <span class="number">1</span>.into(),
-                    index: TxIndex(<span class="number">1</span>),
-                    batch_index: <span class="prelude-val">None</span>,
+                MaspIndexedTx {
+                    indexed_tx: IndexedTx {
+                        block_height: <span class="number">1</span>.into(),
+                        block_index: TxIndex(<span class="number">1</span>),
+                        batch_index: <span class="prelude-val">None</span>,
+                    },
+                    kind: MaspTxKind::Transfer,
                 },
                 masp_tx.clone(),
             )))
@@ -2964,8 +3098,14 @@
         <span class="macro">assert_eq!</span>(
             birthdays,
             <span class="macro">vec!</span>[
-                <span class="prelude-val">Some</span>(IndexedTx::entire_block(BlockHeight(<span class="number">60</span>))),
-                <span class="prelude-val">Some</span>(IndexedTx::entire_block(BlockHeight(<span class="number">10</span>)))
+                <span class="prelude-val">Some</span>(MaspIndexedTx {
+                    indexed_tx: IndexedTx::entire_block(BlockHeight(<span class="number">60</span>)),
+                    kind: MaspTxKind::Transfer
+                }),
+                <span class="prelude-val">Some</span>(MaspIndexedTx {
+                    indexed_tx: IndexedTx::entire_block(BlockHeight(<span class="number">10</span>)),
+                    kind: MaspTxKind::Transfer
+                })
             ]
         )
     }

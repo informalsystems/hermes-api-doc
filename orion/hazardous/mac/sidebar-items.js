@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["hmac","poly1305"]};
+window.SIDEBAR_ITEMS = {"mod":["blake2b","hmac","poly1305"]};

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.16.1/src/hazardous/kdf/pbkdf2.rs`."><title>pbkdf2.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/kdf/</div>pbkdf2.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.9/src/hazardous/kdf/pbkdf2.rs`."><title>pbkdf2.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/kdf/</div>pbkdf2.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -574,9 +574,12 @@
 <a href="#573" id="573">573</a>
 <a href="#574" id="574">574</a>
 <a href="#575" id="575">575</a>
-<a href="#576" id="576">576</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
 
-// Copyright (c) 2018-2021 The orion Developers
+// Copyright (c) 2018-2025 The orion Developers
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -620,8 +623,8 @@
 //! - Salts should always be generated using a CSPRNG.
 //!   [`secure_rand_bytes()`] can be used for this.
 //! - The recommended length for a salt is 64 bytes.
-//! - The iteration count should be set as high as feasible. The recommended
-//!   minimum is 100000.
+//! - The iteration count should be set as high as feasible. Please check [OWASP] for
+//! the recommended minimum amount (600000 at the time of writing).
 //! - Please note that when verifying, a copy of the computed password hash is placed into
 //! `dst_out`. If the derived hash is considered sensitive and you want to provide defense
 //! in depth against an attacker reading your application's private memory, then you as
@@ -629,6 +632,7 @@
 //!
 //! # Example:
 //! ```rust
+//! # #[cfg(feature = "safe_api")] {
 //! use orion::{hazardous::kdf::pbkdf2, util};
 //!
 //! let mut salt = [0u8; 64];
@@ -641,11 +645,13 @@
 //! let expected_dk = dst_out;
 //!
 //! assert!(pbkdf2::sha512::verify(&amp;expected_dk, &amp;password, &amp;salt, 10000, &amp;mut dst_out).is_ok());
+//! # }
 //! # Ok::&lt;(), orion::errors::UnknownCryptoError&gt;(())
 //! ```
 //! [`Password::generate()`]: pbkdf2::sha512::Password::generate
 //! [`secure_rand_bytes()`]: crate::util::secure_rand_bytes
 //! [`zeroize` crate]: https://crates.io/crates/zeroize
+//! [OWASP]: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
 
 </span><span class="kw">use crate</span>::{errors::UnknownCryptoError, hazardous::mac::hmac};
 
@@ -932,7 +938,7 @@
             <span class="kw">let </span><span class="kw-2">mut </span>okm_out = [<span class="number">0u8</span>; <span class="number">16</span>];
             <span class="kw">let </span><span class="kw-2">mut </span>okm_out_verify = [<span class="number">0u8</span>; <span class="number">16</span>];
 
-            sha256::derive_key(<span class="kw-2">&amp;</span>password_256, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha256::derive_key(<span class="kw-2">&amp;</span>password_256, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(sha256::verify(
                 <span class="kw-2">&amp;</span>okm_out,
                 <span class="kw-2">&amp;</span>password_256,
@@ -942,7 +948,7 @@
             )
             .is_ok());
 
-            sha384::derive_key(<span class="kw-2">&amp;</span>password_384, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha384::derive_key(<span class="kw-2">&amp;</span>password_384, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(sha384::verify(
                 <span class="kw-2">&amp;</span>okm_out,
                 <span class="kw-2">&amp;</span>password_384,
@@ -952,7 +958,7 @@
             )
             .is_ok());
 
-            sha512::derive_key(<span class="kw-2">&amp;</span>password_512, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha512::derive_key(<span class="kw-2">&amp;</span>password_512, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(sha512::verify(
                 <span class="kw-2">&amp;</span>okm_out,
                 <span class="kw-2">&amp;</span>password_512,
@@ -974,7 +980,7 @@
             <span class="kw">let </span><span class="kw-2">mut </span>okm_out = [<span class="number">0u8</span>; <span class="number">16</span>];
             <span class="kw">let </span><span class="kw-2">mut </span>okm_out_verify = [<span class="number">0u8</span>; <span class="number">16</span>];
 
-            sha256::derive_key(<span class="kw-2">&amp;</span>password_256, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha256::derive_key(<span class="kw-2">&amp;</span>password_256, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(sha256::verify(
                 <span class="kw-2">&amp;</span>okm_out,
                 <span class="kw-2">&amp;</span>password_256,
@@ -984,7 +990,7 @@
             )
             .is_err());
 
-            sha384::derive_key(<span class="kw-2">&amp;</span>password_384, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha384::derive_key(<span class="kw-2">&amp;</span>password_384, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(sha384::verify(
                 <span class="kw-2">&amp;</span>okm_out,
                 <span class="kw-2">&amp;</span>password_384,
@@ -994,7 +1000,7 @@
             )
             .is_err());
 
-            sha512::derive_key(<span class="kw-2">&amp;</span>password_512, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha512::derive_key(<span class="kw-2">&amp;</span>password_512, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(sha512::verify(
                 <span class="kw-2">&amp;</span>okm_out,
                 <span class="kw-2">&amp;</span>password_512,
@@ -1015,7 +1021,7 @@
             <span class="kw">let </span><span class="kw-2">mut </span>okm_out = [<span class="number">0u8</span>; <span class="number">16</span>];
             <span class="kw">let </span><span class="kw-2">mut </span>okm_out_verify = [<span class="number">0u8</span>; <span class="number">16</span>];
 
-            sha256::derive_key(<span class="kw-2">&amp;</span>password_256, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha256::derive_key(<span class="kw-2">&amp;</span>password_256, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(sha256::verify(
                 <span class="kw-2">&amp;</span>okm_out,
                 <span class="kw-2">&amp;</span>sha256::Password::from_slice(<span class="string">b"pass"</span>).unwrap(),
@@ -1025,7 +1031,7 @@
             )
             .is_err());
 
-            sha384::derive_key(<span class="kw-2">&amp;</span>password_384, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha384::derive_key(<span class="kw-2">&amp;</span>password_384, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(sha384::verify(
                 <span class="kw-2">&amp;</span>okm_out,
                 <span class="kw-2">&amp;</span>sha384::Password::from_slice(<span class="string">b"pass"</span>).unwrap(),
@@ -1035,7 +1041,7 @@
             )
             .is_err());
 
-            sha512::derive_key(<span class="kw-2">&amp;</span>password_512, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha512::derive_key(<span class="kw-2">&amp;</span>password_512, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(sha512::verify(
                 <span class="kw-2">&amp;</span>okm_out,
                 <span class="kw-2">&amp;</span>sha512::Password::from_slice(<span class="string">b"pass"</span>).unwrap(),
@@ -1057,7 +1063,7 @@
             <span class="kw">let </span><span class="kw-2">mut </span>okm_out = [<span class="number">0u8</span>; <span class="number">16</span>];
             <span class="kw">let </span><span class="kw-2">mut </span>okm_out_verify = [<span class="number">0u8</span>; <span class="number">32</span>];
 
-            sha256::derive_key(<span class="kw-2">&amp;</span>password_256, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha256::derive_key(<span class="kw-2">&amp;</span>password_256, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(sha256::verify(
                 <span class="kw-2">&amp;</span>okm_out,
                 <span class="kw-2">&amp;</span>password_256,
@@ -1067,7 +1073,7 @@
             )
             .is_err());
 
-            sha384::derive_key(<span class="kw-2">&amp;</span>password_384, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha384::derive_key(<span class="kw-2">&amp;</span>password_384, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(sha384::verify(
                 <span class="kw-2">&amp;</span>okm_out,
                 <span class="kw-2">&amp;</span>password_384,
@@ -1077,7 +1083,7 @@
             )
             .is_err());
 
-            sha512::derive_key(<span class="kw-2">&amp;</span>password_512, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha512::derive_key(<span class="kw-2">&amp;</span>password_512, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(sha512::verify(
                 <span class="kw-2">&amp;</span>okm_out,
                 <span class="kw-2">&amp;</span>password_512,
@@ -1099,17 +1105,17 @@
             <span class="kw">let </span><span class="kw-2">mut </span>okm_out = [<span class="number">0u8</span>; <span class="number">16</span>];
             <span class="kw">let </span><span class="kw-2">mut </span>okm_out_verify = [<span class="number">0u8</span>; <span class="number">16</span>];
 
-            sha256::derive_key(<span class="kw-2">&amp;</span>password_256, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha256::derive_key(<span class="kw-2">&amp;</span>password_256, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(
                 sha256::verify(<span class="kw-2">&amp;</span>okm_out, <span class="kw-2">&amp;</span>password_256, salt, <span class="number">127</span>, <span class="kw-2">&amp;mut </span>okm_out_verify).is_err()
             );
 
-            sha384::derive_key(<span class="kw-2">&amp;</span>password_384, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha384::derive_key(<span class="kw-2">&amp;</span>password_384, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(
                 sha384::verify(<span class="kw-2">&amp;</span>okm_out, <span class="kw-2">&amp;</span>password_384, salt, <span class="number">127</span>, <span class="kw-2">&amp;mut </span>okm_out_verify).is_err()
             );
 
-            sha512::derive_key(<span class="kw-2">&amp;</span>password_512, <span class="kw-2">&amp;</span>salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
+            sha512::derive_key(<span class="kw-2">&amp;</span>password_512, salt, iterations, <span class="kw-2">&amp;mut </span>okm_out).unwrap();
             <span class="macro">assert!</span>(
                 sha512::verify(<span class="kw-2">&amp;</span>okm_out, <span class="kw-2">&amp;</span>password_512, salt, <span class="number">127</span>, <span class="kw-2">&amp;mut </span>okm_out_verify).is_err()
             );

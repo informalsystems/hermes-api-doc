@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["MaspClientCapabilities","RetryStrategy"],"fn":["blocks_left_to_fetch"],"struct":["Fetched","TrialDecrypted"],"trait":["MaspClient"],"type":["DecryptedData","IndexedNoteData","IndexedNoteEntry","IndexedNoteEntryRefs"]};
+window.SIDEBAR_ITEMS = {"enum":["MaspClientCapabilities","MaspTxKind","RetryStrategy"],"fn":["blocks_left_to_fetch"],"struct":["Fetched","MaspIndexedTx","MaspIndexedTxRange","TrialDecrypted"],"trait":["MaspClient"],"type":["DecryptedData","IndexedNoteData","IndexedNoteEntry","IndexedNoteEntryRefs"]};

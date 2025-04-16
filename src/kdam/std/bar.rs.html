@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/kdam-0.5.2/src/std/bar.rs`."><title>bar.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="kdam" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">kdam/std/</div>bar.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/kdam-0.6.2/src/std/bar.rs`."><title>bar.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="kdam" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">kdam/std/</div>bar.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1126,13 +1126,14 @@
 <a href="#1125" id="1125">1125</a>
 <a href="#1126" id="1126">1126</a>
 <a href="#1127" id="1127">1127</a>
-<a href="#1128" id="1128">1128</a></pre></div><pre class="rust"><code><span class="kw">use super</span>::{
+<a href="#1128" id="1128">1128</a>
+<a href="#1129" id="1129">1129</a></pre></div><pre class="rust"><code><span class="kw">use super</span>::{
     styles::{Animation, Colour},
     BarExt,
 };
 <span class="kw">use crate</span>::{
-    format, term,
-    term::{Colorizer, Writer},
+    format,
+    term::{<span class="self">self</span>, Colorizer, InitializedOutput, Writer},
 };
 <span class="kw">use </span>std::{
     io::{stdin, <span class="prelude-ty">Result</span>, Write},
@@ -1155,6 +1156,7 @@
 <span class="attr">#[cfg(feature = <span class="string">"template"</span>)]
 </span><span class="kw">use </span>formatx::Template;
 
+
 <span class="doccomment">/// Core implemention of console progress bar.
 ///
 /// # Example
@@ -1170,7 +1172,7 @@
 ///     pb.update(1).unwrap();
 /// }
 /// ```
-</span><span class="attr">#[derive(Debug, Clone)]
+</span><span class="attr">#[derive(Clone, Debug)]
 </span><span class="kw">pub struct </span>Bar {
     <span class="comment">// Builder Fields
     </span><span class="kw">pub </span>animation: Animation,
@@ -1196,11 +1198,11 @@
     <span class="kw">pub </span>unit: String,
     <span class="kw">pub </span>unit_divisor: usize,
     <span class="kw">pub </span>unit_scale: bool,
-    <span class="kw">pub </span>writer: Writer,
+    <span class="kw">pub </span>writer: InitializedOutput,
     <span class="comment">// Non Builder Fields
     </span><span class="kw">pub </span>bar_length: u16,
     <span class="attr">#[cfg(feature = <span class="string">"notebook"</span>)]
-    </span>container: <span class="prelude-ty">Option</span>&lt;Py&lt;PyAny&gt;&gt;,
+    </span>container: <span class="prelude-ty">Option</span>&lt;notebook::PyContainer&gt;,
     <span class="kw">pub </span>counter: usize,
     current_ncols: u16,
     elapsed_time: f32,
@@ -1239,7 +1241,7 @@
             unit: <span class="string">"it"</span>.to_owned(),
             unit_divisor: <span class="number">1000</span>,
             unit_scale: <span class="bool-val">false</span>,
-            writer: Writer::Stderr,
+            writer: InitializedOutput::Stderr,
             bar_length: <span class="number">0</span>,
             counter: <span class="number">0</span>,
             current_ncols: <span class="number">0</span>,
@@ -2101,9 +2103,9 @@
     </span>}
 
     <span class="doccomment">/// Select writer between `stdout` and `stderr` to display progress bar output.
-    /// (default: [Writer::Stderr](crate::term::Writer))
+    /// (default: [Output::Stderr](crate::term::Writer))
     </span><span class="kw">pub fn </span>writer(<span class="kw-2">mut </span><span class="self">self</span>, writer: Writer) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.pb.writer = writer;
+        <span class="self">self</span>.pb.writer = writer.init();
         <span class="self">self
     </span>}
 
@@ -2129,15 +2131,15 @@
         <span class="attr">#[cfg(feature = <span class="string">"notebook"</span>)]
         </span><span class="kw">if </span>notebook::running() {
             Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {
-                <span class="kw">let </span>ipywidgets = PyModule::import_bound(py, <span class="string">"ipywidgets"</span>)<span class="question-mark">?</span>;
-                <span class="kw">let </span>ipython_display = PyModule::import_bound(py, <span class="string">"IPython.display"</span>)<span class="question-mark">?</span>;
+                <span class="kw">let </span>ipywidgets = PyModule::import(py, <span class="string">"ipywidgets"</span>)<span class="question-mark">?</span>;
+                <span class="kw">let </span>ipython_display = PyModule::import(py, <span class="string">"IPython.display"</span>)<span class="question-mark">?</span>;
 
                 <span class="kw">let </span>int_progress = ipywidgets.getattr(<span class="string">"IntProgress"</span>)<span class="question-mark">?</span>;
                 <span class="kw">let </span>hbox = ipywidgets.getattr(<span class="string">"HBox"</span>)<span class="question-mark">?</span>;
                 <span class="kw">let </span>html = ipywidgets.getattr(<span class="string">"HTML"</span>)<span class="question-mark">?</span>;
                 <span class="kw">let </span>display = ipython_display.getattr(<span class="string">"display"</span>)<span class="question-mark">?</span>;
 
-                <span class="kw">let </span>kwargs = PyDict::new_bound(py);
+                <span class="kw">let </span>kwargs = PyDict::new(py);
                 kwargs.set_item(<span class="string">"min"</span>, <span class="number">0</span>)<span class="question-mark">?</span>;
 
                 <span class="kw">if </span><span class="self">self</span>.pb.total == <span class="number">0 </span>{
@@ -2148,7 +2150,7 @@
                 }
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(Colour::Solid(colour)) = <span class="kw-2">&amp;</span><span class="self">self</span>.pb.colour {
-                    <span class="kw">let </span>style = PyDict::new_bound(py);
+                    <span class="kw">let </span>style = PyDict::new(py);
                     style.set_item(<span class="string">"bar_color"</span>, colour)<span class="question-mark">?</span>;
                     kwargs.set_item(<span class="string">"style"</span>, style)<span class="question-mark">?</span>;
                 }
@@ -2160,7 +2162,7 @@
                     layout.setattr(<span class="string">"flex"</span>, <span class="string">"2"</span>)<span class="question-mark">?</span>;
                 }
 
-                <span class="kw">let </span>kwargs = PyDict::new_bound(py);
+                <span class="kw">let </span>kwargs = PyDict::new(py);
                 kwargs.set_item(<span class="string">"children"</span>, [html.call0()<span class="question-mark">?</span>, pb, html.call0()<span class="question-mark">?</span>])<span class="question-mark">?</span>;
 
                 <span class="kw">let </span>container = hbox.call((), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>kwargs))<span class="question-mark">?</span>;

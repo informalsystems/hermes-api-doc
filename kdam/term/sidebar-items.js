@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Writer"],"fn":["colour","hide_cursor","init","show_cursor","width"],"trait":["Colorizer"]};
+window.SIDEBAR_ITEMS = {"enum":["InitializedOutput","Writer"],"fn":["colour","hide_cursor","init","show_cursor","width"],"trait":["Colorizer"]};

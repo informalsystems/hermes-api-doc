@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-0.38.44/src/ioctl/patterns.rs`."><title>patterns.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/ioctl/</div>patterns.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-1.0.3/src/ioctl/patterns.rs`."><title>patterns.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/ioctl/</div>patterns.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -266,81 +266,50 @@
 <a href="#265" id="265">265</a>
 <a href="#266" id="266">266</a>
 <a href="#267" id="267">267</a>
-<a href="#268" id="268">268</a>
-<a href="#269" id="269">269</a>
-<a href="#270" id="270">270</a>
-<a href="#271" id="271">271</a>
-<a href="#272" id="272">272</a>
-<a href="#273" id="273">273</a>
-<a href="#274" id="274">274</a>
-<a href="#275" id="275">275</a>
-<a href="#276" id="276">276</a>
-<a href="#277" id="277">277</a>
-<a href="#278" id="278">278</a>
-<a href="#279" id="279">279</a>
-<a href="#280" id="280">280</a>
-<a href="#281" id="281">281</a>
-<a href="#282" id="282">282</a>
-<a href="#283" id="283">283</a>
-<a href="#284" id="284">284</a>
-<a href="#285" id="285">285</a>
-<a href="#286" id="286">286</a>
-<a href="#287" id="287">287</a>
-<a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a>
-<a href="#290" id="290">290</a>
-<a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
-<a href="#298" id="298">298</a>
-<a href="#299" id="299">299</a>
-<a href="#300" id="300">300</a>
-<a href="#301" id="301">301</a></pre></div><pre class="rust"><code><span class="doccomment">//! Implements typical patterns for `ioctl` usage.
+<a href="#268" id="268">268</a></pre></div><pre class="rust"><code><span class="doccomment">//! Implements typical patterns for `ioctl` usage.
 
-</span><span class="kw">use super</span>::{Ioctl, IoctlOutput, Opcode, RawOpcode};
+</span><span class="kw">use super</span>::{Ioctl, IoctlOutput, Opcode};
 
 <span class="kw">use </span><span class="kw">crate</span>::backend::c;
 <span class="kw">use </span><span class="kw">crate</span>::io::Result;
 
-<span class="kw">use </span>core::marker::PhantomData;
 <span class="kw">use </span>core::ptr::addr_of_mut;
 <span class="kw">use </span>core::{fmt, mem};
 
 <span class="doccomment">/// Implements an `ioctl` with no real arguments.
-</span><span class="kw">pub struct </span>NoArg&lt;Opcode&gt; {
-    <span class="doccomment">/// The opcode.
-    </span>_opcode: PhantomData&lt;Opcode&gt;,
-}
+///
+/// To compute a value for the `OPCODE` argument, see the functions in the
+/// [`opcode`] module.
+///
+/// [`opcode`]: crate::ioctl::opcode
+</span><span class="kw">pub struct </span>NoArg&lt;<span class="kw">const </span>OPCODE: Opcode&gt; {}
 
-<span class="kw">impl</span>&lt;Opcode: CompileTimeOpcode&gt; fmt::Debug <span class="kw">for </span>NoArg&lt;Opcode&gt; {
+<span class="kw">impl</span>&lt;<span class="kw">const </span>OPCODE: Opcode&gt; fmt::Debug <span class="kw">for </span>NoArg&lt;OPCODE&gt; {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
-        f.debug_tuple(<span class="string">"NoArg"</span>).field(<span class="kw-2">&amp;</span>Opcode::OPCODE).finish()
+        f.debug_tuple(<span class="string">"NoArg"</span>).field(<span class="kw-2">&amp;</span>OPCODE).finish()
     }
 }
 
-<span class="kw">impl</span>&lt;Opcode: CompileTimeOpcode&gt; NoArg&lt;Opcode&gt; {
+<span class="kw">impl</span>&lt;<span class="kw">const </span>OPCODE: Opcode&gt; NoArg&lt;OPCODE&gt; {
     <span class="doccomment">/// Create a new no-argument `ioctl` object.
     ///
     /// # Safety
     ///
-    /// - `Opcode` must provide a valid opcode.
+    ///  - `OPCODE` must provide a valid opcode.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub unsafe fn </span>new() -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            _opcode: PhantomData,
-        }
+    </span><span class="kw">pub const unsafe fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{}
     }
 }
 
-<span class="kw">unsafe impl</span>&lt;Opcode: CompileTimeOpcode&gt; Ioctl <span class="kw">for </span>NoArg&lt;Opcode&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="kw">const </span>OPCODE: Opcode&gt; Ioctl <span class="kw">for </span>NoArg&lt;OPCODE&gt; {
     <span class="kw">type </span>Output = ();
 
     <span class="kw">const </span>IS_MUTATING: bool = <span class="bool-val">false</span>;
-    <span class="kw">const </span>OPCODE: <span class="self">self</span>::Opcode = Opcode::OPCODE;
+
+    <span class="kw">fn </span>opcode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">self</span>::Opcode {
+        OPCODE
+    }
 
     <span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>c::c_void {
         core::ptr::null_mut()
@@ -354,43 +323,47 @@
 <span class="doccomment">/// Implements the traditional “getter” pattern for `ioctl`s.
 ///
 /// Some `ioctl`s just read data into the userspace. As this is a popular
-/// pattern this structure implements it.
-</span><span class="kw">pub struct </span>Getter&lt;Opcode, Output&gt; {
+/// pattern, this structure implements it.
+///
+/// To compute a value for the `OPCODE` argument, see the functions in the
+/// [`opcode`] module.
+///
+/// [`opcode`]: crate::ioctl::opcode
+</span><span class="kw">pub struct </span>Getter&lt;<span class="kw">const </span>OPCODE: Opcode, Output&gt; {
     <span class="doccomment">/// The output data.
     </span>output: mem::MaybeUninit&lt;Output&gt;,
-
-    <span class="doccomment">/// The opcode.
-    </span>_opcode: PhantomData&lt;Opcode&gt;,
 }
 
-<span class="kw">impl</span>&lt;Opcode: CompileTimeOpcode, Output&gt; fmt::Debug <span class="kw">for </span>Getter&lt;Opcode, Output&gt; {
+<span class="kw">impl</span>&lt;<span class="kw">const </span>OPCODE: Opcode, Output&gt; fmt::Debug <span class="kw">for </span>Getter&lt;OPCODE, Output&gt; {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
-        f.debug_tuple(<span class="string">"Getter"</span>).field(<span class="kw-2">&amp;</span>Opcode::OPCODE).finish()
+        f.debug_tuple(<span class="string">"Getter"</span>).field(<span class="kw-2">&amp;</span>OPCODE).finish()
     }
 }
 
-<span class="kw">impl</span>&lt;Opcode: CompileTimeOpcode, Output&gt; Getter&lt;Opcode, Output&gt; {
+<span class="kw">impl</span>&lt;<span class="kw">const </span>OPCODE: Opcode, Output&gt; Getter&lt;OPCODE, Output&gt; {
     <span class="doccomment">/// Create a new getter-style `ioctl` object.
     ///
     /// # Safety
     ///
-    /// - `Opcode` must provide a valid opcode.
-    /// - For this opcode, `Output` must be the type that the kernel expects to
-    ///   write into.
+    ///  - `OPCODE` must provide a valid opcode.
+    ///  - For this opcode, `Output` must be the type that the kernel expects
+    ///    to write into.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub unsafe fn </span>new() -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const unsafe fn </span>new() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             output: mem::MaybeUninit::uninit(),
-            _opcode: PhantomData,
         }
     }
 }
 
-<span class="kw">unsafe impl</span>&lt;Opcode: CompileTimeOpcode, Output&gt; Ioctl <span class="kw">for </span>Getter&lt;Opcode, Output&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="kw">const </span>OPCODE: Opcode, Output&gt; Ioctl <span class="kw">for </span>Getter&lt;OPCODE, Output&gt; {
     <span class="kw">type </span>Output = Output;
 
     <span class="kw">const </span>IS_MUTATING: bool = <span class="bool-val">true</span>;
-    <span class="kw">const </span>OPCODE: <span class="self">self</span>::Opcode = Opcode::OPCODE;
+
+    <span class="kw">fn </span>opcode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">self</span>::Opcode {
+        OPCODE
+    }
 
     <span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>c::c_void {
         <span class="self">self</span>.output.as_mut_ptr().cast()
@@ -405,45 +378,47 @@
 /// the `ioctl`.
 ///
 /// The opcode must be read-only.
-</span><span class="kw">pub struct </span>Setter&lt;Opcode, Input&gt; {
+///
+/// To compute a value for the `OPCODE` argument, see the functions in the
+/// [`opcode`] module.
+///
+/// [`opcode`]: crate::ioctl::opcode
+</span><span class="kw">pub struct </span>Setter&lt;<span class="kw">const </span>OPCODE: Opcode, Input&gt; {
     <span class="doccomment">/// The input data.
     </span>input: Input,
-
-    <span class="doccomment">/// The opcode.
-    </span>_opcode: PhantomData&lt;Opcode&gt;,
 }
 
-<span class="kw">impl</span>&lt;Opcode: CompileTimeOpcode, Input: fmt::Debug&gt; fmt::Debug <span class="kw">for </span>Setter&lt;Opcode, Input&gt; {
+<span class="kw">impl</span>&lt;<span class="kw">const </span>OPCODE: Opcode, Input: fmt::Debug&gt; fmt::Debug <span class="kw">for </span>Setter&lt;OPCODE, Input&gt; {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         f.debug_tuple(<span class="string">"Setter"</span>)
-            .field(<span class="kw-2">&amp;</span>Opcode::OPCODE)
+            .field(<span class="kw-2">&amp;</span>OPCODE)
             .field(<span class="kw-2">&amp;</span><span class="self">self</span>.input)
             .finish()
     }
 }
 
-<span class="kw">impl</span>&lt;Opcode: CompileTimeOpcode, Input&gt; Setter&lt;Opcode, Input&gt; {
+<span class="kw">impl</span>&lt;<span class="kw">const </span>OPCODE: Opcode, Input&gt; Setter&lt;OPCODE, Input&gt; {
     <span class="doccomment">/// Create a new pointer setter-style `ioctl` object.
     ///
     /// # Safety
     ///
-    /// - `Opcode` must provide a valid opcode.
-    /// - For this opcode, `Input` must be the type that the kernel expects to
-    ///   get.
+    ///  - `OPCODE` must provide a valid opcode.
+    ///  - For this opcode, `Input` must be the type that the kernel expects to
+    ///    get.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub unsafe fn </span>new(input: Input) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            input,
-            _opcode: PhantomData,
-        }
+    </span><span class="kw">pub const unsafe fn </span>new(input: Input) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{ input }
     }
 }
 
-<span class="kw">unsafe impl</span>&lt;Opcode: CompileTimeOpcode, Input&gt; Ioctl <span class="kw">for </span>Setter&lt;Opcode, Input&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="kw">const </span>OPCODE: Opcode, Input&gt; Ioctl <span class="kw">for </span>Setter&lt;OPCODE, Input&gt; {
     <span class="kw">type </span>Output = ();
 
     <span class="kw">const </span>IS_MUTATING: bool = <span class="bool-val">false</span>;
-    <span class="kw">const </span>OPCODE: <span class="self">self</span>::Opcode = Opcode::OPCODE;
+
+    <span class="kw">fn </span>opcode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">self</span>::Opcode {
+        OPCODE
+    }
 
     <span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>c::c_void {
         <span class="macro">addr_of_mut!</span>(<span class="self">self</span>.input).cast::&lt;c::c_void&gt;()
@@ -458,36 +433,38 @@
 ///
 /// The ioctl takes a reference to a struct that it reads its input from,
 /// then writes output to the same struct.
-</span><span class="kw">pub struct </span>Updater&lt;<span class="lifetime">'a</span>, Opcode, Value&gt; {
+///
+/// To compute a value for the `OPCODE` argument, see the functions in the
+/// [`opcode`] module.
+///
+/// [`opcode`]: crate::ioctl::opcode
+</span><span class="kw">pub struct </span>Updater&lt;<span class="lifetime">'a</span>, <span class="kw">const </span>OPCODE: Opcode, Value&gt; {
     <span class="doccomment">/// Reference to input/output data.
     </span>value: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Value,
-
-    <span class="doccomment">/// The opcode.
-    </span>_opcode: PhantomData&lt;Opcode&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, Opcode: CompileTimeOpcode, Value&gt; Updater&lt;<span class="lifetime">'a</span>, Opcode, Value&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="kw">const </span>OPCODE: Opcode, Value&gt; Updater&lt;<span class="lifetime">'a</span>, OPCODE, Value&gt; {
     <span class="doccomment">/// Create a new pointer updater-style `ioctl` object.
     ///
     /// # Safety
     ///
-    /// - `Opcode` must provide a valid opcode.
-    /// - For this opcode, `Value` must be the type that the kernel expects to
-    ///   get.
+    ///  - `OPCODE` must provide a valid opcode.
+    ///  - For this opcode, `Value` must be the type that the kernel expects to
+    ///    get.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub unsafe fn </span>new(value: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Value) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            value,
-            _opcode: PhantomData,
-        }
+        <span class="self">Self </span>{ value }
     }
 }
 
-<span class="kw">unsafe impl</span>&lt;<span class="lifetime">'a</span>, Opcode: CompileTimeOpcode, T&gt; Ioctl <span class="kw">for </span>Updater&lt;<span class="lifetime">'a</span>, Opcode, T&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">'a</span>, <span class="kw">const </span>OPCODE: Opcode, T&gt; Ioctl <span class="kw">for </span>Updater&lt;<span class="lifetime">'a</span>, OPCODE, T&gt; {
     <span class="kw">type </span>Output = ();
 
     <span class="kw">const </span>IS_MUTATING: bool = <span class="bool-val">true</span>;
-    <span class="kw">const </span>OPCODE: <span class="self">self</span>::Opcode = Opcode::OPCODE;
+
+    <span class="kw">fn </span>opcode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">self</span>::Opcode {
+        OPCODE
+    }
 
     <span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>c::c_void {
         (<span class="self">self</span>.value <span class="kw">as </span><span class="kw-2">*mut </span>T).cast()
@@ -499,40 +476,55 @@
 }
 
 <span class="doccomment">/// Implements an `ioctl` that passes an integer into the `ioctl`.
-</span><span class="kw">pub struct </span>IntegerSetter&lt;Opcode&gt; {
+///
+/// To compute a value for the `OPCODE` argument, see the functions in the
+/// [`opcode`] module.
+///
+/// [`opcode`]: crate::ioctl::opcode
+</span><span class="kw">pub struct </span>IntegerSetter&lt;<span class="kw">const </span>OPCODE: Opcode&gt; {
     <span class="doccomment">/// The value to pass in.
-    </span>value: usize,
-
-    <span class="doccomment">/// The opcode.
-    </span>_opcode: PhantomData&lt;Opcode&gt;,
+    ///
+    /// For strict provenance preservation, this is a pointer.
+    </span>value: <span class="kw-2">*mut </span>c::c_void,
 }
 
-<span class="kw">impl</span>&lt;Opcode: CompileTimeOpcode&gt; IntegerSetter&lt;Opcode&gt; {
-    <span class="doccomment">/// Create a new integer `Ioctl` helper.
+<span class="kw">impl</span>&lt;<span class="kw">const </span>OPCODE: Opcode&gt; IntegerSetter&lt;OPCODE&gt; {
+    <span class="doccomment">/// Create a new integer `Ioctl` helper containing a `usize`.
     ///
     /// # Safety
     ///
-    /// - `Opcode` must provide a valid opcode.
-    /// - For this opcode, it must expect an integer.
-    /// - The integer is in the valid range for this opcode.
+    ///  - `OPCODE` must provide a valid opcode.
+    ///  - For this opcode, it must expect an integer.
+    ///  - The integer is in the valid range for this opcode.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub unsafe fn </span>new(value: usize) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            value,
-            _opcode: PhantomData,
-        }
+    </span><span class="kw">pub const unsafe fn </span>new_usize(value: usize) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{ value: value <span class="kw">as _ </span>}
+    }
+
+    <span class="doccomment">/// Create a new integer `Ioctl` helper containing a `*mut c_void`.
+    ///
+    /// # Safety
+    ///
+    ///  - `OPCODE` must provide a valid opcode.
+    ///  - For this opcode, it must expect an integer.
+    ///  - The integer is in the valid range for this opcode.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub const unsafe fn </span>new_pointer(value: <span class="kw-2">*mut </span>c::c_void) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{ value }
     }
 }
 
-<span class="kw">unsafe impl</span>&lt;Opcode: CompileTimeOpcode&gt; Ioctl <span class="kw">for </span>IntegerSetter&lt;Opcode&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="kw">const </span>OPCODE: Opcode&gt; Ioctl <span class="kw">for </span>IntegerSetter&lt;OPCODE&gt; {
     <span class="kw">type </span>Output = ();
 
     <span class="kw">const </span>IS_MUTATING: bool = <span class="bool-val">false</span>;
-    <span class="kw">const </span>OPCODE: <span class="self">self</span>::Opcode = Opcode::OPCODE;
+
+    <span class="kw">fn </span>opcode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">self</span>::Opcode {
+        OPCODE
+    }
 
     <span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>c::c_void {
-        <span class="comment">// TODO: strict provenance
-        </span><span class="self">self</span>.value <span class="kw">as </span><span class="kw-2">*mut </span>c::c_void
+        <span class="self">self</span>.value
     }
 
     <span class="kw">unsafe fn </span>output_from_ptr(
@@ -541,63 +533,5 @@
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Output&gt; {
         <span class="prelude-val">Ok</span>(())
     }
-}
-
-<span class="doccomment">/// Trait for something that provides an `ioctl` opcode at compile time.
-</span><span class="kw">pub trait </span>CompileTimeOpcode {
-    <span class="doccomment">/// The opcode.
-    </span><span class="kw">const </span>OPCODE: Opcode;
-}
-
-<span class="doccomment">/// Provides a bad opcode at compile time.
-</span><span class="kw">pub struct </span>BadOpcode&lt;<span class="kw">const </span>OPCODE: RawOpcode&gt;;
-
-<span class="kw">impl</span>&lt;<span class="kw">const </span>OPCODE: RawOpcode&gt; CompileTimeOpcode <span class="kw">for </span>BadOpcode&lt;OPCODE&gt; {
-    <span class="kw">const </span>OPCODE: Opcode = Opcode::old(OPCODE);
-}
-
-<span class="doccomment">/// Provides a read code at compile time.
-///
-/// This corresponds to the C macro `_IOR(GROUP, NUM, Data)`.
-</span><span class="attr">#[cfg(any(linux_kernel, bsd))]
-</span><span class="kw">pub struct </span>ReadOpcode&lt;<span class="kw">const </span>GROUP: u8, <span class="kw">const </span>NUM: u8, Data&gt;(Data);
-
-<span class="attr">#[cfg(any(linux_kernel, bsd))]
-</span><span class="kw">impl</span>&lt;<span class="kw">const </span>GROUP: u8, <span class="kw">const </span>NUM: u8, Data&gt; CompileTimeOpcode <span class="kw">for </span>ReadOpcode&lt;GROUP, NUM, Data&gt; {
-    <span class="kw">const </span>OPCODE: Opcode = Opcode::read::&lt;Data&gt;(GROUP, NUM);
-}
-
-<span class="doccomment">/// Provides a write code at compile time.
-///
-/// This corresponds to the C macro `_IOW(GROUP, NUM, Data)`.
-</span><span class="attr">#[cfg(any(linux_kernel, bsd))]
-</span><span class="kw">pub struct </span>WriteOpcode&lt;<span class="kw">const </span>GROUP: u8, <span class="kw">const </span>NUM: u8, Data&gt;(Data);
-
-<span class="attr">#[cfg(any(linux_kernel, bsd))]
-</span><span class="kw">impl</span>&lt;<span class="kw">const </span>GROUP: u8, <span class="kw">const </span>NUM: u8, Data&gt; CompileTimeOpcode <span class="kw">for </span>WriteOpcode&lt;GROUP, NUM, Data&gt; {
-    <span class="kw">const </span>OPCODE: Opcode = Opcode::write::&lt;Data&gt;(GROUP, NUM);
-}
-
-<span class="doccomment">/// Provides a read/write code at compile time.
-///
-/// This corresponds to the C macro `_IOWR(GROUP, NUM, Data)`.
-</span><span class="attr">#[cfg(any(linux_kernel, bsd))]
-</span><span class="kw">pub struct </span>ReadWriteOpcode&lt;<span class="kw">const </span>GROUP: u8, <span class="kw">const </span>NUM: u8, Data&gt;(Data);
-
-<span class="attr">#[cfg(any(linux_kernel, bsd))]
-</span><span class="kw">impl</span>&lt;<span class="kw">const </span>GROUP: u8, <span class="kw">const </span>NUM: u8, Data&gt; CompileTimeOpcode <span class="kw">for </span>ReadWriteOpcode&lt;GROUP, NUM, Data&gt; {
-    <span class="kw">const </span>OPCODE: Opcode = Opcode::read_write::&lt;Data&gt;(GROUP, NUM);
-}
-
-<span class="doccomment">/// Provides a `None` code at compile time.
-///
-/// This corresponds to the C macro `_IO(GROUP, NUM)` when `Data` is zero
-/// sized.
-</span><span class="attr">#[cfg(any(linux_kernel, bsd))]
-</span><span class="kw">pub struct </span>NoneOpcode&lt;<span class="kw">const </span>GROUP: u8, <span class="kw">const </span>NUM: u8, Data&gt;(Data);
-
-<span class="attr">#[cfg(any(linux_kernel, bsd))]
-</span><span class="kw">impl</span>&lt;<span class="kw">const </span>GROUP: u8, <span class="kw">const </span>NUM: u8, Data&gt; CompileTimeOpcode <span class="kw">for </span>NoneOpcode&lt;GROUP, NUM, Data&gt; {
-    <span class="kw">const </span>OPCODE: Opcode = Opcode::none::&lt;Data&gt;(GROUP, NUM);
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_trans_token-0.47.2/src/tx.rs`."><title>tx.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_trans_token" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_trans_token/</div>tx.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_trans_token-0.149.1/src/tx.rs`."><title>tx.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_trans_token" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_trans_token/</div>tx.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -674,7 +674,21 @@
 <a href="#673" id="673">673</a>
 <a href="#674" id="674">674</a>
 <a href="#675" id="675">675</a>
-<a href="#676" id="676">676</a></pre></div><pre class="rust"><code><span class="doccomment">//! Token transfers
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a></pre></div><pre class="rust"><code><span class="doccomment">//! Token transfers
 
 </span><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::collections::{BTreeMap, BTreeSet};
@@ -687,7 +701,7 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::event::{TokenEvent, TokenOperation};
 <span class="kw">use </span><span class="kw">crate</span>::storage_key::balance_key;
-<span class="kw">use crate</span>::{read_balance, Amount, UserAccount};
+<span class="kw">use crate</span>::{Amount, UserAccount, read_balance};
 
 <span class="doccomment">/// Multi-transfer credit or debit amounts
 </span><span class="kw">pub trait </span>CreditOrDebit {
@@ -726,13 +740,14 @@
 ///
 /// Returns an `Err` if any source has insufficient balance or if the transfer
 /// to any destination would overflow (This can only happen if the total supply
-/// doesn't fit in `token::Amount`). Returns the set of debited accounts.
+/// doesn't fit in `token::Amount`). Returns a pair comprising the set of
+/// debited accounts and the set of tokens debited and credited by the transfer.
 </span><span class="kw">pub fn </span>multi_transfer&lt;ENV&gt;(
     env: <span class="kw-2">&amp;mut </span>ENV,
     sources: <span class="kw">impl </span>CreditOrDebit,
     targets: <span class="kw">impl </span>CreditOrDebit,
     event_desc: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;HashSet&lt;Address&gt;&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;(HashSet&lt;Address&gt;, HashSet&lt;Address&gt;)&gt;
 <span class="kw">where
     </span>ENV: TxEnv + EmitEvents,
 {
@@ -749,7 +764,11 @@
     };
     <span class="comment">// Apply the balance change for each account in turn
     </span><span class="kw">let </span><span class="kw-2">mut </span>any_balance_changed = <span class="bool-val">false</span>;
+    <span class="comment">// To store all the tokens used in the transfer
+    </span><span class="kw">let </span><span class="kw-2">mut </span>tokens = HashSet::new();
     <span class="kw">for </span><span class="kw-2">ref </span>account @ (<span class="kw-2">ref </span>owner, <span class="kw-2">ref </span>token) <span class="kw">in </span>accounts {
+        <span class="comment">// Record the encountered tokens
+        </span>tokens.insert(token.clone());
         <span class="kw">let </span>overflow_err = || {
             Error::new_alloc(<span class="macro">format!</span>(
                 <span class="string">"The transfer would overflow balance of {owner}"
@@ -785,7 +804,7 @@
     }
 
     <span class="kw">if </span>!any_balance_changed {
-        <span class="kw">return </span><span class="prelude-val">Ok</span>(debited_accounts);
+        <span class="kw">return </span><span class="prelude-val">Ok</span>((debited_accounts, tokens));
     }
 
     <span class="kw">let </span><span class="kw-2">mut </span>evt_sources = BTreeMap::new();
@@ -842,7 +861,7 @@
         },
     });
 
-    <span class="prelude-val">Ok</span>(debited_accounts)
+    <span class="prelude-val">Ok</span>((debited_accounts, tokens))
 }
 
 <span class="attr">#[derive(Debug, Clone)]
@@ -915,8 +934,9 @@
     <span class="kw">use </span>namada_core::token::testing::arb_amount;
     <span class="kw">use </span>namada_core::uint::Uint;
     <span class="kw">use </span>namada_core::{address, token};
-    <span class="kw">use </span>namada_events::extend::EventAttributeEntry;
+    <span class="kw">use </span>namada_events::extend::{EventAttributeEntry, InnerTxHash, TxHash};
     <span class="kw">use </span>namada_tests::tx::{ctx, tx_host_env};
+    <span class="kw">use </span>namada_tx::data::InnerTxId;
     <span class="kw">use </span>proptest::prelude::<span class="kw-2">*</span>;
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -952,7 +972,7 @@
                 <span class="kw">let </span>targets =
                     BTreeMap::from_iter([((dest.clone(), token.clone()), amount)]);
 
-                <span class="kw">let </span>debited_accounts =
+                <span class="kw">let </span>(debited_accounts, _token) =
                     multi_transfer(ctx(), sources, targets, EVENT_DESC).unwrap();
 
                 <span class="kw">if </span>amount.is_zero() {
@@ -1013,6 +1033,12 @@
             <span class="kw">let </span>attrs = event.into_attributes();
             <span class="kw">let </span>amount_uint: Uint = amount.into();
 
+            <span class="kw">let </span>inner_tx_id = InnerTxId {
+                wrapper_hash: <span class="prelude-val">None</span>,
+                commitments_hash: Cow::Owned(tx_env.batched_tx.cmt.get_hash()),
+            };
+            <span class="kw">let </span>exp_tx_hash = inner_tx_id.wrapper_hash().to_string();
+            <span class="kw">let </span>exp_inner_tx_hash = inner_tx_id.inner_hash().to_string();
             <span class="kw">let </span>exp_balances = <span class="kw">if </span>src &lt; dest {
                 <span class="macro">format!</span>(
                     <span class="string">"[[[\"internal-address/{src}\",\"{token}\"],\"0\"],[[\"\
@@ -1038,6 +1064,8 @@
             itertools::assert_equal(
                 attrs,
                 BTreeMap::from_iter([
+                    (TxHash::KEY.to_string(), exp_tx_hash),
+                    (InnerTxHash::KEY.to_string(), exp_inner_tx_hash),
                     (PostBalances::KEY.to_string(), exp_balances),
                     (SourceAccounts::KEY.to_string(), exp_sources),
                     (TargetAccounts::KEY.to_string(), exp_targets),
@@ -1204,7 +1232,7 @@
             ((p1.clone(), token2.clone()), amount3),
         ]);
 
-        <span class="kw">let </span>debited_accounts =
+        <span class="kw">let </span>(debited_accounts, _token) =
             multi_transfer(ctx(), sources, targets, EVENT_DESC).unwrap();
 
         <span class="comment">// p2 is not debited as it received more of token1 than it spent
@@ -1278,7 +1306,7 @@
         <span class="kw">let </span>targets =
             BTreeMap::from_iter([((addr.clone(), token.clone()), pre_balance)]);
 
-        <span class="kw">let </span>debited_accounts =
+        <span class="kw">let </span>(debited_accounts, _token) =
             multi_transfer(ctx(), sources, targets, EVENT_DESC).unwrap();
 
         <span class="comment">// No account has been debited
@@ -1325,7 +1353,7 @@
         <span class="kw">let </span>targets =
             BTreeMap::from_iter([((src.clone(), token.clone()), amount)]);
 
-        <span class="kw">let </span>debited_accounts =
+        <span class="kw">let </span>(debited_accounts, _token) =
             multi_transfer(ctx(), sources, targets, EVENT_DESC).unwrap();
 
         <span class="comment">// No account has been debited

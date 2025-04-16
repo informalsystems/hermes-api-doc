@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Error"],"struct":["Fe32"]};
+window.SIDEBAR_ITEMS = {"enum":["FromCharError","TryFromError"],"struct":["Fe32"]};

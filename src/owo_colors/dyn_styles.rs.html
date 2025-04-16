@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/owo-colors-3.5.0/src/dyn_styles.rs`."><title>dyn_styles.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="owo_colors" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">owo_colors/</div>dyn_styles.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/owo-colors-4.2.0/src/dyn_styles.rs`."><title>dyn_styles.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="owo_colors" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">owo_colors/</div>dyn_styles.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -656,7 +656,145 @@
 <a href="#655" id="655">655</a>
 <a href="#656" id="656">656</a>
 <a href="#657" id="657">657</a>
-<a href="#658" id="658">658</a></pre></div><pre class="rust"><code><span class="kw">use crate</span>::{AnsiColors, Color, DynColor, DynColors};
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
+<a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
+<a href="#725" id="725">725</a>
+<a href="#726" id="726">726</a>
+<a href="#727" id="727">727</a>
+<a href="#728" id="728">728</a>
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
+<a href="#732" id="732">732</a>
+<a href="#733" id="733">733</a>
+<a href="#734" id="734">734</a>
+<a href="#735" id="735">735</a>
+<a href="#736" id="736">736</a>
+<a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
+<a href="#739" id="739">739</a>
+<a href="#740" id="740">740</a>
+<a href="#741" id="741">741</a>
+<a href="#742" id="742">742</a>
+<a href="#743" id="743">743</a>
+<a href="#744" id="744">744</a>
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a>
+<a href="#747" id="747">747</a>
+<a href="#748" id="748">748</a>
+<a href="#749" id="749">749</a>
+<a href="#750" id="750">750</a>
+<a href="#751" id="751">751</a>
+<a href="#752" id="752">752</a>
+<a href="#753" id="753">753</a>
+<a href="#754" id="754">754</a>
+<a href="#755" id="755">755</a>
+<a href="#756" id="756">756</a>
+<a href="#757" id="757">757</a>
+<a href="#758" id="758">758</a>
+<a href="#759" id="759">759</a>
+<a href="#760" id="760">760</a>
+<a href="#761" id="761">761</a>
+<a href="#762" id="762">762</a>
+<a href="#763" id="763">763</a>
+<a href="#764" id="764">764</a>
+<a href="#765" id="765">765</a>
+<a href="#766" id="766">766</a>
+<a href="#767" id="767">767</a>
+<a href="#768" id="768">768</a>
+<a href="#769" id="769">769</a>
+<a href="#770" id="770">770</a>
+<a href="#771" id="771">771</a>
+<a href="#772" id="772">772</a>
+<a href="#773" id="773">773</a>
+<a href="#774" id="774">774</a>
+<a href="#775" id="775">775</a>
+<a href="#776" id="776">776</a>
+<a href="#777" id="777">777</a>
+<a href="#778" id="778">778</a>
+<a href="#779" id="779">779</a>
+<a href="#780" id="780">780</a>
+<a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
+<a href="#786" id="786">786</a>
+<a href="#787" id="787">787</a>
+<a href="#788" id="788">788</a>
+<a href="#789" id="789">789</a>
+<a href="#790" id="790">790</a>
+<a href="#791" id="791">791</a>
+<a href="#792" id="792">792</a>
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
+<a href="#795" id="795">795</a>
+<a href="#796" id="796">796</a></pre></div><pre class="rust"><code><span class="kw">use crate</span>::{AnsiColors, Color, DynColor, DynColors};
 <span class="kw">use </span>core::fmt;
 
 <span class="attr">#[cfg(doc)]
@@ -684,14 +822,14 @@
         $(
             <span class="attr">#[<span class="macro-nonterminal">$fg_meta</span>]
             #[must_use]
-            </span><span class="kw">pub fn </span><span class="macro-nonterminal">$fg_method</span>(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+            </span><span class="kw">pub const fn </span><span class="macro-nonterminal">$fg_method</span>(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
                 <span class="self">self</span>.fg = <span class="prelude-val">Some</span>(DynColors::Ansi(AnsiColors::<span class="macro-nonterminal">$color</span>));
                 <span class="self">self
             </span>}
 
             <span class="attr">#[<span class="macro-nonterminal">$fg_meta</span>]
             #[must_use]
-            </span><span class="kw">pub fn </span><span class="macro-nonterminal">$bg_method</span>(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+            </span><span class="kw">pub const fn </span><span class="macro-nonterminal">$bg_method</span>(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
                 <span class="self">self</span>.bg = <span class="prelude-val">Some</span>(DynColors::Ansi(AnsiColors::<span class="macro-nonterminal">$color</span>));
                 <span class="self">self
             </span>}
@@ -704,8 +842,8 @@
         $(
             <span class="attr">#[<span class="macro-nonterminal">$meta</span>]
             #[must_use]
-            </span><span class="kw">pub fn </span><span class="macro-nonterminal">$name</span>(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
-                <span class="self">self</span>.style_flags.<span class="macro-nonterminal">$set_name</span>(<span class="bool-val">true</span>);
+            </span><span class="kw">pub const fn </span><span class="macro-nonterminal">$name</span>(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+                <span class="self">self</span>.style_flags = <span class="self">self</span>.style_flags.<span class="macro-nonterminal">$set_name</span>(<span class="bool-val">true</span>);
                 <span class="self">self
             </span>}
         )*
@@ -722,8 +860,9 @@
     </span><span class="kw">pub </span>style: Style,
 }
 
-<span class="doccomment">/// A pre-computed style that can be applied to a struct using [`OwoColorize::style`]. Its
-/// interface mimicks that of [`OwoColorize`], but instead of chaining methods on your
+<span class="doccomment">/// A pre-computed style that can be applied to a struct using [`OwoColorize::style`].
+///
+/// Its interface mimics that of [`OwoColorize`], but instead of chaining methods on your
 /// object, you instead chain them on the `Style` object before applying it.
 ///
 /// ```rust
@@ -736,7 +875,7 @@
 ///
 /// println!("{}", "red text, white background, struck through".style(my_style));
 /// ```
-</span><span class="attr">#[derive(Debug, Default, Copy, Clone, PartialEq)]
+</span><span class="attr">#[derive(Debug, Copy, Clone, PartialEq)]
 </span><span class="kw">pub struct </span>Style {
     <span class="kw">pub</span>(<span class="kw">crate</span>) fg: <span class="prelude-ty">Option</span>&lt;DynColors&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) bg: <span class="prelude-ty">Option</span>&lt;DynColors&gt;,
@@ -745,8 +884,16 @@
 }
 
 <span class="attr">#[repr(transparent)]
-#[derive(Debug, Default, Copy, Clone, PartialEq)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>StyleFlags(<span class="kw">pub</span>(<span class="kw">crate</span>) u8);
+
+<span class="kw">impl </span>StyleFlags {
+    <span class="attr">#[must_use]
+    #[inline]
+    </span><span class="kw">const fn </span>is_plain(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.<span class="number">0 </span>== <span class="number">0
+    </span>}
+}
 
 <span class="kw">const </span>DIMMED_SHIFT: u8 = <span class="number">0</span>;
 <span class="kw">const </span>ITALIC_SHIFT: u8 = <span class="number">1</span>;
@@ -760,18 +907,25 @@
 <span class="macro">macro_rules!</span> style_flags_methods {
     ($((<span class="macro-nonterminal">$shift</span>:ident, <span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$set_name</span>:ident)),* $(,)<span class="question-mark">?</span>) =&gt; {
         $(
-            <span class="kw">fn </span><span class="macro-nonterminal">$name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+            <span class="attr">#[must_use]
+            </span><span class="kw">const fn </span><span class="macro-nonterminal">$name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
                 ((<span class="self">self</span>.<span class="number">0 </span>&gt;&gt; <span class="macro-nonterminal">$shift</span>) &amp; <span class="number">1</span>) != <span class="number">0
             </span>}
 
-            <span class="kw">fn </span><span class="macro-nonterminal">$set_name</span>(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="macro-nonterminal">$name</span>: bool) {
+            <span class="attr">#[must_use]
+            </span><span class="kw">const fn </span><span class="macro-nonterminal">$set_name</span>(<span class="kw-2">mut </span><span class="self">self</span>, <span class="macro-nonterminal">$name</span>: bool) -&gt; <span class="self">Self </span>{
                 <span class="self">self</span>.<span class="number">0 </span>= (<span class="self">self</span>.<span class="number">0 </span>&amp; !(<span class="number">1 </span>&lt;&lt; <span class="macro-nonterminal">$shift</span>)) | ((<span class="macro-nonterminal">$name </span><span class="kw">as </span>u8) &lt;&lt; <span class="macro-nonterminal">$shift</span>);
-            }
+                <span class="self">self
+            </span>}
         )*
     };
 }
 
 <span class="kw">impl </span>StyleFlags {
+    <span class="kw">const fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>(<span class="number">0</span>)
+    }
+
     <span class="macro">style_flags_methods!</span> {
         (DIMMED_SHIFT, dimmed, set_dimmed),
         (ITALIC_SHIFT, italic, set_italic),
@@ -784,15 +938,39 @@
     }
 }
 
+<span class="kw">impl </span>Default <span class="kw">for </span>StyleFlags {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new()
+    }
+}
+
 <span class="kw">impl </span>Style {
     <span class="doccomment">/// Create a new style to be applied later
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::default()
+    </span><span class="kw">pub const fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            fg: <span class="prelude-val">None</span>,
+            bg: <span class="prelude-val">None</span>,
+            bold: <span class="bool-val">false</span>,
+            style_flags: StyleFlags::new(),
+        }
     }
 
-    <span class="doccomment">/// Apply the style to a given struct to output
-    </span><span class="kw">pub fn </span>style&lt;T&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, target: T) -&gt; Styled&lt;T&gt; {
+    <span class="doccomment">/// Apply the style to a given struct to output.
+    ///
+    /// # Example
+    ///
+    /// Usage in const contexts:
+    ///
+    /// ```rust
+    /// use owo_colors::{OwoColorize, Style, Styled};
+    ///
+    /// const STYLED_TEXT: Styled&lt;&amp;'static str&gt; = Style::new().bold().italic().style("bold and italic text");
+    ///
+    /// println!("{}", STYLED_TEXT);
+    /// # assert_eq!(format!("{}", STYLED_TEXT), "\u{1b}[1;3mbold and italic text\u{1b}[0m");
+    /// ```
+    </span><span class="kw">pub const fn </span>style&lt;T&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, target: T) -&gt; Styled&lt;T&gt; {
         Styled {
             target,
             style: <span class="kw-2">*</span><span class="self">self</span>,
@@ -807,8 +985,8 @@
     /// println!("{}", "red foreground".fg::&lt;Red&gt;());
     /// ```
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>fg&lt;C: Color&gt;(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.fg = <span class="prelude-val">Some</span>(C::into_dyncolors());
+    </span><span class="kw">pub const fn </span>fg&lt;C: Color&gt;(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.fg = <span class="prelude-val">Some</span>(C::DYN_COLORS_EQUIVALENT);
         <span class="self">self
     </span>}
 
@@ -820,8 +998,8 @@
     /// println!("{}", "black background".bg::&lt;Black&gt;());
     /// ```
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>bg&lt;C: Color&gt;(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.bg = <span class="prelude-val">Some</span>(C::into_dyncolors());
+    </span><span class="kw">pub const fn </span>bg&lt;C: Color&gt;(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.bg = <span class="prelude-val">Some</span>(C::DYN_COLORS_EQUIVALENT);
         <span class="self">self
     </span>}
 
@@ -831,7 +1009,7 @@
     /// If you wish to actively change the terminal color back to the default, see
     /// [`Style::default_color`].
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>remove_fg(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const fn </span>remove_fg(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg = <span class="prelude-val">None</span>;
         <span class="self">self
     </span>}
@@ -842,7 +1020,7 @@
     /// If you wish to actively change the terminal color back to the default, see
     /// [`Style::on_default_color`].
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>remove_bg(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const fn </span>remove_bg(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg = <span class="prelude-val">None</span>;
         <span class="self">self
     </span>}
@@ -911,7 +1089,7 @@
 
     <span class="doccomment">/// Make the text bold
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>bold(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const fn </span>bold(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bold = <span class="bool-val">true</span>;
         <span class="self">self
     </span>}
@@ -921,7 +1099,7 @@
         </span>(dimmed, set_dimmed),
         <span class="doccomment">/// Make the text italicized
         </span>(italic, set_italic),
-        <span class="doccomment">/// Make the text italicized
+        <span class="doccomment">/// Make the text underlined
         </span>(underline, set_underline),
         <span class="doccomment">/// Make the text blink
         </span>(blink, set_blink),
@@ -935,60 +1113,82 @@
         </span>(strikethrough, set_strikethrough),
     }
 
-    <span class="kw">fn </span>set_effect(<span class="kw-2">&amp;mut </span><span class="self">self</span>, effect: Effect, to: bool) {
+    <span class="attr">#[must_use]
+    </span><span class="kw">const fn </span>set_effect(<span class="kw-2">mut </span><span class="self">self</span>, effect: Effect, to: bool) -&gt; <span class="self">Self </span>{
         <span class="kw">use </span>Effect::<span class="kw-2">*</span>;
         <span class="kw">match </span>effect {
-            Bold =&gt; <span class="self">self</span>.bold = to,
-            Dimmed =&gt; <span class="self">self</span>.style_flags.set_dimmed(to),
-            Italic =&gt; <span class="self">self</span>.style_flags.set_italic(to),
-            Underline =&gt; <span class="self">self</span>.style_flags.set_underline(to),
-            Blink =&gt; <span class="self">self</span>.style_flags.set_blink(to),
-            BlinkFast =&gt; <span class="self">self</span>.style_flags.set_blink_fast(to),
-            Reversed =&gt; <span class="self">self</span>.style_flags.set_reversed(to),
-            Hidden =&gt; <span class="self">self</span>.style_flags.set_hidden(to),
-            Strikethrough =&gt; <span class="self">self</span>.style_flags.set_strikethrough(to),
+            Bold =&gt; {
+                <span class="self">self</span>.bold = to;
+            }
+            Dimmed =&gt; {
+                <span class="comment">// This somewhat contorted construction is required because const fns can't take
+                // mutable refs as of Rust 1.81.
+                </span><span class="self">self</span>.style_flags = <span class="self">self</span>.style_flags.set_dimmed(to);
+            }
+            Italic =&gt; {
+                <span class="self">self</span>.style_flags = <span class="self">self</span>.style_flags.set_italic(to);
+            }
+            Underline =&gt; {
+                <span class="self">self</span>.style_flags = <span class="self">self</span>.style_flags.set_underline(to);
+            }
+            Blink =&gt; {
+                <span class="self">self</span>.style_flags = <span class="self">self</span>.style_flags.set_blink(to);
+            }
+            BlinkFast =&gt; {
+                <span class="self">self</span>.style_flags = <span class="self">self</span>.style_flags.set_blink_fast(to);
+            }
+            Reversed =&gt; {
+                <span class="self">self</span>.style_flags = <span class="self">self</span>.style_flags.set_reversed(to);
+            }
+            Hidden =&gt; {
+                <span class="self">self</span>.style_flags = <span class="self">self</span>.style_flags.set_hidden(to);
+            }
+            Strikethrough =&gt; {
+                <span class="self">self</span>.style_flags = <span class="self">self</span>.style_flags.set_strikethrough(to);
+            }
         }
-    }
+        <span class="self">self
+    </span>}
 
-    <span class="kw">fn </span>set_effects(<span class="kw-2">&amp;mut </span><span class="self">self</span>, effects: <span class="kw-2">&amp;</span>[Effect], to: bool) {
-        <span class="kw">for </span>e <span class="kw">in </span>effects {
-            <span class="self">self</span>.set_effect(<span class="kw-2">*</span>e, to)
+    <span class="attr">#[must_use]
+    </span><span class="kw">const fn </span>set_effects(<span class="kw-2">mut </span><span class="self">self</span>, <span class="kw-2">mut </span>effects: <span class="kw-2">&amp;</span>[Effect], to: bool) -&gt; <span class="self">Self </span>{
+        <span class="comment">// This is basically a for loop that also works in const contexts.
+        </span><span class="kw">while let </span>[first, rest @ ..] = effects {
+            <span class="self">self </span>= <span class="self">self</span>.set_effect(<span class="kw-2">*</span>first, to);
+            effects = rest;
         }
-    }
+        <span class="self">self
+    </span>}
 
     <span class="doccomment">/// Apply a given effect from the style
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>effect(<span class="kw-2">mut </span><span class="self">self</span>, effect: Effect) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.set_effect(effect, <span class="bool-val">true</span>);
-        <span class="self">self
-    </span>}
+    </span><span class="kw">pub const fn </span>effect(<span class="self">self</span>, effect: Effect) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.set_effect(effect, <span class="bool-val">true</span>)
+    }
 
     <span class="doccomment">/// Remove a given effect from the style
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>remove_effect(<span class="kw-2">mut </span><span class="self">self</span>, effect: Effect) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.set_effect(effect, <span class="bool-val">false</span>);
-        <span class="self">self
-    </span>}
+    </span><span class="kw">pub const fn </span>remove_effect(<span class="self">self</span>, effect: Effect) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.set_effect(effect, <span class="bool-val">false</span>)
+    }
 
     <span class="doccomment">/// Apply a given set of effects to the style
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>effects(<span class="kw-2">mut </span><span class="self">self</span>, effects: <span class="kw-2">&amp;</span>[Effect]) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.set_effects(effects, <span class="bool-val">true</span>);
-        <span class="self">self
-    </span>}
+    </span><span class="kw">pub const fn </span>effects(<span class="self">self</span>, effects: <span class="kw-2">&amp;</span>[Effect]) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.set_effects(effects, <span class="bool-val">true</span>)
+    }
 
     <span class="doccomment">/// Remove a given set of effects from the style
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>remove_effects(<span class="kw-2">mut </span><span class="self">self</span>, effects: <span class="kw-2">&amp;</span>[Effect]) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.set_effects(effects, <span class="bool-val">false</span>);
-        <span class="self">self
-    </span>}
+    </span><span class="kw">pub const fn </span>remove_effects(<span class="self">self</span>, effects: <span class="kw-2">&amp;</span>[Effect]) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.set_effects(effects, <span class="bool-val">false</span>)
+    }
 
     <span class="doccomment">/// Disables all the given effects from the style
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>remove_all_effects(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const fn </span>remove_all_effects(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bold = <span class="bool-val">false</span>;
-        <span class="self">self</span>.style_flags = StyleFlags::default();
+        <span class="self">self</span>.style_flags = StyleFlags::new();
         <span class="self">self
     </span>}
 
@@ -1003,7 +1203,8 @@
     /// ```
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>color&lt;Color: DynColor&gt;(<span class="kw-2">mut </span><span class="self">self</span>, color: Color) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.fg = <span class="prelude-val">Some</span>(color.get_dyncolors_fg());
+        <span class="comment">// Can't be const because `get_dyncolors_fg` is a trait method.
+        </span><span class="self">self</span>.fg = <span class="prelude-val">Some</span>(color.get_dyncolors_fg());
         <span class="self">self
     </span>}
 
@@ -1018,13 +1219,14 @@
     /// ```
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>on_color&lt;Color: DynColor&gt;(<span class="kw-2">mut </span><span class="self">self</span>, color: Color) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.bg = <span class="prelude-val">Some</span>(color.get_dyncolors_bg());
+        <span class="comment">// Can't be const because `get_dyncolors_bg` is a trait method.
+        </span><span class="self">self</span>.bg = <span class="prelude-val">Some</span>(color.get_dyncolors_bg());
         <span class="self">self
     </span>}
 
     <span class="doccomment">/// Set the foreground color to a specific RGB value.
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>fg_rgb&lt;<span class="kw">const </span>R: u8, <span class="kw">const </span>G: u8, <span class="kw">const </span>B: u8&gt;(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const fn </span>fg_rgb&lt;<span class="kw">const </span>R: u8, <span class="kw">const </span>G: u8, <span class="kw">const </span>B: u8&gt;(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg = <span class="prelude-val">Some</span>(DynColors::Rgb(R, G, B));
 
         <span class="self">self
@@ -1032,7 +1234,7 @@
 
     <span class="doccomment">/// Set the background color to a specific RGB value.
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>bg_rgb&lt;<span class="kw">const </span>R: u8, <span class="kw">const </span>G: u8, <span class="kw">const </span>B: u8&gt;(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const fn </span>bg_rgb&lt;<span class="kw">const </span>R: u8, <span class="kw">const </span>G: u8, <span class="kw">const </span>B: u8&gt;(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg = <span class="prelude-val">Some</span>(DynColors::Rgb(R, G, B));
 
         <span class="self">self
@@ -1040,24 +1242,61 @@
 
     <span class="doccomment">/// Sets the foreground color to an RGB value.
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>truecolor(<span class="kw-2">mut </span><span class="self">self</span>, r: u8, g: u8, b: u8) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const fn </span>truecolor(<span class="kw-2">mut </span><span class="self">self</span>, r: u8, g: u8, b: u8) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg = <span class="prelude-val">Some</span>(DynColors::Rgb(r, g, b));
         <span class="self">self
     </span>}
 
     <span class="doccomment">/// Sets the background color to an RGB value.
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>on_truecolor(<span class="kw-2">mut </span><span class="self">self</span>, r: u8, g: u8, b: u8) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const fn </span>on_truecolor(<span class="kw-2">mut </span><span class="self">self</span>, r: u8, g: u8, b: u8) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg = <span class="prelude-val">Some</span>(DynColors::Rgb(r, g, b));
         <span class="self">self
     </span>}
 
-    <span class="doccomment">/// Returns if the style does not apply any formatting
+    <span class="doccomment">/// Returns true if the style does not apply any formatting.
     </span><span class="attr">#[must_use]
     #[inline]
-    </span><span class="kw">pub fn </span>is_plain(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    </span><span class="kw">pub const fn </span>is_plain(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="kw">let </span>s = <span class="kw-2">&amp;</span><span class="self">self</span>;
-        !(s.fg.is_some() || s.bg.is_some() || s.bold || s.style_flags != StyleFlags::default())
+        !(s.fg.is_some() || s.bg.is_some() || s.bold) &amp;&amp; s.style_flags.is_plain()
+    }
+
+    <span class="doccomment">/// Returns a formatter for the style's ANSI prefix.
+    ///
+    /// This can be used to separate out the prefix and suffix of a style.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use owo_colors::Style;
+    /// use std::fmt::Write;
+    ///
+    /// let style = Style::new().red().on_blue();
+    /// let prefix = style.prefix_formatter();
+    /// let suffix = style.suffix_formatter();
+    ///
+    /// // Write the prefix and suffix separately.
+    /// let mut output = String::new();
+    /// write!(output, "{}", prefix);
+    /// output.push_str("Hello");
+    /// write!(output, "{}", suffix);
+    ///
+    /// assert_eq!(output, "\x1b[31;44mHello\x1b[0m");
+    /// ```
+    </span><span class="kw">pub const fn </span>prefix_formatter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; StylePrefixFormatter {
+        StylePrefixFormatter(<span class="kw-2">*</span><span class="self">self</span>)
+    }
+
+    <span class="doccomment">/// Returns a formatter for the style's ANSI suffix.
+    ///
+    /// This can be used to separate out the prefix and suffix of a style.
+    ///
+    /// # Example
+    ///
+    /// See [`Style::prefix_formatter`].
+    </span><span class="kw">pub const fn </span>suffix_formatter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; StyleSuffixFormatter {
+        StyleSuffixFormatter(<span class="kw-2">*</span><span class="self">self</span>)
     }
 
     <span class="doccomment">/// Applies the ANSI-prefix for this style to the given formatter
@@ -1144,18 +1383,63 @@
     }
 }
 
+<span class="doccomment">/// Formatter for the prefix of a [`Style`].
+///
+/// This is used to get the ANSI escape codes for the style without
+/// the suffix, which is useful for formatting the prefix separately.
+</span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq)]
+#[must_use = <span class="string">"this formatter does nothing unless displayed"</span>]
+</span><span class="kw">pub struct </span>StylePrefixFormatter(Style);
+
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>StylePrefixFormatter {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.<span class="number">0</span>.fmt_prefix(f)
+    }
+}
+
+<span class="doccomment">/// Formatter for the suffix of a [`Style`].
+///
+/// This is used to get the ANSI escape codes for the style without
+/// the prefix, which is useful for formatting the suffix separately.
+</span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq)]
+#[must_use = <span class="string">"this formatter does nothing unless displayed"</span>]
+</span><span class="kw">pub struct </span>StyleSuffixFormatter(Style);
+
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>StyleSuffixFormatter {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.<span class="number">0</span>.fmt_suffix(f)
+    }
+}
+
+<span class="kw">impl </span>Default <span class="kw">for </span>Style {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new()
+    }
+}
+
 <span class="doccomment">/// Helper to create [`Style`]s more ergonomically
-</span><span class="kw">pub fn </span>style() -&gt; Style {
+</span><span class="kw">pub const fn </span>style() -&gt; Style {
     Style::new()
 }
 
 <span class="kw">impl</span>&lt;T&gt; Styled&lt;T&gt; {
     <span class="doccomment">/// Returns a reference to the inner value to be styled
-    </span><span class="kw">pub fn </span>inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
+    </span><span class="kw">pub const fn </span>inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
         <span class="kw-2">&amp;</span><span class="self">self</span>.target
     }
 
-    <span class="doccomment">/// Returns a mutable reference to the inner value to be styled
+    <span class="doccomment">/// Returns a mutable reference to the inner value to be styled.
+    ///
+    /// *This method is const on Rust 1.83+.*
+    </span><span class="attr">#[cfg(const_mut_refs)]
+    </span><span class="kw">pub const fn </span>inner_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>T {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.target
+    }
+
+    <span class="doccomment">/// Returns a mutable reference to the inner value to be styled.
+    ///
+    /// *This method is const on Rust 1.83+.*
+    </span><span class="attr">#[cfg(not(const_mut_refs))]
     </span><span class="kw">pub fn </span>inner_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>T {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.target
     }
@@ -1193,18 +1477,10 @@
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use crate</span>::{AnsiColors, OwoColorize};
 
-    <span class="kw">struct </span>StylePrefixOnly(Style);
-    <span class="kw">impl </span>fmt::Display <span class="kw">for </span>StylePrefixOnly {
-        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
-            <span class="self">self</span>.<span class="number">0</span>.fmt_prefix(f)
-        }
-    }
-
-    <span class="kw">struct </span>StyleSuffixOnly(Style);
-    <span class="kw">impl </span>fmt::Display <span class="kw">for </span>StyleSuffixOnly {
-        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
-            <span class="self">self</span>.<span class="number">0</span>.fmt_suffix(f)
-        }
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>size_of() {
+        <span class="kw">let </span>size = std::mem::size_of::&lt;Style&gt;();
+        <span class="macro">assert_eq!</span>(size, <span class="number">10</span>, <span class="string">"size of Style should be 10 bytes"</span>);
     }
 
     <span class="attr">#[test]
@@ -1226,10 +1502,10 @@
         <span class="macro">println!</span>(<span class="string">"{}"</span>, <span class="kw-2">&amp;</span>s2);
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>s2, <span class="string">"\u{1b}[97;44;1;2;3;4;5;9mTEST\u{1b}[0m"</span>);
 
-        <span class="kw">let </span>prefix = <span class="macro">format!</span>(<span class="string">"{}"</span>, StylePrefixOnly(style));
+        <span class="kw">let </span>prefix = <span class="macro">format!</span>(<span class="string">"{}"</span>, style.prefix_formatter());
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>prefix, <span class="string">"\u{1b}[97;44;1;2;3;4;5;9m"</span>);
 
-        <span class="kw">let </span>suffix = <span class="macro">format!</span>(<span class="string">"{}"</span>, StyleSuffixOnly(style));
+        <span class="kw">let </span>suffix = <span class="macro">format!</span>(<span class="string">"{}"</span>, style.suffix_formatter());
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>suffix, <span class="string">"\u{1b}[0m"</span>);
     }
 

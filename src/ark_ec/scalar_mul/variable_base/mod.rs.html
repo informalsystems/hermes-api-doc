@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ec-0.4.2/src/scalar_mul/variable_base/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ark_ec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ec/scalar_mul/variable_base/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ec-0.5.0/src/scalar_mul/variable_base/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ark_ec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ec/scalar_mul/variable_base/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -286,8 +286,33 @@
 <a href="#285" id="285">285</a>
 <a href="#286" id="286">286</a>
 <a href="#287" id="287">287</a>
-<a href="#288" id="288">288</a></pre></div><pre class="rust"><code><span class="kw">use </span>ark_ff::{prelude::<span class="kw-2">*</span>, PrimeField};
-<span class="kw">use </span>ark_std::{borrow::Borrow, iterable::Iterable, vec::Vec};
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a></pre></div><pre class="rust"><code><span class="kw">use </span>ark_ff::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span>ark_std::{borrow::Borrow, cfg_into_iter, iterable::Iterable, vec::<span class="kw-2">*</span>};
 
 <span class="attr">#[cfg(feature = <span class="string">"parallel"</span>)]
 </span><span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
@@ -296,6 +321,24 @@
 <span class="kw">pub use </span>stream_pippenger::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">super</span>::ScalarMul;
+
+<span class="attr">#[cfg(all(
+    target_has_atomic = <span class="string">"8"</span>,
+    target_has_atomic = <span class="string">"16"</span>,
+    target_has_atomic = <span class="string">"32"</span>,
+    target_has_atomic = <span class="string">"64"</span>,
+    target_has_atomic = <span class="string">"ptr"
+</span>))]
+</span><span class="kw">type </span>DefaultHasher = ahash::AHasher;
+
+<span class="attr">#[cfg(not(all(
+    target_has_atomic = <span class="string">"8"</span>,
+    target_has_atomic = <span class="string">"16"</span>,
+    target_has_atomic = <span class="string">"32"</span>,
+    target_has_atomic = <span class="string">"64"</span>,
+    target_has_atomic = <span class="string">"ptr"
+</span>)))]
+</span><span class="kw">type </span>DefaultHasher = fnv::FnvHasher;
 
 <span class="kw">pub trait </span>VariableBaseMSM: ScalarMul {
     <span class="doccomment">/// Computes an inner product between the [`PrimeField`] elements in `scalars`
@@ -312,7 +355,7 @@
         <span class="self">Self</span>::msm_bigint(bases, <span class="kw-2">&amp;</span>bigints)
     }
 
-    <span class="doccomment">/// Performs multi-scalar multiplication, without checking that `bases.len() == scalars.len()`.
+    <span class="doccomment">/// Performs multi-scalar multiplication.
     ///
     /// # Warning
     ///
@@ -390,7 +433,13 @@
 
     <span class="kw">let </span>num_bits = V::ScalarField::MODULUS_BIT_SIZE <span class="kw">as </span>usize;
     <span class="kw">let </span>digits_count = (num_bits + c - <span class="number">1</span>) / c;
-    <span class="kw">let </span>scalar_digits = scalars
+    <span class="attr">#[cfg(feature = <span class="string">"parallel"</span>)]
+    </span><span class="kw">let </span>scalar_digits = scalars
+        .into_par_iter()
+        .flat_map_iter(|s| make_digits(s, c, num_bits))
+        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+    <span class="attr">#[cfg(not(feature = <span class="string">"parallel"</span>))]
+    </span><span class="kw">let </span>scalar_digits = scalars
         .iter()
         .flat_map(|s| make_digits(s, c, num_bits))
         .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
@@ -479,7 +528,7 @@
 
                     <span class="comment">// We right-shift by w_start, thus getting rid of the
                     // lower bits.
-                    </span>scalar.divn(w_start <span class="kw">as </span>u32);
+                    </span>scalar &gt;&gt;= w_start <span class="kw">as </span>u32;
 
                     <span class="comment">// We mod the remaining bits by 2^{window size}, thus taking `c` bits.
                     </span><span class="kw">let </span>scalar = scalar.as_ref()[<span class="number">0</span>] % (<span class="number">1 </span>&lt;&lt; c);
@@ -534,7 +583,7 @@
 }
 
 <span class="comment">// From: https://github.com/arkworks-rs/gemini/blob/main/src/kzg/msm/variable_base.rs#L20
-</span><span class="kw">fn </span>make_digits(a: <span class="kw-2">&amp;</span><span class="kw">impl </span>BigInteger, w: usize, num_bits: usize) -&gt; Vec&lt;i64&gt; {
+</span><span class="kw">fn </span>make_digits(a: <span class="kw-2">&amp;</span><span class="kw">impl </span>BigInteger, w: usize, num_bits: usize) -&gt; <span class="kw">impl </span>Iterator&lt;Item = i64&gt; + <span class="lifetime">'_ </span>{
     <span class="kw">let </span>scalar = a.as_ref();
     <span class="kw">let </span>radix: u64 = <span class="number">1 </span>&lt;&lt; w;
     <span class="kw">let </span>window_mask: u64 = radix - <span class="number">1</span>;
@@ -546,8 +595,8 @@
         num_bits
     };
     <span class="kw">let </span>digits_count = (num_bits + w - <span class="number">1</span>) / w;
-    <span class="kw">let </span><span class="kw-2">mut </span>digits = <span class="macro">vec!</span>[<span class="number">0i64</span>; digits_count];
-    <span class="kw">for </span>(i, digit) <span class="kw">in </span>digits.iter_mut().enumerate() {
+
+    (<span class="number">0</span>..digits_count).into_iter().map(<span class="kw">move </span>|i| {
         <span class="comment">// Construct a buffer of bits of the scalar, starting at `bit_offset`.
         </span><span class="kw">let </span>bit_offset = i * w;
         <span class="kw">let </span>u64_idx = bit_offset / <span class="number">64</span>;
@@ -567,11 +616,12 @@
 
         // Recenter coefficients from [0,2^w) to [-2^w/2, 2^w/2)
         </span>carry = (coef + radix / <span class="number">2</span>) &gt;&gt; w;
-        <span class="kw-2">*</span>digit = (coef <span class="kw">as </span>i64) - (carry &lt;&lt; w) <span class="kw">as </span>i64;
-    }
+        <span class="kw">let </span><span class="kw-2">mut </span>digit = (coef <span class="kw">as </span>i64) - (carry &lt;&lt; w) <span class="kw">as </span>i64;
 
-    digits[digits_count - <span class="number">1</span>] += (carry &lt;&lt; w) <span class="kw">as </span>i64;
-
-    digits
+        <span class="kw">if </span>i == digits_count - <span class="number">1 </span>{
+            digit += (carry &lt;&lt; w) <span class="kw">as </span>i64;
+        }
+        digit
+    })
 }
 </code></pre></div></section></main></body></html>

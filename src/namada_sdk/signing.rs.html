@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.47.2/src/signing.rs`."><title>signing.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/</div>signing.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.149.1/src/signing.rs`."><title>signing.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/</div>signing.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -3149,11 +3149,7 @@
 <a href="#3148" id="3148">3148</a>
 <a href="#3149" id="3149">3149</a>
 <a href="#3150" id="3150">3150</a>
-<a href="#3151" id="3151">3151</a>
-<a href="#3152" id="3152">3152</a>
-<a href="#3153" id="3153">3153</a>
-<a href="#3154" id="3154">3154</a>
-<a href="#3155" id="3155">3155</a></pre></div><pre class="rust"><code><span class="doccomment">//! Functions to sign transactions
+<a href="#3151" id="3151">3151</a></pre></div><pre class="rust"><code><span class="doccomment">//! Functions to sign transactions
 
 </span><span class="attr">#![allow(clippy::result_large_err)]
 
@@ -3193,7 +3189,7 @@
 <span class="kw">use </span>namada_token::storage_key::balance_key;
 <span class="kw">use </span>namada_tx::data::pgf::UpdateStewardCommission;
 <span class="kw">use </span>namada_tx::data::pos::BecomeValidator;
-<span class="kw">use </span>namada_tx::data::{pos, Fee};
+<span class="kw">use </span>namada_tx::data::{Fee, pos};
 <span class="kw">use </span>namada_tx::{Authorization, MaspBuilder, Section, SignatureIndex, Tx};
 <span class="kw">use </span>rand::rngs::OsRng;
 <span class="kw">use </span>serde::{Deserialize, Serialize};
@@ -3205,7 +3201,6 @@
 <span class="kw">use </span><span class="kw">crate</span>::eth_bridge_pool::PendingTransfer;
 <span class="kw">use </span><span class="kw">crate</span>::governance::storage::proposal::{AddRemove, PGFAction, PGFTarget};
 <span class="kw">use </span><span class="kw">crate</span>::rpc::validate_amount;
-<span class="kw">use </span><span class="kw">crate</span>::token::Account;
 <span class="kw">use </span><span class="kw">crate</span>::tx::{
     Commitment, TX_BECOME_VALIDATOR_WASM, TX_BOND_WASM, TX_BRIDGE_POOL_WASM,
     TX_CHANGE_COMMISSION_WASM, TX_CHANGE_CONSENSUS_KEY_WASM,
@@ -3219,7 +3214,7 @@
 };
 <span class="kw">pub use </span><span class="kw">crate</span>::wallet::store::AddressVpType;
 <span class="kw">use </span><span class="kw">crate</span>::wallet::{Wallet, WalletIo};
-<span class="kw">use crate</span>::{args, rpc, Namada};
+<span class="kw">use crate</span>::{Namada, args, rpc};
 
 <span class="doccomment">/// A structure holding the signing data to craft a transaction
 </span><span class="attr">#[derive(Clone)]
@@ -3240,22 +3235,45 @@
 
 <span class="kw">impl </span>PartialEq <span class="kw">for </span>SigningTxData {
     <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
-        <span class="kw">if </span>!(<span class="self">self</span>.owner == other.owner
-            &amp;&amp; <span class="self">self</span>.threshold == other.threshold
-            &amp;&amp; <span class="self">self</span>.account_public_keys_map == other.account_public_keys_map
-            &amp;&amp; <span class="self">self</span>.fee_payer == other.fee_payer)
+        <span class="comment">// Deconstruct the two instances to ensure we don't forget any new field
+        </span><span class="kw">let </span>SigningTxData {
+            owner,
+            public_keys,
+            threshold,
+            account_public_keys_map,
+            fee_payer,
+            shielded_hash,
+        } = <span class="self">self</span>;
+        <span class="kw">let </span>SigningTxData {
+            owner: other_owner,
+            public_keys: other_public_keys,
+            threshold: other_threshold,
+            account_public_keys_map: other_account_public_keys_map,
+            fee_payer: other_fee_payer,
+            shielded_hash: other_shielded_hash,
+        } = other;
+
+        <span class="kw">if </span>!(owner == other_owner
+            &amp;&amp; threshold == other_threshold
+            &amp;&amp; account_public_keys_map == other_account_public_keys_map
+            &amp;&amp; fee_payer == other_fee_payer
+            &amp;&amp; shielded_hash == other_shielded_hash)
         {
             <span class="kw">return </span><span class="bool-val">false</span>;
         }
 
         <span class="comment">// Check equivalence of the public keys ignoring the specific ordering
-        </span><span class="kw">if </span><span class="self">self</span>.public_keys.len() != other.public_keys.len() {
-            <span class="kw">return </span><span class="bool-val">false</span>;
-        }
+        // and duplicates (the PartialEq implementation of IndexSet ignores the
+        // order)
+        </span><span class="kw">let </span>unique_public_keys = HashSet::&lt;
+            <span class="kw-2">&amp;</span>namada_account::common::CommonPublicKey,
+        &gt;::from_iter(public_keys.iter());
+        <span class="kw">let </span>unique_other_public_keys =
+            HashSet::&lt;<span class="kw-2">&amp;</span>namada_account::common::CommonPublicKey&gt;::from_iter(
+                other_public_keys.iter(),
+            );
 
-        <span class="self">self</span>.public_keys
-            .iter()
-            .all(|pubkey| other.public_keys.contains(pubkey))
+        unique_public_keys == unique_other_public_keys
     }
 }
 
@@ -3391,7 +3409,7 @@
 /// hashes needed for monitoring the tx on chain.
 ///
 /// If it is a dry run, it is not put in a wrapper, but returned as is.
-</span><span class="kw">pub async fn </span>sign_tx&lt;<span class="lifetime">'a</span>, D, F, U&gt;(
+</span><span class="kw">pub async fn </span>sign_tx&lt;D, F, U&gt;(
     wallet: <span class="kw-2">&amp;</span>RwLock&lt;Wallet&lt;U&gt;&gt;,
     args: <span class="kw-2">&amp;</span>args::Tx,
     tx: <span class="kw-2">&amp;mut </span>Tx,
@@ -3469,6 +3487,10 @@
             }
         }
     }
+
+    <span class="comment">// Before signing the wrapper tx prune all the possible duplicated sections
+    // (including duplicated raw signatures)
+    </span>tx.prune_duplicated_sections();
 
     <span class="comment">// Then try signing the wrapper header (fee payer). Check if there's a
     // provided wrapper signature, otherwise sign with the software wallet or
@@ -3835,7 +3857,7 @@
 
 <span class="doccomment">/// Adds a Ledger output line describing a given transaction amount and address
 </span><span class="kw">fn </span>make_ledger_amount_addr(
-    tokens: <span class="kw-2">&amp;</span>HashMap&lt;Address, String&gt;,
+    tokens: <span class="kw-2">&amp;</span>HashMap&lt;Address, <span class="kw-2">&amp;</span>str&gt;,
     output: <span class="kw-2">&amp;mut </span>Vec&lt;String&gt;,
     amount: DenominatedAmount,
     token: <span class="kw-2">&amp;</span>Address,
@@ -3845,7 +3867,7 @@
         output.push(<span class="macro">format!</span>(
             <span class="string">"{}Amount : {} {}"</span>,
             prefix,
-            token.to_uppercase(),
+            token,
             to_ledger_decimal_variable_token(amount),
         ));
     } <span class="kw">else </span>{
@@ -3863,7 +3885,7 @@
 <span class="doccomment">/// Adds a Ledger output line describing a given transaction amount and asset
 /// type
 </span><span class="kw">async fn </span>make_ledger_amount_asset(
-    tokens: <span class="kw-2">&amp;</span>HashMap&lt;Address, String&gt;,
+    tokens: <span class="kw-2">&amp;</span>HashMap&lt;Address, <span class="kw-2">&amp;</span>str&gt;,
     output: <span class="kw-2">&amp;mut </span>Vec&lt;String&gt;,
     amount: u64,
     token: <span class="kw-2">&amp;</span>AssetType,
@@ -3880,7 +3902,7 @@
             output.push(<span class="macro">format!</span>(
                 <span class="string">"{}Amount : {} {}"</span>,
                 prefix,
-                token.to_uppercase(),
+                token,
                 to_ledger_decimal_variable_token(amount),
             ));
         } <span class="kw">else </span>{
@@ -3950,37 +3972,26 @@
     }
 }
 
-<span class="doccomment">/// Convert a map with key pairs into a nested structure
-</span><span class="kw">fn </span>nest_map&lt;V&gt;(
-    map: BTreeMap&lt;Account, V&gt;,
-) -&gt; BTreeMap&lt;Address, BTreeMap&lt;Address, V&gt;&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>nested = BTreeMap::new();
-    <span class="kw">for </span>(account, v) <span class="kw">in </span>map {
-        <span class="kw">let </span>inner: <span class="kw-2">&amp;mut </span>BTreeMap&lt;<span class="kw">_</span>, <span class="kw">_</span>&gt; =
-            nested.entry(account.owner).or_default();
-        inner.insert(account.token, v);
-    }
-    nested
-}
-
 <span class="doccomment">/// Adds a Ledger output for the senders and destinations for transparent and
 /// MASP transactions
 </span><span class="kw">async fn </span>make_ledger_token_transfer_endpoints(
-    tokens: <span class="kw-2">&amp;</span>HashMap&lt;Address, String&gt;,
+    tokens: <span class="kw-2">&amp;</span>HashMap&lt;Address, <span class="kw-2">&amp;</span>str&gt;,
     output: <span class="kw-2">&amp;mut </span>Vec&lt;String&gt;,
     transfer: <span class="kw-2">&amp;</span>token::Transfer,
     builder: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>MaspBuilder&gt;,
     assets: <span class="kw-2">&amp;</span>HashMap&lt;AssetType, AssetData&gt;,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
-    <span class="kw">for </span>(owner, changes) <span class="kw">in </span>nest_map(transfer.sources.clone()) {
+    <span class="kw">for </span>(owner, amount) <span class="kw">in </span>transfer.sources.clone() {
         <span class="comment">// MASP inputs will be printed below
-        </span><span class="kw">if </span>owner != MASP {
-            output.push(<span class="macro">format!</span>(<span class="string">"Sender : {}"</span>, owner));
-            <span class="kw">for </span>(token, amount) <span class="kw">in </span>changes {
-                make_ledger_amount_addr(
-                    tokens, output, amount, <span class="kw-2">&amp;</span>token, <span class="string">"Sending "</span>,
-                );
-            }
+        </span><span class="kw">if </span>owner.owner != MASP {
+            output.push(<span class="macro">format!</span>(<span class="string">"Sender : {}"</span>, owner.owner));
+            make_ledger_amount_addr(
+                tokens,
+                output,
+                amount,
+                <span class="kw-2">&amp;</span>owner.token,
+                <span class="string">"Sending "</span>,
+            );
         }
     }
     <span class="kw">if let </span><span class="prelude-val">Some</span>(builder) = builder {
@@ -3998,19 +4009,17 @@
             .<span class="kw">await</span>;
         }
     }
-    <span class="kw">for </span>(owner, changes) <span class="kw">in </span>nest_map(transfer.targets.clone()) {
+    <span class="kw">for </span>(owner, amount) <span class="kw">in </span>transfer.targets.clone() {
         <span class="comment">// MASP outputs will be printed below
-        </span><span class="kw">if </span>owner != MASP {
-            output.push(<span class="macro">format!</span>(<span class="string">"Destination : {}"</span>, owner));
-            <span class="kw">for </span>(token, amount) <span class="kw">in </span>changes {
-                make_ledger_amount_addr(
-                    tokens,
-                    output,
-                    amount,
-                    <span class="kw-2">&amp;</span>token,
-                    <span class="string">"Receiving "</span>,
-                );
-            }
+        </span><span class="kw">if </span>owner.owner != MASP {
+            output.push(<span class="macro">format!</span>(<span class="string">"Destination : {}"</span>, owner.owner));
+            make_ledger_amount_addr(
+                tokens,
+                output,
+                amount,
+                <span class="kw-2">&amp;</span>owner.token,
+                <span class="string">"Receiving "</span>,
+            );
         }
     }
     <span class="kw">if let </span><span class="prelude-val">Some</span>(builder) = builder {
@@ -4071,7 +4080,7 @@
 /// formatting.
 </span><span class="kw">struct </span>LedgerProposalVote&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>ProposalVote);
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Display <span class="kw">for </span>LedgerProposalVote&lt;<span class="lifetime">'a</span>&gt; {
+<span class="kw">impl </span>Display <span class="kw">for </span>LedgerProposalVote&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; std::fmt::Result {
         <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span>{
             ProposalVote::Yay =&gt; <span class="macro">write!</span>(f, <span class="string">"yay"</span>),
@@ -4284,16 +4293,9 @@
 <span class="doccomment">/// Converts the given transaction to the form that is displayed on the Ledger
 /// device
 </span><span class="kw">pub async fn </span>to_ledger_vector(
-    wallet: <span class="kw-2">&amp;</span>Wallet&lt;<span class="kw">impl </span>WalletIo&gt;,
+    tokens: <span class="kw-2">&amp;</span>HashMap&lt;Address, <span class="kw-2">&amp;</span>str&gt;,
     tx: <span class="kw-2">&amp;</span>Tx,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;LedgerVector, Error&gt; {
-    <span class="comment">// To facilitate lookups of human-readable token names
-    </span><span class="kw">let </span>tokens: HashMap&lt;Address, String&gt; = wallet
-        .get_addresses()
-        .into_iter()
-        .map(|(alias, addr)| (addr, alias))
-        .collect();
-
     <span class="kw">let </span><span class="kw-2">mut </span>tv = LedgerVector {
         blob: HEXLOWER.encode(<span class="kw-2">&amp;</span>tx.serialize_to_vec()),
         index: <span class="number">0</span>,
@@ -4626,7 +4628,7 @@
             )
             .map_err(|<span class="kw">_</span>| Error::Other(<span class="string">"Invalid Data"</span>.to_string()))<span class="question-mark">?</span>;
             make_ledger_token_transfer_endpoints(
-                <span class="kw-2">&amp;</span>tokens,
+                tokens,
                 <span class="kw-2">&amp;mut </span>tv.output,
                 <span class="kw-2">&amp;</span>transfer,
                 builder,
@@ -4634,7 +4636,7 @@
             )
             .<span class="kw">await</span><span class="question-mark">?</span>;
             make_ledger_token_transfer_endpoints(
-                <span class="kw-2">&amp;</span>tokens,
+                tokens,
                 <span class="kw-2">&amp;mut </span>tv.output_expert,
                 <span class="kw-2">&amp;</span>transfer,
                 builder,
@@ -4724,7 +4726,7 @@
                     )
                     .map_err(|<span class="kw">_</span>| Error::Other(<span class="string">"Invalid Data"</span>.to_string()))<span class="question-mark">?</span>;
                     make_ledger_token_transfer_endpoints(
-                        <span class="kw-2">&amp;</span>tokens,
+                        tokens,
                         <span class="kw-2">&amp;mut </span>tv.output,
                         <span class="kw-2">&amp;</span>transfer,
                         builder,
@@ -4732,7 +4734,7 @@
                     )
                     .<span class="kw">await</span><span class="question-mark">?</span>;
                     make_ledger_token_transfer_endpoints(
-                        <span class="kw-2">&amp;</span>tokens,
+                        tokens,
                         <span class="kw-2">&amp;mut </span>tv.output_expert,
                         <span class="kw-2">&amp;</span>transfer,
                         builder,
@@ -4893,7 +4895,7 @@
                     )
                     .map_err(|<span class="kw">_</span>| Error::Other(<span class="string">"Invalid Data"</span>.to_string()))<span class="question-mark">?</span>;
                     make_ledger_token_transfer_endpoints(
-                        <span class="kw-2">&amp;</span>tokens,
+                        tokens,
                         <span class="kw-2">&amp;mut </span>tv.output,
                         <span class="kw-2">&amp;</span>transfer,
                         builder,
@@ -4901,7 +4903,7 @@
                     )
                     .<span class="kw">await</span><span class="question-mark">?</span>;
                     make_ledger_token_transfer_endpoints(
-                        <span class="kw-2">&amp;</span>tokens,
+                        tokens,
                         <span class="kw-2">&amp;mut </span>tv.output_expert,
                         <span class="kw-2">&amp;</span>transfer,
                         builder,
@@ -5337,6 +5339,7 @@
                     .map_err(|e| Error::Other(<span class="macro">format!</span>(<span class="string">"{}"</span>, e)))<span class="question-mark">?</span>,
             );
             tv.output_expert.extend(<span class="macro">vec!</span>[
+                <span class="macro">format!</span>(<span class="string">"Chain ID : {}"</span>, tx.header.chain_id),
                 <span class="macro">format!</span>(
                     <span class="string">"Timestamp : {}"</span>,
                     format_timestamp(tx.header.timestamp)
@@ -5345,15 +5348,10 @@
                 <span class="macro">format!</span>(<span class="string">"Gas limit : {}"</span>, u64::from(wrapper.gas_limit)),
             ]);
             <span class="kw">if let </span><span class="prelude-val">Some</span>(token) = tokens.get(<span class="kw-2">&amp;</span>wrapper.fee.token) {
-                tv.output.push(<span class="macro">format!</span>(
-                    <span class="string">"Fee : {} {}"</span>,
-                    token.to_uppercase(),
-                    fee_limit
-                ));
+                tv.output.push(<span class="macro">format!</span>(<span class="string">"Fee : {} {}"</span>, token, fee_limit));
                 tv.output_expert.push(<span class="macro">format!</span>(
                     <span class="string">"Fees/gas unit : {} {}"</span>,
-                    token.to_uppercase(),
-                    fee_amount_per_gas_unit,
+                    token, fee_amount_per_gas_unit,
                 ));
             } <span class="kw">else </span>{
                 tv.output.extend(<span class="macro">vec!</span>[
@@ -5385,8 +5383,8 @@
     <span class="kw">use </span>masp_primitives::transaction::components::sapling::builder::SaplingMetadata;
     <span class="kw">use </span>namada_core::chain::ChainId;
     <span class="kw">use </span>namada_core::hash::Hash;
-    <span class="kw">use </span>namada_core::ibc::core::host::types::identifiers::{ChannelId, PortId};
     <span class="kw">use </span>namada_core::ibc::PGFIbcTarget;
+    <span class="kw">use </span>namada_core::ibc::core::host::types::identifiers::{ChannelId, PortId};
     <span class="kw">use </span>namada_core::masp::TxIdInner;
     <span class="kw">use </span>namada_core::token::{Denomination, MaspDigitPos};
     <span class="kw">use </span>namada_governance::storage::proposal::PGFInternalTarget;
@@ -5401,6 +5399,7 @@
     <span class="kw">use </span><span class="kw">crate</span>::args::InputAmount;
     <span class="kw">use </span><span class="kw">crate</span>::masp::fs::FsShieldedUtils;
     <span class="kw">use </span><span class="kw">crate</span>::masp::{ShieldedContext, WalletMap};
+    <span class="kw">use </span><span class="kw">crate</span>::token::Account;
 
     <span class="kw">fn </span>arbitrary_args() -&gt; args::Tx {
         args::Tx {
@@ -5815,14 +5814,8 @@
             shielded_section_hash: <span class="prelude-val">None</span>,
         };
         <span class="kw">let </span>tokens = HashMap::from([
-            (
-                Address::Internal(InternalAddress::Governance),
-                <span class="string">"SuperMoney"</span>.to_string(),
-            ),
-            (
-                Address::Internal(InternalAddress::Pgf),
-                <span class="string">"BloodMoney"</span>.to_string(),
-            ),
+            (Address::Internal(InternalAddress::Governance), <span class="string">"SuperMoney"</span>),
+            (Address::Internal(InternalAddress::Pgf), <span class="string">"BloodMoney"</span>),
         ]);
 
         <span class="kw">let </span><span class="kw-2">mut </span>output = <span class="macro">vec!</span>[];
@@ -5841,12 +5834,12 @@
                 <span class="string">"Sender : {}"</span>,
                 Address::Internal(InternalAddress::Governance)
             ),
-            <span class="string">"Sending Amount : SUPERMONEY 1"</span>.to_string(),
+            <span class="string">"Sending Amount : SuperMoney 1"</span>.to_string(),
             <span class="macro">format!</span>(
                 <span class="string">"Destination : {}"</span>,
                 Address::Internal(InternalAddress::Pgf)
             ),
-            <span class="string">"Receiving Amount : BLOODMONEY 2"</span>.to_string(),
+            <span class="string">"Receiving Amount : BloodMoney 2"</span>.to_string(),
         ];
         <span class="macro">assert_eq!</span>(output, expected);
         output.clear();
@@ -5888,8 +5881,7 @@
     /// extracts and validates the presence of a code section
     </span><span class="attr">#[tokio::test]
     </span><span class="kw">async fn </span>test_to_ledger_vector_code_sections() {
-        <span class="kw">let </span>wallet =
-            Wallet::&lt;TestWalletUtils&gt;::new(TestWalletUtils, Default::default());
+        <span class="kw">let </span>wallet = HashMap::new();
         <span class="kw">let </span><span class="kw-2">mut </span>tx = Tx::new(ChainId::default(), <span class="prelude-val">None</span>);
         <span class="comment">// an empty tx should work correctly
         </span>to_ledger_vector(<span class="kw-2">&amp;</span>wallet, <span class="kw-2">&amp;</span>tx).<span class="kw">await</span>.expect(<span class="string">"Test failed"</span>);

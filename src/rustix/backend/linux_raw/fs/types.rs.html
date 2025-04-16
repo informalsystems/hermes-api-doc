@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-0.38.44/src/backend/linux_raw/fs/types.rs`."><title>types.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/backend/linux_raw/fs/</div>types.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-1.0.3/src/backend/linux_raw/fs/types.rs`."><title>types.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="rustix" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustix/backend/linux_raw/fs/</div>types.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -752,7 +752,101 @@
 <a href="#751" id="751">751</a>
 <a href="#752" id="752">752</a>
 <a href="#753" id="753">753</a>
-<a href="#754" id="754">754</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::backend::c;
+<a href="#754" id="754">754</a>
+<a href="#755" id="755">755</a>
+<a href="#756" id="756">756</a>
+<a href="#757" id="757">757</a>
+<a href="#758" id="758">758</a>
+<a href="#759" id="759">759</a>
+<a href="#760" id="760">760</a>
+<a href="#761" id="761">761</a>
+<a href="#762" id="762">762</a>
+<a href="#763" id="763">763</a>
+<a href="#764" id="764">764</a>
+<a href="#765" id="765">765</a>
+<a href="#766" id="766">766</a>
+<a href="#767" id="767">767</a>
+<a href="#768" id="768">768</a>
+<a href="#769" id="769">769</a>
+<a href="#770" id="770">770</a>
+<a href="#771" id="771">771</a>
+<a href="#772" id="772">772</a>
+<a href="#773" id="773">773</a>
+<a href="#774" id="774">774</a>
+<a href="#775" id="775">775</a>
+<a href="#776" id="776">776</a>
+<a href="#777" id="777">777</a>
+<a href="#778" id="778">778</a>
+<a href="#779" id="779">779</a>
+<a href="#780" id="780">780</a>
+<a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
+<a href="#786" id="786">786</a>
+<a href="#787" id="787">787</a>
+<a href="#788" id="788">788</a>
+<a href="#789" id="789">789</a>
+<a href="#790" id="790">790</a>
+<a href="#791" id="791">791</a>
+<a href="#792" id="792">792</a>
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
+<a href="#795" id="795">795</a>
+<a href="#796" id="796">796</a>
+<a href="#797" id="797">797</a>
+<a href="#798" id="798">798</a>
+<a href="#799" id="799">799</a>
+<a href="#800" id="800">800</a>
+<a href="#801" id="801">801</a>
+<a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
+<a href="#809" id="809">809</a>
+<a href="#810" id="810">810</a>
+<a href="#811" id="811">811</a>
+<a href="#812" id="812">812</a>
+<a href="#813" id="813">813</a>
+<a href="#814" id="814">814</a>
+<a href="#815" id="815">815</a>
+<a href="#816" id="816">816</a>
+<a href="#817" id="817">817</a>
+<a href="#818" id="818">818</a>
+<a href="#819" id="819">819</a>
+<a href="#820" id="820">820</a>
+<a href="#821" id="821">821</a>
+<a href="#822" id="822">822</a>
+<a href="#823" id="823">823</a>
+<a href="#824" id="824">824</a>
+<a href="#825" id="825">825</a>
+<a href="#826" id="826">826</a>
+<a href="#827" id="827">827</a>
+<a href="#828" id="828">828</a>
+<a href="#829" id="829">829</a>
+<a href="#830" id="830">830</a>
+<a href="#831" id="831">831</a>
+<a href="#832" id="832">832</a>
+<a href="#833" id="833">833</a>
+<a href="#834" id="834">834</a>
+<a href="#835" id="835">835</a>
+<a href="#836" id="836">836</a>
+<a href="#837" id="837">837</a>
+<a href="#838" id="838">838</a>
+<a href="#839" id="839">839</a>
+<a href="#840" id="840">840</a>
+<a href="#841" id="841">841</a>
+<a href="#842" id="842">842</a>
+<a href="#843" id="843">843</a>
+<a href="#844" id="844">844</a>
+<a href="#845" id="845">845</a>
+<a href="#846" id="846">846</a>
+<a href="#847" id="847">847</a>
+<a href="#848" id="848">848</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::ffi;
 <span class="kw">use </span>bitflags::bitflags;
 
 <span class="macro">bitflags!</span> {
@@ -761,7 +855,7 @@
     /// [`accessat`]: fn.accessat.html
     </span><span class="attr">#[repr(transparent)]
     #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
-    </span><span class="kw">pub struct </span>Access: c::c_uint {
+    </span><span class="kw">pub struct </span>Access: ffi::c_uint {
         <span class="doccomment">/// `R_OK`
         </span><span class="kw">const </span>READ_OK = linux_raw_sys::general::R_OK;
 
@@ -787,7 +881,7 @@
     /// [`statat`]: crate::fs::statat
     </span><span class="attr">#[repr(transparent)]
     #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
-    </span><span class="kw">pub struct </span>AtFlags: c::c_uint {
+    </span><span class="kw">pub struct </span>AtFlags: ffi::c_uint {
         <span class="doccomment">/// `AT_SYMLINK_NOFOLLOW`
         </span><span class="kw">const </span>SYMLINK_NOFOLLOW = linux_raw_sys::general::AT_SYMLINK_NOFOLLOW;
 
@@ -926,7 +1020,7 @@
     /// [`openat`]: crate::fs::openat
     </span><span class="attr">#[repr(transparent)]
     #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
-    </span><span class="kw">pub struct </span>OFlags: c::c_uint {
+    </span><span class="kw">pub struct </span>OFlags: ffi::c_uint {
         <span class="doccomment">/// `O_ACCMODE`
         </span><span class="kw">const </span>ACCMODE = linux_raw_sys::general::O_ACCMODE;
 
@@ -951,13 +1045,13 @@
         <span class="doccomment">/// `O_DIRECTORY`
         </span><span class="kw">const </span>DIRECTORY = linux_raw_sys::general::O_DIRECTORY;
 
-        <span class="doccomment">/// `O_DSYNC`.
+        <span class="doccomment">/// `O_DSYNC`
         </span><span class="kw">const </span>DSYNC = linux_raw_sys::general::O_SYNC;
 
         <span class="doccomment">/// `O_EXCL`
         </span><span class="kw">const </span>EXCL = linux_raw_sys::general::O_EXCL;
 
-        <span class="doccomment">/// `O_FSYNC`.
+        <span class="doccomment">/// `O_FSYNC`
         </span><span class="kw">const </span>FSYNC = linux_raw_sys::general::O_SYNC;
 
         <span class="doccomment">/// `O_NOFOLLOW`
@@ -980,7 +1074,7 @@
         <span class="doccomment">/// `O_NOCTTY`
         </span><span class="kw">const </span>NOCTTY = linux_raw_sys::general::O_NOCTTY;
 
-        <span class="doccomment">/// `O_RSYNC`.
+        <span class="doccomment">/// `O_RSYNC`
         </span><span class="kw">const </span>RSYNC = linux_raw_sys::general::O_SYNC;
 
         <span class="doccomment">/// `O_SYNC`
@@ -1006,10 +1100,17 @@
 
         <span class="doccomment">/// `O_LARGEFILE`
         ///
-        /// Note that rustix and/or libc will automatically set this flag when appropriate on
-        /// `open(2)` and friends, thus typical users do not need to care about it.
-        /// It will may be reported in return of `fcntl_getfl`, though.
+        /// Rustix and/or libc will automatically set this flag when
+        /// appropriate in the [`rustix::fs::open`] family of functions, so
+        /// typical users do not need to care about it. It may be reported in
+        /// the return of `fcntl_getfl`, though.
         </span><span class="kw">const </span>LARGEFILE = linux_raw_sys::general::O_LARGEFILE;
+
+        <span class="doccomment">/// `O_ASYNC`, `FASYNC`
+        ///
+        /// This flag can't be used with the [`rustix::fs::open`] family of
+        /// functions, use [`rustix::fs::fcntl_setfl`] instead.
+        </span><span class="kw">const </span>ASYNC = linux_raw_sys::general::FASYNC;
 
         <span class="doccomment">/// &lt;https://docs.rs/bitflags/*/bitflags/#externally-defined-flags&gt;
         </span><span class="kw">const _ </span>= !<span class="number">0</span>;
@@ -1052,7 +1153,7 @@
     /// [`renameat_with`]: crate::fs::renameat_with
     </span><span class="attr">#[repr(transparent)]
     #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
-    </span><span class="kw">pub struct </span>RenameFlags: c::c_uint {
+    </span><span class="kw">pub struct </span>RenameFlags: ffi::c_uint {
         <span class="doccomment">/// `RENAME_EXCHANGE`
         </span><span class="kw">const </span>EXCHANGE = linux_raw_sys::general::RENAME_EXCHANGE;
 
@@ -1179,7 +1280,7 @@
     /// [`memfd_create`]: crate::fs::memfd_create
     </span><span class="attr">#[repr(transparent)]
     #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
-    </span><span class="kw">pub struct </span>MemfdFlags: c::c_uint {
+    </span><span class="kw">pub struct </span>MemfdFlags: ffi::c_uint {
         <span class="doccomment">/// `MFD_CLOEXEC`
         </span><span class="kw">const </span>CLOEXEC = linux_raw_sys::general::MFD_CLOEXEC;
 
@@ -1233,76 +1334,16 @@
     </span><span class="attr">#[repr(transparent)]
     #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
     </span><span class="kw">pub struct </span>SealFlags: u32 {
-        <span class="doccomment">/// `F_SEAL_SEAL`.
+        <span class="doccomment">/// `F_SEAL_SEAL`
         </span><span class="kw">const </span>SEAL = linux_raw_sys::general::F_SEAL_SEAL;
-        <span class="doccomment">/// `F_SEAL_SHRINK`.
+        <span class="doccomment">/// `F_SEAL_SHRINK`
         </span><span class="kw">const </span>SHRINK = linux_raw_sys::general::F_SEAL_SHRINK;
-        <span class="doccomment">/// `F_SEAL_GROW`.
+        <span class="doccomment">/// `F_SEAL_GROW`
         </span><span class="kw">const </span>GROW = linux_raw_sys::general::F_SEAL_GROW;
-        <span class="doccomment">/// `F_SEAL_WRITE`.
+        <span class="doccomment">/// `F_SEAL_WRITE`
         </span><span class="kw">const </span>WRITE = linux_raw_sys::general::F_SEAL_WRITE;
         <span class="doccomment">/// `F_SEAL_FUTURE_WRITE` (since Linux 5.1)
         </span><span class="kw">const </span>FUTURE_WRITE = linux_raw_sys::general::F_SEAL_FUTURE_WRITE;
-
-        <span class="doccomment">/// &lt;https://docs.rs/bitflags/*/bitflags/#externally-defined-flags&gt;
-        </span><span class="kw">const _ </span>= !<span class="number">0</span>;
-    }
-}
-
-<span class="macro">bitflags!</span> {
-    <span class="doccomment">/// `STATX_*` constants for use with [`statx`].
-    ///
-    /// [`statx`]: crate::fs::statx
-    </span><span class="attr">#[repr(transparent)]
-    #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
-    </span><span class="kw">pub struct </span>StatxFlags: u32 {
-        <span class="doccomment">/// `STATX_TYPE`
-        </span><span class="kw">const </span>TYPE = linux_raw_sys::general::STATX_TYPE;
-
-        <span class="doccomment">/// `STATX_MODE`
-        </span><span class="kw">const </span>MODE = linux_raw_sys::general::STATX_MODE;
-
-        <span class="doccomment">/// `STATX_NLINK`
-        </span><span class="kw">const </span>NLINK = linux_raw_sys::general::STATX_NLINK;
-
-        <span class="doccomment">/// `STATX_UID`
-        </span><span class="kw">const </span>UID = linux_raw_sys::general::STATX_UID;
-
-        <span class="doccomment">/// `STATX_GID`
-        </span><span class="kw">const </span>GID = linux_raw_sys::general::STATX_GID;
-
-        <span class="doccomment">/// `STATX_ATIME`
-        </span><span class="kw">const </span>ATIME = linux_raw_sys::general::STATX_ATIME;
-
-        <span class="doccomment">/// `STATX_MTIME`
-        </span><span class="kw">const </span>MTIME = linux_raw_sys::general::STATX_MTIME;
-
-        <span class="doccomment">/// `STATX_CTIME`
-        </span><span class="kw">const </span>CTIME = linux_raw_sys::general::STATX_CTIME;
-
-        <span class="doccomment">/// `STATX_INO`
-        </span><span class="kw">const </span>INO = linux_raw_sys::general::STATX_INO;
-
-        <span class="doccomment">/// `STATX_SIZE`
-        </span><span class="kw">const </span>SIZE = linux_raw_sys::general::STATX_SIZE;
-
-        <span class="doccomment">/// `STATX_BLOCKS`
-        </span><span class="kw">const </span>BLOCKS = linux_raw_sys::general::STATX_BLOCKS;
-
-        <span class="doccomment">/// `STATX_BASIC_STATS`
-        </span><span class="kw">const </span>BASIC_STATS = linux_raw_sys::general::STATX_BASIC_STATS;
-
-        <span class="doccomment">/// `STATX_BTIME`
-        </span><span class="kw">const </span>BTIME = linux_raw_sys::general::STATX_BTIME;
-
-        <span class="doccomment">/// `STATX_MNT_ID` (since Linux 5.8)
-        </span><span class="kw">const </span>MNT_ID = linux_raw_sys::general::STATX_MNT_ID;
-
-        <span class="doccomment">/// `STATX_DIOALIGN` (since Linux 6.1)
-        </span><span class="kw">const </span>DIOALIGN = linux_raw_sys::general::STATX_DIOALIGN;
-
-        <span class="doccomment">/// `STATX_ALL`
-        </span><span class="kw">const </span>ALL = linux_raw_sys::general::STATX_ALL;
 
         <span class="doccomment">/// &lt;https://docs.rs/bitflags/*/bitflags/#externally-defined-flags&gt;
         </span><span class="kw">const _ </span>= !<span class="number">0</span>;
@@ -1398,17 +1439,17 @@
 ///
 /// [`statat`]: crate::fs::statat
 /// [`fstat`]: crate::fs::fstat
-</span><span class="comment">// On 32-bit, and mips64, Linux's `struct stat64` has a 32-bit `st_mtime` and
-// friends, so we use our own struct, populated from `statx` where possible, to
-// avoid the y2038 bug.
+</span><span class="comment">// On 32-bit with `struct stat64` and mips64 with `struct stat`, Linux's
+// `st_mtime` and friends are 32-bit, so we use our own struct, populated from
+// `statx` where possible, to avoid the y2038 bug.
 </span><span class="attr">#[cfg(any(
     target_pointer_width = <span class="string">"32"</span>,
     target_arch = <span class="string">"mips64"</span>,
     target_arch = <span class="string">"mips64r6"
 </span>))]
-#[repr(C)]
 #[derive(Debug, Copy, Clone)]
 #[allow(missing_docs)]
+#[non_exhaustive]
 </span><span class="kw">pub struct </span>Stat {
     <span class="kw">pub </span>st_dev: u64,
     <span class="kw">pub </span>st_mode: u32,
@@ -1419,14 +1460,11 @@
     <span class="kw">pub </span>st_size: i64,
     <span class="kw">pub </span>st_blksize: u32,
     <span class="kw">pub </span>st_blocks: u64,
-    <span class="attr">#[deprecated(note = <span class="string">"Use `rustix::fs::StatExt::atime` instead."</span>)]
-    </span><span class="kw">pub </span>st_atime: u64,
+    <span class="kw">pub </span>st_atime: i64,
     <span class="kw">pub </span>st_atime_nsec: u32,
-    <span class="attr">#[deprecated(note = <span class="string">"Use `rustix::fs::StatExt::mtime` instead."</span>)]
-    </span><span class="kw">pub </span>st_mtime: u64,
+    <span class="kw">pub </span>st_mtime: i64,
     <span class="kw">pub </span>st_mtime_nsec: u32,
-    <span class="attr">#[deprecated(note = <span class="string">"Use `rustix::fs::StatExt::ctime` instead."</span>)]
-    </span><span class="kw">pub </span>st_ctime: u64,
+    <span class="kw">pub </span>st_ctime: i64,
     <span class="kw">pub </span>st_ctime_nsec: u32,
     <span class="kw">pub </span>st_ino: u64,
 }
@@ -1435,19 +1473,185 @@
 ///
 /// [`statat`]: crate::fs::statat
 /// [`fstat`]: crate::fs::fstat
-</span><span class="attr">#[cfg(all(
-    target_pointer_width = <span class="string">"64"</span>,
-    not(target_arch = <span class="string">"mips64"</span>),
-    not(target_arch = <span class="string">"mips64r6"</span>)
-))]
-</span><span class="kw">pub type </span>Stat = linux_raw_sys::general::stat;
+</span><span class="attr">#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+#[allow(missing_docs)]
+#[non_exhaustive]
+#[cfg(target_arch = <span class="string">"x86_64"</span>)]
+</span><span class="kw">pub struct </span>Stat {
+    <span class="kw">pub </span>st_dev: ffi::c_ulong,
+    <span class="kw">pub </span>st_ino: ffi::c_ulong,
+    <span class="kw">pub </span>st_nlink: ffi::c_ulong,
+    <span class="kw">pub </span>st_mode: ffi::c_uint,
+    <span class="kw">pub </span>st_uid: ffi::c_uint,
+    <span class="kw">pub </span>st_gid: ffi::c_uint,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __pad0: ffi::c_uint,
+    <span class="kw">pub </span>st_rdev: ffi::c_ulong,
+    <span class="kw">pub </span>st_size: ffi::c_long,
+    <span class="kw">pub </span>st_blksize: ffi::c_long,
+    <span class="kw">pub </span>st_blocks: ffi::c_long,
+    <span class="kw">pub </span>st_atime: ffi::c_long,
+    <span class="kw">pub </span>st_atime_nsec: ffi::c_ulong,
+    <span class="kw">pub </span>st_mtime: ffi::c_long,
+    <span class="kw">pub </span>st_mtime_nsec: ffi::c_ulong,
+    <span class="kw">pub </span>st_ctime: ffi::c_long,
+    <span class="kw">pub </span>st_ctime_nsec: ffi::c_ulong,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __unused: [ffi::c_long; <span class="number">3</span>],
+}
+<span class="attr">#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+#[allow(missing_docs)]
+#[non_exhaustive]
+#[cfg(target_arch = <span class="string">"aarch64"</span>)]
+</span><span class="kw">pub struct </span>Stat {
+    <span class="kw">pub </span>st_dev: ffi::c_ulong,
+    <span class="kw">pub </span>st_ino: ffi::c_ulong,
+    <span class="kw">pub </span>st_mode: ffi::c_uint,
+    <span class="kw">pub </span>st_nlink: ffi::c_uint,
+    <span class="kw">pub </span>st_uid: ffi::c_uint,
+    <span class="kw">pub </span>st_gid: ffi::c_uint,
+    <span class="kw">pub </span>st_rdev: ffi::c_ulong,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __pad1: ffi::c_ulong,
+    <span class="kw">pub </span>st_size: ffi::c_long,
+    <span class="kw">pub </span>st_blksize: ffi::c_int,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __pad2: ffi::c_int,
+    <span class="kw">pub </span>st_blocks: ffi::c_long,
+    <span class="kw">pub </span>st_atime: ffi::c_long,
+    <span class="kw">pub </span>st_atime_nsec: ffi::c_ulong,
+    <span class="kw">pub </span>st_mtime: ffi::c_long,
+    <span class="kw">pub </span>st_mtime_nsec: ffi::c_ulong,
+    <span class="kw">pub </span>st_ctime: ffi::c_long,
+    <span class="kw">pub </span>st_ctime_nsec: ffi::c_ulong,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __unused4: ffi::c_uint,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __unused5: ffi::c_uint,
+}
+<span class="attr">#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+#[allow(missing_docs)]
+#[non_exhaustive]
+#[cfg(target_arch = <span class="string">"riscv64"</span>)]
+</span><span class="kw">pub struct </span>Stat {
+    <span class="kw">pub </span>st_dev: ffi::c_ulong,
+    <span class="kw">pub </span>st_ino: ffi::c_ulong,
+    <span class="kw">pub </span>st_mode: ffi::c_uint,
+    <span class="kw">pub </span>st_nlink: ffi::c_uint,
+    <span class="kw">pub </span>st_uid: ffi::c_uint,
+    <span class="kw">pub </span>st_gid: ffi::c_uint,
+    <span class="kw">pub </span>st_rdev: ffi::c_ulong,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __pad1: ffi::c_ulong,
+    <span class="kw">pub </span>st_size: ffi::c_long,
+    <span class="kw">pub </span>st_blksize: ffi::c_int,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __pad2: ffi::c_int,
+    <span class="kw">pub </span>st_blocks: ffi::c_long,
+    <span class="kw">pub </span>st_atime: ffi::c_long,
+    <span class="kw">pub </span>st_atime_nsec: ffi::c_ulong,
+    <span class="kw">pub </span>st_mtime: ffi::c_long,
+    <span class="kw">pub </span>st_mtime_nsec: ffi::c_ulong,
+    <span class="kw">pub </span>st_ctime: ffi::c_long,
+    <span class="kw">pub </span>st_ctime_nsec: ffi::c_ulong,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __unused4: ffi::c_uint,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __unused5: ffi::c_uint,
+}
+<span class="comment">// This follows `stat`. powerpc64 defines a `stat64` but it's not used.
+</span><span class="attr">#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+#[allow(missing_docs)]
+#[non_exhaustive]
+#[cfg(target_arch = <span class="string">"powerpc64"</span>)]
+</span><span class="kw">pub struct </span>Stat {
+    <span class="kw">pub </span>st_dev: ffi::c_ulong,
+    <span class="kw">pub </span>st_ino: ffi::c_ulong,
+    <span class="kw">pub </span>st_nlink: ffi::c_ulong,
+    <span class="kw">pub </span>st_mode: ffi::c_uint,
+    <span class="kw">pub </span>st_uid: ffi::c_uint,
+    <span class="kw">pub </span>st_gid: ffi::c_uint,
+    <span class="kw">pub </span>st_rdev: ffi::c_ulong,
+    <span class="kw">pub </span>st_size: ffi::c_long,
+    <span class="kw">pub </span>st_blksize: ffi::c_ulong,
+    <span class="kw">pub </span>st_blocks: ffi::c_ulong,
+    <span class="kw">pub </span>st_atime: ffi::c_long,
+    <span class="kw">pub </span>st_atime_nsec: ffi::c_ulong,
+    <span class="kw">pub </span>st_mtime: ffi::c_long,
+    <span class="kw">pub </span>st_mtime_nsec: ffi::c_ulong,
+    <span class="kw">pub </span>st_ctime: ffi::c_long,
+    <span class="kw">pub </span>st_ctime_nsec: ffi::c_ulong,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __unused4: ffi::c_ulong,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __unused5: ffi::c_ulong,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __unused6: ffi::c_ulong,
+}
+<span class="attr">#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+#[allow(missing_docs)]
+#[non_exhaustive]
+#[cfg(target_arch = <span class="string">"s390x"</span>)]
+</span><span class="kw">pub struct </span>Stat {
+    <span class="kw">pub </span>st_dev: ffi::c_ulong,
+    <span class="kw">pub </span>st_ino: ffi::c_ulong,
+    <span class="kw">pub </span>st_nlink: ffi::c_ulong,
+    <span class="kw">pub </span>st_mode: ffi::c_uint,
+    <span class="kw">pub </span>st_uid: ffi::c_uint,
+    <span class="kw">pub </span>st_gid: ffi::c_uint,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __pad1: ffi::c_uint,
+    <span class="kw">pub </span>st_rdev: ffi::c_ulong,
+    <span class="kw">pub </span>st_size: ffi::c_long, <span class="comment">// Linux has `c_ulong` but we make it signed.
+    </span><span class="kw">pub </span>st_atime: ffi::c_long,
+    <span class="kw">pub </span>st_atime_nsec: ffi::c_ulong,
+    <span class="kw">pub </span>st_mtime: ffi::c_long,
+    <span class="kw">pub </span>st_mtime_nsec: ffi::c_ulong,
+    <span class="kw">pub </span>st_ctime: ffi::c_long,
+    <span class="kw">pub </span>st_ctime_nsec: ffi::c_ulong,
+    <span class="kw">pub </span>st_blksize: ffi::c_ulong,
+    <span class="kw">pub </span>st_blocks: ffi::c_long,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) __unused: [ffi::c_ulong; <span class="number">3</span>],
+}
 
 <span class="doccomment">/// `struct statfs` for use with [`statfs`] and [`fstatfs`].
 ///
 /// [`statfs`]: crate::fs::statfs
 /// [`fstatfs`]: crate::fs::fstatfs
 </span><span class="attr">#[allow(clippy::module_name_repetitions)]
-</span><span class="kw">pub type </span>StatFs = linux_raw_sys::general::statfs64;
+#[repr(C)]
+#[cfg_attr(target_arch = <span class="string">"arm"</span>, repr(packed(<span class="number">4</span>)))]
+#[derive(Debug, Copy, Clone)]
+#[allow(missing_docs)]
+#[non_exhaustive]
+</span><span class="kw">pub struct </span>StatFs {
+    <span class="kw">pub </span>f_type: FsWord,
+    <span class="attr">#[cfg(not(any(target_arch = <span class="string">"arm"</span>, target_arch = <span class="string">"s390x"</span>)))]
+    </span><span class="kw">pub </span>f_bsize: ffi::c_long,
+    <span class="attr">#[cfg(any(target_arch = <span class="string">"arm"</span>, target_arch = <span class="string">"s390x"</span>))]
+    </span><span class="kw">pub </span>f_bsize: ffi::c_uint,
+    <span class="kw">pub </span>f_blocks: u64,
+    <span class="kw">pub </span>f_bfree: u64,
+    <span class="kw">pub </span>f_bavail: u64,
+    <span class="kw">pub </span>f_files: u64,
+    <span class="kw">pub </span>f_ffree: u64,
+    <span class="kw">pub </span>f_fsid: Fsid,
+    <span class="attr">#[cfg(not(any(target_arch = <span class="string">"arm"</span>, target_arch = <span class="string">"s390x"</span>)))]
+    </span><span class="kw">pub </span>f_namelen: ffi::c_long,
+    <span class="attr">#[cfg(any(target_arch = <span class="string">"arm"</span>, target_arch = <span class="string">"s390x"</span>))]
+    </span><span class="kw">pub </span>f_namelen: ffi::c_uint,
+    <span class="attr">#[cfg(not(any(target_arch = <span class="string">"arm"</span>, target_arch = <span class="string">"s390x"</span>)))]
+    </span><span class="kw">pub </span>f_frsize: ffi::c_long,
+    <span class="attr">#[cfg(any(target_arch = <span class="string">"arm"</span>, target_arch = <span class="string">"s390x"</span>))]
+    </span><span class="kw">pub </span>f_frsize: ffi::c_uint,
+    <span class="attr">#[cfg(not(any(target_arch = <span class="string">"arm"</span>, target_arch = <span class="string">"s390x"</span>)))]
+    </span><span class="kw">pub </span>f_flags: ffi::c_long,
+    <span class="attr">#[cfg(any(target_arch = <span class="string">"arm"</span>, target_arch = <span class="string">"s390x"</span>))]
+    </span><span class="kw">pub </span>f_flags: ffi::c_uint,
+    <span class="attr">#[cfg(not(target_arch = <span class="string">"s390x"</span>))]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) f_spare: [ffi::c_long; <span class="number">4</span>],
+    <span class="attr">#[cfg(target_arch = <span class="string">"s390x"</span>)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) f_spare: [ffi::c_uint; <span class="number">5</span>],
+}
+
+<span class="doccomment">/// `fsid_t` for use with [`StatFs`].
+</span><span class="attr">#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+#[allow(missing_docs)]
+</span><span class="kw">pub struct </span>Fsid {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) val: [ffi::c_int; <span class="number">2</span>],
+}
 
 <span class="doccomment">/// `struct statvfs` for use with [`statvfs`] and [`fstatvfs`].
 ///
@@ -1468,42 +1672,26 @@
     <span class="kw">pub </span>f_namemax: u64,
 }
 
-<span class="doccomment">/// `struct statx` for use with [`statx`].
-///
-/// [`statx`]: crate::fs::statx
-</span><span class="kw">pub type </span>Statx = linux_raw_sys::general::statx;
-
-<span class="doccomment">/// `struct statx_timestamp` for use with [`Statx`].
-</span><span class="kw">pub type </span>StatxTimestamp = linux_raw_sys::general::statx_timestamp;
-
 <span class="doccomment">/// `mode_t`
-</span><span class="attr">#[cfg(not(any(
-    target_arch = <span class="string">"x86"</span>,
-    target_arch = <span class="string">"sparc"</span>,
-    target_arch = <span class="string">"avr"</span>,
-    target_arch = <span class="string">"arm"</span>,
-)))]
-</span><span class="kw">pub type </span>RawMode = linux_raw_sys::general::__kernel_mode_t;
-
-<span class="doccomment">/// `mode_t`
-</span><span class="attr">#[cfg(any(
-    target_arch = <span class="string">"x86"</span>,
-    target_arch = <span class="string">"sparc"</span>,
-    target_arch = <span class="string">"avr"</span>,
-    target_arch = <span class="string">"arm"</span>,
-))]
-</span><span class="comment">// Don't use `__kernel_mode_t` since it's `u16` which differs from `st_size`.
-</span><span class="kw">pub type </span>RawMode = c::c_uint;
+</span><span class="kw">pub type </span>RawMode = ffi::c_uint;
 
 <span class="doccomment">/// `dev_t`
 </span><span class="comment">// Within the kernel the `dev_t` is 32-bit, but userspace uses a 64-bit field.
 </span><span class="kw">pub type </span>Dev = u64;
 
 <span class="doccomment">/// `__fsword_t`
-</span><span class="attr">#[cfg(not(any(target_arch = <span class="string">"mips64"</span>, target_arch = <span class="string">"mips64r6"</span>)))]
-</span><span class="kw">pub type </span>FsWord = linux_raw_sys::general::__fsword_t;
+</span><span class="attr">#[cfg(not(any(
+    target_arch = <span class="string">"mips64"</span>,
+    target_arch = <span class="string">"mips64r6"</span>,
+    target_arch = <span class="string">"s390x"
+</span>)))]
+</span><span class="kw">pub type </span>FsWord = ffi::c_long;
 
 <span class="doccomment">/// `__fsword_t`
 </span><span class="attr">#[cfg(any(target_arch = <span class="string">"mips64"</span>, target_arch = <span class="string">"mips64r6"</span>))]
 </span><span class="kw">pub type </span>FsWord = i64;
+
+<span class="doccomment">/// `__fsword_t`
+</span><span class="attr">#[cfg(target_arch = <span class="string">"s390x"</span>)]
+</span><span class="kw">pub type </span>FsWord = u32;
 </code></pre></div></section></main></body></html>

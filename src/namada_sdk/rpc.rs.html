@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.47.2/src/rpc.rs`."><title>rpc.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/</div>rpc.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.149.1/src/rpc.rs`."><title>rpc.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/</div>rpc.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1949,7 +1949,44 @@
 <a href="#1948" id="1948">1948</a>
 <a href="#1949" id="1949">1949</a>
 <a href="#1950" id="1950">1950</a>
-<a href="#1951" id="1951">1951</a></pre></div><pre class="rust"><code><span class="doccomment">//! SDK RPC queries
+<a href="#1951" id="1951">1951</a>
+<a href="#1952" id="1952">1952</a>
+<a href="#1953" id="1953">1953</a>
+<a href="#1954" id="1954">1954</a>
+<a href="#1955" id="1955">1955</a>
+<a href="#1956" id="1956">1956</a>
+<a href="#1957" id="1957">1957</a>
+<a href="#1958" id="1958">1958</a>
+<a href="#1959" id="1959">1959</a>
+<a href="#1960" id="1960">1960</a>
+<a href="#1961" id="1961">1961</a>
+<a href="#1962" id="1962">1962</a>
+<a href="#1963" id="1963">1963</a>
+<a href="#1964" id="1964">1964</a>
+<a href="#1965" id="1965">1965</a>
+<a href="#1966" id="1966">1966</a>
+<a href="#1967" id="1967">1967</a>
+<a href="#1968" id="1968">1968</a>
+<a href="#1969" id="1969">1969</a>
+<a href="#1970" id="1970">1970</a>
+<a href="#1971" id="1971">1971</a>
+<a href="#1972" id="1972">1972</a>
+<a href="#1973" id="1973">1973</a>
+<a href="#1974" id="1974">1974</a>
+<a href="#1975" id="1975">1975</a>
+<a href="#1976" id="1976">1976</a>
+<a href="#1977" id="1977">1977</a>
+<a href="#1978" id="1978">1978</a>
+<a href="#1979" id="1979">1979</a>
+<a href="#1980" id="1980">1980</a>
+<a href="#1981" id="1981">1981</a>
+<a href="#1982" id="1982">1982</a>
+<a href="#1983" id="1983">1983</a>
+<a href="#1984" id="1984">1984</a>
+<a href="#1985" id="1985">1985</a>
+<a href="#1986" id="1986">1986</a>
+<a href="#1987" id="1987">1987</a>
+<a href="#1988" id="1988">1988</a></pre></div><pre class="rust"><code><span class="doccomment">//! SDK RPC queries
 
 </span><span class="attr">#![allow(clippy::result_large_err)]
 
@@ -1958,7 +1995,7 @@
 <span class="kw">use </span>std::collections::{BTreeMap, BTreeSet};
 <span class="kw">use </span>std::ops::ControlFlow;
 
-<span class="kw">use </span>borsh::BorshDeserialize;
+<span class="kw">use </span>borsh::{BorshDeserialize, BorshSerialize};
 <span class="kw">use </span>masp_primitives::asset_type::AssetType;
 <span class="kw">use </span>masp_primitives::merkle_tree::MerklePath;
 <span class="kw">use </span>masp_primitives::sapling::Node;
@@ -1968,10 +2005,10 @@
 <span class="kw">use </span>namada_core::chain::{BlockHeight, Epoch};
 <span class="kw">use </span>namada_core::collections::{HashMap, HashSet};
 <span class="kw">use </span>namada_core::hash::Hash;
+<span class="kw">use </span>namada_core::ibc::IbcTokenHash;
 <span class="kw">use </span>namada_core::ibc::apps::nft_transfer::types::TracePrefix;
 <span class="kw">use </span>namada_core::ibc::apps::transfer::types::PrefixedDenom;
 <span class="kw">use </span>namada_core::ibc::core::host::types::identifiers::ChannelId;
-<span class="kw">use </span>namada_core::ibc::IbcTokenHash;
 <span class="kw">use </span>namada_core::key::common;
 <span class="kw">use </span>namada_core::masp::MaspEpoch;
 <span class="kw">use </span>namada_core::storage::{BlockResults, Key, PrefixValue};
@@ -1980,8 +2017,9 @@
     Amount, DenominatedAmount, Denomination, MaspDigitPos,
 };
 <span class="kw">use </span>namada_core::{storage, token};
-<span class="kw">use </span>namada_gas::event::GasUsed <span class="kw">as </span>GasUsedAttr;
+<span class="kw">use </span>namada_events::extend::InnerTxHash;
 <span class="kw">use </span>namada_gas::WholeGas;
+<span class="kw">use </span>namada_gas::event::GasUsed <span class="kw">as </span>GasUsedAttr;
 <span class="kw">use </span>namada_governance::parameters::GovernanceParameters;
 <span class="kw">use </span>namada_governance::pgf::parameters::PgfParameters;
 <span class="kw">use </span>namada_governance::pgf::storage::steward::StewardDetail;
@@ -1989,7 +2027,7 @@
     StoragePgfFunding, StorageProposal,
 };
 <span class="kw">use </span>namada_governance::utils::{
-    compute_proposal_result, ProposalResult, ProposalVotes, Vote,
+    ProposalResult, ProposalVotes, Vote, compute_proposal_result,
 };
 <span class="kw">use </span>namada_ibc::core::host::types::identifiers::PortId;
 <span class="kw">use </span>namada_ibc::parameters::{IbcParameters, IbcTokenRateLimits};
@@ -1998,8 +2036,8 @@
     throughput_limit_key,
 };
 <span class="kw">use </span>namada_ibc::trace::calc_ibc_token_hash;
-<span class="kw">use </span>namada_io::{display_line, edisplay_line, Client, Io};
-<span class="kw">use </span>namada_parameters::{storage <span class="kw">as </span>params_storage, EpochDuration};
+<span class="kw">use </span>namada_io::{Client, Io, display_line, edisplay_line};
+<span class="kw">use </span>namada_parameters::{EpochDuration, storage <span class="kw">as </span>params_storage};
 <span class="kw">use </span>namada_proof_of_stake::parameters::PosParams;
 <span class="kw">use </span>namada_proof_of_stake::rewards::PosRewardsRates;
 <span class="kw">use </span>namada_proof_of_stake::types::{
@@ -2015,17 +2053,17 @@
 <span class="kw">use </span><span class="kw">crate</span>::args::{InputAmount, OsmosisPoolHop};
 <span class="kw">use </span><span class="kw">crate</span>::control_flow::time;
 <span class="kw">use </span><span class="kw">crate</span>::error::{EncodingError, Error, QueryError, TxSubmitError};
-<span class="kw">use </span><span class="kw">crate</span>::events::{extend, Event};
+<span class="kw">use </span><span class="kw">crate</span>::events::{Event, extend};
 <span class="kw">use </span><span class="kw">crate</span>::internal_macros::echo_error;
+<span class="kw">use </span><span class="kw">crate</span>::queries::RPC;
 <span class="kw">use </span><span class="kw">crate</span>::queries::vp::pos::{
     EnrichedBondsAndUnbondsDetails, ValidatorStateInfo,
 };
-<span class="kw">use </span><span class="kw">crate</span>::queries::RPC;
 <span class="kw">use </span><span class="kw">crate</span>::tendermint::block::Height;
 <span class="kw">use </span><span class="kw">crate</span>::tendermint::merkle::proof::ProofOps;
 <span class="kw">use </span><span class="kw">crate</span>::tendermint_rpc::query::Query;
 <span class="kw">use </span><span class="kw">crate</span>::tx::get_ibc_src_port_channel;
-<span class="kw">use crate</span>::{error, Namada, Tx};
+<span class="kw">use crate</span>::{Namada, Tx, error};
 
 <span class="doccomment">/// Query an estimate of the maximum block time.
 </span><span class="kw">pub async fn </span>query_max_block_time_estimate&lt;C: Client + Sync&gt;(
@@ -2044,7 +2082,7 @@
     io: <span class="kw-2">&amp;</span>IO,
     status: TxEventQuery&lt;<span class="lifetime">'_</span>&gt;,
     deadline: time::Instant,
-) -&gt; <span class="prelude-ty">Result</span>&lt;Event, Error&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;TxAppliedEvents, Error&gt;
 <span class="kw">where
     </span>C: namada_io::Client + Sync,
     IO: Io + <span class="kw">crate</span>::MaybeSend + <span class="kw">crate</span>::MaybeSync,
@@ -2102,7 +2140,7 @@
     context: <span class="kw-2">&amp;</span><span class="kw">impl </span>Namada,
     status: TxEventQuery&lt;<span class="lifetime">'_</span>&gt;,
     deadline: time::Instant,
-) -&gt; <span class="prelude-ty">Result</span>&lt;Event, Error&gt; {
+) -&gt; <span class="prelude-ty">Result</span>&lt;TxAppliedEvents, Error&gt; {
     query_tx_status2(context.client(), context.io(), status, deadline).<span class="kw">await
 </span>}
 
@@ -2454,10 +2492,10 @@
 <span class="doccomment">/// Query a range of storage values with a matching prefix and decode them with
 /// [`BorshDeserialize`]. Returns an iterator of the storage keys paired with
 /// their associated values.
-</span><span class="kw">pub async fn </span>query_storage_prefix&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, N: Namada, T&gt;(
-    context: <span class="kw-2">&amp;</span><span class="lifetime">'b </span>N,
+</span><span class="kw">pub async fn </span>query_storage_prefix&lt;<span class="lifetime">'a</span>, N: Namada, T&gt;(
+    context: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>N,
     key: <span class="kw-2">&amp;</span>storage::Key,
-) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span><span class="lifetime">'b </span>+ Iterator&lt;Item = (storage::Key, T)&gt;&gt;, error::Error&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span><span class="lifetime">'a </span>+ Iterator&lt;Item = (storage::Key, T)&gt;&gt;, error::Error&gt;
 <span class="kw">where
     </span>T: BorshDeserialize,
 {
@@ -2535,13 +2573,12 @@
 </span><span class="kw">pub async fn </span>query_tx_events&lt;C: namada_io::Client + Sync&gt;(
     client: <span class="kw-2">&amp;</span>C,
     tx_event_query: TxEventQuery&lt;<span class="lifetime">'_</span>&gt;,
-) -&gt; std::result::Result&lt;<span class="prelude-ty">Option</span>&lt;Event&gt;, &lt;C <span class="kw">as </span>namada_io::Client&gt;::Error&gt; {
+) -&gt; std::result::Result&lt;<span class="prelude-ty">Option</span>&lt;TxAppliedEvents&gt;, &lt;C <span class="kw">as </span>namada_io::Client&gt;::Error&gt;
+{
     <span class="kw">let </span>tx_hash: Hash = tx_event_query.tx_hash().try_into().unwrap();
     <span class="kw">match </span>tx_event_query {
-        TxEventQuery::Applied(<span class="kw">_</span>) =&gt; RPC.shell().applied(client, <span class="kw-2">&amp;</span>tx_hash).<span class="kw">await</span>, <span class="comment">/* .wrap_err_with(|| {
-                                                                                  * eyre!("Error querying whether a transaction was applied")
-                                                                                  * }) */
-    </span>}
+        TxEventQuery::Applied(<span class="kw">_</span>) =&gt; RPC.shell().applied(client, <span class="kw-2">&amp;</span>tx_hash).<span class="kw">await</span>,
+    }
 }
 
 <span class="doccomment">/// Dry run a transaction
@@ -2556,10 +2593,11 @@
             .<span class="kw">await</span>,
     )<span class="question-mark">?
     </span>.data;
+    <span class="kw">let </span>DryRunResult(tx_result, gas_cost) = <span class="kw-2">&amp;</span>result;
 
     <span class="macro">display_line!</span>(context.io(), <span class="string">"Dry-run result:"</span>);
     <span class="kw">let </span><span class="kw-2">mut </span>all_inners_successful = <span class="bool-val">true</span>;
-    <span class="kw">for </span>(inner_hash, cmt_result) <span class="kw">in </span>result.<span class="number">0</span>.iter() {
+    <span class="kw">for </span>(inner_hash, cmt_result) <span class="kw">in </span>tx_result.iter() {
         <span class="kw">match </span>cmt_result {
             <span class="prelude-val">Ok</span>(result) =&gt; {
                 <span class="kw">if </span>result.is_accepted() {
@@ -2595,18 +2633,18 @@
         }
     }
 
-    <span class="comment">// Display the gas used only if the entire batch was successful. In all the
-    // other cases the gas consumed is misleading since most likely the inner
-    // transactions did not have the chance to run until completion. This could
-    // trick the user into setting wrong gas limit values when trying to
-    // resubmit the tx
-    </span><span class="kw">if </span>all_inners_successful {
-        <span class="macro">display_line!</span>(
-            context.io(),
-            <span class="string">"The batch consumed {} gas units."</span>,
-            result.<span class="number">1
-        </span>);
-    }
+    <span class="macro">display_line!</span>(
+        context.io(),
+        <span class="string">"The batch consumed {} gas units.{}"</span>,
+        gas_cost,
+        <span class="kw">if </span>all_inners_successful {
+            <span class="string">""
+        </span>} <span class="kw">else </span>{
+            <span class="string">"The gas consumed might be misleading if the inner transactions \
+             did not have the chance to run until completion. Do not rely on \
+             this value to set gas limit."
+        </span>}
+    );
 
     <span class="prelude-val">Ok</span>(result)
 }
@@ -2625,6 +2663,16 @@
         <span class="doccomment">/// Hash of the transaction
         </span>tx_hash: String,
     },
+}
+
+<span class="doccomment">/// The events for an applied transaction
+</span><span class="attr">#[derive(Debug, BorshDeserialize, BorshSerialize)]
+</span><span class="kw">pub struct </span>TxAppliedEvents {
+    <span class="doccomment">/// The applied tx event
+    </span><span class="kw">pub </span>applied: Event,
+    <span class="doccomment">/// All the other events associated with this transaction (transfers, ibc,
+    /// masp, ...)
+    </span><span class="kw">pub </span>other: Vec&lt;Event&gt;,
 }
 
 <span class="doccomment">/// A parsed event from tendermint relating to a transaction
@@ -2657,29 +2705,54 @@
     </span>OtherFailure(String),
 }
 
-<span class="kw">impl </span>TryFrom&lt;Event&gt; <span class="kw">for </span>TxResponse {
+<span class="kw">impl </span>TryFrom&lt;TxAppliedEvents&gt; <span class="kw">for </span>TxResponse {
     <span class="kw">type </span>Error = String;
 
-    <span class="kw">fn </span>try_from(event: Event) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
-        <span class="kw">let </span>batch = event.read_attribute::&lt;BatchAttr&lt;<span class="lifetime">'_</span>&gt;&gt;().ok();
-        <span class="kw">let </span>hash = event
+    <span class="kw">fn </span>try_from(
+        TxAppliedEvents {
+            applied: applied_event,
+            other: other_events,
+        }: TxAppliedEvents,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>batch = applied_event.read_attribute::&lt;BatchAttr&lt;<span class="lifetime">'_</span>&gt;&gt;().ok();
+        <span class="kw">let </span>hash = applied_event
             .read_attribute::&lt;extend::TxHash&gt;()
             .map_err(|err| err.to_string())<span class="question-mark">?</span>;
-        <span class="kw">let </span>info = event
+        <span class="kw">let </span>info = applied_event
             .read_attribute::&lt;extend::Info&gt;()
             .map_err(|err| err.to_string())<span class="question-mark">?</span>;
-        <span class="kw">let </span>log = event
+        <span class="kw">let </span>log = applied_event
             .read_attribute::&lt;extend::Log&gt;()
             .map_err(|err| err.to_string())<span class="question-mark">?</span>;
-        <span class="kw">let </span>height = event
+        <span class="kw">let </span>height = applied_event
             .read_attribute::&lt;extend::Height&gt;()
             .map_err(|err| err.to_string())<span class="question-mark">?</span>;
-        <span class="kw">let </span>code = event
+        <span class="kw">let </span>code = applied_event
             .read_attribute::&lt;CodeAttr&gt;()
             .map_err(|err| err.to_string())<span class="question-mark">?</span>;
-        <span class="kw">let </span>gas_used = event
+        <span class="kw">let </span>gas_used = applied_event
             .read_attribute::&lt;GasUsedAttr&gt;()
             .map_err(|err| err.to_string())<span class="question-mark">?</span>;
+
+        <span class="comment">// Reconstruct the inner txs' events
+        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(batch) = <span class="kw-2">&amp;mut </span>batch {
+            <span class="kw">for </span>event <span class="kw">in </span>other_events {
+                <span class="kw">let </span>inner_tx_hash = event
+                    .read_attribute::&lt;InnerTxHash&gt;()
+                    .map_err(|e| e.to_string())<span class="question-mark">?</span>;
+                <span class="kw">let </span>inner_tx_result =
+                    batch.get_mut(<span class="kw-2">&amp;</span>inner_tx_hash).ok_or_else(|| {
+                        <span class="macro">format!</span>(
+                            <span class="string">"Missing result of inner transaction {}"</span>,
+                            inner_tx_hash
+                        )
+                    })<span class="question-mark">?</span>;
+
+                <span class="kw">if let </span><span class="prelude-val">Ok</span>(result) = inner_tx_result {
+                    result.events.insert(event);
+                }
+            }
+        }
 
         <span class="prelude-val">Ok</span>(TxResponse {
             batch,
@@ -2694,9 +2767,9 @@
 }
 
 <span class="kw">impl </span>TxResponse {
-    <span class="doccomment">/// Convert an [`Event`] to a [`TxResponse`], or error out.
-    </span><span class="kw">pub fn </span>from_event(event: Event) -&gt; <span class="self">Self </span>{
-        event.try_into().unwrap_or_else(|err| {
+    <span class="doccomment">/// Convert a [`TxAppliedEvents`] to a [`TxResponse`], or error out.
+    </span><span class="kw">pub fn </span>from_events(applied_events: TxAppliedEvents) -&gt; <span class="self">Self </span>{
+        applied_events.try_into().unwrap_or_else(|err| {
             <span class="macro">panic!</span>(<span class="string">"Error fetching TxResponse: {err}"</span>);
         })
     }
@@ -3826,6 +3899,7 @@
             (<span class="string">"tokenIn"</span>, coin.as_str()),
             (<span class="string">"tokenOutDenom"</span>, output_denom),
             (<span class="string">"humanDenoms"</span>, <span class="string">"false"</span>),
+            (<span class="string">"singleRoute"</span>, <span class="string">"true"</span>),
         ])
         .send()
         .<span class="kw">await

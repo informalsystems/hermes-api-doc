@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.47.2/src/events/log/dumb_queries.rs`."><title>dumb_queries.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/events/log/</div>dumb_queries.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.149.1/src/events/log/dumb_queries.rs`."><title>dumb_queries.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/events/log/</div>dumb_queries.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -247,16 +247,49 @@
 <a href="#246" id="246">246</a>
 <a href="#247" id="247">247</a>
 <a href="#248" id="248">248</a>
-<a href="#249" id="249">249</a></pre></div><pre class="rust"><code><span class="doccomment">//! Silly simple event matcher.
+<a href="#249" id="249">249</a>
+<a href="#250" id="250">250</a>
+<a href="#251" id="251">251</a>
+<a href="#252" id="252">252</a>
+<a href="#253" id="253">253</a>
+<a href="#254" id="254">254</a>
+<a href="#255" id="255">255</a>
+<a href="#256" id="256">256</a>
+<a href="#257" id="257">257</a>
+<a href="#258" id="258">258</a>
+<a href="#259" id="259">259</a>
+<a href="#260" id="260">260</a>
+<a href="#261" id="261">261</a>
+<a href="#262" id="262">262</a>
+<a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a></pre></div><pre class="rust"><code><span class="doccomment">//! Silly simple event matcher.
 
 </span><span class="kw">use </span>namada_core::chain::BlockHeight;
 <span class="kw">use </span>namada_core::collections::HashMap;
 <span class="kw">use </span>namada_core::hash::Hash;
 <span class="kw">use </span>namada_core::keccak::KeccakHash;
+<span class="kw">use </span>namada_ethereum_bridge::event::BridgePoolTxHash;
 <span class="kw">use </span>namada_ethereum_bridge::event::types::{
     BRIDGE_POOL_EXPIRED, BRIDGE_POOL_RELAYED,
 };
-<span class="kw">use </span>namada_ethereum_bridge::event::BridgePoolTxHash;
 <span class="kw">use </span>namada_ibc::event::types::UPDATE_CLIENT;
 <span class="kw">use </span>namada_ibc::event::{
     ClientId <span class="kw">as </span>ClientIdAttr, ConsensusHeights, IbcEvent, IbcEventType,
@@ -414,15 +447,22 @@
         .and_attribute(PacketDstChannel(destination_channel))
         .and_attribute(PacketSequence(sequence))
     }
+
+    <span class="doccomment">/// Returns all the events associated with the provided transaction's hash
+    </span><span class="kw">pub fn </span>tx_events(tx_hash: Hash) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::with_prefix(EventType::new(<span class="string">""</span>)).and_attribute(TxHashAttr(tx_hash))
+    }
 }
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use </span>namada_ethereum_bridge::event::EthBridgeEvent;
+    <span class="kw">use </span>namada_token::event::types::TRANSFER;
+    <span class="kw">use </span>namada_tx::event::masp_types::TRANSFER <span class="kw">as </span>MASP_TRANSFER;
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span><span class="kw">crate</span>::events::extend::ComposeEvent;
     <span class="kw">use </span><span class="kw">crate</span>::events::EventLevel;
+    <span class="kw">use </span><span class="kw">crate</span>::events::extend::ComposeEvent;
 
     <span class="kw">const </span>HASH: <span class="kw-2">&amp;</span>str =
         <span class="string">"DEADBEEFDEADBEEFDEADBEEFDEADBEEFDEADBEEFDEADBEEFDEADBEEFDEADBEEF"</span>;
@@ -465,6 +505,32 @@
                 <span class="macro">panic!</span>(<span class="string">"Test failed"</span>);
             }
         }
+    }
+
+    <span class="comment">// Test if we can query all the events associated with a specific
+    // transaction's hash
+    </span><span class="attr">#[test]
+    </span><span class="kw">fn </span>test_query_all_tx_events() {
+        <span class="kw">let </span>tx_hash: Hash = HASH.parse().unwrap();
+        <span class="kw">let </span>matcher = QueryMatcher::tx_events(tx_hash);
+
+        <span class="kw">let </span>event_1: Event = Event::new(UPDATE_CLIENT, EventLevel::Tx)
+            .with(TxHashAttr(tx_hash))
+            .into();
+        <span class="kw">let </span>event_2: Event = Event::new(APPLIED_TX, EventLevel::Tx)
+            .with(TxHashAttr(tx_hash))
+            .into();
+        <span class="kw">let </span>event_3: Event = Event::new(TRANSFER, EventLevel::Tx)
+            .with(TxHashAttr(tx_hash))
+            .into();
+        <span class="kw">let </span>event_4: Event = Event::new(MASP_TRANSFER, EventLevel::Tx);
+
+        <span class="kw">for </span>ev <span class="kw">in </span>[event_1, event_2, event_3] {
+            <span class="macro">assert!</span>(matcher.matches(<span class="kw-2">&amp;</span>ev))
+        }
+        <span class="comment">// Check that the event missing the transaction hash attribute is not
+        // captured by the matcher
+        </span><span class="macro">assert!</span>(!matcher.matches(<span class="kw-2">&amp;</span>event_4))
     }
 
     <span class="doccomment">/// Test if query matching is working as expected.

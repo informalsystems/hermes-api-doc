@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.47.2/src/eth_bridge/validator_set.rs`."><title>validator_set.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/eth_bridge/</div>validator_set.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_sdk-0.149.1/src/eth_bridge/validator_set.rs`."><title>validator_set.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="namada_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_sdk/eth_bridge/</div>validator_set.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -813,7 +813,8 @@
 <a href="#812" id="812">812</a>
 <a href="#813" id="813">813</a>
 <a href="#814" id="814">814</a>
-<a href="#815" id="815">815</a></pre></div><pre class="rust"><code><span class="doccomment">//! Validator set updates SDK functionality.
+<a href="#815" id="815">815</a>
+<a href="#816" id="816">816</a></pre></div><pre class="rust"><code><span class="doccomment">//! Validator set updates SDK functionality.
 
 </span><span class="kw">use </span>std::cmp::Ordering;
 <span class="kw">use </span>std::future::Future;
@@ -829,12 +830,12 @@
 <span class="kw">use </span>namada_core::ethereum_events::EthAddress;
 <span class="kw">use </span>namada_core::hints;
 <span class="kw">use </span>namada_ethereum_bridge::storage::proof::EthereumProof;
-<span class="kw">use </span>namada_io::{display_line, edisplay_line, Client, Io};
+<span class="kw">use </span>namada_io::{Client, Io, display_line, edisplay_line};
 <span class="kw">use </span>namada_vote_ext::validator_set_update::{
     ValidatorSetArgs, VotingPowersMap,
 };
 
-<span class="kw">use super</span>::{block_on_eth_sync, eth_sync_or, eth_sync_or_exit, BlockOnEthSync};
+<span class="kw">use super</span>::{BlockOnEthSync, block_on_eth_sync, eth_sync_or, eth_sync_or_exit};
 <span class="kw">use </span><span class="kw">crate</span>::args;
 <span class="kw">use </span><span class="kw">crate</span>::control_flow::time::{<span class="self">self</span>, Duration, Instant};
 <span class="kw">use </span><span class="kw">crate</span>::error::{Error <span class="kw">as </span>SdkError, EthereumBridgeError, QueryError};
@@ -1051,6 +1052,7 @@
 }
 
 <span class="doccomment">/// Relay result for [`CheckNonce`].
+</span><span class="attr">#[allow(clippy::large_enum_variant)] </span><span class="comment">// TODO Box Receipt's TransactionReceipt
 </span><span class="kw">enum </span>RelayResult {
     <span class="doccomment">/// The call to Bridge failed.
     </span>BridgeCallError(String),
@@ -1204,7 +1206,7 @@
 }
 
 <span class="doccomment">/// Relay a validator set update, signed off for a given epoch.
-</span><span class="kw">pub async fn </span>relay_validator_set_update&lt;<span class="lifetime">'a</span>, E&gt;(
+</span><span class="kw">pub async fn </span>relay_validator_set_update&lt;E&gt;(
     eth_client: Arc&lt;E&gt;,
     client: <span class="kw-2">&amp;</span>(<span class="kw">impl </span>Client + Sync),
     io: <span class="kw-2">&amp;</span><span class="kw">impl </span>Io,
@@ -1283,7 +1285,7 @@
     .or_else(|err| err.handle())
 }
 
-<span class="kw">async fn </span>relay_validator_set_update_daemon&lt;<span class="lifetime">'a</span>, E&gt;(
+<span class="kw">async fn </span>relay_validator_set_update_daemon&lt;E&gt;(
     <span class="kw-2">mut </span>args: args::ValidatorSetUpdateRelay,
     eth_client: Arc&lt;E&gt;,
     client: <span class="kw-2">&amp;</span>(<span class="kw">impl </span>Client + Sync),

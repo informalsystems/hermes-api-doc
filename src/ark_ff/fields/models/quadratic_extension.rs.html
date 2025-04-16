@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ff-0.4.2/src/fields/models/quadratic_extension.rs`."><title>quadratic_extension.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ark_ff" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ff/fields/models/</div>quadratic_extension.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ark-ff-0.5.0/src/fields/models/quadratic_extension.rs`."><title>quadratic_extension.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ark_ff" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ark_ff/fields/models/</div>quadratic_extension.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -822,32 +822,49 @@
 <a href="#821" id="821">821</a>
 <a href="#822" id="822">822</a>
 <a href="#823" id="823">823</a>
-<a href="#824" id="824">824</a></pre></div><pre class="rust"><code><span class="kw">use </span>ark_serialize::{
+<a href="#824" id="824">824</a>
+<a href="#825" id="825">825</a>
+<a href="#826" id="826">826</a>
+<a href="#827" id="827">827</a>
+<a href="#828" id="828">828</a>
+<a href="#829" id="829">829</a>
+<a href="#830" id="830">830</a>
+<a href="#831" id="831">831</a>
+<a href="#832" id="832">832</a>
+<a href="#833" id="833">833</a>
+<a href="#834" id="834">834</a>
+<a href="#835" id="835">835</a>
+<a href="#836" id="836">836</a>
+<a href="#837" id="837">837</a>
+<a href="#838" id="838">838</a>
+<a href="#839" id="839">839</a>
+<a href="#840" id="840">840</a>
+<a href="#841" id="841">841</a>
+<a href="#842" id="842">842</a>
+<a href="#843" id="843">843</a>
+<a href="#844" id="844">844</a>
+<a href="#845" id="845">845</a></pre></div><pre class="rust"><code><span class="kw">use crate</span>::{
+    biginteger::BigInteger,
+    fields::{Field, LegendreSymbol, PrimeField},
+    AdditiveGroup, FftField, One, SqrtPrecomputation, ToConstraintField, UniformRand, Zero,
+};
+<span class="kw">use </span>ark_serialize::{
     CanonicalDeserialize, CanonicalDeserializeWithFlags, CanonicalSerialize,
     CanonicalSerializeWithFlags, Compress, EmptyFlags, Flags, SerializationError, Valid, Validate,
 };
 <span class="kw">use </span>ark_std::{
-    cmp::{Ord, Ordering, PartialOrd},
+    cmp::<span class="kw-2">*</span>,
     fmt,
     io::{Read, Write},
-    iter::Chain,
+    iter::<span class="kw-2">*</span>,
     ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
-    vec::Vec,
+    rand::{
+        distributions::{Distribution, Standard},
+        Rng,
+    },
+    vec::<span class="kw-2">*</span>,
 };
-
-<span class="kw">use </span>num_traits::{One, Zero};
 <span class="kw">use </span>zeroize::Zeroize;
-
-<span class="kw">use </span>ark_std::rand::{
-    distributions::{Distribution, Standard},
-    Rng,
-};
-
-<span class="kw">use crate</span>::{
-    biginteger::BigInteger,
-    fields::{Field, LegendreSymbol, PrimeField},
-    SqrtPrecomputation, ToConstraintField, UniformRand,
-};
 
 <span class="doccomment">/// Defines a Quadratic extension field from a quadratic non-residue.
 </span><span class="kw">pub trait </span>QuadExtConfig: <span class="lifetime">'static </span>+ Send + Sync + Sized {
@@ -859,7 +876,7 @@
     /// we might see `BaseField == BasePrimeField`, it won't always hold true.
     /// E.g. for an extension tower: `BasePrimeField == Fp`, but `BaseField == Fp3`.
     </span><span class="kw">type </span>BaseField: Field&lt;BasePrimeField = <span class="self">Self</span>::BasePrimeField&gt;;
-    <span class="doccomment">/// The type of the coefficients for an efficient implemntation of the
+    <span class="doccomment">/// The type of the coefficients for an efficient implementation of the
     /// Frobenius endomorphism.
     </span><span class="kw">type </span>FrobCoeff: Field;
 
@@ -917,16 +934,8 @@
 
 <span class="doccomment">/// An element of a quadratic extension field F_p\[X\]/(X^2 - P::NONRESIDUE) is
 /// represented as c0 + c1 * X, for c0, c1 in `P::BaseField`.
-</span><span class="attr">#[derive(Derivative)]
-#[derivative(
-    Default(bound = <span class="string">"P: QuadExtConfig"</span>),
-    Hash(bound = <span class="string">"P: QuadExtConfig"</span>),
-    Clone(bound = <span class="string">"P: QuadExtConfig"</span>),
-    Copy(bound = <span class="string">"P: QuadExtConfig"</span>),
-    Debug(bound = <span class="string">"P: QuadExtConfig"</span>),
-    PartialEq(bound = <span class="string">"P: QuadExtConfig"</span>),
-    Eq(bound = <span class="string">"P: QuadExtConfig"</span>)
-)]
+</span><span class="attr">#[derive(Educe)]
+#[educe(Default, Hash, Clone, Copy, Debug, PartialEq, Eq)]
 </span><span class="kw">pub struct </span>QuadExtField&lt;P: QuadExtConfig&gt; {
     <span class="doccomment">/// Coefficient `c0` in the representation of the field element `c = c0 + c1 * X`
     </span><span class="kw">pub </span>c0: P::BaseField,
@@ -1017,42 +1026,10 @@
     }
 }
 
-<span class="kw">type </span>BaseFieldIter&lt;P&gt; = &lt;&lt;P <span class="kw">as </span>QuadExtConfig&gt;::BaseField <span class="kw">as </span>Field&gt;::BasePrimeFieldIter;
-<span class="kw">impl</span>&lt;P: QuadExtConfig&gt; Field <span class="kw">for </span>QuadExtField&lt;P&gt; {
-    <span class="kw">type </span>BasePrimeField = P::BasePrimeField;
-
-    <span class="kw">type </span>BasePrimeFieldIter = Chain&lt;BaseFieldIter&lt;P&gt;, BaseFieldIter&lt;P&gt;&gt;;
-
-    <span class="kw">const </span>SQRT_PRECOMP: <span class="prelude-ty">Option</span>&lt;SqrtPrecomputation&lt;<span class="self">Self</span>&gt;&gt; = <span class="prelude-val">None</span>;
+<span class="kw">impl</span>&lt;P: QuadExtConfig&gt; AdditiveGroup <span class="kw">for </span>QuadExtField&lt;P&gt; {
+    <span class="kw">type </span>Scalar = <span class="self">Self</span>;
 
     <span class="kw">const </span>ZERO: <span class="self">Self </span>= <span class="self">Self</span>::new(P::BaseField::ZERO, P::BaseField::ZERO);
-    <span class="kw">const </span>ONE: <span class="self">Self </span>= <span class="self">Self</span>::new(P::BaseField::ONE, P::BaseField::ZERO);
-
-    <span class="kw">fn </span>extension_degree() -&gt; u64 {
-        <span class="number">2 </span>* P::BaseField::extension_degree()
-    }
-
-    <span class="kw">fn </span>from_base_prime_field(elem: <span class="self">Self</span>::BasePrimeField) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>fe = P::BaseField::from_base_prime_field(elem);
-        <span class="self">Self</span>::new(fe, P::BaseField::ZERO)
-    }
-
-    <span class="kw">fn </span>to_base_prime_field_elements(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span>::BasePrimeFieldIter {
-        <span class="self">self</span>.c0
-            .to_base_prime_field_elements()
-            .chain(<span class="self">self</span>.c1.to_base_prime_field_elements())
-    }
-
-    <span class="kw">fn </span>from_base_prime_field_elems(elems: <span class="kw-2">&amp;</span>[<span class="self">Self</span>::BasePrimeField]) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">if </span>elems.len() != (<span class="self">Self</span>::extension_degree() <span class="kw">as </span>usize) {
-            <span class="kw">return </span><span class="prelude-val">None</span>;
-        }
-        <span class="kw">let </span>base_ext_deg = P::BaseField::extension_degree() <span class="kw">as </span>usize;
-        <span class="prelude-val">Some</span>(<span class="self">Self</span>::new(
-            P::BaseField::from_base_prime_field_elems(<span class="kw-2">&amp;</span>elems[<span class="number">0</span>..base_ext_deg]).unwrap(),
-            P::BaseField::from_base_prime_field_elems(<span class="kw-2">&amp;</span>elems[base_ext_deg..]).unwrap(),
-        ))
-    }
 
     <span class="kw">fn </span>double(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>result = <span class="kw-2">*</span><span class="self">self</span>;
@@ -1071,6 +1048,46 @@
         <span class="self">self</span>.c1.neg_in_place();
         <span class="self">self
     </span>}
+}
+
+<span class="kw">impl</span>&lt;P: QuadExtConfig&gt; Field <span class="kw">for </span>QuadExtField&lt;P&gt; {
+    <span class="kw">type </span>BasePrimeField = P::BasePrimeField;
+
+    <span class="kw">const </span>SQRT_PRECOMP: <span class="prelude-ty">Option</span>&lt;SqrtPrecomputation&lt;<span class="self">Self</span>&gt;&gt; = <span class="prelude-val">None</span>;
+
+    <span class="kw">const </span>ONE: <span class="self">Self </span>= <span class="self">Self</span>::new(P::BaseField::ONE, P::BaseField::ZERO);
+
+    <span class="kw">fn </span>extension_degree() -&gt; u64 {
+        <span class="number">2 </span>* P::BaseField::extension_degree()
+    }
+
+    <span class="kw">fn </span>from_base_prime_field(elem: <span class="self">Self</span>::BasePrimeField) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>fe = P::BaseField::from_base_prime_field(elem);
+        <span class="self">Self</span>::new(fe, P::BaseField::ZERO)
+    }
+
+    <span class="kw">fn </span>to_base_prime_field_elements(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="self">Self</span>::BasePrimeField&gt; {
+        <span class="self">self</span>.c0
+            .to_base_prime_field_elements()
+            .chain(<span class="self">self</span>.c1.to_base_prime_field_elements())
+    }
+
+    <span class="kw">fn </span>from_base_prime_field_elems(
+        elems: <span class="kw">impl </span>IntoIterator&lt;Item = <span class="self">Self</span>::BasePrimeField&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>elems = elems.into_iter();
+        <span class="kw">let </span>elems = elems.by_ref();
+        <span class="kw">let </span>base_ext_deg = P::BaseField::extension_degree() <span class="kw">as </span>usize;
+        <span class="kw">let </span>element = <span class="prelude-val">Some</span>(<span class="self">Self</span>::new(
+            P::BaseField::from_base_prime_field_elems(elems.take(base_ext_deg))<span class="question-mark">?</span>,
+            P::BaseField::from_base_prime_field_elems(elems.take(base_ext_deg))<span class="question-mark">?</span>,
+        ));
+        <span class="kw">if </span>elems.next().is_some() {
+            <span class="prelude-val">None
+        </span>} <span class="kw">else </span>{
+            element
+        }
+    }
 
     <span class="kw">fn </span>square(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>result = <span class="kw-2">*</span><span class="self">self</span>;
@@ -1263,6 +1280,13 @@
             <span class="kw-2">*</span><span class="self">self </span>= sqrt;
             <span class="self">self
         </span>})
+    }
+
+    <span class="kw">fn </span>mul_by_base_prime_field(<span class="kw-2">&amp;</span><span class="self">self</span>, elem: <span class="kw-2">&amp;</span><span class="self">Self</span>::BasePrimeField) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>result = <span class="kw-2">*</span><span class="self">self</span>;
+        result.c0 = result.c0.mul_by_base_prime_field(elem);
+        result.c1 = result.c1.mul_by_base_prime_field(elem);
+        result
     }
 }
 
@@ -1596,8 +1620,8 @@
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span>ark_std::test_rng;
     <span class="kw">use </span>ark_test_curves::{
+        ark_ff::Field,
         bls12_381::{Fq, Fq2},
-        Field,
     };
 
     <span class="attr">#[test]
@@ -1613,7 +1637,7 @@
             <span class="kw">for _ in </span><span class="number">0</span>..d {
                 random_coeffs.push(Fq::rand(<span class="kw-2">&amp;mut </span>test_rng()));
             }
-            <span class="kw">let </span>res = Fq2::from_base_prime_field_elems(<span class="kw-2">&amp;</span>random_coeffs);
+            <span class="kw">let </span>res = Fq2::from_base_prime_field_elems(random_coeffs);
             <span class="macro">assert_eq!</span>(res, <span class="prelude-val">None</span>);
         }
         <span class="comment">// Test on slice lengths that are equal to the extension degree
@@ -1624,8 +1648,8 @@
             <span class="kw">for _ in </span><span class="number">0</span>..ext_degree {
                 random_coeffs.push(Fq::rand(<span class="kw-2">&amp;mut </span>test_rng()));
             }
-            <span class="kw">let </span>actual = Fq2::from_base_prime_field_elems(<span class="kw-2">&amp;</span>random_coeffs).unwrap();
             <span class="kw">let </span>expected = Fq2::new(random_coeffs[<span class="number">0</span>], random_coeffs[<span class="number">1</span>]);
+            <span class="kw">let </span>actual = Fq2::from_base_prime_field_elems(random_coeffs).unwrap();
             <span class="macro">assert_eq!</span>(actual, expected);
         }
     }
@@ -1641,9 +1665,27 @@
             random_coeffs[<span class="number">0</span>] = random_coeff;
             <span class="macro">assert_eq!</span>(
                 res,
-                Fq2::from_base_prime_field_elems(<span class="kw-2">&amp;</span>random_coeffs).unwrap()
+                Fq2::from_base_prime_field_elems(random_coeffs).unwrap()
             );
         }
     }
+}
+
+<span class="kw">impl</span>&lt;P: QuadExtConfig&gt; FftField <span class="kw">for </span>QuadExtField&lt;P&gt;
+<span class="kw">where
+    </span>P::BaseField: FftField,
+{
+    <span class="kw">const </span>GENERATOR: <span class="self">Self </span>= <span class="self">Self</span>::new(P::BaseField::GENERATOR, P::BaseField::ZERO);
+    <span class="kw">const </span>TWO_ADICITY: u32 = P::BaseField::TWO_ADICITY;
+    <span class="kw">const </span>TWO_ADIC_ROOT_OF_UNITY: <span class="self">Self </span>=
+        <span class="self">Self</span>::new(P::BaseField::TWO_ADIC_ROOT_OF_UNITY, P::BaseField::ZERO);
+    <span class="kw">const </span>SMALL_SUBGROUP_BASE: <span class="prelude-ty">Option</span>&lt;u32&gt; = P::BaseField::SMALL_SUBGROUP_BASE;
+    <span class="kw">const </span>SMALL_SUBGROUP_BASE_ADICITY: <span class="prelude-ty">Option</span>&lt;u32&gt; = P::BaseField::SMALL_SUBGROUP_BASE_ADICITY;
+    <span class="kw">const </span>LARGE_SUBGROUP_ROOT_OF_UNITY: <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; =
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(x) = P::BaseField::LARGE_SUBGROUP_ROOT_OF_UNITY {
+            <span class="prelude-val">Some</span>(<span class="self">Self</span>::new(x, P::BaseField::ZERO))
+        } <span class="kw">else </span>{
+            <span class="prelude-val">None
+        </span>};
 }
 </code></pre></div></section></main></body></html>

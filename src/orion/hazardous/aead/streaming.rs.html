@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.16.1/src/hazardous/aead/streaming.rs`."><title>streaming.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/aead/</div>streaming.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.9/src/hazardous/aead/streaming.rs`."><title>streaming.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/aead/</div>streaming.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1504,9 +1504,18 @@
 <a href="#1503" id="1503">1503</a>
 <a href="#1504" id="1504">1504</a>
 <a href="#1505" id="1505">1505</a>
-<a href="#1506" id="1506">1506</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
+<a href="#1506" id="1506">1506</a>
+<a href="#1507" id="1507">1507</a>
+<a href="#1508" id="1508">1508</a>
+<a href="#1509" id="1509">1509</a>
+<a href="#1510" id="1510">1510</a>
+<a href="#1511" id="1511">1511</a>
+<a href="#1512" id="1512">1512</a>
+<a href="#1513" id="1513">1513</a>
+<a href="#1514" id="1514">1514</a>
+<a href="#1515" id="1515">1515</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
 
-// Copyright (c) 2019-2021 The orion Developers
+// Copyright (c) 2019-2025 The orion Developers
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -1540,6 +1549,13 @@
 //! - `tag`: Indicates the type of message. The `tag` is a part of the output when encrypting. It
 //!   is encrypted and authenticated.
 //!
+//! `ad`: "A typical use for these data is to authenticate version numbers,
+//! timestamps or monotonically increasing counters in order to discard previous
+//! messages and prevent replay attacks." See [libsodium docs] for more information.
+//!
+//! `dst_out`: The output buffer may have a capacity greater than the input. If this is the case,
+//! only the first input length amount of bytes in `dst_out` are modified, while the rest remain untouched.
+//!
 //! # Errors:
 //! An error will be returned if:
 //! - The length of `dst_out` is less than `plaintext` + [`ABYTES`] when calling [`seal_chunk()`].
@@ -1564,6 +1580,7 @@
 //!
 //! # Example:
 //! ```rust
+//! # #[cfg(feature = "safe_api")] {
 //! use orion::hazardous::aead::streaming::*;
 //!
 //! let secret_key = SecretKey::generate();
@@ -1579,7 +1596,7 @@
 //! let mut ctx_enc = StreamXChaCha20Poly1305::new(&amp;secret_key, &amp;nonce);
 //!
 //! // Encrypt and place tag + ciphertext + mac in dst_out_ct
-//! ctx_enc.seal_chunk(message, Some(ad), &amp;mut dst_out_ct, StreamTag::Message)?;
+//! ctx_enc.seal_chunk(message, Some(ad), &amp;mut dst_out_ct, &amp;StreamTag::Message)?;
 //!
 //! let mut ctx_dec = StreamXChaCha20Poly1305::new(&amp;secret_key, &amp;nonce);
 //!
@@ -1588,6 +1605,7 @@
 //!
 //! assert_eq!(tag, StreamTag::Message);
 //! assert_eq!(dst_out_pt.as_ref(), message);
+//! # }
 //! # Ok::&lt;(), orion::errors::UnknownCryptoError&gt;(())
 //! ```
 //! [`SecretKey::generate()`]: super::stream::chacha20::SecretKey::generate
@@ -1806,7 +1824,7 @@
         plaintext: <span class="kw-2">&amp;</span>[u8],
         ad: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt;,
         dst_out: <span class="kw-2">&amp;mut </span>[u8],
-        tag: StreamTag,
+        tag: <span class="kw-2">&amp;</span>StreamTag,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), UnknownCryptoError&gt; {
         <span class="kw">let </span>msglen = plaintext.len();
         <span class="kw">match </span>ABYTES.checked_add(msglen) {
@@ -1835,7 +1853,7 @@
         <span class="kw">let </span>mac = <span class="self">self</span>.generate_auth_tag(dst_out, ad, msglen, <span class="kw-2">&amp;</span>block, TAG_SIZE)<span class="question-mark">?</span>;
         dst_out[macpos..(macpos + POLY1305_OUTSIZE)].copy_from_slice(mac.unprotected_as_bytes());
 
-        <span class="self">self</span>.advance_state(<span class="kw-2">&amp;</span>mac, <span class="kw-2">&amp;</span>tag)
+        <span class="self">self</span>.advance_state(<span class="kw-2">&amp;</span>mac, tag)
     }
 
     <span class="attr">#[allow(clippy::range_plus_one)]
@@ -1918,7 +1936,7 @@
             output: <span class="kw-2">&amp;mut </span>[u8],
         ) -&gt; <span class="prelude-ty">Result</span>&lt;(), UnknownCryptoError&gt; {
             <span class="kw">let </span><span class="kw-2">mut </span>state = StreamXChaCha20Poly1305::new(sk, nonce);
-            state.seal_chunk(input, ad, output, StreamTag::Message)
+            state.seal_chunk(input, ad, output, <span class="kw-2">&amp;</span>StreamTag::Message)
         }
 
         <span class="kw">fn </span>open(
@@ -1950,9 +1968,9 @@
             <span class="kw">let </span><span class="kw-2">mut </span>ct1 = <span class="macro">vec!</span>[<span class="number">0u8</span>; input.len() + ABYTES];
             <span class="kw">let </span><span class="kw-2">mut </span>ct2 = ct1.clone();
 
-            ctx.seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ad), <span class="kw-2">&amp;mut </span>ct1, StreamTag::Message)
+            ctx.seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ad), <span class="kw-2">&amp;mut </span>ct1, <span class="kw-2">&amp;</span>StreamTag::Message)
                 .unwrap();
-            ctx.seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ad), <span class="kw-2">&amp;mut </span>ct2, StreamTag::Message)
+            ctx.seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ad), <span class="kw-2">&amp;mut </span>ct2, <span class="kw-2">&amp;</span>StreamTag::Message)
                 .unwrap();
 
             ct1 != ct2
@@ -2072,7 +2090,7 @@
         <span class="kw">let </span><span class="kw-2">mut </span>state = StreamXChaCha20Poly1305::new(<span class="kw-2">&amp;</span>secret_key, <span class="kw-2">&amp;</span>nonce);
         <span class="kw">let </span><span class="kw-2">mut </span>dst_out = [<span class="number">0u8</span>; <span class="number">96</span>];
         state
-            .seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>dst_out, StreamTag::Message)
+            .seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>dst_out, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
         <span class="macro">assert_eq!</span>(dst_out.as_ref(), output.as_ref());
 
@@ -2131,7 +2149,7 @@
         <span class="comment">// 1st StreamTag::Message
         </span><span class="kw">let </span>plaintext1: [u8; <span class="number">6</span>] = [<span class="number">116u8</span>, <span class="number">101u8</span>, <span class="number">115u8</span>, <span class="number">116u8</span>, <span class="number">49u8</span>, <span class="number">0u8</span>];
         <span class="kw">let </span><span class="kw-2">mut </span>out1 = [<span class="number">0u8</span>; <span class="number">6 </span>+ ABYTES];
-        s.seal_chunk(<span class="kw-2">&amp;</span>plaintext1, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>out1, StreamTag::Message)
+        s.seal_chunk(<span class="kw-2">&amp;</span>plaintext1, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>out1, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
         <span class="macro">assert_eq!</span>(
             s.key,
@@ -2160,7 +2178,7 @@
             <span class="number">101u8</span>, <span class="number">114u8</span>, <span class="number">32u8</span>, <span class="number">116u8</span>, <span class="number">101u8</span>, <span class="number">120u8</span>, <span class="number">116u8</span>, <span class="number">0u8</span>,
         ];
         <span class="kw">let </span><span class="kw-2">mut </span>out2 = [<span class="number">0u8</span>; <span class="number">20 </span>+ ABYTES];
-        s.seal_chunk(<span class="kw-2">&amp;</span>plaintext2, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>out2, StreamTag::Message)
+        s.seal_chunk(<span class="kw-2">&amp;</span>plaintext2, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>out2, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
         <span class="macro">assert_eq!</span>(
             s.key,
@@ -2189,7 +2207,7 @@
         <span class="comment">// 3rd StreamTag::Message
         </span><span class="kw">let </span>plaintext3: [u8; <span class="number">2</span>] = [<span class="number">49u8</span>, <span class="number">0u8</span>];
         <span class="kw">let </span><span class="kw-2">mut </span>out3 = [<span class="number">0u8</span>; <span class="number">2 </span>+ ABYTES];
-        s.seal_chunk(<span class="kw-2">&amp;</span>plaintext3, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>out3, StreamTag::Message)
+        s.seal_chunk(<span class="kw-2">&amp;</span>plaintext3, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>out3, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
         <span class="macro">assert_eq!</span>(
             s.key,
@@ -2235,7 +2253,7 @@
             <span class="number">116u8</span>, <span class="number">101u8</span>, <span class="number">114u8</span>, <span class="number">32u8</span>, <span class="number">114u8</span>, <span class="number">101u8</span>, <span class="number">107u8</span>, <span class="number">101u8</span>, <span class="number">121u8</span>, <span class="number">0u8</span>,
         ];
         <span class="kw">let </span><span class="kw-2">mut </span>out4 = [<span class="number">0u8</span>; <span class="number">23 </span>+ ABYTES];
-        s.seal_chunk(<span class="kw-2">&amp;</span>plaintext4, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>out4, StreamTag::Message)
+        s.seal_chunk(<span class="kw-2">&amp;</span>plaintext4, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>out4, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
         <span class="macro">assert_eq!</span>(
             s.key,
@@ -2268,7 +2286,7 @@
             <span class="number">116u8</span>, <span class="number">101u8</span>, <span class="number">114u8</span>, <span class="number">32u8</span>, <span class="number">114u8</span>, <span class="number">101u8</span>, <span class="number">107u8</span>, <span class="number">101u8</span>, <span class="number">121u8</span>, <span class="number">0u8</span>,
         ];
         <span class="kw">let </span><span class="kw-2">mut </span>out5 = [<span class="number">0u8</span>; <span class="number">36 </span>+ ABYTES];
-        s.seal_chunk(<span class="kw-2">&amp;</span>plaintext5, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>out5, StreamTag::Message)
+        s.seal_chunk(<span class="kw-2">&amp;</span>plaintext5, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>out5, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
         <span class="macro">assert_eq!</span>(
             s.key,
@@ -2386,7 +2404,7 @@
             DEFAULT_MSG.as_ref(),
             <span class="prelude-val">None</span>,
             <span class="kw-2">&amp;mut </span>dst_out_msg,
-            StreamTag::Message,
+            <span class="kw-2">&amp;</span>StreamTag::Message,
         )
         .unwrap();
 
@@ -2396,7 +2414,7 @@
             DEFAULT_MSG.as_ref(),
             <span class="prelude-val">None</span>,
             <span class="kw-2">&amp;mut </span>dst_out_push,
-            StreamTag::Push,
+            <span class="kw-2">&amp;</span>StreamTag::Push,
         )
         .unwrap();
 
@@ -2406,7 +2424,7 @@
             DEFAULT_MSG.as_ref(),
             <span class="prelude-val">None</span>,
             <span class="kw-2">&amp;mut </span>dst_out_rekey,
-            StreamTag::Rekey,
+            <span class="kw-2">&amp;</span>StreamTag::Rekey,
         )
         .unwrap();
 
@@ -2416,7 +2434,7 @@
             DEFAULT_MSG.as_ref(),
             <span class="prelude-val">None</span>,
             <span class="kw-2">&amp;mut </span>dst_out_finish,
-            StreamTag::Finish,
+            <span class="kw-2">&amp;</span>StreamTag::Finish,
         )
         .unwrap();
 
@@ -2493,7 +2511,7 @@
         </span><span class="kw">let </span><span class="kw-2">mut </span>s = StreamXChaCha20Poly1305::new(<span class="kw-2">&amp;</span>SecretKey::from(KEY), <span class="kw-2">&amp;</span>Nonce::from(NONCE));
         <span class="comment">// Change MAC
         </span><span class="kw">let </span>macpos = cipher1.len() - <span class="number">1</span>;
-        cipher1[macpos] = <span class="number">0b1010_1010 </span>| cipher1[macpos];
+        cipher1[macpos] |= <span class="number">0b1010_1010</span>;
         <span class="macro">assert!</span>(s.open_chunk(<span class="kw-2">&amp;</span>cipher1, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>plain_out1).is_err());
     }
 
@@ -2510,7 +2528,7 @@
         <span class="comment">// Reset state
         </span><span class="kw">let </span><span class="kw-2">mut </span>s = StreamXChaCha20Poly1305::new(<span class="kw-2">&amp;</span>SecretKey::from(KEY), <span class="kw-2">&amp;</span>Nonce::from(NONCE));
         <span class="comment">// Change something in the ciphertext
-        </span>cipher1[<span class="number">5</span>] = <span class="number">0b1010_1010 </span>| cipher1[<span class="number">5</span>];
+        </span>cipher1[<span class="number">5</span>] |= <span class="number">0b1010_1010</span>;
         <span class="macro">assert!</span>(s.open_chunk(<span class="kw-2">&amp;</span>cipher1, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>plain_out1).is_err());
     }
 
@@ -2540,10 +2558,10 @@
         <span class="kw">let </span><span class="kw-2">mut </span>state_enc =
             StreamXChaCha20Poly1305::new(<span class="kw-2">&amp;</span>SecretKey::from([<span class="number">0u8</span>; <span class="number">32</span>]), <span class="kw-2">&amp;</span>Nonce::from([<span class="number">0u8</span>; <span class="number">24</span>]));
         state_enc
-            .seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>cipher, StreamTag::Message)
+            .seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>cipher, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
         state_enc
-            .seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>cipher2, StreamTag::Message)
+            .seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>cipher2, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
         <span class="macro">assert_ne!</span>(cipher, cipher2);
     }
@@ -2556,13 +2574,13 @@
         <span class="kw">let </span><span class="kw-2">mut </span>state_enc =
             StreamXChaCha20Poly1305::new(<span class="kw-2">&amp;</span>SecretKey::from([<span class="number">0u8</span>; <span class="number">32</span>]), <span class="kw-2">&amp;</span>Nonce::from([<span class="number">0u8</span>; <span class="number">24</span>]));
         state_enc
-            .seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>cipher, StreamTag::Message)
+            .seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>cipher, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>state_enc =
             StreamXChaCha20Poly1305::new(<span class="kw-2">&amp;</span>SecretKey::from([<span class="number">0u8</span>; <span class="number">32</span>]), <span class="kw-2">&amp;</span>Nonce::from([<span class="number">0u8</span>; <span class="number">24</span>]));
         state_enc.rekey().unwrap();
         state_enc
-            .seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>cipher2, StreamTag::Message)
+            .seal_chunk(<span class="kw-2">&amp;</span>input, <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>cipher2, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
         <span class="macro">assert_ne!</span>(cipher, cipher2);
     }
@@ -2575,7 +2593,7 @@
             StreamXChaCha20Poly1305::new(<span class="kw-2">&amp;</span>SecretKey::from([<span class="number">0u8</span>; <span class="number">32</span>]), <span class="kw-2">&amp;</span>Nonce::from([<span class="number">0u8</span>; <span class="number">24</span>]));
         <span class="kw">let </span><span class="kw-2">mut </span>cipher = [<span class="number">0u8</span>; ABYTES];
         state_enc
-            .seal_chunk(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">0</span>], <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>cipher, StreamTag::Message)
+            .seal_chunk(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">0</span>], <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>cipher, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
 
         <span class="kw">let </span><span class="kw-2">mut </span>state_dec =
@@ -2594,7 +2612,7 @@
             StreamXChaCha20Poly1305::new(<span class="kw-2">&amp;</span>SecretKey::from([<span class="number">0u8</span>; <span class="number">32</span>]), <span class="kw-2">&amp;</span>Nonce::from([<span class="number">0u8</span>; <span class="number">24</span>]));
         <span class="kw">let </span><span class="kw-2">mut </span>out = [<span class="number">0u8</span>; ABYTES];
         state_enc
-            .seal_chunk(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">0</span>], <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>out, StreamTag::Message)
+            .seal_chunk(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">0</span>], <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>out, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>state_dec =
             StreamXChaCha20Poly1305::new(<span class="kw-2">&amp;</span>SecretKey::from([<span class="number">0u8</span>; <span class="number">32</span>]), <span class="kw-2">&amp;</span>Nonce::from([<span class="number">0u8</span>; <span class="number">24</span>]));
@@ -2641,7 +2659,7 @@
         <span class="macro">assert_eq!</span>(ctx.counter, u32::from_le_bytes(before_internal_counter));
 
         <span class="kw">let </span><span class="kw-2">mut </span>actual = [<span class="number">0u8</span>; <span class="number">68</span>];
-        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, StreamTag::Finish)
+        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, <span class="kw-2">&amp;</span>StreamTag::Finish)
             .unwrap();
 
         <span class="macro">assert_eq!</span>(ctx.key.unprotected_as_bytes(), after_internal_key.as_ref());
@@ -2685,7 +2703,7 @@
         <span class="macro">assert_eq!</span>(ctx.counter, u32::from_le_bytes(before_internal_counter));
 
         <span class="kw">let </span><span class="kw-2">mut </span>actual = [<span class="number">0u8</span>; <span class="number">68</span>];
-        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, StreamTag::Rekey)
+        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, <span class="kw-2">&amp;</span>StreamTag::Rekey)
             .unwrap();
 
         <span class="macro">assert_eq!</span>(ctx.key.unprotected_as_bytes(), after_internal_key.as_ref());
@@ -2729,9 +2747,9 @@
         <span class="macro">assert_eq!</span>(ctx.counter, u32::from_le_bytes(before_internal_counter));
 
         <span class="kw">let </span><span class="kw-2">mut </span>actual = [<span class="number">0u8</span>; <span class="number">68</span>];
-        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, StreamTag::Finish)
+        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, <span class="kw-2">&amp;</span>StreamTag::Finish)
             .unwrap();
-        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, StreamTag::Finish)
+        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, <span class="kw-2">&amp;</span>StreamTag::Finish)
             .unwrap();
 
         <span class="macro">assert_eq!</span>(ctx.key.unprotected_as_bytes(), after_internal_key.as_ref());
@@ -2775,9 +2793,9 @@
         <span class="macro">assert_eq!</span>(ctx.counter, u32::from_le_bytes(before_internal_counter));
 
         <span class="kw">let </span><span class="kw-2">mut </span>actual = [<span class="number">0u8</span>; <span class="number">68</span>];
-        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, StreamTag::Rekey)
+        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, <span class="kw-2">&amp;</span>StreamTag::Rekey)
             .unwrap();
-        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, StreamTag::Rekey)
+        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, <span class="kw-2">&amp;</span>StreamTag::Rekey)
             .unwrap();
 
         <span class="macro">assert_eq!</span>(ctx.key.unprotected_as_bytes(), after_internal_key.as_ref());
@@ -2821,7 +2839,7 @@
         <span class="macro">assert_eq!</span>(ctx.counter, u32::from_le_bytes(before_internal_counter));
 
         <span class="kw">let </span><span class="kw-2">mut </span>actual = [<span class="number">0u8</span>; <span class="number">68</span>];
-        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, StreamTag::Push)
+        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, <span class="kw-2">&amp;</span>StreamTag::Push)
             .unwrap();
 
         <span class="macro">assert_eq!</span>(ctx.key, after_internal_key.as_ref());
@@ -2866,7 +2884,7 @@
         <span class="macro">assert_eq!</span>(ctx.counter, u32::from_le_bytes(before_internal_counter));
 
         <span class="kw">let </span><span class="kw-2">mut </span>actual = [<span class="number">0u8</span>; <span class="number">68</span>];
-        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, StreamTag::Message)
+        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, <span class="kw-2">&amp;</span>StreamTag::Message)
             .unwrap();
 
         <span class="macro">assert_eq!</span>(ctx.key, after_internal_key.as_ref());
@@ -2911,7 +2929,7 @@
         <span class="macro">assert_eq!</span>(ctx.counter, u32::from_le_bytes(before_internal_counter));
 
         <span class="kw">let </span><span class="kw-2">mut </span>actual = [<span class="number">0u8</span>; <span class="number">68</span>];
-        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, StreamTag::Rekey)
+        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, <span class="kw-2">&amp;</span>StreamTag::Rekey)
             .unwrap();
 
         <span class="macro">assert_eq!</span>(ctx.key.unprotected_as_bytes(), after_internal_key.as_ref());
@@ -2956,7 +2974,7 @@
         <span class="macro">assert_eq!</span>(ctx.counter, u32::from_le_bytes(before_internal_counter));
 
         <span class="kw">let </span><span class="kw-2">mut </span>actual = [<span class="number">0u8</span>; <span class="number">68</span>];
-        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, StreamTag::Finish)
+        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, <span class="kw-2">&amp;</span>StreamTag::Finish)
             .unwrap();
 
         <span class="macro">assert_eq!</span>(ctx.key, after_internal_key.as_ref());
@@ -3001,7 +3019,7 @@
         <span class="macro">assert_eq!</span>(ctx.counter, u32::from_le_bytes(before_internal_counter));
 
         <span class="kw">let </span><span class="kw-2">mut </span>actual = [<span class="number">0u8</span>; <span class="number">68</span>];
-        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, StreamTag::Push)
+        ctx.seal_chunk(DEFAULT_MSG.as_ref(), <span class="prelude-val">None</span>, <span class="kw-2">&amp;mut </span>actual, <span class="kw-2">&amp;</span>StreamTag::Push)
             .unwrap();
 
         <span class="macro">assert_eq!</span>(ctx.key, after_internal_key.as_ref());

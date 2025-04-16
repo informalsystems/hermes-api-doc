@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["open","seal"]};
+window.SIDEBAR_ITEMS = {"constant":["A_MAX","C_MAX","P_MAX"],"fn":["open","seal"]};

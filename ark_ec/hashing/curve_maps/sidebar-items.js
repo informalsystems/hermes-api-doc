@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["swu","wb"]};
+window.SIDEBAR_ITEMS = {"fn":["parity"],"mod":["elligator2","swu","wb"]};

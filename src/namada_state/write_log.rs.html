@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_state-0.47.2/src/write_log.rs`."><title>write_log.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_state" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_state/</div>write_log.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_state-0.149.1/src/write_log.rs`."><title>write_log.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_state" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_state/</div>write_log.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1396,7 +1396,25 @@
 <a href="#1395" id="1395">1395</a>
 <a href="#1396" id="1396">1396</a>
 <a href="#1397" id="1397">1397</a>
-<a href="#1398" id="1398">1398</a></pre></div><pre class="rust"><code><span class="doccomment">//! Write log is temporary storage for modifications performed by a transaction.
+<a href="#1398" id="1398">1398</a>
+<a href="#1399" id="1399">1399</a>
+<a href="#1400" id="1400">1400</a>
+<a href="#1401" id="1401">1401</a>
+<a href="#1402" id="1402">1402</a>
+<a href="#1403" id="1403">1403</a>
+<a href="#1404" id="1404">1404</a>
+<a href="#1405" id="1405">1405</a>
+<a href="#1406" id="1406">1406</a>
+<a href="#1407" id="1407">1407</a>
+<a href="#1408" id="1408">1408</a>
+<a href="#1409" id="1409">1409</a>
+<a href="#1410" id="1410">1410</a>
+<a href="#1411" id="1411">1411</a>
+<a href="#1412" id="1412">1412</a>
+<a href="#1413" id="1413">1413</a>
+<a href="#1414" id="1414">1414</a>
+<a href="#1415" id="1415">1415</a>
+<a href="#1416" id="1416">1416</a></pre></div><pre class="rust"><code><span class="doccomment">//! Write log is temporary storage for modifications performed by a transaction.
 //! before they are committed to the ledger's storage.
 
 </span><span class="kw">use </span>std::collections::{BTreeMap, BTreeSet};
@@ -1407,11 +1425,13 @@
 <span class="kw">use </span>namada_core::collections::{HashMap, HashSet};
 <span class="kw">use </span>namada_core::hash::Hash;
 <span class="kw">use </span>namada_core::{arith, storage};
+<span class="kw">use </span>namada_events::extend::{InnerTxHash, TxHash};
 <span class="kw">use </span>namada_events::{Event, EventToEmit, EventType};
 <span class="kw">use </span>namada_gas::{
     Gas, MEMORY_ACCESS_GAS_PER_BYTE, STORAGE_DELETE_GAS_PER_BYTE,
     STORAGE_WRITE_GAS_PER_BYTE,
 };
+<span class="kw">use </span>namada_tx::data::InnerTxId;
 <span class="kw">use </span>patricia_tree::map::StringPatriciaMap;
 <span class="kw">use </span>thiserror::Error;
 
@@ -1902,7 +1922,19 @@
     <span class="doccomment">/// Set an event and return the gas cost. Returns `None` on gas u64
     /// overflow.
     </span><span class="kw">pub fn </span>emit_event&lt;E: EventToEmit&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, event: E) -&gt; <span class="prelude-ty">Option</span>&lt;Gas&gt; {
-        <span class="kw">let </span>event = event.into();
+        <span class="self">self</span>.emit_event_with_tx_hashes(event, <span class="prelude-val">None</span>)
+    }
+
+    <span class="doccomment">/// Set an event and return the gas cost.
+    ///
+    /// Returns `None` on gas u64 overflow. The optional tx hashes
+    /// are included as new attributes in the event, free of charge.
+    </span><span class="kw">pub fn </span>emit_event_with_tx_hashes&lt;E: EventToEmit&gt;(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        event: E,
+        inner_tx_id: <span class="prelude-ty">Option</span>&lt;InnerTxId&lt;<span class="lifetime">'_</span>&gt;&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;Gas&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>event = event.into();
         <span class="kw">let </span>gas_cost = event.emission_gas_cost(MEMORY_ACCESS_GAS_PER_BYTE);
         <span class="kw">if </span>gas_cost.as_ref().is_some() {
             <span class="kw">let </span>event_type = event.kind().to_string();
@@ -1911,6 +1943,10 @@
                     .events
                     .tree
                     .insert(<span class="kw-2">&amp;</span>event_type, HashSet::new());
+            }
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(inner_tx_id) = inner_tx_id {
+                event.extend(TxHash(inner_tx_id.wrapper_hash()));
+                event.extend(InnerTxHash(inner_tx_id.inner_hash()));
             }
             <span class="self">self</span>.tx_write_log
                 .events
@@ -2692,7 +2728,7 @@
     <span class="kw">use </span>namada_core::hash::HASH_LENGTH;
     <span class="kw">use </span>namada_core::storage::testing::arb_key;
     <span class="kw">use </span>proptest::collection;
-    <span class="kw">use </span>proptest::prelude::{any, prop_oneof, Just, Strategy};
+    <span class="kw">use </span>proptest::prelude::{Just, Strategy, any, prop_oneof};
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 

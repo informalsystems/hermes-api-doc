@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_events-0.47.2/src/extend.rs`."><title>extend.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_events" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_events/</div>extend.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/namada_events-0.149.1/src/extend.rs`."><title>extend.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="namada_events" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://dev.namada.net/master/favicon.png"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">namada_events/</div>extend.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -886,7 +886,14 @@
 <a href="#885" id="885">885</a>
 <a href="#886" id="886">886</a>
 <a href="#887" id="887">887</a>
-<a href="#888" id="888">888</a></pre></div><pre class="rust"><code><span class="doccomment">//! Extend [events](Event) with additional fields.
+<a href="#888" id="888">888</a>
+<a href="#889" id="889">889</a>
+<a href="#890" id="890">890</a>
+<a href="#891" id="891">891</a>
+<a href="#892" id="892">892</a>
+<a href="#893" id="893">893</a>
+<a href="#894" id="894">894</a>
+<a href="#895" id="895">895</a></pre></div><pre class="rust"><code><span class="doccomment">//! Extend [events](Event) with additional fields.
 
 </span><span class="kw">use </span>std::fmt::Display;
 <span class="kw">use </span>std::marker::PhantomData;
@@ -897,9 +904,6 @@
 <span class="kw">use </span>namada_core::chain::BlockHeight;
 <span class="kw">use </span>namada_core::collections::HashMap;
 <span class="kw">use </span>namada_core::hash::Hash;
-<span class="kw">use </span>namada_core::ibc::IbcTxDataHash;
-<span class="kw">use </span>namada_core::masp::MaspTxId;
-<span class="kw">use </span>namada_core::storage::TxIndex;
 <span class="kw">use </span>serde::Deserializer;
 
 <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -911,6 +915,9 @@
     <span class="kw">where
         </span>K: Into&lt;String&gt;,
         V: Into&lt;String&gt;;
+
+    <span class="doccomment">/// Delete an attribute.
+    </span><span class="kw">fn </span>delete_attribute(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>str);
 
     <span class="doccomment">/// Retrieve an attribute.
     </span><span class="kw">fn </span>retrieve_attribute(<span class="kw-2">&amp;</span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;;
@@ -930,6 +937,11 @@
         V: Into&lt;String&gt;,
     {
         <span class="self">self</span>.insert(key.into(), value.into());
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>delete_attribute(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>str) {
+        <span class="self">self</span>.swap_remove(key);
     }
 
     <span class="attr">#[inline]
@@ -959,6 +971,11 @@
     }
 
     <span class="attr">#[inline]
+    </span><span class="kw">fn </span>delete_attribute(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>str) {
+        <span class="self">self</span>.remove(key);
+    }
+
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>retrieve_attribute(<span class="kw-2">&amp;</span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt; {
         <span class="self">self</span>.get(key).map(String::as_ref)
     }
@@ -982,6 +999,17 @@
         V: Into&lt;String&gt;,
     {
         <span class="self">self</span>.push((key, value, <span class="bool-val">true</span>).into());
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>delete_attribute(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>str) {
+        <span class="self">self</span>.retain(|attr| <span class="kw">match </span>attr.key_str() {
+            <span class="prelude-val">Ok</span>(k) =&gt; k != key,
+            <span class="prelude-val">Err</span>(e) =&gt; {
+                <span class="macro">tracing::debug!</span>(<span class="string">"Attribute key is malformed UTF-8: {e}"</span>);
+                <span class="bool-val">true
+            </span>}
+        })
     }
 
     <span class="attr">#[inline]
@@ -1043,6 +1071,11 @@
             value: value.into(),
             index: <span class="bool-val">true</span>,
         });
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>delete_attribute(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>str) {
+        <span class="self">self</span>.retain(|attr| attr.key != key);
     }
 
     <span class="attr">#[inline]
@@ -1307,6 +1340,27 @@
     }
 }
 
+<span class="doccomment">/// Delete an attribute from an [event](Event)'s attributes.
+</span><span class="kw">pub trait </span>DeleteFromEventAttributes {
+    <span class="doccomment">/// Delete an attribute from the provided event attributes.
+    </span><span class="kw">fn </span>delete_from_event_attributes&lt;A&gt;(attributes: <span class="kw-2">&amp;mut </span>A)
+    <span class="kw">where
+        </span>A: AttributesMap;
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'value</span>, DATA&gt; DeleteFromEventAttributes <span class="kw">for </span>DATA
+<span class="kw">where
+    </span>DATA: EventAttributeEntry&lt;<span class="lifetime">'value</span>&gt;,
+{
+    <span class="doccomment">/// Delete an attribute from the provided event attributes.
+    </span><span class="kw">fn </span>delete_from_event_attributes&lt;A&gt;(attributes: <span class="kw-2">&amp;mut </span>A)
+    <span class="kw">where
+        </span>A: AttributesMap,
+    {
+        attributes.delete_attribute(DATA::KEY);
+    }
+}
+
 <span class="doccomment">/// Extend an [event](Event) with additional data.
 </span><span class="kw">pub trait </span>ExtendEvent {
     <span class="doccomment">/// Add additional data to the specified `event`.
@@ -1348,6 +1402,20 @@
     </span>}
 }
 
+<span class="doccomment">/// Extend an [`Event`] with inner transaction hash information.
+</span><span class="kw">pub struct </span>InnerTxHash(<span class="kw">pub </span>Hash);
+
+<span class="kw">impl </span>EventAttributeEntry&lt;<span class="lifetime">'static</span>&gt; <span class="kw">for </span>InnerTxHash {
+    <span class="kw">type </span>Value = Hash;
+    <span class="kw">type </span>ValueOwned = <span class="self">Self</span>::Value;
+
+    <span class="kw">const </span>KEY: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"inner-tx-hash"</span>;
+
+    <span class="kw">fn </span>into_value(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Value {
+        <span class="self">self</span>.<span class="number">0
+    </span>}
+}
+
 <span class="doccomment">/// Extend an [`Event`] with log data.
 </span><span class="kw">pub struct </span>Log(<span class="kw">pub </span>String);
 
@@ -1370,60 +1438,6 @@
     <span class="kw">type </span>ValueOwned = <span class="self">Self</span>::Value;
 
     <span class="kw">const </span>KEY: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"info"</span>;
-
-    <span class="kw">fn </span>into_value(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Value {
-        <span class="self">self</span>.<span class="number">0
-    </span>}
-}
-
-<span class="doccomment">/// A type representing the possible reference to some MASP data, either a masp
-/// section or ibc tx data
-</span><span class="attr">#[derive(Clone, Serialize, Deserialize)]
-</span><span class="kw">pub enum </span>MaspTxRef {
-    <span class="doccomment">/// Reference to a MASP section
-    </span>MaspSection(MaspTxId),
-    <span class="doccomment">/// Reference to an ibc tx data section
-    </span>IbcData(IbcTxDataHash),
-}
-
-<span class="doccomment">/// A list of MASP tx references
-</span><span class="attr">#[derive(Default, Clone, Serialize, Deserialize)]
-</span><span class="kw">pub struct </span>MaspTxRefs(<span class="kw">pub </span>Vec&lt;MaspTxRef&gt;);
-
-<span class="doccomment">/// A mapping between the index of a transaction in a block and the set of
-/// associated masp data
-</span><span class="attr">#[derive(Clone, Serialize, Deserialize)]
-</span><span class="kw">pub struct </span>IndexedMaspData {
-    <span class="doccomment">/// The transaction index in the block
-    </span><span class="kw">pub </span>tx_index: TxIndex,
-    <span class="doccomment">/// The set of masp data
-    </span><span class="kw">pub </span>masp_refs: MaspTxRefs,
-}
-
-<span class="kw">impl </span>Display <span class="kw">for </span>IndexedMaspData {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; std::fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">"{}"</span>, serde_json::to_string(<span class="self">self</span>).unwrap())
-    }
-}
-
-<span class="kw">impl </span>FromStr <span class="kw">for </span>IndexedMaspData {
-    <span class="kw">type </span><span class="prelude-val">Err </span>= serde_json::Error;
-
-    <span class="kw">fn </span>from_str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Err&gt; {
-        serde_json::from_str(s)
-    }
-}
-
-<span class="doccomment">/// Extend an [`Event`] with `masp_data_refs` data, mapping a transaction
-/// index in the block to a collection of either the MASP sections or the data
-/// sections for shielded actions.
-</span><span class="kw">pub struct </span>MaspDataRefs(<span class="kw">pub </span>IndexedMaspData);
-
-<span class="kw">impl </span>EventAttributeEntry&lt;<span class="lifetime">'static</span>&gt; <span class="kw">for </span>MaspDataRefs {
-    <span class="kw">type </span>Value = IndexedMaspData;
-    <span class="kw">type </span>ValueOwned = <span class="self">Self</span>::Value;
-
-    <span class="kw">const </span>KEY: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"masp_data_refs"</span>;
 
     <span class="kw">fn </span>into_value(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Value {
         <span class="self">self</span>.<span class="number">0

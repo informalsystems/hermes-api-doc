@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.16.1/src/high_level/auth.rs`."><title>auth.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/high_level/</div>auth.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.9/src/high_level/auth.rs`."><title>auth.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/high_level/</div>auth.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -208,9 +208,11 @@
 <a href="#207" id="207">207</a>
 <a href="#208" id="208">208</a>
 <a href="#209" id="209">209</a>
-<a href="#210" id="210">210</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
 
-// Copyright (c) 2020-2021 The orion Developers
+// Copyright (c) 2020-2025 The orion Developers
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -252,6 +254,7 @@
 //! An error will be returned if:
 //! - The calculated [`Tag`] does not match the expected.
 //! - The [`SecretKey`] supplied is less than 32 bytes or greater than 64 bytes.
+//! - The expected [`Tag`] is not 32 bytes when verifying.
 //!
 //! # Panics:
 //! A panic will occur if:
@@ -260,7 +263,7 @@
 //! # Security:
 //! - The secret key should always be generated using a CSPRNG.
 //!   [`SecretKey::default()`] can be used for
-//! this; it will generate a [`SecretKey`] of 32 bytes.
+//!   this; it will generate a [`SecretKey`] of 32 bytes.
 //! - The required minimum length for a [`SecretKey`] is 32 bytes.
 //!
 //! # Example:
@@ -281,10 +284,11 @@
 
 </span><span class="attr">#![cfg_attr(docsrs, doc(cfg(feature = <span class="string">"safe_api"</span>)))]
 
-</span><span class="kw">pub use </span><span class="kw">super</span>::hltypes::{SecretKey, Tag};
+</span><span class="kw">pub use </span><span class="kw">super</span>::hltypes::SecretKey;
+<span class="kw">pub use </span><span class="kw">crate</span>::hazardous::mac::blake2b::Tag;
 <span class="kw">use crate</span>::{
     errors::UnknownCryptoError,
-    hazardous::hash::blake2b::{<span class="self">self</span>, Blake2b, Digest},
+    hazardous::mac::blake2b::{<span class="self">self</span>, Blake2b},
 };
 
 <span class="doccomment">/// The Tag size (bytes) to be output by BLAKE2b in keyed mode.
@@ -299,10 +303,9 @@
         <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
     }
     <span class="kw">let </span>blake2b_secret_key = blake2b::SecretKey::from_slice(secret_key.unprotected_as_bytes())<span class="question-mark">?</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>state = Blake2b::new(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>blake2b_secret_key), BLAKE2B_TAG_SIZE)<span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>state = Blake2b::new(<span class="kw-2">&amp;</span>blake2b_secret_key, BLAKE2B_TAG_SIZE)<span class="question-mark">?</span>;
     state.update(data)<span class="question-mark">?</span>;
-    <span class="kw">let </span>blake2b_digest = state.finalize()<span class="question-mark">?</span>;
-    Tag::from_slice(blake2b_digest.as_ref())
+    state.finalize()
 }
 
 <span class="attr">#[must_use = <span class="string">"SECURITY WARNING: Ignoring a Result can have real security implications."</span>]
@@ -312,12 +315,11 @@
     secret_key: <span class="kw-2">&amp;</span>SecretKey,
     data: <span class="kw-2">&amp;</span>[u8],
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(), UnknownCryptoError&gt; {
-    <span class="kw">if </span>secret_key.len() &lt; BLAKE2B_MIN_KEY_SIZE {
+    <span class="kw">if </span>secret_key.len() &lt; BLAKE2B_MIN_KEY_SIZE || expected.len() != BLAKE2B_TAG_SIZE {
         <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
     }
     <span class="kw">let </span>key = blake2b::SecretKey::from_slice(secret_key.unprotected_as_bytes())<span class="question-mark">?</span>;
-    <span class="kw">let </span>expected_digest = Digest::from_slice(expected.unprotected_as_bytes())<span class="question-mark">?</span>;
-    Blake2b::verify(<span class="kw-2">&amp;</span>expected_digest, <span class="kw-2">&amp;</span>key, BLAKE2B_TAG_SIZE, data)
+    Blake2b::verify(expected, <span class="kw-2">&amp;</span>key, BLAKE2B_TAG_SIZE, data)
 }
 
 <span class="comment">// Testing public functions in the module.
@@ -399,19 +401,21 @@
         authenticate_verify(<span class="kw-2">&amp;</span>tag, <span class="kw-2">&amp;</span>sk, <span class="string">b"Completely wrong input"</span>).is_err()
     }
 
+    <span class="kw">use </span><span class="kw">crate</span>::hazardous::hash::blake2::blake2b_core::BLAKE2B_KEYSIZE;
+
     <span class="attr">#[quickcheck]
     #[cfg(feature = <span class="string">"safe_api"</span>)]
     </span><span class="doccomment">/// Verify the bounds of 32..=64 (inclusive) for the `SecretKey` used
     /// in `authenticate/authenticate_verify`.
     </span><span class="kw">fn </span>prop_authenticate_key_size(input: Vec&lt;u8&gt;) -&gt; bool {
         <span class="kw">let </span>sec_key_res = SecretKey::from_slice(<span class="kw-2">&amp;</span>input);
-        <span class="kw">if </span>input.len() == <span class="number">0 </span>|| input.len() &gt;= u32::MAX <span class="kw">as </span>usize {
+        <span class="kw">if </span>input.is_empty() || input.len() &gt;= u32::MAX <span class="kw">as </span>usize {
             <span class="kw">return </span>sec_key_res.is_err();
         }
         <span class="kw">let </span>sec_key = sec_key_res.unwrap();
         <span class="kw">let </span>msg = <span class="string">"what do ya want for nothing?"</span>.as_bytes().to_vec();
         <span class="kw">let </span>auth_res = authenticate(<span class="kw-2">&amp;</span>sec_key, <span class="kw-2">&amp;</span>msg);
-        <span class="kw">if </span>input.len() &gt;= BLAKE2B_MIN_KEY_SIZE &amp;&amp; input.len() &lt;= blake2b::BLAKE2B_KEYSIZE {
+        <span class="kw">if </span>input.len() &gt;= BLAKE2B_MIN_KEY_SIZE &amp;&amp; input.len() &lt;= BLAKE2B_KEYSIZE {
             auth_res.is_ok()
         } <span class="kw">else </span>{
             auth_res.is_err()

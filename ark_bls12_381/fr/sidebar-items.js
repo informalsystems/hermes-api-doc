@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["FrParameters"],"type":["Fr"]};
+window.SIDEBAR_ITEMS = {"struct":["FrConfig"],"type":["Fr"]};
