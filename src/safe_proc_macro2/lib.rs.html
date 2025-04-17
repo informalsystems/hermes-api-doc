@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/safe-proc-macro2-1.0.67/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="safe_proc_macro2" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">safe_proc_macro2/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/safe-proc-macro2-1.0.94/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="safe_proc_macro2" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">safe_proc_macro2/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1313,16 +1313,86 @@
 <a href="#1312" id="1312">1312</a>
 <a href="#1313" id="1313">1313</a>
 <a href="#1314" id="1314">1314</a>
-<a href="#1315" id="1315">1315</a></pre></div><pre class="rust"><code><span class="doccomment">//! This is a fork of `proc_macro2` that with unsafe code removed.
-//! See the
-//! [rejected PR](https://github.com/alexcrichton/proc-macro2/pull/261).
+<a href="#1315" id="1315">1315</a>
+<a href="#1316" id="1316">1316</a>
+<a href="#1317" id="1317">1317</a>
+<a href="#1318" id="1318">1318</a>
+<a href="#1319" id="1319">1319</a>
+<a href="#1320" id="1320">1320</a>
+<a href="#1321" id="1321">1321</a>
+<a href="#1322" id="1322">1322</a>
+<a href="#1323" id="1323">1323</a>
+<a href="#1324" id="1324">1324</a>
+<a href="#1325" id="1325">1325</a>
+<a href="#1326" id="1326">1326</a>
+<a href="#1327" id="1327">1327</a>
+<a href="#1328" id="1328">1328</a>
+<a href="#1329" id="1329">1329</a>
+<a href="#1330" id="1330">1330</a>
+<a href="#1331" id="1331">1331</a>
+<a href="#1332" id="1332">1332</a>
+<a href="#1333" id="1333">1333</a>
+<a href="#1334" id="1334">1334</a>
+<a href="#1335" id="1335">1335</a>
+<a href="#1336" id="1336">1336</a>
+<a href="#1337" id="1337">1337</a>
+<a href="#1338" id="1338">1338</a>
+<a href="#1339" id="1339">1339</a>
+<a href="#1340" id="1340">1340</a>
+<a href="#1341" id="1341">1341</a>
+<a href="#1342" id="1342">1342</a>
+<a href="#1343" id="1343">1343</a>
+<a href="#1344" id="1344">1344</a>
+<a href="#1345" id="1345">1345</a>
+<a href="#1346" id="1346">1346</a>
+<a href="#1347" id="1347">1347</a>
+<a href="#1348" id="1348">1348</a>
+<a href="#1349" id="1349">1349</a>
+<a href="#1350" id="1350">1350</a>
+<a href="#1351" id="1351">1351</a>
+<a href="#1352" id="1352">1352</a>
+<a href="#1353" id="1353">1353</a>
+<a href="#1354" id="1354">1354</a>
+<a href="#1355" id="1355">1355</a>
+<a href="#1356" id="1356">1356</a>
+<a href="#1357" id="1357">1357</a>
+<a href="#1358" id="1358">1358</a>
+<a href="#1359" id="1359">1359</a>
+<a href="#1360" id="1360">1360</a>
+<a href="#1361" id="1361">1361</a>
+<a href="#1362" id="1362">1362</a>
+<a href="#1363" id="1363">1363</a>
+<a href="#1364" id="1364">1364</a>
+<a href="#1365" id="1365">1365</a>
+<a href="#1366" id="1366">1366</a>
+<a href="#1367" id="1367">1367</a>
+<a href="#1368" id="1368">1368</a>
+<a href="#1369" id="1369">1369</a>
+<a href="#1370" id="1370">1370</a>
+<a href="#1371" id="1371">1371</a>
+<a href="#1372" id="1372">1372</a>
+<a href="#1373" id="1373">1373</a>
+<a href="#1374" id="1374">1374</a>
+<a href="#1375" id="1375">1375</a>
+<a href="#1376" id="1376">1376</a>
+<a href="#1377" id="1377">1377</a>
+<a href="#1378" id="1378">1378</a>
+<a href="#1379" id="1379">1379</a>
+<a href="#1380" id="1380">1380</a>
+<a href="#1381" id="1381">1381</a>
+<a href="#1382" id="1382">1382</a>
+<a href="#1383" id="1383">1383</a>
+<a href="#1384" id="1384">1384</a>
+<a href="#1385" id="1385">1385</a></pre></div><pre class="rust"><code><span class="doccomment">//! [![github]](https://github.com/dtolnay/proc-macro2)&amp;ensp;[![crates-io]](https://crates.io/crates/proc-macro2)&amp;ensp;[![docs-rs]](crate)
 //!
-//! ----
+//! [github]: https://img.shields.io/badge/github-8da0cb?style=for-the-badge&amp;labelColor=555555&amp;logo=github
+//! [crates-io]: https://img.shields.io/badge/crates.io-fc8d62?style=for-the-badge&amp;labelColor=555555&amp;logo=rust
+//! [docs-rs]: https://img.shields.io/badge/docs.rs-66c2a5?style=for-the-badge&amp;labelColor=555555&amp;logo=docs.rs
+//!
+//! &lt;br&gt;
 //!
 //! A wrapper around the procedural macro API of the compiler's [`proc_macro`]
 //! crate. This library serves two purposes:
-//!
-//! [`proc_macro`]: https://doc.rust-lang.org/proc_macro/
 //!
 //! - **Bring proc-macro-like functionality to other contexts like build.rs and
 //!   main.rs.** Types from `proc_macro` are entirely specific to procedural
@@ -1398,22 +1468,30 @@
 //! types make use of thread-local memory, meaning they cannot be accessed from
 //! a different thread.
 </span><span class="attr">#![forbid(unsafe_code)]
+
 </span><span class="comment">// Proc-macro2 types in rustdoc of other crates get linked to here.
-</span><span class="attr">#![doc(html_root_url = <span class="string">"https://docs.rs/proc-macro2/1.0.67"</span>)]
+</span><span class="attr">#![doc(html_root_url = <span class="string">"https://docs.rs/safe-proc-macro2/1.0.94"</span>)]
 #![cfg_attr(any(proc_macro_span, super_unstable), feature(proc_macro_span))]
 #![cfg_attr(super_unstable, feature(proc_macro_def_site))]
-#![cfg_attr(doc_cfg, feature(doc_cfg))]
+#![cfg_attr(docsrs, feature(doc_cfg))]
+#![deny(unsafe_op_in_unsafe_fn)]
 #![allow(
     clippy::cast_lossless,
     clippy::cast_possible_truncation,
+    clippy::checked_conversions,
     clippy::doc_markdown,
+    clippy::elidable_lifetime_names,
+    clippy::incompatible_msrv,
     clippy::items_after_statements,
+    clippy::iter_without_into_iter,
     clippy::let_underscore_untyped,
     clippy::manual_assert,
     clippy::manual_range_contains,
+    clippy::missing_panics_doc,
     clippy::missing_safety_doc,
     clippy::must_use_candidate,
     clippy::needless_doctest_main,
+    clippy::needless_lifetimes,
     clippy::new_without_default,
     clippy::return_self_not_must_use,
     clippy::shadow_unrelated,
@@ -1432,6 +1510,15 @@
     build script as well.
 "</span>}
 
+<span class="attr">#[cfg(all(
+    procmacro2_nightly_testing,
+    feature = <span class="string">"proc-macro"</span>,
+    not(proc_macro_span)
+))]
+</span><span class="macro">compile_error!</span> {<span class="string">"\
+    Build script probe failed to compile.
+"</span>}
+
 <span class="kw">extern crate </span>alloc;
 
 <span class="attr">#[cfg(feature = <span class="string">"proc-macro"</span>)]
@@ -1444,7 +1531,7 @@
 <span class="attr">#[cfg(wrap_proc_macro)]
 </span><span class="kw">mod </span>detection;
 
-<span class="comment">// Public for safe_proc_macro2::fallback::force() and unforce(), but those are quite
+<span class="comment">// Public for proc_macro2::fallback::force() and unforce(), but those are quite
 // a niche use case so we omit it from rustdoc.
 </span><span class="attr">#[doc(hidden)]
 </span><span class="kw">pub mod </span>fallback;
@@ -1461,17 +1548,21 @@
 </span><span class="kw">mod </span>location;
 
 <span class="kw">use </span><span class="kw">crate</span>::extra::DelimSpan;
-<span class="kw">use </span><span class="kw">crate</span>::marker::Marker;
+<span class="kw">use </span><span class="kw">crate</span>::marker::{ProcMacroAutoTraits, MARKER};
 <span class="kw">use </span>core::cmp::Ordering;
 <span class="kw">use </span>core::fmt::{<span class="self">self</span>, Debug, Display};
 <span class="kw">use </span>core::hash::{Hash, Hasher};
+<span class="attr">#[cfg(span_locations)]
+</span><span class="kw">use </span>core::ops::Range;
 <span class="kw">use </span>core::ops::RangeBounds;
 <span class="kw">use </span>core::str::FromStr;
 <span class="kw">use </span>std::error::Error;
+<span class="kw">use </span>std::ffi::CStr;
 <span class="attr">#[cfg(procmacro2_semver_exempt)]
 </span><span class="kw">use </span>std::path::PathBuf;
 
 <span class="attr">#[cfg(span_locations)]
+#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"span-locations"</span>)))]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::location::LineColumn;
 
 <span class="doccomment">/// An abstract stream of tokens, or more concretely a sequence of token trees.
@@ -1484,27 +1575,27 @@
 </span><span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>TokenStream {
     inner: imp::TokenStream,
-    _marker: Marker,
+    _marker: ProcMacroAutoTraits,
 }
 
 <span class="doccomment">/// Error returned from `TokenStream::from_str`.
 </span><span class="kw">pub struct </span>LexError {
     inner: imp::LexError,
-    _marker: Marker,
+    _marker: ProcMacroAutoTraits,
 }
 
 <span class="kw">impl </span>TokenStream {
     <span class="kw">fn </span>_new(inner: imp::TokenStream) -&gt; <span class="self">Self </span>{
         TokenStream {
             inner,
-            _marker: Marker,
+            _marker: MARKER,
         }
     }
 
     <span class="kw">fn </span>_new_fallback(inner: fallback::TokenStream) -&gt; <span class="self">Self </span>{
         TokenStream {
-            inner: inner.into(),
-            _marker: Marker,
+            inner: imp::TokenStream::from(inner),
+            _marker: MARKER,
         }
     }
 
@@ -1539,27 +1630,29 @@
     <span class="kw">type </span><span class="prelude-val">Err </span>= LexError;
 
     <span class="kw">fn </span>from_str(src: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;TokenStream, LexError&gt; {
-        <span class="kw">let </span>e = src.parse().map_err(|e| LexError {
-            inner: e,
-            _marker: Marker,
-        })<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(TokenStream::_new(e))
+        <span class="kw">match </span>imp::TokenStream::from_str_checked(src) {
+            <span class="prelude-val">Ok</span>(tokens) =&gt; <span class="prelude-val">Ok</span>(TokenStream::_new(tokens)),
+            <span class="prelude-val">Err</span>(lex) =&gt; <span class="prelude-val">Err</span>(LexError {
+                inner: lex,
+                _marker: MARKER,
+            }),
+        }
     }
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"proc-macro"</span>)]
-#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"proc-macro"</span>)))]
+#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"proc-macro"</span>)))]
 </span><span class="kw">impl </span>From&lt;proc_macro::TokenStream&gt; <span class="kw">for </span>TokenStream {
     <span class="kw">fn </span>from(inner: proc_macro::TokenStream) -&gt; <span class="self">Self </span>{
-        TokenStream::_new(inner.into())
+        TokenStream::_new(imp::TokenStream::from(inner))
     }
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"proc-macro"</span>)]
-#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"proc-macro"</span>)))]
+#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"proc-macro"</span>)))]
 </span><span class="kw">impl </span>From&lt;TokenStream&gt; <span class="kw">for </span>proc_macro::TokenStream {
     <span class="kw">fn </span>from(inner: TokenStream) -&gt; <span class="self">Self </span>{
-        inner.inner.into()
+        proc_macro::TokenStream::from(inner.inner)
     }
 }
 
@@ -1635,11 +1728,11 @@
 ///
 /// This type is semver exempt and not exposed by default.
 </span><span class="attr">#[cfg(all(procmacro2_semver_exempt, any(not(wrap_proc_macro), super_unstable)))]
-#[cfg_attr(doc_cfg, doc(cfg(procmacro2_semver_exempt)))]
+#[cfg_attr(docsrs, doc(cfg(procmacro2_semver_exempt)))]
 #[derive(Clone, PartialEq, Eq)]
 </span><span class="kw">pub struct </span>SourceFile {
     inner: imp::SourceFile,
-    _marker: Marker,
+    _marker: ProcMacroAutoTraits,
 }
 
 <span class="attr">#[cfg(all(procmacro2_semver_exempt, any(not(wrap_proc_macro), super_unstable)))]
@@ -1647,7 +1740,7 @@
     <span class="kw">fn </span>_new(inner: imp::SourceFile) -&gt; <span class="self">Self </span>{
         SourceFile {
             inner,
-            _marker: Marker,
+            _marker: MARKER,
         }
     }
 
@@ -1686,21 +1779,21 @@
 </span><span class="attr">#[derive(Copy, Clone)]
 </span><span class="kw">pub struct </span>Span {
     inner: imp::Span,
-    _marker: Marker,
+    _marker: ProcMacroAutoTraits,
 }
 
 <span class="kw">impl </span>Span {
     <span class="kw">fn </span>_new(inner: imp::Span) -&gt; <span class="self">Self </span>{
         Span {
             inner,
-            _marker: Marker,
+            _marker: MARKER,
         }
     }
 
     <span class="kw">fn </span>_new_fallback(inner: fallback::Span) -&gt; <span class="self">Self </span>{
         Span {
-            inner: inner.into(),
-            _marker: Marker,
+            inner: imp::Span::from(inner),
+            _marker: MARKER,
         }
     }
 
@@ -1724,7 +1817,7 @@
     ///
     /// This method is semver exempt and not exposed by default.
     </span><span class="attr">#[cfg(procmacro2_semver_exempt)]
-    #[cfg_attr(doc_cfg, doc(cfg(procmacro2_semver_exempt)))]
+    #[cfg_attr(docsrs, doc(cfg(procmacro2_semver_exempt)))]
     </span><span class="kw">pub fn </span>def_site() -&gt; <span class="self">Self </span>{
         Span::_new(imp::Span::def_site())
     }
@@ -1767,9 +1860,24 @@
     ///
     /// This method is semver exempt and not exposed by default.
     </span><span class="attr">#[cfg(all(procmacro2_semver_exempt, any(not(wrap_proc_macro), super_unstable)))]
-    #[cfg_attr(doc_cfg, doc(cfg(procmacro2_semver_exempt)))]
+    #[cfg_attr(docsrs, doc(cfg(procmacro2_semver_exempt)))]
     </span><span class="kw">pub fn </span>source_file(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SourceFile {
         SourceFile::_new(<span class="self">self</span>.inner.source_file())
+    }
+
+    <span class="doccomment">/// Returns the span's byte position range in the source file.
+    ///
+    /// This method requires the `"span-locations"` feature to be enabled.
+    ///
+    /// When executing in a procedural macro context, the returned range is only
+    /// accurate if compiled with a nightly toolchain. The stable toolchain does
+    /// not have this information available. When executing outside of a
+    /// procedural macro, such as main.rs or build.rs, the byte range is always
+    /// accurate regardless of toolchain.
+    </span><span class="attr">#[cfg(span_locations)]
+    #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"span-locations"</span>)))]
+    </span><span class="kw">pub fn </span>byte_range(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Range&lt;usize&gt; {
+        <span class="self">self</span>.inner.byte_range()
     }
 
     <span class="doccomment">/// Get the starting line/column in the source file for this span.
@@ -1782,7 +1890,7 @@
     /// outside of a procedural macro, such as main.rs or build.rs, the
     /// line/column are always meaningful regardless of toolchain.
     </span><span class="attr">#[cfg(span_locations)]
-    #[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"span-locations"</span>)))]
+    #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"span-locations"</span>)))]
     </span><span class="kw">pub fn </span>start(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; LineColumn {
         <span class="self">self</span>.inner.start()
     }
@@ -1797,7 +1905,7 @@
     /// outside of a procedural macro, such as main.rs or build.rs, the
     /// line/column are always meaningful regardless of toolchain.
     </span><span class="attr">#[cfg(span_locations)]
-    #[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"span-locations"</span>)))]
+    #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"span-locations"</span>)))]
     </span><span class="kw">pub fn </span>end(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; LineColumn {
         <span class="self">self</span>.inner.end()
     }
@@ -1809,8 +1917,6 @@
     /// Warning: the underlying [`proc_macro::Span::join`] method is
     /// nightly-only. When called from within a procedural macro not using a
     /// nightly compiler, this method will always return `None`.
-    ///
-    /// [`proc_macro::Span::join`]: https://doc.rust-lang.org/proc_macro/struct.Span.html#method.join
     </span><span class="kw">pub fn </span>join(<span class="kw-2">&amp;</span><span class="self">self</span>, other: Span) -&gt; <span class="prelude-ty">Option</span>&lt;Span&gt; {
         <span class="self">self</span>.inner.join(other.inner).map(Span::_new)
     }
@@ -1819,7 +1925,7 @@
     ///
     /// This method is semver exempt and not exposed by default.
     </span><span class="attr">#[cfg(procmacro2_semver_exempt)]
-    #[cfg_attr(doc_cfg, doc(cfg(procmacro2_semver_exempt)))]
+    #[cfg_attr(docsrs, doc(cfg(procmacro2_semver_exempt)))]
     </span><span class="kw">pub fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Span) -&gt; bool {
         <span class="self">self</span>.inner.eq(<span class="kw-2">&amp;</span>other.inner)
     }
@@ -1959,13 +2065,25 @@
     </span>Brace,
     <span class="doccomment">/// `[ ... ]`
     </span>Bracket,
-    <span class="doccomment">/// `Ø ... Ø`
+    <span class="doccomment">/// `∅ ... ∅`
     ///
-    /// An implicit delimiter, that may, for example, appear around tokens
+    /// An invisible delimiter, that may, for example, appear around tokens
     /// coming from a "macro variable" `$var`. It is important to preserve
     /// operator priorities in cases like `$var * 3` where `$var` is `1 + 2`.
-    /// Implicit delimiters may not survive roundtrip of a token stream through
+    /// Invisible delimiters may not survive roundtrip of a token stream through
     /// a string.
+    ///
+    /// &lt;div class="warning"&gt;
+    ///
+    /// Note: rustc currently can ignore the grouping of tokens delimited by `None` in the output
+    /// of a proc_macro. Only `None`-delimited groups created by a macro_rules macro in the input
+    /// of a proc_macro macro are preserved, and only in very specific circumstances.
+    /// Any `None`-delimited groups (re)created by a proc_macro will therefore not preserve
+    /// operator priorities as indicated above. The other `Delimiter` variants should be used
+    /// instead in this context. This is a rustc bug. For details, see
+    /// [rust-lang/rust#67062](https://github.com/rust-lang/rust/issues/67062).
+    ///
+    /// &lt;/div&gt;
     </span><span class="prelude-val">None</span>,
 }
 
@@ -1976,7 +2094,7 @@
 
     <span class="kw">fn </span>_new_fallback(inner: fallback::Group) -&gt; <span class="self">Self </span>{
         Group {
-            inner: inner.into(),
+            inner: imp::Group::from(inner),
         }
     }
 
@@ -2102,10 +2220,16 @@
     /// The returned `Punct` will have the default span of `Span::call_site()`
     /// which can be further configured with the `set_span` method below.
     </span><span class="kw">pub fn </span>new(ch: char, spacing: Spacing) -&gt; <span class="self">Self </span>{
-        Punct {
-            ch,
-            spacing,
-            span: Span::call_site(),
+        <span class="kw">if let </span><span class="string">'!' </span>| <span class="string">'#' </span>| <span class="string">'$' </span>| <span class="string">'%' </span>| <span class="string">'&amp;' </span>| <span class="string">'\'' </span>| <span class="string">'*' </span>| <span class="string">'+' </span>| <span class="string">',' </span>| <span class="string">'-' </span>| <span class="string">'.' </span>| <span class="string">'/' </span>| <span class="string">':' </span>| <span class="string">';'
+        </span>| <span class="string">'&lt;' </span>| <span class="string">'=' </span>| <span class="string">'&gt;' </span>| <span class="string">'?' </span>| <span class="string">'@' </span>| <span class="string">'^' </span>| <span class="string">'|' </span>| <span class="string">'~' </span>= ch
+        {
+            Punct {
+                ch,
+                spacing,
+                span: Span::call_site(),
+            }
+        } <span class="kw">else </span>{
+            <span class="macro">panic!</span>(<span class="string">"unsupported proc macro punctuation character {:?}"</span>, ch);
         }
     }
 
@@ -2219,14 +2343,21 @@
 </span><span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>Ident {
     inner: imp::Ident,
-    _marker: Marker,
+    _marker: ProcMacroAutoTraits,
 }
 
 <span class="kw">impl </span>Ident {
     <span class="kw">fn </span>_new(inner: imp::Ident) -&gt; <span class="self">Self </span>{
         Ident {
             inner,
-            _marker: Marker,
+            _marker: MARKER,
+        }
+    }
+
+    <span class="kw">fn </span>_new_fallback(inner: fallback::Ident) -&gt; <span class="self">Self </span>{
+        Ident {
+            inner: imp::Ident::from(inner),
+            _marker: MARKER,
         }
     }
 
@@ -2261,8 +2392,9 @@
     ///   style="padding-right:0;"&gt;syn::parse_str&lt;/code&gt;&lt;/a&gt;&lt;code
     ///   style="padding-left:0;"&gt;::&amp;lt;Ident&amp;gt;&lt;/code&gt;
     /// rather than `Ident::new`.
+    </span><span class="attr">#[track_caller]
     </span><span class="kw">pub fn </span>new(string: <span class="kw-2">&amp;</span>str, span: Span) -&gt; <span class="self">Self </span>{
-        Ident::_new(imp::Ident::new(string, span.inner))
+        Ident::_new(imp::Ident::new_checked(string, span.inner))
     }
 
     <span class="doccomment">/// Same as `Ident::new`, but creates a raw identifier (`r#ident`). The
@@ -2270,12 +2402,9 @@
     /// (including keywords, e.g. `fn`). Keywords which are usable in path
     /// segments (e.g. `self`, `super`) are not supported, and will cause a
     /// panic.
+    </span><span class="attr">#[track_caller]
     </span><span class="kw">pub fn </span>new_raw(string: <span class="kw-2">&amp;</span>str, span: Span) -&gt; <span class="self">Self </span>{
-        Ident::_new_raw(string, span)
-    }
-
-    <span class="kw">fn </span>_new_raw(string: <span class="kw-2">&amp;</span>str, span: Span) -&gt; <span class="self">Self </span>{
-        Ident::_new(imp::Ident::new_raw(string, span.inner))
+        Ident::_new(imp::Ident::new_raw_checked(string, span.inner))
     }
 
     <span class="doccomment">/// Returns the span of this `Ident`.
@@ -2348,7 +2477,7 @@
 </span><span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>Literal {
     inner: imp::Literal,
-    _marker: Marker,
+    _marker: ProcMacroAutoTraits,
 }
 
 <span class="macro">macro_rules!</span> suffixed_int_literals {
@@ -2395,14 +2524,14 @@
     <span class="kw">fn </span>_new(inner: imp::Literal) -&gt; <span class="self">Self </span>{
         Literal {
             inner,
-            _marker: Marker,
+            _marker: MARKER,
         }
     }
 
     <span class="kw">fn </span>_new_fallback(inner: fallback::Literal) -&gt; <span class="self">Self </span>{
         Literal {
-            inner: inner.into(),
-            _marker: Marker,
+            inner: imp::Literal::from(inner),
+            _marker: MARKER,
         }
     }
 
@@ -2518,9 +2647,19 @@
         Literal::_new(imp::Literal::character(ch))
     }
 
+    <span class="doccomment">/// Byte character literal.
+    </span><span class="kw">pub fn </span>byte_character(byte: u8) -&gt; Literal {
+        Literal::_new(imp::Literal::byte_character(byte))
+    }
+
     <span class="doccomment">/// Byte string literal.
-    </span><span class="kw">pub fn </span>byte_string(s: <span class="kw-2">&amp;</span>[u8]) -&gt; Literal {
-        Literal::_new(imp::Literal::byte_string(s))
+    </span><span class="kw">pub fn </span>byte_string(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; Literal {
+        Literal::_new(imp::Literal::byte_string(bytes))
+    }
+
+    <span class="doccomment">/// C string literal.
+    </span><span class="kw">pub fn </span>c_string(string: <span class="kw-2">&amp;</span>CStr) -&gt; Literal {
+        Literal::_new(imp::Literal::c_string(string))
     }
 
     <span class="doccomment">/// Returns the span encompassing this literal.
@@ -2540,30 +2679,31 @@
     /// Warning: the underlying [`proc_macro::Literal::subspan`] method is
     /// nightly-only. When called from within a procedural macro not using a
     /// nightly compiler, this method will always return `None`.
-    ///
-    /// [`proc_macro::Literal::subspan`]: https://doc.rust-lang.org/proc_macro/struct.Literal.html#method.subspan
     </span><span class="kw">pub fn </span>subspan&lt;R: RangeBounds&lt;usize&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, range: R) -&gt; <span class="prelude-ty">Option</span>&lt;Span&gt; {
         <span class="self">self</span>.inner.subspan(range).map(Span::_new)
     }
 
-    <span class="comment">// // Intended for the `quote!` macro to use when constructing a proc-macro2
-    // // token out of a macro_rules $:literal token, which is already known to be
-    // // a valid literal. This avoids reparsing/validating the literal's string
-    // // representation. This is not public API other than for quote.
-    // #[doc(hidden)]
-    // pub unsafe fn from_str_unchecked(repr: &amp;str) -&gt; Self {
-    //     Literal::_new(imp::Literal::from_str_unchecked(repr))
-    // }
-</span>}
+    <span class="comment">// Intended for the `quote!` macro to use when constructing a proc-macro2
+    // token out of a macro_rules $:literal token, which is already known to be
+    // a valid literal. This avoids reparsing/validating the literal's string
+    // representation. This is not public API other than for quote.
+    </span><span class="attr">#[doc(hidden)]
+    </span><span class="kw">pub fn </span>from_str_unchecked(repr: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
+        Literal::_new(imp::Literal::from_str_unchecked(repr))
+    }
+}
 
 <span class="kw">impl </span>FromStr <span class="kw">for </span>Literal {
     <span class="kw">type </span><span class="prelude-val">Err </span>= LexError;
 
     <span class="kw">fn </span>from_str(repr: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, LexError&gt; {
-        repr.parse().map(Literal::_new).map_err(|inner| LexError {
-            inner,
-            _marker: Marker,
-        })
+        <span class="kw">match </span>imp::Literal::from_str_checked(repr) {
+            <span class="prelude-val">Ok</span>(lit) =&gt; <span class="prelude-val">Ok</span>(Literal::_new(lit)),
+            <span class="prelude-val">Err</span>(lex) =&gt; <span class="prelude-val">Err</span>(LexError {
+                inner: lex,
+                _marker: MARKER,
+            }),
+        }
     }
 }
 
@@ -2581,7 +2721,7 @@
 
 <span class="doccomment">/// Public implementation details for the `TokenStream` type, such as iterators.
 </span><span class="kw">pub mod </span>token_stream {
-    <span class="kw">use </span><span class="kw">crate</span>::marker::Marker;
+    <span class="kw">use </span><span class="kw">crate</span>::marker::{ProcMacroAutoTraits, MARKER};
     <span class="kw">use crate</span>::{imp, TokenTree};
     <span class="kw">use </span>core::fmt::{<span class="self">self</span>, Debug};
 
@@ -2594,7 +2734,7 @@
     </span><span class="attr">#[derive(Clone)]
     </span><span class="kw">pub struct </span>IntoIter {
         inner: imp::TokenTreeIter,
-        _marker: Marker,
+        _marker: ProcMacroAutoTraits,
     }
 
     <span class="kw">impl </span>Iterator <span class="kw">for </span>IntoIter {
@@ -2623,7 +2763,7 @@
         <span class="kw">fn </span>into_iter(<span class="self">self</span>) -&gt; IntoIter {
             IntoIter {
                 inner: <span class="self">self</span>.inner.into_iter(),
-                _marker: Marker,
+                _marker: MARKER,
             }
         }
     }

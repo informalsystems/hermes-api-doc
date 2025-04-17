@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rust_decimal-1.36.0/src/decimal.rs`."><title>decimal.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rust_decimal" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rust_decimal/</div>decimal.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rust_decimal-1.37.1/src/decimal.rs`."><title>decimal.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rust_decimal" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rust_decimal/</div>decimal.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -2643,8 +2643,24 @@
 <a href="#2642" id="2642">2642</a>
 <a href="#2643" id="2643">2643</a>
 <a href="#2644" id="2644">2644</a>
-<a href="#2645" id="2645">2645</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::constants::{
-    MAX_I128_REPR, MAX_PRECISION_U32, POWERS_10, SCALE_MASK, SCALE_SHIFT, SIGN_MASK, SIGN_SHIFT, U32_MASK, U8_MASK,
+<a href="#2645" id="2645">2645</a>
+<a href="#2646" id="2646">2646</a>
+<a href="#2647" id="2647">2647</a>
+<a href="#2648" id="2648">2648</a>
+<a href="#2649" id="2649">2649</a>
+<a href="#2650" id="2650">2650</a>
+<a href="#2651" id="2651">2651</a>
+<a href="#2652" id="2652">2652</a>
+<a href="#2653" id="2653">2653</a>
+<a href="#2654" id="2654">2654</a>
+<a href="#2655" id="2655">2655</a>
+<a href="#2656" id="2656">2656</a>
+<a href="#2657" id="2657">2657</a>
+<a href="#2658" id="2658">2658</a>
+<a href="#2659" id="2659">2659</a>
+<a href="#2660" id="2660">2660</a>
+<a href="#2661" id="2661">2661</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::constants::{
+    MAX_I128_REPR, MAX_SCALE_U32, POWERS_10, SCALE_MASK, SCALE_SHIFT, SIGN_MASK, SIGN_SHIFT, U32_MASK, U8_MASK,
     UNSIGN_MASK,
 };
 <span class="kw">use </span><span class="kw">crate</span>::ops;
@@ -2917,6 +2933,14 @@
     /// assert_eq!(Decimal::ONE_THOUSAND, dec!(1000));
     /// ```
     </span><span class="kw">pub const </span>ONE_THOUSAND: Decimal = ONE_THOUSAND;
+    <span class="doccomment">/// The maximum supported scale value.
+    ///
+    /// Some operations, such as [`Self::rescale`] may accept larger scale values, but  these
+    /// operations will result in a final value with a scale no larger than this.
+    ///
+    /// Note that the maximum scale is _not_ the same as the maximum possible numeric precision in
+    /// base-10.
+    </span><span class="kw">pub const </span>MAX_SCALE: u32 = MAX_SCALE_U32;
 
     <span class="doccomment">/// A constant representing π as 3.1415926535897932384626433833
     ///
@@ -3030,7 +3054,7 @@
     ///
     /// # Panics
     ///
-    /// This function panics if `scale` is &gt; 28.
+    /// This function panics if `scale` is &gt; [`Self::MAX_SCALE`].
     ///
     /// # Example
     ///
@@ -3048,7 +3072,7 @@
         }
     }
 
-    <span class="doccomment">/// Checked version of `Decimal::new`. Will return `Err` instead of panicking at run-time.
+    <span class="doccomment">/// Checked version of [`Self::new`]. Will return an error instead of panicking at run-time.
     ///
     /// # Example
     ///
@@ -3059,7 +3083,7 @@
     /// assert!(max.is_err());
     /// ```
     </span><span class="kw">pub const fn </span>try_new(num: i64, scale: u32) -&gt; <span class="kw">crate</span>::Result&lt;Decimal&gt; {
-        <span class="kw">if </span>scale &gt; MAX_PRECISION_U32 {
+        <span class="kw">if </span>scale &gt; <span class="self">Self</span>::MAX_SCALE {
             <span class="kw">return </span><span class="prelude-val">Err</span>(Error::ScaleExceedsMaximumPrecision(scale));
         }
         <span class="kw">let </span>flags: u32 = scale &lt;&lt; SCALE_SHIFT;
@@ -3089,7 +3113,8 @@
     ///
     /// # Panics
     ///
-    /// This function panics if `scale` is &gt; 28 or if `num` exceeds the maximum supported 96 bits.
+    /// This function panics if `scale` is &gt; [`Self::MAX_SCALE`] or if `num` exceeds the maximum
+    /// supported 96 bits.
     ///
     /// # Example
     ///
@@ -3119,26 +3144,27 @@
     /// assert!(max.is_err());
     /// ```
     </span><span class="kw">pub const fn </span>try_from_i128_with_scale(num: i128, scale: u32) -&gt; <span class="kw">crate</span>::Result&lt;Decimal&gt; {
-        <span class="kw">if </span>scale &gt; MAX_PRECISION_U32 {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(Error::ScaleExceedsMaximumPrecision(scale));
-        }
-        <span class="kw">let </span><span class="kw-2">mut </span>neg = <span class="bool-val">false</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>wrapped = num;
-        <span class="kw">if </span>num &gt; MAX_I128_REPR {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(Error::ExceedsMaximumPossibleValue);
+        <span class="kw">if </span>scale &gt; <span class="self">Self</span>::MAX_SCALE {
+            <span class="prelude-val">Err</span>(Error::ScaleExceedsMaximumPrecision(scale))
+        } <span class="kw">else if </span>num &gt; MAX_I128_REPR {
+            <span class="prelude-val">Err</span>(Error::ExceedsMaximumPossibleValue)
         } <span class="kw">else if </span>num &lt; -MAX_I128_REPR {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(Error::LessThanMinimumPossibleValue);
-        } <span class="kw">else if </span>num &lt; <span class="number">0 </span>{
-            neg = <span class="bool-val">true</span>;
-            wrapped = -num;
+            <span class="prelude-val">Err</span>(Error::LessThanMinimumPossibleValue)
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Ok</span>(<span class="self">Self</span>::from_i128_with_scale_unchecked(num, scale))
         }
-        <span class="kw">let </span>flags: u32 = flags(neg, scale);
-        <span class="prelude-val">Ok</span>(Decimal {
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>from_i128_with_scale_unchecked(num: i128, scale: u32) -&gt; Decimal {
+        <span class="kw">let </span>flags = flags(num &lt; <span class="number">0</span>, scale);
+        <span class="kw">let </span>num = num.unsigned_abs();
+        Decimal {
             flags,
-            lo: (wrapped <span class="kw">as </span>u64 &amp; U32_MASK) <span class="kw">as </span>u32,
-            mid: ((wrapped <span class="kw">as </span>u64 &gt;&gt; <span class="number">32</span>) &amp; U32_MASK) <span class="kw">as </span>u32,
-            hi: ((wrapped <span class="kw">as </span>u128 &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>u64 &amp; U32_MASK) <span class="kw">as </span>u32,
-        })
+            lo: (num <span class="kw">as </span>u64 &amp; U32_MASK) <span class="kw">as </span>u32,
+            mid: ((num <span class="kw">as </span>u64 &gt;&gt; <span class="number">32</span>) &amp; U32_MASK) <span class="kw">as </span>u32,
+            hi: ((num &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>u64 &amp; U32_MASK) <span class="kw">as </span>u32,
+        }
     }
 
     <span class="doccomment">/// Returns a `Decimal` using the instances constituent parts.
@@ -3149,14 +3175,7 @@
     /// * `mid` - The middle 32 bits of a 96-bit integer.
     /// * `hi` - The high 32 bits of a 96-bit integer.
     /// * `negative` - `true` to indicate a negative number.
-    /// * `scale` - A power of 10 ranging from 0 to 28.
-    ///
-    /// # Caution: Undefined behavior
-    ///
-    /// While a scale greater than 28 can be passed in, it will be automatically capped by this
-    /// function at the maximum precision. The library opts towards this functionality as opposed
-    /// to a panic to ensure that the function can be treated as constant. This may lead to
-    /// undefined behavior in downstream applications and should be treated with caution.
+    /// * `scale` - A power of 10 ranging from 0 to [`Self::MAX_SCALE`].
     ///
     /// # Example
     ///
@@ -3168,6 +3187,7 @@
     /// ```
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub const fn </span>from_parts(lo: u32, mid: u32, hi: u32, negative: bool, scale: u32) -&gt; Decimal {
+        <span class="macro">assert!</span>(scale &lt;= <span class="self">Self</span>::MAX_SCALE, <span class="string">"Scale exceeds maximum supported scale"</span>);
         Decimal {
             lo,
             mid,
@@ -3178,7 +3198,7 @@
                 </span>} <span class="kw">else </span>{
                     negative
                 },
-                scale % (MAX_PRECISION_U32 + <span class="number">1</span>),
+                scale,
             ),
         }
     }
@@ -3218,7 +3238,7 @@
     </span><span class="kw">pub fn </span>from_scientific(value: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;Decimal, Error&gt; {
         <span class="kw">const </span>ERROR_MESSAGE: <span class="kw-2">&amp;</span>str = <span class="string">"Failed to parse"</span>;
 
-        <span class="kw">let </span><span class="kw-2">mut </span>split = value.splitn(<span class="number">2</span>, |c| c == <span class="string">'e' </span>|| c == <span class="string">'E'</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>split = value.splitn(<span class="number">2</span>, [<span class="string">'e'</span>, <span class="string">'E'</span>]);
 
         <span class="kw">let </span>base = split.next().ok_or_else(|| Error::from(ERROR_MESSAGE))<span class="question-mark">?</span>;
         <span class="kw">let </span>exp = split.next().ok_or_else(|| Error::from(ERROR_MESSAGE))<span class="question-mark">?</span>;
@@ -3228,6 +3248,9 @@
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(stripped) = exp.strip_prefix(<span class="string">'-'</span>) {
             <span class="kw">let </span>exp: u32 = stripped.parse().map_err(|<span class="kw">_</span>| Error::from(ERROR_MESSAGE))<span class="question-mark">?</span>;
+            <span class="kw">if </span>exp &gt; <span class="self">Self</span>::MAX_SCALE {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(Error::ScaleExceedsMaximumPrecision(exp));
+            }
             ret.set_scale(current_scale + exp)<span class="question-mark">?</span>;
         } <span class="kw">else </span>{
             <span class="kw">let </span>exp: u32 = exp.parse().map_err(|<span class="kw">_</span>| Error::from(ERROR_MESSAGE))<span class="question-mark">?</span>;
@@ -3241,7 +3264,7 @@
                 // we've parsed 1.2 as the base and 10 as the exponent. To represent this within a
                 // Decimal type we effectively store the mantissa as 12,000,000,000 and scale as
                 // zero.
-                </span><span class="kw">if </span>exp &gt; MAX_PRECISION_U32 {
+                </span><span class="kw">if </span>exp &gt; <span class="self">Self</span>::MAX_SCALE {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(Error::ScaleExceedsMaximumPrecision(exp));
                 }
                 <span class="kw">let </span><span class="kw-2">mut </span>exp = exp <span class="kw">as </span>usize;
@@ -3347,7 +3370,7 @@
     ///
     /// ```
     /// # use rust_decimal::prelude::*;
-    /// use rust_decimal_macros::dec;
+    /// # use rust_decimal_macros::dec;
     ///
     /// let num = dec!(-1.2345678);
     /// assert_eq!(num.mantissa(), -12345678i128);
@@ -3501,7 +3524,7 @@
     /// # }
     /// ```
     </span><span class="kw">pub fn </span>set_scale(<span class="kw-2">&amp;mut </span><span class="self">self</span>, scale: u32) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
-        <span class="kw">if </span>scale &gt; MAX_PRECISION_U32 {
+        <span class="kw">if </span>scale &gt; <span class="self">Self</span>::MAX_SCALE {
             <span class="kw">return </span><span class="prelude-val">Err</span>(Error::ScaleExceedsMaximumPrecision(scale));
         }
         <span class="self">self</span>.flags = (scale &lt;&lt; SCALE_SHIFT) | (<span class="self">self</span>.flags &amp; SIGN_MASK);
@@ -3515,7 +3538,7 @@
     /// cause the newly created `Decimal` to perform rounding using the `MidpointAwayFromZero` strategy.
     ///
     /// Scales greater than the maximum precision that can be represented by `Decimal` will be
-    /// automatically rounded to either `Decimal::MAX_PRECISION` or the maximum precision that can
+    /// automatically rounded to either [`Self::MAX_SCALE`] or the maximum precision that can
     /// be represented with the given mantissa.
     ///
     /// # Arguments
@@ -3525,7 +3548,7 @@
     ///
     /// ```
     /// # use rust_decimal::prelude::*;
-    /// use rust_decimal_macros::dec;
+    /// # use rust_decimal_macros::dec;
     ///
     /// // Rescaling to a higher scale preserves the value
     /// let mut number = dec!(1.123);
@@ -3605,14 +3628,20 @@
         //   Bits 24-30: unused
         //   Bit 31: the sign of the Decimal value, 0 meaning positive and 1 meaning negative.
         </span><span class="kw">let </span><span class="kw-2">mut </span>raw = Decimal {
-            flags: ((bytes[<span class="number">0</span>] <span class="kw">as </span>u32) | (bytes[<span class="number">1</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">8 </span>| (bytes[<span class="number">2</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">16 </span>| (bytes[<span class="number">3</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">24</span>)
+            flags: ((bytes[<span class="number">0</span>] <span class="kw">as </span>u32)
+                | ((bytes[<span class="number">1</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">8</span>)
+                | ((bytes[<span class="number">2</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">16</span>)
+                | ((bytes[<span class="number">3</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">24</span>))
                 &amp; <span class="number">0x801F_0000</span>,
-            lo: (bytes[<span class="number">4</span>] <span class="kw">as </span>u32) | (bytes[<span class="number">5</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">8 </span>| (bytes[<span class="number">6</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">16 </span>| (bytes[<span class="number">7</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">24</span>,
-            mid: (bytes[<span class="number">8</span>] <span class="kw">as </span>u32) | (bytes[<span class="number">9</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">8 </span>| (bytes[<span class="number">10</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">16 </span>| (bytes[<span class="number">11</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">24</span>,
-            hi: (bytes[<span class="number">12</span>] <span class="kw">as </span>u32) | (bytes[<span class="number">13</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">8 </span>| (bytes[<span class="number">14</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">16 </span>| (bytes[<span class="number">15</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">24</span>,
+            lo: (bytes[<span class="number">4</span>] <span class="kw">as </span>u32) | ((bytes[<span class="number">5</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">8</span>) | ((bytes[<span class="number">6</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">16</span>) | ((bytes[<span class="number">7</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">24</span>),
+            mid: (bytes[<span class="number">8</span>] <span class="kw">as </span>u32) | ((bytes[<span class="number">9</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">8</span>) | ((bytes[<span class="number">10</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">16</span>) | ((bytes[<span class="number">11</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">24</span>),
+            hi: (bytes[<span class="number">12</span>] <span class="kw">as </span>u32)
+                | ((bytes[<span class="number">13</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">8</span>)
+                | ((bytes[<span class="number">14</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">16</span>)
+                | ((bytes[<span class="number">15</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">24</span>),
         };
         <span class="comment">// Scale must be bound to maximum precision. Only two values can be greater than this
-        </span><span class="kw">if </span>raw.scale() &gt; MAX_PRECISION_U32 {
+        </span><span class="kw">if </span>raw.scale() &gt; <span class="self">Self</span>::MAX_SCALE {
             <span class="kw">let </span><span class="kw-2">mut </span>bits = raw.mantissa_array3();
             <span class="kw">let </span>remainder = <span class="kw">match </span>raw.scale() {
                 <span class="number">29 </span>=&gt; ops::array::div_by_power::&lt;<span class="number">1</span>&gt;(<span class="kw-2">&amp;mut </span>bits),
@@ -3626,7 +3655,7 @@
             raw.lo = bits[<span class="number">0</span>];
             raw.mid = bits[<span class="number">1</span>];
             raw.hi = bits[<span class="number">2</span>];
-            raw.flags = flags(raw.is_sign_negative(), MAX_PRECISION_U32);
+            raw.flags = flags(raw.is_sign_negative(), <span class="self">Self</span>::MAX_SCALE);
         }
         raw
     }
@@ -4147,7 +4176,7 @@
     ///
     /// ```
     /// # use rust_decimal::Decimal;
-    /// use rust_decimal_macros::dec;
+    /// # use rust_decimal_macros::dec;
     ///
     /// let value = dec!(305.459);
     /// assert_eq!(value.round_sf(0), Some(dec!(0)));
@@ -4189,7 +4218,7 @@
     ///
     /// ```
     /// # use rust_decimal::{Decimal, RoundingStrategy};
-    /// use rust_decimal_macros::dec;
+    /// # use rust_decimal_macros::dec;
     ///
     /// let value = dec!(305.459);
     /// assert_eq!(value.round_sf_with_strategy(0, RoundingStrategy::ToZero), Some(dec!(0)));
@@ -4301,7 +4330,7 @@
     ///
     /// ```
     /// # use rust_decimal::Decimal;
-    /// use rust_decimal_macros::dec;
+    /// # use rust_decimal_macros::dec;
     ///
     /// let pi = dec!(3.1415926535897932384626433832);
     /// assert_eq!(format!("{:?}", pi), "3.1415926535897932384626433832");
@@ -4835,6 +4864,9 @@
             </span>exponent10 -= <span class="number">1</span>;
             exponent5 += <span class="number">1</span>;
             ops::array::shl1_internal(bits, <span class="number">0</span>);
+        } <span class="kw">else if </span>exponent10 * <span class="number">2 </span>&gt; -exponent5 {
+            <span class="comment">// Multiplying by &gt;=2 which, due to the previous condition, means an overflow.
+            </span><span class="kw">return </span><span class="prelude-val">None</span>;
         } <span class="kw">else </span>{
             <span class="comment">// The mantissa would overflow if shifted. Therefore it should be
             // directly divided by 5. This will lose significant digits, unless
@@ -4846,7 +4878,7 @@
 
     <span class="comment">// At this point, the mantissa has assimilated the exponent5, but
     // exponent10 might not be suitable for assignment. exponent10 must be
-    // in the range [-MAX_PRECISION..0], so the mantissa must be scaled up or
+    // in the range [-MAX_SCALE..0], so the mantissa must be scaled up or
     // down appropriately.
     </span><span class="kw">while </span>exponent10 &gt; <span class="number">0 </span>{
         <span class="comment">// In order to bring exponent10 down to 0, the mantissa should be
@@ -4860,10 +4892,10 @@
         }
     }
 
-    <span class="comment">// In order to bring exponent up to -MAX_PRECISION, the mantissa should
+    <span class="comment">// In order to bring exponent up to -MAX_SCALE, the mantissa should
     // be divided by 10 to compensate. If the exponent10 is too small, this
     // will cause the mantissa to underflow and become 0.
-    </span><span class="kw">while </span>exponent10 &lt; -(MAX_PRECISION_U32 <span class="kw">as </span>i32) {
+    </span><span class="kw">while </span>exponent10 &lt; -(Decimal::MAX_SCALE <span class="kw">as </span>i32) {
         <span class="kw">let </span>rem10 = ops::array::div_by_u32(bits, <span class="number">10</span>);
         exponent10 += <span class="number">1</span>;
         <span class="kw">if </span>ops::array::is_all_zero(bits) {
@@ -4951,7 +4983,7 @@
 
     <span class="kw">fn </span>to_i128(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;i128&gt; {
         <span class="kw">let </span>d = <span class="self">self</span>.trunc();
-        <span class="kw">let </span>raw: i128 = ((i128::from(d.hi) &lt;&lt; <span class="number">64</span>) | i128::from(d.mid) &lt;&lt; <span class="number">32</span>) | i128::from(d.lo);
+        <span class="kw">let </span>raw: i128 = ((i128::from(d.hi) &lt;&lt; <span class="number">64</span>) | (i128::from(d.mid) &lt;&lt; <span class="number">32</span>)) | i128::from(d.lo);
         <span class="kw">if </span><span class="self">self</span>.is_sign_negative() {
             <span class="prelude-val">Some</span>(-raw)
         } <span class="kw">else </span>{
@@ -5062,7 +5094,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Neg <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>Decimal {
+<span class="kw">impl </span>Neg <span class="kw">for </span><span class="kw-2">&amp;</span>Decimal {
     <span class="kw">type </span>Output = Decimal;
 
     <span class="kw">fn </span>neg(<span class="self">self</span>) -&gt; Decimal {
@@ -5091,7 +5123,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; AddAssign&lt;Decimal&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Decimal {
+<span class="kw">impl </span>AddAssign&lt;Decimal&gt; <span class="kw">for </span><span class="kw-2">&amp;mut </span>Decimal {
     <span class="kw">fn </span>add_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Decimal) {
         Decimal::add_assign(<span class="kw-2">*</span><span class="self">self</span>, other)
     }
@@ -5119,7 +5151,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; SubAssign&lt;Decimal&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Decimal {
+<span class="kw">impl </span>SubAssign&lt;Decimal&gt; <span class="kw">for </span><span class="kw-2">&amp;mut </span>Decimal {
     <span class="kw">fn </span>sub_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Decimal) {
         Decimal::sub_assign(<span class="kw-2">*</span><span class="self">self</span>, other)
     }
@@ -5147,7 +5179,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; MulAssign&lt;Decimal&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Decimal {
+<span class="kw">impl </span>MulAssign&lt;Decimal&gt; <span class="kw">for </span><span class="kw-2">&amp;mut </span>Decimal {
     <span class="kw">fn </span>mul_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Decimal) {
         Decimal::mul_assign(<span class="kw-2">*</span><span class="self">self</span>, other)
     }
@@ -5175,7 +5207,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; DivAssign&lt;Decimal&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Decimal {
+<span class="kw">impl </span>DivAssign&lt;Decimal&gt; <span class="kw">for </span><span class="kw-2">&amp;mut </span>Decimal {
     <span class="kw">fn </span>div_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Decimal) {
         Decimal::div_assign(<span class="kw-2">*</span><span class="self">self</span>, other)
     }
@@ -5203,7 +5235,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; RemAssign&lt;Decimal&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Decimal {
+<span class="kw">impl </span>RemAssign&lt;Decimal&gt; <span class="kw">for </span><span class="kw-2">&amp;mut </span>Decimal {
     <span class="kw">fn </span>rem_assign(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Decimal) {
         Decimal::rem_assign(<span class="kw-2">*</span><span class="self">self</span>, other)
     }

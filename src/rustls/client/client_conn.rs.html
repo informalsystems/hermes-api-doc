@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.23/src/client/client_conn.rs`."><title>client_conn.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>client_conn.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.26/src/client/client_conn.rs`."><title>client_conn.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>client_conn.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -962,7 +962,29 @@
 <a href="#961" id="961">961</a>
 <a href="#962" id="962">962</a>
 <a href="#963" id="963">963</a>
-<a href="#964" id="964">964</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::vec::Vec;
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a>
+<a href="#968" id="968">968</a>
+<a href="#969" id="969">969</a>
+<a href="#970" id="970">970</a>
+<a href="#971" id="971">971</a>
+<a href="#972" id="972">972</a>
+<a href="#973" id="973">973</a>
+<a href="#974" id="974">974</a>
+<a href="#975" id="975">975</a>
+<a href="#976" id="976">976</a>
+<a href="#977" id="977">977</a>
+<a href="#978" id="978">978</a>
+<a href="#979" id="979">979</a>
+<a href="#980" id="980">980</a>
+<a href="#981" id="981">981</a>
+<a href="#982" id="982">982</a>
+<a href="#983" id="983">983</a>
+<a href="#984" id="984">984</a>
+<a href="#985" id="985">985</a>
+<a href="#986" id="986">986</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>core::marker::PhantomData;
 <span class="kw">use </span>core::ops::{Deref, DerefMut};
 <span class="kw">use </span>core::{fmt, mem};
@@ -971,6 +993,8 @@
 
 <span class="kw">use </span><span class="kw">super</span>::handy::NoClientSessionStorage;
 <span class="kw">use </span><span class="kw">super</span>::hs;
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::WantsVerifier;
 <span class="kw">use </span><span class="kw">crate</span>::builder::ConfigBuilder;
 <span class="kw">use </span><span class="kw">crate</span>::client::{EchMode, EchStatus};
 <span class="kw">use </span><span class="kw">crate</span>::common_state::{CommonState, Protocol, Side};
@@ -982,17 +1006,15 @@
 <span class="kw">use </span><span class="kw">crate</span>::msgs::enums::NamedGroup;
 <span class="kw">use </span><span class="kw">crate</span>::msgs::handshake::ClientExtension;
 <span class="kw">use </span><span class="kw">crate</span>::msgs::persist;
-<span class="kw">use </span><span class="kw">crate</span>::suites::SupportedCipherSuite;
+<span class="kw">use </span><span class="kw">crate</span>::suites::{ExtractedSecrets, SupportedCipherSuite};
 <span class="kw">use </span><span class="kw">crate</span>::sync::Arc;
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::time_provider::DefaultTimeProvider;
 <span class="kw">use </span><span class="kw">crate</span>::time_provider::TimeProvider;
 <span class="kw">use </span><span class="kw">crate</span>::unbuffered::{EncryptError, TransmitTlsData};
-<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::WantsVerifier;
-<span class="kw">use crate</span>::{compress, sign, verify, versions, KeyLog, WantsVersions};
 <span class="attr">#[cfg(doc)]
-</span><span class="kw">use crate</span>::{crypto, DistinguishedName};
+</span><span class="kw">use crate</span>::{DistinguishedName, crypto};
+<span class="kw">use crate</span>::{KeyLog, WantsVersions, compress, sign, verify, versions};
 
 <span class="doccomment">/// A trait for the ability to store client session data, so that sessions
 /// can be resumed in future connections.
@@ -1130,6 +1152,22 @@
     </span><span class="kw">pub </span>alpn_protocols: Vec&lt;Vec&lt;u8&gt;&gt;,
 
     <span class="doccomment">/// How and when the client can resume a previous session.
+    ///
+    /// # Sharing `resumption` between `ClientConfig`s
+    /// In a program using many `ClientConfig`s it may improve resumption rates
+    /// (which has a significant impact on connection performance) if those
+    /// configs share a single `Resumption`.
+    ///
+    /// However, resumption is only allowed between two `ClientConfig`s if their
+    /// `client_auth_cert_resolver` (ie, potential client authentication credentials)
+    /// and `verifier` (ie, server certificate verification settings) are
+    /// the same (according to `Arc::ptr_eq`).
+    ///
+    /// To illustrate, imagine two `ClientConfig`s `A` and `B`.  `A` fully validates
+    /// the server certificate, `B` does not.  If `A` and `B` shared a resumption store,
+    /// it would be possible for a session originated by `B` to be inserted into the
+    /// store, and then resumed by `A`.  This would give a false impression to the user
+    /// of `A` that the server certificate is fully validated.
     </span><span class="kw">pub </span>resumption: Resumption,
 
     <span class="doccomment">/// The maximum size of plaintext input to be emitted in a single TLS record.
@@ -1475,8 +1513,8 @@
 
 <span class="doccomment">/// Container for unsafe APIs
 </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">mod </span>danger {
-    <span class="kw">use </span><span class="kw">super</span>::verify::ServerCertVerifier;
     <span class="kw">use </span><span class="kw">super</span>::ClientConfig;
+    <span class="kw">use </span><span class="kw">super</span>::verify::ServerCertVerifier;
     <span class="kw">use </span><span class="kw">crate</span>::sync::Arc;
 
     <span class="doccomment">/// Accessor for dangerous configuration options.
@@ -1582,13 +1620,13 @@
     <span class="kw">use </span>pki_types::ServerName;
 
     <span class="kw">use </span><span class="kw">super</span>::ClientConnectionData;
+    <span class="kw">use </span><span class="kw">crate</span>::ClientConfig;
     <span class="kw">use </span><span class="kw">crate</span>::client::EchStatus;
     <span class="kw">use </span><span class="kw">crate</span>::common_state::Protocol;
     <span class="kw">use </span><span class="kw">crate</span>::conn::{ConnectionCommon, ConnectionCore};
     <span class="kw">use </span><span class="kw">crate</span>::error::Error;
     <span class="kw">use </span><span class="kw">crate</span>::suites::ExtractedSecrets;
     <span class="kw">use </span><span class="kw">crate</span>::sync::Arc;
-    <span class="kw">use </span><span class="kw">crate</span>::ClientConfig;
 
     <span class="doccomment">/// Stub that implements io::Write and dispatches to `write_early_data`.
     </span><span class="kw">pub struct </span>WriteEarlyData&lt;<span class="lifetime">'a</span>&gt; {
@@ -1810,6 +1848,12 @@
         <span class="prelude-val">Ok</span>(<span class="self">Self </span>{
             inner: ConnectionCore::for_client(config, name, Vec::new(), Protocol::Tcp)<span class="question-mark">?</span>.into(),
         })
+    }
+
+    <span class="doccomment">/// Extract secrets, so they can be used when configuring kTLS, for example.
+    /// Should be used with care as it exposes secret key material.
+    </span><span class="kw">pub fn </span>dangerous_extract_secrets(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;ExtractedSecrets, Error&gt; {
+        <span class="self">self</span>.inner.dangerous_extract_secrets()
     }
 }
 

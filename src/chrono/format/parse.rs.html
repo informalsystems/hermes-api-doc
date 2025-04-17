@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/chrono-0.4.39/src/format/parse.rs`."><title>parse.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="chrono" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">chrono/format/</div>parse.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/chrono-0.4.40/src/format/parse.rs`."><title>parse.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="chrono" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">chrono/format/</div>parse.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1840,7 +1840,19 @@
 <a href="#1839" id="1839">1839</a>
 <a href="#1840" id="1840">1840</a>
 <a href="#1841" id="1841">1841</a>
-<a href="#1842" id="1842">1842</a></pre></div><pre class="rust"><code><span class="comment">// This is a part of Chrono.
+<a href="#1842" id="1842">1842</a>
+<a href="#1843" id="1843">1843</a>
+<a href="#1844" id="1844">1844</a>
+<a href="#1845" id="1845">1845</a>
+<a href="#1846" id="1846">1846</a>
+<a href="#1847" id="1847">1847</a>
+<a href="#1848" id="1848">1848</a>
+<a href="#1849" id="1849">1849</a>
+<a href="#1850" id="1850">1850</a>
+<a href="#1851" id="1851">1851</a>
+<a href="#1852" id="1852">1852</a>
+<a href="#1853" id="1853">1853</a>
+<a href="#1854" id="1854">1854</a></pre></div><pre class="rust"><code><span class="comment">// This is a part of Chrono.
 // Portions copyright (c) 2015, John Nagle.
 // See README.md and LICENSE.txt for details.
 
@@ -1850,9 +1862,9 @@
 <span class="kw">use </span>core::str;
 
 <span class="kw">use </span><span class="kw">super</span>::scan;
+<span class="kw">use super</span>::{BAD_FORMAT, INVALID, OUT_OF_RANGE, TOO_LONG, TOO_SHORT};
 <span class="kw">use super</span>::{Fixed, InternalFixed, InternalInternal, Item, Numeric, Pad, Parsed};
 <span class="kw">use super</span>::{ParseError, ParseResult};
-<span class="kw">use super</span>::{BAD_FORMAT, INVALID, OUT_OF_RANGE, TOO_LONG, TOO_SHORT};
 <span class="kw">use crate</span>::{DateTime, FixedOffset, Weekday};
 
 <span class="kw">fn </span>set_weekday_with_num_days_from_sunday(p: <span class="kw-2">&amp;mut </span>Parsed, v: i64) -&gt; ParseResult&lt;()&gt; {
@@ -2185,6 +2197,7 @@
                     IsoYear =&gt; (<span class="number">4</span>, <span class="bool-val">true</span>, Parsed::set_isoyear),
                     IsoYearDiv100 =&gt; (<span class="number">2</span>, <span class="bool-val">false</span>, Parsed::set_isoyear_div_100),
                     IsoYearMod100 =&gt; (<span class="number">2</span>, <span class="bool-val">false</span>, Parsed::set_isoyear_mod_100),
+                    Quarter =&gt; (<span class="number">1</span>, <span class="bool-val">false</span>, Parsed::set_quarter),
                     Month =&gt; (<span class="number">2</span>, <span class="bool-val">false</span>, Parsed::set_month),
                     Day =&gt; (<span class="number">2</span>, <span class="bool-val">false</span>, Parsed::set_day),
                     WeekFromSun =&gt; (<span class="number">2</span>, <span class="bool-val">false</span>, Parsed::set_week_from_sun),
@@ -2482,15 +2495,17 @@
         <span class="comment">// most unicode whitespace characters
         </span>parses(
             <span class="string">"\u{00A0}\u{1680}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{3000}"</span>,
-            <span class="kw-2">&amp;</span>[Space(<span class="string">"\u{00A0}\u{1680}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{3000}"</span>)]
+            <span class="kw-2">&amp;</span>[Space(
+                <span class="string">"\u{00A0}\u{1680}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{3000}"</span>,
+            )],
         );
         <span class="comment">// most unicode whitespace characters
         </span>parses(
             <span class="string">"\u{00A0}\u{1680}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{3000}"</span>,
             <span class="kw-2">&amp;</span>[
                 Space(<span class="string">"\u{00A0}\u{1680}\u{2000}\u{2001}\u{2002}\u{2003}\u{2004}"</span>),
-                Space(<span class="string">"\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{3000}"</span>)
-            ]
+                Space(<span class="string">"\u{2005}\u{2006}\u{2007}\u{2008}\u{2009}\u{3000}"</span>),
+            ],
         );
         check(<span class="string">"a"</span>, <span class="kw-2">&amp;</span>[Space(<span class="string">""</span>)], <span class="prelude-val">Err</span>(TOO_LONG));
         check(<span class="string">"a"</span>, <span class="kw-2">&amp;</span>[Space(<span class="string">" "</span>)], <span class="prelude-val">Err</span>(TOO_LONG));
@@ -2659,9 +2674,16 @@
             <span class="macro">parsed!</span>(year_div_100: <span class="number">12</span>, year_mod_100: <span class="number">34</span>, isoyear_div_100: <span class="number">56</span>, isoyear_mod_100: <span class="number">78</span>),
         );
         check(
-            <span class="string">"1 2 3 4 5"</span>,
-            <span class="kw-2">&amp;</span>[num(Month), num(Day), num(WeekFromSun), num(NumDaysFromSun), num(IsoWeek)],
-            <span class="macro">parsed!</span>(month: <span class="number">1</span>, day: <span class="number">2</span>, week_from_sun: <span class="number">3</span>, weekday: Weekday::Thu, isoweek: <span class="number">5</span>),
+            <span class="string">"1 1 2 3 4 5"</span>,
+            <span class="kw-2">&amp;</span>[
+                num(Quarter),
+                num(Month),
+                num(Day),
+                num(WeekFromSun),
+                num(NumDaysFromSun),
+                num(IsoWeek),
+            ],
+            <span class="macro">parsed!</span>(quarter: <span class="number">1</span>, month: <span class="number">1</span>, day: <span class="number">2</span>, week_from_sun: <span class="number">3</span>, weekday: Weekday::Thu, isoweek: <span class="number">5</span>),
         );
         check(
             <span class="string">"6 7 89 01"</span>,
@@ -3677,8 +3699,10 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_issue_1010() {
-        <span class="kw">let </span>dt = <span class="kw">crate</span>::NaiveDateTime::parse_from_str(<span class="string">"\u{c}SUN\u{e}\u{3000}\0m@J\u{3000}\0\u{3000}\0m\u{c}!\u{c}\u{b}\u{c}\u{c}\u{c}\u{c}%A\u{c}\u{b}\0SU\u{c}\u{c}"</span>,
-        <span class="string">"\u{c}\u{c}%A\u{c}\u{b}\0SUN\u{c}\u{c}\u{c}SUNN\u{c}\u{c}\u{c}SUN\u{c}\u{c}!\u{c}\u{b}\u{c}\u{c}\u{c}\u{c}%A\u{c}\u{b}%a"</span>);
+        <span class="kw">let </span>dt = <span class="kw">crate</span>::NaiveDateTime::parse_from_str(
+            <span class="string">"\u{c}SUN\u{e}\u{3000}\0m@J\u{3000}\0\u{3000}\0m\u{c}!\u{c}\u{b}\u{c}\u{c}\u{c}\u{c}%A\u{c}\u{b}\0SU\u{c}\u{c}"</span>,
+            <span class="string">"\u{c}\u{c}%A\u{c}\u{b}\0SUN\u{c}\u{c}\u{c}SUNN\u{c}\u{c}\u{c}SUN\u{c}\u{c}!\u{c}\u{b}\u{c}\u{c}\u{c}\u{c}%A\u{c}\u{b}%a"</span>,
+        );
         <span class="macro">assert_eq!</span>(dt, <span class="prelude-val">Err</span>(ParseError(ParseErrorKind::Invalid)));
     }
 }

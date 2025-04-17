@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/winnow-0.7.2/src/stream/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="winnow" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">winnow/stream/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/winnow-0.7.6/src/stream/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="winnow" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">winnow/stream/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -2121,7 +2121,87 @@
 <a href="#2120" id="2120">2120</a>
 <a href="#2121" id="2121">2121</a>
 <a href="#2122" id="2122">2122</a>
-<a href="#2123" id="2123">2123</a></pre></div><pre class="rust"><code><span class="doccomment">//! Stream capability for combinators to parse
+<a href="#2123" id="2123">2123</a>
+<a href="#2124" id="2124">2124</a>
+<a href="#2125" id="2125">2125</a>
+<a href="#2126" id="2126">2126</a>
+<a href="#2127" id="2127">2127</a>
+<a href="#2128" id="2128">2128</a>
+<a href="#2129" id="2129">2129</a>
+<a href="#2130" id="2130">2130</a>
+<a href="#2131" id="2131">2131</a>
+<a href="#2132" id="2132">2132</a>
+<a href="#2133" id="2133">2133</a>
+<a href="#2134" id="2134">2134</a>
+<a href="#2135" id="2135">2135</a>
+<a href="#2136" id="2136">2136</a>
+<a href="#2137" id="2137">2137</a>
+<a href="#2138" id="2138">2138</a>
+<a href="#2139" id="2139">2139</a>
+<a href="#2140" id="2140">2140</a>
+<a href="#2141" id="2141">2141</a>
+<a href="#2142" id="2142">2142</a>
+<a href="#2143" id="2143">2143</a>
+<a href="#2144" id="2144">2144</a>
+<a href="#2145" id="2145">2145</a>
+<a href="#2146" id="2146">2146</a>
+<a href="#2147" id="2147">2147</a>
+<a href="#2148" id="2148">2148</a>
+<a href="#2149" id="2149">2149</a>
+<a href="#2150" id="2150">2150</a>
+<a href="#2151" id="2151">2151</a>
+<a href="#2152" id="2152">2152</a>
+<a href="#2153" id="2153">2153</a>
+<a href="#2154" id="2154">2154</a>
+<a href="#2155" id="2155">2155</a>
+<a href="#2156" id="2156">2156</a>
+<a href="#2157" id="2157">2157</a>
+<a href="#2158" id="2158">2158</a>
+<a href="#2159" id="2159">2159</a>
+<a href="#2160" id="2160">2160</a>
+<a href="#2161" id="2161">2161</a>
+<a href="#2162" id="2162">2162</a>
+<a href="#2163" id="2163">2163</a>
+<a href="#2164" id="2164">2164</a>
+<a href="#2165" id="2165">2165</a>
+<a href="#2166" id="2166">2166</a>
+<a href="#2167" id="2167">2167</a>
+<a href="#2168" id="2168">2168</a>
+<a href="#2169" id="2169">2169</a>
+<a href="#2170" id="2170">2170</a>
+<a href="#2171" id="2171">2171</a>
+<a href="#2172" id="2172">2172</a>
+<a href="#2173" id="2173">2173</a>
+<a href="#2174" id="2174">2174</a>
+<a href="#2175" id="2175">2175</a>
+<a href="#2176" id="2176">2176</a>
+<a href="#2177" id="2177">2177</a>
+<a href="#2178" id="2178">2178</a>
+<a href="#2179" id="2179">2179</a>
+<a href="#2180" id="2180">2180</a>
+<a href="#2181" id="2181">2181</a>
+<a href="#2182" id="2182">2182</a>
+<a href="#2183" id="2183">2183</a>
+<a href="#2184" id="2184">2184</a>
+<a href="#2185" id="2185">2185</a>
+<a href="#2186" id="2186">2186</a>
+<a href="#2187" id="2187">2187</a>
+<a href="#2188" id="2188">2188</a>
+<a href="#2189" id="2189">2189</a>
+<a href="#2190" id="2190">2190</a>
+<a href="#2191" id="2191">2191</a>
+<a href="#2192" id="2192">2192</a>
+<a href="#2193" id="2193">2193</a>
+<a href="#2194" id="2194">2194</a>
+<a href="#2195" id="2195">2195</a>
+<a href="#2196" id="2196">2196</a>
+<a href="#2197" id="2197">2197</a>
+<a href="#2198" id="2198">2198</a>
+<a href="#2199" id="2199">2199</a>
+<a href="#2200" id="2200">2200</a>
+<a href="#2201" id="2201">2201</a>
+<a href="#2202" id="2202">2202</a>
+<a href="#2203" id="2203">2203</a></pre></div><pre class="rust"><code><span class="doccomment">//! Stream capability for combinators to parse
 //!
 //! Stream types include:
 //! - `&amp;[u8]` and [`Bytes`] for binary data
@@ -2312,7 +2392,45 @@
     ///
     </span><span class="kw">fn </span>next_slice(<span class="kw-2">&amp;mut </span><span class="self">self</span>, offset: usize) -&gt; <span class="self">Self</span>::Slice;
     <span class="doccomment">/// Split off a slice of tokens from the input
+    ///
+    /// &lt;div class="warning"&gt;
+    ///
+    /// **Note:** For inputs with variable width tokens, like `&amp;str`'s `char`, `offset` might not correspond
+    /// with the number of tokens. To get a valid offset, use:
+    /// - [`Stream::eof_offset`]
+    /// - [`Stream::iter_offsets`]
+    /// - [`Stream::offset_for`]
+    /// - [`Stream::offset_at`]
+    ///
+    /// &lt;/div&gt;
+    ///
+    /// # Safety
+    ///
+    /// Callers of this function are responsible that these preconditions are satisfied:
+    ///
+    /// * Indexes must be within bounds of the original input;
+    /// * Indexes must uphold invariants of the stream, like for `str` they must lie on UTF-8
+    ///   sequence boundaries.
+    ///
+    </span><span class="kw">unsafe fn </span>next_slice_unchecked(<span class="kw-2">&amp;mut </span><span class="self">self</span>, offset: usize) -&gt; <span class="self">Self</span>::Slice {
+        <span class="comment">// Inherent impl to allow callers to have `unsafe`-free code
+        </span><span class="self">self</span>.next_slice(offset)
+    }
+    <span class="doccomment">/// Split off a slice of tokens from the input
     </span><span class="kw">fn </span>peek_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, offset: usize) -&gt; <span class="self">Self</span>::Slice;
+    <span class="doccomment">/// Split off a slice of tokens from the input
+    ///
+    /// # Safety
+    ///
+    /// Callers of this function are responsible that these preconditions are satisfied:
+    ///
+    /// * Indexes must be within bounds of the original input;
+    /// * Indexes must uphold invariants of the stream, like for `str` they must lie on UTF-8
+    ///   sequence boundaries.
+    </span><span class="kw">unsafe fn </span>peek_slice_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, offset: usize) -&gt; <span class="self">Self</span>::Slice {
+        <span class="comment">// Inherent impl to allow callers to have `unsafe`-free code
+        </span><span class="self">self</span>.peek_slice(offset)
+    }
 
     <span class="doccomment">/// Advance to the end of the stream
     </span><span class="attr">#[inline(always)]
@@ -2399,8 +2517,28 @@
         slice
     }
     <span class="attr">#[inline(always)]
+    </span><span class="kw">unsafe fn </span>next_slice_unchecked(<span class="kw-2">&amp;mut </span><span class="self">self</span>, offset: usize) -&gt; <span class="self">Self</span>::Slice {
+        <span class="attr">#[cfg(debug_assertions)]
+        </span><span class="self">self</span>.peek_slice(offset);
+
+        <span class="comment">// SAFETY: `Stream::next_slice_unchecked` requires `offset` to be in bounds
+        </span><span class="kw">let </span>slice = <span class="kw">unsafe </span>{ <span class="self">self</span>.get_unchecked(..offset) };
+        <span class="comment">// SAFETY: `Stream::next_slice_unchecked` requires `offset` to be in bounds
+        </span><span class="kw">let </span>next = <span class="kw">unsafe </span>{ <span class="self">self</span>.get_unchecked(offset..) };
+        <span class="kw-2">*</span><span class="self">self </span>= next;
+        slice
+    }
+    <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>peek_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, offset: usize) -&gt; <span class="self">Self</span>::Slice {
-        <span class="kw">let </span>(slice, _next) = <span class="self">self</span>.split_at(offset);
+        <span class="kw-2">&amp;</span><span class="self">self</span>[..offset]
+    }
+    <span class="attr">#[inline(always)]
+    </span><span class="kw">unsafe fn </span>peek_slice_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, offset: usize) -&gt; <span class="self">Self</span>::Slice {
+        <span class="attr">#[cfg(debug_assertions)]
+        </span><span class="self">self</span>.peek_slice(offset);
+
+        <span class="comment">// SAFETY: `Stream::next_slice_unchecked` requires `offset` to be in bounds
+        </span><span class="kw">let </span>slice = <span class="kw">unsafe </span>{ <span class="self">self</span>.get_unchecked(..offset) };
         slice
     }
 
@@ -2484,8 +2622,30 @@
         slice
     }
     <span class="attr">#[inline(always)]
+    </span><span class="kw">unsafe fn </span>next_slice_unchecked(<span class="kw-2">&amp;mut </span><span class="self">self</span>, offset: usize) -&gt; <span class="self">Self</span>::Slice {
+        <span class="attr">#[cfg(debug_assertions)]
+        </span><span class="self">self</span>.peek_slice(offset);
+
+        <span class="comment">// SAFETY: `Stream::next_slice_unchecked` requires `offset` to be in bounds and on a UTF-8
+        // sequence boundary
+        </span><span class="kw">let </span>slice = <span class="kw">unsafe </span>{ <span class="self">self</span>.get_unchecked(..offset) };
+        <span class="comment">// SAFETY: `Stream::next_slice_unchecked` requires `offset` to be in bounds and on a UTF-8
+        // sequence boundary
+        </span><span class="kw">let </span>next = <span class="kw">unsafe </span>{ <span class="self">self</span>.get_unchecked(offset..) };
+        <span class="kw-2">*</span><span class="self">self </span>= next;
+        slice
+    }
+    <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>peek_slice(<span class="kw-2">&amp;</span><span class="self">self</span>, offset: usize) -&gt; <span class="self">Self</span>::Slice {
-        <span class="kw">let </span>(slice, _next) = <span class="self">self</span>.split_at(offset);
+        <span class="kw-2">&amp;</span><span class="self">self</span>[..offset]
+    }
+    <span class="attr">#[inline(always)]
+    </span><span class="kw">unsafe fn </span>peek_slice_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, offset: usize) -&gt; <span class="self">Self</span>::Slice {
+        <span class="attr">#[cfg(debug_assertions)]
+        </span><span class="self">self</span>.peek_slice(offset);
+
+        <span class="comment">// SAFETY: `Stream::next_slice_unchecked` requires `offset` to be in bounds
+        </span><span class="kw">let </span>slice = <span class="kw">unsafe </span>{ <span class="self">self</span>.get_unchecked(..offset) };
         slice
     }
 

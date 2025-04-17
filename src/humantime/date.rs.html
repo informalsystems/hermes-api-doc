@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/humantime-2.1.0/src/date.rs`."><title>date.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="humantime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">humantime/</div>date.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/humantime-2.2.0/src/date.rs`."><title>date.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="humantime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">humantime/</div>date.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -621,38 +621,90 @@
 <a href="#620" id="620">620</a>
 <a href="#621" id="621">621</a>
 <a href="#622" id="622">622</a>
-<a href="#623" id="623">623</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::error::Error <span class="kw">as </span>StdError;
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
+<a href="#641" id="641">641</a>
+<a href="#642" id="642">642</a>
+<a href="#643" id="643">643</a>
+<a href="#644" id="644">644</a>
+<a href="#645" id="645">645</a>
+<a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::error::Error <span class="kw">as </span>StdError;
 <span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::str;
-<span class="kw">use </span>std::time::{SystemTime, Duration, UNIX_EPOCH};
+<span class="kw">use </span>std::time::{Duration, SystemTime, UNIX_EPOCH};
 
-<span class="attr">#[cfg(target_os=<span class="string">"cloudabi"</span>)]
-</span><span class="kw">mod </span>max {
-    <span class="kw">pub const </span>SECONDS: u64 = ::std::u64::MAX / <span class="number">1_000_000_000</span>;
-    <span class="attr">#[allow(unused)]
-    </span><span class="kw">pub const </span>TIMESTAMP: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"2554-07-21T23:34:33Z"</span>;
-}
 <span class="attr">#[cfg(all(
-    target_pointer_width=<span class="string">"32"</span>,
-    not(target_os=<span class="string">"cloudabi"</span>),
-    not(target_os=<span class="string">"windows"</span>),
-    not(all(target_arch=<span class="string">"wasm32"</span>, not(target_os=<span class="string">"emscripten"</span>)))
+    target_pointer_width = <span class="string">"32"</span>,
+    not(target_os = <span class="string">"windows"</span>),
+    not(all(target_arch = <span class="string">"wasm32"</span>, not(target_os = <span class="string">"emscripten"</span>)))
 ))]
 </span><span class="kw">mod </span>max {
-    <span class="kw">pub const </span>SECONDS: u64 = ::std::i32::MAX <span class="kw">as </span>u64;
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const </span>SECONDS: u64 = ::std::i32::MAX <span class="kw">as </span>u64;
     <span class="attr">#[allow(unused)]
-    </span><span class="kw">pub const </span>TIMESTAMP: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"2038-01-19T03:14:07Z"</span>;
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const </span>TIMESTAMP: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"2038-01-19T03:14:07Z"</span>;
 }
 
 <span class="attr">#[cfg(any(
-    target_pointer_width=<span class="string">"64"</span>,
-    target_os=<span class="string">"windows"</span>,
-    all(target_arch=<span class="string">"wasm32"</span>, not(target_os=<span class="string">"emscripten"</span>)),
+    target_pointer_width = <span class="string">"64"</span>,
+    target_os = <span class="string">"windows"</span>,
+    all(target_arch = <span class="string">"wasm32"</span>, not(target_os = <span class="string">"emscripten"</span>)),
 ))]
 </span><span class="kw">mod </span>max {
-    <span class="kw">pub const </span>SECONDS: u64 = <span class="number">253_402_300_800</span>-<span class="number">1</span>;  <span class="comment">// last second of year 9999
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const </span>SECONDS: u64 = <span class="number">253_402_300_800 </span>- <span class="number">1</span>; <span class="comment">// last second of year 9999
     </span><span class="attr">#[allow(unused)]
-    </span><span class="kw">pub const </span>TIMESTAMP: <span class="kw-2">&amp;</span>str = <span class="string">"9999-12-31T23:59:59Z"</span>;
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const </span>TIMESTAMP: <span class="kw-2">&amp;</span>str = <span class="string">"9999-12-31T23:59:59Z"</span>;
 }
 
 <span class="doccomment">/// Error parsing datetime (timestamp)
@@ -692,11 +744,16 @@
 </span><span class="kw">pub struct </span>Rfc3339Timestamp(SystemTime, Precision);
 
 <span class="attr">#[inline]
+</span><span class="doccomment">/// Converts two digits given in ASCII to its proper decimal representation.
 </span><span class="kw">fn </span>two_digits(b1: u8, b2: u8) -&gt; <span class="prelude-ty">Result</span>&lt;u64, Error&gt; {
-    <span class="kw">if </span>b1 &lt; <span class="string">b'0' </span>|| b2 &lt; <span class="string">b'0' </span>|| b1 &gt; <span class="string">b'9' </span>|| b2 &gt; <span class="string">b'9' </span>{
-        <span class="kw">return </span><span class="prelude-val">Err</span>(Error::InvalidDigit);
+    <span class="kw">fn </span>two_digits_inner(a: char, b: char) -&gt; <span class="prelude-ty">Option</span>&lt;u64&gt; {
+        <span class="kw">let </span>a = a.to_digit(<span class="number">10</span>)<span class="question-mark">?</span>;
+        <span class="kw">let </span>b = b.to_digit(<span class="number">10</span>)<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Some</span>((a * <span class="number">10 </span>+ b) <span class="kw">as </span>u64)
     }
-    <span class="prelude-val">Ok</span>(((b1 - <span class="string">b'0'</span>)<span class="kw-2">*</span><span class="number">10 </span>+ (b2 - <span class="string">b'0'</span>)) <span class="kw">as </span>u64)
+
+    two_digits_inner(b1 <span class="kw">as </span>char, b2 <span class="kw">as </span>char).ok_or(Error::InvalidDigit)
 }
 
 <span class="doccomment">/// Parse RFC3339 timestamp `2018-02-14T00:28:07Z`
@@ -710,7 +767,7 @@
         <span class="kw">return </span><span class="prelude-val">Err</span>(Error::InvalidFormat);
     }
     <span class="kw">let </span>b = s.as_bytes();
-    <span class="kw">if </span>b[<span class="number">10</span>] != <span class="string">b'T' </span>|| b[b.len()-<span class="number">1</span>] != <span class="string">b'Z' </span>{
+    <span class="kw">if </span>b[<span class="number">10</span>] != <span class="string">b'T' </span>|| b.last() != <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">b'Z'</span>) {
         <span class="kw">return </span><span class="prelude-val">Err</span>(Error::InvalidFormat);
     }
     parse_rfc3339_weak(s)
@@ -722,7 +779,7 @@
 ///
 /// 1. Any precision of fractional digits `2018-02-14 00:28:07.133`.
 /// 2. Supports timestamp with or without either of `T` or `Z`
-/// 3. Anything valid for `parse_3339` is valid for this function
+/// 3. Anything valid for [`parse_rfc3339`](parse_rfc3339) is valid for this function
 ///
 /// Unsupported feature: localized timestamps. Only UTC is supported, even if
 /// `Z` is not specified.
@@ -733,9 +790,12 @@
     <span class="kw">if </span>s.len() &lt; <span class="string">"2018-02-14T00:28:07"</span>.len() {
         <span class="kw">return </span><span class="prelude-val">Err</span>(Error::InvalidFormat);
     }
-    <span class="kw">let </span>b = s.as_bytes();  <span class="comment">// for careless slicing
-    </span><span class="kw">if </span>b[<span class="number">4</span>] != <span class="string">b'-' </span>|| b[<span class="number">7</span>] != <span class="string">b'-' </span>|| (b[<span class="number">10</span>] != <span class="string">b'T' </span>&amp;&amp; b[<span class="number">10</span>] != <span class="string">b' '</span>) ||
-       b[<span class="number">13</span>] != <span class="string">b':' </span>|| b[<span class="number">16</span>] != <span class="string">b':'
+    <span class="kw">let </span>b = s.as_bytes(); <span class="comment">// for careless slicing
+    </span><span class="kw">if </span>b[<span class="number">4</span>] != <span class="string">b'-'
+        </span>|| b[<span class="number">7</span>] != <span class="string">b'-'
+        </span>|| (b[<span class="number">10</span>] != <span class="string">b'T' </span>&amp;&amp; b[<span class="number">10</span>] != <span class="string">b' '</span>)
+        || b[<span class="number">13</span>] != <span class="string">b':'
+        </span>|| b[<span class="number">16</span>] != <span class="string">b':'
     </span>{
         <span class="kw">return </span><span class="prelude-val">Err</span>(Error::InvalidFormat);
     }
@@ -751,10 +811,9 @@
     }
     <span class="comment">// TODO(tailhook) should we check that leaps second is only on midnight ?
     </span><span class="kw">if </span>second == <span class="number">60 </span>{
-        second = <span class="number">59
-    </span>};
-    <span class="kw">let </span>leap_years = ((year - <span class="number">1</span>) - <span class="number">1968</span>) / <span class="number">4 </span>- ((year - <span class="number">1</span>) - <span class="number">1900</span>) / <span class="number">100 </span>+
-                     ((year - <span class="number">1</span>) - <span class="number">1600</span>) / <span class="number">400</span>;
+        second = <span class="number">59</span>;
+    }
+
     <span class="kw">let </span>leap = is_leap_year(year);
     <span class="kw">let </span>(<span class="kw-2">mut </span>ydays, mdays) = <span class="kw">match </span>month {
         <span class="number">1 </span>=&gt; (<span class="number">0</span>, <span class="number">31</span>),
@@ -779,6 +838,9 @@
     <span class="kw">if </span>leap &amp;&amp; month &gt; <span class="number">2 </span>{
         ydays += <span class="number">1</span>;
     }
+
+    <span class="kw">let </span>leap_years =
+        ((year - <span class="number">1</span>) - <span class="number">1968</span>) / <span class="number">4 </span>- ((year - <span class="number">1</span>) - <span class="number">1900</span>) / <span class="number">100 </span>+ ((year - <span class="number">1</span>) - <span class="number">1600</span>) / <span class="number">400</span>;
     <span class="kw">let </span>days = (year - <span class="number">1970</span>) * <span class="number">365 </span>+ leap_years + ydays;
 
     <span class="kw">let </span>time = second + minute * <span class="number">60 </span>+ hour * <span class="number">3600</span>;
@@ -788,16 +850,14 @@
     <span class="kw">if </span>b.get(<span class="number">19</span>) == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">b'.'</span>) {
         <span class="kw">for </span>idx <span class="kw">in </span><span class="number">20</span>..b.len() {
             <span class="kw">if </span>b[idx] == <span class="string">b'Z' </span>{
-                <span class="kw">if </span>idx == b.len()-<span class="number">1 </span>{
+                <span class="kw">if </span>idx == b.len() - <span class="number">1 </span>{
                     <span class="kw">break</span>;
-                } <span class="kw">else </span>{
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(Error::InvalidDigit);
                 }
-            }
-            <span class="kw">if </span>b[idx] &lt; <span class="string">b'0' </span>|| b[idx] &gt; <span class="string">b'9' </span>{
+
                 <span class="kw">return </span><span class="prelude-val">Err</span>(Error::InvalidDigit);
             }
-            nanos += mult * (b[idx] - <span class="string">b'0'</span>) <span class="kw">as </span>u32;
+
+            nanos += mult * (b[idx] <span class="kw">as </span>char).to_digit(<span class="number">10</span>).ok_or(Error::InvalidDigit)<span class="question-mark">?</span>;
             mult /= <span class="number">10</span>;
         }
     } <span class="kw">else if </span>b.len() != <span class="number">19 </span>&amp;&amp; (b.len() &gt; <span class="number">20 </span>|| b[<span class="number">19</span>] != <span class="string">b'Z'</span>) {
@@ -874,20 +934,23 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">use </span><span class="self">self</span>::Precision::<span class="kw-2">*</span>;
 
-        <span class="kw">let </span>dur = <span class="self">self</span>.<span class="number">0</span>.duration_since(UNIX_EPOCH)
+        <span class="kw">let </span>dur = <span class="self">self
+            </span>.<span class="number">0
+            </span>.duration_since(UNIX_EPOCH)
             .expect(<span class="string">"all times should be after the epoch"</span>);
         <span class="kw">let </span>secs_since_epoch = dur.as_secs();
         <span class="kw">let </span>nanos = dur.subsec_nanos();
 
-        <span class="kw">if </span>secs_since_epoch &gt;= <span class="number">253_402_300_800 </span>{ <span class="comment">// year 9999
+        <span class="kw">if </span>secs_since_epoch &gt;= <span class="number">253_402_300_800 </span>{
+            <span class="comment">// year 9999
             </span><span class="kw">return </span><span class="prelude-val">Err</span>(fmt::Error);
         }
 
         <span class="comment">/* 2000-03-01 (mod 400 year, immediately after feb29 */
         </span><span class="kw">const </span>LEAPOCH: i64 = <span class="number">11017</span>;
-        <span class="kw">const </span>DAYS_PER_400Y: i64 = <span class="number">365</span><span class="kw-2">*</span><span class="number">400 </span>+ <span class="number">97</span>;
-        <span class="kw">const </span>DAYS_PER_100Y: i64 = <span class="number">365</span><span class="kw-2">*</span><span class="number">100 </span>+ <span class="number">24</span>;
-        <span class="kw">const </span>DAYS_PER_4Y: i64 = <span class="number">365</span><span class="kw-2">*</span><span class="number">4 </span>+ <span class="number">1</span>;
+        <span class="kw">const </span>DAYS_PER_400Y: i64 = <span class="number">365 </span>* <span class="number">400 </span>+ <span class="number">97</span>;
+        <span class="kw">const </span>DAYS_PER_100Y: i64 = <span class="number">365 </span>* <span class="number">100 </span>+ <span class="number">24</span>;
+        <span class="kw">const </span>DAYS_PER_4Y: i64 = <span class="number">365 </span>* <span class="number">4 </span>+ <span class="number">1</span>;
 
         <span class="kw">let </span>days = (secs_since_epoch / <span class="number">86400</span>) <span class="kw">as </span>i64 - LEAPOCH;
         <span class="kw">let </span>secs_of_day = secs_since_epoch % <span class="number">86400</span>;
@@ -901,21 +964,26 @@
         }
 
         <span class="kw">let </span><span class="kw-2">mut </span>c_cycles = remdays / DAYS_PER_100Y;
-        <span class="kw">if </span>c_cycles == <span class="number">4 </span>{ c_cycles -= <span class="number">1</span>; }
+        <span class="kw">if </span>c_cycles == <span class="number">4 </span>{
+            c_cycles -= <span class="number">1</span>;
+        }
         remdays -= c_cycles * DAYS_PER_100Y;
 
         <span class="kw">let </span><span class="kw-2">mut </span>q_cycles = remdays / DAYS_PER_4Y;
-        <span class="kw">if </span>q_cycles == <span class="number">25 </span>{ q_cycles -= <span class="number">1</span>; }
+        <span class="kw">if </span>q_cycles == <span class="number">25 </span>{
+            q_cycles -= <span class="number">1</span>;
+        }
         remdays -= q_cycles * DAYS_PER_4Y;
 
         <span class="kw">let </span><span class="kw-2">mut </span>remyears = remdays / <span class="number">365</span>;
-        <span class="kw">if </span>remyears == <span class="number">4 </span>{ remyears -= <span class="number">1</span>; }
+        <span class="kw">if </span>remyears == <span class="number">4 </span>{
+            remyears -= <span class="number">1</span>;
+        }
         remdays -= remyears * <span class="number">365</span>;
 
-        <span class="kw">let </span><span class="kw-2">mut </span>year = <span class="number">2000 </span>+
-            remyears + <span class="number">4</span><span class="kw-2">*</span>q_cycles + <span class="number">100</span><span class="kw-2">*</span>c_cycles + <span class="number">400</span><span class="kw-2">*</span>qc_cycles;
+        <span class="kw">let </span><span class="kw-2">mut </span>year = <span class="number">2000 </span>+ remyears + <span class="number">4 </span>* q_cycles + <span class="number">100 </span>* c_cycles + <span class="number">400 </span>* qc_cycles;
 
-        <span class="kw">let </span>months = [<span class="number">31</span>,<span class="number">30</span>,<span class="number">31</span>,<span class="number">30</span>,<span class="number">31</span>,<span class="number">31</span>,<span class="number">30</span>,<span class="number">31</span>,<span class="number">30</span>,<span class="number">31</span>,<span class="number">31</span>,<span class="number">29</span>];
+        <span class="kw">let </span>months = [<span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">31</span>, <span class="number">29</span>];
         <span class="kw">let </span><span class="kw-2">mut </span>mon = <span class="number">0</span>;
         <span class="kw">for </span>mon_len <span class="kw">in </span>months.iter() {
             mon += <span class="number">1</span>;
@@ -924,7 +992,7 @@
             }
             remdays -= <span class="kw-2">*</span>mon_len;
         }
-        <span class="kw">let </span>mday = remdays+<span class="number">1</span>;
+        <span class="kw">let </span>mday = remdays + <span class="number">1</span>;
         <span class="kw">let </span>mon = <span class="kw">if </span>mon + <span class="number">2 </span>&gt; <span class="number">12 </span>{
             year += <span class="number">1</span>;
             mon - <span class="number">10
@@ -932,12 +1000,9 @@
             mon + <span class="number">2
         </span>};
 
-        <span class="kw">let </span><span class="kw-2">mut </span>buf: [u8; <span class="number">30</span>] = [
-            <span class="comment">// Too long to write as: b"0000-00-00T00:00:00.000000000Z"
-            </span><span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'-'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'-'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'T'</span>,
-            <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b':'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b':'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>,
-            <span class="string">b'.'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'0'</span>, <span class="string">b'Z'</span>,
-        ];
+        <span class="kw">const </span>BUF_INIT: [u8; <span class="number">30</span>] = <span class="kw-2">*</span><span class="string">b"0000-00-00T00:00:00.000000000Z"</span>;
+
+        <span class="kw">let </span><span class="kw-2">mut </span>buf: [u8; <span class="number">30</span>] = BUF_INIT;
         buf[<span class="number">0</span>] = <span class="string">b'0' </span>+ (year / <span class="number">1000</span>) <span class="kw">as </span>u8;
         buf[<span class="number">1</span>] = <span class="string">b'0' </span>+ (year / <span class="number">100 </span>% <span class="number">10</span>) <span class="kw">as </span>u8;
         buf[<span class="number">2</span>] = <span class="string">b'0' </span>+ (year / <span class="number">10 </span>% <span class="number">10</span>) <span class="kw">as </span>u8;
@@ -980,7 +1045,7 @@
             buf[<span class="number">25</span>] = <span class="string">b'0' </span>+ (nanos / <span class="number">1_000 </span>% <span class="number">10</span>) <span class="kw">as </span>u8;
             buf[<span class="number">26</span>] = <span class="string">b'0' </span>+ (nanos / <span class="number">100 </span>% <span class="number">10</span>) <span class="kw">as </span>u8;
             buf[<span class="number">27</span>] = <span class="string">b'0' </span>+ (nanos / <span class="number">10 </span>% <span class="number">10</span>) <span class="kw">as </span>u8;
-            buf[<span class="number">28</span>] = <span class="string">b'0' </span>+ (nanos / <span class="number">1 </span>% <span class="number">10</span>) <span class="kw">as </span>u8;
+            buf[<span class="number">28</span>] = <span class="string">b'0' </span>+ (nanos % <span class="number">10</span>) <span class="kw">as </span>u8;
             <span class="comment">// 29th is 'Z'
             </span><span class="number">29
         </span>};
@@ -993,121 +1058,156 @@
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>test {
     <span class="kw">use </span>std::str::from_utf8;
-    <span class="kw">use </span>std::time::{UNIX_EPOCH, SystemTime, Duration};
+    <span class="kw">use </span>std::time::{Duration, SystemTime, UNIX_EPOCH};
 
     <span class="kw">use </span>rand::Rng;
+    <span class="kw">use </span>time::format_description::well_known::Rfc3339;
+    <span class="kw">use </span>time::UtcDateTime;
 
-    <span class="kw">use super</span>::{parse_rfc3339, parse_rfc3339_weak, format_rfc3339};
-    <span class="kw">use super</span>::{format_rfc3339_millis, format_rfc3339_micros};
-    <span class="kw">use super</span>::{format_rfc3339_nanos};
+    <span class="kw">use </span><span class="kw">super</span>::format_rfc3339_nanos;
     <span class="kw">use </span><span class="kw">super</span>::max;
+    <span class="kw">use super</span>::{format_rfc3339, parse_rfc3339, parse_rfc3339_weak};
+    <span class="kw">use super</span>::{format_rfc3339_micros, format_rfc3339_millis};
 
     <span class="kw">fn </span>from_sec(sec: u64) -&gt; (String, SystemTime) {
-        <span class="kw">let </span>s = time::at_utc(time::Timespec { sec: sec <span class="kw">as </span>i64, nsec: <span class="number">0 </span>})
-                  .rfc3339().to_string();
+        <span class="kw">let </span>s = UtcDateTime::from_unix_timestamp(sec <span class="kw">as </span>i64)
+            .unwrap()
+            .format(<span class="kw-2">&amp;</span>Rfc3339)
+            .unwrap();
         <span class="kw">let </span>time = UNIX_EPOCH + Duration::new(sec, <span class="number">0</span>);
         (s, time)
     }
 
     <span class="attr">#[test]
-    #[cfg(all(target_pointer_width=<span class="string">"32"</span>, target_os=<span class="string">"linux"</span>))]
+    #[cfg(all(target_pointer_width = <span class="string">"32"</span>, target_os = <span class="string">"linux"</span>))]
     </span><span class="kw">fn </span>year_after_2038_fails_gracefully() {
         <span class="comment">// next second
-        </span><span class="macro">assert_eq!</span>(parse_rfc3339(<span class="string">"2038-01-19T03:14:08Z"</span>).unwrap_err(),
-                   <span class="kw">super</span>::Error::OutOfRange);
-        <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="string">"9999-12-31T23:59:59Z"</span>).unwrap_err(),
-                   <span class="kw">super</span>::Error::OutOfRange);
+        </span><span class="macro">assert_eq!</span>(
+            parse_rfc3339(<span class="string">"2038-01-19T03:14:08Z"</span>).unwrap_err(),
+            <span class="kw">super</span>::Error::OutOfRange
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_rfc3339(<span class="string">"9999-12-31T23:59:59Z"</span>).unwrap_err(),
+            <span class="kw">super</span>::Error::OutOfRange
+        );
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>smoke_tests_parse() {
-        <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="string">"1970-01-01T00:00:00Z"</span>).unwrap(),
-                   UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">0</span>));
-        <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="string">"1970-01-01T00:00:01Z"</span>).unwrap(),
-                   UNIX_EPOCH + Duration::new(<span class="number">1</span>, <span class="number">0</span>));
-        <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="string">"2018-02-13T23:08:32Z"</span>).unwrap(),
-                   UNIX_EPOCH + Duration::new(<span class="number">1_518_563_312</span>, <span class="number">0</span>));
-        <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="string">"2012-01-01T00:00:00Z"</span>).unwrap(),
-                   UNIX_EPOCH + Duration::new(<span class="number">1_325_376_000</span>, <span class="number">0</span>));
+        <span class="macro">assert_eq!</span>(
+            parse_rfc3339(<span class="string">"1970-01-01T00:00:00Z"</span>).unwrap(),
+            UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">0</span>)
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_rfc3339(<span class="string">"1970-01-01T00:00:01Z"</span>).unwrap(),
+            UNIX_EPOCH + Duration::new(<span class="number">1</span>, <span class="number">0</span>)
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_rfc3339(<span class="string">"2018-02-13T23:08:32Z"</span>).unwrap(),
+            UNIX_EPOCH + Duration::new(<span class="number">1_518_563_312</span>, <span class="number">0</span>)
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_rfc3339(<span class="string">"2012-01-01T00:00:00Z"</span>).unwrap(),
+            UNIX_EPOCH + Duration::new(<span class="number">1_325_376_000</span>, <span class="number">0</span>)
+        );
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>smoke_tests_format() {
         <span class="macro">assert_eq!</span>(
             format_rfc3339(UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">0</span>)).to_string(),
-            <span class="string">"1970-01-01T00:00:00Z"</span>);
+            <span class="string">"1970-01-01T00:00:00Z"
+        </span>);
         <span class="macro">assert_eq!</span>(
             format_rfc3339(UNIX_EPOCH + Duration::new(<span class="number">1</span>, <span class="number">0</span>)).to_string(),
-            <span class="string">"1970-01-01T00:00:01Z"</span>);
+            <span class="string">"1970-01-01T00:00:01Z"
+        </span>);
         <span class="macro">assert_eq!</span>(
             format_rfc3339(UNIX_EPOCH + Duration::new(<span class="number">1_518_563_312</span>, <span class="number">0</span>)).to_string(),
-            <span class="string">"2018-02-13T23:08:32Z"</span>);
+            <span class="string">"2018-02-13T23:08:32Z"
+        </span>);
         <span class="macro">assert_eq!</span>(
             format_rfc3339(UNIX_EPOCH + Duration::new(<span class="number">1_325_376_000</span>, <span class="number">0</span>)).to_string(),
-            <span class="string">"2012-01-01T00:00:00Z"</span>);
+            <span class="string">"2012-01-01T00:00:00Z"
+        </span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>smoke_tests_format_millis() {
         <span class="macro">assert_eq!</span>(
-            format_rfc3339_millis(UNIX_EPOCH +
-                Duration::new(<span class="number">0</span>, <span class="number">0</span>)).to_string(),
-            <span class="string">"1970-01-01T00:00:00.000Z"</span>);
+            format_rfc3339_millis(UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">0</span>)).to_string(),
+            <span class="string">"1970-01-01T00:00:00.000Z"
+        </span>);
         <span class="macro">assert_eq!</span>(
-            format_rfc3339_millis(UNIX_EPOCH +
-                Duration::new(<span class="number">1_518_563_312</span>, <span class="number">123_000_000</span>)).to_string(),
-            <span class="string">"2018-02-13T23:08:32.123Z"</span>);
+            format_rfc3339_millis(UNIX_EPOCH + Duration::new(<span class="number">1_518_563_312</span>, <span class="number">123_000_000</span>))
+                .to_string(),
+            <span class="string">"2018-02-13T23:08:32.123Z"
+        </span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>smoke_tests_format_micros() {
         <span class="macro">assert_eq!</span>(
-            format_rfc3339_micros(UNIX_EPOCH +
-                Duration::new(<span class="number">0</span>, <span class="number">0</span>)).to_string(),
-            <span class="string">"1970-01-01T00:00:00.000000Z"</span>);
+            format_rfc3339_micros(UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">0</span>)).to_string(),
+            <span class="string">"1970-01-01T00:00:00.000000Z"
+        </span>);
         <span class="macro">assert_eq!</span>(
-            format_rfc3339_micros(UNIX_EPOCH +
-                Duration::new(<span class="number">1_518_563_312</span>, <span class="number">123_000_000</span>)).to_string(),
-            <span class="string">"2018-02-13T23:08:32.123000Z"</span>);
+            format_rfc3339_micros(UNIX_EPOCH + Duration::new(<span class="number">1_518_563_312</span>, <span class="number">123_000_000</span>))
+                .to_string(),
+            <span class="string">"2018-02-13T23:08:32.123000Z"
+        </span>);
         <span class="macro">assert_eq!</span>(
-            format_rfc3339_micros(UNIX_EPOCH +
-                Duration::new(<span class="number">1_518_563_312</span>, <span class="number">456_123_000</span>)).to_string(),
-            <span class="string">"2018-02-13T23:08:32.456123Z"</span>);
+            format_rfc3339_micros(UNIX_EPOCH + Duration::new(<span class="number">1_518_563_312</span>, <span class="number">456_123_000</span>))
+                .to_string(),
+            <span class="string">"2018-02-13T23:08:32.456123Z"
+        </span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>smoke_tests_format_nanos() {
         <span class="macro">assert_eq!</span>(
-            format_rfc3339_nanos(UNIX_EPOCH +
-                Duration::new(<span class="number">0</span>, <span class="number">0</span>)).to_string(),
-            <span class="string">"1970-01-01T00:00:00.000000000Z"</span>);
+            format_rfc3339_nanos(UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">0</span>)).to_string(),
+            <span class="string">"1970-01-01T00:00:00.000000000Z"
+        </span>);
         <span class="macro">assert_eq!</span>(
-            format_rfc3339_nanos(UNIX_EPOCH +
-                Duration::new(<span class="number">1_518_563_312</span>, <span class="number">123_000_000</span>)).to_string(),
-            <span class="string">"2018-02-13T23:08:32.123000000Z"</span>);
-        <span class="macro">assert_eq!</span>(
-            format_rfc3339_nanos(UNIX_EPOCH +
-                Duration::new(<span class="number">1_518_563_312</span>, <span class="number">789_456_123</span>)).to_string(),
-            <span class="string">"2018-02-13T23:08:32.789456123Z"</span>);
+            format_rfc3339_nanos(UNIX_EPOCH + Duration::new(<span class="number">1_518_563_312</span>, <span class="number">123_000_000</span>))
+                .to_string(),
+            <span class="string">"2018-02-13T23:08:32.123000000Z"
+        </span>);
+        <span class="attr">#[cfg(not(target_os = <span class="string">"windows"</span>))]
+        </span><span class="macro">assert_eq!</span>(
+            format_rfc3339_nanos(UNIX_EPOCH + Duration::new(<span class="number">1_518_563_312</span>, <span class="number">789_456_123</span>))
+                .to_string(),
+            <span class="string">"2018-02-13T23:08:32.789456123Z"
+        </span>);
+        <span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)] </span><span class="comment">// Not sure what is up with Windows rounding?
+        </span><span class="macro">assert_eq!</span>(
+            format_rfc3339_nanos(UNIX_EPOCH + Duration::new(<span class="number">1_518_563_312</span>, <span class="number">789_456_123</span>))
+                .to_string(),
+            <span class="string">"2018-02-13T23:08:32.789456100Z"
+        </span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>upper_bound() {
         <span class="kw">let </span>max = UNIX_EPOCH + Duration::new(max::SECONDS, <span class="number">0</span>);
-        <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="kw-2">&amp;</span>max::TIMESTAMP).unwrap(), max);
+        <span class="macro">assert_eq!</span>(parse_rfc3339(max::TIMESTAMP).unwrap(), max);
         <span class="macro">assert_eq!</span>(format_rfc3339(max).to_string(), max::TIMESTAMP);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>leap_second() {
-        <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="string">"2016-12-31T23:59:60Z"</span>).unwrap(),
-                   UNIX_EPOCH + Duration::new(<span class="number">1_483_228_799</span>, <span class="number">0</span>));
+        <span class="macro">assert_eq!</span>(
+            parse_rfc3339(<span class="string">"2016-12-31T23:59:60Z"</span>).unwrap(),
+            UNIX_EPOCH + Duration::new(<span class="number">1_483_228_799</span>, <span class="number">0</span>)
+        );
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>first_731_days() {
-        <span class="kw">let </span>year_start = <span class="number">0</span>;  <span class="comment">// 1970
-        </span><span class="kw">for </span>day <span class="kw">in </span><span class="number">0</span>..= <span class="number">365 </span>* <span class="number">2 </span>{  <span class="comment">// scan leap year and non-leap year
+        <span class="kw">let </span>year_start = <span class="number">0</span>; <span class="comment">// 1970
+        </span><span class="kw">for </span>day <span class="kw">in </span><span class="number">0</span>..=<span class="number">365 </span>* <span class="number">2 </span>{
+            <span class="comment">// scan leap year and non-leap year
             </span><span class="kw">let </span>(s, time) = from_sec(year_start + day * <span class="number">86400</span>);
             <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="kw-2">&amp;</span>s).unwrap(), time);
             <span class="macro">assert_eq!</span>(format_rfc3339(time).to_string(), s);
@@ -1116,8 +1216,9 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>the_731_consecutive_days() {
-        <span class="kw">let </span>year_start = <span class="number">1_325_376_000</span>;  <span class="comment">// 2012
-        </span><span class="kw">for </span>day <span class="kw">in </span><span class="number">0</span>..= <span class="number">365 </span>* <span class="number">2 </span>{  <span class="comment">// scan leap year and non-leap year
+        <span class="kw">let </span>year_start = <span class="number">1_325_376_000</span>; <span class="comment">// 2012
+        </span><span class="kw">for </span>day <span class="kw">in </span><span class="number">0</span>..=<span class="number">365 </span>* <span class="number">2 </span>{
+            <span class="comment">// scan leap year and non-leap year
             </span><span class="kw">let </span>(s, time) = from_sec(year_start + day * <span class="number">86400</span>);
             <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="kw-2">&amp;</span>s).unwrap(), time);
             <span class="macro">assert_eq!</span>(format_rfc3339(time).to_string(), s);
@@ -1127,7 +1228,8 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>all_86400_seconds() {
         <span class="kw">let </span>day_start = <span class="number">1_325_376_000</span>;
-        <span class="kw">for </span>second <span class="kw">in </span><span class="number">0</span>..<span class="number">86400 </span>{  <span class="comment">// scan leap year and non-leap year
+        <span class="kw">for </span>second <span class="kw">in </span><span class="number">0</span>..<span class="number">86400 </span>{
+            <span class="comment">// scan leap year and non-leap year
             </span><span class="kw">let </span>(s, time) = from_sec(day_start + second);
             <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="kw-2">&amp;</span>s).unwrap(), time);
             <span class="macro">assert_eq!</span>(format_rfc3339(time).to_string(), s);
@@ -1136,10 +1238,12 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>random_past() {
-        <span class="kw">let </span>upper = SystemTime::now().duration_since(UNIX_EPOCH).unwrap()
+        <span class="kw">let </span>upper = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
             .as_secs();
         <span class="kw">for _ in </span><span class="number">0</span>..<span class="number">10000 </span>{
-            <span class="kw">let </span>sec = rand::thread_rng().gen_range(<span class="number">0</span>, upper);
+            <span class="kw">let </span>sec = rand::rng().random_range(<span class="number">0</span>..upper);
             <span class="kw">let </span>(s, time) = from_sec(sec);
             <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="kw-2">&amp;</span>s).unwrap(), time);
             <span class="macro">assert_eq!</span>(format_rfc3339(time).to_string(), s);
@@ -1149,7 +1253,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>random_wide_range() {
         <span class="kw">for _ in </span><span class="number">0</span>..<span class="number">100_000 </span>{
-            <span class="kw">let </span>sec = rand::thread_rng().gen_range(<span class="number">0</span>, max::SECONDS);
+            <span class="kw">let </span>sec = rand::rng().random_range(<span class="number">0</span>..max::SECONDS);
             <span class="kw">let </span>(s, time) = from_sec(sec);
             <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="kw-2">&amp;</span>s).unwrap(), time);
             <span class="macro">assert_eq!</span>(format_rfc3339(time).to_string(), s);
@@ -1158,56 +1262,60 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>milliseconds() {
-        <span class="macro">assert_eq!</span>(parse_rfc3339(<span class="string">"1970-01-01T00:00:00.123Z"</span>).unwrap(),
-                   UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">123_000_000</span>));
-        <span class="macro">assert_eq!</span>(format_rfc3339(UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">123_000_000</span>))
-            .to_string(), <span class="string">"1970-01-01T00:00:00.123000000Z"</span>);
+        <span class="macro">assert_eq!</span>(
+            parse_rfc3339(<span class="string">"1970-01-01T00:00:00.123Z"</span>).unwrap(),
+            UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">123_000_000</span>)
+        );
+        <span class="macro">assert_eq!</span>(
+            format_rfc3339(UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">123_000_000</span>)).to_string(),
+            <span class="string">"1970-01-01T00:00:00.123000000Z"
+        </span>);
     }
 
     <span class="attr">#[test]
-    #[should_panic(expected=<span class="string">"OutOfRange"</span>)]
+    #[should_panic(expected = <span class="string">"OutOfRange"</span>)]
     </span><span class="kw">fn </span>zero_month() {
         parse_rfc3339(<span class="string">"1970-00-01T00:00:00Z"</span>).unwrap();
     }
 
     <span class="attr">#[test]
-    #[should_panic(expected=<span class="string">"OutOfRange"</span>)]
+    #[should_panic(expected = <span class="string">"OutOfRange"</span>)]
     </span><span class="kw">fn </span>big_month() {
         parse_rfc3339(<span class="string">"1970-32-01T00:00:00Z"</span>).unwrap();
     }
 
     <span class="attr">#[test]
-    #[should_panic(expected=<span class="string">"OutOfRange"</span>)]
+    #[should_panic(expected = <span class="string">"OutOfRange"</span>)]
     </span><span class="kw">fn </span>zero_day() {
         parse_rfc3339(<span class="string">"1970-01-00T00:00:00Z"</span>).unwrap();
     }
 
     <span class="attr">#[test]
-    #[should_panic(expected=<span class="string">"OutOfRange"</span>)]
+    #[should_panic(expected = <span class="string">"OutOfRange"</span>)]
     </span><span class="kw">fn </span>big_day() {
         parse_rfc3339(<span class="string">"1970-12-35T00:00:00Z"</span>).unwrap();
     }
 
     <span class="attr">#[test]
-    #[should_panic(expected=<span class="string">"OutOfRange"</span>)]
+    #[should_panic(expected = <span class="string">"OutOfRange"</span>)]
     </span><span class="kw">fn </span>big_day2() {
         parse_rfc3339(<span class="string">"1970-02-30T00:00:00Z"</span>).unwrap();
     }
 
     <span class="attr">#[test]
-    #[should_panic(expected=<span class="string">"OutOfRange"</span>)]
+    #[should_panic(expected = <span class="string">"OutOfRange"</span>)]
     </span><span class="kw">fn </span>big_second() {
         parse_rfc3339(<span class="string">"1970-12-30T00:00:78Z"</span>).unwrap();
     }
 
     <span class="attr">#[test]
-    #[should_panic(expected=<span class="string">"OutOfRange"</span>)]
+    #[should_panic(expected = <span class="string">"OutOfRange"</span>)]
     </span><span class="kw">fn </span>big_minute() {
         parse_rfc3339(<span class="string">"1970-12-30T00:78:00Z"</span>).unwrap();
     }
 
     <span class="attr">#[test]
-    #[should_panic(expected=<span class="string">"OutOfRange"</span>)]
+    #[should_panic(expected = <span class="string">"OutOfRange"</span>)]
     </span><span class="kw">fn </span>big_hour() {
         parse_rfc3339(<span class="string">"1970-12-30T24:00:00Z"</span>).unwrap();
     }
@@ -1223,24 +1331,34 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>weak_smoke_tests() {
-        <span class="macro">assert_eq!</span>(parse_rfc3339_weak(<span class="string">"1970-01-01 00:00:00"</span>).unwrap(),
-                   UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">0</span>));
+        <span class="macro">assert_eq!</span>(
+            parse_rfc3339_weak(<span class="string">"1970-01-01 00:00:00"</span>).unwrap(),
+            UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">0</span>)
+        );
         parse_rfc3339(<span class="string">"1970-01-01 00:00:00"</span>).unwrap_err();
 
-        <span class="macro">assert_eq!</span>(parse_rfc3339_weak(<span class="string">"1970-01-01 00:00:00.000123"</span>).unwrap(),
-                   UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">123_000</span>));
+        <span class="macro">assert_eq!</span>(
+            parse_rfc3339_weak(<span class="string">"1970-01-01 00:00:00.000123"</span>).unwrap(),
+            UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">123_000</span>)
+        );
         parse_rfc3339(<span class="string">"1970-01-01 00:00:00.000123"</span>).unwrap_err();
 
-        <span class="macro">assert_eq!</span>(parse_rfc3339_weak(<span class="string">"1970-01-01T00:00:00.000123"</span>).unwrap(),
-                   UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">123_000</span>));
+        <span class="macro">assert_eq!</span>(
+            parse_rfc3339_weak(<span class="string">"1970-01-01T00:00:00.000123"</span>).unwrap(),
+            UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">123_000</span>)
+        );
         parse_rfc3339(<span class="string">"1970-01-01T00:00:00.000123"</span>).unwrap_err();
 
-        <span class="macro">assert_eq!</span>(parse_rfc3339_weak(<span class="string">"1970-01-01 00:00:00.000123Z"</span>).unwrap(),
-                   UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">123_000</span>));
+        <span class="macro">assert_eq!</span>(
+            parse_rfc3339_weak(<span class="string">"1970-01-01 00:00:00.000123Z"</span>).unwrap(),
+            UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">123_000</span>)
+        );
         parse_rfc3339(<span class="string">"1970-01-01 00:00:00.000123Z"</span>).unwrap_err();
 
-        <span class="macro">assert_eq!</span>(parse_rfc3339_weak(<span class="string">"1970-01-01 00:00:00Z"</span>).unwrap(),
-                   UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">0</span>));
+        <span class="macro">assert_eq!</span>(
+            parse_rfc3339_weak(<span class="string">"1970-01-01 00:00:00Z"</span>).unwrap(),
+            UNIX_EPOCH + Duration::new(<span class="number">0</span>, <span class="number">0</span>)
+        );
         parse_rfc3339(<span class="string">"1970-01-01 00:00:00Z"</span>).unwrap_err();
     }
 }

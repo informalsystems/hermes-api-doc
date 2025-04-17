@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/circular-queue-0.2.6/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="circular_queue" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">circular_queue/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/circular-queue-0.2.7/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="circular_queue" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">circular_queue/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -629,7 +629,75 @@
 <a href="#628" id="628">628</a>
 <a href="#629" id="629">629</a>
 <a href="#630" id="630">630</a>
-<a href="#631" id="631">631</a></pre></div><pre class="rust"><code><span class="doccomment">//! A circular buffer-like queue.
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
+<a href="#641" id="641">641</a>
+<a href="#642" id="642">642</a>
+<a href="#643" id="643">643</a>
+<a href="#644" id="644">644</a>
+<a href="#645" id="645">645</a>
+<a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a></pre></div><pre class="rust"><code><span class="doccomment">//! A circular buffer-like queue.
 //!
 //! The `CircularQueue&lt;T&gt;` is created with a set capacity, then items are pushed in. When the queue
 //! runs out of capacity, newer items start overwriting the old ones, starting from the oldest.
@@ -663,7 +731,7 @@
 //! ```
 
 </span><span class="attr">#![cfg_attr(has_extern_crate_alloc, no_std)]
-#![doc(html_root_url = <span class="string">"https://docs.rs/circular-queue/0.2.6"</span>)]
+#![doc(html_root_url = <span class="string">"https://docs.rs/circular-queue/0.2.7"</span>)]
 
 #[cfg(has_extern_crate_alloc)]
 </span><span class="kw">extern crate </span>alloc;
@@ -981,6 +1049,31 @@
         <span class="kw">let </span>(a, b) = <span class="self">self</span>.data.split_at_mut(<span class="self">self</span>.insertion_index);
         b.iter_mut().chain(a.iter_mut())
     }
+
+    <span class="doccomment">/// Converts the queue into a `Vec&lt;T&gt;` going from the most recently pushed items to the oldest
+    /// ones.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use circular_queue::CircularQueue;
+    ///
+    /// let mut queue = CircularQueue::with_capacity(3);
+    /// queue.push(1);
+    /// queue.push(2);
+    /// queue.push(3);
+    /// queue.push(4);
+    ///
+    /// let v = queue.into_vec();
+    ///
+    /// assert_eq!(v, vec![4, 3, 2]);
+    /// ```
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>into_vec(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; Vec&lt;T&gt; {
+        <span class="self">self</span>.data[<span class="self">self</span>.insertion_index..].reverse(); <span class="comment">// Reverse the upper part.
+        </span><span class="self">self</span>.data[..<span class="self">self</span>.insertion_index].reverse(); <span class="comment">// Reverse the lower part.
+        </span><span class="self">self</span>.data
+    }
 }
 
 <span class="kw">impl</span>&lt;T: PartialEq&gt; PartialEq <span class="kw">for </span>CircularQueue&lt;T&gt; {
@@ -992,9 +1085,19 @@
 
 <span class="kw">impl</span>&lt;T: Eq&gt; Eq <span class="kw">for </span>CircularQueue&lt;T&gt; {}
 
+<span class="attr">#[cfg(has_relaxed_orphan_rule)]
+</span><span class="kw">impl</span>&lt;T&gt; From&lt;CircularQueue&lt;T&gt;&gt; <span class="kw">for </span>Vec&lt;T&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>from(queue: CircularQueue&lt;T&gt;) -&gt; <span class="self">Self </span>{
+        queue.into_vec()
+    }
+}
+
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="attr">#[cfg(has_extern_crate_alloc)]
+    </span><span class="kw">use </span>alloc::vec;
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>zero_capacity() {
@@ -1258,6 +1361,39 @@
 
         q2.push(());
         <span class="macro">assert_eq!</span>(q1, q2);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>into_vec() {
+        <span class="kw">let </span><span class="kw-2">mut </span>q = CircularQueue::with_capacity(<span class="number">4</span>);
+        q.push(<span class="number">1</span>);
+        q.push(<span class="number">2</span>);
+        q.push(<span class="number">3</span>);
+
+        <span class="kw">let </span>v = q.clone().into_vec();
+        <span class="macro">assert_eq!</span>(v, <span class="macro">vec!</span>[<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]);
+
+        q.push(<span class="number">4</span>);
+        q.push(<span class="number">5</span>);
+        <span class="kw">let </span>v = q.clone().into_vec();
+        <span class="macro">assert_eq!</span>(v, <span class="macro">vec!</span>[<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>]);
+
+        q.push(<span class="number">6</span>);
+        <span class="kw">let </span>v = q.into_vec();
+        <span class="macro">assert_eq!</span>(v, <span class="macro">vec!</span>[<span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>]);
+    }
+
+    <span class="attr">#[cfg(has_relaxed_orphan_rule)]
+    #[test]
+    </span><span class="kw">fn </span>vec_from() {
+        <span class="kw">let </span><span class="kw-2">mut </span>q = CircularQueue::with_capacity(<span class="number">3</span>);
+        q.push(<span class="number">1</span>);
+        q.push(<span class="number">2</span>);
+        q.push(<span class="number">3</span>);
+        q.push(<span class="number">4</span>);
+
+        <span class="kw">let </span>v = Vec::from(q);
+        <span class="macro">assert_eq!</span>(v, <span class="macro">vec!</span>[<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>]);
     }
 }
 </code></pre></div></section></main></body></html>

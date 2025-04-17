@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tendermint-light-client-verifier-0.40.1/src/operations/voting_power.rs`."><title>voting_power.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tendermint_light_client_verifier" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tendermint_light_client_verifier/operations/</div>voting_power.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tendermint-light-client-verifier-0.40.3/src/operations/voting_power.rs`."><title>voting_power.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tendermint_light_client_verifier" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tendermint_light_client_verifier/operations/</div>voting_power.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -582,7 +582,22 @@
 <a href="#581" id="581">581</a>
 <a href="#582" id="582">582</a>
 <a href="#583" id="583">583</a>
-<a href="#584" id="584">584</a></pre></div><pre class="rust"><code><span class="doccomment">//! Provides an interface and default implementation for the `VotingPower` operation
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a></pre></div><pre class="rust"><code><span class="doccomment">//! Provides an interface and default implementation for the `VotingPower` operation
 
 </span><span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>core::{fmt, marker::PhantomData};
@@ -907,40 +922,43 @@
 
     <span class="doccomment">/// Looks up a vote cast by given validator.
     ///
-    /// If the validator didn’t cast a vote or voted for `nil`, returns
-    /// `Ok(false)`.  Otherwise, if the vote had valid signature, returns
-    /// `Ok(true)`.  If the vote had invalid signature, returns `Err`.
+    /// If the validator didn’t cast a vote or voted for `nil`, returns `Ok(None)`. Otherwise, if
+    /// the vote had valid signature, returns `Ok(Some(idx))` where idx is the validator's index.
+    /// If the vote had invalid signature, returns `Err`.
     </span><span class="kw">pub fn </span>has_voted&lt;V: signature::Verifier&gt;(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         validator: <span class="kw-2">&amp;</span>validator::Info,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;bool, VerificationError&gt; {
-        <span class="kw">let </span>idx = <span class="self">self
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;usize&gt;, VerificationError&gt; {
+        <span class="kw">if let </span><span class="prelude-val">Ok</span>(idx) = <span class="self">self
             </span>.votes
-            .binary_search_by_key(<span class="kw-2">&amp;</span>validator.address, NonAbsentCommitVote::validator_id);
-        <span class="kw">let </span>vote = <span class="kw">match </span>idx {
-            <span class="prelude-val">Ok</span>(idx) =&gt; <span class="kw-2">&amp;mut </span><span class="self">self</span>.votes[idx],
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
-        };
+            .binary_search_by_key(<span class="kw-2">&amp;</span>validator.address, NonAbsentCommitVote::validator_id)
+        {
+            <span class="kw">let </span>vote = <span class="kw-2">&amp;mut </span><span class="self">self</span>.votes[idx];
 
-        <span class="kw">if </span>!vote.verified {
-            <span class="self">self</span>.sign_bytes.truncate(<span class="number">0</span>);
-            vote.signed_vote
-                .sign_bytes_into(<span class="kw-2">&amp;mut </span><span class="self">self</span>.sign_bytes)
-                .expect(<span class="string">"buffer is resized if needed and encoding never fails"</span>);
-            <span class="kw">let </span>sign_bytes = <span class="self">self</span>.sign_bytes.as_slice();
-            validator
-                .verify_signature::&lt;V&gt;(sign_bytes, vote.signed_vote.signature())
-                .map_err(|<span class="kw">_</span>| {
-                    VerificationError::invalid_signature(
-                        vote.signed_vote.signature().as_bytes().to_vec(),
-                        Box::new(validator.clone()),
-                        sign_bytes.to_vec(),
-                    )
-                })<span class="question-mark">?</span>;
+            <span class="kw">if </span>!vote.verified {
+                <span class="self">self</span>.sign_bytes.clear();
+                vote.signed_vote
+                    .sign_bytes_into(<span class="kw-2">&amp;mut </span><span class="self">self</span>.sign_bytes)
+                    .expect(<span class="string">"buffer is resized if needed and encoding never fails"</span>);
+
+                <span class="kw">let </span>sign_bytes = <span class="self">self</span>.sign_bytes.as_slice();
+                validator
+                    .verify_signature::&lt;V&gt;(sign_bytes, vote.signed_vote.signature())
+                    .map_err(|<span class="kw">_</span>| {
+                        VerificationError::invalid_signature(
+                            vote.signed_vote.signature().as_bytes().to_vec(),
+                            Box::new(validator.clone()),
+                            sign_bytes.to_vec(),
+                        )
+                    })<span class="question-mark">?</span>;
+
+                vote.verified = <span class="bool-val">true</span>;
+            }
+
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(idx))
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
         }
-
-        vote.verified = <span class="bool-val">true</span>;
-        <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
     }
 }
 
@@ -995,15 +1013,27 @@
     total_voting_power: u64,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;VotingPowerTally, VerificationError&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>power = VotingPowerTally::new(total_voting_power, trust_threshold);
+    <span class="kw">let </span><span class="kw-2">mut </span>seen_vals = Vec::new();
+
     <span class="kw">for </span>validator <span class="kw">in </span>validator_set.validators() {
-        <span class="kw">if </span>votes.has_voted::&lt;V&gt;(validator)<span class="question-mark">? </span>{
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(idx) = votes.has_voted::&lt;V&gt;(validator)<span class="question-mark">? </span>{
+            <span class="comment">// Check if this validator has already voted.
+            //
+            // O(n) complexity.
+            </span><span class="kw">if </span>seen_vals.contains(<span class="kw-2">&amp;</span>idx) {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(VerificationError::duplicate_validator(validator.address));
+            }
+            seen_vals.push(idx);
+
             power.tally(validator.power());
-            <span class="comment">// Break out of the loop when we have enough voting power.
+
+            <span class="comment">// Break early if sufficient voting power is reached.
             </span><span class="kw">if </span>power.check().is_ok() {
                 <span class="kw">break</span>;
             }
         }
     }
+
     <span class="prelude-val">Ok</span>(power)
 }
 

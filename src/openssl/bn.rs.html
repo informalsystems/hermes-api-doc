@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.70/src/bn.rs`."><title>bn.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/</div>bn.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.72/src/bn.rs`."><title>bn.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/</div>bn.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1521,7 +1521,17 @@
 <a href="#1520" id="1520">1520</a>
 <a href="#1521" id="1521">1521</a>
 <a href="#1522" id="1522">1522</a>
-<a href="#1523" id="1523">1523</a></pre></div><pre class="rust"><code><span class="doccomment">//! BigNum implementation
+<a href="#1523" id="1523">1523</a>
+<a href="#1524" id="1524">1524</a>
+<a href="#1525" id="1525">1525</a>
+<a href="#1526" id="1526">1526</a>
+<a href="#1527" id="1527">1527</a>
+<a href="#1528" id="1528">1528</a>
+<a href="#1529" id="1529">1529</a>
+<a href="#1530" id="1530">1530</a>
+<a href="#1531" id="1531">1531</a>
+<a href="#1532" id="1532">1532</a>
+<a href="#1533" id="1533">1533</a></pre></div><pre class="rust"><code><span class="doccomment">//! BigNum implementation
 //!
 //! Large numbers are important for a cryptographic library.  OpenSSL implementation
 //! of BigNum uses dynamically assigned memory to store an array of bit chunks.  This
@@ -1560,18 +1570,15 @@
 <span class="kw">use </span>openssl_macros::corresponds;
 
 <span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, libressl350))] </span>{
+    <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, libressl350, awslc))] </span>{
         <span class="kw">use </span>ffi::{
-            BN_get_rfc2409_prime_1024, BN_get_rfc2409_prime_768, BN_get_rfc3526_prime_1536,
-            BN_get_rfc3526_prime_2048, BN_get_rfc3526_prime_3072, BN_get_rfc3526_prime_4096,
+            BN_get_rfc3526_prime_1536, BN_get_rfc3526_prime_2048, BN_get_rfc3526_prime_3072, BN_get_rfc3526_prime_4096,
             BN_get_rfc3526_prime_6144, BN_get_rfc3526_prime_8192, BN_is_negative,
         };
     } <span class="kw">else if </span><span class="attr">#[cfg(boringssl)] </span>{
         <span class="kw">use </span>ffi::BN_is_negative;
     } <span class="kw">else </span>{
         <span class="kw">use </span>ffi::{
-            get_rfc2409_prime_1024 <span class="kw">as </span>BN_get_rfc2409_prime_1024,
-            get_rfc2409_prime_768 <span class="kw">as </span>BN_get_rfc2409_prime_768,
             get_rfc3526_prime_1536 <span class="kw">as </span>BN_get_rfc3526_prime_1536,
             get_rfc3526_prime_2048 <span class="kw">as </span>BN_get_rfc3526_prime_2048,
             get_rfc3526_prime_3072 <span class="kw">as </span>BN_get_rfc3526_prime_3072,
@@ -1584,6 +1591,19 @@
         </span><span class="kw">unsafe fn </span>BN_is_negative(bn: <span class="kw-2">*const </span>ffi::BIGNUM) -&gt; c_int {
             (<span class="kw-2">*</span>bn).neg
         }
+    }
+}
+
+<span class="macro">cfg_if!</span> {
+    <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, libressl350))] </span>{
+        <span class="kw">use </span>ffi::{
+            BN_get_rfc2409_prime_1024, BN_get_rfc2409_prime_768
+        };
+    } <span class="kw">else if </span><span class="attr">#[cfg(not(any(boringssl, awslc)))] </span>{
+        <span class="kw">use </span>ffi::{
+            get_rfc2409_prime_1024 <span class="kw">as </span>BN_get_rfc2409_prime_1024,
+            get_rfc2409_prime_768 <span class="kw">as </span>BN_get_rfc2409_prime_768,
+        };
     }
 }
 
@@ -1860,14 +1880,14 @@
 
     <span class="doccomment">/// Returns `true` is `self` is even.
     </span><span class="attr">#[corresponds(BN_is_even)]
-    #[cfg(any(ossl110, boringssl, libressl350))]
+    #[cfg(any(ossl110, boringssl, libressl350, awslc))]
     </span><span class="kw">pub fn </span>is_even(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         !<span class="self">self</span>.is_odd()
     }
 
     <span class="doccomment">/// Returns `true` is `self` is odd.
     </span><span class="attr">#[corresponds(BN_is_odd)]
-    #[cfg(any(ossl110, boringssl, libressl350))]
+    #[cfg(any(ossl110, boringssl, libressl350, awslc))]
     </span><span class="kw">pub fn </span>is_odd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="kw">unsafe </span>{ ffi::BN_is_odd(<span class="self">self</span>.as_ptr()) == <span class="number">1 </span>}
     }
@@ -2370,7 +2390,7 @@
     /// assert_eq!(&amp;bn_vec, &amp;[0, 0, 0x45, 0x43]);
     /// ```
     </span><span class="attr">#[corresponds(BN_bn2binpad)]
-    #[cfg(any(ossl110, libressl340, boringssl))]
+    #[cfg(any(ossl110, libressl340, boringssl, awslc))]
     </span><span class="kw">pub fn </span>to_vec_padded(<span class="kw-2">&amp;</span><span class="self">self</span>, pad_to: i32) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;, ErrorStack&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>v = Vec::with_capacity(pad_to <span class="kw">as </span>usize);
         <span class="kw">unsafe </span>{
@@ -2509,7 +2529,7 @@
     ///
     /// [`RFC 2409`]: https://tools.ietf.org/html/rfc2409#page-21
     </span><span class="attr">#[corresponds(BN_get_rfc2409_prime_768)]
-    #[cfg(not(boringssl))]
+    #[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>get_rfc2409_prime_768() -&gt; <span class="prelude-ty">Result</span>&lt;BigNum, ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             ffi::init();
@@ -2523,7 +2543,7 @@
     ///
     /// [`RFC 2409`]: https://tools.ietf.org/html/rfc2409#page-21
     </span><span class="attr">#[corresponds(BN_get_rfc2409_prime_1024)]
-    #[cfg(not(boringssl))]
+    #[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>get_rfc2409_prime_1024() -&gt; <span class="prelude-ty">Result</span>&lt;BigNum, ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             ffi::init();
@@ -3032,7 +3052,7 @@
     }
 
     <span class="attr">#[test]
-    #[cfg(any(ossl110, boringssl, libressl350))]
+    #[cfg(any(ossl110, boringssl, libressl350, awslc))]
     </span><span class="kw">fn </span>test_odd_even() {
         <span class="kw">let </span>a = BigNum::from_u32(<span class="number">17</span>).unwrap();
         <span class="kw">let </span>b = BigNum::from_u32(<span class="number">18</span>).unwrap();

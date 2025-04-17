@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/winnow-0.7.2/src/combinator/multi.rs`."><title>multi.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="winnow" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">winnow/combinator/</div>multi.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/winnow-0.7.6/src/combinator/multi.rs`."><title>multi.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="winnow" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">winnow/combinator/</div>multi.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1532,83 +1532,7 @@
 <a href="#1531" id="1531">1531</a>
 <a href="#1532" id="1532">1532</a>
 <a href="#1533" id="1533">1533</a>
-<a href="#1534" id="1534">1534</a>
-<a href="#1535" id="1535">1535</a>
-<a href="#1536" id="1536">1536</a>
-<a href="#1537" id="1537">1537</a>
-<a href="#1538" id="1538">1538</a>
-<a href="#1539" id="1539">1539</a>
-<a href="#1540" id="1540">1540</a>
-<a href="#1541" id="1541">1541</a>
-<a href="#1542" id="1542">1542</a>
-<a href="#1543" id="1543">1543</a>
-<a href="#1544" id="1544">1544</a>
-<a href="#1545" id="1545">1545</a>
-<a href="#1546" id="1546">1546</a>
-<a href="#1547" id="1547">1547</a>
-<a href="#1548" id="1548">1548</a>
-<a href="#1549" id="1549">1549</a>
-<a href="#1550" id="1550">1550</a>
-<a href="#1551" id="1551">1551</a>
-<a href="#1552" id="1552">1552</a>
-<a href="#1553" id="1553">1553</a>
-<a href="#1554" id="1554">1554</a>
-<a href="#1555" id="1555">1555</a>
-<a href="#1556" id="1556">1556</a>
-<a href="#1557" id="1557">1557</a>
-<a href="#1558" id="1558">1558</a>
-<a href="#1559" id="1559">1559</a>
-<a href="#1560" id="1560">1560</a>
-<a href="#1561" id="1561">1561</a>
-<a href="#1562" id="1562">1562</a>
-<a href="#1563" id="1563">1563</a>
-<a href="#1564" id="1564">1564</a>
-<a href="#1565" id="1565">1565</a>
-<a href="#1566" id="1566">1566</a>
-<a href="#1567" id="1567">1567</a>
-<a href="#1568" id="1568">1568</a>
-<a href="#1569" id="1569">1569</a>
-<a href="#1570" id="1570">1570</a>
-<a href="#1571" id="1571">1571</a>
-<a href="#1572" id="1572">1572</a>
-<a href="#1573" id="1573">1573</a>
-<a href="#1574" id="1574">1574</a>
-<a href="#1575" id="1575">1575</a>
-<a href="#1576" id="1576">1576</a>
-<a href="#1577" id="1577">1577</a>
-<a href="#1578" id="1578">1578</a>
-<a href="#1579" id="1579">1579</a>
-<a href="#1580" id="1580">1580</a>
-<a href="#1581" id="1581">1581</a>
-<a href="#1582" id="1582">1582</a>
-<a href="#1583" id="1583">1583</a>
-<a href="#1584" id="1584">1584</a>
-<a href="#1585" id="1585">1585</a>
-<a href="#1586" id="1586">1586</a>
-<a href="#1587" id="1587">1587</a>
-<a href="#1588" id="1588">1588</a>
-<a href="#1589" id="1589">1589</a>
-<a href="#1590" id="1590">1590</a>
-<a href="#1591" id="1591">1591</a>
-<a href="#1592" id="1592">1592</a>
-<a href="#1593" id="1593">1593</a>
-<a href="#1594" id="1594">1594</a>
-<a href="#1595" id="1595">1595</a>
-<a href="#1596" id="1596">1596</a>
-<a href="#1597" id="1597">1597</a>
-<a href="#1598" id="1598">1598</a>
-<a href="#1599" id="1599">1599</a>
-<a href="#1600" id="1600">1600</a>
-<a href="#1601" id="1601">1601</a>
-<a href="#1602" id="1602">1602</a>
-<a href="#1603" id="1603">1603</a>
-<a href="#1604" id="1604">1604</a>
-<a href="#1605" id="1605">1605</a>
-<a href="#1606" id="1606">1606</a>
-<a href="#1607" id="1607">1607</a>
-<a href="#1608" id="1608">1608</a>
-<a href="#1609" id="1609">1609</a>
-<a href="#1610" id="1610">1610</a></pre></div><pre class="rust"><code><span class="doccomment">//! Combinators applying their child parser multiple times
+<a href="#1534" id="1534">1534</a></pre></div><pre class="rust"><code><span class="doccomment">//! Combinators applying their child parser multiple times
 
 </span><span class="kw">use </span><span class="kw">crate</span>::combinator::trace;
 <span class="kw">use </span><span class="kw">crate</span>::error::FromExternalError;
@@ -1775,8 +1699,8 @@
     ///
     /// &lt;div class="warning"&gt;
     ///
-    /// **Warning:** If the parser passed to `fold` accepts empty inputs
-    /// (like `alpha0` or `digit0`), `fold_repeat` will return an error,
+    /// **Warning:** If the parser passed to [`repeat`] accepts empty inputs
+    /// (like `alpha0` or `digit0`), `fold` will return an error,
     /// to prevent going into an infinite loop.
     ///
     /// &lt;/div&gt;
@@ -1880,6 +1804,9 @@
             <span class="kw">match </span>(start_inclusive, end_inclusive) {
                 (<span class="number">0</span>, <span class="prelude-val">None</span>) =&gt; fold_repeat0_(<span class="kw-2">&amp;mut </span><span class="self">self</span>.parser, <span class="kw-2">&amp;mut </span>init, <span class="kw-2">&amp;mut </span>op, i),
                 (<span class="number">1</span>, <span class="prelude-val">None</span>) =&gt; fold_repeat1_(<span class="kw-2">&amp;mut </span><span class="self">self</span>.parser, <span class="kw-2">&amp;mut </span>init, <span class="kw-2">&amp;mut </span>op, i),
+                (start, end) <span class="kw">if </span><span class="prelude-val">Some</span>(start) == end =&gt; {
+                    fold_repeat_n_(start, <span class="kw-2">&amp;mut </span><span class="self">self</span>.parser, <span class="kw-2">&amp;mut </span>init, <span class="kw-2">&amp;mut </span>op, i)
+                }
                 (start, end) =&gt; fold_repeat_m_n_(
                     start,
                     end.unwrap_or(usize::MAX),
@@ -1905,7 +1832,7 @@
     ///
     /// &lt;div class="warning"&gt;
     ///
-    /// **Warning:** If the parser passed to `repeat` accepts empty inputs
+    /// **Warning:** If the parser passed to [`repeat`] accepts empty inputs
     /// (like `alpha0` or `digit0`), `verify_fold` will return an error,
     /// to prevent going into an infinite loop.
     ///
@@ -1981,7 +1908,7 @@
     ///
     /// &lt;div class="warning"&gt;
     ///
-    /// **Warning:** If the parser passed to `repeat` accepts empty inputs
+    /// **Warning:** If the parser passed to [`repeat`] accepts empty inputs
     /// (like `alpha0` or `digit0`), `try_fold` will return an error,
     /// to prevent going into an infinite loop.
     ///
@@ -2057,114 +1984,173 @@
         } = <span class="self">self</span>.occurrences;
         trace(<span class="string">"repeat"</span>, <span class="kw">move </span>|i: <span class="kw-2">&amp;mut </span>I| {
             <span class="kw">match </span>(start_inclusive, end_inclusive) {
-                (<span class="number">0</span>, <span class="prelude-val">None</span>) =&gt; repeat0_(<span class="kw-2">&amp;mut </span><span class="self">self</span>.parser, i),
-                (<span class="number">1</span>, <span class="prelude-val">None</span>) =&gt; repeat1_(<span class="kw-2">&amp;mut </span><span class="self">self</span>.parser, i),
-                (start, end) <span class="kw">if </span><span class="prelude-val">Some</span>(start) == end =&gt; repeat_n_(start, <span class="kw-2">&amp;mut </span><span class="self">self</span>.parser, i),
-                (start, end) =&gt; repeat_m_n_(start, end.unwrap_or(usize::MAX), <span class="kw-2">&amp;mut </span><span class="self">self</span>.parser, i),
+                (<span class="number">0</span>, <span class="prelude-val">None</span>) =&gt; fold_repeat0_(
+                    <span class="kw-2">&amp;mut </span><span class="self">self</span>.parser,
+                    <span class="kw-2">&amp;mut </span>|| C::initial(<span class="prelude-val">None</span>),
+                    <span class="kw-2">&amp;mut </span>|<span class="kw-2">mut </span>acc, o| {
+                        acc.accumulate(o);
+                        acc
+                    },
+                    i,
+                ),
+                (<span class="number">1</span>, <span class="prelude-val">None</span>) =&gt; fold_repeat1_(
+                    <span class="kw-2">&amp;mut </span><span class="self">self</span>.parser,
+                    <span class="kw-2">&amp;mut </span>|| C::initial(<span class="prelude-val">None</span>),
+                    <span class="kw-2">&amp;mut </span>|<span class="kw-2">mut </span>acc, o| {
+                        acc.accumulate(o);
+                        acc
+                    },
+                    i,
+                ),
+                (min, end) <span class="kw">if </span><span class="prelude-val">Some</span>(min) == end =&gt; fold_repeat_n_(
+                    min,
+                    <span class="kw-2">&amp;mut </span><span class="self">self</span>.parser,
+                    <span class="kw-2">&amp;mut </span>|| C::initial(<span class="prelude-val">Some</span>(min)),
+                    <span class="kw-2">&amp;mut </span>|<span class="kw-2">mut </span>acc, o| {
+                        acc.accumulate(o);
+                        acc
+                    },
+                    i,
+                ),
+                (min, end) =&gt; fold_repeat_m_n_(
+                    min,
+                    end.unwrap_or(usize::MAX),
+                    <span class="kw-2">&amp;mut </span><span class="self">self</span>.parser,
+                    <span class="kw-2">&amp;mut </span>|| C::initial(<span class="prelude-val">Some</span>(min)),
+                    <span class="kw-2">&amp;mut </span>|<span class="kw-2">mut </span>acc, o| {
+                        acc.accumulate(o);
+                        acc
+                    },
+                    i,
+                ),
             }
         })
         .parse_next(i)
     }
 }
 
-<span class="kw">fn </span>repeat0_&lt;I, O, C, E, F&gt;(f: <span class="kw-2">&amp;mut </span>F, i: <span class="kw-2">&amp;mut </span>I) -&gt; <span class="prelude-ty">Result</span>&lt;C, E&gt;
+<span class="kw">fn </span>fold_repeat0_&lt;I, O, E, P, N, F, R&gt;(
+    parser: <span class="kw-2">&amp;mut </span>P,
+    init: <span class="kw-2">&amp;mut </span>N,
+    fold: <span class="kw-2">&amp;mut </span>F,
+    input: <span class="kw-2">&amp;mut </span>I,
+) -&gt; <span class="prelude-ty">Result</span>&lt;R, E&gt;
 <span class="kw">where
     </span>I: Stream,
-    C: Accumulate&lt;O&gt;,
-    F: Parser&lt;I, O, E&gt;,
+    P: Parser&lt;I, O, E&gt;,
+    N: FnMut() -&gt; R,
+    F: FnMut(R, O) -&gt; R,
     E: ParserError&lt;I&gt;,
 {
-    <span class="kw">let </span><span class="kw-2">mut </span>acc = C::initial(<span class="prelude-val">None</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>res = init();
+
     <span class="kw">loop </span>{
-        <span class="kw">let </span>start = i.checkpoint();
-        <span class="kw">let </span>len = i.eof_offset();
-        <span class="kw">match </span>f.parse_next(i) {
-            <span class="prelude-val">Err</span>(e) <span class="kw">if </span>e.is_backtrack() =&gt; {
-                i.reset(<span class="kw-2">&amp;</span>start);
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(acc);
-            }
-            <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(e),
-            <span class="prelude-val">Ok</span>(o) =&gt; {
+        <span class="kw">let </span>start = input.checkpoint();
+        <span class="kw">let </span>len = input.eof_offset();
+        <span class="kw">match </span>parser.parse_next(input) {
+            <span class="prelude-val">Ok</span>(output) =&gt; {
                 <span class="comment">// infinite loop check: the parser must always consume
-                </span><span class="kw">if </span>i.eof_offset() == len {
+                </span><span class="kw">if </span>input.eof_offset() == len {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
-                        i,
+                        input,
                         <span class="string">"`repeat` parsers must always consume"</span>,
                     ));
                 }
 
-                acc.accumulate(o);
+                res = fold(res, output);
+            }
+            <span class="prelude-val">Err</span>(err) <span class="kw">if </span>err.is_backtrack() =&gt; {
+                input.reset(<span class="kw-2">&amp;</span>start);
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(res);
+            }
+            <span class="prelude-val">Err</span>(err) =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(err);
             }
         }
     }
 }
 
-<span class="kw">fn </span>repeat1_&lt;I, O, C, E, F&gt;(f: <span class="kw-2">&amp;mut </span>F, i: <span class="kw-2">&amp;mut </span>I) -&gt; <span class="prelude-ty">Result</span>&lt;C, E&gt;
+<span class="kw">fn </span>fold_repeat1_&lt;I, O, E, P, N, F, R&gt;(
+    parser: <span class="kw-2">&amp;mut </span>P,
+    init: <span class="kw-2">&amp;mut </span>N,
+    fold: <span class="kw-2">&amp;mut </span>F,
+    input: <span class="kw-2">&amp;mut </span>I,
+) -&gt; <span class="prelude-ty">Result</span>&lt;R, E&gt;
 <span class="kw">where
     </span>I: Stream,
-    C: Accumulate&lt;O&gt;,
-    F: Parser&lt;I, O, E&gt;,
+    P: Parser&lt;I, O, E&gt;,
+    N: FnMut() -&gt; R,
+    F: FnMut(R, O) -&gt; R,
     E: ParserError&lt;I&gt;,
 {
-    <span class="kw">let </span>start = i.checkpoint();
-    <span class="kw">match </span>f.parse_next(i) {
-        <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Err</span>(e.append(i, <span class="kw-2">&amp;</span>start)),
-        <span class="prelude-val">Ok</span>(o) =&gt; {
-            <span class="kw">let </span><span class="kw-2">mut </span>acc = C::initial(<span class="prelude-val">None</span>);
-            acc.accumulate(o);
+    <span class="kw">let </span>start = input.checkpoint();
+    <span class="kw">match </span>parser.parse_next(input) {
+        <span class="prelude-val">Err</span>(err) =&gt; <span class="prelude-val">Err</span>(err.append(input, <span class="kw-2">&amp;</span>start)),
+        <span class="prelude-val">Ok</span>(output) =&gt; {
+            <span class="kw">let </span>init = init();
+            <span class="kw">let </span><span class="kw-2">mut </span>res = fold(init, output);
 
             <span class="kw">loop </span>{
-                <span class="kw">let </span>start = i.checkpoint();
-                <span class="kw">let </span>len = i.eof_offset();
-                <span class="kw">match </span>f.parse_next(i) {
-                    <span class="prelude-val">Err</span>(e) <span class="kw">if </span>e.is_backtrack() =&gt; {
-                        i.reset(<span class="kw-2">&amp;</span>start);
-                        <span class="kw">return </span><span class="prelude-val">Ok</span>(acc);
+                <span class="kw">let </span>start = input.checkpoint();
+                <span class="kw">let </span>len = input.eof_offset();
+                <span class="kw">match </span>parser.parse_next(input) {
+                    <span class="prelude-val">Err</span>(err) <span class="kw">if </span>err.is_backtrack() =&gt; {
+                        input.reset(<span class="kw-2">&amp;</span>start);
+                        <span class="kw">break</span>;
                     }
-                    <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(e),
-                    <span class="prelude-val">Ok</span>(o) =&gt; {
+                    <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(err),
+                    <span class="prelude-val">Ok</span>(output) =&gt; {
                         <span class="comment">// infinite loop check: the parser must always consume
-                        </span><span class="kw">if </span>i.eof_offset() == len {
+                        </span><span class="kw">if </span>input.eof_offset() == len {
                             <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
-                                i,
+                                input,
                                 <span class="string">"`repeat` parsers must always consume"</span>,
                             ));
                         }
 
-                        acc.accumulate(o);
+                        res = fold(res, output);
                     }
                 }
             }
+
+            <span class="prelude-val">Ok</span>(res)
         }
     }
 }
 
-<span class="kw">fn </span>repeat_n_&lt;I, O, C, E, F&gt;(count: usize, f: <span class="kw-2">&amp;mut </span>F, i: <span class="kw-2">&amp;mut </span>I) -&gt; <span class="prelude-ty">Result</span>&lt;C, E&gt;
+<span class="kw">fn </span>fold_repeat_n_&lt;I, O, E, P, N, F, R&gt;(
+    count: usize,
+    parse: <span class="kw-2">&amp;mut </span>P,
+    init: <span class="kw-2">&amp;mut </span>N,
+    fold: <span class="kw-2">&amp;mut </span>F,
+    input: <span class="kw-2">&amp;mut </span>I,
+) -&gt; <span class="prelude-ty">Result</span>&lt;R, E&gt;
 <span class="kw">where
     </span>I: Stream,
-    C: Accumulate&lt;O&gt;,
-    F: Parser&lt;I, O, E&gt;,
+    P: Parser&lt;I, O, E&gt;,
+    N: FnMut() -&gt; R,
+    F: FnMut(R, O) -&gt; R,
     E: ParserError&lt;I&gt;,
 {
-    <span class="kw">let </span><span class="kw-2">mut </span>res = C::initial(<span class="prelude-val">Some</span>(count));
+    <span class="kw">let </span><span class="kw-2">mut </span>res = init();
 
     <span class="kw">for _ in </span><span class="number">0</span>..count {
-        <span class="kw">let </span>start = i.checkpoint();
-        <span class="kw">let </span>len = i.eof_offset();
-        <span class="kw">match </span>f.parse_next(i) {
-            <span class="prelude-val">Ok</span>(o) =&gt; {
+        <span class="kw">let </span>start = input.checkpoint();
+        <span class="kw">let </span>len = input.eof_offset();
+        <span class="kw">match </span>parse.parse_next(input) {
+            <span class="prelude-val">Ok</span>(output) =&gt; {
                 <span class="comment">// infinite loop check: the parser must always consume
-                </span><span class="kw">if </span>i.eof_offset() == len {
+                </span><span class="kw">if </span>input.eof_offset() == len {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
-                        i,
+                        input,
                         <span class="string">"`repeat` parsers must always consume"</span>,
                     ));
                 }
 
-                res.accumulate(o);
+                res = fold(res, output);
             }
-            <span class="prelude-val">Err</span>(e) =&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(e.append(i, <span class="kw-2">&amp;</span>start));
+            <span class="prelude-val">Err</span>(err) =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(err.append(input, <span class="kw-2">&amp;</span>start));
             }
         }
     }
@@ -2172,11 +2158,19 @@
     <span class="prelude-val">Ok</span>(res)
 }
 
-<span class="kw">fn </span>repeat_m_n_&lt;I, O, C, E, F&gt;(min: usize, max: usize, parse: <span class="kw-2">&amp;mut </span>F, input: <span class="kw-2">&amp;mut </span>I) -&gt; <span class="prelude-ty">Result</span>&lt;C, E&gt;
+<span class="kw">fn </span>fold_repeat_m_n_&lt;I, O, E, P, N, F, R&gt;(
+    min: usize,
+    max: usize,
+    parse: <span class="kw-2">&amp;mut </span>P,
+    init: <span class="kw-2">&amp;mut </span>N,
+    fold: <span class="kw-2">&amp;mut </span>F,
+    input: <span class="kw-2">&amp;mut </span>I,
+) -&gt; <span class="prelude-ty">Result</span>&lt;R, E&gt;
 <span class="kw">where
     </span>I: Stream,
-    C: Accumulate&lt;O&gt;,
-    F: Parser&lt;I, O, E&gt;,
+    P: Parser&lt;I, O, E&gt;,
+    N: FnMut() -&gt; R,
+    F: FnMut(R, O) -&gt; R,
     E: ParserError&lt;I&gt;,
 {
     <span class="kw">if </span>min &gt; max {
@@ -2186,12 +2180,12 @@
         ));
     }
 
-    <span class="kw">let </span><span class="kw-2">mut </span>res = C::initial(<span class="prelude-val">Some</span>(min));
+    <span class="kw">let </span><span class="kw-2">mut </span>res = init();
     <span class="kw">for </span>count <span class="kw">in </span><span class="number">0</span>..max {
         <span class="kw">let </span>start = input.checkpoint();
         <span class="kw">let </span>len = input.eof_offset();
         <span class="kw">match </span>parse.parse_next(input) {
-            <span class="prelude-val">Ok</span>(value) =&gt; {
+            <span class="prelude-val">Ok</span>(output) =&gt; {
                 <span class="comment">// infinite loop check: the parser must always consume
                 </span><span class="kw">if </span>input.eof_offset() == len {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
@@ -2200,19 +2194,140 @@
                     ));
                 }
 
-                res.accumulate(value);
+                res = fold(res, output);
             }
-            <span class="prelude-val">Err</span>(e) <span class="kw">if </span>e.is_backtrack() =&gt; {
+            <span class="comment">//FInputXMError: handle failure properly
+            </span><span class="prelude-val">Err</span>(err) <span class="kw">if </span>err.is_backtrack() =&gt; {
                 <span class="kw">if </span>count &lt; min {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(e.append(input, <span class="kw-2">&amp;</span>start));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(err.append(input, <span class="kw-2">&amp;</span>start));
                 } <span class="kw">else </span>{
                     input.reset(<span class="kw-2">&amp;</span>start);
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(res);
+                    <span class="kw">break</span>;
                 }
             }
-            <span class="prelude-val">Err</span>(e) =&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(e);
+            <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(err),
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(res)
+}
+
+<span class="kw">fn </span>verify_fold_m_n&lt;I, O, E, P, N, F, R&gt;(
+    min: usize,
+    max: usize,
+    parse: <span class="kw-2">&amp;mut </span>P,
+    init: <span class="kw-2">&amp;mut </span>N,
+    fold: <span class="kw-2">&amp;mut </span>F,
+    input: <span class="kw-2">&amp;mut </span>I,
+) -&gt; <span class="prelude-ty">Result</span>&lt;R, E&gt;
+<span class="kw">where
+    </span>I: Stream,
+    P: Parser&lt;I, O, E&gt;,
+    N: FnMut() -&gt; R,
+    F: FnMut(R, O) -&gt; <span class="prelude-ty">Option</span>&lt;R&gt;,
+    E: ParserError&lt;I&gt;,
+{
+    <span class="kw">if </span>min &gt; max {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
+            input,
+            <span class="string">"range should be ascending, rather than descending"</span>,
+        ));
+    }
+
+    <span class="kw">let </span><span class="kw-2">mut </span>res = init();
+    <span class="kw">for </span>count <span class="kw">in </span><span class="number">0</span>..max {
+        <span class="kw">let </span>start = input.checkpoint();
+        <span class="kw">let </span>len = input.eof_offset();
+        <span class="kw">match </span>parse.parse_next(input) {
+            <span class="prelude-val">Ok</span>(output) =&gt; {
+                <span class="comment">// infinite loop check: the parser must always consume
+                </span><span class="kw">if </span>input.eof_offset() == len {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
+                        input,
+                        <span class="string">"`repeat` parsers must always consume"</span>,
+                    ));
+                }
+
+                <span class="kw">let </span><span class="prelude-val">Some</span>(res_) = fold(res, output) <span class="kw">else </span>{
+                    input.reset(<span class="kw-2">&amp;</span>start);
+                    <span class="kw">let </span>res = <span class="prelude-val">Err</span>(ParserError::from_input(input));
+                    <span class="kw">super</span>::debug::trace_result(<span class="string">"verify_fold"</span>, <span class="kw-2">&amp;</span>res);
+                    <span class="kw">return </span>res;
+                };
+                res = res_;
             }
+            <span class="comment">//FInputXMError: handle failure properly
+            </span><span class="prelude-val">Err</span>(err) <span class="kw">if </span>err.is_backtrack() =&gt; {
+                <span class="kw">if </span>count &lt; min {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(err.append(input, <span class="kw-2">&amp;</span>start));
+                } <span class="kw">else </span>{
+                    input.reset(<span class="kw-2">&amp;</span>start);
+                    <span class="kw">break</span>;
+                }
+            }
+            <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(err),
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(res)
+}
+
+<span class="kw">fn </span>try_fold_m_n&lt;I, O, E, P, N, F, R, RE&gt;(
+    min: usize,
+    max: usize,
+    parse: <span class="kw-2">&amp;mut </span>P,
+    init: <span class="kw-2">&amp;mut </span>N,
+    fold: <span class="kw-2">&amp;mut </span>F,
+    input: <span class="kw-2">&amp;mut </span>I,
+) -&gt; <span class="prelude-ty">Result</span>&lt;R, E&gt;
+<span class="kw">where
+    </span>I: Stream,
+    P: Parser&lt;I, O, E&gt;,
+    N: FnMut() -&gt; R,
+    F: FnMut(R, O) -&gt; <span class="prelude-ty">Result</span>&lt;R, RE&gt;,
+    E: ParserError&lt;I&gt; + FromExternalError&lt;I, RE&gt;,
+{
+    <span class="kw">if </span>min &gt; max {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
+            input,
+            <span class="string">"range should be ascending, rather than descending"</span>,
+        ));
+    }
+
+    <span class="kw">let </span><span class="kw-2">mut </span>res = init();
+    <span class="kw">for </span>count <span class="kw">in </span><span class="number">0</span>..max {
+        <span class="kw">let </span>start = input.checkpoint();
+        <span class="kw">let </span>len = input.eof_offset();
+        <span class="kw">match </span>parse.parse_next(input) {
+            <span class="prelude-val">Ok</span>(output) =&gt; {
+                <span class="comment">// infinite loop check: the parser must always consume
+                </span><span class="kw">if </span>input.eof_offset() == len {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
+                        input,
+                        <span class="string">"`repeat` parsers must always consume"</span>,
+                    ));
+                }
+
+                <span class="kw">match </span>fold(res, output) {
+                    <span class="prelude-val">Ok</span>(res_) =&gt; res = res_,
+                    <span class="prelude-val">Err</span>(err) =&gt; {
+                        input.reset(<span class="kw-2">&amp;</span>start);
+                        <span class="kw">let </span>res = <span class="prelude-val">Err</span>(E::from_external_error(input, err));
+                        <span class="kw">super</span>::debug::trace_result(<span class="string">"try_fold"</span>, <span class="kw-2">&amp;</span>res);
+                        <span class="kw">return </span>res;
+                    }
+                }
+            }
+            <span class="comment">//FInputXMError: handle failure properly
+            </span><span class="prelude-val">Err</span>(err) <span class="kw">if </span>err.is_backtrack() =&gt; {
+                <span class="kw">if </span>count &lt; min {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(err.append(input, <span class="kw-2">&amp;</span>start));
+                } <span class="kw">else </span>{
+                    input.reset(<span class="kw-2">&amp;</span>start);
+                    <span class="kw">break</span>;
+                }
+            }
+            <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(err),
         }
     }
 
@@ -2950,272 +3065,5 @@
 
         <span class="prelude-val">Ok</span>(())
     })
-}
-
-<span class="kw">fn </span>fold_repeat0_&lt;I, O, E, F, G, H, R&gt;(
-    f: <span class="kw-2">&amp;mut </span>F,
-    init: <span class="kw-2">&amp;mut </span>H,
-    g: <span class="kw-2">&amp;mut </span>G,
-    input: <span class="kw-2">&amp;mut </span>I,
-) -&gt; <span class="prelude-ty">Result</span>&lt;R, E&gt;
-<span class="kw">where
-    </span>I: Stream,
-    F: Parser&lt;I, O, E&gt;,
-    G: FnMut(R, O) -&gt; R,
-    H: FnMut() -&gt; R,
-    E: ParserError&lt;I&gt;,
-{
-    <span class="kw">let </span><span class="kw-2">mut </span>res = init();
-
-    <span class="kw">loop </span>{
-        <span class="kw">let </span>start = input.checkpoint();
-        <span class="kw">let </span>len = input.eof_offset();
-        <span class="kw">match </span>f.parse_next(input) {
-            <span class="prelude-val">Ok</span>(o) =&gt; {
-                <span class="comment">// infinite loop check: the parser must always consume
-                </span><span class="kw">if </span>input.eof_offset() == len {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
-                        input,
-                        <span class="string">"`repeat` parsers must always consume"</span>,
-                    ));
-                }
-
-                res = g(res, o);
-            }
-            <span class="prelude-val">Err</span>(e) <span class="kw">if </span>e.is_backtrack() =&gt; {
-                input.reset(<span class="kw-2">&amp;</span>start);
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(res);
-            }
-            <span class="prelude-val">Err</span>(e) =&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(e);
-            }
-        }
-    }
-}
-
-<span class="kw">fn </span>fold_repeat1_&lt;I, O, E, F, G, H, R&gt;(
-    f: <span class="kw-2">&amp;mut </span>F,
-    init: <span class="kw-2">&amp;mut </span>H,
-    g: <span class="kw-2">&amp;mut </span>G,
-    input: <span class="kw-2">&amp;mut </span>I,
-) -&gt; <span class="prelude-ty">Result</span>&lt;R, E&gt;
-<span class="kw">where
-    </span>I: Stream,
-    F: Parser&lt;I, O, E&gt;,
-    G: FnMut(R, O) -&gt; R,
-    H: FnMut() -&gt; R,
-    E: ParserError&lt;I&gt;,
-{
-    <span class="kw">let </span>init = init();
-    <span class="kw">let </span>start = input.checkpoint();
-    <span class="kw">match </span>f.parse_next(input) {
-        <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Err</span>(e.append(input, <span class="kw-2">&amp;</span>start)),
-        <span class="prelude-val">Ok</span>(o1) =&gt; {
-            <span class="kw">let </span><span class="kw-2">mut </span>acc = g(init, o1);
-
-            <span class="kw">loop </span>{
-                <span class="kw">let </span>start = input.checkpoint();
-                <span class="kw">let </span>len = input.eof_offset();
-                <span class="kw">match </span>f.parse_next(input) {
-                    <span class="prelude-val">Err</span>(e) <span class="kw">if </span>e.is_backtrack() =&gt; {
-                        input.reset(<span class="kw-2">&amp;</span>start);
-                        <span class="kw">break</span>;
-                    }
-                    <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(e),
-                    <span class="prelude-val">Ok</span>(o) =&gt; {
-                        <span class="comment">// infinite loop check: the parser must always consume
-                        </span><span class="kw">if </span>input.eof_offset() == len {
-                            <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
-                                input,
-                                <span class="string">"`repeat` parsers must always consume"</span>,
-                            ));
-                        }
-
-                        acc = g(acc, o);
-                    }
-                }
-            }
-
-            <span class="prelude-val">Ok</span>(acc)
-        }
-    }
-}
-
-<span class="kw">fn </span>fold_repeat_m_n_&lt;I, O, E, F, G, H, R&gt;(
-    min: usize,
-    max: usize,
-    parse: <span class="kw-2">&amp;mut </span>F,
-    init: <span class="kw-2">&amp;mut </span>H,
-    fold: <span class="kw-2">&amp;mut </span>G,
-    input: <span class="kw-2">&amp;mut </span>I,
-) -&gt; <span class="prelude-ty">Result</span>&lt;R, E&gt;
-<span class="kw">where
-    </span>I: Stream,
-    F: Parser&lt;I, O, E&gt;,
-    G: FnMut(R, O) -&gt; R,
-    H: FnMut() -&gt; R,
-    E: ParserError&lt;I&gt;,
-{
-    <span class="kw">if </span>min &gt; max {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
-            input,
-            <span class="string">"range should be ascending, rather than descending"</span>,
-        ));
-    }
-
-    <span class="kw">let </span><span class="kw-2">mut </span>acc = init();
-    <span class="kw">for </span>count <span class="kw">in </span><span class="number">0</span>..max {
-        <span class="kw">let </span>start = input.checkpoint();
-        <span class="kw">let </span>len = input.eof_offset();
-        <span class="kw">match </span>parse.parse_next(input) {
-            <span class="prelude-val">Ok</span>(value) =&gt; {
-                <span class="comment">// infinite loop check: the parser must always consume
-                </span><span class="kw">if </span>input.eof_offset() == len {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
-                        input,
-                        <span class="string">"`repeat` parsers must always consume"</span>,
-                    ));
-                }
-
-                acc = fold(acc, value);
-            }
-            <span class="comment">//FInputXMError: handle failure properly
-            </span><span class="prelude-val">Err</span>(err) <span class="kw">if </span>err.is_backtrack() =&gt; {
-                <span class="kw">if </span>count &lt; min {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(err.append(input, <span class="kw-2">&amp;</span>start));
-                } <span class="kw">else </span>{
-                    input.reset(<span class="kw-2">&amp;</span>start);
-                    <span class="kw">break</span>;
-                }
-            }
-            <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(e),
-        }
-    }
-
-    <span class="prelude-val">Ok</span>(acc)
-}
-
-<span class="attr">#[inline(always)]
-</span><span class="kw">fn </span>verify_fold_m_n&lt;I, O, E, F, G, H, R&gt;(
-    min: usize,
-    max: usize,
-    parse: <span class="kw-2">&amp;mut </span>F,
-    init: <span class="kw-2">&amp;mut </span>H,
-    fold: <span class="kw-2">&amp;mut </span>G,
-    input: <span class="kw-2">&amp;mut </span>I,
-) -&gt; <span class="prelude-ty">Result</span>&lt;R, E&gt;
-<span class="kw">where
-    </span>I: Stream,
-    F: Parser&lt;I, O, E&gt;,
-    G: FnMut(R, O) -&gt; <span class="prelude-ty">Option</span>&lt;R&gt;,
-    H: FnMut() -&gt; R,
-    E: ParserError&lt;I&gt;,
-{
-    <span class="kw">if </span>min &gt; max {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
-            input,
-            <span class="string">"range should be ascending, rather than descending"</span>,
-        ));
-    }
-
-    <span class="kw">let </span><span class="kw-2">mut </span>acc = init();
-    <span class="kw">for </span>count <span class="kw">in </span><span class="number">0</span>..max {
-        <span class="kw">let </span>start = input.checkpoint();
-        <span class="kw">let </span>len = input.eof_offset();
-        <span class="kw">match </span>parse.parse_next(input) {
-            <span class="prelude-val">Ok</span>(value) =&gt; {
-                <span class="comment">// infinite loop check: the parser must always consume
-                </span><span class="kw">if </span>input.eof_offset() == len {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
-                        input,
-                        <span class="string">"`repeat` parsers must always consume"</span>,
-                    ));
-                }
-
-                <span class="kw">let </span><span class="prelude-val">Some</span>(tmp) = fold(acc, value) <span class="kw">else </span>{
-                    input.reset(<span class="kw-2">&amp;</span>start);
-                    <span class="kw">let </span>res = <span class="prelude-val">Err</span>(ParserError::from_input(input));
-                    <span class="kw">super</span>::debug::trace_result(<span class="string">"verify_fold"</span>, <span class="kw-2">&amp;</span>res);
-                    <span class="kw">return </span>res;
-                };
-                acc = tmp;
-            }
-            <span class="comment">//FInputXMError: handle failure properly
-            </span><span class="prelude-val">Err</span>(err) <span class="kw">if </span>err.is_backtrack() =&gt; {
-                <span class="kw">if </span>count &lt; min {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(err.append(input, <span class="kw-2">&amp;</span>start));
-                } <span class="kw">else </span>{
-                    input.reset(<span class="kw-2">&amp;</span>start);
-                    <span class="kw">break</span>;
-                }
-            }
-            <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(e),
-        }
-    }
-
-    <span class="prelude-val">Ok</span>(acc)
-}
-
-<span class="attr">#[inline(always)]
-</span><span class="kw">fn </span>try_fold_m_n&lt;I, O, E, F, G, H, R, GE&gt;(
-    min: usize,
-    max: usize,
-    parse: <span class="kw-2">&amp;mut </span>F,
-    init: <span class="kw-2">&amp;mut </span>H,
-    fold: <span class="kw-2">&amp;mut </span>G,
-    input: <span class="kw-2">&amp;mut </span>I,
-) -&gt; <span class="prelude-ty">Result</span>&lt;R, E&gt;
-<span class="kw">where
-    </span>I: Stream,
-    F: Parser&lt;I, O, E&gt;,
-    G: FnMut(R, O) -&gt; <span class="prelude-ty">Result</span>&lt;R, GE&gt;,
-    H: FnMut() -&gt; R,
-    E: ParserError&lt;I&gt; + FromExternalError&lt;I, GE&gt;,
-{
-    <span class="kw">if </span>min &gt; max {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
-            input,
-            <span class="string">"range should be ascending, rather than descending"</span>,
-        ));
-    }
-
-    <span class="kw">let </span><span class="kw-2">mut </span>acc = init();
-    <span class="kw">for </span>count <span class="kw">in </span><span class="number">0</span>..max {
-        <span class="kw">let </span>start = input.checkpoint();
-        <span class="kw">let </span>len = input.eof_offset();
-        <span class="kw">match </span>parse.parse_next(input) {
-            <span class="prelude-val">Ok</span>(value) =&gt; {
-                <span class="comment">// infinite loop check: the parser must always consume
-                </span><span class="kw">if </span>input.eof_offset() == len {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(ParserError::assert(
-                        input,
-                        <span class="string">"`repeat` parsers must always consume"</span>,
-                    ));
-                }
-
-                <span class="kw">match </span>fold(acc, value) {
-                    <span class="prelude-val">Ok</span>(tmp) =&gt; acc = tmp,
-                    <span class="prelude-val">Err</span>(e) =&gt; {
-                        input.reset(<span class="kw-2">&amp;</span>start);
-                        <span class="kw">let </span>res = <span class="prelude-val">Err</span>(E::from_external_error(input, e));
-                        <span class="kw">super</span>::debug::trace_result(<span class="string">"try_fold"</span>, <span class="kw-2">&amp;</span>res);
-                        <span class="kw">return </span>res;
-                    }
-                }
-            }
-            <span class="comment">//FInputXMError: handle failure properly
-            </span><span class="prelude-val">Err</span>(err) <span class="kw">if </span>err.is_backtrack() =&gt; {
-                <span class="kw">if </span>count &lt; min {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(err.append(input, <span class="kw-2">&amp;</span>start));
-                } <span class="kw">else </span>{
-                    input.reset(<span class="kw-2">&amp;</span>start);
-                    <span class="kw">break</span>;
-                }
-            }
-            <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(e),
-        }
-    }
-
-    <span class="prelude-val">Ok</span>(acc)
 }
 </code></pre></div></section></main></body></html>

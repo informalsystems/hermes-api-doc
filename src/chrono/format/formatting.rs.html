@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/chrono-0.4.39/src/format/formatting.rs`."><title>formatting.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="chrono" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">chrono/format/</div>formatting.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/chrono-0.4.40/src/format/formatting.rs`."><title>formatting.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="chrono" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">chrono/format/</div>formatting.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -901,7 +901,49 @@
 <a href="#900" id="900">900</a>
 <a href="#901" id="901">901</a>
 <a href="#902" id="902">902</a>
-<a href="#903" id="903">903</a></pre></div><pre class="rust"><code><span class="comment">// This is a part of Chrono.
+<a href="#903" id="903">903</a>
+<a href="#904" id="904">904</a>
+<a href="#905" id="905">905</a>
+<a href="#906" id="906">906</a>
+<a href="#907" id="907">907</a>
+<a href="#908" id="908">908</a>
+<a href="#909" id="909">909</a>
+<a href="#910" id="910">910</a>
+<a href="#911" id="911">911</a>
+<a href="#912" id="912">912</a>
+<a href="#913" id="913">913</a>
+<a href="#914" id="914">914</a>
+<a href="#915" id="915">915</a>
+<a href="#916" id="916">916</a>
+<a href="#917" id="917">917</a>
+<a href="#918" id="918">918</a>
+<a href="#919" id="919">919</a>
+<a href="#920" id="920">920</a>
+<a href="#921" id="921">921</a>
+<a href="#922" id="922">922</a>
+<a href="#923" id="923">923</a>
+<a href="#924" id="924">924</a>
+<a href="#925" id="925">925</a>
+<a href="#926" id="926">926</a>
+<a href="#927" id="927">927</a>
+<a href="#928" id="928">928</a>
+<a href="#929" id="929">929</a>
+<a href="#930" id="930">930</a>
+<a href="#931" id="931">931</a>
+<a href="#932" id="932">932</a>
+<a href="#933" id="933">933</a>
+<a href="#934" id="934">934</a>
+<a href="#935" id="935">935</a>
+<a href="#936" id="936">936</a>
+<a href="#937" id="937">937</a>
+<a href="#938" id="938">938</a>
+<a href="#939" id="939">939</a>
+<a href="#940" id="940">940</a>
+<a href="#941" id="941">941</a>
+<a href="#942" id="942">942</a>
+<a href="#943" id="943">943</a>
+<a href="#944" id="944">944</a>
+<a href="#945" id="945">945</a></pre></div><pre class="rust"><code><span class="comment">// This is a part of Chrono.
 // See README.md and LICENSE.txt for details.
 
 </span><span class="doccomment">//! Date and time formatting routines.
@@ -1000,7 +1042,19 @@
         DelayedFormat { date, time, off: <span class="prelude-val">Some</span>(name_and_diff), items, locale }
     }
 
-    <span class="kw">fn </span>format(<span class="kw-2">&amp;</span><span class="self">self</span>, w: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>Write) -&gt; fmt::Result {
+    <span class="doccomment">/// Formats `DelayedFormat` into a `core::fmt::Write` instance.
+    /// # Errors
+    /// This function returns a `core::fmt::Error` if formatting into the `core::fmt::Write` instance fails.
+    ///
+    /// # Example
+    /// ### Writing to a String
+    /// ```
+    /// let dt = chrono::DateTime::from_timestamp(1643723400, 123456789).unwrap();
+    /// let df = dt.format("%Y-%m-%d %H:%M:%S%.9f");
+    /// let mut buffer = String::new();
+    /// let _ = df.write_to(&amp;mut buffer);
+    /// ```
+    </span><span class="kw">pub fn </span>write_to(<span class="kw-2">&amp;</span><span class="self">self</span>, w: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>Write) -&gt; fmt::Result {
         <span class="kw">for </span>item <span class="kw">in </span><span class="self">self</span>.items.clone() {
             <span class="kw">match </span><span class="kw-2">*</span>item.borrow() {
                 Item::Literal(s) | Item::Space(s) =&gt; w.write_str(s),
@@ -1076,6 +1130,7 @@
             (IsoYearMod100, <span class="prelude-val">Some</span>(d), <span class="kw">_</span>) =&gt; {
                 write_two(w, d.iso_week().year().rem_euclid(<span class="number">100</span>) <span class="kw">as </span>u8, pad)
             }
+            (Quarter, <span class="prelude-val">Some</span>(d), <span class="kw">_</span>) =&gt; write_one(w, d.quarter() <span class="kw">as </span>u8),
             (Month, <span class="prelude-val">Some</span>(d), <span class="kw">_</span>) =&gt; write_two(w, d.month() <span class="kw">as </span>u8, pad),
             (Day, <span class="prelude-val">Some</span>(d), <span class="kw">_</span>) =&gt; write_two(w, d.day() <span class="kw">as </span>u8, pad),
             (WeekFromSun, <span class="prelude-val">Some</span>(d), <span class="kw">_</span>) =&gt; write_two(w, d.weeks_from(Weekday::Sun) <span class="kw">as </span>u8, pad),
@@ -1224,7 +1279,7 @@
 </span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, I: Iterator&lt;Item = B&gt; + Clone, B: Borrow&lt;Item&lt;<span class="lifetime">'a</span>&gt;&gt;&gt; Display <span class="kw">for </span>DelayedFormat&lt;I&gt; {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">let </span><span class="kw-2">mut </span>result = String::new();
-        <span class="self">self</span>.format(<span class="kw-2">&amp;mut </span>result)<span class="question-mark">?</span>;
+        <span class="self">self</span>.write_to(<span class="kw-2">&amp;mut </span>result)<span class="question-mark">?</span>;
         f.pad(<span class="kw-2">&amp;</span>result)
     }
 }
@@ -1232,7 +1287,7 @@
 <span class="doccomment">/// Tries to format given arguments with given formatting items.
 /// Internally used by `DelayedFormat`.
 </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-#[deprecated(since = <span class="string">"0.4.32"</span>, note = <span class="string">"Use DelayedFormat::fmt instead"</span>)]
+#[deprecated(since = <span class="string">"0.4.32"</span>, note = <span class="string">"Use DelayedFormat::fmt or DelayedFormat::write_to instead"</span>)]
 </span><span class="kw">pub fn </span>format&lt;<span class="lifetime">'a</span>, I, B&gt;(
     w: <span class="kw-2">&amp;mut </span>fmt::Formatter,
     date: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>NaiveDate&gt;,
@@ -1256,7 +1311,7 @@
 
 <span class="doccomment">/// Formats single formatting item
 </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
-#[deprecated(since = <span class="string">"0.4.32"</span>, note = <span class="string">"Use DelayedFormat::fmt instead"</span>)]
+#[deprecated(since = <span class="string">"0.4.32"</span>, note = <span class="string">"Use DelayedFormat::fmt or DelayedFormat::write_to instead"</span>)]
 </span><span class="kw">pub fn </span>format_item(
     w: <span class="kw-2">&amp;mut </span>fmt::Formatter,
     date: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>NaiveDate&gt;,
@@ -1514,12 +1569,41 @@
     <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
     </span><span class="kw">use crate</span>::{NaiveDate, NaiveTime, TimeZone, Timelike, Utc};
 
+    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    #[test]
+    </span><span class="kw">fn </span>test_delayed_write_to() {
+        <span class="kw">let </span>dt = <span class="kw">crate</span>::DateTime::from_timestamp(<span class="number">1643723400</span>, <span class="number">123456789</span>).unwrap();
+        <span class="kw">let </span>df = dt.format(<span class="string">"%Y-%m-%d %H:%M:%S%.9f"</span>);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>dt_str = String::new();
+
+        df.write_to(<span class="kw-2">&amp;mut </span>dt_str).unwrap();
+        <span class="macro">assert_eq!</span>(dt_str, <span class="string">"2022-02-01 13:50:00.123456789"</span>);
+    }
+
+    <span class="attr">#[cfg(all(feature = <span class="string">"std"</span>, feature = <span class="string">"unstable-locales"</span>, feature = <span class="string">"alloc"</span>))]
+    #[test]
+    </span><span class="kw">fn </span>test_with_locale_delayed_write_to() {
+        <span class="kw">use </span><span class="kw">crate</span>::DateTime;
+        <span class="kw">use </span><span class="kw">crate</span>::format::locales::Locale;
+
+        <span class="kw">let </span>dt = DateTime::from_timestamp(<span class="number">1643723400</span>, <span class="number">123456789</span>).unwrap();
+        <span class="kw">let </span>df = dt.format_localized(<span class="string">"%A, %B %d, %Y"</span>, Locale::ja_JP);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>dt_str = String::new();
+
+        df.write_to(<span class="kw-2">&amp;mut </span>dt_str).unwrap();
+
+        <span class="macro">assert_eq!</span>(dt_str, <span class="string">"火曜日, 2月 01, 2022"</span>);
+    }
+
     <span class="attr">#[test]
     #[cfg(feature = <span class="string">"alloc"</span>)]
     </span><span class="kw">fn </span>test_date_format() {
         <span class="kw">let </span>d = NaiveDate::from_ymd_opt(<span class="number">2012</span>, <span class="number">3</span>, <span class="number">4</span>).unwrap();
         <span class="macro">assert_eq!</span>(d.format(<span class="string">"%Y,%C,%y,%G,%g"</span>).to_string(), <span class="string">"2012,20,12,2012,12"</span>);
         <span class="macro">assert_eq!</span>(d.format(<span class="string">"%m,%b,%h,%B"</span>).to_string(), <span class="string">"03,Mar,Mar,March"</span>);
+        <span class="macro">assert_eq!</span>(d.format(<span class="string">"%q"</span>).to_string(), <span class="string">"1"</span>);
         <span class="macro">assert_eq!</span>(d.format(<span class="string">"%d,%e"</span>).to_string(), <span class="string">"04, 4"</span>);
         <span class="macro">assert_eq!</span>(d.format(<span class="string">"%U,%W,%V"</span>).to_string(), <span class="string">"10,09,09"</span>);
         <span class="macro">assert_eq!</span>(d.format(<span class="string">"%a,%A,%w,%u"</span>).to_string(), <span class="string">"Sun,Sunday,0,7"</span>);

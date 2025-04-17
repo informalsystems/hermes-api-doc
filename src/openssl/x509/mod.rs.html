@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.70/src/x509/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/x509/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.72/src/x509/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/x509/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -2586,7 +2586,7 @@
 <span class="kw">use crate</span>::{cvt, cvt_n, cvt_p, cvt_p_const};
 <span class="kw">use </span>openssl_macros::corresponds;
 
-<span class="attr">#[cfg(any(ossl102, boringssl, libressl261))]
+<span class="attr">#[cfg(any(ossl102, boringssl, libressl261, awslc))]
 </span><span class="kw">pub mod </span>verify;
 
 <span class="kw">pub mod </span>extension;
@@ -3025,7 +3025,7 @@
 
     <span class="doccomment">/// Retrieves the path length extension from a certificate, if it exists.
     </span><span class="attr">#[corresponds(X509_get_pathlen)]
-    #[cfg(any(ossl110, boringssl))]
+    #[cfg(any(ossl110, boringssl, awslc))]
     </span><span class="kw">pub fn </span>pathlen(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt; {
         <span class="kw">let </span>v = <span class="kw">unsafe </span>{ ffi::X509_get_pathlen(<span class="self">self</span>.as_ptr()) };
         u32::try_from(v).ok()
@@ -3033,7 +3033,7 @@
 
     <span class="doccomment">/// Returns this certificate's subject key id, if it exists.
     </span><span class="attr">#[corresponds(X509_get0_subject_key_id)]
-    #[cfg(any(ossl110, boringssl))]
+    #[cfg(any(ossl110, boringssl, awslc))]
     </span><span class="kw">pub fn </span>subject_key_id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Asn1OctetStringRef&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>data = ffi::X509_get0_subject_key_id(<span class="self">self</span>.as_ptr());
@@ -3043,7 +3043,7 @@
 
     <span class="doccomment">/// Returns this certificate's authority key id, if it exists.
     </span><span class="attr">#[corresponds(X509_get0_authority_key_id)]
-    #[cfg(any(ossl110, boringssl))]
+    #[cfg(any(ossl110, boringssl, awslc))]
     </span><span class="kw">pub fn </span>authority_key_id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Asn1OctetStringRef&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>data = ffi::X509_get0_authority_key_id(<span class="self">self</span>.as_ptr());
@@ -3799,7 +3799,7 @@
 
     <span class="doccomment">/// Copies the name to a new `X509Name`.
     </span><span class="attr">#[corresponds(X509_NAME_dup)]
-    #[cfg(any(boringssl, ossl110, libressl270))]
+    #[cfg(any(boringssl, ossl110, libressl270, awslc))]
     </span><span class="kw">pub fn </span>to_owned(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;X509Name, ErrorStack&gt; {
         <span class="kw">unsafe </span>{ cvt_p(ffi::X509_NAME_dup(<span class="self">self</span>.as_ptr())).map(|n| X509Name::from_ptr(n)) }
     }
@@ -4181,7 +4181,7 @@
 
     <span class="doccomment">/// Copies the entry to a new `X509Revoked`.
     </span><span class="attr">#[corresponds(X509_NAME_dup)]
-    #[cfg(any(boringssl, ossl110, libressl270))]
+    #[cfg(any(boringssl, ossl110, libressl270, awslc))]
     </span><span class="kw">pub fn </span>to_owned(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;X509Revoked, ErrorStack&gt; {
         <span class="kw">unsafe </span>{ cvt_p(ffi::X509_REVOKED_dup(<span class="self">self</span>.as_ptr())).map(|n| X509Revoked::from_ptr(n)) }
     }
@@ -4552,11 +4552,11 @@
         <span class="kw">let </span>s = cvt_p(ffi::ASN1_STRING_type_new(asn1_type.as_raw()))<span class="question-mark">?</span>;
         ffi::ASN1_STRING_set(s, value.as_ptr().cast(), value.len().try_into().unwrap());
 
-        <span class="attr">#[cfg(boringssl)]
+        <span class="attr">#[cfg(any(boringssl, awslc))]
         </span>{
             (<span class="kw-2">*</span>gn.as_ptr()).d.ptr = s.cast();
         }
-        <span class="attr">#[cfg(not(boringssl))]
+        <span class="attr">#[cfg(not(any(boringssl, awslc)))]
         </span>{
             (<span class="kw-2">*</span>gn.as_ptr()).d = s.cast();
         }
@@ -4593,11 +4593,11 @@
             <span class="kw">let </span>gn = cvt_p(ffi::GENERAL_NAME_new())<span class="question-mark">?</span>;
             (<span class="kw-2">*</span>gn).type_ = ffi::GEN_RID;
 
-            <span class="attr">#[cfg(boringssl)]
+            <span class="attr">#[cfg(any(boringssl, awslc))]
             </span>{
                 (<span class="kw-2">*</span>gn).d.registeredID = oid.as_ptr();
             }
-            <span class="attr">#[cfg(not(boringssl))]
+            <span class="attr">#[cfg(not(any(boringssl, awslc)))]
             </span>{
                 (<span class="kw-2">*</span>gn).d = oid.as_ptr().cast();
             }
@@ -4644,9 +4644,9 @@
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
 
-            <span class="attr">#[cfg(boringssl)]
+            <span class="attr">#[cfg(any(boringssl, awslc))]
             </span><span class="kw">let </span>d = (<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).d.ptr;
-            <span class="attr">#[cfg(not(boringssl))]
+            <span class="attr">#[cfg(not(any(boringssl, awslc)))]
             </span><span class="kw">let </span>d = (<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).d;
 
             <span class="kw">let </span>ptr = ASN1_STRING_get0_data(d <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
@@ -4673,9 +4673,9 @@
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
 
-            <span class="attr">#[cfg(boringssl)]
+            <span class="attr">#[cfg(any(boringssl, awslc))]
             </span><span class="kw">let </span>d = (<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).d.ptr;
-            <span class="attr">#[cfg(not(boringssl))]
+            <span class="attr">#[cfg(not(any(boringssl, awslc)))]
             </span><span class="kw">let </span>d = (<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).d;
 
             <span class="prelude-val">Some</span>(X509NameRef::from_const_ptr(d <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>))
@@ -4698,9 +4698,9 @@
             <span class="kw">if </span>(<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).type_ != ffi::GEN_IPADD {
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
-            <span class="attr">#[cfg(boringssl)]
+            <span class="attr">#[cfg(any(boringssl, awslc))]
             </span><span class="kw">let </span>d: <span class="kw-2">*const </span>ffi::ASN1_STRING = std::mem::transmute((<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).d);
-            <span class="attr">#[cfg(not(boringssl))]
+            <span class="attr">#[cfg(not(any(boringssl, awslc)))]
             </span><span class="kw">let </span>d = (<span class="kw-2">*</span><span class="self">self</span>.as_ptr()).d;
 
             <span class="kw">let </span>ptr = ASN1_STRING_get0_data(d <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>);
@@ -4852,7 +4852,7 @@
 }
 
 <span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, ossl110, libressl273))] </span>{
+    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, ossl110, libressl273, awslc))] </span>{
         <span class="kw">use </span>ffi::{X509_getm_notAfter, X509_getm_notBefore, X509_up_ref, X509_get0_signature};
     } <span class="kw">else </span>{
         <span class="attr">#[allow(bad_style)]
@@ -4893,7 +4893,7 @@
 }
 
 <span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, ossl110, libressl350))] </span>{
+    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, ossl110, libressl350, awslc))] </span>{
         <span class="kw">use </span>ffi::{
             X509_ALGOR_get0, ASN1_STRING_get0_data, X509_STORE_CTX_get0_chain, X509_set1_notAfter,
             X509_set1_notBefore, X509_REQ_get_version, X509_REQ_get_subject_name,
@@ -4933,7 +4933,7 @@
 }
 
 <span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, boringssl, libressl270))] </span>{
+    <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, boringssl, libressl270, awslc))] </span>{
         <span class="kw">use </span>ffi::X509_OBJECT_get0_X509;
     } <span class="kw">else </span>{
         <span class="attr">#[allow(bad_style)]
@@ -4948,7 +4948,7 @@
 }
 
 <span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, libressl350, boringssl))] </span>{
+    <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, libressl350, boringssl, awslc))] </span>{
         <span class="kw">use </span>ffi::X509_OBJECT_free;
     } <span class="kw">else </span>{
         <span class="attr">#[allow(bad_style)]
@@ -4960,7 +4960,7 @@
 }
 
 <span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, libressl350, boringssl))] </span>{
+    <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, libressl350, boringssl, awslc))] </span>{
         <span class="kw">use </span>ffi::{
             X509_CRL_get_issuer, X509_CRL_get0_nextUpdate, X509_CRL_get0_lastUpdate,
             X509_CRL_get_REVOKED,
@@ -5048,7 +5048,7 @@
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>sname = CString::new(sname).unwrap();
             <span class="macro">cfg_if!</span> {
-                <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, libressl280, boringssl))] </span>{
+                <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, libressl280, boringssl, awslc))] </span>{
                     <span class="kw">let </span>purpose = cvt_n(ffi::X509_PURPOSE_get_by_sname(sname.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>))<span class="question-mark">?</span>;
                 } <span class="kw">else </span>{
                     <span class="kw">let </span>purpose = cvt_n(ffi::X509_PURPOSE_get_by_sname(sname.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>))<span class="question-mark">?</span>;
@@ -5080,7 +5080,7 @@
     </span><span class="kw">pub fn </span>purpose(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; X509PurposeId {
         <span class="kw">unsafe </span>{
             <span class="macro">cfg_if!</span> {
-                <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, libressl280, boringssl))] </span>{
+                <span class="kw">if </span><span class="attr">#[cfg(any(ossl110, libressl280, boringssl, awslc))] </span>{
                     <span class="kw">let </span>x509_purpose = <span class="self">self</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>ffi::X509_PURPOSE;
                 } <span class="kw">else </span>{
                     <span class="kw">let </span>x509_purpose = <span class="self">self</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>ffi::X509_PURPOSE;

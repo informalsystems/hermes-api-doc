@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.70/src/aes.rs`."><title>aes.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/</div>aes.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.72/src/aes.rs`."><title>aes.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/</div>aes.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -317,7 +317,11 @@
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
 <a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a></pre></div><pre class="rust"><code><span class="doccomment">//! Low level AES IGE and key wrapping functionality
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a></pre></div><pre class="rust"><code><span class="doccomment">//! Low level AES IGE and key wrapping functionality
 //!
 //! AES ECB, CBC, XTS, CTR, CFB, GCM and other conventional symmetric encryption
 //! modes are found in [`symm`].  This is the implementation of AES IGE and key wrapping
@@ -342,7 +346,11 @@
 //! # Examples
 
 </span><span class="attr">#![cfg_attr(
-    all(not(boringssl), not(osslconf = <span class="string">"OPENSSL_NO_DEPRECATED_3_0"</span>)),
+    all(
+        not(boringssl),
+        not(awslc),
+        not(osslconf = <span class="string">"OPENSSL_NO_DEPRECATED_3_0"</span>)
+    ),
     doc = <span class="string">r#"\
 ## AES IGE
 ```rust
@@ -384,7 +392,7 @@ let mut iv = *b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F
 <span class="kw">use </span>std::mem::MaybeUninit;
 <span class="kw">use </span>std::ptr;
 
-<span class="attr">#[cfg(not(boringssl))]
+<span class="attr">#[cfg(not(any(boringssl, awslc)))]
 </span><span class="kw">use </span><span class="kw">crate</span>::symm::Mode;
 <span class="kw">use </span>openssl_macros::corresponds;
 
@@ -396,7 +404,7 @@ let mut iv = *b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F
 </span><span class="kw">pub struct </span>AesKey(ffi::AES_KEY);
 
 <span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(boringssl)] </span>{
+    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, awslc))] </span>{
         <span class="kw">type </span>AesBitType = c_uint;
         <span class="kw">type </span>AesSizeType = usize;
     } <span class="kw">else </span>{
@@ -474,7 +482,7 @@ let mut iv = *b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F
 ///
 /// Panics if `in_` is not the same length as `out`, if that length is not a multiple of 16, or if
 /// `iv` is not at least 32 bytes.
-</span><span class="attr">#[cfg(not(boringssl))]
+</span><span class="attr">#[cfg(not(any(boringssl, awslc)))]
 #[cfg(not(osslconf = <span class="string">"OPENSSL_NO_DEPRECATED_3_0"</span>))]
 #[corresponds(AES_ige_encrypt)]
 </span><span class="kw">pub fn </span>aes_ige(in_: <span class="kw-2">&amp;</span>[u8], out: <span class="kw-2">&amp;mut </span>[u8], key: <span class="kw-2">&amp;</span>AesKey, iv: <span class="kw-2">&amp;mut </span>[u8], mode: Mode) {
@@ -582,12 +590,12 @@ let mut iv = *b"\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F
     <span class="kw">use </span>hex::FromHex;
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="attr">#[cfg(not(boringssl))]
+    <span class="attr">#[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">use </span><span class="kw">crate</span>::symm::Mode;
 
     <span class="comment">// From https://www.mgp25.com/AESIGE/
     </span><span class="attr">#[test]
-    #[cfg(not(boringssl))]
+    #[cfg(not(any(boringssl, awslc)))]
     #[cfg(not(osslconf = <span class="string">"OPENSSL_NO_DEPRECATED_3_0"</span>))]
     </span><span class="kw">fn </span>ige_vector_1() {
         <span class="kw">let </span>raw_key = <span class="string">"000102030405060708090A0B0C0D0E0F"</span>;

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ethnum-1.5.0/src/intrinsics/native/divmod.rs`."><title>divmod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ethnum" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ethnum/intrinsics/native/</div>divmod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ethnum-1.5.1/src/intrinsics/native/divmod.rs`."><title>divmod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="ethnum" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ethnum/intrinsics/native/</div>divmod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -569,7 +569,51 @@
 <a href="#568" id="568">568</a>
 <a href="#569" id="569">569</a>
 <a href="#570" id="570">570</a>
-<a href="#571" id="571">571</a></pre></div><pre class="rust"><code><span class="doccomment">//! This module contains a Rust port of the `__u?divmodti4` compiler builtins
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a></pre></div><pre class="rust"><code><span class="doccomment">//! This module contains a Rust port of the `__u?divmodti4` compiler builtins
 //! that are typically used for implementing 64-bit signed and unsigned division
 //! on 32-bit platforms.
 //!
@@ -581,32 +625,52 @@
 //! - unsigned division: &lt;https://github.com/llvm/llvm-project/blob/main/compiler-rt/lib/builtins/udivmodti4.c&gt;
 
 </span><span class="kw">use crate</span>::{int::I256, uint::U256};
-<span class="kw">use </span>core::mem::MaybeUninit;
+<span class="kw">use </span>core::{mem::MaybeUninit, num::NonZeroU128};
 
 <span class="attr">#[inline(always)]
-</span><span class="kw">fn </span>udiv256_by_128_to_128(u1: u128, u0: u128, <span class="kw-2">mut </span>v: u128, r: <span class="kw-2">&amp;mut </span>u128) -&gt; u128 {
+</span><span class="kw">fn </span>udiv256_by_128_to_128(u1: u128, u0: u128, <span class="kw-2">mut </span>v: NonZeroU128, r: <span class="kw-2">&amp;mut </span>u128) -&gt; u128 {
     <span class="kw">const </span>N_UDWORD_BITS: u32 = <span class="number">128</span>;
+
+    <span class="attr">#[inline]
+    </span><span class="kw">unsafe fn </span>shl_nz(x: NonZeroU128, n: u32) -&gt; NonZeroU128 {
+        <span class="macro">debug_assert!</span>(n &lt; N_UDWORD_BITS);
+        <span class="kw">let </span>res: u128 = x.get() &lt;&lt; n;
+        <span class="macro">debug_assert_ne!</span>(res, <span class="number">0</span>);
+        NonZeroU128::new_unchecked(res)
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">unsafe fn </span>shr_nz(x: NonZeroU128, n: u32) -&gt; NonZeroU128 {
+        <span class="macro">debug_assert!</span>(n &lt; N_UDWORD_BITS);
+        <span class="kw">let </span>res: u128 = x.get() &gt;&gt; n;
+        <span class="macro">debug_assert_ne!</span>(res, <span class="number">0</span>);
+        NonZeroU128::new_unchecked(res)
+    }
+
     <span class="kw">const </span>B: u128 = <span class="number">1 </span>&lt;&lt; (N_UDWORD_BITS / <span class="number">2</span>); <span class="comment">// Number base (128 bits)
     </span><span class="kw">let </span>(un1, un0): (u128, u128); <span class="comment">// Norm. dividend LSD's
-    </span><span class="kw">let </span>(vn1, vn0): (u128, u128); <span class="comment">// Norm. divisor digits
+    </span><span class="kw">let </span>(vn1, vn0): (NonZeroU128, u128); <span class="comment">// Norm. divisor digits
     </span><span class="kw">let </span>(<span class="kw-2">mut </span>q1, <span class="kw-2">mut </span>q0): (u128, u128); <span class="comment">// Quotient digits
     </span><span class="kw">let </span>(un128, un21, un10): (u128, u128, u128); <span class="comment">// Dividend digit pairs
 
-    </span><span class="kw">let </span>s = v.leading_zeros();
+    </span><span class="macro">debug_assert!</span>(v.get() &gt; u1);
+
+    <span class="kw">let </span>s = v.leading_zeros();
+    <span class="macro">debug_assert_ne!</span>(s, N_UDWORD_BITS);
     <span class="kw">if </span>s &gt; <span class="number">0 </span>{
         <span class="comment">// Normalize the divisor.
-        </span>v &lt;&lt;= s;
+        </span>v = <span class="kw">unsafe </span>{ shl_nz(v, s) };
         un128 = (u1 &lt;&lt; s) | (u0 &gt;&gt; (N_UDWORD_BITS - s));
         un10 = u0 &lt;&lt; s; <span class="comment">// Shift dividend left
     </span>} <span class="kw">else </span>{
-        <span class="comment">// Avoid undefined behavior of (u0 &gt;&gt; 64).
+        <span class="comment">// Avoid undefined behavior of (u0 &gt;&gt; 128).
         </span>un128 = u1;
         un10 = u0;
     }
 
     <span class="comment">// Break divisor up into two 64-bit digits.
-    </span>vn1 = v &gt;&gt; (N_UDWORD_BITS / <span class="number">2</span>);
-    vn0 = v &amp; <span class="number">0xFFFF_FFFF_FFFF_FFFF</span>;
+    </span>vn1 = <span class="kw">unsafe </span>{ shr_nz(v, N_UDWORD_BITS / <span class="number">2</span>) };
+    vn0 = v.get() &amp; <span class="number">0xFFFF_FFFF_FFFF_FFFF</span>;
 
     <span class="comment">// Break right half of dividend into two digits.
     </span>un1 = un10 &gt;&gt; (N_UDWORD_BITS / <span class="number">2</span>);
@@ -614,12 +678,12 @@
 
     <span class="comment">// Compute the first quotient digit, q1.
     </span>q1 = un128 / vn1;
-    <span class="kw">let </span><span class="kw-2">mut </span>rhat = un128 - q1 * vn1;
+    <span class="kw">let </span><span class="kw-2">mut </span>rhat = un128 - q1 * vn1.get();
 
     <span class="comment">// q1 has at most error 2. No more than 2 iterations.
     </span><span class="kw">while </span>q1 &gt;= B || q1 * vn0 &gt; B * rhat + un1 {
         q1 -= <span class="number">1</span>;
-        rhat += vn1;
+        rhat += vn1.get();
         <span class="kw">if </span>rhat &gt;= B {
             <span class="kw">break</span>;
         }
@@ -628,16 +692,16 @@
     un21 = un128
         .wrapping_mul(B)
         .wrapping_add(un1)
-        .wrapping_sub(q1.wrapping_mul(v));
+        .wrapping_sub(q1.wrapping_mul(v.get()));
 
     <span class="comment">// Compute the second quotient digit.
     </span>q0 = un21 / vn1;
-    rhat = un21 - q0 * vn1;
+    rhat = un21 - q0 * vn1.get();
 
     <span class="comment">// q0 has at most error 2. No more than 2 iterations.
     </span><span class="kw">while </span>q0 &gt;= B || q0 * vn0 &gt; B * rhat + un0 {
         q0 -= <span class="number">1</span>;
-        rhat += vn1;
+        rhat += vn1.get();
         <span class="kw">if </span>rhat &gt;= B {
             <span class="kw">break</span>;
         }
@@ -646,7 +710,7 @@
     <span class="kw-2">*</span>r = (un21
         .wrapping_mul(B)
         .wrapping_add(un0)
-        .wrapping_sub(q0.wrapping_mul(v)))
+        .wrapping_sub(q0.wrapping_mul(v.get())))
         &gt;&gt; s;
     q1 * B + q0
 }
@@ -672,10 +736,10 @@
     // Unfortunately, there is no 256-bit equivalent on x86_64, but we can still
     // shortcut if the high and low values of the operands are 0:
     </span><span class="kw">if </span>a.high() | b.high() == <span class="number">0 </span>{
+        res.write(U256::from_words(<span class="number">0</span>, a.low() / b.low()));
         <span class="kw">if let </span><span class="prelude-val">Some</span>(rem) = rem {
             rem.write(U256::from_words(<span class="number">0</span>, a.low() % b.low()));
         }
-        res.write(U256::from_words(<span class="number">0</span>, a.low() / b.low()));
         <span class="kw">return</span>;
     }
 
@@ -701,7 +765,8 @@
                 udiv256_by_128_to_128(
                     <span class="kw-2">*</span>dividend.high(),
                     <span class="kw-2">*</span>dividend.low(),
-                    <span class="kw-2">*</span>divisor.low(),
+                    <span class="comment">// SAFETY: dividend.high() &lt; divisor.low()
+                    </span><span class="kw">unsafe </span>{ NonZeroU128::new_unchecked(<span class="kw-2">*</span>divisor.low()) },
                     remainder.low_mut(),
                 ),
             );
@@ -713,7 +778,8 @@
                 udiv256_by_128_to_128(
                     dividend.high() % divisor.low(),
                     <span class="kw-2">*</span>dividend.low(),
-                    <span class="kw-2">*</span>divisor.low(),
+                    <span class="comment">// SAFETY: dividend.high() / divisor.low()
+                    </span><span class="kw">unsafe </span>{ NonZeroU128::new_unchecked(<span class="kw-2">*</span>divisor.low()) },
                     remainder.low_mut(),
                 ),
             );
@@ -725,7 +791,8 @@
         <span class="kw">return</span>;
     }
 
-    (quotient, remainder) = div_mod_knuth(<span class="kw-2">&amp;</span>dividend, <span class="kw-2">&amp;</span>divisor);
+    <span class="comment">// SAFETY: `*divisor.high() != 0`
+    </span>(quotient, remainder) = <span class="kw">unsafe </span>{ div_mod_knuth(<span class="kw-2">&amp;</span>dividend, <span class="kw-2">&amp;</span>divisor) };
 
     <span class="kw">if let </span><span class="prelude-val">Some</span>(rem) = rem {
         rem.write(remainder);
@@ -735,9 +802,18 @@
 
 <span class="comment">// See Knuth, TAOCP, Volume 2, section 4.3.1, Algorithm D.
 // https://skanthak.homepage.t-online.de/division.html
+// SAFETY: The high word of v (the divisor) must be non-zero.
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>div_mod_knuth(u: <span class="kw-2">&amp;</span>U256, v: <span class="kw-2">&amp;</span>U256) -&gt; (U256, U256) {
+</span><span class="kw">unsafe fn </span>div_mod_knuth(u: <span class="kw-2">&amp;</span>U256, v: <span class="kw-2">&amp;</span>U256) -&gt; (U256, U256) {
     <span class="kw">const </span>N_UDWORD_BITS: u32 = <span class="number">128</span>;
+    <span class="macro">debug_assert_ne!</span>(
+        <span class="kw-2">*</span>u.high(),
+        <span class="number">0</span>,
+        <span class="string">"The second operand must be greater than u128::MAX"
+    </span>);
+    <span class="kw">if </span><span class="kw-2">*</span>u.high() == <span class="number">0 </span>{
+        <span class="kw">unsafe </span>{ core::hint::unreachable_unchecked() }
+    }
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>full_shl(a: <span class="kw-2">&amp;</span>U256, shift: u32) -&gt; [u128; <span class="number">3</span>] {
@@ -837,7 +913,6 @@
     </span><span class="kw">let </span>shift = v.high().leading_zeros();
     <span class="macro">debug_assert!</span>(shift &lt; N_UDWORD_BITS);
     <span class="kw">let </span>v = v &lt;&lt; shift;
-    <span class="macro">debug_assert!</span>(v.high() &gt;&gt; (N_UDWORD_BITS - <span class="number">1</span>) == <span class="number">1</span>);
     <span class="comment">// u will store the remainder (shifted)
     </span><span class="kw">let </span><span class="kw-2">mut </span>u = full_shl(u, shift);
 
@@ -845,6 +920,14 @@
     </span><span class="kw">let </span><span class="kw-2">mut </span>q = U256::ZERO;
     <span class="kw">let </span>v_n_1 = <span class="kw-2">*</span>v.high();
     <span class="kw">let </span>v_n_2 = <span class="kw-2">*</span>v.low();
+
+    <span class="kw">if </span>v_n_1 &gt;&gt; (N_UDWORD_BITS - <span class="number">1</span>) != <span class="number">1 </span>{
+        <span class="macro">debug_assert!</span>(<span class="bool-val">false</span>);
+
+        <span class="comment">// SAFETY: `v_n_1` must be normalized because input `v` has
+        // been checked to be non-zero.
+        </span><span class="kw">unsafe </span>{ core::hint::unreachable_unchecked() }
+    }
 
     <span class="comment">// D2. D7. - unrolled loop j == 0, n == 2, m == 0 (only one possible iteration)
     </span><span class="kw">let </span><span class="kw-2">mut </span>r_hat: u128 = <span class="number">0</span>;
@@ -857,7 +940,12 @@
     // Theorem B: q_hat &gt;= q_j &gt;= q_hat - 2
     </span><span class="kw">let </span><span class="kw-2">mut </span>q_hat = <span class="kw">if </span>u_jn &lt; v_n_1 {
         <span class="comment">//let (mut q_hat, mut r_hat) = _div_mod_u128(u_jn, u[j + n - 1], v_n_1);
-        </span><span class="kw">let </span><span class="kw-2">mut </span>q_hat = udiv256_by_128_to_128(u_jn, u[<span class="number">1</span>], v_n_1, <span class="kw-2">&amp;mut </span>r_hat);
+        </span><span class="kw">let </span><span class="kw-2">mut </span>q_hat = udiv256_by_128_to_128(
+            u_jn,
+            u[<span class="number">1</span>],
+            <span class="kw">unsafe </span>{ NonZeroU128::new_unchecked(v_n_1) },
+            <span class="kw-2">&amp;mut </span>r_hat,
+        );
         <span class="kw">let </span><span class="kw-2">mut </span>overflow: bool;
         <span class="comment">// this loop takes at most 2 iterations
         </span><span class="kw">loop </span>{
@@ -951,7 +1039,7 @@
     res: <span class="kw-2">&amp;mut </span>MaybeUninit&lt;I256&gt;,
     a: <span class="kw-2">&amp;</span>I256,
     b: <span class="kw-2">&amp;</span>I256,
-    rem: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>MaybeUninit&lt;I256&gt;&gt;,
+    <span class="kw-2">mut </span>rem: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>MaybeUninit&lt;I256&gt;&gt;,
 ) {
     <span class="kw">const </span>BITS_IN_TWORD_M1: u32 = <span class="number">255</span>;
     <span class="kw">let </span>s_a = a &gt;&gt; BITS_IN_TWORD_M1; <span class="comment">// s_a = a &lt; 0 ? -1 : 0

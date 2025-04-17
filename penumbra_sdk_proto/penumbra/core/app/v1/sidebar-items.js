@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["genesis_app_state","query_service_client","query_service_server"],"struct":["AppParameters","AppParametersRequest","AppParametersResponse","GenesisAppState","GenesisContent","TransactionsByHeightRequest","TransactionsByHeightResponse"]};
+window.SIDEBAR_ITEMS = {"mod":["genesis_app_state","query_service_client","query_service_server"],"struct":["AppParameters","AppParametersRequest","AppParametersResponse","EventAppParametersChange","GenesisAppState","GenesisContent","TransactionsByHeightRequest","TransactionsByHeightResponse"]};

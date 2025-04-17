@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.23/src/manual/howto.rs`."><title>howto.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/manual/</div>howto.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.26/src/manual/howto.rs`."><title>howto.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/manual/</div>howto.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -63,7 +63,7 @@ However, if your private key resides in a HSM, or in another process, or perhaps
 another machine, rustls has some extension points to support this:
 
 The main trait you must implement is [`sign::SigningKey`][signing_key]. The primary method here
-is [`choose_scheme`][choose_scheme] where you are given a set of [`SignatureScheme`s][sig_scheme] the client says
+is [`choose_scheme()`][choose_scheme] where you are given a set of [`SignatureScheme`s][sig_scheme] the client says
 it supports: you must choose one (or return `None` -- this aborts the handshake). Having
 done that, you return an implementation of the [`sign::Signer`][signer] trait.
 The [`sign()`][sign_method] performs the signature and returns it.
@@ -78,18 +78,18 @@ Once you have these two pieces, configuring a server to use them involves, brief
 - making a [`ResolvesServerCertUsingSni`][cert_using_sni] and feeding in your [`sign::CertifiedKey`][certified_key] for all SNI hostnames you want to use it for,
 - setting that as your `ServerConfig`'s [`cert_resolver`][cert_resolver]
 
-For a complete example of implementing a custom [`sign::SigningKey`][signing_key]
-and [`sign::Signer`][signer] see the [rustls-cng] crate.
+For a complete example of implementing a custom [`sign::SigningKey`][signing_key] and
+[`sign::Signer`][signer] see the [`signer` module in the `rustls-cng` crate][rustls-cng-signer].
 
 [signing_key]: crate::crypto::signer::SigningKey
-[choose_scheme]: crate::crypto::signer::SigningKey.choose_scheme()
+[choose_scheme]: crate::crypto::signer::SigningKey::choose_scheme
 [sig_scheme]: crate::SignatureScheme
 [signer]: crate::crypto::signer::Signer
-[sign_method]: crate::crypto::Signer.sign()
+[sign_method]: crate::crypto::signer::Signer::sign
 [certified_key]: crate::crypto::signer::CertifiedKey
 [cert_using_sni]: crate::server::ResolvesServerCertUsingSni
 [cert_resolver]: crate::ServerConfig::cert_resolver
-[rustls-cng]: https://github.com/rustls/rustls-cng/blob/dev/src/signer.rs
+[rustls-cng-signer]: https://github.com/rustls/rustls-cng/blob/dev/src/signer.rs
 
 [^1]: For PKCS#8 it does not support password encryption -- there's not a meaningful threat
       model addressed by this, and the encryption supported is typically extremely poor.

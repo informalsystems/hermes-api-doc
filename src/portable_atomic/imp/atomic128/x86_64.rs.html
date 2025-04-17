@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/portable-atomic-1.10.0/src/imp/atomic128/x86_64.rs`."><title>x86_64.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="portable_atomic" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">portable_atomic/imp/atomic128/</div>x86_64.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/portable-atomic-1.11.0/src/imp/atomic128/x86_64.rs`."><title>x86_64.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="portable_atomic" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">portable_atomic/imp/atomic128/</div>x86_64.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -870,17 +870,15 @@
 <a href="#869" id="869">869</a>
 <a href="#870" id="870">870</a>
 <a href="#871" id="871">871</a>
-<a href="#872" id="872">872</a>
-<a href="#873" id="873">873</a>
-<a href="#874" id="874">874</a>
-<a href="#875" id="875">875</a>
-<a href="#876" id="876">876</a>
-<a href="#877" id="877">877</a>
-<a href="#878" id="878">878</a>
-<a href="#879" id="879">879</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: Apache-2.0 OR MIT
+<a href="#872" id="872">872</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: Apache-2.0 OR MIT
 
 /*
-128-bit atomic implementation on x86_64 using CMPXCHG16B (DWCAS).
+128-bit atomic implementation on x86_64.
+
+This architecture provides the following 128-bit atomic instructions:
+
+- CMPXCHG16B: CAS (CMPXCHG16B)
+- VMOVDQA: load/store (Intel, AMD, or Zhaoxin CPU with AVX)
 
 Note: On Miri and ThreadSanitizer which do not support inline assembly, we don't use
 this module and use intrinsics.rs instead.
@@ -1024,7 +1022,7 @@ Generated asm:
 // baseline and is always available, but the SSE target feature is disabled for
 // use cases such as kernels and firmware that should not use vector registers.
 // So, do not use vector registers unless SSE target feature is enabled.
-// See also https://github.com/rust-lang/rust/blob/1.80.0/src/doc/rustc/src/platform-support/x86_64-unknown-none.md.
+// See also https://github.com/rust-lang/rust/blob/1.84.0/src/doc/rustc/src/platform-support/x86_64-unknown-none.md.
 </span><span class="attr">#[cfg(not(any(portable_atomic_no_outline_atomics, target_env = <span class="string">"sgx"</span>)))]
 #[cfg(target_feature = <span class="string">"sse"</span>)]
 #[target_feature(enable = <span class="string">"avx"</span>)]
@@ -1112,11 +1110,7 @@ Generated asm:
                 <span class="comment">// We only use VMOVDQA when SSE is enabled. See atomic_load_vmovdqa() for more.
                 </span><span class="attr">#[cfg(target_feature = <span class="string">"sse"</span>)]
                 </span>{
-                    <span class="kw">if </span>cpuid.has_vmovdqa_atomic() {
-                        <span class="macro-nonterminal">$vmovdqa
-                    </span>} <span class="kw">else </span>{
-                        <span class="macro-nonterminal">$cmpxchg16b
-                    </span>}
+                    <span class="kw">if </span>cpuid.has_vmovdqa_atomic() { <span class="macro-nonterminal">$vmovdqa </span>} <span class="kw">else </span>{ <span class="macro-nonterminal">$cmpxchg16b </span>}
                 }
                 <span class="attr">#[cfg(not(target_feature = <span class="string">"sse"</span>))]
                 </span>{
@@ -1128,11 +1122,7 @@ Generated asm:
         }
         <span class="attr">#[cfg(any(target_feature = <span class="string">"cmpxchg16b"</span>, portable_atomic_target_feature = <span class="string">"cmpxchg16b"</span>))]
         </span>{
-            <span class="kw">if </span>cpuid.has_vmovdqa_atomic() {
-                <span class="macro-nonterminal">$vmovdqa
-            </span>} <span class="kw">else </span>{
-                <span class="macro-nonterminal">$cmpxchg16b
-            </span>}
+            <span class="kw">if </span>cpuid.has_vmovdqa_atomic() { <span class="macro-nonterminal">$vmovdqa </span>} <span class="kw">else </span>{ <span class="macro-nonterminal">$cmpxchg16b </span>}
         }
     }};
 }
@@ -1309,11 +1299,7 @@ Generated asm:
             }
         })
     };
-    <span class="kw">if </span>ok {
-        <span class="prelude-val">Ok</span>(prev)
-    } <span class="kw">else </span>{
-        <span class="prelude-val">Err</span>(prev)
-    }
+    <span class="kw">if </span>ok { <span class="prelude-val">Ok</span>(prev) } <span class="kw">else </span>{ <span class="prelude-val">Err</span>(prev) }
 }
 
 <span class="comment">// cmpxchg16b is always strong.

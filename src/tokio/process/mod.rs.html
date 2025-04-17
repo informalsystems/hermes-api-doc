@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tokio-1.43.0/src/process/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tokio/process/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tokio-1.44.2/src/process/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tokio/process/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1699,7 +1699,71 @@
 <a href="#1698" id="1698">1698</a>
 <a href="#1699" id="1699">1699</a>
 <a href="#1700" id="1700">1700</a>
-<a href="#1701" id="1701">1701</a></pre></div><pre class="rust"><code><span class="doccomment">//! An implementation of asynchronous process management for Tokio.
+<a href="#1701" id="1701">1701</a>
+<a href="#1702" id="1702">1702</a>
+<a href="#1703" id="1703">1703</a>
+<a href="#1704" id="1704">1704</a>
+<a href="#1705" id="1705">1705</a>
+<a href="#1706" id="1706">1706</a>
+<a href="#1707" id="1707">1707</a>
+<a href="#1708" id="1708">1708</a>
+<a href="#1709" id="1709">1709</a>
+<a href="#1710" id="1710">1710</a>
+<a href="#1711" id="1711">1711</a>
+<a href="#1712" id="1712">1712</a>
+<a href="#1713" id="1713">1713</a>
+<a href="#1714" id="1714">1714</a>
+<a href="#1715" id="1715">1715</a>
+<a href="#1716" id="1716">1716</a>
+<a href="#1717" id="1717">1717</a>
+<a href="#1718" id="1718">1718</a>
+<a href="#1719" id="1719">1719</a>
+<a href="#1720" id="1720">1720</a>
+<a href="#1721" id="1721">1721</a>
+<a href="#1722" id="1722">1722</a>
+<a href="#1723" id="1723">1723</a>
+<a href="#1724" id="1724">1724</a>
+<a href="#1725" id="1725">1725</a>
+<a href="#1726" id="1726">1726</a>
+<a href="#1727" id="1727">1727</a>
+<a href="#1728" id="1728">1728</a>
+<a href="#1729" id="1729">1729</a>
+<a href="#1730" id="1730">1730</a>
+<a href="#1731" id="1731">1731</a>
+<a href="#1732" id="1732">1732</a>
+<a href="#1733" id="1733">1733</a>
+<a href="#1734" id="1734">1734</a>
+<a href="#1735" id="1735">1735</a>
+<a href="#1736" id="1736">1736</a>
+<a href="#1737" id="1737">1737</a>
+<a href="#1738" id="1738">1738</a>
+<a href="#1739" id="1739">1739</a>
+<a href="#1740" id="1740">1740</a>
+<a href="#1741" id="1741">1741</a>
+<a href="#1742" id="1742">1742</a>
+<a href="#1743" id="1743">1743</a>
+<a href="#1744" id="1744">1744</a>
+<a href="#1745" id="1745">1745</a>
+<a href="#1746" id="1746">1746</a>
+<a href="#1747" id="1747">1747</a>
+<a href="#1748" id="1748">1748</a>
+<a href="#1749" id="1749">1749</a>
+<a href="#1750" id="1750">1750</a>
+<a href="#1751" id="1751">1751</a>
+<a href="#1752" id="1752">1752</a>
+<a href="#1753" id="1753">1753</a>
+<a href="#1754" id="1754">1754</a>
+<a href="#1755" id="1755">1755</a>
+<a href="#1756" id="1756">1756</a>
+<a href="#1757" id="1757">1757</a>
+<a href="#1758" id="1758">1758</a>
+<a href="#1759" id="1759">1759</a>
+<a href="#1760" id="1760">1760</a>
+<a href="#1761" id="1761">1761</a>
+<a href="#1762" id="1762">1762</a>
+<a href="#1763" id="1763">1763</a>
+<a href="#1764" id="1764">1764</a>
+<a href="#1765" id="1765">1765</a></pre></div><pre class="rust"><code><span class="doccomment">//! An implementation of asynchronous process management for Tokio.
 //!
 //! This module provides a [`Command`] struct that imitates the interface of the
 //! [`std::process::Command`] type in the standard library, but provides asynchronous versions of
@@ -2682,6 +2746,26 @@
 
         <span class="kw">async </span>{ child<span class="question-mark">?</span>.wait_with_output().<span class="kw">await </span>}
     }
+
+    <span class="doccomment">/// Returns the boolean value that was previously set by [`Command::kill_on_drop`].
+    ///
+    /// Note that if you have not previously called [`Command::kill_on_drop`], the
+    /// default value of `false` will be returned here.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use tokio::process::Command;
+    ///
+    /// let mut cmd = Command::new("echo");
+    /// assert!(!cmd.get_kill_on_drop());
+    ///
+    /// cmd.kill_on_drop(true);
+    /// assert!(cmd.get_kill_on_drop());
+    /// ```
+    </span><span class="kw">pub fn </span>get_kill_on_drop(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.kill_on_drop
+    }
 }
 
 <span class="kw">impl </span>From&lt;StdCommand&gt; <span class="kw">for </span>Command {
@@ -2729,7 +2813,7 @@
     <span class="kw">fn </span>poll(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;<span class="self">Self</span>::Output&gt; {
         <span class="macro">ready!</span>(<span class="kw">crate</span>::trace::trace_leaf(cx));
         <span class="comment">// Keep track of task budget
-        </span><span class="kw">let </span>coop = <span class="macro">ready!</span>(<span class="kw">crate</span>::runtime::coop::poll_proceed(cx));
+        </span><span class="kw">let </span>coop = <span class="macro">ready!</span>(<span class="kw">crate</span>::task::coop::poll_proceed(cx));
 
         <span class="kw">let </span>ret = Pin::new(<span class="kw-2">&amp;mut </span><span class="self">self</span>.inner).poll(cx);
 
@@ -2839,16 +2923,20 @@
     </span><span class="kw">pub fn </span>start_kill(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
         <span class="kw">match </span><span class="kw-2">&amp;mut </span><span class="self">self</span>.child {
             FusedChild::Child(child) =&gt; child.kill(),
-            FusedChild::Done(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(io::Error::new(
-                io::ErrorKind::InvalidInput,
-                <span class="string">"invalid argument: can't kill an exited process"</span>,
-            )),
+            FusedChild::Done(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(()),
         }
     }
 
     <span class="doccomment">/// Forces the child to exit.
     ///
-    /// This is equivalent to sending a `SIGKILL` on unix platforms.
+    /// This is equivalent to sending a `SIGKILL` on unix platforms
+    /// followed by [`wait`](Child::wait).
+    ///
+    /// Note: std version of [`Child::kill`](std::process::Child::kill) does not `wait`.
+    /// For an equivalent of `Child::kill` in the standard library,
+    /// use [`start_kill`](Child::start_kill).
+    ///
+    /// # Examples
     ///
     /// If the child has to be killed remotely, it is possible to do it using
     /// a combination of the select! macro and a `oneshot` channel. In the following
@@ -2869,6 +2957,46 @@
     ///         _ = child.wait() =&gt; {}
     ///         _ = recv =&gt; child.kill().await.expect("kill failed"),
     ///     }
+    /// }
+    /// ```
+    ///
+    /// You can also interact with the child's standard I/O. For example, you can
+    /// read its stdout while waiting for it to exit.
+    ///
+    /// ```no_run
+    /// # use std::process::Stdio;
+    /// #
+    /// # use tokio::io::AsyncReadExt;
+    /// # use tokio::process::Command;
+    /// # use tokio::sync::oneshot::channel;
+    ///
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let (_tx, rx) = channel::&lt;()&gt;();
+    ///
+    ///     let mut child = Command::new("echo")
+    ///         .arg("Hello World!")
+    ///         .stdout(Stdio::piped())
+    ///         .spawn()
+    ///         .unwrap();
+    ///
+    ///     let mut stdout = child.stdout.take().expect("stdout is not captured");
+    ///
+    ///     let read_stdout = tokio::spawn(async move {
+    ///         let mut buff = Vec::new();
+    ///         let _ = stdout.read_to_end(&amp;mut buff).await;
+    ///
+    ///         buff
+    ///     });
+    ///
+    ///     tokio::select! {
+    ///         _ = child.wait() =&gt; {}
+    ///         _ = rx =&gt; { child.kill().await.expect("kill failed") },
+    ///     }
+    ///
+    ///     let buff = read_stdout.await.unwrap();
+    ///
+    ///     assert_eq!(buff, b"Hello World!\n");
     /// }
     /// ```
     </span><span class="kw">pub async fn </span>kill(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
@@ -3024,7 +3152,7 @@
 
 <span class="doccomment">/// The standard input stream for spawned children.
 ///
-/// This type implements the `AsyncWrite` trait to pass data to the stdin handle of
+/// This type implements the `AsyncWrite` trait to pass data to the stdin
 /// handle of a child process asynchronously.
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>ChildStdin {

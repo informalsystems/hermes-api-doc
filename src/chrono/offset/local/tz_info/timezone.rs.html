@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/chrono-0.4.39/src/offset/local/tz_info/timezone.rs`."><title>timezone.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="chrono" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">chrono/offset/local/tz_info/</div>timezone.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/chrono-0.4.40/src/offset/local/tz_info/timezone.rs`."><title>timezone.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="chrono" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">chrono/offset/local/tz_info/</div>timezone.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1005,10 +1005,7 @@
 <a href="#1004" id="1004">1004</a>
 <a href="#1005" id="1005">1005</a>
 <a href="#1006" id="1006">1006</a>
-<a href="#1007" id="1007">1007</a>
-<a href="#1008" id="1008">1008</a>
-<a href="#1009" id="1009">1009</a>
-<a href="#1010" id="1010">1010</a></pre></div><pre class="rust"><code><span class="doccomment">//! Types related to a time zone.
+<a href="#1007" id="1007">1007</a></pre></div><pre class="rust"><code><span class="doccomment">//! Types related to a time zone.
 
 </span><span class="kw">use </span>std::fs::{<span class="self">self</span>, File};
 <span class="kw">use </span>std::io::{<span class="self">self</span>, Read};
@@ -1016,8 +1013,8 @@
 <span class="kw">use </span>std::{cmp::Ordering, fmt, str};
 
 <span class="kw">use </span><span class="kw">super</span>::rule::{AlternateTime, TransitionRule};
-<span class="kw">use super</span>::{parser, Error, DAYS_PER_WEEK, SECONDS_PER_DAY};
-
+<span class="kw">use super</span>::{DAYS_PER_WEEK, Error, SECONDS_PER_DAY, parser};
+<span class="kw">use </span><span class="kw">crate</span>::NaiveDateTime;
 <span class="attr">#[cfg(target_env = <span class="string">"ohos"</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::offset::local::tz_info::parser::Cursor;
 
@@ -1143,13 +1140,11 @@
         <span class="self">self</span>.as_ref().find_local_time_type(unix_time)
     }
 
-    <span class="comment">// should we pass NaiveDateTime all the way through to this fn?
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>find_local_time_type_from_local(
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>find_local_time_type_from_local(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        local_time: i64,
-        year: i32,
+        local_time: NaiveDateTime,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw">crate</span>::MappedLocalTime&lt;LocalTimeType&gt;, Error&gt; {
-        <span class="self">self</span>.as_ref().find_local_time_type_from_local(local_time, year)
+        <span class="self">self</span>.as_ref().find_local_time_type_from_local(local_time)
     }
 
     <span class="doccomment">/// Returns a reference to the time zone
@@ -1235,8 +1230,7 @@
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>find_local_time_type_from_local(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        local_time: i64,
-        year: i32,
+        local_time: NaiveDateTime,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw">crate</span>::MappedLocalTime&lt;LocalTimeType&gt;, Error&gt; {
         <span class="comment">// #TODO: this is wrong as we need 'local_time_to_local_leap_time ?
         // but ... does the local time even include leap seconds ??
@@ -1245,10 +1239,10 @@
         //     Err(Error::OutOfRange(error)) =&gt; return Err(Error::FindLocalTimeType(error)),
         //     Err(err) =&gt; return Err(err),
         // };
-        </span><span class="kw">let </span>local_leap_time = local_time;
+        </span><span class="kw">let </span>local_leap_time = local_time.and_utc().timestamp();
 
         <span class="comment">// if we have at least one transition,
-        // we must check _all_ of them, incase of any Overlapping (MappedLocalTime::Ambiguous) or Skipping (MappedLocalTime::None) transitions
+        // we must check _all_ of them, in case of any Overlapping (MappedLocalTime::Ambiguous) or Skipping (MappedLocalTime::None) transitions
         </span><span class="kw">let </span>offset_after_last = <span class="kw">if </span>!<span class="self">self</span>.transitions.is_empty() {
             <span class="kw">let </span><span class="kw-2">mut </span>prev = <span class="self">self</span>.local_time_types[<span class="number">0</span>];
 
@@ -1311,7 +1305,7 @@
         };
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(extra_rule) = <span class="self">self</span>.extra_rule {
-            <span class="kw">match </span>extra_rule.find_local_time_type_from_local(local_time, year) {
+            <span class="kw">match </span>extra_rule.find_local_time_type_from_local(local_time) {
                 <span class="prelude-val">Ok</span>(local_time_type) =&gt; <span class="prelude-val">Ok</span>(local_time_type),
                 <span class="prelude-val">Err</span>(Error::OutOfRange(error)) =&gt; <span class="prelude-val">Err</span>(Error::FindLocalTimeType(error)),
                 err =&gt; err,

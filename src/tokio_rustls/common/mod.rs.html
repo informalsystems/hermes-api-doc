@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tokio-rustls-0.26.1/src/common/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio_rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tokio_rustls/common/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tokio-rustls-0.26.2/src/common/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio_rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tokio_rustls/common/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -407,13 +407,35 @@
 <a href="#406" id="406">406</a>
 <a href="#407" id="407">407</a>
 <a href="#408" id="408">408</a>
-<a href="#409" id="409">409</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::io::{<span class="self">self</span>, IoSlice, Read, Write};
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
+<a href="#431" id="431">431</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::io::{<span class="self">self</span>, BufRead <span class="kw">as _</span>, IoSlice, Read, Write};
 <span class="kw">use </span>std::ops::{Deref, DerefMut};
 <span class="kw">use </span>std::pin::Pin;
 <span class="kw">use </span>std::task::{Context, Poll};
 
 <span class="kw">use </span>rustls::{ConnectionCommon, SideData};
-<span class="kw">use </span>tokio::io::{AsyncRead, AsyncWrite, ReadBuf};
+<span class="kw">use </span>tokio::io::{AsyncBufRead, AsyncRead, AsyncWrite, ReadBuf};
 
 <span class="kw">mod </span>handshake;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>handshake::{IoSession, MidHandshake};
@@ -589,18 +611,11 @@
             };
         }
     }
-}
 
-<span class="kw">impl</span>&lt;IO: AsyncRead + AsyncWrite + Unpin, C, SD&gt; AsyncRead <span class="kw">for </span>Stream&lt;<span class="lifetime">'_</span>, IO, C&gt;
-<span class="kw">where
-    </span>C: DerefMut + Deref&lt;Target = ConnectionCommon&lt;SD&gt;&gt;,
-    SD: SideData,
-{
-    <span class="kw">fn </span>poll_read(
-        <span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;,
-        buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">'_</span>&gt;,
-    ) -&gt; Poll&lt;io::Result&lt;()&gt;&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>poll_fill_buf(<span class="kw-2">mut </span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;io::Result&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;&gt;
+    <span class="kw">where
+        </span>SD: <span class="lifetime">'a</span>,
+    {
         <span class="kw">let </span><span class="kw-2">mut </span>io_pending = <span class="bool-val">false</span>;
 
         <span class="comment">// read a packet
@@ -618,22 +633,13 @@
             }
         }
 
-        <span class="kw">match </span><span class="self">self</span>.session.reader().read(buf.initialize_unfilled()) {
-            <span class="comment">// If Rustls returns `Ok(0)` (while `buf` is non-empty), the peer closed the
-            // connection with a `CloseNotify` message and no more data will be forthcoming.
-            //
-            // Rustls yielded more data: advance the buffer, then see if more data is coming.
-            //
-            // We don't need to modify `self.eof` here, because it is only a temporary mark.
-            // rustls will only return 0 if is has received `CloseNotify`,
-            // in which case no additional processing is required.
-            </span><span class="prelude-val">Ok</span>(n) =&gt; {
-                buf.advance(n);
-                Poll::Ready(<span class="prelude-val">Ok</span>(()))
+        <span class="kw">match </span><span class="self">self</span>.session.reader().into_first_chunk() {
+            <span class="prelude-val">Ok</span>(buf) =&gt; {
+                <span class="comment">// Note that this could be empty (i.e. EOF) if a `CloseNotify` has been
+                // received and there is no more buffered data.
+                </span>Poll::Ready(<span class="prelude-val">Ok</span>(buf))
             }
-
-            <span class="comment">// Rustls doesn't have more data to yield, but it believes the connection is open.
-            </span><span class="prelude-val">Err</span>(<span class="kw-2">ref </span>err) <span class="kw">if </span>err.kind() == io::ErrorKind::WouldBlock =&gt; {
+            <span class="prelude-val">Err</span>(e) <span class="kw">if </span>e.kind() == io::ErrorKind::WouldBlock =&gt; {
                 <span class="kw">if </span>!io_pending {
                     <span class="comment">// If `wants_read()` is satisfied, rustls will not return `WouldBlock`.
                     // but if it does, we can try again.
@@ -645,9 +651,47 @@
 
                 Poll::Pending
             }
-
-            <span class="prelude-val">Err</span>(err) =&gt; Poll::Ready(<span class="prelude-val">Err</span>(err)),
+            <span class="prelude-val">Err</span>(e) =&gt; Poll::Ready(<span class="prelude-val">Err</span>(e)),
         }
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, IO: AsyncRead + AsyncWrite + Unpin, C, SD&gt; AsyncRead <span class="kw">for </span>Stream&lt;<span class="lifetime">'a</span>, IO, C&gt;
+<span class="kw">where
+    </span>C: DerefMut + Deref&lt;Target = ConnectionCommon&lt;SD&gt;&gt;,
+    SD: SideData + <span class="lifetime">'a</span>,
+{
+    <span class="kw">fn </span>poll_read(
+        <span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
+        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;,
+        buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">'_</span>&gt;,
+    ) -&gt; Poll&lt;io::Result&lt;()&gt;&gt; {
+        <span class="kw">let </span>data = <span class="macro">ready!</span>(<span class="self">self</span>.as_mut().poll_fill_buf(cx))<span class="question-mark">?</span>;
+        <span class="kw">let </span>amount = buf.remaining().min(data.len());
+        buf.put_slice(<span class="kw-2">&amp;</span>data[..amount]);
+        <span class="self">self</span>.session.reader().consume(amount);
+        Poll::Ready(<span class="prelude-val">Ok</span>(()))
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, IO: AsyncRead + AsyncWrite + Unpin, C, SD&gt; AsyncBufRead <span class="kw">for </span>Stream&lt;<span class="lifetime">'a</span>, IO, C&gt;
+<span class="kw">where
+    </span>C: DerefMut + Deref&lt;Target = ConnectionCommon&lt;SD&gt;&gt;,
+    SD: SideData + <span class="lifetime">'a</span>,
+{
+    <span class="kw">fn </span>poll_fill_buf(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;io::Result&lt;<span class="kw-2">&amp;</span>[u8]&gt;&gt; {
+        <span class="kw">let </span>this = <span class="self">self</span>.get_mut();
+        Stream {
+            <span class="comment">// reborrow
+            </span>io: this.io,
+            session: this.session,
+            ..<span class="kw-2">*</span>this
+        }
+        .poll_fill_buf(cx)
+    }
+
+    <span class="kw">fn </span>consume(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, amt: usize) {
+        <span class="self">self</span>.session.reader().consume(amt);
     }
 }
 

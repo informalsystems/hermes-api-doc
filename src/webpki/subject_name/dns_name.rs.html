@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-webpki-0.102.8/src/subject_name/dns_name.rs`."><title>dns_name.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="webpki" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">webpki/subject_name/</div>dns_name.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-webpki-0.103.1/src/subject_name/dns_name.rs`."><title>dns_name.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="webpki" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">webpki/subject_name/</div>dns_name.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -959,7 +959,27 @@
 <a href="#958" id="958">958</a>
 <a href="#959" id="959">959</a>
 <a href="#960" id="960">960</a>
-<a href="#961" id="961">961</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2015-2020 Brian Smith.
+<a href="#961" id="961">961</a>
+<a href="#962" id="962">962</a>
+<a href="#963" id="963">963</a>
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a>
+<a href="#968" id="968">968</a>
+<a href="#969" id="969">969</a>
+<a href="#970" id="970">970</a>
+<a href="#971" id="971">971</a>
+<a href="#972" id="972">972</a>
+<a href="#973" id="973">973</a>
+<a href="#974" id="974">974</a>
+<a href="#975" id="975">975</a>
+<a href="#976" id="976">976</a>
+<a href="#977" id="977">977</a>
+<a href="#978" id="978">978</a>
+<a href="#979" id="979">979</a>
+<a href="#980" id="980">980</a>
+<a href="#981" id="981">981</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2015-2020 Brian Smith.
 //
 // Permission to use, copy, modify, and/or distribute this software for any
 // purpose with or without fee is hereby granted, provided that the above
@@ -973,37 +993,57 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-</span><span class="kw">use </span>core::fmt::Write;
+</span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>alloc::format;
+<span class="kw">use </span>core::fmt::Write;
 
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>pki_types::ServerName;
 <span class="kw">use </span>pki_types::{DnsName, InvalidDnsNameError};
 
-<span class="kw">use </span><span class="kw">super</span>::verify::{GeneralName, NameIterator};
-<span class="kw">use </span><span class="kw">crate</span>::Error;
+<span class="kw">use super</span>::{GeneralName, NameIterator};
+<span class="kw">use </span><span class="kw">crate</span>::cert::Cert;
+<span class="kw">use </span><span class="kw">crate</span>::error::{Error, InvalidNameContext};
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>verify_dns_names(
-    reference: <span class="kw-2">&amp;</span>DnsName&lt;<span class="lifetime">'_</span>&gt;,
-    <span class="kw-2">mut </span>names: NameIterator&lt;<span class="lifetime">'_</span>&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>verify_dns_names(reference: <span class="kw-2">&amp;</span>DnsName&lt;<span class="lifetime">'_</span>&gt;, cert: <span class="kw-2">&amp;</span>Cert&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
     <span class="kw">let </span>dns_name = untrusted::Input::from(reference.as_ref().as_bytes());
-    names
-        .find_map(|result| {
-            <span class="kw">let </span>name = <span class="kw">match </span>result {
-                <span class="prelude-val">Ok</span>(name) =&gt; name,
-                <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(err)),
-            };
+    <span class="kw">let </span>result = NameIterator::new(cert.subject_alt_name).find_map(|result| {
+        <span class="kw">let </span>name = <span class="kw">match </span>result {
+            <span class="prelude-val">Ok</span>(name) =&gt; name,
+            <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(err)),
+        };
 
-            <span class="kw">let </span>presented_id = <span class="kw">match </span>name {
-                GeneralName::DnsName(presented) =&gt; presented,
-                <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
-            };
+        <span class="kw">let </span>presented_id = <span class="kw">match </span>name {
+            GeneralName::DnsName(presented) =&gt; presented,
+            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+        };
 
-            <span class="kw">match </span>presented_id_matches_reference_id(presented_id, IdRole::Reference, dns_name) {
-                <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>) =&gt; <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(())),
-                <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>) | <span class="prelude-val">Err</span>(Error::MalformedDnsIdentifier) =&gt; <span class="prelude-val">None</span>,
-                <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(e)),
-            }
-        })
-        .unwrap_or(<span class="prelude-val">Err</span>(Error::CertNotValidForName))
+        <span class="kw">match </span>presented_id_matches_reference_id(presented_id, IdRole::Reference, dns_name) {
+            <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>) =&gt; <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(())),
+            <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>) | <span class="prelude-val">Err</span>(Error::MalformedDnsIdentifier) =&gt; <span class="prelude-val">None</span>,
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(e)),
+        }
+    });
+
+    <span class="kw">match </span>result {
+        <span class="prelude-val">Some</span>(result) =&gt; <span class="kw">return </span>result,
+        <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+        </span><span class="prelude-val">None </span>=&gt; {}
+        <span class="attr">#[cfg(not(feature = <span class="string">"alloc"</span>))]
+        </span><span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(Error::CertNotValidForName(InvalidNameContext {})),
+    }
+
+    <span class="comment">// Try to yield a more useful error. To avoid allocating on the happy path,
+    // we reconstruct the same `NameIterator` and replay it.
+    </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    </span>{
+        <span class="prelude-val">Err</span>(Error::CertNotValidForName(InvalidNameContext {
+            expected: ServerName::DnsName(reference.to_owned()),
+            presented: NameIterator::new(cert.subject_alt_name)
+                .filter_map(|result| <span class="prelude-val">Some</span>(<span class="macro">format!</span>(<span class="string">"{:?}"</span>, result.ok()<span class="question-mark">?</span>)))
+                .collect(),
+        }))
+    }
 }
 
 <span class="doccomment">/// A reference to a DNS Name presented by a server that may include a wildcard.
@@ -1829,14 +1869,14 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>presented_matches_reference_test() {
-        <span class="kw">for </span><span class="kw-2">&amp;</span>(presented, reference, expected_result) <span class="kw">in </span>PRESENTED_MATCHES_REFERENCE {
+        <span class="kw">for </span>(presented, reference, expected_result) <span class="kw">in </span>PRESENTED_MATCHES_REFERENCE {
             <span class="kw">let </span>actual_result = presented_id_matches_reference_id(
                 untrusted::Input::from(presented),
                 IdRole::Reference,
                 untrusted::Input::from(reference),
             );
             <span class="macro">assert_eq!</span>(
-                actual_result, expected_result,
+                <span class="kw-2">&amp;</span>actual_result, expected_result,
                 <span class="string">"presented_id_matches_reference_id(\"{:?}\", \"{:?}\")"</span>,
                 presented, reference
             );
@@ -1906,14 +1946,14 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>presented_matches_constraint_test() {
-        <span class="kw">for </span><span class="kw-2">&amp;</span>(presented, constraint, expected_result) <span class="kw">in </span>PRESENTED_MATCHES_CONSTRAINT {
+        <span class="kw">for </span>(presented, constraint, expected_result) <span class="kw">in </span>PRESENTED_MATCHES_CONSTRAINT {
             <span class="kw">let </span>actual_result = presented_id_matches_reference_id(
                 untrusted::Input::from(presented),
                 IdRole::NameConstraint,
                 untrusted::Input::from(constraint),
             );
             <span class="macro">assert_eq!</span>(
-                actual_result, expected_result,
+                <span class="kw-2">&amp;</span>actual_result, expected_result,
                 <span class="string">"presented_id_matches_constraint(\"{:?}\", \"{:?}\")"</span>,
                 presented, constraint,
             );

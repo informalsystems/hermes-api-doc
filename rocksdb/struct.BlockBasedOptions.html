@@ -19,14 +19,14 @@ a block is the unit of reading from disk). Cache must outlive DB instance which 
 <p>If set, use the specified cache for blocks.
 By default, rocksdb will automatically create and use an 8MB internal cache.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.disable_cache" class="method"><a class="src rightside" href="../src/rocksdb/db_options.rs.html#413-417">source</a><h4 class="code-header">pub fn <a href="#method.disable_cache" class="fn">disable_cache</a>(&amp;mut self)</h4></section></summary><div class="docblock"><p>Disable block cache</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.set_bloom_filter" class="method"><a class="src rightside" href="../src/rocksdb/db_options.rs.html#430-440">source</a><h4 class="code-header">pub fn <a href="#method.set_bloom_filter" class="fn">set_bloom_filter</a>(&amp;mut self, bits_per_key: <a class="type" href="../libc/unix/type.c_double.html" title="type libc::unix::c_double">c_double</a>, block_based: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>)</h4></section></summary><div class="docblock"><p>Sets a <a href="https://github.com/facebook/rocksdb/wiki/RocksDB-Bloom-Filter">Bloom filter</a>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.set_bloom_filter" class="method"><a class="src rightside" href="../src/rocksdb/db_options.rs.html#430-440">source</a><h4 class="code-header">pub fn <a href="#method.set_bloom_filter" class="fn">set_bloom_filter</a>(&amp;mut self, bits_per_key: <a class="type" href="../libc/primitives/type.c_double.html" title="type libc::primitives::c_double">c_double</a>, block_based: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>)</h4></section></summary><div class="docblock"><p>Sets a <a href="https://github.com/facebook/rocksdb/wiki/RocksDB-Bloom-Filter">Bloom filter</a>
 policy to reduce disk reads.</p>
 <h5 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h5>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rocksdb::BlockBasedOptions;
 
 <span class="kw">let </span><span class="kw-2">mut </span>opts = BlockBasedOptions::default();
 opts.set_bloom_filter(<span class="number">10.0</span>, <span class="bool-val">true</span>);</code></pre></div>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.set_ribbon_filter" class="method"><a class="src rightside" href="../src/rocksdb/db_options.rs.html#456-461">source</a><h4 class="code-header">pub fn <a href="#method.set_ribbon_filter" class="fn">set_ribbon_filter</a>(&amp;mut self, bloom_equivalent_bits_per_key: <a class="type" href="../libc/unix/type.c_double.html" title="type libc::unix::c_double">c_double</a>)</h4></section></summary><div class="docblock"><p>Sets a <a href="http://rocksdb.org/blog/2021/12/29/ribbon-filter.html">Ribbon filter</a>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.set_ribbon_filter" class="method"><a class="src rightside" href="../src/rocksdb/db_options.rs.html#456-461">source</a><h4 class="code-header">pub fn <a href="#method.set_ribbon_filter" class="fn">set_ribbon_filter</a>(&amp;mut self, bloom_equivalent_bits_per_key: <a class="type" href="../libc/primitives/type.c_double.html" title="type libc::primitives::c_double">c_double</a>)</h4></section></summary><div class="docblock"><p>Sets a <a href="http://rocksdb.org/blog/2021/12/29/ribbon-filter.html">Ribbon filter</a>
 policy to reduce disk reads.</p>
 <p>Ribbon filters use less memory in exchange for slightly more CPU usage
 compared to an equivalent bloom filter.</p>
@@ -37,8 +37,8 @@ compared to an equivalent bloom filter.</p>
 opts.set_ribbon_filter(<span class="number">10.0</span>);</code></pre></div>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.set_hybrid_ribbon_filter" class="method"><a class="src rightside" href="../src/rocksdb/db_options.rs.html#478-490">source</a><h4 class="code-header">pub fn <a href="#method.set_hybrid_ribbon_filter" class="fn">set_hybrid_ribbon_filter</a>(
     &amp;mut self,
-    bloom_equivalent_bits_per_key: <a class="type" href="../libc/unix/type.c_double.html" title="type libc::unix::c_double">c_double</a>,
-    bloom_before_level: <a class="type" href="../libc/unix/type.c_int.html" title="type libc::unix::c_int">c_int</a>,
+    bloom_equivalent_bits_per_key: <a class="type" href="../libc/primitives/type.c_double.html" title="type libc::primitives::c_double">c_double</a>,
+    bloom_before_level: <a class="type" href="../libc/primitives/type.c_int.html" title="type libc::primitives::c_int">c_int</a>,
 )</h4></section></summary><div class="docblock"><p>Sets a hybrid <a href="http://rocksdb.org/blog/2021/12/29/ribbon-filter.html">Ribbon filter</a>
 policy to reduce disk reads.</p>
 <p>Uses Bloom filters before the given level, and Ribbon filters for all

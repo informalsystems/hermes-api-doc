@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.70/src/cipher.rs`."><title>cipher.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/</div>cipher.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.72/src/cipher.rs`."><title>cipher.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/</div>cipher.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -595,7 +595,19 @@
 <a href="#594" id="594">594</a>
 <a href="#595" id="595">595</a>
 <a href="#596" id="596">596</a>
-<a href="#597" id="597">597</a></pre></div><pre class="rust"><code><span class="doccomment">//! Symmetric ciphers.
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a></pre></div><pre class="rust"><code><span class="doccomment">//! Symmetric ciphers.
 
 </span><span class="attr">#[cfg(ossl300)]
 </span><span class="kw">use </span><span class="kw">crate</span>::cvt_p;
@@ -614,7 +626,7 @@
 </span><span class="kw">use </span>std::ptr;
 
 <span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, ossl110, libressl273))] </span>{
+    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, ossl110, libressl273, awslc))] </span>{
         <span class="kw">use </span>ffi::{EVP_CIPHER_block_size, EVP_CIPHER_iv_length, EVP_CIPHER_key_length};
     } <span class="kw">else </span>{
         <span class="kw">use </span>libc::c_int;
@@ -743,7 +755,7 @@
             <span class="kw">let </span>ptr = cvt_p(ffi::EVP_CIPHER_fetch(
                 ctx.map_or(ptr::null_mut(), ForeignTypeRef::as_ptr),
                 algorithm.as_ptr(),
-                properties.map_or(ptr::null_mut(), |s| s.as_ptr()),
+                properties.as_ref().map_or(ptr::null_mut(), |s| s.as_ptr()),
             ))<span class="question-mark">?</span>;
 
             <span class="prelude-val">Ok</span>(Cipher::from_ptr(ptr))
@@ -758,7 +770,7 @@
         <span class="kw">unsafe </span>{ CipherRef::from_ptr(ffi::EVP_aes_128_cbc() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>) }
     }
 
-    <span class="attr">#[cfg(not(boringssl))]
+    <span class="attr">#[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>aes_128_xts() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>CipherRef {
         <span class="kw">unsafe </span>{ CipherRef::from_ptr(ffi::EVP_aes_128_xts() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>) }
     }
@@ -972,17 +984,17 @@
         <span class="kw">unsafe </span>{ CipherRef::from_ptr(ffi::EVP_des_ede3_cbc() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>) }
     }
 
-    <span class="attr">#[cfg(not(boringssl))]
+    <span class="attr">#[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>des_ede3_cfb8() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>CipherRef {
         <span class="kw">unsafe </span>{ CipherRef::from_ptr(ffi::EVP_des_ede3_cfb8() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>) }
     }
 
-    <span class="attr">#[cfg(not(boringssl))]
+    <span class="attr">#[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>des_ede3_cfb64() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>CipherRef {
         <span class="kw">unsafe </span>{ CipherRef::from_ptr(ffi::EVP_des_ede3_cfb64() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>) }
     }
 
-    <span class="attr">#[cfg(not(boringssl))]
+    <span class="attr">#[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>des_ede3_ofb() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>CipherRef {
         <span class="kw">unsafe </span>{ CipherRef::from_ptr(ffi::EVP_des_ede3_ofb() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>) }
     }
@@ -1097,7 +1109,7 @@
         <span class="kw">unsafe </span>{ CipherRef::from_ptr(ffi::EVP_chacha20() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>) }
     }
 
-    <span class="attr">#[cfg(all(any(ossl110, libressl360), not(osslconf = <span class="string">"OPENSSL_NO_CHACHA"</span>)))]
+    <span class="attr">#[cfg(all(any(ossl110, libressl360, awslc), not(osslconf = <span class="string">"OPENSSL_NO_CHACHA"</span>)))]
     </span><span class="kw">pub fn </span>chacha20_poly1305() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>CipherRef {
         <span class="kw">unsafe </span>{ CipherRef::from_ptr(ffi::EVP_chacha20_poly1305() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>) }
     }
@@ -1190,6 +1202,18 @@
     </span><span class="attr">#[corresponds(EVP_CIPHER_block_size)]
     </span><span class="kw">pub fn </span>block_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="kw">unsafe </span>{ EVP_CIPHER_block_size(<span class="self">self</span>.as_ptr()) <span class="kw">as </span>usize }
+    }
+}
+
+<span class="attr">#[cfg(test)]
+</span><span class="kw">mod </span>test {
+    <span class="attr">#[cfg(ossl300)]
+    </span><span class="kw">use </span><span class="kw">super</span>::Cipher;
+
+    <span class="attr">#[test]
+    #[cfg(ossl300)]
+    </span><span class="kw">fn </span>test_cipher_fetch_properties() {
+        <span class="macro">assert!</span>(Cipher::fetch(<span class="prelude-val">None</span>, <span class="string">"AES-128-GCM"</span>, <span class="prelude-val">Some</span>(<span class="string">"provider=gibberish"</span>)).is_err());
     }
 }
 </code></pre></div></section></main></body></html>

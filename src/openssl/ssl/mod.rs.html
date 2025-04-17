@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.70/src/ssl/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/ssl/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.72/src/ssl/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/ssl/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -4457,7 +4457,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::util;
 <span class="kw">use </span><span class="kw">crate</span>::util::{ForeignTypeExt, ForeignTypeRefExt};
 <span class="kw">use </span><span class="kw">crate</span>::x509::store::{X509Store, X509StoreBuilderRef, X509StoreRef};
-<span class="attr">#[cfg(any(ossl102, boringssl, libressl261))]
+<span class="attr">#[cfg(any(ossl102, boringssl, libressl261, awslc))]
 </span><span class="kw">use </span><span class="kw">crate</span>::x509::verify::X509VerifyParamRef;
 <span class="kw">use </span><span class="kw">crate</span>::x509::{X509Name, X509Ref, X509StoreContextRef, X509VerifyResult, X509};
 <span class="kw">use crate</span>::{cvt, cvt_n, cvt_p, init};
@@ -4514,7 +4514,7 @@
 <span class="macro">cfg_if!</span> {
     <span class="kw">if </span><span class="attr">#[cfg(ossl300)] </span>{
         <span class="kw">type </span>SslOptionsRepr = u64;
-    } <span class="kw">else if </span><span class="attr">#[cfg(boringssl)] </span>{
+    } <span class="kw">else if </span><span class="attr">#[cfg(any(boringssl, awslc))] </span>{
         <span class="kw">type </span>SslOptionsRepr = u32;
     } <span class="kw">else </span>{
         <span class="kw">type </span>SslOptionsRepr = libc::c_ulong;
@@ -4530,7 +4530,7 @@
         </span><span class="kw">const </span>DONT_INSERT_EMPTY_FRAGMENTS = ffi::SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS <span class="kw">as </span>SslOptionsRepr;
 
         <span class="doccomment">/// A "reasonable default" set of options which enables compatibility flags.
-        </span><span class="attr">#[cfg(not(boringssl))]
+        </span><span class="attr">#[cfg(not(any(boringssl, awslc)))]
         </span><span class="kw">const </span>ALL = ffi::SSL_OP_ALL <span class="kw">as </span>SslOptionsRepr;
 
         <span class="doccomment">/// Do not query the MTU.
@@ -4543,19 +4543,19 @@
         /// Only affects DTLS connections.
         ///
         /// [RFC 4347 Section 4.2.1]: https://tools.ietf.org/html/rfc4347#section-4.2.1
-        </span><span class="attr">#[cfg(not(boringssl))]
+        </span><span class="attr">#[cfg(not(any(boringssl, awslc)))]
         </span><span class="kw">const </span>COOKIE_EXCHANGE = ffi::SSL_OP_COOKIE_EXCHANGE <span class="kw">as </span>SslOptionsRepr;
 
         <span class="doccomment">/// Disables the use of session tickets for session resumption.
         </span><span class="kw">const </span>NO_TICKET = ffi::SSL_OP_NO_TICKET <span class="kw">as </span>SslOptionsRepr;
 
         <span class="doccomment">/// Always start a new session when performing a renegotiation on the server side.
-        </span><span class="attr">#[cfg(not(boringssl))]
+        </span><span class="attr">#[cfg(not(any(boringssl, awslc)))]
         </span><span class="kw">const </span>NO_SESSION_RESUMPTION_ON_RENEGOTIATION =
             ffi::SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION <span class="kw">as </span>SslOptionsRepr;
 
         <span class="doccomment">/// Disables the use of TLS compression.
-        </span><span class="attr">#[cfg(not(boringssl))]
+        </span><span class="attr">#[cfg(not(any(boringssl, awslc)))]
         </span><span class="kw">const </span>NO_COMPRESSION = ffi::SSL_OP_NO_COMPRESSION <span class="kw">as </span>SslOptionsRepr;
 
         <span class="doccomment">/// Allow legacy insecure renegotiation with servers or clients that do not support secure
@@ -4599,19 +4599,19 @@
         <span class="doccomment">/// Disables the use of TLSv1.3.
         ///
         /// Requires OpenSSL 1.1.1 or LibreSSL 3.4.0 or newer.
-        </span><span class="attr">#[cfg(any(boringssl, ossl111, libressl340))]
+        </span><span class="attr">#[cfg(any(boringssl, ossl111, libressl340, awslc))]
         </span><span class="kw">const </span>NO_TLSV1_3 = ffi::SSL_OP_NO_TLSv1_3 <span class="kw">as </span>SslOptionsRepr;
 
         <span class="doccomment">/// Disables the use of DTLSv1.0
         ///
         /// Requires OpenSSL 1.0.2 or LibreSSL 3.3.2 or newer.
-        </span><span class="attr">#[cfg(any(boringssl, ossl102, ossl110, libressl332))]
+        </span><span class="attr">#[cfg(any(boringssl, ossl102, ossl110, libressl332, awslc))]
         </span><span class="kw">const </span>NO_DTLSV1 = ffi::SSL_OP_NO_DTLSv1 <span class="kw">as </span>SslOptionsRepr;
 
         <span class="doccomment">/// Disables the use of DTLSv1.2.
         ///
         /// Requires OpenSSL 1.0.2 or LibreSSL 3.3.2 or newer.
-        </span><span class="attr">#[cfg(any(boringssl, ossl102, ossl110, libressl332))]
+        </span><span class="attr">#[cfg(any(boringssl, ossl102, ossl110, libressl332, awslc))]
         </span><span class="kw">const </span>NO_DTLSV1_2 = ffi::SSL_OP_NO_DTLSv1_2 <span class="kw">as </span>SslOptionsRepr;
 
         <span class="doccomment">/// Disables the use of all (D)TLS protocol versions.
@@ -4635,7 +4635,7 @@
         <span class="doccomment">/// Disallow all renegotiation in TLSv1.2 and earlier.
         ///
         /// Requires OpenSSL 1.1.0h or newer.
-        </span><span class="attr">#[cfg(any(boringssl, ossl110h))]
+        </span><span class="attr">#[cfg(any(boringssl, ossl110h, awslc))]
         </span><span class="kw">const </span>NO_RENEGOTIATION = ffi::SSL_OP_NO_RENEGOTIATION <span class="kw">as </span>SslOptionsRepr;
 
         <span class="doccomment">/// Enable TLSv1.3 Compatibility mode.
@@ -4743,14 +4743,14 @@
 
     <span class="doccomment">/// Support all versions of the DTLS protocol, explicitly as a client.
     </span><span class="attr">#[corresponds(DTLS_client_method)]
-    #[cfg(any(boringssl, ossl110, libressl291))]
+    #[cfg(any(boringssl, ossl110, libressl291, awslc))]
     </span><span class="kw">pub fn </span>dtls_client() -&gt; SslMethod {
         <span class="kw">unsafe </span>{ SslMethod(DTLS_client_method()) }
     }
 
     <span class="doccomment">/// Support all versions of the DTLS protocol, explicitly as a server.
     </span><span class="attr">#[corresponds(DTLS_server_method)]
-    #[cfg(any(boringssl, ossl110, libressl291))]
+    #[cfg(any(boringssl, ossl110, libressl291, awslc))]
     </span><span class="kw">pub fn </span>dtls_server() -&gt; SslMethod {
         <span class="kw">unsafe </span>{ SslMethod(DTLS_server_method()) }
     }
@@ -4798,14 +4798,14 @@
     }
 }
 
-<span class="attr">#[cfg(boringssl)]
+<span class="attr">#[cfg(any(boringssl, awslc))]
 </span><span class="kw">type </span>SslBitType = c_int;
-<span class="attr">#[cfg(not(boringssl))]
+<span class="attr">#[cfg(not(any(boringssl, awslc)))]
 </span><span class="kw">type </span>SslBitType = c_long;
 
-<span class="attr">#[cfg(boringssl)]
+<span class="attr">#[cfg(any(boringssl, awslc))]
 </span><span class="kw">type </span>SslTimeTy = u64;
-<span class="attr">#[cfg(not(boringssl))]
+<span class="attr">#[cfg(not(any(boringssl, awslc)))]
 </span><span class="kw">type </span>SslTimeTy = c_long;
 
 <span class="macro">bitflags!</span> {
@@ -4993,17 +4993,17 @@
 
 <span class="doccomment">/// An error returned from an ALPN selection callback.
 ///
-/// Requires BoringSSL or OpenSSL 1.0.2 or LibreSSL 2.6.1 or newer.
-</span><span class="attr">#[cfg(any(ossl102, libressl261, boringssl))]
+/// Requires AWS-LC or BoringSSL or OpenSSL 1.0.2 or LibreSSL 2.6.1 or newer.
+</span><span class="attr">#[cfg(any(ossl102, libressl261, boringssl, awslc))]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 </span><span class="kw">pub struct </span>AlpnError(c_int);
 
-<span class="attr">#[cfg(any(ossl102, libressl261, boringssl))]
+<span class="attr">#[cfg(any(ossl102, libressl261, boringssl, awslc))]
 </span><span class="kw">impl </span>AlpnError {
     <span class="doccomment">/// Terminate the handshake with a fatal alert.
     ///
-    /// Requires BoringSSL or OpenSSL 1.1.0 or newer.
-    </span><span class="attr">#[cfg(any(ossl110, boringssl))]
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.1.0 or newer.
+    </span><span class="attr">#[cfg(any(ossl110, boringssl, awslc))]
     </span><span class="kw">pub const </span>ALERT_FATAL: AlpnError = AlpnError(ffi::SSL_TLSEXT_ERR_ALERT_FATAL);
 
     <span class="doccomment">/// Do not select a protocol, but continue the handshake.
@@ -5045,8 +5045,8 @@
 
     <span class="doccomment">/// TLSv1.3
     ///
-    /// Requires BoringSSL or OpenSSL 1.1.1 or LibreSSL 3.4.0 or newer.
-    </span><span class="attr">#[cfg(any(ossl111, libressl340, boringssl))]
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.1.1 or LibreSSL 3.4.0 or newer.
+    </span><span class="attr">#[cfg(any(ossl111, libressl340, boringssl, awslc))]
     </span><span class="kw">pub const </span>TLS1_3: SslVersion = SslVersion(ffi::TLS1_3_VERSION);
 
     <span class="doccomment">/// DTLSv1.0
@@ -5057,12 +5057,12 @@
     <span class="doccomment">/// DTLSv1.2
     ///
     /// DTLS 1.2 corresponds to TLS 1.2 to harmonize versions. There was never a DTLS 1.1.
-    </span><span class="attr">#[cfg(any(ossl102, libressl332, boringssl))]
+    </span><span class="attr">#[cfg(any(ossl102, libressl332, boringssl, awslc))]
     </span><span class="kw">pub const </span>DTLS1_2: SslVersion = SslVersion(ffi::DTLS1_2_VERSION);
 }
 
 <span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(boringssl)] </span>{
+    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, awslc))] </span>{
         <span class="kw">type </span>SslCacheTy = i64;
         <span class="kw">type </span>SslCacheSize = libc::c_ulong;
         <span class="kw">type </span>MtuTy = u32;
@@ -5181,9 +5181,9 @@
             // still stored in ex data to manage the lifetime.
             </span><span class="kw">let </span>arg = <span class="self">self</span>.set_ex_data_inner(SslContext::cached_ex_index::&lt;F&gt;(), callback);
             ffi::SSL_CTX_set_tlsext_servername_arg(<span class="self">self</span>.as_ptr(), arg);
-            <span class="attr">#[cfg(boringssl)]
+            <span class="attr">#[cfg(any(boringssl, awslc))]
             </span>ffi::SSL_CTX_set_tlsext_servername_callback(<span class="self">self</span>.as_ptr(), <span class="prelude-val">Some</span>(raw_sni::&lt;F&gt;));
-            <span class="attr">#[cfg(not(boringssl))]
+            <span class="attr">#[cfg(not(any(boringssl, awslc)))]
             </span>ffi::SSL_CTX_set_tlsext_servername_callback__fixed_rust(
                 <span class="self">self</span>.as_ptr(),
                 <span class="prelude-val">Some</span>(raw_sni::&lt;F&gt;),
@@ -5267,9 +5267,9 @@
         <span class="kw">unsafe </span>{
             <span class="self">self</span>.set_ex_data(SslContext::cached_ex_index::&lt;F&gt;(), callback);
 
-            <span class="attr">#[cfg(not(boringssl))]
+            <span class="attr">#[cfg(not(any(boringssl, awslc)))]
             </span>ffi::SSL_CTX_set_tmp_dh_callback__fixed_rust(<span class="self">self</span>.as_ptr(), <span class="prelude-val">Some</span>(raw_tmp_dh::&lt;F&gt;));
-            <span class="attr">#[cfg(boringssl)]
+            <span class="attr">#[cfg(any(boringssl, awslc))]
             </span>ffi::SSL_CTX_set_tmp_dh_callback(<span class="self">self</span>.as_ptr(), <span class="prelude-val">Some</span>(raw_tmp_dh::&lt;F&gt;));
         }
     }
@@ -5549,9 +5549,9 @@
     /// A value of `None` will enable protocol versions down to the lowest version supported by
     /// OpenSSL.
     ///
-    /// Requires BoringSSL or OpenSSL 1.1.0 or LibreSSL 2.6.1 or newer.
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.1.0 or LibreSSL 2.6.1 or newer.
     </span><span class="attr">#[corresponds(SSL_CTX_set_min_proto_version)]
-    #[cfg(any(ossl110, libressl261, boringssl))]
+    #[cfg(any(ossl110, libressl261, boringssl, awslc))]
     </span><span class="kw">pub fn </span>set_min_proto_version(<span class="kw-2">&amp;mut </span><span class="self">self</span>, version: <span class="prelude-ty">Option</span>&lt;SslVersion&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             cvt(ffi::SSL_CTX_set_min_proto_version(
@@ -5567,9 +5567,9 @@
     /// A value of `None` will enable protocol versions up to the highest version supported by
     /// OpenSSL.
     ///
-    /// Requires BoringSSL or OpenSSL 1.1.0 or or LibreSSL 2.6.1 or newer.
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.1.0 or or LibreSSL 2.6.1 or newer.
     </span><span class="attr">#[corresponds(SSL_CTX_set_max_proto_version)]
-    #[cfg(any(ossl110, libressl261, boringssl))]
+    #[cfg(any(ossl110, libressl261, boringssl, awslc))]
     </span><span class="kw">pub fn </span>set_max_proto_version(<span class="kw-2">&amp;mut </span><span class="self">self</span>, version: <span class="prelude-ty">Option</span>&lt;SslVersion&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             cvt(ffi::SSL_CTX_set_max_proto_version(
@@ -5625,9 +5625,9 @@
     /// and `http/1.1` is encoded as `b"\x06spdy/1\x08http/1.1"`. The protocols are ordered by
     /// preference.
     ///
-    /// Requires BoringSSL or OpenSSL 1.0.2 or LibreSSL 2.6.1 or newer.
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.0.2 or LibreSSL 2.6.1 or newer.
     </span><span class="attr">#[corresponds(SSL_CTX_set_alpn_protos)]
-    #[cfg(any(ossl102, libressl261, boringssl))]
+    #[cfg(any(ossl102, libressl261, boringssl, awslc))]
     </span><span class="kw">pub fn </span>set_alpn_protos(<span class="kw-2">&amp;mut </span><span class="self">self</span>, protocols: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             <span class="macro">assert!</span>(protocols.len() &lt;= c_uint::MAX <span class="kw">as </span>usize);
@@ -5669,25 +5669,25 @@
     /// of those protocols on success. The [`select_next_proto`] function implements the standard
     /// protocol selection algorithm.
     ///
-    /// Requires BoringSSL or OpenSSL 1.0.2 or LibreSSL 2.6.1 or newer.
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.0.2 or LibreSSL 2.6.1 or newer.
     ///
     /// [`SslContextBuilder::set_alpn_protos`]: struct.SslContextBuilder.html#method.set_alpn_protos
     /// [`select_next_proto`]: fn.select_next_proto.html
     </span><span class="attr">#[corresponds(SSL_CTX_set_alpn_select_cb)]
-    #[cfg(any(ossl102, libressl261, boringssl))]
+    #[cfg(any(ossl102, libressl261, boringssl, awslc))]
     </span><span class="kw">pub fn </span>set_alpn_select_callback&lt;F&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, callback: F)
     <span class="kw">where
         </span>F: <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Fn(<span class="kw-2">&amp;mut </span>SslRef, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8], AlpnError&gt; + <span class="lifetime">'static </span>+ Sync + Send,
     {
         <span class="kw">unsafe </span>{
             <span class="self">self</span>.set_ex_data(SslContext::cached_ex_index::&lt;F&gt;(), callback);
-            <span class="attr">#[cfg(not(boringssl))]
+            <span class="attr">#[cfg(not(any(boringssl, awslc)))]
             </span>ffi::SSL_CTX_set_alpn_select_cb__fixed_rust(
                 <span class="self">self</span>.as_ptr(),
                 <span class="prelude-val">Some</span>(callbacks::raw_alpn_select::&lt;F&gt;),
                 ptr::null_mut(),
             );
-            <span class="attr">#[cfg(boringssl)]
+            <span class="attr">#[cfg(any(boringssl, awslc))]
             </span>ffi::SSL_CTX_set_alpn_select_cb(
                 <span class="self">self</span>.as_ptr(),
                 <span class="prelude-val">Some</span>(callbacks::raw_alpn_select::&lt;F&gt;),
@@ -5716,18 +5716,18 @@
 
     <span class="doccomment">/// Returns a reference to the X509 verification configuration.
     ///
-    /// Requires BoringSSL or OpenSSL 1.0.2 or newer.
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.0.2 or newer.
     </span><span class="attr">#[corresponds(SSL_CTX_get0_param)]
-    #[cfg(any(ossl102, boringssl, libressl261))]
+    #[cfg(any(ossl102, boringssl, libressl261, awslc))]
     </span><span class="kw">pub fn </span>verify_param(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>X509VerifyParamRef {
         <span class="kw">unsafe </span>{ X509VerifyParamRef::from_ptr(ffi::SSL_CTX_get0_param(<span class="self">self</span>.as_ptr())) }
     }
 
     <span class="doccomment">/// Returns a mutable reference to the X509 verification configuration.
     ///
-    /// Requires BoringSSL or OpenSSL 1.0.2 or newer.
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.0.2 or newer.
     </span><span class="attr">#[corresponds(SSL_CTX_get0_param)]
-    #[cfg(any(ossl102, boringssl, libressl261))]
+    #[cfg(any(ossl102, boringssl, libressl261, awslc))]
     </span><span class="kw">pub fn </span>verify_param_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>X509VerifyParamRef {
         <span class="kw">unsafe </span>{ X509VerifyParamRef::from_ptr_mut(ffi::SSL_CTX_get0_param(<span class="self">self</span>.as_ptr())) }
     }
@@ -5879,7 +5879,7 @@
     ///
     /// Requires OpenSSL 1.1.1 or newer.
     </span><span class="attr">#[corresponds(SSL_CTX_set_keylog_callback)]
-    #[cfg(any(ossl111, boringssl))]
+    #[cfg(any(ossl111, boringssl, awslc))]
     </span><span class="kw">pub fn </span>set_keylog_callback&lt;F&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, callback: F)
     <span class="kw">where
         </span>F: Fn(<span class="kw-2">&amp;</span>SslRef, <span class="kw-2">&amp;</span>str) + <span class="lifetime">'static </span>+ Sync + Send,
@@ -5949,7 +5949,7 @@
     /// The callback will be called with the SSL context and a slice into which the cookie
     /// should be written. The callback should return the number of bytes written.
     </span><span class="attr">#[corresponds(SSL_CTX_set_cookie_generate_cb)]
-    #[cfg(not(boringssl))]
+    #[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>set_cookie_generate_cb&lt;F&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, callback: F)
     <span class="kw">where
         </span>F: Fn(<span class="kw-2">&amp;mut </span>SslRef, <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;usize, ErrorStack&gt; + <span class="lifetime">'static </span>+ Sync + Send,
@@ -5965,7 +5965,7 @@
     /// The callback will be called with the SSL context and the cookie supplied by the
     /// client. It should return true if and only if the cookie is valid.
     </span><span class="attr">#[corresponds(SSL_CTX_set_cookie_verify_cb)]
-    #[cfg(not(boringssl))]
+    #[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>set_cookie_verify_cb&lt;F&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, callback: F)
     <span class="kw">where
         </span>F: Fn(<span class="kw-2">&amp;mut </span>SslRef, <span class="kw-2">&amp;</span>[u8]) -&gt; bool + <span class="lifetime">'static </span>+ Sync + Send,
@@ -6128,9 +6128,9 @@
 
     <span class="doccomment">/// Sets the context's supported elliptic curve groups.
     ///
-    /// Requires BoringSSL or OpenSSL 1.1.1 or LibreSSL 2.5.1 or newer.
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.1.1 or LibreSSL 2.5.1 or newer.
     </span><span class="attr">#[corresponds(SSL_CTX_set1_groups_list)]
-    #[cfg(any(ossl111, boringssl, libressl251))]
+    #[cfg(any(ossl111, boringssl, libressl251, awslc))]
     </span><span class="kw">pub fn </span>set_groups_list(<span class="kw-2">&amp;mut </span><span class="self">self</span>, groups: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="kw">let </span>groups = CString::new(groups).unwrap();
         <span class="kw">unsafe </span>{
@@ -6221,9 +6221,9 @@
     {
         <span class="kw">unsafe </span>{
             ffi::init();
-            <span class="attr">#[cfg(boringssl)]
+            <span class="attr">#[cfg(any(boringssl, awslc))]
             </span><span class="kw">let </span>idx = cvt_n(get_new_idx(<span class="prelude-val">Some</span>(free_data_box::&lt;T&gt;)))<span class="question-mark">?</span>;
-            <span class="attr">#[cfg(not(boringssl))]
+            <span class="attr">#[cfg(not(any(boringssl, awslc)))]
             </span><span class="kw">let </span>idx = cvt_n(get_new_idx(free_data_box::&lt;T&gt;))<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(Index::from_raw(idx))
         }
@@ -6682,9 +6682,9 @@
     {
         <span class="kw">unsafe </span>{
             ffi::init();
-            <span class="attr">#[cfg(boringssl)]
+            <span class="attr">#[cfg(any(boringssl, awslc))]
             </span><span class="kw">let </span>idx = cvt_n(get_new_ssl_idx(<span class="prelude-val">Some</span>(free_data_box::&lt;T&gt;)))<span class="question-mark">?</span>;
-            <span class="attr">#[cfg(not(boringssl))]
+            <span class="attr">#[cfg(not(any(boringssl, awslc)))]
             </span><span class="kw">let </span>idx = cvt_n(get_new_ssl_idx(free_data_box::&lt;T&gt;))<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(Index::from_raw(idx))
         }
@@ -6831,9 +6831,9 @@
         <span class="kw">unsafe </span>{
             <span class="comment">// this needs to be in an Arc since the callback can register a new callback!
             </span><span class="self">self</span>.set_ex_data(Ssl::cached_ex_index(), Arc::new(callback));
-            <span class="attr">#[cfg(boringssl)]
+            <span class="attr">#[cfg(any(boringssl, awslc))]
             </span>ffi::SSL_set_tmp_dh_callback(<span class="self">self</span>.as_ptr(), <span class="prelude-val">Some</span>(raw_tmp_dh_ssl::&lt;F&gt;));
-            <span class="attr">#[cfg(not(boringssl))]
+            <span class="attr">#[cfg(not(any(boringssl, awslc)))]
             </span>ffi::SSL_set_tmp_dh_callback__fixed_rust(<span class="self">self</span>.as_ptr(), <span class="prelude-val">Some</span>(raw_tmp_dh_ssl::&lt;F&gt;));
         }
     }
@@ -6876,11 +6876,11 @@
 
     <span class="doccomment">/// Like [`SslContextBuilder::set_alpn_protos`].
     ///
-    /// Requires BoringSSL or OpenSSL 1.0.2 or LibreSSL 2.6.1 or newer.
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.0.2 or LibreSSL 2.6.1 or newer.
     ///
     /// [`SslContextBuilder::set_alpn_protos`]: struct.SslContextBuilder.html#method.set_alpn_protos
     </span><span class="attr">#[corresponds(SSL_set_alpn_protos)]
-    #[cfg(any(ossl102, libressl261, boringssl))]
+    #[cfg(any(ossl102, libressl261, boringssl, awslc))]
     </span><span class="kw">pub fn </span>set_alpn_protos(<span class="kw-2">&amp;mut </span><span class="self">self</span>, protocols: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             <span class="macro">assert!</span>(protocols.len() &lt;= c_uint::MAX <span class="kw">as </span>usize);
@@ -7032,9 +7032,9 @@
     /// The protocol's name is returned is an opaque sequence of bytes. It is up to the client
     /// to interpret it.
     ///
-    /// Requires BoringSSL or OpenSSL 1.0.2 or LibreSSL 2.6.1 or newer.
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.0.2 or LibreSSL 2.6.1 or newer.
     </span><span class="attr">#[corresponds(SSL_get0_alpn_selected)]
-    #[cfg(any(ossl102, libressl261, boringssl))]
+    #[cfg(any(ossl102, libressl261, boringssl, awslc))]
     </span><span class="kw">pub fn </span>selected_alpn_protocol(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>data: <span class="kw-2">*const </span>c_uchar = ptr::null();
@@ -7157,9 +7157,9 @@
 
     <span class="doccomment">/// Returns a mutable reference to the X509 verification configuration.
     ///
-    /// Requires BoringSSL or OpenSSL 1.0.2 or newer.
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.0.2 or newer.
     </span><span class="attr">#[corresponds(SSL_get0_param)]
-    #[cfg(any(ossl102, boringssl, libressl261))]
+    #[cfg(any(ossl102, boringssl, libressl261, awslc))]
     </span><span class="kw">pub fn </span>param_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>X509VerifyParamRef {
         <span class="kw">unsafe </span>{ X509VerifyParamRef::from_ptr_mut(ffi::SSL_get0_param(<span class="self">self</span>.as_ptr())) }
     }
@@ -7307,7 +7307,7 @@
 
     <span class="doccomment">/// Returns the server's OCSP response, if present.
     </span><span class="attr">#[corresponds(SSL_get_tlsext_status_ocsp_resp)]
-    #[cfg(not(boringssl))]
+    #[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>ocsp_status(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>p = ptr::null_mut();
@@ -7323,7 +7323,7 @@
 
     <span class="doccomment">/// Sets the OCSP response to be returned to the client.
     </span><span class="attr">#[corresponds(SSL_set_tlsext_status_oscp_resp)]
-    #[cfg(not(boringssl))]
+    #[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>set_ocsp_status(<span class="kw-2">&amp;mut </span><span class="self">self</span>, response: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             <span class="macro">assert!</span>(response.len() &lt;= c_int::MAX <span class="kw">as </span>usize);
@@ -7631,7 +7631,7 @@
     }
 
     <span class="doccomment">/// Sets a new default TLS/SSL method for SSL objects
-    </span><span class="attr">#[cfg(not(boringssl))]
+    </span><span class="attr">#[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>set_method(<span class="kw-2">&amp;mut </span><span class="self">self</span>, method: SslMethod) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             cvt(ffi::SSL_set_ssl_method(<span class="self">self</span>.as_ptr(), method.as_ptr()))<span class="question-mark">?</span>;
@@ -7719,9 +7719,9 @@
     /// A value of `None` will enable protocol versions down to the lowest version supported by
     /// OpenSSL.
     ///
-    /// Requires BoringSSL or OpenSSL 1.1.0 or LibreSSL 2.6.1 or newer.
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.1.0 or LibreSSL 2.6.1 or newer.
     </span><span class="attr">#[corresponds(SSL_set_min_proto_version)]
-    #[cfg(any(ossl110, libressl261, boringssl))]
+    #[cfg(any(ossl110, libressl261, boringssl, awslc))]
     </span><span class="kw">pub fn </span>set_min_proto_version(<span class="kw-2">&amp;mut </span><span class="self">self</span>, version: <span class="prelude-ty">Option</span>&lt;SslVersion&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             cvt(ffi::SSL_set_min_proto_version(
@@ -7737,9 +7737,9 @@
     /// A value of `None` will enable protocol versions up to the highest version supported by
     /// OpenSSL.
     ///
-    /// Requires BoringSSL or OpenSSL 1.1.0 or or LibreSSL 2.6.1 or newer.
+    /// Requires AWS-LC or BoringSSL or OpenSSL 1.1.0 or or LibreSSL 2.6.1 or newer.
     </span><span class="attr">#[corresponds(SSL_set_max_proto_version)]
-    #[cfg(any(ossl110, libressl261, boringssl))]
+    #[cfg(any(ossl110, libressl261, boringssl, awslc))]
     </span><span class="kw">pub fn </span>set_max_proto_version(<span class="kw-2">&amp;mut </span><span class="self">self</span>, version: <span class="prelude-ty">Option</span>&lt;SslVersion&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             cvt(ffi::SSL_set_max_proto_version(
@@ -8620,7 +8620,7 @@
 }
 
 <span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, ossl110, libressl273))] </span>{
+    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, ossl110, libressl273, awslc))] </span>{
         <span class="kw">use </span>ffi::{SSL_CTX_up_ref, SSL_SESSION_get_master_key, SSL_SESSION_up_ref, SSL_is_server};
     } <span class="kw">else </span>{
         <span class="attr">#[allow(bad_style)]
@@ -8678,7 +8678,7 @@
     }
 }
 <span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, ossl110, libressl291))] </span>{
+    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, ossl110, libressl291, awslc))] </span>{
         <span class="kw">use </span>ffi::{TLS_method, DTLS_method, TLS_client_method, TLS_server_method, DTLS_server_method, DTLS_client_method};
     } <span class="kw">else </span>{
         <span class="kw">use </span>ffi::{
@@ -8718,7 +8718,7 @@
             </span><span class="kw">static </span>ONCE: Once = Once::new();
             ONCE.call_once(|| {
                 <span class="macro">cfg_if!</span> {
-                    <span class="kw">if </span><span class="attr">#[cfg(not(boringssl))] </span>{
+                    <span class="kw">if </span><span class="attr">#[cfg(not(any(boringssl, awslc)))] </span>{
                         ffi::SSL_CTX_get_ex_new_index(<span class="number">0</span>, ptr::null_mut(), <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
                     } <span class="kw">else </span>{
                         ffi::SSL_CTX_get_ex_new_index(<span class="number">0</span>, ptr::null_mut(), ptr::null_mut(), <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
@@ -8727,7 +8727,7 @@
             });
 
             <span class="macro">cfg_if!</span> {
-                <span class="kw">if </span><span class="attr">#[cfg(not(boringssl))] </span>{
+                <span class="kw">if </span><span class="attr">#[cfg(not(any(boringssl, awslc)))] </span>{
                     ffi::SSL_CTX_get_ex_new_index(<span class="number">0</span>, ptr::null_mut(), <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(f))
                 } <span class="kw">else </span>{
                     ffi::SSL_CTX_get_ex_new_index(<span class="number">0</span>, ptr::null_mut(), ptr::null_mut(), <span class="prelude-val">None</span>, f)
@@ -8739,15 +8739,15 @@
             <span class="comment">// hack around https://rt.openssl.org/Ticket/Display.html?id=3710&amp;user=guest&amp;pass=guest
             </span><span class="kw">static </span>ONCE: Once = Once::new();
             ONCE.call_once(|| {
-                <span class="attr">#[cfg(not(boringssl))]
+                <span class="attr">#[cfg(not(any(boringssl, awslc)))]
                 </span>ffi::SSL_get_ex_new_index(<span class="number">0</span>, ptr::null_mut(), <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
-                <span class="attr">#[cfg(boringssl)]
+                <span class="attr">#[cfg(any(boringssl, awslc))]
                 </span>ffi::SSL_get_ex_new_index(<span class="number">0</span>, ptr::null_mut(), ptr::null_mut(), <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
             });
 
-            <span class="attr">#[cfg(not(boringssl))]
+            <span class="attr">#[cfg(not(any(boringssl, awslc)))]
             </span><span class="kw">return </span>ffi::SSL_get_ex_new_index(<span class="number">0</span>, ptr::null_mut(), <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(f));
-            <span class="attr">#[cfg(boringssl)]
+            <span class="attr">#[cfg(any(boringssl, awslc))]
             </span><span class="kw">return </span>ffi::SSL_get_ex_new_index(<span class="number">0</span>, ptr::null_mut(), ptr::null_mut(), <span class="prelude-val">None</span>, f);
         }
     }

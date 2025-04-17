@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.9/src/hazardous/kem/x25519_hkdf_sha256.rs`."><title>x25519_hkdf_sha256.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/kem/</div>x25519_hkdf_sha256.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/orion-0.17.10/src/hazardous/kem/x25519_hkdf_sha256.rs`."><title>x25519_hkdf_sha256.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="orion" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">orion/hazardous/kem/</div>x25519_hkdf_sha256.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -287,7 +287,78 @@
 <a href="#286" id="286">286</a>
 <a href="#287" id="287">287</a>
 <a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a></pre></div><pre class="rust"><code><span class="comment">// MIT License
 
 // Copyright (c) 2023-2025 The orion Developers
 
@@ -311,9 +382,10 @@
 
 </span><span class="doccomment">//! # Parameters:
 //! - `public_recipient`: The public X25519 key of the recipient.
-//! - `public_ephemeral`: The ephemeral X25519 key fro this KEM operation.
+//! - `public_ephemeral`: The ephemeral X25519 key for this KEM operation.
 //! - `secret_recipient`: The private X25519 of the recipient.
 //! - `secret_sender`: The private X25519 of the sender.
+//! - `secret_ephemeral`: Ephemeral private key for deterministic encapsulation.
 //!
 //! # Errors:
 //! An error will be returned if:
@@ -326,6 +398,7 @@
 //!
 //! # Security:
 //! - The `ikm` used as input for [`derive_keypair()`] must never be reused.
+//! - The `secret_ephemeral` must never be reused.
 //! - This KEM is vulnerable to key-compromise impersonation attacks (KCI), meaning
 //! that if the recipients private key `secret_recipient` is leaked at any point, sender authentication
 //! no longer holds. See [KCI section](https://www.rfc-editor.org/rfc/rfc9180.html#section-9.1.1) of the RFC
@@ -355,12 +428,10 @@
 //! [`derive_keypair()`]: x25519_hkdf_sha256::DhKem::derive_keypair
 //! [`generate()`]: crate::hazardous::ecc::x25519::PrivateKey::generate
 
-</span><span class="attr">#![cfg_attr(docsrs, doc(cfg(feature = <span class="string">"safe_api"</span>)))]
-
 </span><span class="kw">use </span><span class="kw">crate</span>::errors::UnknownCryptoError;
 <span class="kw">use </span><span class="kw">crate</span>::hazardous::ecc::x25519;
-<span class="kw">use </span><span class="kw">crate</span>::hazardous::kdf::hkdf::sha256;
-<span class="kw">use </span>zeroize::Zeroize;
+<span class="kw">use </span><span class="kw">crate</span>::hazardous::kdf::hkdf;
+<span class="kw">use </span>zeroize::Zeroizing;
 
 <span class="kw">pub use </span><span class="kw">crate</span>::hazardous::ecc::x25519::PrivateKey;
 <span class="kw">pub use </span><span class="kw">crate</span>::hazardous::ecc::x25519::PublicKey;
@@ -394,45 +465,58 @@
         salt: <span class="kw-2">&amp;</span>[u8],
         label: <span class="kw-2">&amp;</span>[u8; <span class="number">7</span>],
         ikm: <span class="kw-2">&amp;</span>[u8],
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;sha256::Tag, UnknownCryptoError&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>labeled_ikm = Vec::&lt;u8&gt;::new();
-        labeled_ikm.extend_from_slice(<span class="self">Self</span>::HPKE_VERSION_ID.as_bytes());
-        labeled_ikm.extend_from_slice(<span class="string">b"KEM"</span>);
-        labeled_ikm.extend_from_slice(<span class="kw-2">&amp;</span><span class="self">Self</span>::KEM_ID.to_be_bytes());
-        labeled_ikm.extend_from_slice(label);
-        labeled_ikm.extend_from_slice(ikm);
-
-        sha256::extract(salt, <span class="kw-2">&amp;</span>labeled_ikm)
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;hkdf::sha256::Tag, UnknownCryptoError&gt; {
+        hkdf::sha256::extract_with_parts(
+            salt,
+            <span class="kw-2">&amp;</span>[
+                <span class="self">Self</span>::HPKE_VERSION_ID.as_bytes(),
+                <span class="string">b"KEM"</span>,
+                <span class="kw-2">&amp;</span><span class="self">Self</span>::KEM_ID.to_be_bytes(),
+                label,
+                ikm,
+            ],
+        )
     }
 
-    <span class="kw">fn </span>labeled_expand&lt;<span class="kw">const </span>L: u16&gt;(
-        prk: <span class="kw-2">&amp;</span>sha256::Tag,
+    <span class="kw">fn </span>labeled_expand(
+        prk: <span class="kw-2">&amp;</span>hkdf::sha256::Tag,
         label: <span class="kw-2">&amp;</span>[u8],
         info: <span class="kw-2">&amp;</span>[u8],
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;, UnknownCryptoError&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>labeled_info = Vec::&lt;u8&gt;::new();
-        labeled_info.extend_from_slice(<span class="kw-2">&amp;</span>L.to_be_bytes());
-        labeled_info.extend_from_slice(<span class="self">Self</span>::HPKE_VERSION_ID.as_bytes());
-        labeled_info.extend_from_slice(<span class="string">b"KEM"</span>);
-        labeled_info.extend_from_slice(<span class="kw-2">&amp;</span><span class="self">Self</span>::KEM_ID.to_be_bytes());
-        labeled_info.extend_from_slice(label);
-        labeled_info.extend_from_slice(info);
+        out: <span class="kw-2">&amp;mut </span>[u8],
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), UnknownCryptoError&gt; {
+        <span class="kw">let </span>l: u16 = out.len().try_into().map_err(|<span class="kw">_</span>| UnknownCryptoError)<span class="question-mark">?</span>;
+        hkdf::sha256::expand_with_parts(
+            prk.unprotected_as_bytes(),
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>[
+                <span class="kw-2">&amp;</span>l.to_be_bytes(),
+                <span class="self">Self</span>::HPKE_VERSION_ID.as_bytes(),
+                <span class="string">b"KEM"</span>,
+                <span class="kw-2">&amp;</span><span class="self">Self</span>::KEM_ID.to_be_bytes(),
+                label,
+                info,
+            ]),
+            out,
+        )<span class="question-mark">?</span>;
 
-        <span class="kw">let </span><span class="kw-2">mut </span>out = <span class="macro">vec!</span>[<span class="number">0u8</span>; L <span class="kw">as </span>usize];
-        sha256::expand(prk, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>labeled_info), <span class="kw-2">&amp;mut </span>out)<span class="question-mark">?</span>;
-
-        <span class="prelude-val">Ok</span>(out)
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn </span>extract_and_expand(dh: <span class="kw-2">&amp;</span>[u8], kem_context: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;, UnknownCryptoError&gt; {
+    <span class="kw">fn </span>extract_and_expand(
+        dh: <span class="kw-2">&amp;</span>[u8],
+        kem_context: <span class="kw-2">&amp;</span>[u8],
+        out: <span class="kw-2">&amp;mut </span>[u8],
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), UnknownCryptoError&gt; {
+        <span class="macro">debug_assert_eq!</span>(out.len(), <span class="self">Self</span>::N_SECRET <span class="kw">as </span>usize);
+
         <span class="kw">let </span>eae_prk = <span class="self">Self</span>::labeled_extract(<span class="string">b""</span>, <span class="string">b"eae_prk"</span>, dh)<span class="question-mark">?</span>;
-        <span class="kw">let </span>shared_secret =
-            <span class="self">Self</span>::labeled_expand::&lt;{ <span class="self">Self</span>::N_SECRET }&gt;(<span class="kw-2">&amp;</span>eae_prk, <span class="string">b"shared_secret"</span>, kem_context)<span class="question-mark">?</span>;
+        <span class="self">Self</span>::labeled_expand(<span class="kw-2">&amp;</span>eae_prk, <span class="string">b"shared_secret"</span>, kem_context, out)<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>(shared_secret)
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="doccomment">/// Generate random X25519 keypair.
+    <span class="attr">#[cfg(feature = <span class="string">"safe_api"</span>)]
+    #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"safe_api"</span>)))]
+    </span><span class="doccomment">/// Generate random X25519 keypair.
     </span><span class="kw">pub fn </span>generate_keypair() -&gt; <span class="prelude-ty">Result</span>&lt;(PrivateKey, PublicKey), UnknownCryptoError&gt; {
         <span class="kw">let </span>sk = PrivateKey::generate();
         <span class="kw">let </span>pk = PublicKey::try_from(<span class="kw-2">&amp;</span>sk)<span class="question-mark">?</span>;
@@ -440,25 +524,38 @@
         <span class="prelude-val">Ok</span>((sk, pk))
     }
 
-    <span class="doccomment">/// Deterministically derive a X25519 keyapir from `ikm`.
+    <span class="doccomment">/// Deterministically derive a X25519 keypair from `ikm`.
     </span><span class="kw">pub fn </span>derive_keypair(ikm: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(PrivateKey, PublicKey), UnknownCryptoError&gt; {
         <span class="kw">if </span>ikm.len() &lt; <span class="number">32 </span>{
             <span class="kw">return </span><span class="prelude-val">Err</span>(UnknownCryptoError);
         }
 
         <span class="kw">let </span>dkp_prk = <span class="self">Self</span>::labeled_extract(<span class="string">b""</span>, <span class="string">b"dkp_prk"</span>, ikm)<span class="question-mark">?</span>;
-        <span class="kw">let </span>sk = PrivateKey::from_slice(<span class="kw-2">&amp;</span><span class="self">Self</span>::labeled_expand::&lt;<span class="number">32</span>&gt;(<span class="kw-2">&amp;</span>dkp_prk, <span class="string">b"sk"</span>, <span class="string">b""</span>)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>sk_bytes = Zeroizing::new([<span class="number">0u8</span>; x25519::PRIVATE_KEY_SIZE]);
+        <span class="self">Self</span>::labeled_expand(<span class="kw-2">&amp;</span>dkp_prk, <span class="string">b"sk"</span>, <span class="string">b""</span>, sk_bytes.as_mut_slice())<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>sk = PrivateKey::from_slice(sk_bytes.as_slice())<span class="question-mark">?</span>;
         <span class="kw">let </span>pk = PublicKey::try_from(<span class="kw-2">&amp;</span>sk)<span class="question-mark">?</span>;
 
         <span class="prelude-val">Ok</span>((sk, pk))
     }
 
-    <span class="doccomment">/// Derive ephemeral shared secret and encapsulation thereof, which can be
+    <span class="attr">#[cfg(feature = <span class="string">"safe_api"</span>)]
+    #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"safe_api"</span>)))]
+    </span><span class="doccomment">/// Derive ephemeral shared secret and encapsulation thereof, which can be
     /// decapsulated by the holder of `public_recipient`.
     </span><span class="kw">pub fn </span>encap(
         public_recipient: <span class="kw-2">&amp;</span>PublicKey,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(SharedSecret, PublicKey), UnknownCryptoError&gt; {
         <span class="kw">let </span>secret_ephemeral = PrivateKey::generate();
+        <span class="self">Self</span>::encap_deterministic(public_recipient, secret_ephemeral)
+    }
+
+    <span class="doccomment">/// Equivalent to [`Self::encap()`], but with a one-time use provided ephemeral private key.
+    </span><span class="kw">pub fn </span>encap_deterministic(
+        public_recipient: <span class="kw-2">&amp;</span>PublicKey,
+        secret_ephemeral: PrivateKey,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(SharedSecret, PublicKey), UnknownCryptoError&gt; {
         <span class="kw">let </span>public_ephemeral = PublicKey::try_from(<span class="kw-2">&amp;</span>secret_ephemeral)<span class="question-mark">?</span>;
 
         <span class="kw">let </span>dh = x25519::key_agreement(<span class="kw-2">&amp;</span>secret_ephemeral, public_recipient)<span class="question-mark">?</span>;
@@ -466,12 +563,17 @@
         kem_context[..<span class="number">32</span>].copy_from_slice(<span class="kw-2">&amp;</span>public_ephemeral.to_bytes());
         kem_context[<span class="number">32</span>..<span class="number">64</span>].copy_from_slice(<span class="kw-2">&amp;</span>public_recipient.to_bytes());
 
-        <span class="kw">let </span>shared_secret = <span class="self">Self</span>::extract_and_expand(dh.unprotected_as_bytes(), <span class="kw-2">&amp;</span>kem_context)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>shared_secret = SharedSecret::from_slice(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="self">Self</span>::N_SECRET <span class="kw">as </span>usize])<span class="question-mark">?</span>;
+        <span class="self">Self</span>::extract_and_expand(
+            dh.unprotected_as_bytes(),
+            <span class="kw-2">&amp;</span>kem_context,
+            <span class="kw-2">&amp;mut </span>shared_secret.value,
+        )<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>((SharedSecret::from_slice(<span class="kw-2">&amp;</span>shared_secret)<span class="question-mark">?</span>, public_ephemeral))
+        <span class="prelude-val">Ok</span>((shared_secret, public_ephemeral))
     }
 
-    <span class="doccomment">/// Decapsulate `public_ephemeral` and return the shared ephemeral secrety,
+    <span class="doccomment">/// Decapsulate `public_ephemeral` and return the shared ephemeral secret,
     /// using `secret_recipient` private key.
     </span><span class="kw">pub fn </span>decap(
         public_ephemeral: <span class="kw-2">&amp;</span>PublicKey,
@@ -483,23 +585,39 @@
         kem_context[..<span class="number">32</span>].copy_from_slice(<span class="kw-2">&amp;</span>public_ephemeral.to_bytes());
         kem_context[<span class="number">32</span>..<span class="number">64</span>].copy_from_slice(<span class="kw-2">&amp;</span>PublicKey::try_from(secret_recipient)<span class="question-mark">?</span>.to_bytes());
 
-        <span class="kw">let </span>shared_secret = <span class="self">Self</span>::extract_and_expand(dh.unprotected_as_bytes(), <span class="kw-2">&amp;</span>kem_context)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>shared_secret = SharedSecret::from_slice(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="self">Self</span>::N_SECRET <span class="kw">as </span>usize])<span class="question-mark">?</span>;
+        <span class="self">Self</span>::extract_and_expand(
+            dh.unprotected_as_bytes(),
+            <span class="kw-2">&amp;</span>kem_context,
+            <span class="kw-2">&amp;mut </span>shared_secret.value,
+        )<span class="question-mark">?</span>;
 
-        SharedSecret::from_slice(<span class="kw-2">&amp;</span>shared_secret)
+        <span class="prelude-val">Ok</span>(shared_secret)
     }
 
-    <span class="doccomment">/// Equivalent to [`Self::encap()`], additionally ensuring the holder of `secret_sender` was
+    <span class="attr">#[cfg(feature = <span class="string">"safe_api"</span>)]
+    #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"safe_api"</span>)))]
+    </span><span class="doccomment">/// Equivalent to [`Self::encap()`], additionally ensuring the holder of `secret_sender` was
     /// the one to generate the shared secret.
     </span><span class="kw">pub fn </span>auth_encap(
         public_recipient: <span class="kw-2">&amp;</span>PublicKey,
         secret_sender: <span class="kw-2">&amp;</span>PrivateKey,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(SharedSecret, PublicKey), UnknownCryptoError&gt; {
-        <span class="kw">let </span>secret_ehemeral = PrivateKey::generate();
-        <span class="kw">let </span>public_ephemeral = PublicKey::try_from(<span class="kw-2">&amp;</span>secret_ehemeral)<span class="question-mark">?</span>;
+        <span class="kw">let </span>secret_ephemeral = PrivateKey::generate();
+        <span class="self">Self</span>::auth_encap_deterministic(public_recipient, secret_sender, secret_ephemeral)
+    }
 
-        <span class="kw">let </span><span class="kw-2">mut </span>dh = [<span class="number">0u8</span>; <span class="number">64</span>];
+    <span class="doccomment">/// Equivalent to  [`Self::auth_encap()`], but with a one-time use provided ephemeral private key.
+    </span><span class="kw">pub fn </span>auth_encap_deterministic(
+        public_recipient: <span class="kw-2">&amp;</span>PublicKey,
+        secret_sender: <span class="kw-2">&amp;</span>PrivateKey,
+        secret_ephemeral: PrivateKey,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(SharedSecret, PublicKey), UnknownCryptoError&gt; {
+        <span class="kw">let </span>public_ephemeral = PublicKey::try_from(<span class="kw-2">&amp;</span>secret_ephemeral)<span class="question-mark">?</span>;
+
+        <span class="kw">let </span><span class="kw-2">mut </span>dh = Zeroizing::new([<span class="number">0u8</span>; <span class="number">64</span>]);
         dh[..<span class="number">32</span>].copy_from_slice(
-            x25519::key_agreement(<span class="kw-2">&amp;</span>secret_ehemeral, public_recipient)<span class="question-mark">?</span>.unprotected_as_bytes(),
+            x25519::key_agreement(<span class="kw-2">&amp;</span>secret_ephemeral, public_recipient)<span class="question-mark">?</span>.unprotected_as_bytes(),
         );
         dh[<span class="number">32</span>..<span class="number">64</span>].copy_from_slice(
             x25519::key_agreement(secret_sender, public_recipient)<span class="question-mark">?</span>.unprotected_as_bytes(),
@@ -510,10 +628,10 @@
         kem_context[<span class="number">32</span>..<span class="number">64</span>].copy_from_slice(<span class="kw-2">&amp;</span>public_recipient.to_bytes());
         kem_context[<span class="number">64</span>..<span class="number">96</span>].copy_from_slice(<span class="kw-2">&amp;</span>PublicKey::try_from(secret_sender)<span class="question-mark">?</span>.to_bytes());
 
-        <span class="kw">let </span>shared_secret = <span class="self">Self</span>::extract_and_expand(<span class="kw-2">&amp;</span>dh, <span class="kw-2">&amp;</span>kem_context)<span class="question-mark">?</span>;
-        dh.iter_mut().zeroize();
+        <span class="kw">let </span><span class="kw-2">mut </span>shared_secret = SharedSecret::from_slice(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="self">Self</span>::N_SECRET <span class="kw">as </span>usize])<span class="question-mark">?</span>;
+        <span class="self">Self</span>::extract_and_expand(dh.as_slice(), <span class="kw-2">&amp;</span>kem_context, <span class="kw-2">&amp;mut </span>shared_secret.value)<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>((SharedSecret::from_slice(<span class="kw-2">&amp;</span>shared_secret)<span class="question-mark">?</span>, public_ephemeral))
+        <span class="prelude-val">Ok</span>((shared_secret, public_ephemeral))
     }
 
     <span class="doccomment">/// Equivalent to [`Self::decap()`], additionally ensuring the holder of `secret_sender` was
@@ -523,7 +641,7 @@
         secret_recipient: <span class="kw-2">&amp;</span>PrivateKey,
         public_sender: <span class="kw-2">&amp;</span>PublicKey,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;SharedSecret, UnknownCryptoError&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>dh = [<span class="number">0u8</span>; <span class="number">64</span>];
+        <span class="kw">let </span><span class="kw-2">mut </span>dh = Zeroizing::new([<span class="number">0u8</span>; <span class="number">64</span>]);
         dh[..<span class="number">32</span>].copy_from_slice(
             x25519::key_agreement(secret_recipient, public_ephemeral)<span class="question-mark">?</span>.unprotected_as_bytes(),
         );
@@ -536,20 +654,43 @@
         kem_context[<span class="number">32</span>..<span class="number">64</span>].copy_from_slice(<span class="kw-2">&amp;</span>PublicKey::try_from(secret_recipient)<span class="question-mark">?</span>.to_bytes());
         kem_context[<span class="number">64</span>..<span class="number">96</span>].copy_from_slice(<span class="kw-2">&amp;</span>public_sender.to_bytes());
 
-        <span class="kw">let </span>shared_secret = <span class="self">Self</span>::extract_and_expand(<span class="kw-2">&amp;</span>dh, <span class="kw-2">&amp;</span>kem_context)<span class="question-mark">?</span>;
-        dh.iter_mut().zeroize();
+        <span class="kw">let </span><span class="kw-2">mut </span>shared_secret = SharedSecret::from_slice(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="self">Self</span>::N_SECRET <span class="kw">as </span>usize])<span class="question-mark">?</span>;
+        <span class="self">Self</span>::extract_and_expand(dh.as_slice(), <span class="kw-2">&amp;</span>kem_context, <span class="kw-2">&amp;mut </span>shared_secret.value)<span class="question-mark">?</span>;
 
-        SharedSecret::from_slice(<span class="kw-2">&amp;</span>shared_secret)
+        <span class="prelude-val">Ok</span>(shared_secret)
     }
 }
 
 <span class="attr">#[cfg(test)]
-#[cfg(feature = <span class="string">"safe_api"</span>)]
 </span><span class="kw">mod </span>public {
-    <span class="kw">use </span><span class="kw">crate</span>::hazardous::ecc::x25519::{PrivateKey, PublicKey};
+    <span class="attr">#[cfg(feature = <span class="string">"safe_api"</span>)]
+    </span><span class="kw">use </span><span class="kw">crate</span>::hazardous::ecc::x25519::{PrivateKey, PublicKey};
     <span class="kw">use </span><span class="kw">crate</span>::hazardous::kem::x25519_hkdf_sha256::<span class="kw-2">*</span>;
 
     <span class="attr">#[test]
+    </span><span class="kw">fn </span>error_on_short_ikm() {
+        <span class="macro">assert!</span>(DhKem::derive_keypair(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">31</span>]).is_err());
+        <span class="macro">assert!</span>(DhKem::derive_keypair(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">32</span>]).is_ok());
+        <span class="macro">assert!</span>(DhKem::derive_keypair(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; <span class="number">65</span>]).is_ok());
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>encap_deterministic() {
+        <span class="kw">let </span>(_secret, public) = DhKem::derive_keypair(<span class="kw-2">&amp;</span>[<span class="number">123u8</span>; <span class="number">32</span>]).unwrap();
+        <span class="kw">let </span>(secret_eph1, _public_eph) = DhKem::derive_keypair(<span class="kw-2">&amp;</span>[<span class="number">123u8</span>; <span class="number">32</span>]).unwrap();
+        <span class="kw">let </span>(secret_eph2, _public_eph) = DhKem::derive_keypair(<span class="kw-2">&amp;</span>[<span class="number">123u8</span>; <span class="number">32</span>]).unwrap();
+
+        <span class="kw">let </span>(shared_secret1, public_eph1) =
+            DhKem::encap_deterministic(<span class="kw-2">&amp;</span>public, secret_eph1).unwrap();
+        <span class="kw">let </span>(shared_secret2, public_eph2) =
+            DhKem::encap_deterministic(<span class="kw-2">&amp;</span>public, secret_eph2).unwrap();
+
+        <span class="macro">assert_eq!</span>(shared_secret1, shared_secret2);
+        <span class="macro">assert_eq!</span>(public_eph1, public_eph2);
+    }
+
+    <span class="attr">#[test]
+    #[cfg(feature = <span class="string">"safe_api"</span>)]
     </span><span class="kw">fn </span>encap_decap_roundtrip() {
         <span class="kw">let </span>recipient_secret = PrivateKey::generate();
         <span class="kw">let </span>recipient_public = PublicKey::try_from(<span class="kw-2">&amp;</span>recipient_secret).unwrap();
@@ -561,6 +702,7 @@
     }
 
     <span class="attr">#[test]
+    #[cfg(feature = <span class="string">"safe_api"</span>)]
     </span><span class="kw">fn </span>auth_encap_decap_roundtrip() {
         <span class="kw">let </span>sender_secret = PrivateKey::generate();
         <span class="kw">let </span>sender_public = PublicKey::try_from(<span class="kw-2">&amp;</span>sender_secret).unwrap();

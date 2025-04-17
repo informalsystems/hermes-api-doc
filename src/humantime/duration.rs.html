@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/humantime-2.1.0/src/duration.rs`."><title>duration.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="humantime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">humantime/</div>duration.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/humantime-2.2.0/src/duration.rs`."><title>duration.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="humantime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">humantime/</div>duration.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -454,7 +454,52 @@
 <a href="#453" id="453">453</a>
 <a href="#454" id="454">454</a>
 <a href="#455" id="455">455</a>
-<a href="#456" id="456">456</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::error::Error <span class="kw">as </span>StdError;
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
+<a href="#463" id="463">463</a>
+<a href="#464" id="464">464</a>
+<a href="#465" id="465">465</a>
+<a href="#466" id="466">466</a>
+<a href="#467" id="467">467</a>
+<a href="#468" id="468">468</a>
+<a href="#469" id="469">469</a>
+<a href="#470" id="470">470</a>
+<a href="#471" id="471">471</a>
+<a href="#472" id="472">472</a>
+<a href="#473" id="473">473</a>
+<a href="#474" id="474">474</a>
+<a href="#475" id="475">475</a>
+<a href="#476" id="476">476</a>
+<a href="#477" id="477">477</a>
+<a href="#478" id="478">478</a>
+<a href="#479" id="479">479</a>
+<a href="#480" id="480">480</a>
+<a href="#481" id="481">481</a>
+<a href="#482" id="482">482</a>
+<a href="#483" id="483">483</a>
+<a href="#484" id="484">484</a>
+<a href="#485" id="485">485</a>
+<a href="#486" id="486">486</a>
+<a href="#487" id="487">487</a>
+<a href="#488" id="488">488</a>
+<a href="#489" id="489">489</a>
+<a href="#490" id="490">490</a>
+<a href="#491" id="491">491</a>
+<a href="#492" id="492">492</a>
+<a href="#493" id="493">493</a>
+<a href="#494" id="494">494</a>
+<a href="#495" id="495">495</a>
+<a href="#496" id="496">496</a>
+<a href="#497" id="497">497</a>
+<a href="#498" id="498">498</a>
+<a href="#499" id="499">499</a>
+<a href="#500" id="500">500</a>
+<a href="#501" id="501">501</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::error::Error <span class="kw">as </span>StdError;
 <span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::str::Chars;
 <span class="kw">use </span>std::time::Duration;
@@ -511,11 +556,8 @@
         <span class="kw">match </span><span class="self">self </span>{
             Error::InvalidCharacter(offset) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid character at {}"</span>, offset),
             Error::NumberExpected(offset) =&gt; <span class="macro">write!</span>(f, <span class="string">"expected number at {}"</span>, offset),
-            Error::UnknownUnit { unit, value, .. } <span class="kw">if </span><span class="kw-2">&amp;</span>unit == <span class="kw-2">&amp;</span><span class="string">"" </span>=&gt; {
-                <span class="macro">write!</span>(f,
-                    <span class="string">"time unit needed, for example {0}sec or {0}ms"</span>,
-                    value,
-                )
+            Error::UnknownUnit { unit, value, .. } <span class="kw">if </span>unit.is_empty() =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">"time unit needed, for example {0}sec or {0}ms"</span>, value,)
             }
             Error::UnknownUnit { unit, .. } =&gt; {
                 <span class="macro">write!</span>(
@@ -556,7 +598,7 @@
     current: (u64, u64),
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Parser&lt;<span class="lifetime">'a</span>&gt; {
+<span class="kw">impl </span>Parser&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>off(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.src.len() - <span class="self">self</span>.iter.as_str().len()
     }
@@ -576,24 +618,22 @@
         }
         <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
     }
-    <span class="kw">fn </span>parse_unit(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: u64, start: usize, end: usize)
-        -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt;
-    {
+    <span class="kw">fn </span>parse_unit(<span class="kw-2">&amp;mut </span><span class="self">self</span>, n: u64, start: usize, end: usize) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
         <span class="kw">let </span>(<span class="kw-2">mut </span>sec, nsec) = <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.src[start..end] {
             <span class="string">"nanos" </span>| <span class="string">"nsec" </span>| <span class="string">"ns" </span>=&gt; (<span class="number">0u64</span>, n),
             <span class="string">"usec" </span>| <span class="string">"us" </span>=&gt; (<span class="number">0u64</span>, n.mul(<span class="number">1000</span>)<span class="question-mark">?</span>),
             <span class="string">"millis" </span>| <span class="string">"msec" </span>| <span class="string">"ms" </span>=&gt; (<span class="number">0u64</span>, n.mul(<span class="number">1_000_000</span>)<span class="question-mark">?</span>),
             <span class="string">"seconds" </span>| <span class="string">"second" </span>| <span class="string">"secs" </span>| <span class="string">"sec" </span>| <span class="string">"s" </span>=&gt; (n, <span class="number">0</span>),
-            <span class="string">"minutes" </span>| <span class="string">"minute" </span>| <span class="string">"min" </span>| <span class="string">"mins" </span>| <span class="string">"m"
-            </span>=&gt; (n.mul(<span class="number">60</span>)<span class="question-mark">?</span>, <span class="number">0</span>),
+            <span class="string">"minutes" </span>| <span class="string">"minute" </span>| <span class="string">"min" </span>| <span class="string">"mins" </span>| <span class="string">"m" </span>=&gt; (n.mul(<span class="number">60</span>)<span class="question-mark">?</span>, <span class="number">0</span>),
             <span class="string">"hours" </span>| <span class="string">"hour" </span>| <span class="string">"hr" </span>| <span class="string">"hrs" </span>| <span class="string">"h" </span>=&gt; (n.mul(<span class="number">3600</span>)<span class="question-mark">?</span>, <span class="number">0</span>),
             <span class="string">"days" </span>| <span class="string">"day" </span>| <span class="string">"d" </span>=&gt; (n.mul(<span class="number">86400</span>)<span class="question-mark">?</span>, <span class="number">0</span>),
-            <span class="string">"weeks" </span>| <span class="string">"week" </span>| <span class="string">"w" </span>=&gt; (n.mul(<span class="number">86400</span><span class="kw-2">*</span><span class="number">7</span>)<span class="question-mark">?</span>, <span class="number">0</span>),
+            <span class="string">"weeks" </span>| <span class="string">"week" </span>| <span class="string">"w" </span>=&gt; (n.mul(<span class="number">86400 </span>* <span class="number">7</span>)<span class="question-mark">?</span>, <span class="number">0</span>),
             <span class="string">"months" </span>| <span class="string">"month" </span>| <span class="string">"M" </span>=&gt; (n.mul(<span class="number">2_630_016</span>)<span class="question-mark">?</span>, <span class="number">0</span>), <span class="comment">// 30.44d
-            </span><span class="string">"years" </span>| <span class="string">"year" </span>| <span class="string">"y" </span>=&gt; (n.mul(<span class="number">31_557_600</span>)<span class="question-mark">?</span>, <span class="number">0</span>), <span class="comment">// 365.25d
+            </span><span class="string">"years" </span>| <span class="string">"year" </span>| <span class="string">"y" </span>=&gt; (n.mul(<span class="number">31_557_600</span>)<span class="question-mark">?</span>, <span class="number">0</span>),  <span class="comment">// 365.25d
             </span><span class="kw">_ </span>=&gt; {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(Error::UnknownUnit {
-                    start, end,
+                    start,
+                    end,
                     unit: <span class="self">self</span>.src[start..end].to_string(),
                     value: n,
                 });
@@ -616,7 +656,8 @@
             <span class="kw">while let </span><span class="prelude-val">Some</span>(c) = <span class="self">self</span>.iter.next() {
                 <span class="kw">match </span>c {
                     <span class="string">'0'</span>..=<span class="string">'9' </span>=&gt; {
-                        n = n.checked_mul(<span class="number">10</span>)
+                        n = n
+                            .checked_mul(<span class="number">10</span>)
                             .and_then(|x| x.checked_add(c <span class="kw">as </span>u64 - <span class="string">'0' </span><span class="kw">as </span>u64))
                             .ok_or(Error::NumberOverflow)<span class="question-mark">?</span>;
                     }
@@ -650,12 +691,10 @@
             <span class="self">self</span>.parse_unit(n, start, off)<span class="question-mark">?</span>;
             n = <span class="kw">match </span><span class="self">self</span>.parse_first_char()<span class="question-mark">? </span>{
                 <span class="prelude-val">Some</span>(n) =&gt; n,
-                <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(
-                    Duration::new(<span class="self">self</span>.current.<span class="number">0</span>, <span class="self">self</span>.current.<span class="number">1 </span><span class="kw">as </span>u32)),
+                <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(Duration::new(<span class="self">self</span>.current.<span class="number">0</span>, <span class="self">self</span>.current.<span class="number">1 </span><span class="kw">as </span>u32)),
             };
         }
     }
-
 }
 
 <span class="doccomment">/// Parse duration object `1hour 12min 5s`
@@ -688,7 +727,8 @@
         iter: s.chars(),
         src: s,
         current: (<span class="number">0</span>, <span class="number">0</span>),
-    }.parse()
+    }
+    .parse()
 }
 
 <span class="doccomment">/// Formats duration into a human-readable string
@@ -712,10 +752,7 @@
     FormattedDuration(val)
 }
 
-<span class="kw">fn </span>item_plural(f: <span class="kw-2">&amp;mut </span>fmt::Formatter, started: <span class="kw-2">&amp;mut </span>bool,
-    name: <span class="kw-2">&amp;</span>str, value: u64)
-    -&gt; fmt::Result
-{
+<span class="kw">fn </span>item_plural(f: <span class="kw-2">&amp;mut </span>fmt::Formatter, started: <span class="kw-2">&amp;mut </span>bool, name: <span class="kw-2">&amp;</span>str, value: u64) -&gt; fmt::Result {
     <span class="kw">if </span>value &gt; <span class="number">0 </span>{
         <span class="kw">if </span><span class="kw-2">*</span>started {
             f.write_str(<span class="string">" "</span>)<span class="question-mark">?</span>;
@@ -728,9 +765,7 @@
     }
     <span class="prelude-val">Ok</span>(())
 }
-<span class="kw">fn </span>item(f: <span class="kw-2">&amp;mut </span>fmt::Formatter, started: <span class="kw-2">&amp;mut </span>bool, name: <span class="kw-2">&amp;</span>str, value: u32)
-    -&gt; fmt::Result
-{
+<span class="kw">fn </span>item(f: <span class="kw-2">&amp;mut </span>fmt::Formatter, started: <span class="kw-2">&amp;mut </span>bool, name: <span class="kw-2">&amp;</span>str, value: u32) -&gt; fmt::Result {
     <span class="kw">if </span>value &gt; <span class="number">0 </span>{
         <span class="kw">if </span><span class="kw-2">*</span>started {
             f.write_str(<span class="string">" "</span>)<span class="question-mark">?</span>;
@@ -758,9 +793,9 @@
             <span class="kw">return </span><span class="prelude-val">Ok</span>(());
         }
 
-        <span class="kw">let </span>years = secs / <span class="number">31_557_600</span>;  <span class="comment">// 365.25d
+        <span class="kw">let </span>years = secs / <span class="number">31_557_600</span>; <span class="comment">// 365.25d
         </span><span class="kw">let </span>ydays = secs % <span class="number">31_557_600</span>;
-        <span class="kw">let </span>months = ydays / <span class="number">2_630_016</span>;  <span class="comment">// 30.44d
+        <span class="kw">let </span>months = ydays / <span class="number">2_630_016</span>; <span class="comment">// 30.44d
         </span><span class="kw">let </span>mdays = ydays % <span class="number">2_630_016</span>;
         <span class="kw">let </span>days = mdays / <span class="number">86400</span>;
         <span class="kw">let </span>day_secs = mdays % <span class="number">86400</span>;
@@ -772,7 +807,7 @@
         <span class="kw">let </span>micros = nanos / <span class="number">1000 </span>% <span class="number">1000</span>;
         <span class="kw">let </span>nanosec = nanos % <span class="number">1000</span>;
 
-        <span class="kw">let </span><span class="kw-2">ref mut </span>started = <span class="bool-val">false</span>;
+        <span class="kw">let </span>started = <span class="kw-2">&amp;mut </span><span class="bool-val">false</span>;
         item_plural(f, started, <span class="string">"year"</span>, years)<span class="question-mark">?</span>;
         item_plural(f, started, <span class="string">"month"</span>, months)<span class="question-mark">?</span>;
         item_plural(f, started, <span class="string">"day"</span>, days)<span class="question-mark">?</span>;
@@ -792,8 +827,8 @@
 
     <span class="kw">use </span>rand::Rng;
 
-    <span class="kw">use super</span>::{parse_duration, format_duration};
     <span class="kw">use </span><span class="kw">super</span>::Error;
+    <span class="kw">use super</span>::{format_duration, parse_duration};
 
     <span class="attr">#[test]
     #[allow(clippy::cognitive_complexity)]
@@ -828,46 +863,53 @@
         <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"7weeks"</span>), <span class="prelude-val">Ok</span>(Duration::new(<span class="number">4_233_600</span>, <span class="number">0</span>)));
         <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"52w"</span>), <span class="prelude-val">Ok</span>(Duration::new(<span class="number">31_449_600</span>, <span class="number">0</span>)));
         <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"1month"</span>), <span class="prelude-val">Ok</span>(Duration::new(<span class="number">2_630_016</span>, <span class="number">0</span>)));
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"3months"</span>), <span class="prelude-val">Ok</span>(Duration::new(<span class="number">3</span><span class="kw-2">*</span><span class="number">2_630_016</span>, <span class="number">0</span>)));
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"3months"</span>),
+            <span class="prelude-val">Ok</span>(Duration::new(<span class="number">3 </span>* <span class="number">2_630_016</span>, <span class="number">0</span>))
+        );
         <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"12M"</span>), <span class="prelude-val">Ok</span>(Duration::new(<span class="number">31_560_192</span>, <span class="number">0</span>)));
         <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"1year"</span>), <span class="prelude-val">Ok</span>(Duration::new(<span class="number">31_557_600</span>, <span class="number">0</span>)));
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"7years"</span>), <span class="prelude-val">Ok</span>(Duration::new(<span class="number">7</span><span class="kw-2">*</span><span class="number">31_557_600</span>, <span class="number">0</span>)));
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"7years"</span>),
+            <span class="prelude-val">Ok</span>(Duration::new(<span class="number">7 </span>* <span class="number">31_557_600</span>, <span class="number">0</span>))
+        );
         <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"17y"</span>), <span class="prelude-val">Ok</span>(Duration::new(<span class="number">536_479_200</span>, <span class="number">0</span>)));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_combo() {
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"20 min 17 nsec "</span>), <span class="prelude-val">Ok</span>(Duration::new(<span class="number">1200</span>, <span class="number">17</span>)));
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"20 min 17 nsec "</span>),
+            <span class="prelude-val">Ok</span>(Duration::new(<span class="number">1200</span>, <span class="number">17</span>))
+        );
         <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"2h 15m"</span>), <span class="prelude-val">Ok</span>(Duration::new(<span class="number">8100</span>, <span class="number">0</span>)));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>all_86400_seconds() {
-        <span class="kw">for </span>second <span class="kw">in </span><span class="number">0</span>..<span class="number">86400 </span>{  <span class="comment">// scan leap year and non-leap year
+        <span class="kw">for </span>second <span class="kw">in </span><span class="number">0</span>..<span class="number">86400 </span>{
+            <span class="comment">// scan leap year and non-leap year
             </span><span class="kw">let </span>d = Duration::new(second, <span class="number">0</span>);
-            <span class="macro">assert_eq!</span>(d,
-                parse_duration(<span class="kw-2">&amp;</span>format_duration(d).to_string()).unwrap());
+            <span class="macro">assert_eq!</span>(d, parse_duration(<span class="kw-2">&amp;</span>format_duration(d).to_string()).unwrap());
         }
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>random_second() {
         <span class="kw">for _ in </span><span class="number">0</span>..<span class="number">10000 </span>{
-            <span class="kw">let </span>sec = rand::thread_rng().gen_range(<span class="number">0</span>, <span class="number">253_370_764_800</span>);
+            <span class="kw">let </span>sec = rand::rng().random_range(<span class="number">0</span>..<span class="number">253_370_764_800</span>);
             <span class="kw">let </span>d = Duration::new(sec, <span class="number">0</span>);
-            <span class="macro">assert_eq!</span>(d,
-                parse_duration(<span class="kw-2">&amp;</span>format_duration(d).to_string()).unwrap());
+            <span class="macro">assert_eq!</span>(d, parse_duration(<span class="kw-2">&amp;</span>format_duration(d).to_string()).unwrap());
         }
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>random_any() {
         <span class="kw">for _ in </span><span class="number">0</span>..<span class="number">10000 </span>{
-            <span class="kw">let </span>sec = rand::thread_rng().gen_range(<span class="number">0</span>, <span class="number">253_370_764_800</span>);
-            <span class="kw">let </span>nanos = rand::thread_rng().gen_range(<span class="number">0</span>, <span class="number">1_000_000_000</span>);
+            <span class="kw">let </span>sec = rand::rng().random_range(<span class="number">0</span>..<span class="number">253_370_764_800</span>);
+            <span class="kw">let </span>nanos = rand::rng().random_range(<span class="number">0</span>..<span class="number">1_000_000_000</span>);
             <span class="kw">let </span>d = Duration::new(sec, nanos);
-            <span class="macro">assert_eq!</span>(d,
-                parse_duration(<span class="kw-2">&amp;</span>format_duration(d).to_string()).unwrap());
+            <span class="macro">assert_eq!</span>(d, parse_duration(<span class="kw-2">&amp;</span>format_duration(d).to_string()).unwrap());
         }
     }
 
@@ -875,39 +917,87 @@
     </span><span class="kw">fn </span>test_overlow() {
         <span class="comment">// Overflow on subseconds is earlier because of how we do conversion
         // we could fix it, but I don't see any good reason for this
-        </span><span class="macro">assert_eq!</span>(parse_duration(<span class="string">"100000000000000000000ns"</span>),
-            <span class="prelude-val">Err</span>(Error::NumberOverflow));
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"100000000000000000us"</span>),
-            <span class="prelude-val">Err</span>(Error::NumberOverflow));
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"100000000000000ms"</span>),
-            <span class="prelude-val">Err</span>(Error::NumberOverflow));
+        </span><span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"100000000000000000000ns"</span>),
+            <span class="prelude-val">Err</span>(Error::NumberOverflow)
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"100000000000000000us"</span>),
+            <span class="prelude-val">Err</span>(Error::NumberOverflow)
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"100000000000000ms"</span>),
+            <span class="prelude-val">Err</span>(Error::NumberOverflow)
+        );
 
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"100000000000000000000s"</span>),
-            <span class="prelude-val">Err</span>(Error::NumberOverflow));
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"10000000000000000000m"</span>),
-            <span class="prelude-val">Err</span>(Error::NumberOverflow));
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"1000000000000000000h"</span>),
-            <span class="prelude-val">Err</span>(Error::NumberOverflow));
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"100000000000000000d"</span>),
-            <span class="prelude-val">Err</span>(Error::NumberOverflow));
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"10000000000000000w"</span>),
-            <span class="prelude-val">Err</span>(Error::NumberOverflow));
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"1000000000000000M"</span>),
-            <span class="prelude-val">Err</span>(Error::NumberOverflow));
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"10000000000000y"</span>),
-            <span class="prelude-val">Err</span>(Error::NumberOverflow));
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"100000000000000000000s"</span>),
+            <span class="prelude-val">Err</span>(Error::NumberOverflow)
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"10000000000000000000m"</span>),
+            <span class="prelude-val">Err</span>(Error::NumberOverflow)
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"1000000000000000000h"</span>),
+            <span class="prelude-val">Err</span>(Error::NumberOverflow)
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"100000000000000000d"</span>),
+            <span class="prelude-val">Err</span>(Error::NumberOverflow)
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"10000000000000000w"</span>),
+            <span class="prelude-val">Err</span>(Error::NumberOverflow)
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"1000000000000000M"</span>),
+            <span class="prelude-val">Err</span>(Error::NumberOverflow)
+        );
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"10000000000000y"</span>),
+            <span class="prelude-val">Err</span>(Error::NumberOverflow)
+        );
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_nice_error_message() {
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"123"</span>).unwrap_err().to_string(),
-            <span class="string">"time unit needed, for example 123sec or 123ms"</span>);
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"10 months 1"</span>).unwrap_err().to_string(),
-            <span class="string">"time unit needed, for example 1sec or 1ms"</span>);
-        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"10nights"</span>).unwrap_err().to_string(),
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"123"</span>).unwrap_err().to_string(),
+            <span class="string">"time unit needed, for example 123sec or 123ms"
+        </span>);
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"10 months 1"</span>).unwrap_err().to_string(),
+            <span class="string">"time unit needed, for example 1sec or 1ms"
+        </span>);
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"10nights"</span>).unwrap_err().to_string(),
             <span class="string">"unknown time unit \"nights\", supported units: \
             ns, us, ms, sec, min, hours, days, weeks, months, \
-            years (and few variations)"</span>);
+            years (and few variations)"
+        </span>);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_error_cases() {
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"\0"</span>).unwrap_err().to_string(),
+            <span class="string">"expected number at 0"
+        </span>);
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"\r"</span>).unwrap_err().to_string(),
+            <span class="string">"value was empty"
+        </span>);
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"1~"</span>).unwrap_err().to_string(),
+            <span class="string">"invalid character at 1"
+        </span>);
+        <span class="macro">assert_eq!</span>(
+            parse_duration(<span class="string">"1Nå"</span>).unwrap_err().to_string(),
+            <span class="string">"invalid character at 2"
+        </span>);
+        <span class="macro">assert_eq!</span>(parse_duration(<span class="string">"222nsec221nanosmsec7s5msec572s"</span>).unwrap_err().to_string(),
+                   <span class="string">"unknown time unit \"nanosmsec\", supported units: ns, us, ms, sec, min, hours, days, weeks, months, years (and few variations)"</span>);
     }
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/reqwest-0.12.12/src/proxy.rs`."><title>proxy.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="reqwest" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">reqwest/</div>proxy.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/reqwest-0.12.15/src/proxy.rs`."><title>proxy.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="reqwest" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">reqwest/</div>proxy.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -2007,7 +2007,76 @@
 <a href="#2006" id="2006">2006</a>
 <a href="#2007" id="2007">2007</a>
 <a href="#2008" id="2008">2008</a>
-<a href="#2009" id="2009">2009</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt;
+<a href="#2009" id="2009">2009</a>
+<a href="#2010" id="2010">2010</a>
+<a href="#2011" id="2011">2011</a>
+<a href="#2012" id="2012">2012</a>
+<a href="#2013" id="2013">2013</a>
+<a href="#2014" id="2014">2014</a>
+<a href="#2015" id="2015">2015</a>
+<a href="#2016" id="2016">2016</a>
+<a href="#2017" id="2017">2017</a>
+<a href="#2018" id="2018">2018</a>
+<a href="#2019" id="2019">2019</a>
+<a href="#2020" id="2020">2020</a>
+<a href="#2021" id="2021">2021</a>
+<a href="#2022" id="2022">2022</a>
+<a href="#2023" id="2023">2023</a>
+<a href="#2024" id="2024">2024</a>
+<a href="#2025" id="2025">2025</a>
+<a href="#2026" id="2026">2026</a>
+<a href="#2027" id="2027">2027</a>
+<a href="#2028" id="2028">2028</a>
+<a href="#2029" id="2029">2029</a>
+<a href="#2030" id="2030">2030</a>
+<a href="#2031" id="2031">2031</a>
+<a href="#2032" id="2032">2032</a>
+<a href="#2033" id="2033">2033</a>
+<a href="#2034" id="2034">2034</a>
+<a href="#2035" id="2035">2035</a>
+<a href="#2036" id="2036">2036</a>
+<a href="#2037" id="2037">2037</a>
+<a href="#2038" id="2038">2038</a>
+<a href="#2039" id="2039">2039</a>
+<a href="#2040" id="2040">2040</a>
+<a href="#2041" id="2041">2041</a>
+<a href="#2042" id="2042">2042</a>
+<a href="#2043" id="2043">2043</a>
+<a href="#2044" id="2044">2044</a>
+<a href="#2045" id="2045">2045</a>
+<a href="#2046" id="2046">2046</a>
+<a href="#2047" id="2047">2047</a>
+<a href="#2048" id="2048">2048</a>
+<a href="#2049" id="2049">2049</a>
+<a href="#2050" id="2050">2050</a>
+<a href="#2051" id="2051">2051</a>
+<a href="#2052" id="2052">2052</a>
+<a href="#2053" id="2053">2053</a>
+<a href="#2054" id="2054">2054</a>
+<a href="#2055" id="2055">2055</a>
+<a href="#2056" id="2056">2056</a>
+<a href="#2057" id="2057">2057</a>
+<a href="#2058" id="2058">2058</a>
+<a href="#2059" id="2059">2059</a>
+<a href="#2060" id="2060">2060</a>
+<a href="#2061" id="2061">2061</a>
+<a href="#2062" id="2062">2062</a>
+<a href="#2063" id="2063">2063</a>
+<a href="#2064" id="2064">2064</a>
+<a href="#2065" id="2065">2065</a>
+<a href="#2066" id="2066">2066</a>
+<a href="#2067" id="2067">2067</a>
+<a href="#2068" id="2068">2068</a>
+<a href="#2069" id="2069">2069</a>
+<a href="#2070" id="2070">2070</a>
+<a href="#2071" id="2071">2071</a>
+<a href="#2072" id="2072">2072</a>
+<a href="#2073" id="2073">2073</a>
+<a href="#2074" id="2074">2074</a>
+<a href="#2075" id="2075">2075</a>
+<a href="#2076" id="2076">2076</a>
+<a href="#2077" id="2077">2077</a>
+<a href="#2078" id="2078">2078</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt;
 <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
 </span><span class="kw">use </span>std::net::SocketAddr;
 <span class="kw">use </span>std::sync::Arc;
@@ -2037,6 +2106,9 @@
     sys::schema_definitions::kSCPropNetProxiesHTTPSPort,
     sys::schema_definitions::kSCPropNetProxiesHTTPSProxy,
 };
+
+<span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
+</span><span class="kw">use </span>windows_registry::CURRENT_USER;
 
 <span class="doccomment">/// Configuration of a proxy that a `Client` should pass requests to.
 ///
@@ -2114,7 +2186,7 @@
         host: http::uri::Authority,
     },
     <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
-    </span>Socks4 { addr: SocketAddr },
+    </span>Socks4 { addr: SocketAddr, remote_dns: bool },
     <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
     </span>Socks5 {
         addr: SocketAddr,
@@ -2289,6 +2361,18 @@
             get_from_platform(),
         ))));
         proxy.no_proxy = NoProxy::from_env();
+
+        <span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
+        </span>{
+            <span class="comment">// Only read from windows registry proxy settings if not available from an enviroment
+            // variable. This is in line with the stated behavior of both dotnot and nuget on
+            // windows. &lt;https://github.com/seanmonstar/reqwest/issues/2599&gt;
+            </span><span class="kw">if </span>proxy.no_proxy.is_none() {
+                <span class="kw">let </span>win_exceptions: String = get_windows_proxy_exceptions();
+                proxy.no_proxy = NoProxy::from_string(<span class="kw-2">&amp;</span>win_exceptions);
+            }
+        }
+
         proxy
     }
 
@@ -2450,9 +2534,12 @@
     </span><span class="kw">pub fn </span>from_env() -&gt; <span class="prelude-ty">Option</span>&lt;NoProxy&gt; {
         <span class="kw">let </span>raw = env::var(<span class="string">"NO_PROXY"</span>)
             .or_else(|<span class="kw">_</span>| env::var(<span class="string">"no_proxy"</span>))
-            .unwrap_or_default();
+            .ok()<span class="question-mark">?</span>;
 
-        <span class="self">Self</span>::from_string(<span class="kw-2">&amp;</span>raw)
+        <span class="comment">// Per the docs, this returns `None` if no environment variable is set. We can only reach
+        // here if an env var is set, so we return `Some(NoProxy::default)` if `from_string`
+        // returns None, which occurs with an empty string.
+        </span><span class="prelude-val">Some</span>(<span class="self">Self</span>::from_string(<span class="kw-2">&amp;</span>raw).unwrap_or_default())
     }
 
     <span class="doccomment">/// Returns a new no-proxy configuration based on a `no_proxy` string (or `None` if no variables
@@ -2587,7 +2674,25 @@
     /// Current SOCKS4 support is provided via blocking IO.
     </span><span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
     </span><span class="kw">fn </span>socks4(addr: SocketAddr) -&gt; <span class="kw">crate</span>::Result&lt;<span class="self">Self</span>&gt; {
-        <span class="prelude-val">Ok</span>(ProxyScheme::Socks4 { addr })
+        <span class="prelude-val">Ok</span>(ProxyScheme::Socks4 {
+            addr,
+            remote_dns: <span class="bool-val">false</span>,
+        })
+    }
+
+    <span class="doccomment">/// Proxy traffic via the specified socket address over SOCKS4A
+    ///
+    /// This differs from SOCKS4 in that DNS resolution is also performed via the proxy.
+    ///
+    /// # Note
+    ///
+    /// Current SOCKS4 support is provided via blocking IO.
+    </span><span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
+    </span><span class="kw">fn </span>socks4a(addr: SocketAddr) -&gt; <span class="kw">crate</span>::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="prelude-val">Ok</span>(ProxyScheme::Socks4 {
+            addr,
+            remote_dns: <span class="bool-val">true</span>,
+        })
     }
 
     <span class="doccomment">/// Proxy traffic via the specified socket address over SOCKS5
@@ -2703,7 +2808,7 @@
         </span><span class="kw">let </span>to_addr = || {
             <span class="kw">let </span>addrs = url
                 .socket_addrs(|| <span class="kw">match </span>url.scheme() {
-                    <span class="string">"socks4" </span>| <span class="string">"socks5" </span>| <span class="string">"socks5h" </span>=&gt; <span class="prelude-val">Some</span>(<span class="number">1080</span>),
+                    <span class="string">"socks4" </span>| <span class="string">"socks4a" </span>| <span class="string">"socks5" </span>| <span class="string">"socks5h" </span>=&gt; <span class="prelude-val">Some</span>(<span class="number">1080</span>),
                     <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
                 })
                 .map_err(<span class="kw">crate</span>::error::builder)<span class="question-mark">?</span>;
@@ -2718,6 +2823,8 @@
             <span class="string">"https" </span>=&gt; <span class="self">Self</span>::https(<span class="kw-2">&amp;</span>url[Position::BeforeHost..Position::AfterPort])<span class="question-mark">?</span>,
             <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
             </span><span class="string">"socks4" </span>=&gt; <span class="self">Self</span>::socks4(to_addr()<span class="question-mark">?</span>)<span class="question-mark">?</span>,
+            <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
+            </span><span class="string">"socks4a" </span>=&gt; <span class="self">Self</span>::socks4a(to_addr()<span class="question-mark">?</span>)<span class="question-mark">?</span>,
             <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
             </span><span class="string">"socks5" </span>=&gt; <span class="self">Self</span>::socks5(to_addr()<span class="question-mark">?</span>)<span class="question-mark">?</span>,
             <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
@@ -2765,8 +2872,9 @@
             ProxyScheme::Http { auth: _auth, host } =&gt; <span class="macro">write!</span>(f, <span class="string">"http://{host}"</span>),
             ProxyScheme::Https { auth: _auth, host } =&gt; <span class="macro">write!</span>(f, <span class="string">"https://{host}"</span>),
             <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
-            </span>ProxyScheme::Socks4 { addr } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">"socks4://{addr}"</span>)
+            </span>ProxyScheme::Socks4 { addr, remote_dns } =&gt; {
+                <span class="kw">let </span>h = <span class="kw">if </span><span class="kw-2">*</span>remote_dns { <span class="string">"a" </span>} <span class="kw">else </span>{ <span class="string">"" </span>};
+                <span class="macro">write!</span>(f, <span class="string">"socks4{}://{}"</span>, h, addr)
             }
             <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
             </span>ProxyScheme::Socks5 {
@@ -3122,6 +3230,24 @@
 <span class="attr">#[cfg(any(target_os = <span class="string">"windows"</span>, target_os = <span class="string">"macos"</span>))]
 </span><span class="kw">fn </span>parse_platform_values(platform_values: String) -&gt; SystemProxyMap {
     parse_platform_values_impl(platform_values)
+}
+
+<span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
+</span><span class="kw">fn </span>get_windows_proxy_exceptions() -&gt; String {
+    <span class="kw">let </span><span class="kw-2">mut </span>exceptions = String::new();
+    <span class="kw">if let </span><span class="prelude-val">Ok</span>(key) =
+        CURRENT_USER.create(<span class="string">r"Software\Microsoft\Windows\CurrentVersion\Internet Settings"</span>)
+    {
+        <span class="kw">if let </span><span class="prelude-val">Ok</span>(value) = key.get_string(<span class="string">"ProxyOverride"</span>) {
+            exceptions = value
+                .split(<span class="string">';'</span>)
+                .map(|s| s.trim())
+                .collect::&lt;Vec&lt;<span class="kw-2">&amp;</span>str&gt;&gt;()
+                .join(<span class="string">","</span>)
+                .replace(<span class="string">"*."</span>, <span class="string">""</span>);
+        }
+    }
+    exceptions
 }
 
 <span class="attr">#[cfg(test)]
@@ -3584,6 +3710,18 @@
         <span class="comment">// Manually construct this so we aren't use the cache
         </span><span class="kw">let </span><span class="kw-2">mut </span>p = Proxy::new(Intercept::System(Arc::new(get_sys_proxies(<span class="prelude-val">None</span>))));
         p.no_proxy = NoProxy::from_env();
+
+        <span class="comment">// everything should go through proxy, "effectively" nothing is in no_proxy
+        </span><span class="macro">assert_eq!</span>(intercepted_uri(<span class="kw-2">&amp;</span>p, <span class="string">"http://hyper.rs"</span>), target);
+
+        <span class="comment">// Also test the behavior of `NO_PROXY` being an empty string.
+        </span>env::set_var(<span class="string">"NO_PROXY"</span>, <span class="string">""</span>);
+
+        <span class="comment">// Manually construct this so we aren't use the cache
+        </span><span class="kw">let </span><span class="kw-2">mut </span>p = Proxy::new(Intercept::System(Arc::new(get_sys_proxies(<span class="prelude-val">None</span>))));
+        p.no_proxy = NoProxy::from_env();
+        <span class="comment">// In the case of an empty string `NoProxy::from_env()` should return `Some(..)`
+        </span><span class="macro">assert!</span>(p.no_proxy.is_some());
 
         <span class="comment">// everything should go through proxy, "effectively" nothing is in no_proxy
         </span><span class="macro">assert_eq!</span>(intercepted_uri(<span class="kw-2">&amp;</span>p, <span class="string">"http://hyper.rs"</span>), target);

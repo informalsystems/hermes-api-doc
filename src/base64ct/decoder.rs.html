@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/base64ct-1.6.0/src/decoder.rs`."><title>decoder.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="base64ct" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/RustCrypto/media/6ee8e381/logo.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">base64ct/</div>decoder.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/base64ct-1.7.3/src/decoder.rs`."><title>decoder.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="base64ct" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/RustCrypto/media/6ee8e381/logo.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">base64ct/</div>decoder.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -616,14 +616,30 @@
 <a href="#615" id="615">615</a>
 <a href="#616" id="616">616</a>
 <a href="#617" id="617">617</a>
-<a href="#618" id="618">618</a></pre></div><pre class="rust"><code><span class="doccomment">//! Buffered Base64 decoder.
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a></pre></div><pre class="rust"><code><span class="doccomment">//! Buffered Base64 decoder.
 
 </span><span class="kw">use crate</span>::{
-    encoding,
-    line_ending::{CHAR_CR, CHAR_LF},
     Encoding,
     Error::{<span class="self">self</span>, InvalidLength},
-    MIN_LINE_WIDTH,
+    MIN_LINE_WIDTH, encoding,
+    line_ending::{CHAR_CR, CHAR_LF},
 };
 <span class="kw">use </span>core::{cmp, marker::PhantomData};
 
@@ -723,7 +739,7 @@
     /// - `Ok(bytes)` if the expected amount of data was read
     /// - `Err(Error::InvalidLength)` if the exact amount of data couldn't be read
     </span><span class="kw">pub fn </span>decode&lt;<span class="lifetime">'o</span>&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, out: <span class="kw-2">&amp;</span><span class="lifetime">'o </span><span class="kw-2">mut </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'o </span>[u8], Error&gt; {
-        <span class="kw">if </span><span class="self">self</span>.is_finished() {
+        <span class="kw">if </span><span class="self">self</span>.is_finished() &amp;&amp; !out.is_empty() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidLength);
         }
 
@@ -866,7 +882,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">'i</span>, E: Encoding&gt; io::Read <span class="kw">for </span>Decoder&lt;<span class="lifetime">'i</span>, E&gt; {
+</span><span class="kw">impl</span>&lt;E: Encoding&gt; io::Read <span class="kw">for </span>Decoder&lt;<span class="lifetime">'_</span>, E&gt; {
     <span class="kw">fn </span>read(<span class="kw-2">&amp;mut </span><span class="self">self</span>, buf: <span class="kw-2">&amp;mut </span>[u8]) -&gt; io::Result&lt;usize&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_finished() {
             <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="number">0</span>);
@@ -957,7 +973,7 @@
     </span>remaining: <span class="kw-2">&amp;</span><span class="lifetime">'i </span>[u8],
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'i</span>&gt; Default <span class="kw">for </span>Line&lt;<span class="lifetime">'i</span>&gt; {
+<span class="kw">impl </span>Default <span class="kw">for </span>Line&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::new(<span class="kw-2">&amp;</span>[])
     }
@@ -1161,8 +1177,9 @@
 }
 
 <span class="attr">#[cfg(test)]
+#[allow(clippy::unwrap_used)]
 </span><span class="kw">mod </span>tests {
-    <span class="kw">use crate</span>::{alphabet::Alphabet, test_vectors::<span class="kw-2">*</span>, Base64, Base64Unpadded, Decoder};
+    <span class="kw">use crate</span>::{Base64, Base64Unpadded, Decoder, alphabet::Alphabet, test_vectors::<span class="kw-2">*</span>};
 
     <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
     </span><span class="kw">use </span>{alloc::vec::Vec, std::io::Read};
@@ -1209,7 +1226,23 @@
         <span class="macro">assert_eq!</span>(buf.as_slice(), MULTILINE_PADDED_BIN);
     }
 
+    <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+    #[test]
+    </span><span class="kw">fn </span>decode_empty_at_end() {
+        <span class="kw">let </span><span class="kw-2">mut </span>decoder = Decoder::&lt;Base64&gt;::new(<span class="string">b"AAAA"</span>).unwrap();
+
+        <span class="comment">// Strip initial bytes
+        </span><span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[<span class="number">0u8</span>; <span class="number">3</span>];
+        <span class="macro">assert_eq!</span>(decoder.decode(<span class="kw-2">&amp;mut </span>buf), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="macro">vec!</span>[<span class="number">0u8</span>; <span class="number">3</span>][..]));
+
+        <span class="comment">// Now try to read nothing from the end
+        </span><span class="kw">let </span><span class="kw-2">mut </span>buf: Vec&lt;u8&gt; = <span class="macro">vec!</span>[];
+
+        <span class="macro">assert_eq!</span>(decoder.decode(<span class="kw-2">&amp;mut </span>buf), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>[][..]));
+    }
+
     <span class="doccomment">/// Core functionality of a decoding test
+    </span><span class="attr">#[allow(clippy::arithmetic_side_effects)]
     </span><span class="kw">fn </span>decode_test&lt;<span class="lifetime">'a</span>, F, V&gt;(expected: <span class="kw-2">&amp;</span>[u8], f: F)
     <span class="kw">where
         </span>F: Fn() -&gt; Decoder&lt;<span class="lifetime">'a</span>, V&gt;,
@@ -1225,7 +1258,8 @@
                 <span class="kw">let </span>decoded = decoder.decode(<span class="kw-2">&amp;mut </span>buffer[..chunk.len()]).unwrap();
                 <span class="macro">assert_eq!</span>(chunk, decoded);
 
-                remaining_len -= decoded.len();
+                <span class="kw">let </span>dlen = decoded.len();
+                remaining_len -= dlen;
                 <span class="macro">assert_eq!</span>(remaining_len, decoder.remaining_len());
             }
 

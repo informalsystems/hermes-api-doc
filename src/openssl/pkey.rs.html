@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.70/src/pkey.rs`."><title>pkey.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/</div>pkey.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.72/src/pkey.rs`."><title>pkey.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/</div>pkey.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1200,7 +1200,27 @@
 <a href="#1199" id="1199">1199</a>
 <a href="#1200" id="1200">1200</a>
 <a href="#1201" id="1201">1201</a>
-<a href="#1202" id="1202">1202</a></pre></div><pre class="rust"><code><span class="doccomment">//! Public/private key processing.
+<a href="#1202" id="1202">1202</a>
+<a href="#1203" id="1203">1203</a>
+<a href="#1204" id="1204">1204</a>
+<a href="#1205" id="1205">1205</a>
+<a href="#1206" id="1206">1206</a>
+<a href="#1207" id="1207">1207</a>
+<a href="#1208" id="1208">1208</a>
+<a href="#1209" id="1209">1209</a>
+<a href="#1210" id="1210">1210</a>
+<a href="#1211" id="1211">1211</a>
+<a href="#1212" id="1212">1212</a>
+<a href="#1213" id="1213">1213</a>
+<a href="#1214" id="1214">1214</a>
+<a href="#1215" id="1215">1215</a>
+<a href="#1216" id="1216">1216</a>
+<a href="#1217" id="1217">1217</a>
+<a href="#1218" id="1218">1218</a>
+<a href="#1219" id="1219">1219</a>
+<a href="#1220" id="1220">1220</a>
+<a href="#1221" id="1221">1221</a>
+<a href="#1222" id="1222">1222</a></pre></div><pre class="rust"><code><span class="doccomment">//! Public/private key processing.
 //!
 //! Asymmetric public key algorithms solve the problem of establishing and sharing
 //! secret keys to securely send and receive messages.
@@ -1249,7 +1269,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::dsa::Dsa;
 <span class="kw">use </span><span class="kw">crate</span>::ec::EcKey;
 <span class="kw">use </span><span class="kw">crate</span>::error::ErrorStack;
-<span class="attr">#[cfg(any(ossl110, boringssl, libressl370))]
+<span class="attr">#[cfg(any(ossl110, boringssl, libressl370, awslc))]
 </span><span class="kw">use </span><span class="kw">crate</span>::pkey_ctx::PkeyCtx;
 <span class="kw">use </span><span class="kw">crate</span>::rsa::Rsa;
 <span class="kw">use </span><span class="kw">crate</span>::symm::Cipher;
@@ -1262,7 +1282,7 @@
 <span class="kw">use </span>std::convert::{TryFrom, TryInto};
 <span class="kw">use </span>std::ffi::CString;
 <span class="kw">use </span>std::fmt;
-<span class="attr">#[cfg(all(not(boringssl), ossl110))]
+<span class="attr">#[cfg(all(not(any(boringssl, awslc)), ossl110))]
 </span><span class="kw">use </span>std::mem;
 <span class="kw">use </span>std::ptr;
 
@@ -1281,11 +1301,11 @@
 
 <span class="kw">impl </span>Id {
     <span class="kw">pub const </span>RSA: Id = Id(ffi::EVP_PKEY_RSA);
-    <span class="attr">#[cfg(any(ossl111, libressl310, boringssl))]
+    <span class="attr">#[cfg(any(ossl111, libressl310, boringssl, awslc))]
     </span><span class="kw">pub const </span>RSA_PSS: Id = Id(ffi::EVP_PKEY_RSA_PSS);
     <span class="attr">#[cfg(not(boringssl))]
     </span><span class="kw">pub const </span>HMAC: Id = Id(ffi::EVP_PKEY_HMAC);
-    <span class="attr">#[cfg(not(boringssl))]
+    <span class="attr">#[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub const </span>CMAC: Id = Id(ffi::EVP_PKEY_CMAC);
     <span class="kw">pub const </span>DSA: Id = Id(ffi::EVP_PKEY_DSA);
     <span class="kw">pub const </span>DH: Id = Id(ffi::EVP_PKEY_DH);
@@ -1295,14 +1315,14 @@
     <span class="attr">#[cfg(ossl111)]
     </span><span class="kw">pub const </span>SM2: Id = Id(ffi::EVP_PKEY_SM2);
 
-    <span class="attr">#[cfg(any(ossl110, boringssl, libressl360))]
+    <span class="attr">#[cfg(any(ossl110, boringssl, libressl360, awslc))]
     </span><span class="kw">pub const </span>HKDF: Id = Id(ffi::EVP_PKEY_HKDF);
 
-    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370))]
+    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370, awslc))]
     </span><span class="kw">pub const </span>ED25519: Id = Id(ffi::EVP_PKEY_ED25519);
     <span class="attr">#[cfg(ossl111)]
     </span><span class="kw">pub const </span>ED448: Id = Id(ffi::EVP_PKEY_ED448);
-    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370))]
+    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370, awslc))]
     </span><span class="kw">pub const </span>X25519: Id = Id(ffi::EVP_PKEY_X25519);
     <span class="attr">#[cfg(ossl111)]
     </span><span class="kw">pub const </span>X448: Id = Id(ffi::EVP_PKEY_X448);
@@ -1467,7 +1487,7 @@
     /// This function only works for algorithms that support raw public keys.
     /// Currently this is: [`Id::X25519`], [`Id::ED25519`], [`Id::X448`] or [`Id::ED448`].
     </span><span class="attr">#[corresponds(EVP_PKEY_get_raw_public_key)]
-    #[cfg(any(ossl111, boringssl, libressl370))]
+    #[cfg(any(ossl111, boringssl, libressl370, awslc))]
     </span><span class="kw">pub fn </span>raw_public_key(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;, ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>len = <span class="number">0</span>;
@@ -1518,7 +1538,7 @@
     /// This function only works for algorithms that support raw private keys.
     /// Currently this is: [`Id::HMAC`], [`Id::X25519`], [`Id::ED25519`], [`Id::X448`] or [`Id::ED448`].
     </span><span class="attr">#[corresponds(EVP_PKEY_get_raw_private_key)]
-    #[cfg(any(ossl111, boringssl, libressl370))]
+    #[cfg(any(ossl111, boringssl, libressl370, awslc))]
     </span><span class="kw">pub fn </span>raw_private_key(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;, ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>len = <span class="number">0</span>;
@@ -1586,15 +1606,31 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, fmt: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">let </span>alg = <span class="kw">match </span><span class="self">self</span>.id() {
             Id::RSA =&gt; <span class="string">"RSA"</span>,
+            <span class="attr">#[cfg(any(ossl111, libressl310, boringssl, awslc))]
+            </span>Id::RSA_PSS =&gt; <span class="string">"RSA-PSS"</span>,
             <span class="attr">#[cfg(not(boringssl))]
             </span>Id::HMAC =&gt; <span class="string">"HMAC"</span>,
+            <span class="attr">#[cfg(not(any(boringssl, awslc)))]
+            </span>Id::CMAC =&gt; <span class="string">"CMAC"</span>,
             Id::DSA =&gt; <span class="string">"DSA"</span>,
             Id::DH =&gt; <span class="string">"DH"</span>,
+            <span class="attr">#[cfg(ossl110)]
+            </span>Id::DHX =&gt; <span class="string">"DHX"</span>,
             Id::EC =&gt; <span class="string">"EC"</span>,
             <span class="attr">#[cfg(ossl111)]
+            </span>Id::SM2 =&gt; <span class="string">"SM2"</span>,
+            <span class="attr">#[cfg(any(ossl110, boringssl, libressl360, awslc))]
+            </span>Id::HKDF =&gt; <span class="string">"HKDF"</span>,
+            <span class="attr">#[cfg(any(ossl111, boringssl, libressl370, awslc))]
             </span>Id::ED25519 =&gt; <span class="string">"Ed25519"</span>,
             <span class="attr">#[cfg(ossl111)]
             </span>Id::ED448 =&gt; <span class="string">"Ed448"</span>,
+            <span class="attr">#[cfg(any(ossl111, boringssl, libressl370, awslc))]
+            </span>Id::X25519 =&gt; <span class="string">"X25519"</span>,
+            <span class="attr">#[cfg(ossl111)]
+            </span>Id::X448 =&gt; <span class="string">"X448"</span>,
+            <span class="attr">#[cfg(ossl111)]
+            </span>Id::POLY1305 =&gt; <span class="string">"POLY1305"</span>,
             <span class="kw">_ </span>=&gt; <span class="string">"unknown"</span>,
         };
         fmt.debug_struct(<span class="string">"PKey"</span>).field(<span class="string">"algorithm"</span>, <span class="kw-2">&amp;</span>alg).finish()
@@ -1646,7 +1682,7 @@
     }
 
     <span class="doccomment">/// Creates a new `PKey` containing a Diffie-Hellman key with type DHX.
-    </span><span class="attr">#[cfg(all(not(boringssl), ossl110))]
+    </span><span class="attr">#[cfg(all(not(any(boringssl, awslc)), ossl110))]
     </span><span class="kw">pub fn </span>from_dhx(dh: Dh&lt;T&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;PKey&lt;T&gt;, ErrorStack&gt; {
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>evp = cvt_p(ffi::EVP_PKEY_new())<span class="question-mark">?</span>;
@@ -1682,13 +1718,17 @@
     </span><span class="attr">#[corresponds(EVP_PKEY_new_mac_key)]
     #[cfg(not(boringssl))]
     </span><span class="kw">pub fn </span>hmac(key: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;PKey&lt;Private&gt;, ErrorStack&gt; {
+        <span class="attr">#[cfg(awslc)]
+        </span><span class="kw">let </span>key_len = key.len();
+        <span class="attr">#[cfg(not(awslc))]
+        </span><span class="kw">let </span>key_len = key.len() <span class="kw">as </span>c_int;
         <span class="kw">unsafe </span>{
             <span class="macro">assert!</span>(key.len() &lt;= c_int::MAX <span class="kw">as </span>usize);
             <span class="kw">let </span>key = cvt_p(ffi::EVP_PKEY_new_mac_key(
                 ffi::EVP_PKEY_HMAC,
                 ptr::null_mut(),
                 key.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>,
-                key.len() <span class="kw">as </span>c_int,
+                key_len,
             ))<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(PKey::from_ptr(key))
         }
@@ -1701,7 +1741,7 @@
     /// # Note
     ///
     /// To compute CMAC values, use the `sign` module.
-    </span><span class="attr">#[cfg(all(not(boringssl), ossl110))]
+    </span><span class="attr">#[cfg(all(not(any(boringssl, awslc)), ossl110))]
     #[allow(clippy::trivially_copy_pass_by_ref)]
     </span><span class="kw">pub fn </span>cmac(cipher: <span class="kw-2">&amp;</span>Cipher, key: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;PKey&lt;Private&gt;, ErrorStack&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>ctx = PkeyCtx::new_id(Id::CMAC)<span class="question-mark">?</span>;
@@ -1711,7 +1751,7 @@
         ctx.keygen()
     }
 
-    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370))]
+    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370, awslc))]
     </span><span class="kw">fn </span>generate_eddsa(id: Id) -&gt; <span class="prelude-ty">Result</span>&lt;PKey&lt;Private&gt;, ErrorStack&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>ctx = PkeyCtx::new_id(id)<span class="question-mark">?</span>;
         ctx.keygen_init()<span class="question-mark">?</span>;
@@ -1741,7 +1781,7 @@
     /// assert_eq!(secret.len(), 32);
     /// # Ok(()) }
     /// ```
-    </span><span class="attr">#[cfg(any(ossl111, boringssl, libressl370))]
+    </span><span class="attr">#[cfg(any(ossl111, boringssl, libressl370, awslc))]
     </span><span class="kw">pub fn </span>generate_x25519() -&gt; <span class="prelude-ty">Result</span>&lt;PKey&lt;Private&gt;, ErrorStack&gt; {
         PKey::generate_eddsa(Id::X25519)
     }
@@ -1795,7 +1835,7 @@
     /// assert_eq!(signature.len(), 64);
     /// # Ok(()) }
     /// ```
-    </span><span class="attr">#[cfg(any(ossl111, boringssl, libressl370))]
+    </span><span class="attr">#[cfg(any(ossl111, boringssl, libressl370, awslc))]
     </span><span class="kw">pub fn </span>generate_ed25519() -&gt; <span class="prelude-ty">Result</span>&lt;PKey&lt;Private&gt;, ErrorStack&gt; {
         PKey::generate_eddsa(Id::ED25519)
     }
@@ -1945,7 +1985,7 @@
     ///
     /// Algorithm types that support raw private keys are HMAC, X25519, ED25519, X448 or ED448
     </span><span class="attr">#[corresponds(EVP_PKEY_new_raw_private_key)]
-    #[cfg(any(ossl111, boringssl, libressl370))]
+    #[cfg(any(ossl111, boringssl, libressl370, awslc))]
     </span><span class="kw">pub fn </span>private_key_from_raw_bytes(
         bytes: <span class="kw-2">&amp;</span>[u8],
         key_type: Id,
@@ -1996,7 +2036,7 @@
     ///
     /// Algorithm types that support raw public keys are X25519, ED25519, X448 or ED448
     </span><span class="attr">#[corresponds(EVP_PKEY_new_raw_public_key)]
-    #[cfg(any(ossl111, boringssl, libressl370))]
+    #[cfg(any(ossl111, boringssl, libressl370, awslc))]
     </span><span class="kw">pub fn </span>public_key_from_raw_bytes(
         bytes: <span class="kw-2">&amp;</span>[u8],
         key_type: Id,
@@ -2015,7 +2055,7 @@
 }
 
 <span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, ossl110, libressl270))] </span>{
+    <span class="kw">if </span><span class="attr">#[cfg(any(boringssl, ossl110, libressl270, awslc))] </span>{
         <span class="kw">use </span>ffi::EVP_PKEY_up_ref;
     } <span class="kw">else </span>{
         <span class="attr">#[allow(bad_style)]
@@ -2111,7 +2151,7 @@
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attr">#[cfg(ossl111)]
+    <span class="attr">#[cfg(any(ossl111, awslc))]
     </span><span class="kw">use </span><span class="kw">crate</span>::rand::rand_bytes;
 
     <span class="attr">#[test]
@@ -2304,7 +2344,7 @@
         <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>g, dh_.generator());
     }
 
-    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370))]
+    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370, awslc))]
     </span><span class="kw">fn </span>test_raw_public_key(gen: <span class="kw">fn</span>() -&gt; <span class="prelude-ty">Result</span>&lt;PKey&lt;Private&gt;, ErrorStack&gt;, key_type: Id) {
         <span class="comment">// Generate a new key
         </span><span class="kw">let </span>key = gen().unwrap();
@@ -2320,7 +2360,7 @@
         );
     }
 
-    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370))]
+    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370, awslc))]
     </span><span class="kw">fn </span>test_raw_private_key(gen: <span class="kw">fn</span>() -&gt; <span class="prelude-ty">Result</span>&lt;PKey&lt;Private&gt;, ErrorStack&gt;, key_type: Id) {
         <span class="comment">// Generate a new key
         </span><span class="kw">let </span>key = gen().unwrap();
@@ -2336,29 +2376,29 @@
         );
     }
 
-    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370))]
+    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370, awslc))]
     #[test]
     </span><span class="kw">fn </span>test_raw_public_key_bytes() {
         test_raw_public_key(PKey::generate_x25519, Id::X25519);
         test_raw_public_key(PKey::generate_ed25519, Id::ED25519);
-        <span class="attr">#[cfg(all(not(boringssl), not(libressl370)))]
+        <span class="attr">#[cfg(not(any(boringssl, libressl370, awslc)))]
         </span>test_raw_public_key(PKey::generate_x448, Id::X448);
-        <span class="attr">#[cfg(all(not(boringssl), not(libressl370)))]
+        <span class="attr">#[cfg(not(any(boringssl, libressl370, awslc)))]
         </span>test_raw_public_key(PKey::generate_ed448, Id::ED448);
     }
 
-    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370))]
+    <span class="attr">#[cfg(any(ossl111, boringssl, libressl370, awslc))]
     #[test]
     </span><span class="kw">fn </span>test_raw_private_key_bytes() {
         test_raw_private_key(PKey::generate_x25519, Id::X25519);
         test_raw_private_key(PKey::generate_ed25519, Id::ED25519);
-        <span class="attr">#[cfg(all(not(boringssl), not(libressl370)))]
+        <span class="attr">#[cfg(not(any(boringssl, libressl370, awslc)))]
         </span>test_raw_private_key(PKey::generate_x448, Id::X448);
-        <span class="attr">#[cfg(all(not(boringssl), not(libressl370)))]
+        <span class="attr">#[cfg(not(any(boringssl, libressl370, awslc)))]
         </span>test_raw_private_key(PKey::generate_ed448, Id::ED448);
     }
 
-    <span class="attr">#[cfg(ossl111)]
+    <span class="attr">#[cfg(any(ossl111, awslc))]
     #[test]
     </span><span class="kw">fn </span>test_raw_hmac() {
         <span class="kw">let </span><span class="kw-2">mut </span>test_bytes = <span class="macro">vec!</span>[<span class="number">0u8</span>; <span class="number">32</span>];
@@ -2371,7 +2411,7 @@
         <span class="macro">assert_eq!</span>(key_bytes, test_bytes);
     }
 
-    <span class="attr">#[cfg(ossl111)]
+    <span class="attr">#[cfg(any(ossl111, awslc))]
     #[test]
     </span><span class="kw">fn </span>test_raw_key_fail() {
         <span class="comment">// Getting a raw byte representation will not work with Nist curves

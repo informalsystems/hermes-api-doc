@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libc-0.2.169/src/unix/linux_like/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="libc" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">libc/unix/linux_like/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libc-0.2.172/src/unix/linux_like/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="libc" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">libc/unix/linux_like/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -2011,7 +2011,109 @@
 <a href="#2010" id="2010">2010</a>
 <a href="#2011" id="2011">2011</a>
 <a href="#2012" id="2012">2012</a>
-<a href="#2013" id="2013">2013</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
+<a href="#2013" id="2013">2013</a>
+<a href="#2014" id="2014">2014</a>
+<a href="#2015" id="2015">2015</a>
+<a href="#2016" id="2016">2016</a>
+<a href="#2017" id="2017">2017</a>
+<a href="#2018" id="2018">2018</a>
+<a href="#2019" id="2019">2019</a>
+<a href="#2020" id="2020">2020</a>
+<a href="#2021" id="2021">2021</a>
+<a href="#2022" id="2022">2022</a>
+<a href="#2023" id="2023">2023</a>
+<a href="#2024" id="2024">2024</a>
+<a href="#2025" id="2025">2025</a>
+<a href="#2026" id="2026">2026</a>
+<a href="#2027" id="2027">2027</a>
+<a href="#2028" id="2028">2028</a>
+<a href="#2029" id="2029">2029</a>
+<a href="#2030" id="2030">2030</a>
+<a href="#2031" id="2031">2031</a>
+<a href="#2032" id="2032">2032</a>
+<a href="#2033" id="2033">2033</a>
+<a href="#2034" id="2034">2034</a>
+<a href="#2035" id="2035">2035</a>
+<a href="#2036" id="2036">2036</a>
+<a href="#2037" id="2037">2037</a>
+<a href="#2038" id="2038">2038</a>
+<a href="#2039" id="2039">2039</a>
+<a href="#2040" id="2040">2040</a>
+<a href="#2041" id="2041">2041</a>
+<a href="#2042" id="2042">2042</a>
+<a href="#2043" id="2043">2043</a>
+<a href="#2044" id="2044">2044</a>
+<a href="#2045" id="2045">2045</a>
+<a href="#2046" id="2046">2046</a>
+<a href="#2047" id="2047">2047</a>
+<a href="#2048" id="2048">2048</a>
+<a href="#2049" id="2049">2049</a>
+<a href="#2050" id="2050">2050</a>
+<a href="#2051" id="2051">2051</a>
+<a href="#2052" id="2052">2052</a>
+<a href="#2053" id="2053">2053</a>
+<a href="#2054" id="2054">2054</a>
+<a href="#2055" id="2055">2055</a>
+<a href="#2056" id="2056">2056</a>
+<a href="#2057" id="2057">2057</a>
+<a href="#2058" id="2058">2058</a>
+<a href="#2059" id="2059">2059</a>
+<a href="#2060" id="2060">2060</a>
+<a href="#2061" id="2061">2061</a>
+<a href="#2062" id="2062">2062</a>
+<a href="#2063" id="2063">2063</a>
+<a href="#2064" id="2064">2064</a>
+<a href="#2065" id="2065">2065</a>
+<a href="#2066" id="2066">2066</a>
+<a href="#2067" id="2067">2067</a>
+<a href="#2068" id="2068">2068</a>
+<a href="#2069" id="2069">2069</a>
+<a href="#2070" id="2070">2070</a>
+<a href="#2071" id="2071">2071</a>
+<a href="#2072" id="2072">2072</a>
+<a href="#2073" id="2073">2073</a>
+<a href="#2074" id="2074">2074</a>
+<a href="#2075" id="2075">2075</a>
+<a href="#2076" id="2076">2076</a>
+<a href="#2077" id="2077">2077</a>
+<a href="#2078" id="2078">2078</a>
+<a href="#2079" id="2079">2079</a>
+<a href="#2080" id="2080">2080</a>
+<a href="#2081" id="2081">2081</a>
+<a href="#2082" id="2082">2082</a>
+<a href="#2083" id="2083">2083</a>
+<a href="#2084" id="2084">2084</a>
+<a href="#2085" id="2085">2085</a>
+<a href="#2086" id="2086">2086</a>
+<a href="#2087" id="2087">2087</a>
+<a href="#2088" id="2088">2088</a>
+<a href="#2089" id="2089">2089</a>
+<a href="#2090" id="2090">2090</a>
+<a href="#2091" id="2091">2091</a>
+<a href="#2092" id="2092">2092</a>
+<a href="#2093" id="2093">2093</a>
+<a href="#2094" id="2094">2094</a>
+<a href="#2095" id="2095">2095</a>
+<a href="#2096" id="2096">2096</a>
+<a href="#2097" id="2097">2097</a>
+<a href="#2098" id="2098">2098</a>
+<a href="#2099" id="2099">2099</a>
+<a href="#2100" id="2100">2100</a>
+<a href="#2101" id="2101">2101</a>
+<a href="#2102" id="2102">2102</a>
+<a href="#2103" id="2103">2103</a>
+<a href="#2104" id="2104">2104</a>
+<a href="#2105" id="2105">2105</a>
+<a href="#2106" id="2106">2106</a>
+<a href="#2107" id="2107">2107</a>
+<a href="#2108" id="2108">2108</a>
+<a href="#2109" id="2109">2109</a>
+<a href="#2110" id="2110">2110</a>
+<a href="#2111" id="2111">2111</a>
+<a href="#2112" id="2112">2112</a>
+<a href="#2113" id="2113">2113</a>
+<a href="#2114" id="2114">2114</a>
+<a href="#2115" id="2115">2115</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">pub type </span>sa_family_t = u16;
 <span class="kw">pub type </span>speed_t = c_uint;
@@ -2174,7 +2276,7 @@
         <span class="kw">pub </span>ifa_flags: c_uint,
         <span class="kw">pub </span>ifa_addr: <span class="kw-2">*mut </span><span class="kw">crate</span>::sockaddr,
         <span class="kw">pub </span>ifa_netmask: <span class="kw-2">*mut </span><span class="kw">crate</span>::sockaddr,
-        <span class="kw">pub </span>ifa_ifu: <span class="kw-2">*mut </span><span class="kw">crate</span>::sockaddr, <span class="comment">// FIXME This should be a union
+        <span class="kw">pub </span>ifa_ifu: <span class="kw-2">*mut </span><span class="kw">crate</span>::sockaddr, <span class="comment">// FIXME(union) This should be a union
         </span><span class="kw">pub </span>ifa_data: <span class="kw-2">*mut </span>c_void,
     }
 
@@ -2355,7 +2457,7 @@
             <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
                 f.debug_struct(<span class="string">"sockaddr_un"</span>)
                     .field(<span class="string">"sun_family"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.sun_family)
-                    <span class="comment">// FIXME: .field("sun_path", &amp;self.sun_path)
+                    <span class="comment">// FIXME(debug): .field("sun_path", &amp;self.sun_path)
                     </span>.finish()
             }
         }
@@ -2384,7 +2486,7 @@
                 f.debug_struct(<span class="string">"sockaddr_storage"</span>)
                     .field(<span class="string">"ss_family"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.ss_family)
                     .field(<span class="string">"__ss_align"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.__ss_align)
-                    <span class="comment">// FIXME: .field("__ss_pad2", &amp;self.__ss_pad2)
+                    <span class="comment">// FIXME(debug): .field("__ss_pad2", &amp;self.__ss_pad2)
                     </span>.finish()
             }
         }
@@ -2435,12 +2537,12 @@
         <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>utsname {
             <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
                 f.debug_struct(<span class="string">"utsname"</span>)
-                    <span class="comment">// FIXME: .field("sysname", &amp;self.sysname)
-                    // FIXME: .field("nodename", &amp;self.nodename)
-                    // FIXME: .field("release", &amp;self.release)
-                    // FIXME: .field("version", &amp;self.version)
-                    // FIXME: .field("machine", &amp;self.machine)
-                    // FIXME: .field("domainname", &amp;self.domainname)
+                    <span class="comment">// FIXME(debug): .field("sysname", &amp;self.sysname)
+                    // FIXME(debug): .field("nodename", &amp;self.nodename)
+                    // FIXME(debug): .field("release", &amp;self.release)
+                    // FIXME(debug): .field("version", &amp;self.version)
+                    // FIXME(debug): .field("machine", &amp;self.machine)
+                    // FIXME(debug): .field("domainname", &amp;self.domainname)
                     </span>.finish()
             }
         }
@@ -3302,6 +3404,25 @@
 
 <span class="kw">pub const </span>SI_LOAD_SHIFT: c_uint = <span class="number">16</span>;
 
+<span class="comment">// si_code values
+</span><span class="kw">pub const </span>SI_USER: c_int = <span class="number">0</span>;
+<span class="kw">pub const </span>SI_KERNEL: c_int = <span class="number">0x80</span>;
+<span class="kw">pub const </span>SI_QUEUE: c_int = -<span class="number">1</span>;
+<span class="macro">cfg_if!</span> {
+    <span class="kw">if </span><span class="attr">#[cfg(not(any(target_arch = <span class="string">"mips"</span>, target_arch = <span class="string">"mips32r6"</span>)))] </span>{
+        <span class="kw">pub const </span>SI_TIMER: c_int = -<span class="number">2</span>;
+        <span class="kw">pub const </span>SI_MESGQ: c_int = -<span class="number">3</span>;
+        <span class="kw">pub const </span>SI_ASYNCIO: c_int = -<span class="number">4</span>;
+    } <span class="kw">else </span>{
+        <span class="kw">pub const </span>SI_TIMER: c_int = -<span class="number">3</span>;
+        <span class="kw">pub const </span>SI_MESGQ: c_int = -<span class="number">4</span>;
+        <span class="kw">pub const </span>SI_ASYNCIO: c_int = -<span class="number">2</span>;
+    }
+}
+<span class="kw">pub const </span>SI_SIGIO: c_int = -<span class="number">5</span>;
+<span class="kw">pub const </span>SI_TKILL: c_int = -<span class="number">6</span>;
+<span class="kw">pub const </span>SI_ASYNCNL: c_int = -<span class="number">60</span>;
+
 <span class="comment">// si_code values for SIGBUS signal
 </span><span class="kw">pub const </span>BUS_ADRALN: c_int = <span class="number">1</span>;
 <span class="kw">pub const </span>BUS_ADRERR: c_int = <span class="number">2</span>;
@@ -3309,6 +3430,13 @@
 <span class="comment">// Linux-specific si_code values for SIGBUS signal
 </span><span class="kw">pub const </span>BUS_MCEERR_AR: c_int = <span class="number">4</span>;
 <span class="kw">pub const </span>BUS_MCEERR_AO: c_int = <span class="number">5</span>;
+
+<span class="comment">// si_code values for SIGTRAP
+</span><span class="kw">pub const </span>TRAP_BRKPT: c_int = <span class="number">1</span>;
+<span class="kw">pub const </span>TRAP_TRACE: c_int = <span class="number">2</span>;
+<span class="kw">pub const </span>TRAP_BRANCH: c_int = <span class="number">3</span>;
+<span class="kw">pub const </span>TRAP_HWBKPT: c_int = <span class="number">4</span>;
+<span class="kw">pub const </span>TRAP_UNK: c_int = <span class="number">5</span>;
 
 <span class="comment">// si_code values for SIGCHLD signal
 </span><span class="kw">pub const </span>CLD_EXITED: c_int = <span class="number">1</span>;
@@ -3618,6 +3746,73 @@
     }
 }
 
+<span class="comment">// https://github.com/search?q=repo%3Atorvalds%2Flinux+%22%23define+_IOC_NONE%22&amp;type=code
+</span><span class="macro">cfg_if!</span> {
+    <span class="kw">if </span><span class="attr">#[cfg(any(
+        target_os = <span class="string">"linux"</span>,
+        target_os = <span class="string">"android"</span>,
+        target_os = <span class="string">"l4re"
+    </span>))] </span>{
+        <span class="kw">const </span>_IOC_NRBITS: u32 = <span class="number">8</span>;
+        <span class="kw">const </span>_IOC_TYPEBITS: u32 = <span class="number">8</span>;
+
+        <span class="macro">cfg_if!</span> {
+            <span class="kw">if </span><span class="attr">#[cfg(any(
+                any(target_arch = <span class="string">"powerpc"</span>, target_arch = <span class="string">"powerpc64"</span>),
+                any(target_arch = <span class="string">"sparc"</span>, target_arch = <span class="string">"sparc64"</span>),
+                any(target_arch = <span class="string">"mips"</span>, target_arch = <span class="string">"mips64"</span>),
+            ))] </span>{
+                <span class="comment">// https://github.com/torvalds/linux/blob/b311c1b497e51a628aa89e7cb954481e5f9dced2/arch/powerpc/include/uapi/asm/ioctl.h
+                // https://github.com/torvalds/linux/blob/b311c1b497e51a628aa89e7cb954481e5f9dced2/arch/sparc/include/uapi/asm/ioctl.h
+                // https://github.com/torvalds/linux/blob/b311c1b497e51a628aa89e7cb954481e5f9dced2/arch/mips/include/uapi/asm/ioctl.h
+
+                </span><span class="kw">const </span>_IOC_SIZEBITS: u32 = <span class="number">13</span>;
+                <span class="kw">const </span>_IOC_DIRBITS: u32 = <span class="number">3</span>;
+
+                <span class="kw">const </span>_IOC_NONE: u32 = <span class="number">1</span>;
+                <span class="kw">const </span>_IOC_READ: u32 = <span class="number">2</span>;
+                <span class="kw">const </span>_IOC_WRITE: u32 = <span class="number">4</span>;
+            } <span class="kw">else </span>{
+                <span class="comment">// https://github.com/torvalds/linux/blob/b311c1b497e51a628aa89e7cb954481e5f9dced2/include/uapi/asm-generic/ioctl.h
+
+                </span><span class="kw">const </span>_IOC_SIZEBITS: u32 = <span class="number">14</span>;
+                <span class="kw">const </span>_IOC_DIRBITS: u32 = <span class="number">2</span>;
+
+                <span class="kw">const </span>_IOC_NONE: u32 = <span class="number">0</span>;
+                <span class="kw">const </span>_IOC_WRITE: u32 = <span class="number">1</span>;
+                <span class="kw">const </span>_IOC_READ: u32 = <span class="number">2</span>;
+            }
+        }
+        <span class="kw">const </span>_IOC_NRMASK: u32 = (<span class="number">1 </span>&lt;&lt; _IOC_NRBITS) - <span class="number">1</span>;
+        <span class="kw">const </span>_IOC_TYPEMASK: u32 = (<span class="number">1 </span>&lt;&lt; _IOC_TYPEBITS) - <span class="number">1</span>;
+        <span class="kw">const </span>_IOC_SIZEMASK: u32 = (<span class="number">1 </span>&lt;&lt; _IOC_SIZEBITS) - <span class="number">1</span>;
+        <span class="kw">const </span>_IOC_DIRMASK: u32 = (<span class="number">1 </span>&lt;&lt; _IOC_DIRBITS) - <span class="number">1</span>;
+
+        <span class="kw">const </span>_IOC_NRSHIFT: u32 = <span class="number">0</span>;
+        <span class="kw">const </span>_IOC_TYPESHIFT: u32 = _IOC_NRSHIFT + _IOC_NRBITS;
+        <span class="kw">const </span>_IOC_SIZESHIFT: u32 = _IOC_TYPESHIFT + _IOC_TYPEBITS;
+        <span class="kw">const </span>_IOC_DIRSHIFT: u32 = _IOC_SIZESHIFT + _IOC_SIZEBITS;
+
+        <span class="comment">// adapted from https://github.com/torvalds/linux/blob/8a696a29c6905594e4abf78eaafcb62165ac61f1/rust/kernel/ioctl.rs
+
+        </span><span class="doccomment">/// Build an ioctl number, analogous to the C macro of the same name.
+        </span><span class="kw">const fn </span>_IOC(dir: u32, ty: u32, nr: u32, size: usize) -&gt; u32 {
+            <span class="comment">// FIXME(ctest) the `garando_syntax` crate (used by ctest in the CI test suite)
+            // cannot currently parse these `debug_assert!`s
+            //
+            // debug_assert!(dir &lt;= _IOC_DIRMASK);
+            // debug_assert!(ty &lt;= _IOC_TYPEMASK);
+            // debug_assert!(nr &lt;= _IOC_NRMASK);
+            // debug_assert!(size &lt;= (_IOC_SIZEMASK as usize));
+
+            </span>(dir &lt;&lt; _IOC_DIRSHIFT)
+                | (ty &lt;&lt; _IOC_TYPESHIFT)
+                | (nr &lt;&lt; _IOC_NRSHIFT)
+                | ((size <span class="kw">as </span>u32) &lt;&lt; _IOC_SIZESHIFT)
+        }
+    }
+}
+
 <span class="macro">const_fn!</span> {
     {<span class="kw">const</span>} <span class="kw">fn </span>CMSG_ALIGN(len: usize) -&gt; usize {
         len + mem::size_of::&lt;usize&gt;() - <span class="number">1 </span>&amp; !(mem::size_of::&lt;usize&gt;() - <span class="number">1</span>)
@@ -3743,11 +3938,7 @@
 
     <span class="attr">#[allow(ellipsis_inclusive_range_patterns)]
     </span><span class="kw">pub </span>{<span class="kw">const</span>} <span class="kw">fn </span>KERNEL_VERSION(a: u32, b: u32, c: u32) -&gt; u32 {
-        ((a &lt;&lt; <span class="number">16</span>) + (b &lt;&lt; <span class="number">8</span>))
-            + <span class="kw">match </span>c {
-                <span class="number">0</span>..=<span class="number">255 </span>=&gt; c,
-                <span class="kw">_ </span>=&gt; <span class="number">255</span>,
-            }
+        ((a &lt;&lt; <span class="number">16</span>) + (b &lt;&lt; <span class="number">8</span>)) + <span class="kw">if </span>c &gt; <span class="number">255 </span>{ <span class="number">255 </span>} <span class="kw">else </span>{ c }
     }
 }
 
@@ -3775,13 +3966,21 @@
         stackaddr: <span class="kw-2">*mut *mut </span>c_void,
         stacksize: <span class="kw-2">*mut </span>size_t,
     ) -&gt; c_int;
+    <span class="kw">pub fn </span>pthread_attr_setstack(
+        attr: <span class="kw-2">*mut </span><span class="kw">crate</span>::pthread_attr_t,
+        stackaddr: <span class="kw-2">*mut </span>c_void,
+        stacksize: size_t,
+    ) -&gt; c_int;
     <span class="kw">pub fn </span>memalign(align: size_t, size: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
     <span class="kw">pub fn </span>setgroups(ngroups: size_t, ptr: <span class="kw-2">*const </span><span class="kw">crate</span>::gid_t) -&gt; c_int;
     <span class="kw">pub fn </span>pipe2(fds: <span class="kw-2">*mut </span>c_int, flags: c_int) -&gt; c_int;
-    <span class="kw">pub fn </span>statfs(path: <span class="kw-2">*const </span>c_char, buf: <span class="kw-2">*mut </span>statfs) -&gt; c_int;
-    <span class="kw">pub fn </span>fstatfs(fd: c_int, buf: <span class="kw-2">*mut </span>statfs) -&gt; c_int;
+    <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"statfs64"</span>)]
+    </span><span class="kw">pub fn </span>statfs(path: <span class="kw-2">*const </span>c_char, buf: <span class="kw-2">*mut </span>statfs) -&gt; c_int;
+    <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"fstatfs64"</span>)]
+    </span><span class="kw">pub fn </span>fstatfs(fd: c_int, buf: <span class="kw-2">*mut </span>statfs) -&gt; c_int;
     <span class="kw">pub fn </span>memrchr(cx: <span class="kw-2">*const </span>c_void, c: c_int, n: size_t) -&gt; <span class="kw-2">*mut </span>c_void;
-    <span class="kw">pub fn </span>posix_fadvise(fd: c_int, offset: off_t, len: off_t, advise: c_int) -&gt; c_int;
+    <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"posix_fadvise64"</span>)]
+    </span><span class="kw">pub fn </span>posix_fadvise(fd: c_int, offset: off_t, len: off_t, advise: c_int) -&gt; c_int;
     <span class="kw">pub fn </span>futimens(fd: c_int, times: <span class="kw-2">*const </span><span class="kw">crate</span>::timespec) -&gt; c_int;
     <span class="kw">pub fn </span>utimensat(
         dirfd: c_int,
@@ -3886,8 +4085,13 @@
     ) -&gt; size_t;
     <span class="kw">pub fn </span>strptime(s: <span class="kw-2">*const </span>c_char, format: <span class="kw-2">*const </span>c_char, tm: <span class="kw-2">*mut </span><span class="kw">crate</span>::tm) -&gt; <span class="kw-2">*mut </span>c_char;
 
-    <span class="kw">pub fn </span>mkostemp(template: <span class="kw-2">*mut </span>c_char, flags: c_int) -&gt; c_int;
-    <span class="kw">pub fn </span>mkostemps(template: <span class="kw-2">*mut </span>c_char, suffixlen: c_int, flags: c_int) -&gt; c_int;
+    <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"mkostemp64"</span>)]
+    </span><span class="kw">pub fn </span>mkostemp(template: <span class="kw-2">*mut </span>c_char, flags: c_int) -&gt; c_int;
+    <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"mkostemps64"</span>)]
+    </span><span class="kw">pub fn </span>mkostemps(template: <span class="kw-2">*mut </span>c_char, suffixlen: c_int, flags: c_int) -&gt; c_int;
+
+    <span class="kw">pub fn </span>getdomainname(name: <span class="kw-2">*mut </span>c_char, len: size_t) -&gt; c_int;
+    <span class="kw">pub fn </span>setdomainname(name: <span class="kw-2">*const </span>c_char, len: size_t) -&gt; c_int;
 }
 
 <span class="comment">// LFS64 extensions

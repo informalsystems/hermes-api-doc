@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/schemars_derive-0.8.21/src/schema_exprs.rs`."><title>schema_exprs.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="schemars_derive" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">schemars_derive/</div>schema_exprs.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/schemars_derive-0.8.22/src/schema_exprs.rs`."><title>schema_exprs.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="schemars_derive" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">schemars_derive/</div>schema_exprs.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -661,19 +661,19 @@
 <span class="kw">fn </span>expr_for_field(field: <span class="kw-2">&amp;</span>Field, allow_ref: bool) -&gt; TokenStream {
     <span class="kw">let </span>(ty, type_def) = type_for_field_schema(field);
     <span class="kw">let </span>span = field.original.span();
-    <span class="kw">let </span>gen = <span class="macro">quote!</span>(gen);
+    <span class="kw">let </span>generator = <span class="macro">quote!</span>(generator);
 
     <span class="kw">let </span><span class="kw-2">mut </span>schema_expr = <span class="kw">if </span>field.validation_attrs.required() {
         <span class="macro">quote_spanned!</span> {span=&gt;
-            &lt;#ty <span class="kw">as </span>schemars::JsonSchema&gt;::_schemars_private_non_optional_json_schema(#gen)
+            &lt;#ty <span class="kw">as </span>schemars::JsonSchema&gt;::_schemars_private_non_optional_json_schema(#generator)
         }
     } <span class="kw">else if </span>allow_ref {
         <span class="macro">quote_spanned!</span> {span=&gt;
-            #gen.subschema_for::&lt;#ty&gt;()
+            #generator.subschema_for::&lt;#ty&gt;()
         }
     } <span class="kw">else </span>{
         <span class="macro">quote_spanned!</span> {span=&gt;
-            &lt;#ty <span class="kw">as </span>schemars::JsonSchema&gt;::json_schema(#gen)
+            &lt;#ty <span class="kw">as </span>schemars::JsonSchema&gt;::json_schema(#generator)
         }
     };
 
@@ -718,8 +718,8 @@
                         ))
                     }
 
-                    <span class="kw">fn </span>json_schema(gen: <span class="kw-2">&amp;mut </span>schemars::gen::SchemaGenerator) -&gt; schemars::schema::Schema {
-                        #fun(gen)
+                    <span class="kw">fn </span>json_schema(generator: <span class="kw-2">&amp;mut </span>schemars::r#gen::SchemaGenerator) -&gt; schemars::schema::Schema {
+                        #fun(generator)
                     }
                 }
             };
@@ -953,9 +953,9 @@
 <span class="kw">fn </span>expr_for_untagged_enum_variant(variant: <span class="kw-2">&amp;</span>Variant, deny_unknown_fields: bool) -&gt; TokenStream {
     <span class="kw">if let </span><span class="prelude-val">Some</span>(with_attr) = <span class="kw-2">&amp;</span>variant.attrs.with {
         <span class="kw">let </span>(ty, type_def) = type_for_schema(with_attr);
-        <span class="kw">let </span>gen = <span class="macro">quote!</span>(gen);
+        <span class="kw">let </span>generator = <span class="macro">quote!</span>(generator);
         <span class="kw">let </span><span class="kw-2">mut </span>schema_expr = <span class="macro">quote_spanned!</span> {variant.original.span()=&gt;
-            #gen.subschema_for::&lt;#ty&gt;()
+            #generator.subschema_for::&lt;#ty&gt;()
         };
 
         prepend_type_def(type_def, <span class="kw-2">&amp;mut </span>schema_expr);
@@ -976,9 +976,9 @@
 ) -&gt; <span class="prelude-ty">Option</span>&lt;TokenStream&gt; {
     <span class="kw">if let </span><span class="prelude-val">Some</span>(with_attr) = <span class="kw-2">&amp;</span>variant.attrs.with {
         <span class="kw">let </span>(ty, type_def) = type_for_schema(with_attr);
-        <span class="kw">let </span>gen = <span class="macro">quote!</span>(gen);
+        <span class="kw">let </span>generator = <span class="macro">quote!</span>(generator);
         <span class="kw">let </span><span class="kw-2">mut </span>schema_expr = <span class="macro">quote_spanned!</span> {variant.original.span()=&gt;
-            &lt;#ty <span class="kw">as </span>schemars::JsonSchema&gt;::json_schema(#gen)
+            &lt;#ty <span class="kw">as </span>schemars::JsonSchema&gt;::json_schema(#generator)
         };
 
         prepend_type_def(type_def, <span class="kw-2">&amp;mut </span>schema_expr);
@@ -995,7 +995,7 @@
 
 <span class="kw">fn </span>expr_for_unit_struct() -&gt; TokenStream {
     <span class="macro">quote!</span> {
-        gen.subschema_for::&lt;()&gt;()
+        generator.subschema_for::&lt;()&gt;()
     }
 }
 
@@ -1060,14 +1060,14 @@
                 ..field.attrs.as_metadata()
             };
 
-            <span class="kw">let </span>gen = <span class="macro">quote!</span>(gen);
+            <span class="kw">let </span>generator = <span class="macro">quote!</span>(generator);
             <span class="kw">let </span><span class="kw-2">mut </span>schema_expr = <span class="kw">if </span>field.validation_attrs.required() {
                 <span class="macro">quote_spanned!</span> {ty.span()=&gt;
-                    &lt;#ty <span class="kw">as </span>schemars::JsonSchema&gt;::_schemars_private_non_optional_json_schema(#gen)
+                    &lt;#ty <span class="kw">as </span>schemars::JsonSchema&gt;::_schemars_private_non_optional_json_schema(#generator)
                 }
             } <span class="kw">else </span>{
                 <span class="macro">quote_spanned!</span> {ty.span()=&gt;
-                    #gen.subschema_for::&lt;#ty&gt;()
+                    #generator.subschema_for::&lt;#ty&gt;()
                 }
             };
 
@@ -1090,7 +1090,7 @@
 
             <span class="kw">let </span>required = field.validation_attrs.required();
 
-            <span class="kw">let </span>args = <span class="macro">quote!</span>(gen, #required);
+            <span class="kw">let </span>args = <span class="macro">quote!</span>(generator, #required);
             <span class="kw">let </span><span class="kw-2">mut </span>schema_expr = <span class="macro">quote_spanned!</span> {ty.span()=&gt;
                 schemars::_private::json_schema_for_flatten::&lt;#ty&gt;(#args)
             };

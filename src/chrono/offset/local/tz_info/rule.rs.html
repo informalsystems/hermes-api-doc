@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/chrono-0.4.39/src/offset/local/tz_info/rule.rs`."><title>rule.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="chrono" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">chrono/offset/local/tz_info/</div>rule.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/chrono-0.4.40/src/offset/local/tz_info/rule.rs`."><title>rule.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="chrono" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">chrono/offset/local/tz_info/</div>rule.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1035,21 +1035,14 @@
 <a href="#1034" id="1034">1034</a>
 <a href="#1035" id="1035">1035</a>
 <a href="#1036" id="1036">1036</a>
-<a href="#1037" id="1037">1037</a>
-<a href="#1038" id="1038">1038</a>
-<a href="#1039" id="1039">1039</a>
-<a href="#1040" id="1040">1040</a>
-<a href="#1041" id="1041">1041</a>
-<a href="#1042" id="1042">1042</a>
-<a href="#1043" id="1043">1043</a>
-<a href="#1044" id="1044">1044</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::cmp::Ordering;
-
-<span class="kw">use </span><span class="kw">super</span>::parser::Cursor;
+<a href="#1037" id="1037">1037</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::parser::Cursor;
 <span class="kw">use </span><span class="kw">super</span>::timezone::{LocalTimeType, SECONDS_PER_WEEK};
 <span class="kw">use super</span>::{
-    Error, CUMUL_DAY_IN_MONTHS_NORMAL_YEAR, DAYS_PER_WEEK, DAY_IN_MONTHS_NORMAL_YEAR,
+    CUMUL_DAY_IN_MONTHS_NORMAL_YEAR, DAY_IN_MONTHS_NORMAL_YEAR, DAYS_PER_WEEK, Error,
     SECONDS_PER_DAY,
 };
+<span class="kw">use crate</span>::{Datelike, NaiveDateTime};
+<span class="kw">use </span>std::cmp::Ordering;
 
 <span class="doccomment">/// Transition rule
 </span><span class="attr">#[derive(Debug, Copy, Clone, Eq, PartialEq)]
@@ -1083,7 +1076,7 @@
             <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">b','</span>) =&gt; std_offset - <span class="number">3600</span>,
             <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; parse_offset(<span class="kw-2">&amp;mut </span>cursor)<span class="question-mark">?</span>,
             <span class="prelude-val">None </span>=&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(Error::UnsupportedTzString(<span class="string">"DST start and end rules must be provided"</span>))
+                <span class="kw">return </span><span class="prelude-val">Err</span>(Error::UnsupportedTzString(<span class="string">"DST start and end rules must be provided"</span>));
             }
         };
 
@@ -1125,15 +1118,14 @@
     <span class="doccomment">/// Find the local time type associated to the transition rule at the specified Unix time in seconds
     </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>find_local_time_type_from_local(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        local_time: i64,
-        year: i32,
+        local_time: NaiveDateTime,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw">crate</span>::MappedLocalTime&lt;LocalTimeType&gt;, Error&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             TransitionRule::Fixed(local_time_type) =&gt; {
                 <span class="prelude-val">Ok</span>(<span class="kw">crate</span>::MappedLocalTime::Single(<span class="kw-2">*</span>local_time_type))
             }
             TransitionRule::Alternate(alternate_time) =&gt; {
-                alternate_time.find_local_time_type_from_local(local_time, year)
+                alternate_time.find_local_time_type_from_local(local_time)
             }
         }
     }
@@ -1264,22 +1256,16 @@
                 }
             };
 
-        <span class="kw">if </span>is_dst {
-            <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.dst)
-        } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.std)
-        }
+        <span class="kw">if </span>is_dst { <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.dst) } <span class="kw">else </span>{ <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.std) }
     }
 
     <span class="kw">fn </span>find_local_time_type_from_local(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        local_time: i64,
-        current_year: i32,
+        local_time: NaiveDateTime,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw">crate</span>::MappedLocalTime&lt;LocalTimeType&gt;, Error&gt; {
-        <span class="comment">// Check if the current year is valid for the following computations
-        </span><span class="kw">if </span>!(i32::MIN + <span class="number">2</span>..=i32::MAX - <span class="number">2</span>).contains(<span class="kw-2">&amp;</span>current_year) {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(Error::OutOfRange(<span class="string">"out of range date time"</span>));
-        }
+        <span class="comment">// Year must be between i32::MIN + 2 and i32::MAX - 2, year in NaiveDate is always smaller.
+        </span><span class="kw">let </span>current_year = local_time.year();
+        <span class="kw">let </span>local_time = local_time.and_utc().timestamp();
 
         <span class="kw">let </span>dst_start_transition_start =
             <span class="self">self</span>.dst_start.unix_time(current_year, <span class="number">0</span>) + i64::from(<span class="self">self</span>.dst_start_time);

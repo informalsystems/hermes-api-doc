@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.70/src/pkey_ctx.rs`."><title>pkey_ctx.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/</div>pkey_ctx.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.72/src/pkey_ctx.rs`."><title>pkey_ctx.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/</div>pkey_ctx.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1131,7 +1131,7 @@
 //! ```
 
 </span><span class="attr">#![cfg_attr(
-    not(boringssl),
+    not(any(boringssl, awslc)),
     doc = <span class="string">r#"\
 Generate a CMAC key
 
@@ -1174,7 +1174,7 @@ let cmac_key = ctx.keygen().unwrap();
 //! let valid = ctx.verify(text, &amp;signature).unwrap();
 //! assert!(valid);
 //! ```
-</span><span class="attr">#[cfg(not(boringssl))]
+</span><span class="attr">#[cfg(not(any(boringssl, awslc)))]
 </span><span class="kw">use </span><span class="kw">crate</span>::cipher::CipherRef;
 <span class="kw">use </span><span class="kw">crate</span>::error::ErrorStack;
 <span class="kw">use </span><span class="kw">crate</span>::md::MdRef;
@@ -1183,7 +1183,7 @@ let cmac_key = ctx.keygen().unwrap();
 <span class="kw">use </span><span class="kw">crate</span>::sign::RsaPssSaltlen;
 <span class="kw">use crate</span>::{cvt, cvt_p};
 <span class="kw">use </span>foreign_types::{ForeignType, ForeignTypeRef};
-<span class="attr">#[cfg(not(boringssl))]
+<span class="attr">#[cfg(not(any(boringssl, awslc)))]
 </span><span class="kw">use </span>libc::c_int;
 <span class="attr">#[cfg(ossl320)]
 </span><span class="kw">use </span>libc::c_uint;
@@ -1258,7 +1258,7 @@ let cmac_key = ctx.keygen().unwrap();
 
 <span class="kw">impl </span>PkeyCtx&lt;()&gt; {
     <span class="doccomment">/// Creates a new pkey context for the specified algorithm ID.
-    </span><span class="attr">#[corresponds(EVP_PKEY_new_id)]
+    </span><span class="attr">#[corresponds(EVP_PKEY_CTX_new_id)]
     #[inline]
     </span><span class="kw">pub fn </span>new_id(id: Id) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ErrorStack&gt; {
         <span class="kw">unsafe </span>{
@@ -1611,7 +1611,7 @@ let cmac_key = ctx.keygen().unwrap();
     ///
     /// This is only useful for RSA keys.
     </span><span class="attr">#[corresponds(EVP_PKEY_CTX_set_rsa_oaep_md)]
-    #[cfg(any(ossl102, libressl310, boringssl))]
+    #[cfg(any(ossl102, libressl310, boringssl, awslc))]
     #[inline]
     </span><span class="kw">pub fn </span>set_rsa_oaep_md(<span class="kw-2">&amp;mut </span><span class="self">self</span>, md: <span class="kw-2">&amp;</span>MdRef) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="kw">unsafe </span>{
@@ -1628,7 +1628,7 @@ let cmac_key = ctx.keygen().unwrap();
     ///
     /// This is only useful for RSA keys.
     </span><span class="attr">#[corresponds(EVP_PKEY_CTX_set0_rsa_oaep_label)]
-    #[cfg(any(ossl102, libressl310, boringssl))]
+    #[cfg(any(ossl102, libressl310, boringssl, awslc))]
     </span><span class="kw">pub fn </span>set_rsa_oaep_label(<span class="kw-2">&amp;mut </span><span class="self">self</span>, label: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="kw">use </span><span class="kw">crate</span>::LenType;
         <span class="kw">let </span>len = LenType::try_from(label.len()).unwrap();
@@ -1652,7 +1652,7 @@ let cmac_key = ctx.keygen().unwrap();
     }
 
     <span class="doccomment">/// Sets the cipher used during key generation.
-    </span><span class="attr">#[cfg(not(boringssl))]
+    </span><span class="attr">#[cfg(not(any(boringssl, awslc)))]
     #[corresponds(EVP_PKEY_CTX_ctrl)]
     #[inline]
     </span><span class="kw">pub fn </span>set_keygen_cipher(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cipher: <span class="kw-2">&amp;</span>CipherRef) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
@@ -1671,7 +1671,7 @@ let cmac_key = ctx.keygen().unwrap();
     }
 
     <span class="doccomment">/// Sets the key MAC key used during key generation.
-    </span><span class="attr">#[cfg(not(boringssl))]
+    </span><span class="attr">#[cfg(not(any(boringssl, awslc)))]
     #[corresponds(EVP_PKEY_CTX_ctrl)]
     #[inline]
     </span><span class="kw">pub fn </span>set_keygen_mac_key(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
@@ -1695,7 +1695,7 @@ let cmac_key = ctx.keygen().unwrap();
     ///
     /// Requires OpenSSL 1.1.0 or newer.
     </span><span class="attr">#[corresponds(EVP_PKEY_CTX_set_hkdf_md)]
-    #[cfg(any(ossl110, boringssl, libressl360))]
+    #[cfg(any(ossl110, boringssl, libressl360, awslc))]
     #[inline]
     </span><span class="kw">pub fn </span>set_hkdf_md(<span class="kw-2">&amp;mut </span><span class="self">self</span>, digest: <span class="kw-2">&amp;</span>MdRef) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="kw">unsafe </span>{
@@ -1737,12 +1737,12 @@ let cmac_key = ctx.keygen().unwrap();
     ///
     /// Requires OpenSSL 1.1.0 or newer.
     </span><span class="attr">#[corresponds(EVP_PKEY_CTX_set1_hkdf_key)]
-    #[cfg(any(ossl110, boringssl, libressl360))]
+    #[cfg(any(ossl110, boringssl, libressl360, awslc))]
     #[inline]
     </span><span class="kw">pub fn </span>set_hkdf_key(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
-        <span class="attr">#[cfg(not(boringssl))]
+        <span class="attr">#[cfg(not(any(boringssl, awslc)))]
         </span><span class="kw">let </span>len = c_int::try_from(key.len()).unwrap();
-        <span class="attr">#[cfg(boringssl)]
+        <span class="attr">#[cfg(any(boringssl, awslc))]
         </span><span class="kw">let </span>len = key.len();
 
         <span class="kw">unsafe </span>{
@@ -1762,12 +1762,12 @@ let cmac_key = ctx.keygen().unwrap();
     ///
     /// Requires OpenSSL 1.1.0 or newer.
     </span><span class="attr">#[corresponds(EVP_PKEY_CTX_set1_hkdf_salt)]
-    #[cfg(any(ossl110, boringssl, libressl360))]
+    #[cfg(any(ossl110, boringssl, libressl360, awslc))]
     #[inline]
     </span><span class="kw">pub fn </span>set_hkdf_salt(<span class="kw-2">&amp;mut </span><span class="self">self</span>, salt: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
-        <span class="attr">#[cfg(not(boringssl))]
+        <span class="attr">#[cfg(not(any(boringssl, awslc)))]
         </span><span class="kw">let </span>len = c_int::try_from(salt.len()).unwrap();
-        <span class="attr">#[cfg(boringssl)]
+        <span class="attr">#[cfg(any(boringssl, awslc))]
         </span><span class="kw">let </span>len = salt.len();
 
         <span class="kw">unsafe </span>{
@@ -1787,12 +1787,12 @@ let cmac_key = ctx.keygen().unwrap();
     ///
     /// Requires OpenSSL 1.1.0 or newer.
     </span><span class="attr">#[corresponds(EVP_PKEY_CTX_add1_hkdf_info)]
-    #[cfg(any(ossl110, boringssl, libressl360))]
+    #[cfg(any(ossl110, boringssl, libressl360, awslc))]
     #[inline]
     </span><span class="kw">pub fn </span>add_hkdf_info(<span class="kw-2">&amp;mut </span><span class="self">self</span>, info: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
-        <span class="attr">#[cfg(not(boringssl))]
+        <span class="attr">#[cfg(not(any(boringssl, awslc)))]
         </span><span class="kw">let </span>len = c_int::try_from(info.len()).unwrap();
-        <span class="attr">#[cfg(boringssl)]
+        <span class="attr">#[cfg(any(boringssl, awslc))]
         </span><span class="kw">let </span>len = info.len();
 
         <span class="kw">unsafe </span>{
@@ -1895,7 +1895,7 @@ let cmac_key = ctx.keygen().unwrap();
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>test {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="attr">#[cfg(not(boringssl))]
+    <span class="attr">#[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">use </span><span class="kw">crate</span>::cipher::Cipher;
     <span class="kw">use </span><span class="kw">crate</span>::ec::{EcGroup, EcKey};
     <span class="kw">use </span><span class="kw">crate</span>::hash::{hash, MessageDigest};
@@ -1929,7 +1929,7 @@ let cmac_key = ctx.keygen().unwrap();
     }
 
     <span class="attr">#[test]
-    #[cfg(any(ossl102, libressl310, boringssl))]
+    #[cfg(any(ossl102, libressl310, boringssl, awslc))]
     </span><span class="kw">fn </span>rsa_oaep() {
         <span class="kw">let </span>key = <span class="macro">include_bytes!</span>(<span class="string">"../test/rsa.pem"</span>);
         <span class="kw">let </span>rsa = Rsa::private_key_from_pem(key).unwrap();
@@ -2020,7 +2020,7 @@ let cmac_key = ctx.keygen().unwrap();
     }
 
     <span class="attr">#[test]
-    #[cfg(not(boringssl))]
+    #[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">fn </span>cmac_keygen() {
         <span class="kw">let </span><span class="kw-2">mut </span>ctx = PkeyCtx::new_id(Id::CMAC).unwrap();
         ctx.keygen_init().unwrap();
@@ -2031,7 +2031,7 @@ let cmac_key = ctx.keygen().unwrap();
     }
 
     <span class="attr">#[test]
-    #[cfg(any(ossl110, boringssl, libressl360))]
+    #[cfg(any(ossl110, boringssl, libressl360, awslc))]
     </span><span class="kw">fn </span>hkdf() {
         <span class="kw">let </span><span class="kw-2">mut </span>ctx = PkeyCtx::new_id(Id::HKDF).unwrap();
         ctx.derive_init().unwrap();

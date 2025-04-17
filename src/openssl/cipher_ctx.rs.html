@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.70/src/cipher_ctx.rs`."><title>cipher_ctx.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/</div>cipher_ctx.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/openssl-0.10.72/src/cipher_ctx.rs`."><title>cipher_ctx.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="openssl" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">openssl/</div>cipher_ctx.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1104,7 +1104,172 @@
 <a href="#1103" id="1103">1103</a>
 <a href="#1104" id="1104">1104</a>
 <a href="#1105" id="1105">1105</a>
-<a href="#1106" id="1106">1106</a></pre></div><pre class="rust"><code><span class="doccomment">//! The symmetric encryption context.
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a>
+<a href="#1114" id="1114">1114</a>
+<a href="#1115" id="1115">1115</a>
+<a href="#1116" id="1116">1116</a>
+<a href="#1117" id="1117">1117</a>
+<a href="#1118" id="1118">1118</a>
+<a href="#1119" id="1119">1119</a>
+<a href="#1120" id="1120">1120</a>
+<a href="#1121" id="1121">1121</a>
+<a href="#1122" id="1122">1122</a>
+<a href="#1123" id="1123">1123</a>
+<a href="#1124" id="1124">1124</a>
+<a href="#1125" id="1125">1125</a>
+<a href="#1126" id="1126">1126</a>
+<a href="#1127" id="1127">1127</a>
+<a href="#1128" id="1128">1128</a>
+<a href="#1129" id="1129">1129</a>
+<a href="#1130" id="1130">1130</a>
+<a href="#1131" id="1131">1131</a>
+<a href="#1132" id="1132">1132</a>
+<a href="#1133" id="1133">1133</a>
+<a href="#1134" id="1134">1134</a>
+<a href="#1135" id="1135">1135</a>
+<a href="#1136" id="1136">1136</a>
+<a href="#1137" id="1137">1137</a>
+<a href="#1138" id="1138">1138</a>
+<a href="#1139" id="1139">1139</a>
+<a href="#1140" id="1140">1140</a>
+<a href="#1141" id="1141">1141</a>
+<a href="#1142" id="1142">1142</a>
+<a href="#1143" id="1143">1143</a>
+<a href="#1144" id="1144">1144</a>
+<a href="#1145" id="1145">1145</a>
+<a href="#1146" id="1146">1146</a>
+<a href="#1147" id="1147">1147</a>
+<a href="#1148" id="1148">1148</a>
+<a href="#1149" id="1149">1149</a>
+<a href="#1150" id="1150">1150</a>
+<a href="#1151" id="1151">1151</a>
+<a href="#1152" id="1152">1152</a>
+<a href="#1153" id="1153">1153</a>
+<a href="#1154" id="1154">1154</a>
+<a href="#1155" id="1155">1155</a>
+<a href="#1156" id="1156">1156</a>
+<a href="#1157" id="1157">1157</a>
+<a href="#1158" id="1158">1158</a>
+<a href="#1159" id="1159">1159</a>
+<a href="#1160" id="1160">1160</a>
+<a href="#1161" id="1161">1161</a>
+<a href="#1162" id="1162">1162</a>
+<a href="#1163" id="1163">1163</a>
+<a href="#1164" id="1164">1164</a>
+<a href="#1165" id="1165">1165</a>
+<a href="#1166" id="1166">1166</a>
+<a href="#1167" id="1167">1167</a>
+<a href="#1168" id="1168">1168</a>
+<a href="#1169" id="1169">1169</a>
+<a href="#1170" id="1170">1170</a>
+<a href="#1171" id="1171">1171</a>
+<a href="#1172" id="1172">1172</a>
+<a href="#1173" id="1173">1173</a>
+<a href="#1174" id="1174">1174</a>
+<a href="#1175" id="1175">1175</a>
+<a href="#1176" id="1176">1176</a>
+<a href="#1177" id="1177">1177</a>
+<a href="#1178" id="1178">1178</a>
+<a href="#1179" id="1179">1179</a>
+<a href="#1180" id="1180">1180</a>
+<a href="#1181" id="1181">1181</a>
+<a href="#1182" id="1182">1182</a>
+<a href="#1183" id="1183">1183</a>
+<a href="#1184" id="1184">1184</a>
+<a href="#1185" id="1185">1185</a>
+<a href="#1186" id="1186">1186</a>
+<a href="#1187" id="1187">1187</a>
+<a href="#1188" id="1188">1188</a>
+<a href="#1189" id="1189">1189</a>
+<a href="#1190" id="1190">1190</a>
+<a href="#1191" id="1191">1191</a>
+<a href="#1192" id="1192">1192</a>
+<a href="#1193" id="1193">1193</a>
+<a href="#1194" id="1194">1194</a>
+<a href="#1195" id="1195">1195</a>
+<a href="#1196" id="1196">1196</a>
+<a href="#1197" id="1197">1197</a>
+<a href="#1198" id="1198">1198</a>
+<a href="#1199" id="1199">1199</a>
+<a href="#1200" id="1200">1200</a>
+<a href="#1201" id="1201">1201</a>
+<a href="#1202" id="1202">1202</a>
+<a href="#1203" id="1203">1203</a>
+<a href="#1204" id="1204">1204</a>
+<a href="#1205" id="1205">1205</a>
+<a href="#1206" id="1206">1206</a>
+<a href="#1207" id="1207">1207</a>
+<a href="#1208" id="1208">1208</a>
+<a href="#1209" id="1209">1209</a>
+<a href="#1210" id="1210">1210</a>
+<a href="#1211" id="1211">1211</a>
+<a href="#1212" id="1212">1212</a>
+<a href="#1213" id="1213">1213</a>
+<a href="#1214" id="1214">1214</a>
+<a href="#1215" id="1215">1215</a>
+<a href="#1216" id="1216">1216</a>
+<a href="#1217" id="1217">1217</a>
+<a href="#1218" id="1218">1218</a>
+<a href="#1219" id="1219">1219</a>
+<a href="#1220" id="1220">1220</a>
+<a href="#1221" id="1221">1221</a>
+<a href="#1222" id="1222">1222</a>
+<a href="#1223" id="1223">1223</a>
+<a href="#1224" id="1224">1224</a>
+<a href="#1225" id="1225">1225</a>
+<a href="#1226" id="1226">1226</a>
+<a href="#1227" id="1227">1227</a>
+<a href="#1228" id="1228">1228</a>
+<a href="#1229" id="1229">1229</a>
+<a href="#1230" id="1230">1230</a>
+<a href="#1231" id="1231">1231</a>
+<a href="#1232" id="1232">1232</a>
+<a href="#1233" id="1233">1233</a>
+<a href="#1234" id="1234">1234</a>
+<a href="#1235" id="1235">1235</a>
+<a href="#1236" id="1236">1236</a>
+<a href="#1237" id="1237">1237</a>
+<a href="#1238" id="1238">1238</a>
+<a href="#1239" id="1239">1239</a>
+<a href="#1240" id="1240">1240</a>
+<a href="#1241" id="1241">1241</a>
+<a href="#1242" id="1242">1242</a>
+<a href="#1243" id="1243">1243</a>
+<a href="#1244" id="1244">1244</a>
+<a href="#1245" id="1245">1245</a>
+<a href="#1246" id="1246">1246</a>
+<a href="#1247" id="1247">1247</a>
+<a href="#1248" id="1248">1248</a>
+<a href="#1249" id="1249">1249</a>
+<a href="#1250" id="1250">1250</a>
+<a href="#1251" id="1251">1251</a>
+<a href="#1252" id="1252">1252</a>
+<a href="#1253" id="1253">1253</a>
+<a href="#1254" id="1254">1254</a>
+<a href="#1255" id="1255">1255</a>
+<a href="#1256" id="1256">1256</a>
+<a href="#1257" id="1257">1257</a>
+<a href="#1258" id="1258">1258</a>
+<a href="#1259" id="1259">1259</a>
+<a href="#1260" id="1260">1260</a>
+<a href="#1261" id="1261">1261</a>
+<a href="#1262" id="1262">1262</a>
+<a href="#1263" id="1263">1263</a>
+<a href="#1264" id="1264">1264</a>
+<a href="#1265" id="1265">1265</a>
+<a href="#1266" id="1266">1266</a>
+<a href="#1267" id="1267">1267</a>
+<a href="#1268" id="1268">1268</a>
+<a href="#1269" id="1269">1269</a>
+<a href="#1270" id="1270">1270</a>
+<a href="#1271" id="1271">1271</a></pre></div><pre class="rust"><code><span class="doccomment">//! The symmetric encryption context.
 //!
 //! # Examples
 //!
@@ -1158,7 +1323,7 @@
 
 </span><span class="kw">use </span><span class="kw">crate</span>::cipher::CipherRef;
 <span class="kw">use </span><span class="kw">crate</span>::error::ErrorStack;
-<span class="attr">#[cfg(not(boringssl))]
+<span class="attr">#[cfg(not(any(boringssl, awslc)))]
 </span><span class="kw">use </span><span class="kw">crate</span>::pkey::{HasPrivate, HasPublic, PKey, PKeyRef};
 <span class="kw">use crate</span>::{cvt, cvt_p};
 <span class="attr">#[cfg(ossl102)]
@@ -1308,7 +1473,7 @@
     /// Panics if `pub_keys` is not the same size as `encrypted_keys`, the IV buffer is smaller than the cipher's IV
     /// size, or if an IV is provided before the cipher.
     </span><span class="attr">#[corresponds(EVP_SealInit)]
-    #[cfg(not(boringssl))]
+    #[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>seal_init&lt;T&gt;(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         type_: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>CipherRef&gt;,
@@ -1365,7 +1530,7 @@
     /// Panics if the IV buffer is smaller than the cipher's required IV size or if the IV is provided before the
     /// cipher.
     </span><span class="attr">#[corresponds(EVP_OpenInit)]
-    #[cfg(not(boringssl))]
+    #[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>open_init&lt;T&gt;(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         type_: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>CipherRef&gt;,
@@ -1435,7 +1600,7 @@
     /// Panics if the context has not been initialized with a cipher or if the buffer is smaller than the cipher's key
     /// length.
     </span><span class="attr">#[corresponds(EVP_CIPHER_CTX_rand_key)]
-    #[cfg(not(boringssl))]
+    #[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">pub fn </span>rand_key(<span class="kw-2">&amp;</span><span class="self">self</span>, buf: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ErrorStack&gt; {
         <span class="macro">assert!</span>(buf.len() &gt;= <span class="self">self</span>.key_length());
 
@@ -1834,11 +1999,11 @@
 </span><span class="kw">mod </span>test {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use crate</span>::{cipher::Cipher, rand::rand_bytes};
-    <span class="attr">#[cfg(not(boringssl))]
+    <span class="attr">#[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">use </span>std::slice;
 
     <span class="attr">#[test]
-    #[cfg(not(boringssl))]
+    #[cfg(not(any(boringssl, awslc)))]
     </span><span class="kw">fn </span>seal_open() {
         <span class="kw">let </span>private_pem = <span class="macro">include_bytes!</span>(<span class="string">"../test/rsa.pem"</span>);
         <span class="kw">let </span>public_pem = <span class="macro">include_bytes!</span>(<span class="string">"../test/rsa.pem.pub"</span>);
@@ -1915,8 +2080,173 @@
         aes_128_cbc(cipher);
     }
 
+    <span class="attr">#[cfg(not(boringssl))]
+    #[test]
+    </span><span class="kw">fn </span>default_aes_128_ccm() {
+        <span class="comment">// from https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Algorithm-Validation-Program/documents/mac/ccmtestvectors.zip
+        </span><span class="kw">let </span>cipher = Cipher::aes_128_ccm();
+        aes_ccm(
+            cipher,
+            <span class="string">"26511fb51fcfa75cb4b44da75a6e5a0e"</span>,
+            <span class="string">"ea98ec44f5a86715014783172e"</span>,
+            <span class="string">"4da40b80579c1d9a5309f7efecb7c059a2f914511ca5fc10"</span>,
+            <span class="string">"e4692b9f06b666c7451b146c8aeb07a6e30c629d28065c3dde5940325b14b810"</span>,
+            <span class="string">"1bf0ba0ebb20d8edba59f29a9371750c9c714078f73c335d"</span>,
+            <span class="string">"2f1322ac69b848b001476323aed84c47"</span>,
+        );
+    }
+
+    <span class="attr">#[cfg(not(boringssl))]
+    #[test]
+    </span><span class="kw">fn </span>default_aes_192_ccm() {
+        <span class="comment">// from https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Algorithm-Validation-Program/documents/mac/ccmtestvectors.zip
+        </span><span class="kw">let </span>cipher = Cipher::aes_192_ccm();
+        aes_ccm(
+            cipher,
+            <span class="string">"26511fb51fcfa75cb4b44da75a6e5a0eb8d9c8f3b906f886"</span>,
+            <span class="string">"ea98ec44f5a86715014783172e"</span>,
+            <span class="string">"4da40b80579c1d9a5309f7efecb7c059a2f914511ca5fc10"</span>,
+            <span class="string">"e4692b9f06b666c7451b146c8aeb07a6e30c629d28065c3dde5940325b14b810"</span>,
+            <span class="string">"30c154c616946eccc2e241d336ad33720953e449a0e6b0f0"</span>,
+            <span class="string">"dbf8e9464909bdf337e48093c082a10b"</span>,
+        );
+    }
+
+    <span class="attr">#[cfg(not(boringssl))]
+    #[test]
+    </span><span class="kw">fn </span>default_aes_256_ccm() {
+        <span class="comment">// from https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Algorithm-Validation-Program/documents/mac/ccmtestvectors.zip
+        </span><span class="kw">let </span>cipher = Cipher::aes_256_ccm();
+        aes_ccm(
+            cipher,
+            <span class="string">"314a202f836f9f257e22d8c11757832ae5131d357a72df88f3eff0ffcee0da4e"</span>,
+            <span class="string">"3542fbe0f59a6d5f3abf619b7d"</span>,
+            <span class="string">"c5b3d71312ea14f2f8fae5bd1a453192b6604a45db75c5ed"</span>,
+            <span class="string">"dd4531f158a2fa3bc8a339f770595048f4a42bc1b03f2e824efc6ba4985119d8"</span>,
+            <span class="string">"39c2e8f6edfe663b90963b98eb79e2d4f7f28a5053ae8881"</span>,
+            <span class="string">"567a6b4426f1667136bed4a5e32a2bc1"</span>,
+        );
+    }
+
+    <span class="attr">#[cfg(not(boringssl))]
+    </span><span class="kw">fn </span>aes_ccm(
+        cipher: <span class="kw-2">&amp;</span>CipherRef,
+        key: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        iv: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        pt: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        aad: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        ct: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        tag: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+    ) {
+        <span class="kw">let </span>key = hex::decode(key).unwrap();
+        <span class="kw">let </span>iv = hex::decode(iv).unwrap();
+        <span class="kw">let </span>pt = hex::decode(pt).unwrap();
+        <span class="kw">let </span>ct = hex::decode(ct).unwrap();
+        <span class="kw">let </span>aad = hex::decode(aad).unwrap();
+        <span class="kw">let </span>tag = hex::decode(tag).unwrap();
+
+        <span class="kw">let </span><span class="kw-2">mut </span>ctx = CipherCtx::new().unwrap();
+
+        ctx.encrypt_init(<span class="prelude-val">Some</span>(cipher), <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
+        ctx.set_iv_length(iv.len()).unwrap();
+        ctx.set_tag_length(tag.len()).unwrap();
+        ctx.encrypt_init(<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>key), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>iv)).unwrap();
+        ctx.set_data_len(pt.len()).unwrap();
+
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[];
+        ctx.cipher_update(<span class="kw-2">&amp;</span>aad, <span class="prelude-val">None</span>).unwrap();
+        ctx.cipher_update_vec(<span class="kw-2">&amp;</span>pt, <span class="kw-2">&amp;mut </span>buf).unwrap();
+        ctx.cipher_final_vec(<span class="kw-2">&amp;mut </span>buf).unwrap();
+        <span class="macro">assert_eq!</span>(buf, ct);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>out_tag = <span class="macro">vec!</span>[<span class="number">0u8</span>; tag.len()];
+        ctx.tag(<span class="kw-2">&amp;mut </span>out_tag).unwrap();
+        <span class="macro">assert_eq!</span>(tag, out_tag);
+
+        ctx.decrypt_init(<span class="prelude-val">Some</span>(cipher), <span class="prelude-val">None</span>, <span class="prelude-val">None</span>).unwrap();
+        ctx.set_iv_length(iv.len()).unwrap();
+        ctx.set_tag(<span class="kw-2">&amp;</span>tag).unwrap();
+        ctx.decrypt_init(<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>key), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>iv)).unwrap();
+        ctx.set_data_len(pt.len()).unwrap();
+
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[];
+        ctx.cipher_update(<span class="kw-2">&amp;</span>aad, <span class="prelude-val">None</span>).unwrap();
+        ctx.cipher_update_vec(<span class="kw-2">&amp;</span>ct, <span class="kw-2">&amp;mut </span>buf).unwrap();
+        <span class="comment">// Some older libraries don't support calling EVP_CipherFinal/EVP_DecryptFinal for CCM
+        // https://wiki.openssl.org/index.php/EVP_Authenticated_Encryption_and_Decryption#Authenticated_Decryption_using_CCM_mode
+        </span><span class="attr">#[cfg(any(ossl111, awslc, boringssl))]
+        </span>ctx.cipher_final_vec(<span class="kw-2">&amp;mut </span>buf).unwrap();
+
+        <span class="macro">assert_eq!</span>(buf, pt);
+    }
+
+    <span class="attr">#[cfg(not(any(boringssl, awslc)))]
+    #[test]
+    </span><span class="kw">fn </span>default_aes_128_xts() {
+        <span class="comment">// https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Algorithm-Validation-Program/documents/aes/XTSTestVectors.zip
+        </span><span class="kw">let </span>cipher = Cipher::aes_128_xts();
+        aes_xts(
+            cipher,
+            <span class="string">"a1b90cba3f06ac353b2c343876081762090923026e91771815f29dab01932f2f"</span>,
+            <span class="string">"4faef7117cda59c66e4b92013e768ad5"</span>,
+            <span class="string">"ebabce95b14d3c8d6fb350390790311c"</span>,
+            <span class="string">"778ae8b43cb98d5a825081d5be471c63"</span>,
+        );
+    }
+
+    <span class="attr">#[cfg(not(boringssl))]
+    #[test]
+    </span><span class="kw">fn </span>default_aes_256_xts() {
+        <span class="comment">// https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Algorithm-Validation-Program/documents/aes/XTSTestVectors.zip
+        </span><span class="kw">let </span>cipher = Cipher::aes_256_xts();
+        aes_xts(cipher, <span class="string">"1ea661c58d943a0e4801e42f4b0947149e7f9f8e3e68d0c7505210bd311a0e7cd6e13ffdf2418d8d1911c004cda58da3d619b7e2b9141e58318eea392cf41b08"</span>, <span class="string">"adf8d92627464ad2f0428e84a9f87564"</span>, <span class="string">"2eedea52cd8215e1acc647e810bbc3642e87287f8d2e57e36c0a24fbc12a202e"</span>, <span class="string">"cbaad0e2f6cea3f50b37f934d46a9b130b9d54f07e34f36af793e86f73c6d7db"</span>);
+    }
+
+    <span class="attr">#[cfg(not(boringssl))]
+    </span><span class="kw">fn </span>aes_xts(
+        cipher: <span class="kw-2">&amp;</span>CipherRef,
+        key: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        i: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        pt: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        ct: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+    ) {
+        <span class="kw">let </span>key = hex::decode(key).unwrap();
+        <span class="kw">let </span>i = hex::decode(i).unwrap();
+        <span class="kw">let </span>pt = hex::decode(pt).unwrap();
+        <span class="kw">let </span>ct = hex::decode(ct).unwrap();
+
+        <span class="kw">let </span><span class="kw-2">mut </span>ctx = CipherCtx::new().unwrap();
+        ctx.encrypt_init(<span class="prelude-val">Some</span>(cipher), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>key), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>i))
+            .unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[];
+        ctx.cipher_update_vec(<span class="kw-2">&amp;</span>pt, <span class="kw-2">&amp;mut </span>buf).unwrap();
+        ctx.cipher_final_vec(<span class="kw-2">&amp;mut </span>buf).unwrap();
+
+        <span class="macro">assert_eq!</span>(ct, buf);
+
+        ctx.decrypt_init(<span class="prelude-val">Some</span>(cipher), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>key), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>i))
+            .unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="macro">vec!</span>[];
+        ctx.cipher_update_vec(<span class="kw-2">&amp;</span>ct, <span class="kw-2">&amp;mut </span>buf).unwrap();
+        ctx.cipher_final_vec(<span class="kw-2">&amp;mut </span>buf).unwrap();
+
+        <span class="macro">assert_eq!</span>(pt, buf);
+    }
+
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_stream_ciphers() {
+        <span class="attr">#[cfg(not(boringssl))]
+        </span>{
+            test_stream_cipher(Cipher::aes_128_cfb1());
+            test_stream_cipher(Cipher::aes_128_cfb8());
+            test_stream_cipher(Cipher::aes_128_cfb128());
+            test_stream_cipher(Cipher::aes_192_cfb1());
+            test_stream_cipher(Cipher::aes_192_cfb8());
+            test_stream_cipher(Cipher::aes_192_cfb128());
+            test_stream_cipher(Cipher::aes_256_cfb1());
+            test_stream_cipher(Cipher::aes_256_cfb8());
+            test_stream_cipher(Cipher::aes_256_cfb128());
+        }
         test_stream_cipher(Cipher::aes_192_ctr());
         test_stream_cipher(Cipher::aes_256_ctr());
     }

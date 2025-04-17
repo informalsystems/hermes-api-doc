@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.23/src/server/server_conn.rs`."><title>server_conn.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/server/</div>server_conn.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.26/src/server/server_conn.rs`."><title>server_conn.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/server/</div>server_conn.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1189,7 +1189,50 @@
 <a href="#1188" id="1188">1188</a>
 <a href="#1189" id="1189">1189</a>
 <a href="#1190" id="1190">1190</a>
-<a href="#1191" id="1191">1191</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::boxed::Box;
+<a href="#1191" id="1191">1191</a>
+<a href="#1192" id="1192">1192</a>
+<a href="#1193" id="1193">1193</a>
+<a href="#1194" id="1194">1194</a>
+<a href="#1195" id="1195">1195</a>
+<a href="#1196" id="1196">1196</a>
+<a href="#1197" id="1197">1197</a>
+<a href="#1198" id="1198">1198</a>
+<a href="#1199" id="1199">1199</a>
+<a href="#1200" id="1200">1200</a>
+<a href="#1201" id="1201">1201</a>
+<a href="#1202" id="1202">1202</a>
+<a href="#1203" id="1203">1203</a>
+<a href="#1204" id="1204">1204</a>
+<a href="#1205" id="1205">1205</a>
+<a href="#1206" id="1206">1206</a>
+<a href="#1207" id="1207">1207</a>
+<a href="#1208" id="1208">1208</a>
+<a href="#1209" id="1209">1209</a>
+<a href="#1210" id="1210">1210</a>
+<a href="#1211" id="1211">1211</a>
+<a href="#1212" id="1212">1212</a>
+<a href="#1213" id="1213">1213</a>
+<a href="#1214" id="1214">1214</a>
+<a href="#1215" id="1215">1215</a>
+<a href="#1216" id="1216">1216</a>
+<a href="#1217" id="1217">1217</a>
+<a href="#1218" id="1218">1218</a>
+<a href="#1219" id="1219">1219</a>
+<a href="#1220" id="1220">1220</a>
+<a href="#1221" id="1221">1221</a>
+<a href="#1222" id="1222">1222</a>
+<a href="#1223" id="1223">1223</a>
+<a href="#1224" id="1224">1224</a>
+<a href="#1225" id="1225">1225</a>
+<a href="#1226" id="1226">1226</a>
+<a href="#1227" id="1227">1227</a>
+<a href="#1228" id="1228">1228</a>
+<a href="#1229" id="1229">1229</a>
+<a href="#1230" id="1230">1230</a>
+<a href="#1231" id="1231">1231</a>
+<a href="#1232" id="1232">1232</a>
+<a href="#1233" id="1233">1233</a>
+<a href="#1234" id="1234">1234</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::boxed::Box;
 <span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>core::fmt;
 <span class="kw">use </span>core::fmt::{Debug, Formatter};
@@ -1201,6 +1244,8 @@
 <span class="kw">use </span>pki_types::{DnsName, UnixTime};
 
 <span class="kw">use </span><span class="kw">super</span>::hs;
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::WantsVerifier;
 <span class="kw">use </span><span class="kw">crate</span>::builder::ConfigBuilder;
 <span class="kw">use </span><span class="kw">crate</span>::common_state::{CommonState, Side};
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
@@ -1216,14 +1261,13 @@
 <span class="kw">use </span><span class="kw">crate</span>::msgs::enums::CertificateType;
 <span class="kw">use </span><span class="kw">crate</span>::msgs::handshake::{ClientHelloPayload, ProtocolName, ServerExtension};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::message::Message;
+<span class="kw">use </span><span class="kw">crate</span>::suites::ExtractedSecrets;
 <span class="kw">use </span><span class="kw">crate</span>::sync::Arc;
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::time_provider::DefaultTimeProvider;
 <span class="kw">use </span><span class="kw">crate</span>::time_provider::TimeProvider;
 <span class="kw">use </span><span class="kw">crate</span>::vecbuf::ChunkVecBuffer;
-<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::WantsVerifier;
-<span class="kw">use crate</span>::{compress, sign, verify, versions, DistinguishedName, KeyLog, WantsVersions};
+<span class="kw">use crate</span>::{DistinguishedName, KeyLog, WantsVersions, compress, sign, verify, versions};
 
 <span class="doccomment">/// A trait for the ability to store server session data.
 ///
@@ -1432,6 +1476,31 @@
 /// * [`ServerConfig::cert_compression_cache`]: caches the most recently used 4 compressions
 /// * [`ServerConfig::cert_decompressors`]: depends on the crate features, see [`compress::default_cert_decompressors()`].
 ///
+/// # Sharing resumption storage between `ServerConfig`s
+///
+/// In a program using many `ServerConfig`s it may improve resumption rates
+/// (which has a significant impact on connection performance) if those
+/// configs share [`ServerConfig::session_storage`] or [`ServerConfig::ticketer`].
+///
+/// However, caution is needed: other fields influence the security of a session
+/// and resumption between them can be surprising.  If sharing
+/// [`ServerConfig::session_storage`] or [`ServerConfig::ticketer`] between two
+/// `ServerConfig`s, you should also evaluate the following fields and ensure
+/// they are equivalent:
+///
+/// * `ServerConfig::verifier` -- client authentication requirements,
+/// * [`ServerConfig::cert_resolver`] -- server identities.
+///
+/// To illustrate, imagine two `ServerConfig`s `A` and `B`.  `A` requires
+/// client authentication, `B` does not.  If `A` and `B` shared a resumption store,
+/// it would be possible for a session originated by `B` (that is, an unauthenticated client)
+/// to be inserted into the store, and then resumed by `A`.  This would give a false
+/// impression to the user of `A` that the client was authenticated.  This is possible
+/// whether the resumption is performed statefully (via [`ServerConfig::session_storage`])
+/// or statelessly (via [`ServerConfig::ticketer`]).
+///
+/// _Unlike_ `ClientConfig`, rustls does not enforce any policy here.
+///
 /// [`RootCertStore`]: crate::RootCertStore
 /// [`ServerSessionMemoryCache`]: crate::server::handy::ServerSessionMemoryCache
 </span><span class="attr">#[derive(Clone, Debug)]
@@ -1458,9 +1527,15 @@
     </span><span class="kw">pub </span>max_fragment_size: <span class="prelude-ty">Option</span>&lt;usize&gt;,
 
     <span class="doccomment">/// How to store client sessions.
+    ///
+    /// See [ServerConfig#sharing-resumption-storage-between-serverconfigs]
+    /// for a warning related to this field.
     </span><span class="kw">pub </span>session_storage: Arc&lt;<span class="kw">dyn </span>StoresServerSessions&gt;,
 
     <span class="doccomment">/// How to produce tickets.
+    ///
+    /// See [ServerConfig#sharing-resumption-storage-between-serverconfigs]
+    /// for a warning related to this field.
     </span><span class="kw">pub </span>ticketer: Arc&lt;<span class="kw">dyn </span>ProducesTickets&gt;,
 
     <span class="doccomment">/// How to choose a server cert and key. This is usually set by
@@ -2082,6 +2157,12 @@
             )<span class="question-mark">?</span>),
         })
     }
+
+    <span class="doccomment">/// Extract secrets, so they can be used when configuring kTLS, for example.
+    /// Should be used with care as it exposes secret key material.
+    </span><span class="kw">pub fn </span>dangerous_extract_secrets(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;ExtractedSecrets, Error&gt; {
+        <span class="self">self</span>.inner.dangerous_extract_secrets()
+    }
 }
 
 <span class="kw">impl </span>Deref <span class="kw">for </span>UnbufferedServerConnection {
@@ -2101,6 +2182,10 @@
 <span class="kw">impl </span>UnbufferedConnectionCommon&lt;ServerConnectionData&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>pop_early_data(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;u8&gt;&gt; {
         <span class="self">self</span>.core.data.early_data.pop()
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>peek_early_data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt; {
+        <span class="self">self</span>.core.data.early_data.peek()
     }
 }
 
@@ -2242,11 +2327,16 @@
         <span class="macro">matches!</span>(<span class="self">self</span>, <span class="self">Self</span>::Rejected)
     }
 
+    <span class="kw">fn </span>peek(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::Accepted { received, .. } =&gt; received.peek(),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+
     <span class="kw">fn </span>pop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;u8&gt;&gt; {
         <span class="kw">match </span><span class="self">self </span>{
-            <span class="self">Self</span>::Accepted {
-                <span class="kw-2">ref mut </span>received, ..
-            } =&gt; received.pop(),
+            <span class="self">Self</span>::Accepted { received, .. } =&gt; received.pop(),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
@@ -2254,9 +2344,7 @@
     <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
     </span><span class="kw">fn </span>read(<span class="kw-2">&amp;mut </span><span class="self">self</span>, buf: <span class="kw-2">&amp;mut </span>[u8]) -&gt; io::Result&lt;usize&gt; {
         <span class="kw">match </span><span class="self">self </span>{
-            <span class="self">Self</span>::Accepted {
-                <span class="kw-2">ref mut </span>received, ..
-            } =&gt; received.read(buf),
+            <span class="self">Self</span>::Accepted { received, .. } =&gt; received.read(buf),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(io::Error::from(io::ErrorKind::BrokenPipe)),
         }
     }
@@ -2264,27 +2352,25 @@
     <span class="attr">#[cfg(read_buf)]
     </span><span class="kw">fn </span>read_buf(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cursor: core::io::BorrowedCursor&lt;<span class="lifetime">'_</span>&gt;) -&gt; io::Result&lt;()&gt; {
         <span class="kw">match </span><span class="self">self </span>{
-            <span class="self">Self</span>::Accepted {
-                <span class="kw-2">ref mut </span>received, ..
-            } =&gt; received.read_buf(cursor),
+            <span class="self">Self</span>::Accepted { received, .. } =&gt; received.read_buf(cursor),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(io::Error::from(io::ErrorKind::BrokenPipe)),
         }
     }
 
     <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>take_received_plaintext(<span class="kw-2">&amp;mut </span><span class="self">self</span>, bytes: Payload&lt;<span class="lifetime">'_</span>&gt;) -&gt; bool {
         <span class="kw">let </span>available = bytes.bytes().len();
-        <span class="kw">match </span><span class="self">self </span>{
-            <span class="self">Self</span>::Accepted {
-                <span class="kw-2">ref mut </span>received,
-                <span class="kw-2">ref mut </span>left,
-            } <span class="kw">if </span>received.apply_limit(available) == available &amp;&amp; available &lt;= <span class="kw-2">*</span>left =&gt; {
-                received.append(bytes.into_vec());
-                <span class="kw-2">*</span>left -= available;
-                <span class="bool-val">true
-            </span>}
-            <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
+        <span class="kw">let </span><span class="self">Self</span>::Accepted { received, left } = <span class="self">self </span><span class="kw">else </span>{
+            <span class="kw">return </span><span class="bool-val">false</span>;
+        };
+
+        <span class="kw">if </span>received.apply_limit(available) != available || available &gt; <span class="kw-2">*</span>left {
+            <span class="kw">return </span><span class="bool-val">false</span>;
         }
-    }
+
+        received.append(bytes.into_vec());
+        <span class="kw-2">*</span>left -= available;
+        <span class="bool-val">true
+    </span>}
 }
 
 <span class="kw">impl </span>Debug <span class="kw">for </span>EarlyDataState {

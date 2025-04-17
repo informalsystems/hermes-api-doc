@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["aead","ecc","hash","kdf","kem","mac","stream"]};
+window.SIDEBAR_ITEMS = {"mod":["aead","ecc","hash","hpke","kdf","kem","mac","stream"]};

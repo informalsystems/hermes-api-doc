@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-webpki-0.102.8/src/error.rs`."><title>error.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="webpki" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">webpki/</div>error.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-webpki-0.103.1/src/error.rs`."><title>error.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="webpki" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">webpki/</div>error.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -332,7 +332,42 @@
 <a href="#331" id="331">331</a>
 <a href="#332" id="332">332</a>
 <a href="#333" id="333">333</a>
-<a href="#334" id="334">334</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2015 Brian Smith.
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2015 Brian Smith.
 //
 // Permission to use, copy, modify, and/or distribute this software for any
 // purpose with or without fee is hereby granted, provided that the above
@@ -346,11 +381,19 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-</span><span class="kw">use </span>core::fmt;
+</span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>alloc::string::String;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>alloc::vec::Vec;
+<span class="kw">use </span>core::fmt;
 <span class="kw">use </span>core::ops::ControlFlow;
 
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>pki_types::ServerName;
+<span class="kw">use </span>pki_types::UnixTime;
+
 <span class="doccomment">/// An error that occurs during certificate validation or name validation.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+</span><span class="attr">#[derive(Clone, Debug, PartialEq, Eq)]
 #[non_exhaustive]
 </span><span class="kw">pub enum </span>Error {
     <span class="doccomment">/// The encoding of some ASN.1 DER-encoded item is invalid.
@@ -364,21 +407,36 @@
 
     <span class="doccomment">/// The certificate is expired; i.e. the time it is being validated for is
     /// later than the certificate's notAfter time.
-    </span>CertExpired,
+    </span>CertExpired {
+        <span class="doccomment">/// The validation time.
+        </span>time: UnixTime,
+        <span class="doccomment">/// The notAfter time of the certificate.
+        </span>not_after: UnixTime,
+    },
 
     <span class="doccomment">/// The certificate is not valid for the name it is being validated for.
-    </span>CertNotValidForName,
+    </span>CertNotValidForName(InvalidNameContext),
 
     <span class="doccomment">/// The certificate is not valid yet; i.e. the time it is being validated
     /// for is earlier than the certificate's notBefore time.
-    </span>CertNotValidYet,
+    </span>CertNotValidYet {
+        <span class="doccomment">/// The validation time.
+        </span>time: UnixTime,
+        <span class="doccomment">/// The notBefore time of the certificate.
+        </span>not_before: UnixTime,
+    },
 
     <span class="doccomment">/// The certificate, or one of its issuers, has been revoked.
     </span>CertRevoked,
 
     <span class="doccomment">/// The CRL is expired; i.e. the verification time is not before the time
     /// in the CRL nextUpdate field.
-    </span>CrlExpired,
+    </span>CrlExpired {
+        <span class="doccomment">/// The validation time.
+        </span>time: UnixTime,
+        <span class="doccomment">/// The nextUpdate time of the CRL.
+        </span>next_update: UnixTime,
+    },
 
     <span class="doccomment">/// An end-entity certificate is being used as a CA certificate.
     </span>EndEntityUsedAsCa,
@@ -535,11 +593,7 @@
     // the most specific error.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>most_specific(<span class="self">self</span>, new: <span class="self">Self</span>) -&gt; <span class="self">Self </span>{
         <span class="comment">// Assign an error a numeric value ranking it by specificity.
-        </span><span class="kw">if </span><span class="self">self</span>.rank() &gt;= new.rank() {
-            <span class="self">self
-        </span>} <span class="kw">else </span>{
-            new
-        }
+        </span><span class="kw">if </span><span class="self">self</span>.rank() &gt;= new.rank() { <span class="self">self </span>} <span class="kw">else </span>{ new }
     }
 
     <span class="comment">// Return a numeric indication of how specific the error is, where an error with a higher rank
@@ -549,9 +603,9 @@
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>rank(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
         <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self </span>{
             <span class="comment">// Errors related to certificate validity
-            </span><span class="self">Self</span>::CertNotValidYet | <span class="self">Self</span>::CertExpired =&gt; <span class="number">290</span>,
-            <span class="self">Self</span>::CertNotValidForName =&gt; <span class="number">280</span>,
-            <span class="self">Self</span>::CertRevoked | <span class="self">Self</span>::UnknownRevocationStatus | <span class="self">Self</span>::CrlExpired =&gt; <span class="number">270</span>,
+            </span><span class="self">Self</span>::CertNotValidYet { .. } | <span class="self">Self</span>::CertExpired { .. } =&gt; <span class="number">290</span>,
+            <span class="self">Self</span>::CertNotValidForName(<span class="kw">_</span>) =&gt; <span class="number">280</span>,
+            <span class="self">Self</span>::CertRevoked | <span class="self">Self</span>::UnknownRevocationStatus | <span class="self">Self</span>::CrlExpired { .. } =&gt; <span class="number">270</span>,
             <span class="self">Self</span>::InvalidCrlSignatureForPublicKey | <span class="self">Self</span>::InvalidSignatureForPublicKey =&gt; <span class="number">260</span>,
             <span class="self">Self</span>::SignatureAlgorithmMismatch =&gt; <span class="number">250</span>,
             <span class="self">Self</span>::RequiredEkuNotFound =&gt; <span class="number">240</span>,
@@ -633,6 +687,22 @@
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl </span>::std::error::Error <span class="kw">for </span>Error {}
+
+<span class="doccomment">/// Additional context for the `CertNotValidForName` error variant.
+///
+/// The contents of this type depend on whether the `alloc` feature is enabled.
+</span><span class="attr">#[derive(Clone, Debug, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>InvalidNameContext {
+    <span class="doccomment">/// Expected server name.
+    </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">pub </span>expected: ServerName&lt;<span class="lifetime">'static</span>&gt;,
+    <span class="doccomment">/// The names presented in the end entity certificate.
+    ///
+    /// These are the subject names as present in the leaf certificate and may contain DNS names
+    /// with or without a wildcard label as well as IP address names.
+    </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">pub </span>presented: Vec&lt;String&gt;,
+}
 
 <span class="doccomment">/// Trailing data was found while parsing DER-encoded input for the named type.
 </span><span class="attr">#[allow(missing_docs)]

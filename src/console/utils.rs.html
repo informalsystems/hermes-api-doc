@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/console-0.15.10/src/utils.rs`."><title>utils.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="console" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">console/</div>utils.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/console-0.15.11/src/utils.rs`."><title>utils.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="console" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">console/</div>utils.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -960,7 +960,12 @@
 <a href="#959" id="959">959</a>
 <a href="#960" id="960">960</a>
 <a href="#961" id="961">961</a>
-<a href="#962" id="962">962</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
+<a href="#962" id="962">962</a>
+<a href="#963" id="963">963</a>
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::collections::BTreeSet;
 <span class="kw">use </span>std::env;
 <span class="kw">use </span>std::fmt;
@@ -1128,15 +1133,15 @@
 }
 
 <span class="kw">impl </span>Default <span class="kw">for </span>Style {
-    <span class="kw">fn </span>default() -&gt; Style {
-        Style::new()
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new()
     }
 }
 
 <span class="kw">impl </span>Style {
     <span class="doccomment">/// Returns an empty default style.
-    </span><span class="kw">pub fn </span>new() -&gt; Style {
-        Style {
+    </span><span class="kw">pub const fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
             fg: <span class="prelude-val">None</span>,
             bg: <span class="prelude-val">None</span>,
             fg_bright: <span class="bool-val">false</span>,
@@ -1154,8 +1159,8 @@
     /// create a string that is red on blue background. `9.on_12` is
     /// the same, but using 256 color numbers. Unknown terms are
     /// ignored.
-    </span><span class="kw">pub fn </span>from_dotted_str(s: <span class="kw-2">&amp;</span>str) -&gt; Style {
-        <span class="kw">let </span><span class="kw-2">mut </span>rv = Style::new();
+    </span><span class="kw">pub fn </span>from_dotted_str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>rv = <span class="self">Self</span>::new();
         <span class="kw">for </span>part <span class="kw">in </span>s.split(<span class="string">'.'</span>) {
             rv = <span class="kw">match </span>part {
                 <span class="string">"black" </span>=&gt; rv.black(),
@@ -1215,14 +1220,14 @@
     ///
     /// This overrides the automatic detection.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>force_styling(<span class="kw-2">mut </span><span class="self">self</span>, value: bool) -&gt; Style {
+    </span><span class="kw">pub const fn </span>force_styling(<span class="kw-2">mut </span><span class="self">self</span>, value: bool) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.force = <span class="prelude-val">Some</span>(value);
         <span class="self">self
     </span>}
 
     <span class="doccomment">/// Specifies that style is applying to something being written on stderr.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>for_stderr(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>for_stderr(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.for_stderr = <span class="bool-val">true</span>;
         <span class="self">self
     </span>}
@@ -1231,152 +1236,152 @@
     ///
     /// This is the default behaviour.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>for_stdout(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>for_stdout(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.for_stderr = <span class="bool-val">false</span>;
         <span class="self">self
     </span>}
 
     <span class="doccomment">/// Sets a foreground color.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>fg(<span class="kw-2">mut </span><span class="self">self</span>, color: Color) -&gt; Style {
+    </span><span class="kw">pub const fn </span>fg(<span class="kw-2">mut </span><span class="self">self</span>, color: Color) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg = <span class="prelude-val">Some</span>(color);
         <span class="self">self
     </span>}
 
     <span class="doccomment">/// Sets a background color.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>bg(<span class="kw-2">mut </span><span class="self">self</span>, color: Color) -&gt; Style {
+    </span><span class="kw">pub const fn </span>bg(<span class="kw-2">mut </span><span class="self">self</span>, color: Color) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg = <span class="prelude-val">Some</span>(color);
         <span class="self">self
     </span>}
 
     <span class="doccomment">/// Adds a attr.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>attr(<span class="kw-2">mut </span><span class="self">self</span>, attr: Attribute) -&gt; Style {
+    </span><span class="kw">pub fn </span>attr(<span class="kw-2">mut </span><span class="self">self</span>, attr: Attribute) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.attrs.insert(attr);
         <span class="self">self
     </span>}
 
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>black(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>black(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg(Color::Black)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>red(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>red(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg(Color::Red)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>green(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>green(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg(Color::Green)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>yellow(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>yellow(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg(Color::Yellow)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>blue(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>blue(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg(Color::Blue)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>magenta(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>magenta(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg(Color::Magenta)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>cyan(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>cyan(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg(Color::Cyan)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>white(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>white(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg(Color::White)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>color256(<span class="self">self</span>, color: u8) -&gt; Style {
+    </span><span class="kw">pub const fn </span>color256(<span class="self">self</span>, color: u8) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg(Color::Color256(color))
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>bright(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>bright(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.fg_bright = <span class="bool-val">true</span>;
         <span class="self">self
     </span>}
 
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>on_black(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>on_black(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg(Color::Black)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>on_red(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>on_red(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg(Color::Red)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>on_green(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>on_green(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg(Color::Green)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>on_yellow(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>on_yellow(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg(Color::Yellow)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>on_blue(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>on_blue(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg(Color::Blue)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>on_magenta(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>on_magenta(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg(Color::Magenta)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>on_cyan(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>on_cyan(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg(Color::Cyan)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>on_white(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>on_white(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg(Color::White)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>on_color256(<span class="self">self</span>, color: u8) -&gt; Style {
+    </span><span class="kw">pub const fn </span>on_color256(<span class="self">self</span>, color: u8) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg(Color::Color256(color))
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>on_bright(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub const fn </span>on_bright(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.bg_bright = <span class="bool-val">true</span>;
         <span class="self">self
     </span>}
 
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>bold(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub fn </span>bold(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.attr(Attribute::Bold)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>dim(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub fn </span>dim(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.attr(Attribute::Dim)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>italic(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub fn </span>italic(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.attr(Attribute::Italic)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>underlined(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub fn </span>underlined(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.attr(Attribute::Underlined)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>blink(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub fn </span>blink(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.attr(Attribute::Blink)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>blink_fast(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub fn </span>blink_fast(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.attr(Attribute::BlinkFast)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>reverse(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub fn </span>reverse(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.attr(Attribute::Reverse)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>hidden(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub fn </span>hidden(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.attr(Attribute::Hidden)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>strikethrough(<span class="self">self</span>) -&gt; Style {
+    </span><span class="kw">pub fn </span>strikethrough(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.attr(Attribute::StrikeThrough)
     }
 }
@@ -1681,7 +1686,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"ansi-parsing"</span>)]
-</span><span class="kw">fn </span>char_width(c: char) -&gt; usize {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>char_width(c: char) -&gt; usize {
     <span class="attr">#[cfg(feature = <span class="string">"unicode-width"</span>)]
     </span>{
         <span class="kw">use </span>unicode_width::UnicodeWidthChar;
@@ -1693,6 +1698,11 @@
         <span class="number">1
     </span>}
 }
+
+<span class="attr">#[cfg(not(feature = <span class="string">"ansi-parsing"</span>))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>char_width(_c: char) -&gt; usize {
+    <span class="number">1
+</span>}
 
 <span class="doccomment">/// Truncates a string to a certain number of characters.
 ///

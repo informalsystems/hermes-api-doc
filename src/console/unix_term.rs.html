@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/console-0.15.10/src/unix_term.rs`."><title>unix_term.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="console" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">console/</div>unix_term.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/console-0.15.11/src/unix_term.rs`."><title>unix_term.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="console" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">console/</div>unix_term.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -364,13 +364,40 @@
 <a href="#363" id="363">363</a>
 <a href="#364" id="364">364</a>
 <a href="#365" id="365">365</a>
-<a href="#366" id="366">366</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::env;
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::env;
 <span class="kw">use </span>std::fmt::Display;
 <span class="kw">use </span>std::fs;
-<span class="kw">use </span>std::io;
-<span class="kw">use </span>std::io::{BufRead, BufReader};
+<span class="kw">use </span>std::io::{<span class="self">self</span>, BufRead, BufReader};
 <span class="kw">use </span>std::mem;
-<span class="kw">use </span>std::os::unix::io::AsRawFd;
+<span class="kw">use </span>std::os::fd::{AsRawFd, RawFd};
 <span class="kw">use </span>std::str;
 
 <span class="attr">#[cfg(not(target_os = <span class="string">"macos"</span>))]
@@ -379,16 +406,16 @@
 <span class="kw">use </span><span class="kw">crate</span>::kb::Key;
 <span class="kw">use </span><span class="kw">crate</span>::term::Term;
 
-<span class="kw">pub use </span><span class="kw">crate</span>::common_term::<span class="kw-2">*</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="kw">crate</span>::common_term::<span class="kw-2">*</span>;
 
-<span class="kw">pub const </span>DEFAULT_WIDTH: u16 = <span class="number">80</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>DEFAULT_WIDTH: u16 = <span class="number">80</span>;
 
 <span class="attr">#[inline]
-</span><span class="kw">pub fn </span>is_a_terminal(out: <span class="kw-2">&amp;</span>Term) -&gt; bool {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_a_terminal(out: <span class="kw-2">&amp;</span><span class="kw">impl </span>AsRawFd) -&gt; bool {
     <span class="kw">unsafe </span>{ libc::isatty(out.as_raw_fd()) != <span class="number">0 </span>}
 }
 
-<span class="kw">pub fn </span>is_a_color_terminal(out: <span class="kw-2">&amp;</span>Term) -&gt; bool {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_a_color_terminal(out: <span class="kw-2">&amp;</span>Term) -&gt; bool {
     <span class="kw">if </span>!is_a_terminal(out) {
         <span class="kw">return </span><span class="bool-val">false</span>;
     }
@@ -403,7 +430,7 @@
     }
 }
 
-<span class="kw">pub fn </span>c_result&lt;F: FnOnce() -&gt; libc::c_int&gt;(f: F) -&gt; io::Result&lt;()&gt; {
+<span class="kw">fn </span>c_result&lt;F: FnOnce() -&gt; libc::c_int&gt;(f: F) -&gt; io::Result&lt;()&gt; {
     <span class="kw">let </span>res = f();
     <span class="kw">if </span>res != <span class="number">0 </span>{
         <span class="prelude-val">Err</span>(io::Error::last_os_error())
@@ -412,58 +439,97 @@
     }
 }
 
-<span class="kw">pub fn </span>terminal_size(out: <span class="kw-2">&amp;</span>Term) -&gt; <span class="prelude-ty">Option</span>&lt;(u16, u16)&gt; {
-    <span class="kw">unsafe </span>{
-        <span class="kw">if </span>libc::isatty(out.as_raw_fd()) != <span class="number">1 </span>{
-            <span class="kw">return </span><span class="prelude-val">None</span>;
-        }
-
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>terminal_size(out: <span class="kw-2">&amp;</span>Term) -&gt; <span class="prelude-ty">Option</span>&lt;(u16, u16)&gt; {
+    <span class="kw">if </span>!is_a_terminal(out) {
+        <span class="kw">return </span><span class="prelude-val">None</span>;
+    }
+    <span class="kw">let </span>winsize = <span class="kw">unsafe </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>winsize: libc::winsize = mem::zeroed();
 
         <span class="comment">// FIXME: ".into()" used as a temporary fix for a libc bug
         // https://github.com/rust-lang/libc/pull/704
         </span><span class="attr">#[allow(clippy::useless_conversion)]
         </span>libc::ioctl(out.as_raw_fd(), libc::TIOCGWINSZ.into(), <span class="kw-2">&amp;mut </span>winsize);
-        <span class="kw">if </span>winsize.ws_row &gt; <span class="number">0 </span>&amp;&amp; winsize.ws_col &gt; <span class="number">0 </span>{
-            <span class="prelude-val">Some</span>((winsize.ws_row <span class="kw">as </span>u16, winsize.ws_col <span class="kw">as </span>u16))
-        } <span class="kw">else </span>{
-            <span class="prelude-val">None
-        </span>}
+        winsize
+    };
+    <span class="kw">if </span>winsize.ws_row &gt; <span class="number">0 </span>&amp;&amp; winsize.ws_col &gt; <span class="number">0 </span>{
+        <span class="prelude-val">Some</span>((winsize.ws_row <span class="kw">as </span>u16, winsize.ws_col <span class="kw">as </span>u16))
+    } <span class="kw">else </span>{
+        <span class="prelude-val">None
+    </span>}
+}
+
+<span class="kw">enum </span>Input&lt;T&gt; {
+    Stdin(io::Stdin),
+    File(T),
+}
+
+<span class="kw">impl </span>Input&lt;BufReader&lt;fs::File&gt;&gt; {
+    <span class="kw">fn </span>buffered() -&gt; io::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="prelude-val">Ok</span>(<span class="kw">match </span>Input::unbuffered()<span class="question-mark">? </span>{
+            Input::Stdin(s) =&gt; Input::Stdin(s),
+            Input::File(f) =&gt; Input::File(BufReader::new(f)),
+        })
     }
 }
 
-<span class="kw">pub fn </span>read_secure() -&gt; io::Result&lt;String&gt; {
-    <span class="kw">let </span>f_tty;
-    <span class="kw">let </span>fd = <span class="kw">unsafe </span>{
-        <span class="kw">if </span>libc::isatty(libc::STDIN_FILENO) == <span class="number">1 </span>{
-            f_tty = <span class="prelude-val">None</span>;
-            libc::STDIN_FILENO
+<span class="kw">impl </span>Input&lt;fs::File&gt; {
+    <span class="kw">fn </span>unbuffered() -&gt; io::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>stdin = io::stdin();
+        <span class="kw">if </span>is_a_terminal(<span class="kw-2">&amp;</span>stdin) {
+            <span class="prelude-val">Ok</span>(Input::Stdin(stdin))
         } <span class="kw">else </span>{
             <span class="kw">let </span>f = fs::OpenOptions::new()
                 .read(<span class="bool-val">true</span>)
                 .write(<span class="bool-val">true</span>)
                 .open(<span class="string">"/dev/tty"</span>)<span class="question-mark">?</span>;
-            <span class="kw">let </span>fd = f.as_raw_fd();
-            f_tty = <span class="prelude-val">Some</span>(BufReader::new(f));
-            fd
+            <span class="prelude-val">Ok</span>(Input::File(f))
         }
-    };
+    }
+}
+
+<span class="comment">// NB: this is not a full BufRead implementation because io::Stdin does not implement BufRead.
+</span><span class="kw">impl</span>&lt;T: BufRead&gt; Input&lt;T&gt; {
+    <span class="kw">fn </span>read_line(<span class="kw-2">&amp;mut </span><span class="self">self</span>, buf: <span class="kw-2">&amp;mut </span>String) -&gt; io::Result&lt;usize&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::Stdin(s) =&gt; s.read_line(buf),
+            <span class="self">Self</span>::File(f) =&gt; f.read_line(buf),
+        }
+    }
+}
+
+<span class="kw">impl </span>AsRawFd <span class="kw">for </span>Input&lt;fs::File&gt; {
+    <span class="kw">fn </span>as_raw_fd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; RawFd {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::Stdin(s) =&gt; s.as_raw_fd(),
+            <span class="self">Self</span>::File(f) =&gt; f.as_raw_fd(),
+        }
+    }
+}
+
+<span class="kw">impl </span>AsRawFd <span class="kw">for </span>Input&lt;BufReader&lt;fs::File&gt;&gt; {
+    <span class="kw">fn </span>as_raw_fd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; RawFd {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::Stdin(s) =&gt; s.as_raw_fd(),
+            <span class="self">Self</span>::File(f) =&gt; f.get_ref().as_raw_fd(),
+        }
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_secure() -&gt; io::Result&lt;String&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>input = Input::buffered()<span class="question-mark">?</span>;
 
     <span class="kw">let </span><span class="kw-2">mut </span>termios = mem::MaybeUninit::uninit();
-    c_result(|| <span class="kw">unsafe </span>{ libc::tcgetattr(fd, termios.as_mut_ptr()) })<span class="question-mark">?</span>;
+    c_result(|| <span class="kw">unsafe </span>{ libc::tcgetattr(input.as_raw_fd(), termios.as_mut_ptr()) })<span class="question-mark">?</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>termios = <span class="kw">unsafe </span>{ termios.assume_init() };
     <span class="kw">let </span>original = termios;
     termios.c_lflag &amp;= !libc::ECHO;
-    c_result(|| <span class="kw">unsafe </span>{ libc::tcsetattr(fd, libc::TCSAFLUSH, <span class="kw-2">&amp;</span>termios) })<span class="question-mark">?</span>;
+    c_result(|| <span class="kw">unsafe </span>{ libc::tcsetattr(input.as_raw_fd(), libc::TCSAFLUSH, <span class="kw-2">&amp;</span>termios) })<span class="question-mark">?</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>rv = String::new();
 
-    <span class="kw">let </span>read_rv = <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>f) = f_tty {
-        f.read_line(<span class="kw-2">&amp;mut </span>rv)
-    } <span class="kw">else </span>{
-        io::stdin().read_line(<span class="kw-2">&amp;mut </span>rv)
-    };
+    <span class="kw">let </span>read_rv = input.read_line(<span class="kw-2">&amp;mut </span>rv);
 
-    c_result(|| <span class="kw">unsafe </span>{ libc::tcsetattr(fd, libc::TCSAFLUSH, <span class="kw-2">&amp;</span>original) })<span class="question-mark">?</span>;
+    c_result(|| <span class="kw">unsafe </span>{ libc::tcsetattr(input.as_raw_fd(), libc::TCSAFLUSH, <span class="kw-2">&amp;</span>original) })<span class="question-mark">?</span>;
 
     read_rv.map(|<span class="kw">_</span>| {
         <span class="kw">let </span>len = rv.trim_end_matches(<span class="kw-2">&amp;</span>[<span class="string">'\r'</span>, <span class="string">'\n'</span>][..]).len();
@@ -472,7 +538,7 @@
     })
 }
 
-<span class="kw">fn </span>poll_fd(fd: i32, timeout: i32) -&gt; io::Result&lt;bool&gt; {
+<span class="kw">fn </span>poll_fd(fd: RawFd, timeout: i32) -&gt; io::Result&lt;bool&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>pollfd = libc::pollfd {
         fd,
         events: libc::POLLIN,
@@ -487,7 +553,7 @@
 }
 
 <span class="attr">#[cfg(target_os = <span class="string">"macos"</span>)]
-</span><span class="kw">fn </span>select_fd(fd: i32, timeout: i32) -&gt; io::Result&lt;bool&gt; {
+</span><span class="kw">fn </span>select_fd(fd: RawFd, timeout: i32) -&gt; io::Result&lt;bool&gt; {
     <span class="kw">unsafe </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>read_fd_set: libc::fd_set = mem::zeroed();
 
@@ -519,7 +585,7 @@
     }
 }
 
-<span class="kw">fn </span>select_or_poll_term_fd(fd: i32, timeout: i32) -&gt; io::Result&lt;bool&gt; {
+<span class="kw">fn </span>select_or_poll_term_fd(fd: RawFd, timeout: i32) -&gt; io::Result&lt;bool&gt; {
     <span class="comment">// There is a bug on macos that ttys cannot be polled, only select()
     // works.  However given how problematic select is in general, we
     // normally want to use poll there too.
@@ -532,7 +598,7 @@
     poll_fd(fd, timeout)
 }
 
-<span class="kw">fn </span>read_single_char(fd: i32) -&gt; io::Result&lt;<span class="prelude-ty">Option</span>&lt;char&gt;&gt; {
+<span class="kw">fn </span>read_single_char(fd: RawFd) -&gt; io::Result&lt;<span class="prelude-ty">Option</span>&lt;char&gt;&gt; {
     <span class="comment">// timeout of zero means that it will not block
     </span><span class="kw">let </span>is_ready = select_or_poll_term_fd(fd, <span class="number">0</span>)<span class="question-mark">?</span>;
 
@@ -551,7 +617,7 @@
 <span class="comment">// Similar to libc::read. Read count bytes into slice buf from descriptor fd.
 // If successful, return the number of bytes read.
 // Will return an error if nothing was read, i.e when called at end of file.
-</span><span class="kw">fn </span>read_bytes(fd: i32, buf: <span class="kw-2">&amp;mut </span>[u8], count: u8) -&gt; io::Result&lt;u8&gt; {
+</span><span class="kw">fn </span>read_bytes(fd: RawFd, buf: <span class="kw-2">&amp;mut </span>[u8], count: u8) -&gt; io::Result&lt;u8&gt; {
     <span class="kw">let </span>read = <span class="kw">unsafe </span>{ libc::read(fd, buf.as_mut_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>, count <span class="kw">as </span>usize) };
     <span class="kw">if </span>read &lt; <span class="number">0 </span>{
         <span class="prelude-val">Err</span>(io::Error::last_os_error())
@@ -570,7 +636,7 @@
     }
 }
 
-<span class="kw">fn </span>read_single_key_impl(fd: i32) -&gt; <span class="prelude-ty">Result</span>&lt;Key, io::Error&gt; {
+<span class="kw">fn </span>read_single_key_impl(fd: RawFd) -&gt; <span class="prelude-ty">Result</span>&lt;Key, io::Error&gt; {
     <span class="kw">loop </span>{
         <span class="kw">match </span>read_single_char(fd)<span class="question-mark">? </span>{
             <span class="prelude-val">Some</span>(<span class="string">'\x1b'</span>) =&gt; {
@@ -663,30 +729,20 @@
     }
 }
 
-<span class="kw">pub fn </span>read_single_key(ctrlc_key: bool) -&gt; io::Result&lt;Key&gt; {
-    <span class="kw">let </span>tty_f;
-    <span class="kw">let </span>fd = <span class="kw">unsafe </span>{
-        <span class="kw">if </span>libc::isatty(libc::STDIN_FILENO) == <span class="number">1 </span>{
-            libc::STDIN_FILENO
-        } <span class="kw">else </span>{
-            tty_f = fs::OpenOptions::new()
-                .read(<span class="bool-val">true</span>)
-                .write(<span class="bool-val">true</span>)
-                .open(<span class="string">"/dev/tty"</span>)<span class="question-mark">?</span>;
-            tty_f.as_raw_fd()
-        }
-    };
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_single_key(ctrlc_key: bool) -&gt; io::Result&lt;Key&gt; {
+    <span class="kw">let </span>input = Input::unbuffered()<span class="question-mark">?</span>;
+
     <span class="kw">let </span><span class="kw-2">mut </span>termios = core::mem::MaybeUninit::uninit();
-    c_result(|| <span class="kw">unsafe </span>{ libc::tcgetattr(fd, termios.as_mut_ptr()) })<span class="question-mark">?</span>;
+    c_result(|| <span class="kw">unsafe </span>{ libc::tcgetattr(input.as_raw_fd(), termios.as_mut_ptr()) })<span class="question-mark">?</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>termios = <span class="kw">unsafe </span>{ termios.assume_init() };
     <span class="kw">let </span>original = termios;
     <span class="kw">unsafe </span>{ libc::cfmakeraw(<span class="kw-2">&amp;mut </span>termios) };
     termios.c_oflag = original.c_oflag;
-    c_result(|| <span class="kw">unsafe </span>{ libc::tcsetattr(fd, libc::TCSADRAIN, <span class="kw-2">&amp;</span>termios) })<span class="question-mark">?</span>;
-    <span class="kw">let </span>rv: io::Result&lt;Key&gt; = read_single_key_impl(fd);
-    c_result(|| <span class="kw">unsafe </span>{ libc::tcsetattr(fd, libc::TCSADRAIN, <span class="kw-2">&amp;</span>original) })<span class="question-mark">?</span>;
+    c_result(|| <span class="kw">unsafe </span>{ libc::tcsetattr(input.as_raw_fd(), libc::TCSADRAIN, <span class="kw-2">&amp;</span>termios) })<span class="question-mark">?</span>;
+    <span class="kw">let </span>rv = read_single_key_impl(input.as_raw_fd());
+    c_result(|| <span class="kw">unsafe </span>{ libc::tcsetattr(input.as_raw_fd(), libc::TCSADRAIN, <span class="kw-2">&amp;</span>original) })<span class="question-mark">?</span>;
 
-    <span class="comment">// if the user hit ^C we want to signal SIGINT to outselves.
+    <span class="comment">// if the user hit ^C we want to signal SIGINT to ourselves.
     </span><span class="kw">if let </span><span class="prelude-val">Err</span>(<span class="kw-2">ref </span>err) = rv {
         <span class="kw">if </span>err.kind() == io::ErrorKind::Interrupted {
             <span class="kw">if </span>!ctrlc_key {
@@ -702,7 +758,7 @@
     rv
 }
 
-<span class="kw">pub fn </span>key_from_utf8(buf: <span class="kw-2">&amp;</span>[u8]) -&gt; Key {
+<span class="kw">fn </span>key_from_utf8(buf: <span class="kw-2">&amp;</span>[u8]) -&gt; Key {
     <span class="kw">if let </span><span class="prelude-val">Ok</span>(s) = str::from_utf8(buf) {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(c) = s.chars().next() {
             <span class="kw">return </span>Key::Char(c);
@@ -718,16 +774,16 @@
 });
 
 <span class="attr">#[cfg(target_os = <span class="string">"macos"</span>)]
-</span><span class="kw">pub fn </span>wants_emoji() -&gt; bool {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>wants_emoji() -&gt; bool {
     <span class="bool-val">true
 </span>}
 
 <span class="attr">#[cfg(not(target_os = <span class="string">"macos"</span>))]
-</span><span class="kw">pub fn </span>wants_emoji() -&gt; bool {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>wants_emoji() -&gt; bool {
     <span class="kw-2">*</span>IS_LANG_UTF8
 }
 
-<span class="kw">pub fn </span>set_title&lt;T: Display&gt;(title: T) {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_title&lt;T: Display&gt;(title: T) {
     <span class="macro">print!</span>(<span class="string">"\x1b]0;{}\x07"</span>, title);
 }
 </code></pre></div></section></main></body></html>

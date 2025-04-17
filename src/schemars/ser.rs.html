@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/schemars-0.8.21/src/ser.rs`."><title>ser.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="schemars" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">schemars/</div>ser.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/schemars-0.8.22/src/ser.rs`."><title>ser.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="schemars" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">schemars/</div>ser.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -509,28 +509,28 @@
 <a href="#508" id="508">508</a>
 <a href="#509" id="509">509</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::schema::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::JsonSchema;
-<span class="kw">use crate</span>::{gen::SchemaGenerator, Map};
+<span class="kw">use crate</span>::{r#gen::SchemaGenerator, Map};
 <span class="kw">use </span>serde_json::{Error, Value};
 <span class="kw">use </span>std::{convert::TryInto, fmt::Display};
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Serializer&lt;<span class="lifetime">'a</span>&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) gen: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>SchemaGenerator,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) generator: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>SchemaGenerator,
     <span class="kw">pub</span>(<span class="kw">crate</span>) include_title: bool,
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>SerializeSeq&lt;<span class="lifetime">'a</span>&gt; {
-    gen: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>SchemaGenerator,
+    generator: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>SchemaGenerator,
     items: <span class="prelude-ty">Option</span>&lt;Schema&gt;,
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>SerializeTuple&lt;<span class="lifetime">'a</span>&gt; {
-    gen: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>SchemaGenerator,
+    generator: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>SchemaGenerator,
     items: Vec&lt;Schema&gt;,
     title: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>SerializeMap&lt;<span class="lifetime">'a</span>&gt; {
-    gen: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>SchemaGenerator,
+    generator: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>SchemaGenerator,
     properties: Map&lt;String, Schema&gt;,
     current_key: <span class="prelude-ty">Option</span>&lt;String&gt;,
     title: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
@@ -539,7 +539,7 @@
 <span class="macro">macro_rules!</span> forward_to_subschema_for {
     (<span class="macro-nonterminal">$</span><span class="kw">fn</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$ty</span>:ty) =&gt; {
         <span class="kw">fn </span><span class="macro-nonterminal">$</span><span class="kw">fn</span>(<span class="macro-nonterminal">self</span>, _value: <span class="macro-nonterminal">$ty</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Ok, <span class="self">Self</span>::Error&gt; {
-            <span class="prelude-val">Ok</span>(<span class="self">self</span>.gen.subschema_for::&lt;<span class="macro-nonterminal">$ty</span>&gt;())
+            <span class="prelude-val">Ok</span>(<span class="self">self</span>.generator.subschema_for::&lt;<span class="macro-nonterminal">$ty</span>&gt;())
         }
     };
 }
@@ -590,7 +590,7 @@
     <span class="kw">where
         </span>T: Display,
     {
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>.gen.subschema_for::&lt;<span class="kw-2">&amp;</span>str&gt;())
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.generator.subschema_for::&lt;<span class="kw-2">&amp;</span>str&gt;())
     }
 
     <span class="kw">fn </span>collect_map&lt;K, V, I&gt;(<span class="self">self</span>, iter: I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Ok, <span class="self">Self</span>::Error&gt;
@@ -607,7 +607,7 @@
                 }
 
                 <span class="kw">let </span>schema = v.serialize(Serializer {
-                    gen: <span class="self">self</span>.gen,
+                    generator: <span class="self">self</span>.generator,
                     include_title: <span class="bool-val">false</span>,
                 })<span class="question-mark">?</span>;
                 <span class="prelude-val">Ok</span>(<span class="kw">match </span><span class="kw-2">&amp;</span>acc {
@@ -630,7 +630,7 @@
     }
 
     <span class="kw">fn </span>serialize_none(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Ok, <span class="self">Self</span>::Error&gt; {
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>.gen.subschema_for::&lt;<span class="prelude-ty">Option</span>&lt;Value&gt;&gt;())
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.generator.subschema_for::&lt;<span class="prelude-ty">Option</span>&lt;Value&gt;&gt;())
     }
 
     <span class="kw">fn </span>serialize_unit(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Ok, <span class="self">Self</span>::Error&gt; {
@@ -655,14 +655,14 @@
         }
 
         <span class="kw">let </span><span class="kw-2">mut </span>schema = value.serialize(Serializer {
-            gen: <span class="self">self</span>.gen,
+            generator: <span class="self">self</span>.generator,
             include_title: <span class="bool-val">false</span>,
         })<span class="question-mark">?</span>;
 
-        <span class="kw">if </span><span class="self">self</span>.gen.settings().option_add_null_type {
+        <span class="kw">if </span><span class="self">self</span>.generator.settings().option_add_null_type {
             schema = <span class="kw">match </span>schema {
                 Schema::Bool(<span class="bool-val">true</span>) =&gt; Schema::Bool(<span class="bool-val">true</span>),
-                Schema::Bool(<span class="bool-val">false</span>) =&gt; &lt;()&gt;::json_schema(<span class="self">self</span>.gen),
+                Schema::Bool(<span class="bool-val">false</span>) =&gt; &lt;()&gt;::json_schema(<span class="self">self</span>.generator),
                 Schema::Object(SchemaObject {
                     instance_type: <span class="prelude-val">Some</span>(<span class="kw-2">ref mut </span>instance_type),
                     ..
@@ -672,7 +672,7 @@
                 }
                 schema =&gt; SchemaObject {
                     subschemas: <span class="prelude-val">Some</span>(Box::new(SubschemaValidation {
-                        any_of: <span class="prelude-val">Some</span>(<span class="macro">vec!</span>[schema, &lt;()&gt;::json_schema(<span class="self">self</span>.gen)]),
+                        any_of: <span class="prelude-val">Some</span>(<span class="macro">vec!</span>[schema, &lt;()&gt;::json_schema(<span class="self">self</span>.generator)]),
                         ..Default::default()
                     })),
                     ..Default::default()
@@ -681,7 +681,7 @@
             }
         }
 
-        <span class="kw">if </span><span class="self">self</span>.gen.settings().option_nullable {
+        <span class="kw">if </span><span class="self">self</span>.generator.settings().option_nullable {
             <span class="kw">let </span><span class="kw-2">mut </span>schema_obj = schema.into_object();
             schema_obj
                 .extensions
@@ -693,7 +693,7 @@
     }
 
     <span class="kw">fn </span>serialize_unit_struct(<span class="self">self</span>, _name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Ok, <span class="self">Self</span>::Error&gt; {
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>.gen.subschema_for::&lt;()&gt;())
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.generator.subschema_for::&lt;()&gt;())
     }
 
     <span class="kw">fn </span>serialize_unit_variant(
@@ -740,14 +740,14 @@
 
     <span class="kw">fn </span>serialize_seq(<span class="self">self</span>, _len: <span class="prelude-ty">Option</span>&lt;usize&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::SerializeSeq, <span class="self">Self</span>::Error&gt; {
         <span class="prelude-val">Ok</span>(SerializeSeq {
-            gen: <span class="self">self</span>.gen,
+            generator: <span class="self">self</span>.generator,
             items: <span class="prelude-val">None</span>,
         })
     }
 
     <span class="kw">fn </span>serialize_tuple(<span class="self">self</span>, len: usize) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::SerializeTuple, <span class="self">Self</span>::Error&gt; {
         <span class="prelude-val">Ok</span>(SerializeTuple {
-            gen: <span class="self">self</span>.gen,
+            generator: <span class="self">self</span>.generator,
             items: Vec::with_capacity(len),
             title: <span class="string">""</span>,
         })
@@ -760,7 +760,7 @@
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::SerializeTupleStruct, <span class="self">Self</span>::Error&gt; {
         <span class="kw">let </span>title = <span class="kw">if </span><span class="self">self</span>.include_title { name } <span class="kw">else </span>{ <span class="string">"" </span>};
         <span class="prelude-val">Ok</span>(SerializeTuple {
-            gen: <span class="self">self</span>.gen,
+            generator: <span class="self">self</span>.generator,
             items: Vec::with_capacity(len),
             title,
         })
@@ -778,7 +778,7 @@
 
     <span class="kw">fn </span>serialize_map(<span class="self">self</span>, _len: <span class="prelude-ty">Option</span>&lt;usize&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::SerializeMap, <span class="self">Self</span>::Error&gt; {
         <span class="prelude-val">Ok</span>(SerializeMap {
-            gen: <span class="self">self</span>.gen,
+            generator: <span class="self">self</span>.generator,
             properties: Map::new(),
             current_key: <span class="prelude-val">None</span>,
             title: <span class="string">""</span>,
@@ -792,7 +792,7 @@
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::SerializeStruct, <span class="self">Self</span>::Error&gt; {
         <span class="kw">let </span>title = <span class="kw">if </span><span class="self">self</span>.include_title { name } <span class="kw">else </span>{ <span class="string">"" </span>};
         <span class="prelude-val">Ok</span>(SerializeMap {
-            gen: <span class="self">self</span>.gen,
+            generator: <span class="self">self</span>.generator,
             properties: Map::new(),
             current_key: <span class="prelude-val">None</span>,
             title,
@@ -856,7 +856,7 @@
     {
         <span class="kw">if </span><span class="self">self</span>.items != <span class="prelude-val">Some</span>(Schema::Bool(<span class="bool-val">true</span>)) {
             <span class="kw">let </span>schema = value.serialize(Serializer {
-                gen: <span class="self">self</span>.gen,
+                generator: <span class="self">self</span>.generator,
                 include_title: <span class="bool-val">false</span>,
             })<span class="question-mark">?</span>;
             <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.items {
@@ -895,7 +895,7 @@
         </span>T: serde::Serialize,
     {
         <span class="kw">let </span>schema = value.serialize(Serializer {
-            gen: <span class="self">self</span>.gen,
+            generator: <span class="self">self</span>.generator,
             include_title: <span class="bool-val">false</span>,
         })<span class="question-mark">?</span>;
         <span class="self">self</span>.items.push(schema);
@@ -965,7 +965,7 @@
     {
         <span class="kw">let </span>key = <span class="self">self</span>.current_key.take().unwrap_or_default();
         <span class="kw">let </span>schema = value.serialize(Serializer {
-            gen: <span class="self">self</span>.gen,
+            generator: <span class="self">self</span>.generator,
             include_title: <span class="bool-val">false</span>,
         })<span class="question-mark">?</span>;
         <span class="self">self</span>.properties.insert(key, schema);
@@ -1004,7 +1004,7 @@
         </span>T: serde::Serialize,
     {
         <span class="kw">let </span>prop_schema = value.serialize(Serializer {
-            gen: <span class="self">self</span>.gen,
+            generator: <span class="self">self</span>.generator,
             include_title: <span class="bool-val">false</span>,
         })<span class="question-mark">?</span>;
         <span class="self">self</span>.properties.insert(key.to_string(), prop_schema);

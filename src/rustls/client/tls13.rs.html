@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.23/src/client/tls13.rs`."><title>tls13.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>tls13.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.26/src/client/tls13.rs`."><title>tls13.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>tls13.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1631,7 +1631,16 @@
 <a href="#1630" id="1630">1630</a>
 <a href="#1631" id="1631">1631</a>
 <a href="#1632" id="1632">1632</a>
-<a href="#1633" id="1633">1633</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::boxed::Box;
+<a href="#1633" id="1633">1633</a>
+<a href="#1634" id="1634">1634</a>
+<a href="#1635" id="1635">1635</a>
+<a href="#1636" id="1636">1636</a>
+<a href="#1637" id="1637">1637</a>
+<a href="#1638" id="1638">1638</a>
+<a href="#1639" id="1639">1639</a>
+<a href="#1640" id="1640">1640</a>
+<a href="#1641" id="1641">1641</a>
+<a href="#1642" id="1642">1642</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::boxed::Box;
 <span class="kw">use </span>alloc::vec;
 <span class="kw">use </span>alloc::vec::Vec;
 
@@ -1643,7 +1652,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::check::inappropriate_handshake_message;
 <span class="kw">use </span><span class="kw">crate</span>::client::common::{ClientAuthDetails, ClientHelloDetails, ServerCertDetails};
 <span class="kw">use </span><span class="kw">crate</span>::client::ech::{<span class="self">self</span>, EchState, EchStatus};
-<span class="kw">use </span><span class="kw">crate</span>::client::{hs, ClientConfig, ClientSessionStore};
+<span class="kw">use </span><span class="kw">crate</span>::client::{ClientConfig, ClientSessionStore, hs};
 <span class="kw">use </span><span class="kw">crate</span>::common_state::{
     CommonState, HandshakeFlightTls13, HandshakeKind, KxState, Protocol, Side, State,
 };
@@ -1660,10 +1669,10 @@
 <span class="kw">use </span><span class="kw">crate</span>::msgs::codec::{Codec, Reader};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::enums::{ExtensionType, KeyUpdateRequest};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::handshake::{
-    CertificatePayloadTls13, ClientExtension, EchConfigPayload, HandshakeMessagePayload,
-    HandshakePayload, HasServerExtensions, KeyShareEntry, NewSessionTicketPayloadTls13,
-    PresharedKeyIdentity, PresharedKeyOffer, ServerExtension, ServerHelloPayload,
-    CERTIFICATE_MAX_SIZE_LIMIT,
+    CERTIFICATE_MAX_SIZE_LIMIT, CertificatePayloadTls13, ClientExtension, EchConfigPayload,
+    HandshakeMessagePayload, HandshakePayload, HasServerExtensions, KeyShareEntry,
+    NewSessionTicketPayloadTls13, PresharedKeyIdentity, PresharedKeyOffer, ServerExtension,
+    ServerHelloPayload,
 };
 <span class="kw">use </span><span class="kw">crate</span>::msgs::message::{Message, MessagePayload};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::persist;
@@ -1675,10 +1684,10 @@
     ResumptionSecret,
 };
 <span class="kw">use </span><span class="kw">crate</span>::tls13::{
-    construct_client_verify_message, construct_server_verify_message, Tls13CipherSuite,
+    Tls13CipherSuite, construct_client_verify_message, construct_server_verify_message,
 };
 <span class="kw">use </span><span class="kw">crate</span>::verify::{<span class="self">self</span>, DigitallySignedStruct};
-<span class="kw">use crate</span>::{compress, crypto, KeyLog};
+<span class="kw">use crate</span>::{KeyLog, compress, crypto};
 
 <span class="comment">// Extensions we expect in plaintext in the ServerHello.
 </span><span class="kw">static </span>ALLOWED_PLAINTEXT_EXTS: <span class="kw-2">&amp;</span>[ExtensionType] = <span class="kw-2">&amp;</span>[
@@ -1731,52 +1740,56 @@
             )
         })<span class="question-mark">?</span>;
 
-    <span class="kw">let </span>key_schedule_pre_handshake = <span class="kw">if let </span>(<span class="prelude-val">Some</span>(selected_psk), <span class="prelude-val">Some</span>(early_key_schedule)) =
-        (server_hello.psk_index(), early_key_schedule)
-    {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>resuming) = resuming_session {
-            <span class="kw">let </span><span class="prelude-val">Some</span>(resuming_suite) = suite.can_resume_from(resuming.suite()) <span class="kw">else </span>{
-                <span class="kw">return </span><span class="prelude-val">Err</span>({
-                    cx.common.send_fatal_alert(
-                        AlertDescription::IllegalParameter,
-                        PeerMisbehaved::ResumptionOfferedWithIncompatibleCipherSuite,
-                    )
-                });
-            };
+    <span class="kw">let </span>key_schedule_pre_handshake = <span class="kw">match </span>(server_hello.psk_index(), early_key_schedule) {
+        (<span class="prelude-val">Some</span>(selected_psk), <span class="prelude-val">Some</span>(early_key_schedule)) =&gt; {
+            <span class="kw">match </span><span class="kw-2">&amp;</span>resuming_session {
+                <span class="prelude-val">Some</span>(resuming) =&gt; {
+                    <span class="kw">let </span><span class="prelude-val">Some</span>(resuming_suite) = suite.can_resume_from(resuming.suite()) <span class="kw">else </span>{
+                        <span class="kw">return </span><span class="prelude-val">Err</span>({
+                            cx.common.send_fatal_alert(
+                                AlertDescription::IllegalParameter,
+                                PeerMisbehaved::ResumptionOfferedWithIncompatibleCipherSuite,
+                            )
+                        });
+                    };
 
-            <span class="comment">// If the server varies the suite here, we will have encrypted early data with
-            // the wrong suite.
-            </span><span class="kw">if </span>cx.data.early_data.is_enabled() &amp;&amp; resuming_suite != suite {
-                <span class="kw">return </span><span class="prelude-val">Err</span>({
-                    cx.common.send_fatal_alert(
-                        AlertDescription::IllegalParameter,
-                        PeerMisbehaved::EarlyDataOfferedWithVariedCipherSuite,
-                    )
-                });
+                    <span class="comment">// If the server varies the suite here, we will have encrypted early data with
+                    // the wrong suite.
+                    </span><span class="kw">if </span>cx.data.early_data.is_enabled() &amp;&amp; resuming_suite != suite {
+                        <span class="kw">return </span><span class="prelude-val">Err</span>({
+                            cx.common.send_fatal_alert(
+                                AlertDescription::IllegalParameter,
+                                PeerMisbehaved::EarlyDataOfferedWithVariedCipherSuite,
+                            )
+                        });
+                    }
+
+                    <span class="kw">if </span>selected_psk != <span class="number">0 </span>{
+                        <span class="kw">return </span><span class="prelude-val">Err</span>({
+                            cx.common.send_fatal_alert(
+                                AlertDescription::IllegalParameter,
+                                PeerMisbehaved::SelectedInvalidPsk,
+                            )
+                        });
+                    }
+
+                    <span class="macro">debug!</span>(<span class="string">"Resuming using PSK"</span>);
+                    <span class="comment">// The key schedule has been initialized and set in fill_in_psk_binder()
+                </span>}
+                <span class="kw">_ </span>=&gt; {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(PeerMisbehaved::SelectedUnofferedPsk.into());
+                }
             }
-
-            <span class="kw">if </span>selected_psk != <span class="number">0 </span>{
-                <span class="kw">return </span><span class="prelude-val">Err</span>({
-                    cx.common.send_fatal_alert(
-                        AlertDescription::IllegalParameter,
-                        PeerMisbehaved::SelectedInvalidPsk,
-                    )
-                });
-            }
-
-            <span class="macro">debug!</span>(<span class="string">"Resuming using PSK"</span>);
-            <span class="comment">// The key schedule has been initialized and set in fill_in_psk_binder()
-        </span>} <span class="kw">else </span>{
-            <span class="kw">return </span><span class="prelude-val">Err</span>(PeerMisbehaved::SelectedUnofferedPsk.into());
+            KeySchedulePreHandshake::from(early_key_schedule)
         }
-        KeySchedulePreHandshake::from(early_key_schedule)
-    } <span class="kw">else </span>{
-        <span class="macro">debug!</span>(<span class="string">"Not resuming"</span>);
-        <span class="comment">// Discard the early data key schedule.
-        </span>cx.data.early_data.rejected();
-        cx.common.early_traffic = <span class="bool-val">false</span>;
-        resuming_session.take();
-        KeySchedulePreHandshake::new(suite)
+        <span class="kw">_ </span>=&gt; {
+            <span class="macro">debug!</span>(<span class="string">"Not resuming"</span>);
+            <span class="comment">// Discard the early data key schedule.
+            </span>cx.data.early_data.rejected();
+            cx.common.early_traffic = <span class="bool-val">false</span>;
+            resuming_session.take();
+            KeySchedulePreHandshake::new(suite)
+        }
     };
 
     cx.common.kx_state.complete();
@@ -1952,7 +1965,7 @@
     </span><span class="kw">let </span>key_schedule = KeyScheduleEarly::new(suite, resuming.secret());
     <span class="kw">let </span>real_binder = key_schedule.resumption_psk_binder_key_and_sign_verify_data(<span class="kw-2">&amp;</span>handshake_hash);
 
-    <span class="kw">if let </span>HandshakePayload::ClientHello(<span class="kw-2">ref mut </span>ch) = hmp.payload {
+    <span class="kw">if let </span>HandshakePayload::ClientHello(ch) = <span class="kw-2">&amp;mut </span>hmp.payload {
         ch.set_psk_binder(real_binder.as_ref());
     };
 
@@ -2112,7 +2125,7 @@
                 <span class="kw">return </span><span class="prelude-val">Err</span>(cx.common.send_fatal_alert(
                     AlertDescription::UnsupportedExtension,
                     PeerMisbehaved::UnsolicitedEchExtension,
-                ))
+                ));
             }
             <span class="comment">// If we offered ECH, and it was rejected, store the retry configs (if any) from
             // the server's ECH extension. We will return them in an error produced at the end
@@ -2133,75 +2146,78 @@
             }
         }
 
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(resuming_session) = <span class="self">self</span>.resuming_session {
-            <span class="kw">let </span>was_early_traffic = cx.common.early_traffic;
-            <span class="kw">if </span>was_early_traffic {
-                <span class="kw">if </span>exts.early_data_extension_offered() {
-                    cx.data.early_data.accepted();
-                } <span class="kw">else </span>{
-                    cx.data.early_data.rejected();
-                    cx.common.early_traffic = <span class="bool-val">false</span>;
+        <span class="kw">match </span><span class="self">self</span>.resuming_session {
+            <span class="prelude-val">Some</span>(resuming_session) =&gt; {
+                <span class="kw">let </span>was_early_traffic = cx.common.early_traffic;
+                <span class="kw">if </span>was_early_traffic {
+                    <span class="kw">if </span>exts.early_data_extension_offered() {
+                        cx.data.early_data.accepted();
+                    } <span class="kw">else </span>{
+                        cx.data.early_data.rejected();
+                        cx.common.early_traffic = <span class="bool-val">false</span>;
+                    }
                 }
-            }
 
-            <span class="kw">if </span>was_early_traffic &amp;&amp; !cx.common.early_traffic {
-                <span class="comment">// If no early traffic, set the encryption key for handshakes
-                </span><span class="self">self</span>.key_schedule
-                    .set_handshake_encrypter(cx.common);
-            }
+                <span class="kw">if </span>was_early_traffic &amp;&amp; !cx.common.early_traffic {
+                    <span class="comment">// If no early traffic, set the encryption key for handshakes
+                    </span><span class="self">self</span>.key_schedule
+                        .set_handshake_encrypter(cx.common);
+                }
 
-            cx.common.peer_certificates = <span class="prelude-val">Some</span>(
-                resuming_session
-                    .server_cert_chain()
-                    .clone(),
-            );
-            cx.common.handshake_kind = <span class="prelude-val">Some</span>(HandshakeKind::Resumed);
+                cx.common.peer_certificates = <span class="prelude-val">Some</span>(
+                    resuming_session
+                        .server_cert_chain()
+                        .clone(),
+                );
+                cx.common.handshake_kind = <span class="prelude-val">Some</span>(HandshakeKind::Resumed);
 
-            <span class="comment">// We *don't* reverify the certificate chain here: resumption is a
-            // continuation of the previous session in terms of security policy.
-            </span><span class="kw">let </span>cert_verified = verify::ServerCertVerified::assertion();
-            <span class="kw">let </span>sig_verified = verify::HandshakeSignatureValid::assertion();
-            <span class="prelude-val">Ok</span>(Box::new(ExpectFinished {
-                config: <span class="self">self</span>.config,
-                server_name: <span class="self">self</span>.server_name,
-                randoms: <span class="self">self</span>.randoms,
-                suite: <span class="self">self</span>.suite,
-                transcript: <span class="self">self</span>.transcript,
-                key_schedule: <span class="self">self</span>.key_schedule,
-                client_auth: <span class="prelude-val">None</span>,
-                cert_verified,
-                sig_verified,
-                ech_retry_configs,
-            }))
-        } <span class="kw">else </span>{
-            <span class="kw">if </span>exts.early_data_extension_offered() {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(PeerMisbehaved::EarlyDataExtensionWithoutResumption.into());
-            }
-            cx.common
-                .handshake_kind
-                .get_or_insert(HandshakeKind::Full);
-
-            <span class="prelude-val">Ok</span>(<span class="kw">if </span><span class="self">self</span>.hello.offered_cert_compression {
-                Box::new(ExpectCertificateOrCompressedCertificateOrCertReq {
+                <span class="comment">// We *don't* reverify the certificate chain here: resumption is a
+                // continuation of the previous session in terms of security policy.
+                </span><span class="kw">let </span>cert_verified = verify::ServerCertVerified::assertion();
+                <span class="kw">let </span>sig_verified = verify::HandshakeSignatureValid::assertion();
+                <span class="prelude-val">Ok</span>(Box::new(ExpectFinished {
                     config: <span class="self">self</span>.config,
                     server_name: <span class="self">self</span>.server_name,
                     randoms: <span class="self">self</span>.randoms,
                     suite: <span class="self">self</span>.suite,
                     transcript: <span class="self">self</span>.transcript,
                     key_schedule: <span class="self">self</span>.key_schedule,
+                    client_auth: <span class="prelude-val">None</span>,
+                    cert_verified,
+                    sig_verified,
                     ech_retry_configs,
+                }))
+            }
+            <span class="kw">_ </span>=&gt; {
+                <span class="kw">if </span>exts.early_data_extension_offered() {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(PeerMisbehaved::EarlyDataExtensionWithoutResumption.into());
+                }
+                cx.common
+                    .handshake_kind
+                    .get_or_insert(HandshakeKind::Full);
+
+                <span class="prelude-val">Ok</span>(<span class="kw">if </span><span class="self">self</span>.hello.offered_cert_compression {
+                    Box::new(ExpectCertificateOrCompressedCertificateOrCertReq {
+                        config: <span class="self">self</span>.config,
+                        server_name: <span class="self">self</span>.server_name,
+                        randoms: <span class="self">self</span>.randoms,
+                        suite: <span class="self">self</span>.suite,
+                        transcript: <span class="self">self</span>.transcript,
+                        key_schedule: <span class="self">self</span>.key_schedule,
+                        ech_retry_configs,
+                    })
+                } <span class="kw">else </span>{
+                    Box::new(ExpectCertificateOrCertReq {
+                        config: <span class="self">self</span>.config,
+                        server_name: <span class="self">self</span>.server_name,
+                        randoms: <span class="self">self</span>.randoms,
+                        suite: <span class="self">self</span>.suite,
+                        transcript: <span class="self">self</span>.transcript,
+                        key_schedule: <span class="self">self</span>.key_schedule,
+                        ech_retry_configs,
+                    })
                 })
-            } <span class="kw">else </span>{
-                Box::new(ExpectCertificateOrCertReq {
-                    config: <span class="self">self</span>.config,
-                    server_name: <span class="self">self</span>.server_name,
-                    randoms: <span class="self">self</span>.randoms,
-                    suite: <span class="self">self</span>.suite,
-                    transcript: <span class="self">self</span>.transcript,
-                    key_schedule: <span class="self">self</span>.key_schedule,
-                    ech_retry_configs,
-                })
-            })
+            }
         }
     }
 
@@ -3112,6 +3128,8 @@
                 .peer_certificates
                 .clone()
                 .unwrap_or_default(),
+            <span class="kw-2">&amp;</span><span class="self">self</span>.config.verifier,
+            <span class="kw-2">&amp;</span><span class="self">self</span>.config.client_auth_cert_resolver,
             now,
             nst.lifetime,
             nst.age_add,
@@ -3126,7 +3144,7 @@
                 }
             }
 
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>quic_params) = <span class="kw-2">&amp;</span>cx.common.quic.params {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(quic_params) = <span class="kw-2">&amp;</span>cx.common.quic.params {
                 value.set_quic_params(quic_params);
             }
         }
@@ -3179,19 +3197,19 @@
             MessagePayload::Handshake {
                 parsed:
                     HandshakeMessagePayload {
-                        payload: HandshakePayload::NewSessionTicketTls13(<span class="kw-2">ref </span>new_ticket),
+                        payload: HandshakePayload::NewSessionTicketTls13(new_ticket),
                         ..
                     },
                 ..
-            } =&gt; <span class="self">self</span>.handle_new_ticket_tls13(cx, new_ticket)<span class="question-mark">?</span>,
+            } =&gt; <span class="self">self</span>.handle_new_ticket_tls13(cx, <span class="kw-2">&amp;</span>new_ticket)<span class="question-mark">?</span>,
             MessagePayload::Handshake {
                 parsed:
                     HandshakeMessagePayload {
-                        payload: HandshakePayload::KeyUpdate(<span class="kw-2">ref </span>key_update),
+                        payload: HandshakePayload::KeyUpdate(key_update),
                         ..
                     },
                 ..
-            } =&gt; <span class="self">self</span>.handle_key_update(cx.common, key_update)<span class="question-mark">?</span>,
+            } =&gt; <span class="self">self</span>.handle_key_update(cx.common, <span class="kw-2">&amp;</span>key_update)<span class="question-mark">?</span>,
             payload =&gt; {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(inappropriate_handshake_message(
                     <span class="kw-2">&amp;</span>payload,

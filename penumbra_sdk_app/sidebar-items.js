@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["app_version","genesis","params"],"static":["COMETBFT_SUBSTORE_PREFIX","SUBSTORE_PREFIXES"]};
+window.SIDEBAR_ITEMS = {"mod":["app_version","event","genesis","params"],"static":["COMETBFT_SUBSTORE_PREFIX","SUBSTORE_PREFIXES"]};

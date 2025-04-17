@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.23/src/crypto/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/crypto/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.26/src/crypto/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/crypto/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -761,21 +761,21 @@
 <span class="kw">use </span>pki_types::PrivateKeyDer;
 <span class="kw">use </span>zeroize::Zeroize;
 
+<span class="attr">#[cfg(all(doc, feature = <span class="string">"tls12"</span>))]
+</span><span class="kw">use </span><span class="kw">crate</span>::Tls12CipherSuite;
 <span class="kw">use </span><span class="kw">crate</span>::msgs::ffdhe_groups::FfdheGroup;
 <span class="kw">use </span><span class="kw">crate</span>::sign::SigningKey;
 <span class="kw">use </span><span class="kw">crate</span>::sync::Arc;
 <span class="kw">pub use </span><span class="kw">crate</span>::webpki::{
-    verify_tls12_signature, verify_tls13_signature, verify_tls13_signature_with_raw_key,
-    WebPkiSupportedAlgorithms,
+    WebPkiSupportedAlgorithms, verify_tls12_signature, verify_tls13_signature,
+    verify_tls13_signature_with_raw_key,
 };
-<span class="attr">#[cfg(all(doc, feature = <span class="string">"tls12"</span>))]
-</span><span class="kw">use </span><span class="kw">crate</span>::Tls12CipherSuite;
 <span class="attr">#[cfg(doc)]
 </span><span class="kw">use crate</span>::{
-    client, crypto, server, sign, ClientConfig, ConfigBuilder, ServerConfig, SupportedCipherSuite,
-    Tls13CipherSuite,
+    ClientConfig, ConfigBuilder, ServerConfig, SupportedCipherSuite, Tls13CipherSuite, client,
+    crypto, server, sign,
 };
-<span class="kw">use crate</span>::{suites, Error, NamedGroup, ProtocolVersion, SupportedProtocolVersion};
+<span class="kw">use crate</span>::{Error, NamedGroup, ProtocolVersion, SupportedProtocolVersion, suites};
 
 <span class="doccomment">/// *ring* based CryptoProvider.
 </span><span class="attr">#[cfg(feature = <span class="string">"ring"</span>)]
@@ -866,17 +866,17 @@
 ///
 /// # Making a custom `CryptoProvider`
 ///
-/// Your goal will be to populate a [`crypto::CryptoProvider`] struct instance.
+/// Your goal will be to populate an instance of this `CryptoProvider` struct.
 ///
 /// ## Which elements are required?
 ///
-/// There is no requirement that the individual elements (`SupportedCipherSuite`, `SupportedKxGroup`,
-/// `SigningKey`, etc.) come from the same crate.  It is allowed and expected that uninteresting
+/// There is no requirement that the individual elements ([`SupportedCipherSuite`], [`SupportedKxGroup`],
+/// [`SigningKey`], etc.) come from the same crate.  It is allowed and expected that uninteresting
 /// elements would be delegated back to one of the default providers (statically) or a parent
 /// provider (dynamically).
 ///
 /// For example, if we want to make a provider that just overrides key loading in the config builder
-/// API ([`ConfigBuilder::with_single_cert`] etc.), it might look like this:
+/// API (with [`ConfigBuilder::with_single_cert`], etc.), it might look like this:
 ///
 /// ```
 /// # #[cfg(feature = "aws_lc_rs")] {
@@ -916,8 +916,8 @@
 ///
 /// # Example code
 ///
-/// See [provider-example/] for a full client and server example that uses
-/// cryptography from the [rust-crypto] and [dalek-cryptography] projects.
+/// See custom [`provider-example/`] for a full client and server example that uses
+/// cryptography from the [`RustCrypto`] and [`dalek-cryptography`] projects.
 ///
 /// ```shell
 /// $ cargo run --example client | head -3
@@ -927,9 +927,9 @@
 /// Content-Length: 19899
 /// ```
 ///
-/// [provider-example/]: https://github.com/rustls/rustls/tree/main/provider-example/
-/// [rust-crypto]: https://github.com/rustcrypto
-/// [dalek-cryptography]: https://github.com/dalek-cryptography
+/// [`provider-example/`]: https://github.com/rustls/rustls/tree/main/provider-example/
+/// [`RustCrypto`]: https://github.com/RustCrypto
+/// [`dalek-cryptography`]: https://github.com/dalek-cryptography
 ///
 /// # FIPS-approved cryptography
 /// The `fips` crate feature enables use of the `aws-lc-rs` crate in FIPS mode.
@@ -968,7 +968,7 @@
     <span class="doccomment">/// Source of cryptographically secure random numbers.
     </span><span class="kw">pub </span>secure_random: <span class="kw-2">&amp;</span><span class="lifetime">'static </span><span class="kw">dyn </span>SecureRandom,
 
-    <span class="doccomment">/// Provider for loading private [SigningKey]s from [PrivateKeyDer].
+    <span class="doccomment">/// Provider for loading private [`SigningKey`]s from [`PrivateKeyDer`].
     </span><span class="kw">pub </span>key_provider: <span class="kw-2">&amp;</span><span class="lifetime">'static </span><span class="kw">dyn </span>KeyProvider,
 }
 
@@ -1079,7 +1079,7 @@
     </span>}
 }
 
-<span class="doccomment">/// A mechanism for loading private [SigningKey]s from [PrivateKeyDer].
+<span class="doccomment">/// A mechanism for loading private [`SigningKey`]s from [`PrivateKeyDer`].
 ///
 /// This trait is intended to be used with private key material that is sourced from DER,
 /// such as a private-key that may be present on-disk. It is not intended to be used with

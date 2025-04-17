@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/portable-atomic-1.10.0/src/imp/fallback/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="portable_atomic" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">portable_atomic/imp/fallback/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/portable-atomic-1.11.0/src/imp/fallback/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="portable_atomic" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">portable_atomic/imp/fallback/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -444,7 +444,23 @@
 <a href="#443" id="443">443</a>
 <a href="#444" id="444">444</a>
 <a href="#445" id="445">445</a>
-<a href="#446" id="446">446</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: Apache-2.0 OR MIT
+<a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
+<a href="#449" id="449">449</a>
+<a href="#450" id="450">450</a>
+<a href="#451" id="451">451</a>
+<a href="#452" id="452">452</a>
+<a href="#453" id="453">453</a>
+<a href="#454" id="454">454</a>
+<a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: Apache-2.0 OR MIT
 
 /*
 Fallback implementation using global locks.
@@ -488,36 +504,39 @@ type and the value type must be the same.
                 target_os = <span class="string">"android"</span>,
                 target_os = <span class="string">"freebsd"</span>,
                 target_os = <span class="string">"openbsd"</span>,
+                all(
+                    target_os = <span class="string">"aix"</span>,
+                    not(portable_atomic_pre_llvm_20),
+                    portable_atomic_outline_atomics, <span class="comment">// TODO(aix): currently disabled by default
+                </span>),
             ),
             not(any(miri, portable_atomic_sanitize_thread)),
         ),
         all(
             target_arch = <span class="string">"riscv32"</span>,
             not(any(miri, portable_atomic_sanitize_thread)),
-            not(portable_atomic_no_asm),
+            any(not(portable_atomic_no_asm), portable_atomic_unstable_asm),
             any(
-                target_feature = <span class="string">"experimental-zacas"</span>,
-                portable_atomic_target_feature = <span class="string">"experimental-zacas"</span>,
+                target_feature = <span class="string">"zacas"</span>,
+                portable_atomic_target_feature = <span class="string">"zacas"</span>,
                 all(
                     feature = <span class="string">"fallback"</span>,
                     not(portable_atomic_no_outline_atomics),
-                    any(test, portable_atomic_outline_atomics), <span class="comment">// TODO(riscv): currently disabled by default
-                    </span>any(target_os = <span class="string">"linux"</span>, target_os = <span class="string">"android"</span>),
+                    any(target_os = <span class="string">"linux"</span>, target_os = <span class="string">"android"</span>),
                 ),
             ),
         ),
         all(
             target_arch = <span class="string">"riscv64"</span>,
-            not(portable_atomic_no_asm),
+            not(any(miri, portable_atomic_sanitize_thread)),
+            any(not(portable_atomic_no_asm), portable_atomic_unstable_asm),
             any(
-                target_feature = <span class="string">"experimental-zacas"</span>,
-                portable_atomic_target_feature = <span class="string">"experimental-zacas"</span>,
+                target_feature = <span class="string">"zacas"</span>,
+                portable_atomic_target_feature = <span class="string">"zacas"</span>,
                 all(
                     feature = <span class="string">"fallback"</span>,
                     not(portable_atomic_no_outline_atomics),
-                    any(test, portable_atomic_outline_atomics), <span class="comment">// TODO(riscv): currently disabled by default
-                    </span>any(target_os = <span class="string">"linux"</span>, target_os = <span class="string">"android"</span>),
-                    not(any(miri, portable_atomic_sanitize_thread)),
+                    any(target_os = <span class="string">"linux"</span>, target_os = <span class="string">"android"</span>),
                 ),
             ),
         ),
@@ -558,6 +577,8 @@ type and the value type must be the same.
     seq_lock::{SeqLock, SeqLockWriteGuard},
     utils::CachePadded,
 };
+<span class="attr">#[cfg(portable_atomic_no_strict_provenance)]
+</span><span class="kw">use </span><span class="kw">crate</span>::utils::ptr::PtrExt <span class="kw">as _</span>;
 
 <span class="comment">// Some 64-bit architectures have ABI with 32-bit pointer width (e.g., x86_64 X32 ABI,
 // AArch64 ILP32 ABI, mips64 N32 ABI). On those targets, AtomicU64 is fast,
@@ -680,7 +701,7 @@ type and the value type must be the same.
             #[cfg_attr(all(debug_assertions, not(portable_atomic_no_track_caller)), track_caller)]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>load(<span class="kw-2">&amp;</span><span class="self">self</span>, order: Ordering) -&gt; <span class="macro-nonterminal">$int_type </span>{
                 <span class="kw">crate</span>::utils::assert_load_ordering(order);
-                <span class="kw">let </span>lock = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize);
+                <span class="kw">let </span>lock = lock(<span class="self">self</span>.v.get().addr());
 
                 <span class="comment">// Try doing an optimistic read first.
                 </span><span class="kw">if let </span><span class="prelude-val">Some</span>(stamp) = lock.optimistic_read() {
@@ -703,13 +724,13 @@ type and the value type must be the same.
             #[cfg_attr(all(debug_assertions, not(portable_atomic_no_track_caller)), track_caller)]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>store(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <span class="macro-nonterminal">$int_type</span>, order: Ordering) {
                 <span class="kw">crate</span>::utils::assert_store_ordering(order);
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="self">self</span>.write(val, <span class="kw-2">&amp;</span>guard)
             }
 
             <span class="attr">#[inline]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>swap(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <span class="macro-nonterminal">$int_type</span>, _order: Ordering) -&gt; <span class="macro-nonterminal">$int_type </span>{
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="kw">let </span>prev = <span class="self">self</span>.read(<span class="kw-2">&amp;</span>guard);
                 <span class="self">self</span>.write(val, <span class="kw-2">&amp;</span>guard);
                 prev
@@ -725,7 +746,7 @@ type and the value type must be the same.
                 failure: Ordering,
             ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="macro-nonterminal">$int_type</span>, <span class="macro-nonterminal">$int_type</span>&gt; {
                 <span class="kw">crate</span>::utils::assert_compare_exchange_ordering(success, failure);
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="kw">let </span>prev = <span class="self">self</span>.read(<span class="kw-2">&amp;</span>guard);
                 <span class="kw">if </span>prev == current {
                     <span class="self">self</span>.write(new, <span class="kw-2">&amp;</span>guard);
@@ -751,7 +772,7 @@ type and the value type must be the same.
 
             <span class="attr">#[inline]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>fetch_add(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <span class="macro-nonterminal">$int_type</span>, _order: Ordering) -&gt; <span class="macro-nonterminal">$int_type </span>{
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="kw">let </span>prev = <span class="self">self</span>.read(<span class="kw-2">&amp;</span>guard);
                 <span class="self">self</span>.write(prev.wrapping_add(val), <span class="kw-2">&amp;</span>guard);
                 prev
@@ -759,7 +780,7 @@ type and the value type must be the same.
 
             <span class="attr">#[inline]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>fetch_sub(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <span class="macro-nonterminal">$int_type</span>, _order: Ordering) -&gt; <span class="macro-nonterminal">$int_type </span>{
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="kw">let </span>prev = <span class="self">self</span>.read(<span class="kw-2">&amp;</span>guard);
                 <span class="self">self</span>.write(prev.wrapping_sub(val), <span class="kw-2">&amp;</span>guard);
                 prev
@@ -767,7 +788,7 @@ type and the value type must be the same.
 
             <span class="attr">#[inline]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>fetch_and(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <span class="macro-nonterminal">$int_type</span>, _order: Ordering) -&gt; <span class="macro-nonterminal">$int_type </span>{
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="kw">let </span>prev = <span class="self">self</span>.read(<span class="kw-2">&amp;</span>guard);
                 <span class="self">self</span>.write(prev &amp; val, <span class="kw-2">&amp;</span>guard);
                 prev
@@ -775,7 +796,7 @@ type and the value type must be the same.
 
             <span class="attr">#[inline]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>fetch_nand(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <span class="macro-nonterminal">$int_type</span>, _order: Ordering) -&gt; <span class="macro-nonterminal">$int_type </span>{
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="kw">let </span>prev = <span class="self">self</span>.read(<span class="kw-2">&amp;</span>guard);
                 <span class="self">self</span>.write(!(prev &amp; val), <span class="kw-2">&amp;</span>guard);
                 prev
@@ -783,7 +804,7 @@ type and the value type must be the same.
 
             <span class="attr">#[inline]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>fetch_or(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <span class="macro-nonterminal">$int_type</span>, _order: Ordering) -&gt; <span class="macro-nonterminal">$int_type </span>{
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="kw">let </span>prev = <span class="self">self</span>.read(<span class="kw-2">&amp;</span>guard);
                 <span class="self">self</span>.write(prev | val, <span class="kw-2">&amp;</span>guard);
                 prev
@@ -791,7 +812,7 @@ type and the value type must be the same.
 
             <span class="attr">#[inline]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>fetch_xor(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <span class="macro-nonterminal">$int_type</span>, _order: Ordering) -&gt; <span class="macro-nonterminal">$int_type </span>{
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="kw">let </span>prev = <span class="self">self</span>.read(<span class="kw-2">&amp;</span>guard);
                 <span class="self">self</span>.write(prev ^ val, <span class="kw-2">&amp;</span>guard);
                 prev
@@ -799,7 +820,7 @@ type and the value type must be the same.
 
             <span class="attr">#[inline]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>fetch_max(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <span class="macro-nonterminal">$int_type</span>, _order: Ordering) -&gt; <span class="macro-nonterminal">$int_type </span>{
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="kw">let </span>prev = <span class="self">self</span>.read(<span class="kw-2">&amp;</span>guard);
                 <span class="self">self</span>.write(core::cmp::max(prev, val), <span class="kw-2">&amp;</span>guard);
                 prev
@@ -807,7 +828,7 @@ type and the value type must be the same.
 
             <span class="attr">#[inline]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>fetch_min(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <span class="macro-nonterminal">$int_type</span>, _order: Ordering) -&gt; <span class="macro-nonterminal">$int_type </span>{
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="kw">let </span>prev = <span class="self">self</span>.read(<span class="kw-2">&amp;</span>guard);
                 <span class="self">self</span>.write(core::cmp::min(prev, val), <span class="kw-2">&amp;</span>guard);
                 prev
@@ -815,7 +836,7 @@ type and the value type must be the same.
 
             <span class="attr">#[inline]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>fetch_not(<span class="kw-2">&amp;</span><span class="self">self</span>, _order: Ordering) -&gt; <span class="macro-nonterminal">$int_type </span>{
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="kw">let </span>prev = <span class="self">self</span>.read(<span class="kw-2">&amp;</span>guard);
                 <span class="self">self</span>.write(!prev, <span class="kw-2">&amp;</span>guard);
                 prev
@@ -827,7 +848,7 @@ type and the value type must be the same.
 
             <span class="attr">#[inline]
             </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>fetch_neg(<span class="kw-2">&amp;</span><span class="self">self</span>, _order: Ordering) -&gt; <span class="macro-nonterminal">$int_type </span>{
-                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get() <span class="kw">as </span>usize).write();
+                <span class="kw">let </span>guard = lock(<span class="self">self</span>.v.get().addr()).write();
                 <span class="kw">let </span>prev = <span class="self">self</span>.read(<span class="kw-2">&amp;</span>guard);
                 <span class="self">self</span>.write(prev.wrapping_neg(), <span class="kw-2">&amp;</span>guard);
                 prev
@@ -845,7 +866,21 @@ type and the value type must be the same.
     };
 }
 
-<span class="attr">#[cfg_attr(portable_atomic_no_cfg_target_has_atomic, cfg(any(test, portable_atomic_no_atomic_64)))]
+<span class="attr">#[cfg_attr(
+    portable_atomic_no_cfg_target_has_atomic,
+    cfg(any(
+        test,
+        not(any(
+            not(portable_atomic_no_atomic_64),
+            all(
+                target_arch = <span class="string">"riscv32"</span>,
+                not(any(miri, portable_atomic_sanitize_thread)),
+                any(not(portable_atomic_no_asm), portable_atomic_unstable_asm),
+                any(target_feature = <span class="string">"zacas"</span>, portable_atomic_target_feature = <span class="string">"zacas"</span>),
+            ),
+        ))
+    ))
+)]
 #[cfg_attr(
     not(portable_atomic_no_cfg_target_has_atomic),
     cfg(any(
@@ -855,11 +890,8 @@ type and the value type must be the same.
             all(
                 target_arch = <span class="string">"riscv32"</span>,
                 not(any(miri, portable_atomic_sanitize_thread)),
-                not(portable_atomic_no_asm),
-                any(
-                    target_feature = <span class="string">"experimental-zacas"</span>,
-                    portable_atomic_target_feature = <span class="string">"experimental-zacas"</span>,
-                ),
+                any(not(portable_atomic_no_asm), portable_atomic_unstable_asm),
+                any(target_feature = <span class="string">"zacas"</span>, portable_atomic_target_feature = <span class="string">"zacas"</span>),
             ),
         ))
     ))

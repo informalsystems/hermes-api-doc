@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libc-0.2.169/src/unix/linux_like/linux/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="libc" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">libc/unix/linux_like/linux/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libc-0.2.172/src/unix/linux_like/linux/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="libc" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">libc/unix/linux_like/linux/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -6797,7 +6797,259 @@
 <a href="#6796" id="6796">6796</a>
 <a href="#6797" id="6797">6797</a>
 <a href="#6798" id="6798">6798</a>
-<a href="#6799" id="6799">6799</a></pre></div><pre class="rust"><code><span class="doccomment">//! Linux-specific definitions for linux-like values
+<a href="#6799" id="6799">6799</a>
+<a href="#6800" id="6800">6800</a>
+<a href="#6801" id="6801">6801</a>
+<a href="#6802" id="6802">6802</a>
+<a href="#6803" id="6803">6803</a>
+<a href="#6804" id="6804">6804</a>
+<a href="#6805" id="6805">6805</a>
+<a href="#6806" id="6806">6806</a>
+<a href="#6807" id="6807">6807</a>
+<a href="#6808" id="6808">6808</a>
+<a href="#6809" id="6809">6809</a>
+<a href="#6810" id="6810">6810</a>
+<a href="#6811" id="6811">6811</a>
+<a href="#6812" id="6812">6812</a>
+<a href="#6813" id="6813">6813</a>
+<a href="#6814" id="6814">6814</a>
+<a href="#6815" id="6815">6815</a>
+<a href="#6816" id="6816">6816</a>
+<a href="#6817" id="6817">6817</a>
+<a href="#6818" id="6818">6818</a>
+<a href="#6819" id="6819">6819</a>
+<a href="#6820" id="6820">6820</a>
+<a href="#6821" id="6821">6821</a>
+<a href="#6822" id="6822">6822</a>
+<a href="#6823" id="6823">6823</a>
+<a href="#6824" id="6824">6824</a>
+<a href="#6825" id="6825">6825</a>
+<a href="#6826" id="6826">6826</a>
+<a href="#6827" id="6827">6827</a>
+<a href="#6828" id="6828">6828</a>
+<a href="#6829" id="6829">6829</a>
+<a href="#6830" id="6830">6830</a>
+<a href="#6831" id="6831">6831</a>
+<a href="#6832" id="6832">6832</a>
+<a href="#6833" id="6833">6833</a>
+<a href="#6834" id="6834">6834</a>
+<a href="#6835" id="6835">6835</a>
+<a href="#6836" id="6836">6836</a>
+<a href="#6837" id="6837">6837</a>
+<a href="#6838" id="6838">6838</a>
+<a href="#6839" id="6839">6839</a>
+<a href="#6840" id="6840">6840</a>
+<a href="#6841" id="6841">6841</a>
+<a href="#6842" id="6842">6842</a>
+<a href="#6843" id="6843">6843</a>
+<a href="#6844" id="6844">6844</a>
+<a href="#6845" id="6845">6845</a>
+<a href="#6846" id="6846">6846</a>
+<a href="#6847" id="6847">6847</a>
+<a href="#6848" id="6848">6848</a>
+<a href="#6849" id="6849">6849</a>
+<a href="#6850" id="6850">6850</a>
+<a href="#6851" id="6851">6851</a>
+<a href="#6852" id="6852">6852</a>
+<a href="#6853" id="6853">6853</a>
+<a href="#6854" id="6854">6854</a>
+<a href="#6855" id="6855">6855</a>
+<a href="#6856" id="6856">6856</a>
+<a href="#6857" id="6857">6857</a>
+<a href="#6858" id="6858">6858</a>
+<a href="#6859" id="6859">6859</a>
+<a href="#6860" id="6860">6860</a>
+<a href="#6861" id="6861">6861</a>
+<a href="#6862" id="6862">6862</a>
+<a href="#6863" id="6863">6863</a>
+<a href="#6864" id="6864">6864</a>
+<a href="#6865" id="6865">6865</a>
+<a href="#6866" id="6866">6866</a>
+<a href="#6867" id="6867">6867</a>
+<a href="#6868" id="6868">6868</a>
+<a href="#6869" id="6869">6869</a>
+<a href="#6870" id="6870">6870</a>
+<a href="#6871" id="6871">6871</a>
+<a href="#6872" id="6872">6872</a>
+<a href="#6873" id="6873">6873</a>
+<a href="#6874" id="6874">6874</a>
+<a href="#6875" id="6875">6875</a>
+<a href="#6876" id="6876">6876</a>
+<a href="#6877" id="6877">6877</a>
+<a href="#6878" id="6878">6878</a>
+<a href="#6879" id="6879">6879</a>
+<a href="#6880" id="6880">6880</a>
+<a href="#6881" id="6881">6881</a>
+<a href="#6882" id="6882">6882</a>
+<a href="#6883" id="6883">6883</a>
+<a href="#6884" id="6884">6884</a>
+<a href="#6885" id="6885">6885</a>
+<a href="#6886" id="6886">6886</a>
+<a href="#6887" id="6887">6887</a>
+<a href="#6888" id="6888">6888</a>
+<a href="#6889" id="6889">6889</a>
+<a href="#6890" id="6890">6890</a>
+<a href="#6891" id="6891">6891</a>
+<a href="#6892" id="6892">6892</a>
+<a href="#6893" id="6893">6893</a>
+<a href="#6894" id="6894">6894</a>
+<a href="#6895" id="6895">6895</a>
+<a href="#6896" id="6896">6896</a>
+<a href="#6897" id="6897">6897</a>
+<a href="#6898" id="6898">6898</a>
+<a href="#6899" id="6899">6899</a>
+<a href="#6900" id="6900">6900</a>
+<a href="#6901" id="6901">6901</a>
+<a href="#6902" id="6902">6902</a>
+<a href="#6903" id="6903">6903</a>
+<a href="#6904" id="6904">6904</a>
+<a href="#6905" id="6905">6905</a>
+<a href="#6906" id="6906">6906</a>
+<a href="#6907" id="6907">6907</a>
+<a href="#6908" id="6908">6908</a>
+<a href="#6909" id="6909">6909</a>
+<a href="#6910" id="6910">6910</a>
+<a href="#6911" id="6911">6911</a>
+<a href="#6912" id="6912">6912</a>
+<a href="#6913" id="6913">6913</a>
+<a href="#6914" id="6914">6914</a>
+<a href="#6915" id="6915">6915</a>
+<a href="#6916" id="6916">6916</a>
+<a href="#6917" id="6917">6917</a>
+<a href="#6918" id="6918">6918</a>
+<a href="#6919" id="6919">6919</a>
+<a href="#6920" id="6920">6920</a>
+<a href="#6921" id="6921">6921</a>
+<a href="#6922" id="6922">6922</a>
+<a href="#6923" id="6923">6923</a>
+<a href="#6924" id="6924">6924</a>
+<a href="#6925" id="6925">6925</a>
+<a href="#6926" id="6926">6926</a>
+<a href="#6927" id="6927">6927</a>
+<a href="#6928" id="6928">6928</a>
+<a href="#6929" id="6929">6929</a>
+<a href="#6930" id="6930">6930</a>
+<a href="#6931" id="6931">6931</a>
+<a href="#6932" id="6932">6932</a>
+<a href="#6933" id="6933">6933</a>
+<a href="#6934" id="6934">6934</a>
+<a href="#6935" id="6935">6935</a>
+<a href="#6936" id="6936">6936</a>
+<a href="#6937" id="6937">6937</a>
+<a href="#6938" id="6938">6938</a>
+<a href="#6939" id="6939">6939</a>
+<a href="#6940" id="6940">6940</a>
+<a href="#6941" id="6941">6941</a>
+<a href="#6942" id="6942">6942</a>
+<a href="#6943" id="6943">6943</a>
+<a href="#6944" id="6944">6944</a>
+<a href="#6945" id="6945">6945</a>
+<a href="#6946" id="6946">6946</a>
+<a href="#6947" id="6947">6947</a>
+<a href="#6948" id="6948">6948</a>
+<a href="#6949" id="6949">6949</a>
+<a href="#6950" id="6950">6950</a>
+<a href="#6951" id="6951">6951</a>
+<a href="#6952" id="6952">6952</a>
+<a href="#6953" id="6953">6953</a>
+<a href="#6954" id="6954">6954</a>
+<a href="#6955" id="6955">6955</a>
+<a href="#6956" id="6956">6956</a>
+<a href="#6957" id="6957">6957</a>
+<a href="#6958" id="6958">6958</a>
+<a href="#6959" id="6959">6959</a>
+<a href="#6960" id="6960">6960</a>
+<a href="#6961" id="6961">6961</a>
+<a href="#6962" id="6962">6962</a>
+<a href="#6963" id="6963">6963</a>
+<a href="#6964" id="6964">6964</a>
+<a href="#6965" id="6965">6965</a>
+<a href="#6966" id="6966">6966</a>
+<a href="#6967" id="6967">6967</a>
+<a href="#6968" id="6968">6968</a>
+<a href="#6969" id="6969">6969</a>
+<a href="#6970" id="6970">6970</a>
+<a href="#6971" id="6971">6971</a>
+<a href="#6972" id="6972">6972</a>
+<a href="#6973" id="6973">6973</a>
+<a href="#6974" id="6974">6974</a>
+<a href="#6975" id="6975">6975</a>
+<a href="#6976" id="6976">6976</a>
+<a href="#6977" id="6977">6977</a>
+<a href="#6978" id="6978">6978</a>
+<a href="#6979" id="6979">6979</a>
+<a href="#6980" id="6980">6980</a>
+<a href="#6981" id="6981">6981</a>
+<a href="#6982" id="6982">6982</a>
+<a href="#6983" id="6983">6983</a>
+<a href="#6984" id="6984">6984</a>
+<a href="#6985" id="6985">6985</a>
+<a href="#6986" id="6986">6986</a>
+<a href="#6987" id="6987">6987</a>
+<a href="#6988" id="6988">6988</a>
+<a href="#6989" id="6989">6989</a>
+<a href="#6990" id="6990">6990</a>
+<a href="#6991" id="6991">6991</a>
+<a href="#6992" id="6992">6992</a>
+<a href="#6993" id="6993">6993</a>
+<a href="#6994" id="6994">6994</a>
+<a href="#6995" id="6995">6995</a>
+<a href="#6996" id="6996">6996</a>
+<a href="#6997" id="6997">6997</a>
+<a href="#6998" id="6998">6998</a>
+<a href="#6999" id="6999">6999</a>
+<a href="#7000" id="7000">7000</a>
+<a href="#7001" id="7001">7001</a>
+<a href="#7002" id="7002">7002</a>
+<a href="#7003" id="7003">7003</a>
+<a href="#7004" id="7004">7004</a>
+<a href="#7005" id="7005">7005</a>
+<a href="#7006" id="7006">7006</a>
+<a href="#7007" id="7007">7007</a>
+<a href="#7008" id="7008">7008</a>
+<a href="#7009" id="7009">7009</a>
+<a href="#7010" id="7010">7010</a>
+<a href="#7011" id="7011">7011</a>
+<a href="#7012" id="7012">7012</a>
+<a href="#7013" id="7013">7013</a>
+<a href="#7014" id="7014">7014</a>
+<a href="#7015" id="7015">7015</a>
+<a href="#7016" id="7016">7016</a>
+<a href="#7017" id="7017">7017</a>
+<a href="#7018" id="7018">7018</a>
+<a href="#7019" id="7019">7019</a>
+<a href="#7020" id="7020">7020</a>
+<a href="#7021" id="7021">7021</a>
+<a href="#7022" id="7022">7022</a>
+<a href="#7023" id="7023">7023</a>
+<a href="#7024" id="7024">7024</a>
+<a href="#7025" id="7025">7025</a>
+<a href="#7026" id="7026">7026</a>
+<a href="#7027" id="7027">7027</a>
+<a href="#7028" id="7028">7028</a>
+<a href="#7029" id="7029">7029</a>
+<a href="#7030" id="7030">7030</a>
+<a href="#7031" id="7031">7031</a>
+<a href="#7032" id="7032">7032</a>
+<a href="#7033" id="7033">7033</a>
+<a href="#7034" id="7034">7034</a>
+<a href="#7035" id="7035">7035</a>
+<a href="#7036" id="7036">7036</a>
+<a href="#7037" id="7037">7037</a>
+<a href="#7038" id="7038">7038</a>
+<a href="#7039" id="7039">7039</a>
+<a href="#7040" id="7040">7040</a>
+<a href="#7041" id="7041">7041</a>
+<a href="#7042" id="7042">7042</a>
+<a href="#7043" id="7043">7043</a>
+<a href="#7044" id="7044">7044</a>
+<a href="#7045" id="7045">7045</a>
+<a href="#7046" id="7046">7046</a>
+<a href="#7047" id="7047">7047</a>
+<a href="#7048" id="7048">7048</a>
+<a href="#7049" id="7049">7049</a>
+<a href="#7050" id="7050">7050</a>
+<a href="#7051" id="7051">7051</a></pre></div><pre class="rust"><code><span class="doccomment">//! Linux-specific definitions for linux-like values
 
 </span><span class="kw">use </span>core::mem::size_of;
 
@@ -6873,10 +7125,15 @@
 </span><span class="kw">pub type </span>sctp_assoc_t = __s32;
 
 <span class="kw">pub type </span>eventfd_t = u64;
-<span class="macro">missing!</span> {
-    <span class="attr">#[cfg_attr(feature = <span class="string">"extra_traits"</span>, derive(Debug))]
-    </span><span class="kw">pub enum </span>fpos64_t {} <span class="comment">// FIXME: fill this out with a struct
-</span>}
+
+<span class="macro">cfg_if!</span> {
+    <span class="kw">if </span><span class="attr">#[cfg(not(target_env = <span class="string">"gnu"</span>))] </span>{
+        <span class="macro">missing!</span> {
+            <span class="attr">#[cfg_attr(feature = <span class="string">"extra_traits"</span>, derive(Debug))]
+            </span><span class="kw">pub enum </span>fpos64_t {} <span class="comment">// FIXME(linux): fill this out with a struct
+        </span>}
+    }
+}
 
 <span class="macro">e!</span> {
     <span class="attr">#[repr(u32)]
@@ -6985,7 +7242,8 @@
         <span class="kw">pub </span>mr_address: [c_uchar; <span class="number">8</span>],
     }
 
-    <span class="kw">pub struct </span>sockaddr_pkt {
+    <span class="attr">#[deprecated(since = <span class="string">"0.2.70"</span>, note = <span class="string">"sockaddr_ll type must be used instead"</span>)]
+    </span><span class="kw">pub struct </span>sockaddr_pkt {
         <span class="kw">pub </span>spkt_family: c_ushort,
         <span class="kw">pub </span>spkt_device: [c_uchar; <span class="number">14</span>],
         <span class="kw">pub </span>spkt_protocol: c_ushort,
@@ -7126,7 +7384,21 @@
     }
 
     <span class="kw">pub struct </span>input_event {
-        <span class="kw">pub </span>time: <span class="kw">crate</span>::timeval,
+        <span class="comment">// FIXME(1.0): Change to the commented variant, see https://github.com/rust-lang/libc/pull/4148#discussion_r1857511742
+        </span><span class="attr">#[cfg(any(target_pointer_width = <span class="string">"64"</span>, not(linux_time_bits64)))]
+        </span><span class="kw">pub </span>time: <span class="kw">crate</span>::timeval,
+        <span class="comment">// #[cfg(any(target_pointer_width = "64", not(linux_time_bits64)))]
+        // pub input_event_sec: time_t,
+        // #[cfg(any(target_pointer_width = "64", not(linux_time_bits64)))]
+        // pub input_event_usec: suseconds_t,
+        // #[cfg(target_arch = "sparc64")]
+        // _pad1: c_int,
+        </span><span class="attr">#[cfg(all(target_pointer_width = <span class="string">"32"</span>, linux_time_bits64))]
+        </span><span class="kw">pub </span>input_event_sec: c_ulong,
+
+        <span class="attr">#[cfg(all(target_pointer_width = <span class="string">"32"</span>, linux_time_bits64))]
+        </span><span class="kw">pub </span>input_event_usec: c_ulong,
+
         <span class="kw">pub </span>type_: __u16,
         <span class="kw">pub </span>code: __u16,
         <span class="kw">pub </span>value: __s32,
@@ -7750,12 +8022,52 @@
         <span class="kw">pub </span>rec_seq: [c_uchar; TLS_CIPHER_AES_GCM_256_REC_SEQ_SIZE],
     }
 
+    <span class="kw">pub struct </span>tls12_crypto_info_aes_ccm_128 {
+        <span class="kw">pub </span>info: tls_crypto_info,
+        <span class="kw">pub </span>iv: [c_uchar; TLS_CIPHER_AES_CCM_128_IV_SIZE],
+        <span class="kw">pub </span>key: [c_uchar; TLS_CIPHER_AES_CCM_128_KEY_SIZE],
+        <span class="kw">pub </span>salt: [c_uchar; TLS_CIPHER_AES_CCM_128_SALT_SIZE],
+        <span class="kw">pub </span>rec_seq: [c_uchar; TLS_CIPHER_AES_CCM_128_REC_SEQ_SIZE],
+    }
+
     <span class="kw">pub struct </span>tls12_crypto_info_chacha20_poly1305 {
         <span class="kw">pub </span>info: tls_crypto_info,
         <span class="kw">pub </span>iv: [c_uchar; TLS_CIPHER_CHACHA20_POLY1305_IV_SIZE],
         <span class="kw">pub </span>key: [c_uchar; TLS_CIPHER_CHACHA20_POLY1305_KEY_SIZE],
         <span class="kw">pub </span>salt: [c_uchar; TLS_CIPHER_CHACHA20_POLY1305_SALT_SIZE],
         <span class="kw">pub </span>rec_seq: [c_uchar; TLS_CIPHER_CHACHA20_POLY1305_REC_SEQ_SIZE],
+    }
+
+    <span class="kw">pub struct </span>tls12_crypto_info_sm4_gcm {
+        <span class="kw">pub </span>info: tls_crypto_info,
+        <span class="kw">pub </span>iv: [c_uchar; TLS_CIPHER_SM4_GCM_IV_SIZE],
+        <span class="kw">pub </span>key: [c_uchar; TLS_CIPHER_SM4_GCM_KEY_SIZE],
+        <span class="kw">pub </span>salt: [c_uchar; TLS_CIPHER_SM4_GCM_SALT_SIZE],
+        <span class="kw">pub </span>rec_seq: [c_uchar; TLS_CIPHER_SM4_GCM_REC_SEQ_SIZE],
+    }
+
+    <span class="kw">pub struct </span>tls12_crypto_info_sm4_ccm {
+        <span class="kw">pub </span>info: tls_crypto_info,
+        <span class="kw">pub </span>iv: [c_uchar; TLS_CIPHER_SM4_CCM_IV_SIZE],
+        <span class="kw">pub </span>key: [c_uchar; TLS_CIPHER_SM4_CCM_KEY_SIZE],
+        <span class="kw">pub </span>salt: [c_uchar; TLS_CIPHER_SM4_CCM_SALT_SIZE],
+        <span class="kw">pub </span>rec_seq: [c_uchar; TLS_CIPHER_SM4_CCM_REC_SEQ_SIZE],
+    }
+
+    <span class="kw">pub struct </span>tls12_crypto_info_aria_gcm_128 {
+        <span class="kw">pub </span>info: tls_crypto_info,
+        <span class="kw">pub </span>iv: [c_uchar; TLS_CIPHER_ARIA_GCM_128_IV_SIZE],
+        <span class="kw">pub </span>key: [c_uchar; TLS_CIPHER_ARIA_GCM_128_KEY_SIZE],
+        <span class="kw">pub </span>salt: [c_uchar; TLS_CIPHER_ARIA_GCM_128_SALT_SIZE],
+        <span class="kw">pub </span>rec_seq: [c_uchar; TLS_CIPHER_ARIA_GCM_128_REC_SEQ_SIZE],
+    }
+
+    <span class="kw">pub struct </span>tls12_crypto_info_aria_gcm_256 {
+        <span class="kw">pub </span>info: tls_crypto_info,
+        <span class="kw">pub </span>iv: [c_uchar; TLS_CIPHER_ARIA_GCM_256_IV_SIZE],
+        <span class="kw">pub </span>key: [c_uchar; TLS_CIPHER_ARIA_GCM_256_KEY_SIZE],
+        <span class="kw">pub </span>salt: [c_uchar; TLS_CIPHER_ARIA_GCM_256_SALT_SIZE],
+        <span class="kw">pub </span>rec_seq: [c_uchar; TLS_CIPHER_ARIA_GCM_256_REC_SEQ_SIZE],
     }
 
     <span class="comment">// linux/wireless.h
@@ -8010,7 +8322,84 @@
     }
 
     <span class="comment">// linux/if_xdp.h
-    </span><span class="kw">pub struct </span>xsk_tx_metadata_completion {
+
+    </span><span class="kw">pub struct </span>sockaddr_xdp {
+        <span class="kw">pub </span>sxdp_family: <span class="kw">crate</span>::__u16,
+        <span class="kw">pub </span>sxdp_flags: <span class="kw">crate</span>::__u16,
+        <span class="kw">pub </span>sxdp_ifindex: <span class="kw">crate</span>::__u32,
+        <span class="kw">pub </span>sxdp_queue_id: <span class="kw">crate</span>::__u32,
+        <span class="kw">pub </span>sxdp_shared_umem_fd: <span class="kw">crate</span>::__u32,
+    }
+
+    <span class="kw">pub struct </span>xdp_ring_offset {
+        <span class="kw">pub </span>producer: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>consumer: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>desc: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>flags: <span class="kw">crate</span>::__u64,
+    }
+
+    <span class="kw">pub struct </span>xdp_mmap_offsets {
+        <span class="kw">pub </span>rx: xdp_ring_offset,
+        <span class="kw">pub </span>tx: xdp_ring_offset,
+        <span class="kw">pub </span>fr: xdp_ring_offset,
+        <span class="kw">pub </span>cr: xdp_ring_offset,
+    }
+
+    <span class="kw">pub struct </span>xdp_ring_offset_v1 {
+        <span class="kw">pub </span>producer: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>consumer: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>desc: <span class="kw">crate</span>::__u64,
+    }
+
+    <span class="kw">pub struct </span>xdp_mmap_offsets_v1 {
+        <span class="kw">pub </span>rx: xdp_ring_offset_v1,
+        <span class="kw">pub </span>tx: xdp_ring_offset_v1,
+        <span class="kw">pub </span>fr: xdp_ring_offset_v1,
+        <span class="kw">pub </span>cr: xdp_ring_offset_v1,
+    }
+
+    <span class="kw">pub struct </span>xdp_umem_reg {
+        <span class="kw">pub </span>addr: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>len: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>chunk_size: <span class="kw">crate</span>::__u32,
+        <span class="kw">pub </span>headroom: <span class="kw">crate</span>::__u32,
+        <span class="kw">pub </span>flags: <span class="kw">crate</span>::__u32,
+        <span class="kw">pub </span>tx_metadata_len: <span class="kw">crate</span>::__u32,
+    }
+
+    <span class="kw">pub struct </span>xdp_umem_reg_v1 {
+        <span class="kw">pub </span>addr: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>len: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>chunk_size: <span class="kw">crate</span>::__u32,
+        <span class="kw">pub </span>headroom: <span class="kw">crate</span>::__u32,
+    }
+
+    <span class="kw">pub struct </span>xdp_statistics {
+        <span class="kw">pub </span>rx_dropped: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>rx_invalid_descs: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>tx_invalid_descs: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>rx_ring_full: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>rx_fill_ring_empty_descs: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>tx_ring_empty_descs: <span class="kw">crate</span>::__u64,
+    }
+
+    <span class="kw">pub struct </span>xdp_statistics_v1 {
+        <span class="kw">pub </span>rx_dropped: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>rx_invalid_descs: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>tx_invalid_descs: <span class="kw">crate</span>::__u64,
+    }
+
+    <span class="kw">pub struct </span>xdp_options {
+        <span class="kw">pub </span>flags: <span class="kw">crate</span>::__u32,
+    }
+
+    <span class="kw">pub struct </span>xdp_desc {
+        <span class="kw">pub </span>addr: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>len: <span class="kw">crate</span>::__u32,
+        <span class="kw">pub </span>options: <span class="kw">crate</span>::__u32,
+    }
+
+    <span class="kw">pub struct </span>xsk_tx_metadata_completion {
         <span class="kw">pub </span>tx_timestamp: <span class="kw">crate</span>::__u64,
     }
 
@@ -8026,6 +8415,21 @@
         <span class="kw">pub </span>attr_clr: <span class="kw">crate</span>::__u64,
         <span class="kw">pub </span>propagation: <span class="kw">crate</span>::__u64,
         <span class="kw">pub </span>userns_fd: <span class="kw">crate</span>::__u64,
+    }
+
+    <span class="comment">// linux/uio.h
+
+    </span><span class="kw">pub struct </span>dmabuf_cmsg {
+        <span class="kw">pub </span>frag_offset: <span class="kw">crate</span>::__u64,
+        <span class="kw">pub </span>frag_size: <span class="kw">crate</span>::__u32,
+        <span class="kw">pub </span>frag_token: <span class="kw">crate</span>::__u32,
+        <span class="kw">pub </span>dmabuf_id: <span class="kw">crate</span>::__u32,
+        <span class="kw">pub </span>flags: <span class="kw">crate</span>::__u32,
+    }
+
+    <span class="kw">pub struct </span>dmabuf_token {
+        <span class="kw">pub </span>token_start: <span class="kw">crate</span>::__u32,
+        <span class="kw">pub </span>token_count: <span class="kw">crate</span>::__u32,
     }
 }
 
@@ -8550,7 +8954,7 @@
                     .field(<span class="string">"d_off"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.d_off)
                     .field(<span class="string">"d_reclen"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.d_reclen)
                     .field(<span class="string">"d_type"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.d_type)
-                    <span class="comment">// FIXME: .field("d_name", &amp;self.d_name)
+                    <span class="comment">// FIXME(debug): .field("d_name", &amp;self.d_name)
                     </span>.finish()
             }
         }
@@ -8588,7 +8992,7 @@
                     .field(<span class="string">"d_off"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.d_off)
                     .field(<span class="string">"d_reclen"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.d_reclen)
                     .field(<span class="string">"d_type"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.d_type)
-                    <span class="comment">// FIXME: .field("d_name", &amp;self.d_name)
+                    <span class="comment">// FIXME(debug): .field("d_name", &amp;self.d_name)
                     </span>.finish()
             }
         }
@@ -8614,7 +9018,7 @@
         <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>pthread_cond_t {
             <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
                 f.debug_struct(<span class="string">"pthread_cond_t"</span>)
-                    <span class="comment">// FIXME: .field("size", &amp;self.size)
+                    <span class="comment">// FIXME(debug): .field("size", &amp;self.size)
                     </span>.finish()
             }
         }
@@ -8636,7 +9040,7 @@
         <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>pthread_mutex_t {
             <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
                 f.debug_struct(<span class="string">"pthread_mutex_t"</span>)
-                    <span class="comment">// FIXME: .field("size", &amp;self.size)
+                    <span class="comment">// FIXME(debug): .field("size", &amp;self.size)
                     </span>.finish()
             }
         }
@@ -8658,7 +9062,7 @@
         <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>pthread_rwlock_t {
             <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
                 f.debug_struct(<span class="string">"pthread_rwlock_t"</span>)
-                    <span class="comment">// FIXME: .field("size", &amp;self.size)
+                    <span class="comment">// FIXME(debug): .field("size", &amp;self.size)
                     </span>.finish()
             }
         }
@@ -8957,18 +9361,6 @@
                     .field(<span class="string">"u"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.u)
                     .finish()
             }
-        }
-    }
-}
-
-<span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(all(
-        any(target_env = <span class="string">"gnu"</span>, target_env = <span class="string">"musl"</span>, target_env = <span class="string">"ohos"</span>),
-        any(target_arch = <span class="string">"x86_64"</span>, target_arch = <span class="string">"x86"</span>)
-    ))] </span>{
-        <span class="kw">extern </span><span class="string">"C" </span>{
-            <span class="kw">pub fn </span>iopl(level: c_int) -&gt; c_int;
-            <span class="kw">pub fn </span>ioperm(from: c_ulong, num: c_ulong, turn_on: c_int) -&gt; c_int;
         }
     }
 }
@@ -9489,6 +9881,7 @@
 <span class="kw">pub const </span>F_ULOCK: c_int = <span class="number">0</span>;
 
 <span class="kw">pub const </span>F_SEAL_FUTURE_WRITE: c_int = <span class="number">0x0010</span>;
+<span class="kw">pub const </span>F_SEAL_EXEC: c_int = <span class="number">0x0020</span>;
 
 <span class="kw">pub const </span>IFF_LOWER_UP: c_int = <span class="number">0x10000</span>;
 <span class="kw">pub const </span>IFF_DORMANT: c_int = <span class="number">0x20000</span>;
@@ -9737,6 +10130,19 @@
 <span class="kw">pub const </span>MSG_EXCEPT: c_int = <span class="number">0o20000</span>;
 <span class="kw">pub const </span>MSG_ZEROCOPY: c_int = <span class="number">0x4000000</span>;
 
+<span class="kw">pub const </span>SEM_UNDO: c_int = <span class="number">0x1000</span>;
+
+<span class="kw">pub const </span>GETPID: c_int = <span class="number">11</span>;
+<span class="kw">pub const </span>GETVAL: c_int = <span class="number">12</span>;
+<span class="kw">pub const </span>GETALL: c_int = <span class="number">13</span>;
+<span class="kw">pub const </span>GETNCNT: c_int = <span class="number">14</span>;
+<span class="kw">pub const </span>GETZCNT: c_int = <span class="number">15</span>;
+<span class="kw">pub const </span>SETVAL: c_int = <span class="number">16</span>;
+<span class="kw">pub const </span>SETALL: c_int = <span class="number">17</span>;
+<span class="kw">pub const </span>SEM_STAT: c_int = <span class="number">18</span>;
+<span class="kw">pub const </span>SEM_INFO: c_int = <span class="number">19</span>;
+<span class="kw">pub const </span>SEM_STAT_ANY: c_int = <span class="number">20</span>;
+
 <span class="kw">pub const </span>SHM_R: c_int = <span class="number">0o400</span>;
 <span class="kw">pub const </span>SHM_W: c_int = <span class="number">0o200</span>;
 
@@ -9975,18 +10381,19 @@
 <span class="kw">pub const </span>SECCOMP_GET_ACTION_AVAIL: c_uint = <span class="number">2</span>;
 <span class="kw">pub const </span>SECCOMP_GET_NOTIF_SIZES: c_uint = <span class="number">3</span>;
 
-<span class="kw">pub const </span>SECCOMP_FILTER_FLAG_TSYNC: c_ulong = <span class="number">1</span>;
-<span class="kw">pub const </span>SECCOMP_FILTER_FLAG_LOG: c_ulong = <span class="number">2</span>;
-<span class="kw">pub const </span>SECCOMP_FILTER_FLAG_SPEC_ALLOW: c_ulong = <span class="number">4</span>;
-<span class="kw">pub const </span>SECCOMP_FILTER_FLAG_NEW_LISTENER: c_ulong = <span class="number">8</span>;
-<span class="kw">pub const </span>SECCOMP_FILTER_FLAG_TSYNC_ESRCH: c_ulong = <span class="number">16</span>;
-<span class="kw">pub const </span>SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV: c_ulong = <span class="number">32</span>;
+<span class="kw">pub const </span>SECCOMP_FILTER_FLAG_TSYNC: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">0</span>;
+<span class="kw">pub const </span>SECCOMP_FILTER_FLAG_LOG: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">1</span>;
+<span class="kw">pub const </span>SECCOMP_FILTER_FLAG_SPEC_ALLOW: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">2</span>;
+<span class="kw">pub const </span>SECCOMP_FILTER_FLAG_NEW_LISTENER: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">3</span>;
+<span class="kw">pub const </span>SECCOMP_FILTER_FLAG_TSYNC_ESRCH: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">4</span>;
+<span class="kw">pub const </span>SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV: c_ulong = <span class="number">1 </span>&lt;&lt; <span class="number">5</span>;
 
 <span class="kw">pub const </span>SECCOMP_RET_KILL_PROCESS: c_uint = <span class="number">0x80000000</span>;
 <span class="kw">pub const </span>SECCOMP_RET_KILL_THREAD: c_uint = <span class="number">0x00000000</span>;
 <span class="kw">pub const </span>SECCOMP_RET_KILL: c_uint = SECCOMP_RET_KILL_THREAD;
 <span class="kw">pub const </span>SECCOMP_RET_TRAP: c_uint = <span class="number">0x00030000</span>;
 <span class="kw">pub const </span>SECCOMP_RET_ERRNO: c_uint = <span class="number">0x00050000</span>;
+<span class="kw">pub const </span>SECCOMP_RET_USER_NOTIF: c_uint = <span class="number">0x7fc00000</span>;
 <span class="kw">pub const </span>SECCOMP_RET_TRACE: c_uint = <span class="number">0x7ff00000</span>;
 <span class="kw">pub const </span>SECCOMP_RET_LOG: c_uint = <span class="number">0x7ffc0000</span>;
 <span class="kw">pub const </span>SECCOMP_RET_ALLOW: c_uint = <span class="number">0x7fff0000</span>;
@@ -10140,6 +10547,12 @@
 <span class="kw">pub const </span>BPF_JSET: __u32 = <span class="number">0x40</span>;
 <span class="kw">pub const </span>BPF_K: __u32 = <span class="number">0x00</span>;
 <span class="kw">pub const </span>BPF_X: __u32 = <span class="number">0x08</span>;
+
+<span class="comment">// linux/filter.h
+
+</span><span class="kw">pub const </span>BPF_A: __u32 = <span class="number">0x10</span>;
+<span class="kw">pub const </span>BPF_TAX: __u32 = <span class="number">0x00</span>;
+<span class="kw">pub const </span>BPF_TXA: __u32 = <span class="number">0x80</span>;
 
 <span class="comment">// linux/openat2.h
 </span><span class="kw">pub const </span>RESOLVE_NO_XDEV: <span class="kw">crate</span>::__u64 = <span class="number">0x01</span>;
@@ -11109,6 +11522,12 @@
 <span class="kw">pub const </span>NLM_F_CREATE: c_int = <span class="number">0x400</span>;
 <span class="kw">pub const </span>NLM_F_APPEND: c_int = <span class="number">0x800</span>;
 
+<span class="kw">pub const </span>NLM_F_NONREC: c_int = <span class="number">0x100</span>;
+<span class="kw">pub const </span>NLM_F_BULK: c_int = <span class="number">0x200</span>;
+
+<span class="kw">pub const </span>NLM_F_CAPPED: c_int = <span class="number">0x100</span>;
+<span class="kw">pub const </span>NLM_F_ACK_TLVS: c_int = <span class="number">0x200</span>;
+
 <span class="kw">pub const </span>NETLINK_ADD_MEMBERSHIP: c_int = <span class="number">1</span>;
 <span class="kw">pub const </span>NETLINK_DROP_MEMBERSHIP: c_int = <span class="number">2</span>;
 <span class="kw">pub const </span>NETLINK_PKTINFO: c_int = <span class="number">3</span>;
@@ -11341,6 +11760,9 @@
 <span class="kw">pub const </span>SOF_TIMESTAMPING_OPT_STATS: c_uint = <span class="number">1 </span>&lt;&lt; <span class="number">12</span>;
 <span class="kw">pub const </span>SOF_TIMESTAMPING_OPT_PKTINFO: c_uint = <span class="number">1 </span>&lt;&lt; <span class="number">13</span>;
 <span class="kw">pub const </span>SOF_TIMESTAMPING_OPT_TX_SWHW: c_uint = <span class="number">1 </span>&lt;&lt; <span class="number">14</span>;
+<span class="kw">pub const </span>SOF_TIMESTAMPING_BIND_PHC: c_uint = <span class="number">1 </span>&lt;&lt; <span class="number">15</span>;
+<span class="kw">pub const </span>SOF_TIMESTAMPING_OPT_ID_TCP: c_uint = <span class="number">1 </span>&lt;&lt; <span class="number">16</span>;
+<span class="kw">pub const </span>SOF_TIMESTAMPING_OPT_RX_FILTER: c_uint = <span class="number">1 </span>&lt;&lt; <span class="number">17</span>;
 <span class="kw">pub const </span>SOF_TXTIME_DEADLINE_MODE: u32 = <span class="number">1 </span>&lt;&lt; <span class="number">0</span>;
 <span class="kw">pub const </span>SOF_TXTIME_REPORT_ERRORS: u32 = <span class="number">1 </span>&lt;&lt; <span class="number">1</span>;
 
@@ -11401,6 +11823,9 @@
 </span><span class="kw">pub const </span>TLS_TX: c_int = <span class="number">1</span>;
 <span class="kw">pub const </span>TLS_RX: c_int = <span class="number">2</span>;
 
+<span class="kw">pub const </span>TLS_TX_ZEROCOPY_RO: c_int = <span class="number">3</span>;
+<span class="kw">pub const </span>TLS_RX_EXPECT_NO_PAD: c_int = <span class="number">4</span>;
+
 <span class="kw">pub const </span>TLS_1_2_VERSION_MAJOR: __u8 = <span class="number">0x3</span>;
 <span class="kw">pub const </span>TLS_1_2_VERSION_MINOR: __u8 = <span class="number">0x3</span>;
 <span class="kw">pub const </span>TLS_1_2_VERSION: __u16 =
@@ -11425,6 +11850,13 @@
 <span class="kw">pub const </span>TLS_CIPHER_AES_GCM_256_TAG_SIZE: usize = <span class="number">16</span>;
 <span class="kw">pub const </span>TLS_CIPHER_AES_GCM_256_REC_SEQ_SIZE: usize = <span class="number">8</span>;
 
+<span class="kw">pub const </span>TLS_CIPHER_AES_CCM_128: __u16 = <span class="number">53</span>;
+<span class="kw">pub const </span>TLS_CIPHER_AES_CCM_128_IV_SIZE: usize = <span class="number">8</span>;
+<span class="kw">pub const </span>TLS_CIPHER_AES_CCM_128_KEY_SIZE: usize = <span class="number">16</span>;
+<span class="kw">pub const </span>TLS_CIPHER_AES_CCM_128_SALT_SIZE: usize = <span class="number">4</span>;
+<span class="kw">pub const </span>TLS_CIPHER_AES_CCM_128_TAG_SIZE: usize = <span class="number">16</span>;
+<span class="kw">pub const </span>TLS_CIPHER_AES_CCM_128_REC_SEQ_SIZE: usize = <span class="number">8</span>;
+
 <span class="kw">pub const </span>TLS_CIPHER_CHACHA20_POLY1305: __u16 = <span class="number">54</span>;
 <span class="kw">pub const </span>TLS_CIPHER_CHACHA20_POLY1305_IV_SIZE: usize = <span class="number">12</span>;
 <span class="kw">pub const </span>TLS_CIPHER_CHACHA20_POLY1305_KEY_SIZE: usize = <span class="number">32</span>;
@@ -11432,10 +11864,52 @@
 <span class="kw">pub const </span>TLS_CIPHER_CHACHA20_POLY1305_TAG_SIZE: usize = <span class="number">16</span>;
 <span class="kw">pub const </span>TLS_CIPHER_CHACHA20_POLY1305_REC_SEQ_SIZE: usize = <span class="number">8</span>;
 
+<span class="kw">pub const </span>TLS_CIPHER_SM4_GCM: __u16 = <span class="number">55</span>;
+<span class="kw">pub const </span>TLS_CIPHER_SM4_GCM_IV_SIZE: usize = <span class="number">8</span>;
+<span class="kw">pub const </span>TLS_CIPHER_SM4_GCM_KEY_SIZE: usize = <span class="number">16</span>;
+<span class="kw">pub const </span>TLS_CIPHER_SM4_GCM_SALT_SIZE: usize = <span class="number">4</span>;
+<span class="kw">pub const </span>TLS_CIPHER_SM4_GCM_TAG_SIZE: usize = <span class="number">16</span>;
+<span class="kw">pub const </span>TLS_CIPHER_SM4_GCM_REC_SEQ_SIZE: usize = <span class="number">8</span>;
+
+<span class="kw">pub const </span>TLS_CIPHER_SM4_CCM: __u16 = <span class="number">56</span>;
+<span class="kw">pub const </span>TLS_CIPHER_SM4_CCM_IV_SIZE: usize = <span class="number">8</span>;
+<span class="kw">pub const </span>TLS_CIPHER_SM4_CCM_KEY_SIZE: usize = <span class="number">16</span>;
+<span class="kw">pub const </span>TLS_CIPHER_SM4_CCM_SALT_SIZE: usize = <span class="number">4</span>;
+<span class="kw">pub const </span>TLS_CIPHER_SM4_CCM_TAG_SIZE: usize = <span class="number">16</span>;
+<span class="kw">pub const </span>TLS_CIPHER_SM4_CCM_REC_SEQ_SIZE: usize = <span class="number">8</span>;
+
+<span class="kw">pub const </span>TLS_CIPHER_ARIA_GCM_128: __u16 = <span class="number">57</span>;
+<span class="kw">pub const </span>TLS_CIPHER_ARIA_GCM_128_IV_SIZE: usize = <span class="number">8</span>;
+<span class="kw">pub const </span>TLS_CIPHER_ARIA_GCM_128_KEY_SIZE: usize = <span class="number">16</span>;
+<span class="kw">pub const </span>TLS_CIPHER_ARIA_GCM_128_SALT_SIZE: usize = <span class="number">4</span>;
+<span class="kw">pub const </span>TLS_CIPHER_ARIA_GCM_128_TAG_SIZE: usize = <span class="number">16</span>;
+<span class="kw">pub const </span>TLS_CIPHER_ARIA_GCM_128_REC_SEQ_SIZE: usize = <span class="number">8</span>;
+
+<span class="kw">pub const </span>TLS_CIPHER_ARIA_GCM_256: __u16 = <span class="number">58</span>;
+<span class="kw">pub const </span>TLS_CIPHER_ARIA_GCM_256_IV_SIZE: usize = <span class="number">8</span>;
+<span class="kw">pub const </span>TLS_CIPHER_ARIA_GCM_256_KEY_SIZE: usize = <span class="number">32</span>;
+<span class="kw">pub const </span>TLS_CIPHER_ARIA_GCM_256_SALT_SIZE: usize = <span class="number">4</span>;
+<span class="kw">pub const </span>TLS_CIPHER_ARIA_GCM_256_TAG_SIZE: usize = <span class="number">16</span>;
+<span class="kw">pub const </span>TLS_CIPHER_ARIA_GCM_256_REC_SEQ_SIZE: usize = <span class="number">8</span>;
+
 <span class="kw">pub const </span>TLS_SET_RECORD_TYPE: c_int = <span class="number">1</span>;
 <span class="kw">pub const </span>TLS_GET_RECORD_TYPE: c_int = <span class="number">2</span>;
 
 <span class="kw">pub const </span>SOL_TLS: c_int = <span class="number">282</span>;
+
+<span class="comment">// enum
+</span><span class="kw">pub const </span>TLS_INFO_UNSPEC: c_int = <span class="number">0x00</span>;
+<span class="kw">pub const </span>TLS_INFO_VERSION: c_int = <span class="number">0x01</span>;
+<span class="kw">pub const </span>TLS_INFO_CIPHER: c_int = <span class="number">0x02</span>;
+<span class="kw">pub const </span>TLS_INFO_TXCONF: c_int = <span class="number">0x03</span>;
+<span class="kw">pub const </span>TLS_INFO_RXCONF: c_int = <span class="number">0x04</span>;
+<span class="kw">pub const </span>TLS_INFO_ZC_RO_TX: c_int = <span class="number">0x05</span>;
+<span class="kw">pub const </span>TLS_INFO_RX_NO_PAD: c_int = <span class="number">0x06</span>;
+
+<span class="kw">pub const </span>TLS_CONF_BASE: c_int = <span class="number">1</span>;
+<span class="kw">pub const </span>TLS_CONF_SW: c_int = <span class="number">2</span>;
+<span class="kw">pub const </span>TLS_CONF_HW: c_int = <span class="number">3</span>;
+<span class="kw">pub const </span>TLS_CONF_HW_RECORD: c_int = <span class="number">4</span>;
 
 <span class="comment">// linux/if_alg.h
 </span><span class="kw">pub const </span>ALG_SET_KEY: c_int = <span class="number">1</span>;
@@ -11779,7 +12253,14 @@
 <span class="kw">pub const </span>FF_CNT: usize = FF_MAX <span class="kw">as </span>usize + <span class="number">1</span>;
 
 <span class="comment">// linux/input-event-codes.h
-</span><span class="kw">pub const </span>INPUT_PROP_MAX: __u16 = <span class="number">0x1f</span>;
+</span><span class="kw">pub const </span>INPUT_PROP_POINTER: __u16 = <span class="number">0x00</span>;
+<span class="kw">pub const </span>INPUT_PROP_DIRECT: __u16 = <span class="number">0x01</span>;
+<span class="kw">pub const </span>INPUT_PROP_BUTTONPAD: __u16 = <span class="number">0x02</span>;
+<span class="kw">pub const </span>INPUT_PROP_SEMI_MT: __u16 = <span class="number">0x03</span>;
+<span class="kw">pub const </span>INPUT_PROP_TOPBUTTONPAD: __u16 = <span class="number">0x04</span>;
+<span class="kw">pub const </span>INPUT_PROP_POINTING_STICK: __u16 = <span class="number">0x05</span>;
+<span class="kw">pub const </span>INPUT_PROP_ACCELEROMETER: __u16 = <span class="number">0x06</span>;
+<span class="kw">pub const </span>INPUT_PROP_MAX: __u16 = <span class="number">0x1f</span>;
 <span class="kw">pub const </span>INPUT_PROP_CNT: usize = INPUT_PROP_MAX <span class="kw">as </span>usize + <span class="number">1</span>;
 <span class="kw">pub const </span>EV_MAX: __u16 = <span class="number">0x1f</span>;
 <span class="kw">pub const </span>EV_CNT: usize = EV_MAX <span class="kw">as </span>usize + <span class="number">1</span>;
@@ -12055,6 +12536,7 @@
 
 <span class="kw">pub const </span>CANFD_BRS: c_int = <span class="number">0x01</span>;
 <span class="kw">pub const </span>CANFD_ESI: c_int = <span class="number">0x02</span>;
+<span class="kw">pub const </span>CANFD_FDF: c_int = <span class="number">0x04</span>;
 
 <span class="kw">pub const </span>CANXL_MIN_DLC: c_int = <span class="number">0</span>;
 <span class="kw">pub const </span>CANXL_MAX_DLC: c_int = <span class="number">2047</span>;
@@ -12464,13 +12946,47 @@
 <span class="kw">pub const </span>SCHED_FLAG_UTIL_CLAMP_MAX: c_int = <span class="number">0x40</span>;
 
 <span class="comment">// linux/if_xdp.h
-</span><span class="kw">pub const </span>XDP_UMEM_TX_SW_CSUM: __u32 = <span class="number">1 </span>&lt;&lt; <span class="number">1</span>;
-<span class="kw">pub const </span>XDP_UMEM_TX_METADATA_LEN: __u32 = <span class="number">1 </span>&lt;&lt; <span class="number">2</span>;
+</span><span class="kw">pub const </span>XDP_SHARED_UMEM: <span class="kw">crate</span>::__u16 = <span class="number">1 </span>&lt;&lt; <span class="number">0</span>;
+<span class="kw">pub const </span>XDP_COPY: <span class="kw">crate</span>::__u16 = <span class="number">1 </span>&lt;&lt; <span class="number">1</span>;
+<span class="kw">pub const </span>XDP_ZEROCOPY: <span class="kw">crate</span>::__u16 = <span class="number">1 </span>&lt;&lt; <span class="number">2</span>;
+<span class="kw">pub const </span>XDP_USE_NEED_WAKEUP: <span class="kw">crate</span>::__u16 = <span class="number">1 </span>&lt;&lt; <span class="number">3</span>;
+<span class="kw">pub const </span>XDP_USE_SG: <span class="kw">crate</span>::__u16 = <span class="number">1 </span>&lt;&lt; <span class="number">4</span>;
 
-<span class="kw">pub const </span>XDP_TXMD_FLAGS_TIMESTAMP: __u32 = <span class="number">1 </span>&lt;&lt; <span class="number">0</span>;
-<span class="kw">pub const </span>XDP_TXMD_FLAGS_CHECKSUM: __u32 = <span class="number">1 </span>&lt;&lt; <span class="number">1</span>;
+<span class="kw">pub const </span>XDP_UMEM_UNALIGNED_CHUNK_FLAG: <span class="kw">crate</span>::__u32 = <span class="number">1 </span>&lt;&lt; <span class="number">0</span>;
 
-<span class="kw">pub const </span>XDP_TX_METADATA: __u32 = <span class="number">1 </span>&lt;&lt; <span class="number">1</span>;
+<span class="kw">pub const </span>XDP_RING_NEED_WAKEUP: <span class="kw">crate</span>::__u32 = <span class="number">1 </span>&lt;&lt; <span class="number">0</span>;
+
+<span class="kw">pub const </span>XDP_MMAP_OFFSETS: c_int = <span class="number">1</span>;
+<span class="kw">pub const </span>XDP_RX_RING: c_int = <span class="number">2</span>;
+<span class="kw">pub const </span>XDP_TX_RING: c_int = <span class="number">3</span>;
+<span class="kw">pub const </span>XDP_UMEM_REG: c_int = <span class="number">4</span>;
+<span class="kw">pub const </span>XDP_UMEM_FILL_RING: c_int = <span class="number">5</span>;
+<span class="kw">pub const </span>XDP_UMEM_COMPLETION_RING: c_int = <span class="number">6</span>;
+<span class="kw">pub const </span>XDP_STATISTICS: c_int = <span class="number">7</span>;
+<span class="kw">pub const </span>XDP_OPTIONS: c_int = <span class="number">8</span>;
+
+<span class="kw">pub const </span>XDP_OPTIONS_ZEROCOPY: <span class="kw">crate</span>::__u32 = <span class="number">1 </span>&lt;&lt; <span class="number">0</span>;
+
+<span class="kw">pub const </span>XDP_PGOFF_RX_RING: <span class="kw">crate</span>::off_t = <span class="number">0</span>;
+<span class="kw">pub const </span>XDP_PGOFF_TX_RING: <span class="kw">crate</span>::off_t = <span class="number">0x80000000</span>;
+<span class="kw">pub const </span>XDP_UMEM_PGOFF_FILL_RING: <span class="kw">crate</span>::c_ulonglong = <span class="number">0x100000000</span>;
+<span class="kw">pub const </span>XDP_UMEM_PGOFF_COMPLETION_RING: <span class="kw">crate</span>::c_ulonglong = <span class="number">0x180000000</span>;
+
+<span class="kw">pub const </span>XSK_UNALIGNED_BUF_OFFSET_SHIFT: <span class="kw">crate</span>::c_int = <span class="number">48</span>;
+<span class="kw">pub const </span>XSK_UNALIGNED_BUF_ADDR_MASK: <span class="kw">crate</span>::c_ulonglong =
+    (<span class="number">1 </span>&lt;&lt; XSK_UNALIGNED_BUF_OFFSET_SHIFT) - <span class="number">1</span>;
+
+<span class="kw">pub const </span>XDP_PKT_CONTD: <span class="kw">crate</span>::__u32 = <span class="number">1 </span>&lt;&lt; <span class="number">0</span>;
+
+<span class="kw">pub const </span>XDP_UMEM_TX_SW_CSUM: <span class="kw">crate</span>::__u32 = <span class="number">1 </span>&lt;&lt; <span class="number">1</span>;
+<span class="kw">pub const </span>XDP_UMEM_TX_METADATA_LEN: <span class="kw">crate</span>::__u32 = <span class="number">1 </span>&lt;&lt; <span class="number">2</span>;
+
+<span class="kw">pub const </span>XDP_TXMD_FLAGS_TIMESTAMP: <span class="kw">crate</span>::__u32 = <span class="number">1 </span>&lt;&lt; <span class="number">0</span>;
+<span class="kw">pub const </span>XDP_TXMD_FLAGS_CHECKSUM: <span class="kw">crate</span>::__u32 = <span class="number">1 </span>&lt;&lt; <span class="number">1</span>;
+
+<span class="kw">pub const </span>XDP_TX_METADATA: <span class="kw">crate</span>::__u32 = <span class="number">1 </span>&lt;&lt; <span class="number">1</span>;
+
+<span class="kw">pub const </span>SOL_XDP: c_int = <span class="number">283</span>;
 
 <span class="comment">// linux/mount.h
 </span><span class="kw">pub const </span>MOUNT_ATTR_RDONLY: <span class="kw">crate</span>::__u64 = <span class="number">0x00000001</span>;
@@ -12520,84 +13036,28 @@
 </span><span class="kw">pub const </span>EPIOCSPARAMS: Ioctl = <span class="number">0x40088a01</span>;
 <span class="kw">pub const </span>EPIOCGPARAMS: Ioctl = <span class="number">0x80088a02</span>;
 
-<span class="kw">const </span>_IOC_NRBITS: u32 = <span class="number">8</span>;
-<span class="kw">const </span>_IOC_TYPEBITS: u32 = <span class="number">8</span>;
-
-<span class="comment">// https://github.com/search?q=repo%3Atorvalds%2Flinux+%22%23define+_IOC_NONE%22&amp;type=code
-</span><span class="macro">cfg_if!</span> {
-    <span class="kw">if </span><span class="attr">#[cfg(any(
-        any(target_arch = <span class="string">"powerpc"</span>, target_arch = <span class="string">"powerpc64"</span>),
-        any(target_arch = <span class="string">"sparc"</span>, target_arch = <span class="string">"sparc64"</span>),
-        any(target_arch = <span class="string">"mips"</span>, target_arch = <span class="string">"mips64"</span>),
-    ))] </span>{
-        <span class="comment">// https://github.com/torvalds/linux/blob/b311c1b497e51a628aa89e7cb954481e5f9dced2/arch/powerpc/include/uapi/asm/ioctl.h
-        // https://github.com/torvalds/linux/blob/b311c1b497e51a628aa89e7cb954481e5f9dced2/arch/sparc/include/uapi/asm/ioctl.h
-        // https://github.com/torvalds/linux/blob/b311c1b497e51a628aa89e7cb954481e5f9dced2/arch/mips/include/uapi/asm/ioctl.h
-
-        </span><span class="kw">const </span>_IOC_SIZEBITS: u32 = <span class="number">13</span>;
-        <span class="kw">const </span>_IOC_DIRBITS: u32 = <span class="number">3</span>;
-
-        <span class="kw">const </span>_IOC_NONE: u32 = <span class="number">1</span>;
-        <span class="kw">const </span>_IOC_READ: u32 = <span class="number">2</span>;
-        <span class="kw">const </span>_IOC_WRITE: u32 = <span class="number">4</span>;
-    } <span class="kw">else </span>{
-        <span class="comment">// https://github.com/torvalds/linux/blob/b311c1b497e51a628aa89e7cb954481e5f9dced2/include/uapi/asm-generic/ioctl.h
-
-        </span><span class="kw">const </span>_IOC_SIZEBITS: u32 = <span class="number">14</span>;
-        <span class="kw">const </span>_IOC_DIRBITS: u32 = <span class="number">2</span>;
-
-        <span class="kw">const </span>_IOC_NONE: u32 = <span class="number">0</span>;
-        <span class="kw">const </span>_IOC_WRITE: u32 = <span class="number">1</span>;
-        <span class="kw">const </span>_IOC_READ: u32 = <span class="number">2</span>;
-    }
-}
-
-<span class="kw">const </span>_IOC_NRMASK: u32 = (<span class="number">1 </span>&lt;&lt; _IOC_NRBITS) - <span class="number">1</span>;
-<span class="kw">const </span>_IOC_TYPEMASK: u32 = (<span class="number">1 </span>&lt;&lt; _IOC_TYPEBITS) - <span class="number">1</span>;
-<span class="kw">const </span>_IOC_SIZEMASK: u32 = (<span class="number">1 </span>&lt;&lt; _IOC_SIZEBITS) - <span class="number">1</span>;
-<span class="kw">const </span>_IOC_DIRMASK: u32 = (<span class="number">1 </span>&lt;&lt; _IOC_DIRBITS) - <span class="number">1</span>;
-
-<span class="kw">const </span>_IOC_NRSHIFT: u32 = <span class="number">0</span>;
-<span class="kw">const </span>_IOC_TYPESHIFT: u32 = _IOC_NRSHIFT + _IOC_NRBITS;
-<span class="kw">const </span>_IOC_SIZESHIFT: u32 = _IOC_TYPESHIFT + _IOC_TYPEBITS;
-<span class="kw">const </span>_IOC_DIRSHIFT: u32 = _IOC_SIZESHIFT + _IOC_SIZEBITS;
-
-<span class="comment">// adapted from https://github.com/torvalds/linux/blob/8a696a29c6905594e4abf78eaafcb62165ac61f1/rust/kernel/ioctl.rs
-
-</span><span class="doccomment">/// Build an ioctl number, analogous to the C macro of the same name.
-</span><span class="kw">const fn </span>_IOC(dir: u32, ty: u32, nr: u32, size: usize) -&gt; u32 {
-    <span class="comment">// FIXME(ctest) the `garando_syntax` crate (used by ctest2 in the CI test suite)
-    // cannot currently parse these `debug_assert!`s
-    //
-    // debug_assert!(dir &lt;= _IOC_DIRMASK);
-    // debug_assert!(ty &lt;= _IOC_TYPEMASK);
-    // debug_assert!(nr &lt;= _IOC_NRMASK);
-    // debug_assert!(size &lt;= (_IOC_SIZEMASK as usize));
-
-    </span>(dir &lt;&lt; _IOC_DIRSHIFT)
-        | (ty &lt;&lt; _IOC_TYPESHIFT)
-        | (nr &lt;&lt; _IOC_NRSHIFT)
-        | ((size <span class="kw">as </span>u32) &lt;&lt; _IOC_SIZESHIFT)
-}
+<span class="comment">// siginfo.h
+</span><span class="kw">pub const </span>SI_DETHREAD: c_int = -<span class="number">7</span>;
+<span class="kw">pub const </span>TRAP_PERF: c_int = <span class="number">6</span>;
 
 <span class="doccomment">/// Build an ioctl number for an argumentless ioctl.
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>_IO(ty: u32, nr: u32) -&gt; u32 {
-    _IOC(_IOC_NONE, ty, nr, <span class="number">0</span>)
+</span><span class="kw">pub const fn </span>_IO(ty: u32, nr: u32) -&gt; u32 {
+    <span class="kw">super</span>::_IOC(<span class="kw">super</span>::_IOC_NONE, ty, nr, <span class="number">0</span>)
 }
 
 <span class="doccomment">/// Build an ioctl number for an read-only ioctl.
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>_IOR&lt;T&gt;(ty: u32, nr: u32) -&gt; u32 {
-    _IOC(_IOC_READ, ty, nr, size_of::&lt;T&gt;())
+</span><span class="kw">pub const fn </span>_IOR&lt;T&gt;(ty: u32, nr: u32) -&gt; u32 {
+    <span class="kw">super</span>::_IOC(<span class="kw">super</span>::_IOC_READ, ty, nr, size_of::&lt;T&gt;())
 }
 
 <span class="doccomment">/// Build an ioctl number for an write-only ioctl.
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>_IOW&lt;T&gt;(ty: u32, nr: u32) -&gt; u32 {
-    _IOC(_IOC_WRITE, ty, nr, size_of::&lt;T&gt;())
+</span><span class="kw">pub const fn </span>_IOW&lt;T&gt;(ty: u32, nr: u32) -&gt; u32 {
+    <span class="kw">super</span>::_IOC(<span class="kw">super</span>::_IOC_WRITE, ty, nr, size_of::&lt;T&gt;())
 }
 
 <span class="doccomment">/// Build an ioctl number for a read-write ioctl.
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>_IOWR&lt;T&gt;(ty: u32, nr: u32) -&gt; u32 {
-    _IOC(_IOC_READ | _IOC_WRITE, ty, nr, size_of::&lt;T&gt;())
+</span><span class="kw">pub const fn </span>_IOWR&lt;T&gt;(ty: u32, nr: u32) -&gt; u32 {
+    <span class="kw">super</span>::_IOC(<span class="kw">super</span>::_IOC_READ | <span class="kw">super</span>::_IOC_WRITE, ty, nr, size_of::&lt;T&gt;())
 }
 
 <span class="macro">f!</span> {
@@ -12683,20 +13143,6 @@
         ()
     }
 
-    <span class="kw">pub fn </span>major(dev: <span class="kw">crate</span>::dev_t) -&gt; c_uint {
-        <span class="kw">let </span><span class="kw-2">mut </span>major = <span class="number">0</span>;
-        major |= (dev &amp; <span class="number">0x00000000000fff00</span>) &gt;&gt; <span class="number">8</span>;
-        major |= (dev &amp; <span class="number">0xfffff00000000000</span>) &gt;&gt; <span class="number">32</span>;
-        major <span class="kw">as </span>c_uint
-    }
-
-    <span class="kw">pub fn </span>minor(dev: <span class="kw">crate</span>::dev_t) -&gt; c_uint {
-        <span class="kw">let </span><span class="kw-2">mut </span>minor = <span class="number">0</span>;
-        minor |= (dev &amp; <span class="number">0x00000000000000ff</span>) &gt;&gt; <span class="number">0</span>;
-        minor |= (dev &amp; <span class="number">0x00000ffffff00000</span>) &gt;&gt; <span class="number">12</span>;
-        minor <span class="kw">as </span>c_uint
-    }
-
     <span class="kw">pub fn </span>IPTOS_TOS(tos: u8) -&gt; u8 {
         tos &amp; IPTOS_TOS_MASK
     }
@@ -12724,6 +13170,26 @@
     <span class="kw">pub fn </span>TPACKET_ALIGN(x: usize) -&gt; usize {
         (x + TPACKET_ALIGNMENT - <span class="number">1</span>) &amp; !(TPACKET_ALIGNMENT - <span class="number">1</span>)
     }
+
+    <span class="kw">pub fn </span>BPF_CLASS(code: __u32) -&gt; __u32 {
+        code &amp; <span class="number">0x07
+    </span>}
+
+    <span class="kw">pub fn </span>BPF_SIZE(code: __u32) -&gt; __u32 {
+        code &amp; <span class="number">0x18
+    </span>}
+
+    <span class="kw">pub fn </span>BPF_MODE(code: __u32) -&gt; __u32 {
+        code &amp; <span class="number">0xe0
+    </span>}
+
+    <span class="kw">pub fn </span>BPF_OP(code: __u32) -&gt; __u32 {
+        code &amp; <span class="number">0xf0
+    </span>}
+
+    <span class="kw">pub fn </span>BPF_SRC(code: __u32) -&gt; __u32 {
+        code &amp; <span class="number">0x08
+    </span>}
 
     <span class="kw">pub fn </span>BPF_RVAL(code: __u32) -&gt; __u32 {
         code &amp; <span class="number">0x18
@@ -12788,6 +13254,20 @@
         dev
     }
 
+    <span class="kw">pub </span>{<span class="kw">const</span>} <span class="kw">fn </span>major(dev: <span class="kw">crate</span>::dev_t) -&gt; c_uint {
+        <span class="kw">let </span><span class="kw-2">mut </span>major = <span class="number">0</span>;
+        major |= (dev &amp; <span class="number">0x00000000000fff00</span>) &gt;&gt; <span class="number">8</span>;
+        major |= (dev &amp; <span class="number">0xfffff00000000000</span>) &gt;&gt; <span class="number">32</span>;
+        major <span class="kw">as </span>c_uint
+    }
+
+    <span class="kw">pub </span>{<span class="kw">const</span>} <span class="kw">fn </span>minor(dev: <span class="kw">crate</span>::dev_t) -&gt; c_uint {
+        <span class="kw">let </span><span class="kw-2">mut </span>minor = <span class="number">0</span>;
+        minor |= (dev &amp; <span class="number">0x00000000000000ff</span>) &gt;&gt; <span class="number">0</span>;
+        minor |= (dev &amp; <span class="number">0x00000ffffff00000</span>) &gt;&gt; <span class="number">12</span>;
+        minor <span class="kw">as </span>c_uint
+    }
+
     <span class="kw">pub </span>{<span class="kw">const</span>} <span class="kw">fn </span>SCTP_PR_TTL_ENABLED(policy: c_int) -&gt; bool {
         policy == SCTP_PR_SCTP_TTL
     }
@@ -12802,20 +13282,38 @@
 }
 
 <span class="macro">cfg_if!</span> {
+    <span class="kw">if </span><span class="attr">#[cfg(all(
+        any(target_env = <span class="string">"gnu"</span>, target_env = <span class="string">"musl"</span>, target_env = <span class="string">"ohos"</span>),
+        any(target_arch = <span class="string">"x86_64"</span>, target_arch = <span class="string">"x86"</span>)
+    ))] </span>{
+        <span class="kw">extern </span><span class="string">"C" </span>{
+            <span class="kw">pub fn </span>iopl(level: c_int) -&gt; c_int;
+            <span class="kw">pub fn </span>ioperm(from: c_ulong, num: c_ulong, turn_on: c_int) -&gt; c_int;
+        }
+    }
+}
+
+<span class="macro">cfg_if!</span> {
     <span class="kw">if </span><span class="attr">#[cfg(all(not(target_env = <span class="string">"uclibc"</span>), not(target_env = <span class="string">"ohos"</span>)))] </span>{
         <span class="kw">extern </span><span class="string">"C" </span>{
-            <span class="kw">pub fn </span>aio_read(aiocbp: <span class="kw-2">*mut </span>aiocb) -&gt; c_int;
-            <span class="kw">pub fn </span>aio_write(aiocbp: <span class="kw-2">*mut </span>aiocb) -&gt; c_int;
+            <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"aio_read64"</span>)]
+            </span><span class="kw">pub fn </span>aio_read(aiocbp: <span class="kw-2">*mut </span>aiocb) -&gt; c_int;
+            <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"aio_write64"</span>)]
+            </span><span class="kw">pub fn </span>aio_write(aiocbp: <span class="kw-2">*mut </span>aiocb) -&gt; c_int;
             <span class="kw">pub fn </span>aio_fsync(op: c_int, aiocbp: <span class="kw-2">*mut </span>aiocb) -&gt; c_int;
-            <span class="kw">pub fn </span>aio_error(aiocbp: <span class="kw-2">*const </span>aiocb) -&gt; c_int;
-            <span class="kw">pub fn </span>aio_return(aiocbp: <span class="kw-2">*mut </span>aiocb) -&gt; ssize_t;
+            <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"aio_error64"</span>)]
+            </span><span class="kw">pub fn </span>aio_error(aiocbp: <span class="kw-2">*const </span>aiocb) -&gt; c_int;
+            <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"aio_return64"</span>)]
+            </span><span class="kw">pub fn </span>aio_return(aiocbp: <span class="kw-2">*mut </span>aiocb) -&gt; ssize_t;
             <span class="kw">pub fn </span>aio_suspend(
                 aiocb_list: <span class="kw-2">*const *const </span>aiocb,
                 nitems: c_int,
                 timeout: <span class="kw-2">*const </span><span class="kw">crate</span>::timespec,
             ) -&gt; c_int;
-            <span class="kw">pub fn </span>aio_cancel(fd: c_int, aiocbp: <span class="kw-2">*mut </span>aiocb) -&gt; c_int;
-            <span class="kw">pub fn </span>lio_listio(
+            <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"aio_cancel64"</span>)]
+            </span><span class="kw">pub fn </span>aio_cancel(fd: c_int, aiocbp: <span class="kw-2">*mut </span>aiocb) -&gt; c_int;
+            <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"lio_listio64"</span>)]
+            </span><span class="kw">pub fn </span>lio_listio(
                 mode: c_int,
                 aiocb_list: <span class="kw-2">*const *mut </span>aiocb,
                 nitems: c_int,
@@ -12828,13 +13326,15 @@
 <span class="macro">cfg_if!</span> {
     <span class="kw">if </span><span class="attr">#[cfg(not(target_env = <span class="string">"uclibc"</span>))] </span>{
         <span class="kw">extern </span><span class="string">"C" </span>{
-            <span class="kw">pub fn </span>pwritev(
+            <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"pwritev64"</span>)]
+            </span><span class="kw">pub fn </span>pwritev(
                 fd: c_int,
                 iov: <span class="kw-2">*const </span><span class="kw">crate</span>::iovec,
                 iovcnt: c_int,
                 offset: off_t,
             ) -&gt; ssize_t;
-            <span class="kw">pub fn </span>preadv(
+            <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"preadv64"</span>)]
+            </span><span class="kw">pub fn </span>preadv(
                 fd: c_int,
                 iov: <span class="kw-2">*const </span><span class="kw">crate</span>::iovec,
                 iovcnt: c_int,
@@ -12998,8 +13498,10 @@
     <span class="kw">pub fn </span>mprotect(addr: <span class="kw-2">*mut </span>c_void, len: size_t, prot: c_int) -&gt; c_int;
     <span class="kw">pub fn </span>__errno_location() -&gt; <span class="kw-2">*mut </span>c_int;
 
-    <span class="kw">pub fn </span>fallocate(fd: c_int, mode: c_int, offset: off_t, len: off_t) -&gt; c_int;
-    <span class="kw">pub fn </span>posix_fallocate(fd: c_int, offset: off_t, len: off_t) -&gt; c_int;
+    <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"fallocate64"</span>)]
+    </span><span class="kw">pub fn </span>fallocate(fd: c_int, mode: c_int, offset: off_t, len: off_t) -&gt; c_int;
+    <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"posix_fallocate64"</span>)]
+    </span><span class="kw">pub fn </span>posix_fallocate(fd: c_int, offset: off_t, len: off_t) -&gt; c_int;
     <span class="kw">pub fn </span>readahead(fd: c_int, offset: off64_t, count: size_t) -&gt; ssize_t;
     <span class="kw">pub fn </span>getxattr(
         path: <span class="kw-2">*const </span>c_char,
@@ -13105,13 +13607,15 @@
         ...
     ) -&gt; <span class="kw-2">*mut </span>c_void;
 
-    <span class="kw">pub fn </span>glob(
+    <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"glob64"</span>)]
+    </span><span class="kw">pub fn </span>glob(
         pattern: <span class="kw-2">*const </span>c_char,
         flags: c_int,
         errfunc: <span class="prelude-ty">Option</span>&lt;<span class="kw">extern </span><span class="string">"C" </span><span class="kw">fn</span>(epath: <span class="kw-2">*const </span>c_char, errno: c_int) -&gt; c_int&gt;,
         pglob: <span class="kw-2">*mut </span><span class="kw">crate</span>::glob_t,
     ) -&gt; c_int;
-    <span class="kw">pub fn </span>globfree(pglob: <span class="kw-2">*mut </span><span class="kw">crate</span>::glob_t);
+    <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"globfree64"</span>)]
+    </span><span class="kw">pub fn </span>globfree(pglob: <span class="kw-2">*mut </span><span class="kw">crate</span>::glob_t);
 
     <span class="kw">pub fn </span>posix_madvise(addr: <span class="kw-2">*mut </span>c_void, len: size_t, advice: c_int) -&gt; c_int;
 
@@ -13136,12 +13640,11 @@
         addr: <span class="kw-2">*mut </span><span class="kw">crate</span>::sockaddr,
         addrlen: <span class="kw-2">*mut </span><span class="kw">crate</span>::socklen_t,
     ) -&gt; ssize_t;
-    <span class="kw">pub fn </span>mkstemps(template: <span class="kw-2">*mut </span>c_char, suffixlen: c_int) -&gt; c_int;
+    <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"mkstemps64"</span>)]
+    </span><span class="kw">pub fn </span>mkstemps(template: <span class="kw-2">*mut </span>c_char, suffixlen: c_int) -&gt; c_int;
 
     <span class="kw">pub fn </span>nl_langinfo(item: <span class="kw">crate</span>::nl_item) -&gt; <span class="kw-2">*mut </span>c_char;
 
-    <span class="kw">pub fn </span>getdomainname(name: <span class="kw-2">*mut </span>c_char, len: size_t) -&gt; c_int;
-    <span class="kw">pub fn </span>setdomainname(name: <span class="kw-2">*const </span>c_char, len: size_t) -&gt; c_int;
     <span class="kw">pub fn </span>vhangup() -&gt; c_int;
     <span class="kw">pub fn </span>sync();
     <span class="kw">pub fn </span>syncfs(fd: c_int) -&gt; c_int;
@@ -13302,7 +13805,8 @@
         policy: c_int,
         param: <span class="kw-2">*const </span><span class="kw">crate</span>::sched_param,
     ) -&gt; c_int;
-    <span class="kw">pub fn </span>sendfile(out_fd: c_int, in_fd: c_int, offset: <span class="kw-2">*mut </span>off_t, count: size_t) -&gt; ssize_t;
+    <span class="attr">#[cfg_attr(gnu_file_offset_bits64, link_name = <span class="string">"sendfile64"</span>)]
+    </span><span class="kw">pub fn </span>sendfile(out_fd: c_int, in_fd: c_int, offset: <span class="kw-2">*mut </span>off_t, count: size_t) -&gt; ssize_t;
     <span class="kw">pub fn </span>sigsuspend(mask: <span class="kw-2">*const </span><span class="kw">crate</span>::sigset_t) -&gt; c_int;
     <span class="kw">pub fn </span>getgrgid_r(
         gid: <span class="kw">crate</span>::gid_t,
