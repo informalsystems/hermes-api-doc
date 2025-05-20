@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-pki-types-1.11.0/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rustls_pki_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls_pki_types/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-pki-types-1.12.0/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rustls_pki_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls_pki_types/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1077,7 +1077,49 @@
 <a href="#1076" id="1076">1076</a>
 <a href="#1077" id="1077">1077</a>
 <a href="#1078" id="1078">1078</a>
-<a href="#1079" id="1079">1079</a></pre></div><pre class="rust"><code><span class="doccomment">//! This crate provides types for representing X.509 certificates, keys and other types as
+<a href="#1079" id="1079">1079</a>
+<a href="#1080" id="1080">1080</a>
+<a href="#1081" id="1081">1081</a>
+<a href="#1082" id="1082">1082</a>
+<a href="#1083" id="1083">1083</a>
+<a href="#1084" id="1084">1084</a>
+<a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a>
+<a href="#1114" id="1114">1114</a>
+<a href="#1115" id="1115">1115</a>
+<a href="#1116" id="1116">1116</a>
+<a href="#1117" id="1117">1117</a>
+<a href="#1118" id="1118">1118</a>
+<a href="#1119" id="1119">1119</a>
+<a href="#1120" id="1120">1120</a>
+<a href="#1121" id="1121">1121</a></pre></div><pre class="rust"><code><span class="doccomment">//! This crate provides types for representing X.509 certificates, keys and other types as
 //! commonly used in the rustls ecosystem. It is intended to be used by crates that need to work
 //! with such X.509 types, such as [rustls](https://crates.io/crates/rustls),
 //! [rustls-webpki](https://crates.io/crates/rustls-webpki),
@@ -1208,6 +1250,17 @@
     </span>Sec1(PrivateSec1KeyDer&lt;<span class="lifetime">'a</span>&gt;),
     <span class="doccomment">/// A PKCS#8 private key
     </span>Pkcs8(PrivatePkcs8KeyDer&lt;<span class="lifetime">'a</span>&gt;),
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl </span>zeroize::Zeroize <span class="kw">for </span>PrivateKeyDer&lt;<span class="lifetime">'static</span>&gt; {
+    <span class="kw">fn </span>zeroize(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::Pkcs1(key) =&gt; key.zeroize(),
+            <span class="self">Self</span>::Sec1(key) =&gt; key.zeroize(),
+            <span class="self">Self</span>::Pkcs8(key) =&gt; key.zeroize(),
+        }
+    }
 }
 
 <span class="kw">impl </span>PrivateKeyDer&lt;<span class="lifetime">'_</span>&gt; {
@@ -1393,6 +1446,13 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl </span>zeroize::Zeroize <span class="kw">for </span>PrivatePkcs1KeyDer&lt;<span class="lifetime">'static</span>&gt; {
+    <span class="kw">fn </span>zeroize(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="self">self</span>.<span class="number">0.0</span>.zeroize()
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
 </span><span class="kw">impl </span>PemObjectFilter <span class="kw">for </span>PrivatePkcs1KeyDer&lt;<span class="lifetime">'static</span>&gt; {
     <span class="kw">const </span>KIND: SectionKind = SectionKind::RsaPrivateKey;
 }
@@ -1449,6 +1509,13 @@
     <span class="doccomment">/// Yield the DER-encoded bytes of the private key
     </span><span class="kw">pub fn </span>secret_sec1_der(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
         <span class="self">self</span>.<span class="number">0</span>.as_ref()
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl </span>zeroize::Zeroize <span class="kw">for </span>PrivateSec1KeyDer&lt;<span class="lifetime">'static</span>&gt; {
+    <span class="kw">fn </span>zeroize(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="self">self</span>.<span class="number">0.0</span>.zeroize()
     }
 }
 
@@ -1510,6 +1577,13 @@
     <span class="doccomment">/// Yield the DER-encoded bytes of the private key
     </span><span class="kw">pub fn </span>secret_pkcs8_der(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
         <span class="self">self</span>.<span class="number">0</span>.as_ref()
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl </span>zeroize::Zeroize <span class="kw">for </span>PrivatePkcs8KeyDer&lt;<span class="lifetime">'static</span>&gt; {
+    <span class="kw">fn </span>zeroize(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="self">self</span>.<span class="number">0.0</span>.zeroize()
     }
 }
 
@@ -1761,7 +1835,7 @@
     <span class="doccomment">/// Converts this certificate into its owned variant, unfreezing borrowed content (if any)
     </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
     </span><span class="kw">pub fn </span>into_owned(<span class="self">self</span>) -&gt; CertificateDer&lt;<span class="lifetime">'static</span>&gt; {
-        CertificateDer(Der(<span class="self">self</span>.<span class="number">0 </span>.<span class="number">0</span>.into_owned()))
+        CertificateDer(Der(<span class="self">self</span>.<span class="number">0.0</span>.into_owned()))
     }
 }
 
@@ -1824,7 +1898,7 @@
     <span class="doccomment">/// Converts this SubjectPublicKeyInfo into its owned variant, unfreezing borrowed content (if any)
     </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
     </span><span class="kw">pub fn </span>into_owned(<span class="self">self</span>) -&gt; SubjectPublicKeyInfoDer&lt;<span class="lifetime">'static</span>&gt; {
-        SubjectPublicKeyInfoDer(Der(<span class="self">self</span>.<span class="number">0 </span>.<span class="number">0</span>.into_owned()))
+        SubjectPublicKeyInfoDer(Der(<span class="self">self</span>.<span class="number">0.0</span>.into_owned()))
     }
 }
 
@@ -2078,6 +2152,16 @@
             <span class="self">Self</span>::Owned(vec) =&gt; vec,
             <span class="self">Self</span>::Borrowed(slice) =&gt; slice.to_vec(),
         })
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl </span>zeroize::Zeroize <span class="kw">for </span>BytesInner&lt;<span class="lifetime">'static</span>&gt; {
+    <span class="kw">fn </span>zeroize(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">match </span><span class="self">self </span>{
+            BytesInner::Owned(vec) =&gt; vec.zeroize(),
+            BytesInner::Borrowed(<span class="kw">_</span>) =&gt; (),
+        }
     }
 }
 

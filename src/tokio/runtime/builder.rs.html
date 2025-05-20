@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tokio-1.44.2/src/runtime/builder.rs`."><title>builder.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tokio/runtime/</div>builder.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tokio-1.45.0/src/runtime/builder.rs`."><title>builder.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tokio/runtime/</div>builder.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1671,91 +1671,7 @@
 <a href="#1670" id="1670">1670</a>
 <a href="#1671" id="1671">1671</a>
 <a href="#1672" id="1672">1672</a>
-<a href="#1673" id="1673">1673</a>
-<a href="#1674" id="1674">1674</a>
-<a href="#1675" id="1675">1675</a>
-<a href="#1676" id="1676">1676</a>
-<a href="#1677" id="1677">1677</a>
-<a href="#1678" id="1678">1678</a>
-<a href="#1679" id="1679">1679</a>
-<a href="#1680" id="1680">1680</a>
-<a href="#1681" id="1681">1681</a>
-<a href="#1682" id="1682">1682</a>
-<a href="#1683" id="1683">1683</a>
-<a href="#1684" id="1684">1684</a>
-<a href="#1685" id="1685">1685</a>
-<a href="#1686" id="1686">1686</a>
-<a href="#1687" id="1687">1687</a>
-<a href="#1688" id="1688">1688</a>
-<a href="#1689" id="1689">1689</a>
-<a href="#1690" id="1690">1690</a>
-<a href="#1691" id="1691">1691</a>
-<a href="#1692" id="1692">1692</a>
-<a href="#1693" id="1693">1693</a>
-<a href="#1694" id="1694">1694</a>
-<a href="#1695" id="1695">1695</a>
-<a href="#1696" id="1696">1696</a>
-<a href="#1697" id="1697">1697</a>
-<a href="#1698" id="1698">1698</a>
-<a href="#1699" id="1699">1699</a>
-<a href="#1700" id="1700">1700</a>
-<a href="#1701" id="1701">1701</a>
-<a href="#1702" id="1702">1702</a>
-<a href="#1703" id="1703">1703</a>
-<a href="#1704" id="1704">1704</a>
-<a href="#1705" id="1705">1705</a>
-<a href="#1706" id="1706">1706</a>
-<a href="#1707" id="1707">1707</a>
-<a href="#1708" id="1708">1708</a>
-<a href="#1709" id="1709">1709</a>
-<a href="#1710" id="1710">1710</a>
-<a href="#1711" id="1711">1711</a>
-<a href="#1712" id="1712">1712</a>
-<a href="#1713" id="1713">1713</a>
-<a href="#1714" id="1714">1714</a>
-<a href="#1715" id="1715">1715</a>
-<a href="#1716" id="1716">1716</a>
-<a href="#1717" id="1717">1717</a>
-<a href="#1718" id="1718">1718</a>
-<a href="#1719" id="1719">1719</a>
-<a href="#1720" id="1720">1720</a>
-<a href="#1721" id="1721">1721</a>
-<a href="#1722" id="1722">1722</a>
-<a href="#1723" id="1723">1723</a>
-<a href="#1724" id="1724">1724</a>
-<a href="#1725" id="1725">1725</a>
-<a href="#1726" id="1726">1726</a>
-<a href="#1727" id="1727">1727</a>
-<a href="#1728" id="1728">1728</a>
-<a href="#1729" id="1729">1729</a>
-<a href="#1730" id="1730">1730</a>
-<a href="#1731" id="1731">1731</a>
-<a href="#1732" id="1732">1732</a>
-<a href="#1733" id="1733">1733</a>
-<a href="#1734" id="1734">1734</a>
-<a href="#1735" id="1735">1735</a>
-<a href="#1736" id="1736">1736</a>
-<a href="#1737" id="1737">1737</a>
-<a href="#1738" id="1738">1738</a>
-<a href="#1739" id="1739">1739</a>
-<a href="#1740" id="1740">1740</a>
-<a href="#1741" id="1741">1741</a>
-<a href="#1742" id="1742">1742</a>
-<a href="#1743" id="1743">1743</a>
-<a href="#1744" id="1744">1744</a>
-<a href="#1745" id="1745">1745</a>
-<a href="#1746" id="1746">1746</a>
-<a href="#1747" id="1747">1747</a>
-<a href="#1748" id="1748">1748</a>
-<a href="#1749" id="1749">1749</a>
-<a href="#1750" id="1750">1750</a>
-<a href="#1751" id="1751">1751</a>
-<a href="#1752" id="1752">1752</a>
-<a href="#1753" id="1753">1753</a>
-<a href="#1754" id="1754">1754</a>
-<a href="#1755" id="1755">1755</a>
-<a href="#1756" id="1756">1756</a>
-<a href="#1757" id="1757">1757</a></pre></div><pre class="rust"><code><span class="attr">#![cfg_attr(loom, allow(unused_imports))]
+<a href="#1673" id="1673">1673</a></pre></div><pre class="rust"><code><span class="attr">#![cfg_attr(loom, allow(unused_imports))]
 
 </span><span class="kw">use </span><span class="kw">crate</span>::runtime::handle::Handle;
 <span class="kw">use </span><span class="kw">crate</span>::runtime::{blocking, driver, Callback, HistogramBuilder, Runtime, TaskCallback};
@@ -1871,8 +1787,6 @@
     <span class="doccomment">/// How many ticks before yielding to the driver for timer and I/O events?
     </span><span class="kw">pub</span>(<span class="kw">super</span>) event_interval: u32,
 
-    <span class="kw">pub</span>(<span class="kw">super</span>) local_queue_capacity: usize,
-
     <span class="doccomment">/// When true, the multi-threade scheduler LIFO slot should not be used.
     ///
     /// This option should only be exposed as unstable.
@@ -1979,8 +1893,6 @@
     CurrentThread,
     <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
     </span>MultiThread,
-    <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-    </span>MultiThreadAlt,
 }
 
 <span class="kw">impl </span>Builder {
@@ -2010,26 +1922,6 @@
     </span><span class="kw">pub fn </span>new_multi_thread() -&gt; Builder {
         <span class="comment">// The number `61` is fairly arbitrary. I believe this value was copied from golang.
         </span>Builder::new(Kind::MultiThread, <span class="number">61</span>)
-    }
-
-    <span class="macro">cfg_unstable!</span> {
-        <span class="doccomment">/// Returns a new builder with the alternate multi thread scheduler
-        /// selected.
-        ///
-        /// The alternate multi threaded scheduler is an in-progress
-        /// candidate to replace the existing multi threaded scheduler. It
-        /// currently does not scale as well to 16+ processors.
-        ///
-        /// This runtime flavor is currently **not considered production
-        /// ready**.
-        ///
-        /// Configuration methods can be chained on the return value.
-        </span><span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
-        #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"rt-multi-thread"</span>)))]
-        </span><span class="kw">pub fn </span>new_multi_thread_alt() -&gt; Builder {
-            <span class="comment">// The number `61` is fairly arbitrary. I believe this value was copied from golang.
-            </span>Builder::new(Kind::MultiThreadAlt, <span class="number">61</span>)
-        }
     }
 
     <span class="doccomment">/// Returns a new runtime builder initialized with default configuration
@@ -2082,12 +1974,6 @@
             // as parameters.
             </span>global_queue_interval: <span class="prelude-val">None</span>,
             event_interval,
-
-            <span class="attr">#[cfg(not(loom))]
-            </span>local_queue_capacity: <span class="number">256</span>,
-
-            <span class="attr">#[cfg(loom)]
-            </span>local_queue_capacity: <span class="number">4</span>,
 
             seed_generator: RngSeedGenerator::new(RngSeed::new()),
 
@@ -2201,6 +2087,15 @@
     /// requiring [`spawn_blocking`].
     ///
     /// The default value is 512.
+    ///
+    /// # Queue Behavior
+    ///
+    /// When a blocking task is submitted, it will be inserted into a queue. If available, one of
+    /// the idle threads will be notified to run the task. Otherwise, if the threshold set by this
+    /// method has not been reached, a new thread will be spawned. If no idle thread is available
+    /// and no more threads are allowed to be spawned, the task will remain in the queue until one
+    /// of the busy threads pick it up. Note that since the queue does not apply any backpressure,
+    /// it could potentially grow unbounded.
     ///
     /// # Panics
     ///
@@ -2668,8 +2563,6 @@
             Kind::CurrentThread =&gt; <span class="self">self</span>.build_current_thread_runtime(),
             <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
             </span>Kind::MultiThread =&gt; <span class="self">self</span>.build_threaded_runtime(),
-            <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-            </span>Kind::MultiThreadAlt =&gt; <span class="self">self</span>.build_alt_threaded_runtime(),
         }
     }
 
@@ -2704,20 +2597,17 @@
         }
     }
 
-    <span class="kw">fn </span>get_cfg(<span class="kw-2">&amp;</span><span class="self">self</span>, workers: usize) -&gt; driver::Cfg {
+    <span class="kw">fn </span>get_cfg(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; driver::Cfg {
         driver::Cfg {
             enable_pause_time: <span class="kw">match </span><span class="self">self</span>.kind {
                 Kind::CurrentThread =&gt; <span class="bool-val">true</span>,
                 <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
                 </span>Kind::MultiThread =&gt; <span class="bool-val">false</span>,
-                <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-                </span>Kind::MultiThreadAlt =&gt; <span class="bool-val">false</span>,
             },
             enable_io: <span class="self">self</span>.enable_io,
             enable_time: <span class="self">self</span>.enable_time,
             start_paused: <span class="self">self</span>.start_paused,
             nevents: <span class="self">self</span>.nevents,
-            workers,
         }
     }
 
@@ -3199,14 +3089,6 @@
         </span>}
     }
 
-    <span class="macro">cfg_loom!</span> {
-        <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>local_queue_capacity(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: usize) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
-            <span class="macro">assert!</span>(value.is_power_of_two());
-            <span class="self">self</span>.local_queue_capacity = value;
-            <span class="self">self
-        </span>}
-    }
-
     <span class="kw">fn </span>build_current_thread_runtime(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; io::Result&lt;Runtime&gt; {
         <span class="kw">use </span><span class="kw">crate</span>::runtime::runtime::Scheduler;
 
@@ -3243,7 +3125,7 @@
         <span class="kw">use </span><span class="kw">crate</span>::runtime::scheduler;
         <span class="kw">use </span><span class="kw">crate</span>::runtime::Config;
 
-        <span class="kw">let </span>(driver, driver_handle) = driver::Driver::new(<span class="self">self</span>.get_cfg(<span class="number">1</span>))<span class="question-mark">?</span>;
+        <span class="kw">let </span>(driver, driver_handle) = driver::Driver::new(<span class="self">self</span>.get_cfg())<span class="question-mark">?</span>;
 
         <span class="comment">// Blocking pool
         </span><span class="kw">let </span>blocking_pool = blocking::create_blocking_pool(<span class="self">self</span>, <span class="self">self</span>.max_blocking_threads);
@@ -3273,7 +3155,6 @@
                 after_termination: <span class="self">self</span>.after_termination.clone(),
                 global_queue_interval: <span class="self">self</span>.global_queue_interval,
                 event_interval: <span class="self">self</span>.event_interval,
-                local_queue_capacity: <span class="self">self</span>.local_queue_capacity,
                 <span class="attr">#[cfg(tokio_unstable)]
                 </span>unhandled_panic: <span class="self">self</span>.unhandled_panic.clone(),
                 disable_lifo_slot: <span class="self">self</span>.disable_lifo_slot,
@@ -3399,7 +3280,7 @@
 
             <span class="kw">let </span>worker_threads = <span class="self">self</span>.worker_threads.unwrap_or_else(num_cpus);
 
-            <span class="kw">let </span>(driver, driver_handle) = driver::Driver::new(<span class="self">self</span>.get_cfg(worker_threads))<span class="question-mark">?</span>;
+            <span class="kw">let </span>(driver, driver_handle) = driver::Driver::new(<span class="self">self</span>.get_cfg())<span class="question-mark">?</span>;
 
             <span class="comment">// Create the blocking pool
             </span><span class="kw">let </span>blocking_pool =
@@ -3427,7 +3308,6 @@
                     after_termination: <span class="self">self</span>.after_termination.clone(),
                     global_queue_interval: <span class="self">self</span>.global_queue_interval,
                     event_interval: <span class="self">self</span>.event_interval,
-                    local_queue_capacity: <span class="self">self</span>.local_queue_capacity,
                     <span class="attr">#[cfg(tokio_unstable)]
                     </span>unhandled_panic: <span class="self">self</span>.unhandled_panic.clone(),
                     disable_lifo_slot: <span class="self">self</span>.disable_lifo_slot,
@@ -3443,54 +3323,6 @@
             launch.launch();
 
             <span class="prelude-val">Ok</span>(Runtime::from_parts(Scheduler::MultiThread(scheduler), handle, blocking_pool))
-        }
-
-        <span class="macro">cfg_unstable!</span> {
-            <span class="kw">fn </span>build_alt_threaded_runtime(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; io::Result&lt;Runtime&gt; {
-                <span class="kw">use </span><span class="kw">crate</span>::loom::sys::num_cpus;
-                <span class="kw">use </span><span class="kw">crate</span>::runtime::{Config, runtime::Scheduler};
-                <span class="kw">use </span><span class="kw">crate</span>::runtime::scheduler::MultiThreadAlt;
-
-                <span class="kw">let </span>worker_threads = <span class="self">self</span>.worker_threads.unwrap_or_else(num_cpus);
-                <span class="kw">let </span>(driver, driver_handle) = driver::Driver::new(<span class="self">self</span>.get_cfg(worker_threads))<span class="question-mark">?</span>;
-
-                <span class="comment">// Create the blocking pool
-                </span><span class="kw">let </span>blocking_pool =
-                    blocking::create_blocking_pool(<span class="self">self</span>, <span class="self">self</span>.max_blocking_threads + worker_threads);
-                <span class="kw">let </span>blocking_spawner = blocking_pool.spawner().clone();
-
-                <span class="comment">// Generate a rng seed for this runtime.
-                </span><span class="kw">let </span>seed_generator_1 = <span class="self">self</span>.seed_generator.next_generator();
-                <span class="kw">let </span>seed_generator_2 = <span class="self">self</span>.seed_generator.next_generator();
-
-                <span class="kw">let </span>(scheduler, handle) = MultiThreadAlt::new(
-                    worker_threads,
-                    driver,
-                    driver_handle,
-                    blocking_spawner,
-                    seed_generator_2,
-                    Config {
-                        before_park: <span class="self">self</span>.before_park.clone(),
-                        after_unpark: <span class="self">self</span>.after_unpark.clone(),
-                        before_spawn: <span class="self">self</span>.before_spawn.clone(),
-                        after_termination: <span class="self">self</span>.after_termination.clone(),
-                        <span class="attr">#[cfg(tokio_unstable)]
-                        </span>before_poll: <span class="self">self</span>.before_poll.clone(),
-                        <span class="attr">#[cfg(tokio_unstable)]
-                        </span>after_poll: <span class="self">self</span>.after_poll.clone(),
-                        global_queue_interval: <span class="self">self</span>.global_queue_interval,
-                        event_interval: <span class="self">self</span>.event_interval,
-                        local_queue_capacity: <span class="self">self</span>.local_queue_capacity,
-                        <span class="attr">#[cfg(tokio_unstable)]
-                        </span>unhandled_panic: <span class="self">self</span>.unhandled_panic.clone(),
-                        disable_lifo_slot: <span class="self">self</span>.disable_lifo_slot,
-                        seed_generator: seed_generator_1,
-                        metrics_poll_count_histogram: <span class="self">self</span>.metrics_poll_count_histogram_builder(),
-                    },
-                );
-
-                <span class="prelude-val">Ok</span>(Runtime::from_parts(Scheduler::MultiThreadAlt(scheduler), handle, blocking_pool))
-            }
         }
     }
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_collections-1.5.0/src/codepointtrie/cptrie.rs`."><title>cptrie.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="icu_collections" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_collections/codepointtrie/</div>cptrie.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_collections-2.0.0/src/codepointtrie/cptrie.rs`."><title>cptrie.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="icu_collections" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_collections/codepointtrie/</div>cptrie.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1278,25 +1278,93 @@
 <a href="#1277" id="1277">1277</a>
 <a href="#1278" id="1278">1278</a>
 <a href="#1279" id="1279">1279</a>
-<a href="#1280" id="1280">1280</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#1280" id="1280">1280</a>
+<a href="#1281" id="1281">1281</a>
+<a href="#1282" id="1282">1282</a>
+<a href="#1283" id="1283">1283</a>
+<a href="#1284" id="1284">1284</a>
+<a href="#1285" id="1285">1285</a>
+<a href="#1286" id="1286">1286</a>
+<a href="#1287" id="1287">1287</a>
+<a href="#1288" id="1288">1288</a>
+<a href="#1289" id="1289">1289</a>
+<a href="#1290" id="1290">1290</a>
+<a href="#1291" id="1291">1291</a>
+<a href="#1292" id="1292">1292</a>
+<a href="#1293" id="1293">1293</a>
+<a href="#1294" id="1294">1294</a>
+<a href="#1295" id="1295">1295</a>
+<a href="#1296" id="1296">1296</a>
+<a href="#1297" id="1297">1297</a>
+<a href="#1298" id="1298">1298</a>
+<a href="#1299" id="1299">1299</a>
+<a href="#1300" id="1300">1300</a>
+<a href="#1301" id="1301">1301</a>
+<a href="#1302" id="1302">1302</a>
+<a href="#1303" id="1303">1303</a>
+<a href="#1304" id="1304">1304</a>
+<a href="#1305" id="1305">1305</a>
+<a href="#1306" id="1306">1306</a>
+<a href="#1307" id="1307">1307</a>
+<a href="#1308" id="1308">1308</a>
+<a href="#1309" id="1309">1309</a>
+<a href="#1310" id="1310">1310</a>
+<a href="#1311" id="1311">1311</a>
+<a href="#1312" id="1312">1312</a>
+<a href="#1313" id="1313">1313</a>
+<a href="#1314" id="1314">1314</a>
+<a href="#1315" id="1315">1315</a>
+<a href="#1316" id="1316">1316</a>
+<a href="#1317" id="1317">1317</a>
+<a href="#1318" id="1318">1318</a>
+<a href="#1319" id="1319">1319</a>
+<a href="#1320" id="1320">1320</a>
+<a href="#1321" id="1321">1321</a>
+<a href="#1322" id="1322">1322</a>
+<a href="#1323" id="1323">1323</a>
+<a href="#1324" id="1324">1324</a>
+<a href="#1325" id="1325">1325</a>
+<a href="#1326" id="1326">1326</a>
+<a href="#1327" id="1327">1327</a>
+<a href="#1328" id="1328">1328</a>
+<a href="#1329" id="1329">1329</a>
+<a href="#1330" id="1330">1330</a>
+<a href="#1331" id="1331">1331</a>
+<a href="#1332" id="1332">1332</a>
+<a href="#1333" id="1333">1333</a>
+<a href="#1334" id="1334">1334</a>
+<a href="#1335" id="1335">1335</a>
+<a href="#1336" id="1336">1336</a>
+<a href="#1337" id="1337">1337</a>
+<a href="#1338" id="1338">1338</a>
+<a href="#1339" id="1339">1339</a>
+<a href="#1340" id="1340">1340</a>
+<a href="#1341" id="1341">1341</a>
+<a href="#1342" id="1342">1342</a>
+<a href="#1343" id="1343">1343</a>
+<a href="#1344" id="1344">1344</a>
+<a href="#1345" id="1345">1345</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
 </span><span class="kw">use </span><span class="kw">crate</span>::codepointtrie::error::Error;
 <span class="kw">use </span><span class="kw">crate</span>::codepointtrie::impl_const::<span class="kw-2">*</span>;
 
-<span class="kw">use </span><span class="kw">crate</span>::codepointinvlist::CodePointInversionList;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::codepointinvlist::CodePointInversionList;
 <span class="kw">use </span>core::char::CharTryFromError;
 <span class="kw">use </span>core::convert::Infallible;
 <span class="kw">use </span>core::convert::TryFrom;
 <span class="kw">use </span>core::fmt::Display;
-<span class="kw">use </span>core::iter::FromIterator;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>core::iter::FromIterator;
 <span class="kw">use </span>core::num::TryFromIntError;
 <span class="kw">use </span>core::ops::RangeInclusive;
 <span class="kw">use </span>yoke::Yokeable;
 <span class="kw">use </span>zerofrom::ZeroFrom;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>zerovec::ule::UleError;
 <span class="kw">use </span>zerovec::ZeroVec;
-<span class="kw">use </span>zerovec::ZeroVecError;
 
 <span class="doccomment">/// The type of trie represents whether the trie has an optimization that
 /// would make it smaller or faster.
@@ -1316,7 +1384,8 @@
 /// Also see [`UCPTrieType`](https://unicode-org.github.io/icu-docs/apidoc/dev/icu4c/ucptrie_8h.html) in ICU4C.
 </span><span class="attr">#[derive(Clone, Copy, PartialEq, Debug, Eq)]
 #[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Deserialize, serde::Serialize))]
-#[cfg_attr(feature = <span class="string">"databake"</span>, derive(databake::Bake), databake(path = icu_collections::codepointtrie))]
+#[cfg_attr(feature = <span class="string">"databake"</span>, derive(databake::Bake))]
+#[cfg_attr(feature = <span class="string">"databake"</span>, databake(path = icu_collections::codepointtrie))]
 </span><span class="kw">pub enum </span>TrieType {
     <span class="doccomment">/// Represents the "fast" type code point tries for the
     /// [`TrieType`] trait. The "fast max" limit is set to `0xffff`.
@@ -1332,12 +1401,13 @@
 
 </span><span class="doccomment">/// A trait representing the values stored in the data array of a [`CodePointTrie`].
 /// This trait is used as a type parameter in constructing a `CodePointTrie`.
+///
+/// This trait can be implemented on anything that can be represented as a u32s worth of data.
 </span><span class="kw">pub trait </span>TrieValue: Copy + Eq + PartialEq + zerovec::ule::AsULE + <span class="lifetime">'static </span>{
     <span class="doccomment">/// Last-resort fallback value to return if we cannot read data from the trie.
     ///
     /// In most cases, the error value is read from the last element of the `data` array,
     /// this value is used for empty codepointtrie arrays
-
     /// Error type when converting from a u32 to this `TrieValue`.
     </span><span class="kw">type </span>TryFromU32Error: Display;
     <span class="doccomment">/// A parsing function that is primarily motivated by deserialization contexts.
@@ -1351,14 +1421,7 @@
     ///
     /// This method is allowed to have GIGO behavior when fed a value that has
     /// no corresponding `u32` (since such values cannot be stored in the trie)
-    </span><span class="kw">fn </span>to_u32(<span class="self">self</span>) -&gt; u32 {
-        <span class="macro">debug_assert!</span>(
-            <span class="bool-val">false</span>,
-            <span class="string">"TrieValue::to_u32() not implemented for {}"</span>,
-            ::core::any::type_name::&lt;<span class="self">Self</span>&gt;()
-        );
-        <span class="number">0
-    </span>}
+    </span><span class="kw">fn </span>to_u32(<span class="self">self</span>) -&gt; u32;
 }
 
 <span class="macro">macro_rules!</span> impl_primitive_trie_value {
@@ -1422,7 +1485,8 @@
 
 <span class="doccomment">/// This struct contains the fixed-length header fields of a [`CodePointTrie`].
 </span><span class="attr">#[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Deserialize, serde::Serialize))]
-#[cfg_attr(feature = <span class="string">"databake"</span>, derive(databake::Bake), databake(path = icu_collections::codepointtrie))]
+#[cfg_attr(feature = <span class="string">"databake"</span>, derive(databake::Bake))]
+#[cfg_attr(feature = <span class="string">"databake"</span>, databake(path = icu_collections::codepointtrie))]
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Yokeable, ZeroFrom)]
 </span><span class="kw">pub struct </span>CodePointTrieHeader {
     <span class="doccomment">/// The code point of the start of the last range of the trie. A
@@ -1470,6 +1534,46 @@
         }
     }
 }
+
+<span class="comment">// Helper macro that turns arithmetic into wrapping-in-release, checked-in-debug arithmetic
+//
+// This is rustc's default behavior anyway, however some projects like Android deliberately
+// enable overflow checks. CodePointTrie::get() is intended to be used in Android bionic which
+// cares about codesize and we don't want the pile of panicking infrastructure brought in by overflow
+// checks, so we force wrapping in release.
+// See #6052
+</span><span class="macro">macro_rules!</span> w(
+    <span class="comment">// Note: these matchers are not perfect since you cannot have an operator after an expr matcher
+    // Use variables if you need complex first operands.
+    </span>(<span class="macro-nonterminal">$a</span>:tt + <span class="macro-nonterminal">$b</span>:expr) =&gt; {
+        {
+            <span class="attr">#[allow(unused_parens)]
+            </span><span class="kw">let </span>a = <span class="macro-nonterminal">$a</span>;
+            <span class="kw">let </span>b = <span class="macro-nonterminal">$b</span>;
+            <span class="macro">debug_assert!</span>(a.checked_add(b).is_some());
+            <span class="macro-nonterminal">$a</span>.wrapping_add(<span class="macro-nonterminal">$b</span>)
+        }
+    };
+    (<span class="macro-nonterminal">$a</span>:tt - <span class="macro-nonterminal">$b</span>:expr) =&gt; {
+
+        {
+            <span class="attr">#[allow(unused_parens)]
+            </span><span class="kw">let </span>a = <span class="macro-nonterminal">$a</span>;
+            <span class="kw">let </span>b = <span class="macro-nonterminal">$b</span>;
+            <span class="macro">debug_assert!</span>(a.checked_sub(b).is_some());
+            <span class="macro-nonterminal">$a</span>.wrapping_sub(<span class="macro-nonterminal">$b</span>)
+        }
+    };
+    (<span class="macro-nonterminal">$a</span>:tt * <span class="macro-nonterminal">$b</span>:expr) =&gt; {
+        {
+            <span class="attr">#[allow(unused_parens)]
+            </span><span class="kw">let </span>a = <span class="macro-nonterminal">$a</span>;
+            <span class="kw">let </span>b = <span class="macro-nonterminal">$b</span>;
+            <span class="macro">debug_assert!</span>(a.checked_mul(b).is_some());
+            <span class="macro-nonterminal">$a</span>.wrapping_mul(<span class="macro-nonterminal">$b</span>)
+        }
+    };
+);
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'trie</span>, T: TrieValue&gt; CodePointTrie&lt;<span class="lifetime">'trie</span>, T&gt; {
     <span class="attr">#[doc(hidden)] </span><span class="comment">// databake internal
@@ -1520,26 +1624,34 @@
     /// error value.
     </span><span class="attr">#[inline(always)] </span><span class="comment">// `always` based on normalizer benchmarking
     </span><span class="kw">fn </span>trie_error_val_index(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
-        <span class="self">self</span>.data.len() <span class="kw">as </span>u32 - ERROR_VALUE_NEG_DATA_OFFSET
+        <span class="comment">// We use wrapping_sub here to avoid panicky overflow checks.
+        // len should always be &gt; 1, but if it isn't this will just cause GIGO behavior of producing
+        // None on `.get()`
+        </span><span class="macro">debug_assert!</span>(<span class="self">self</span>.data.len() <span class="kw">as </span>u32 &gt;= ERROR_VALUE_NEG_DATA_OFFSET);
+        <span class="macro">w!</span>((<span class="self">self</span>.data.len() <span class="kw">as </span>u32) - ERROR_VALUE_NEG_DATA_OFFSET)
     }
 
     <span class="kw">fn </span>internal_small_index(<span class="kw-2">&amp;</span><span class="self">self</span>, code_point: u32) -&gt; u32 {
-        <span class="kw">let </span><span class="kw-2">mut </span>index1_pos: u32 = code_point &gt;&gt; SHIFT_1;
+        <span class="comment">// We use wrapping arithmetic here to avoid overflow checks making their way into binaries
+        // with overflow checks enabled. Ultimately this code ends up as a checked index, so any
+        // bugs here will cause GIGO
+        </span><span class="kw">let </span><span class="kw-2">mut </span>index1_pos: u32 = code_point &gt;&gt; SHIFT_1;
         <span class="kw">if </span><span class="self">self</span>.header.trie_type == TrieType::Fast {
             <span class="macro">debug_assert!</span>(
                 FAST_TYPE_FAST_INDEXING_MAX &lt; code_point &amp;&amp; code_point &lt; <span class="self">self</span>.header.high_start
             );
-            index1_pos = index1_pos + BMP_INDEX_LENGTH - OMITTED_BMP_INDEX_1_LENGTH;
+            index1_pos = <span class="macro">w!</span>(index1_pos + BMP_INDEX_LENGTH - OMITTED_BMP_INDEX_1_LENGTH);
         } <span class="kw">else </span>{
             <span class="macro">assert!</span>(code_point &lt; <span class="self">self</span>.header.high_start &amp;&amp; <span class="self">self</span>.header.high_start &gt; SMALL_LIMIT);
-            index1_pos += SMALL_INDEX_LENGTH;
+            index1_pos = <span class="macro">w!</span>(index1_pos + SMALL_INDEX_LENGTH);
         }
         <span class="kw">let </span>index1_val = <span class="kw">if let </span><span class="prelude-val">Some</span>(index1_val) = <span class="self">self</span>.index.get(index1_pos <span class="kw">as </span>usize) {
             index1_val
         } <span class="kw">else </span>{
             <span class="kw">return </span><span class="self">self</span>.trie_error_val_index();
         };
-        <span class="kw">let </span>index3_block_idx: u32 = (index1_val <span class="kw">as </span>u32) + ((code_point &gt;&gt; SHIFT_2) &amp; INDEX_2_MASK);
+        <span class="kw">let </span>index3_block_idx: u32 =
+            <span class="macro">w!</span>((index1_val <span class="kw">as </span>u32) + (code_point &gt;&gt; SHIFT_2) &amp; INDEX_2_MASK);
         <span class="kw">let </span><span class="kw-2">mut </span>index3_block: u32 =
             <span class="kw">if let </span><span class="prelude-val">Some</span>(index3_block) = <span class="self">self</span>.index.get(index3_block_idx <span class="kw">as </span>usize) {
                 index3_block <span class="kw">as </span>u32
@@ -1551,24 +1663,24 @@
         <span class="kw">if </span>index3_block &amp; <span class="number">0x8000 </span>== <span class="number">0 </span>{
             <span class="comment">// 16-bit indexes
             </span>data_block =
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(data_block) = <span class="self">self</span>.index.get((index3_block + index3_pos) <span class="kw">as </span>usize) {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(data_block) = <span class="self">self</span>.index.get(<span class="macro">w!</span>(index3_block + index3_pos) <span class="kw">as </span>usize) {
                     data_block <span class="kw">as </span>u32
                 } <span class="kw">else </span>{
                     <span class="kw">return </span><span class="self">self</span>.trie_error_val_index();
                 };
         } <span class="kw">else </span>{
             <span class="comment">// 18-bit indexes stored in groups of 9 entries per 8 indexes.
-            </span>index3_block = (index3_block &amp; <span class="number">0x7fff</span>) + (index3_pos &amp; !<span class="number">7</span>) + (index3_pos &gt;&gt; <span class="number">3</span>);
+            </span>index3_block = <span class="macro">w!</span>((index3_block &amp; <span class="number">0x7fff</span>) + <span class="macro">w!</span>((index3_pos &amp; !<span class="number">7</span>) + index3_pos &gt;&gt; <span class="number">3</span>));
             index3_pos &amp;= <span class="number">7</span>;
             data_block = <span class="kw">if let </span><span class="prelude-val">Some</span>(data_block) = <span class="self">self</span>.index.get(index3_block <span class="kw">as </span>usize) {
                 data_block <span class="kw">as </span>u32
             } <span class="kw">else </span>{
                 <span class="kw">return </span><span class="self">self</span>.trie_error_val_index();
             };
-            data_block = (data_block &lt;&lt; (<span class="number">2 </span>+ (<span class="number">2 </span>* index3_pos))) &amp; <span class="number">0x30000</span>;
+            data_block = (data_block &lt;&lt; <span class="macro">w!</span>(<span class="number">2u32 </span>+ <span class="macro">w!</span>(<span class="number">2u32 </span>* index3_pos))) &amp; <span class="number">0x30000</span>;
             index3_block += <span class="number">1</span>;
             data_block =
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(index3_val) = <span class="self">self</span>.index.get((index3_block + index3_pos) <span class="kw">as </span>usize) {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(index3_val) = <span class="self">self</span>.index.get(<span class="macro">w!</span>(index3_block + index3_pos) <span class="kw">as </span>usize) {
                     data_block | (index3_val <span class="kw">as </span>u32)
                 } <span class="kw">else </span>{
                     <span class="kw">return </span><span class="self">self</span>.trie_error_val_index();
@@ -1576,7 +1688,7 @@
         }
         <span class="comment">// Returns data_pos == data_block (offset) +
         //     portion of code_point bit field for last (4th) lookup
-        </span>data_block + (code_point &amp; SMALL_DATA_MASK)
+        </span><span class="macro">w!</span>(data_block + code_point &amp; SMALL_DATA_MASK)
     }
 
     <span class="doccomment">/// Returns the position in the `data` array for the given code point,
@@ -1591,7 +1703,7 @@
     /// [`CodePointTrieHeader::high_start`].
     </span><span class="kw">fn </span>small_index(<span class="kw-2">&amp;</span><span class="self">self</span>, code_point: u32) -&gt; u32 {
         <span class="kw">if </span>code_point &gt;= <span class="self">self</span>.header.high_start {
-            <span class="self">self</span>.data.len() <span class="kw">as </span>u32 - HIGH_VALUE_NEG_DATA_OFFSET
+            <span class="macro">w!</span>((<span class="self">self</span>.data.len() <span class="kw">as </span>u32) - HIGH_VALUE_NEG_DATA_OFFSET)
         } <span class="kw">else </span>{
             <span class="self">self</span>.internal_small_index(code_point) <span class="comment">// helper fn
         </span>}
@@ -1617,7 +1729,9 @@
             } <span class="kw">else </span>{
                 <span class="kw">return </span><span class="self">self</span>.trie_error_val_index();
             };
-        <span class="kw">let </span>fast_index_val: u32 = index_array_val <span class="kw">as </span>u32 + (code_point &amp; FAST_TYPE_DATA_MASK);
+        <span class="kw">let </span>masked_cp = code_point &amp; FAST_TYPE_DATA_MASK;
+        <span class="kw">let </span>index_array_val = index_array_val <span class="kw">as </span>u32;
+        <span class="kw">let </span>fast_index_val: u32 = <span class="macro">w!</span>(index_array_val + masked_cp);
         fast_index_val
     }
 
@@ -1718,7 +1832,8 @@
     ///
     /// assert_eq!(planes_trie_i8.get32(0x30000), 3);
     /// ```
-    </span><span class="kw">pub fn </span>try_into_converted&lt;P&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;CodePointTrie&lt;<span class="lifetime">'trie</span>, P&gt;, ZeroVecError&gt;
+    </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">pub fn </span>try_into_converted&lt;P&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;CodePointTrie&lt;<span class="lifetime">'trie</span>, P&gt;, UleError&gt;
     <span class="kw">where
         </span>P: TrieValue,
     {
@@ -1758,6 +1873,7 @@
     ///
     /// assert_eq!(planes_trie_u16.get32(0x30000), 3);
     /// ```
+    </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
     </span><span class="kw">pub fn </span>try_alloc_map_value&lt;P, E&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="kw-2">mut </span>f: <span class="kw">impl </span>FnMut(T) -&gt; <span class="prelude-ty">Result</span>&lt;P, E&gt;,
@@ -1839,7 +1955,7 @@
             <span class="kw">let </span>di: usize = <span class="self">self</span>.data.len() - (HIGH_VALUE_NEG_DATA_OFFSET <span class="kw">as </span>usize);
             <span class="kw">let </span>value: T = <span class="self">self</span>.data.get(di)<span class="question-mark">?</span>;
             <span class="kw">return </span><span class="prelude-val">Some</span>(CodePointMapRange {
-                range: RangeInclusive::new(start, CODE_POINT_MAX),
+                range: start..=CODE_POINT_MAX,
                 value,
             });
         }
@@ -1923,7 +2039,7 @@
                     </span><span class="kw">if </span>have_value {
                         <span class="kw">if </span>null_value != value {
                             <span class="kw">return </span><span class="prelude-val">Some</span>(CodePointMapRange {
-                                range: RangeInclusive::new(start, c - <span class="number">1</span>),
+                                range: start..=(c - <span class="number">1</span>),
                                 value,
                             });
                         }
@@ -1996,7 +2112,7 @@
                         </span><span class="kw">if </span>have_value {
                             <span class="kw">if </span>null_value != value {
                                 <span class="kw">return </span><span class="prelude-val">Some</span>(CodePointMapRange {
-                                    range: RangeInclusive::new(start, c - <span class="number">1</span>),
+                                    range: start..=(c - <span class="number">1</span>),
                                     value,
                                 });
                             }
@@ -2018,7 +2134,7 @@
                                 ) != value
                                 {
                                     <span class="kw">return </span><span class="prelude-val">Some</span>(CodePointMapRange {
-                                        range: RangeInclusive::new(start, c - <span class="number">1</span>),
+                                        range: start..=(c - <span class="number">1</span>),
                                         value,
                                     });
                                 }
@@ -2063,7 +2179,7 @@
                                 ) != value
                                 {
                                     <span class="kw">return </span><span class="prelude-val">Some</span>(CodePointMapRange {
-                                        range: RangeInclusive::new(start, c - <span class="number">1</span>),
+                                        range: start..=(c - <span class="number">1</span>),
                                         value,
                                     });
                                 }
@@ -2122,7 +2238,7 @@
             c = CODE_POINT_MAX;
         }
         <span class="prelude-val">Some</span>(CodePointMapRange {
-            range: RangeInclusive::new(start, c),
+            range: start..=c,
             value,
         })
     }
@@ -2148,7 +2264,7 @@
     ///     assert_eq!(
     ///         ranges.next(),
     ///         Some(CodePointMapRange {
-    ///             range: RangeInclusive::new(exp_start, exp_end),
+    ///             range: exp_start..=exp_end,
     ///             value: plane as u8
     ///         })
     ///     );
@@ -2161,7 +2277,7 @@
     /// ```
     </span><span class="kw">pub fn </span>iter_ranges(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; CodePointMapRangeIterator&lt;T&gt; {
         <span class="kw">let </span>init_range = <span class="prelude-val">Some</span>(CodePointMapRange {
-            range: RangeInclusive::new(u32::MAX, u32::MAX),
+            range: u32::MAX..=u32::MAX,
             value: <span class="self">self</span>.error_value(),
         });
         CodePointMapRangeIterator::&lt;T&gt; {
@@ -2181,7 +2297,7 @@
     /// let trie = planes::get_planes_trie();
     ///
     /// let plane_val = 2;
-    /// let mut sip_range_iter = trie.get_ranges_for_value(plane_val as u8);
+    /// let mut sip_range_iter = trie.iter_ranges_for_value(plane_val as u8);
     ///
     /// let start = plane_val * 0x1_0000;
     /// let end = start + 0xffff;
@@ -2191,7 +2307,10 @@
     /// assert_eq!(start..=end, sip_range);
     ///
     /// assert!(sip_range_iter.next().is_none());
-    </span><span class="kw">pub fn </span>get_ranges_for_value(<span class="kw-2">&amp;</span><span class="self">self</span>, value: T) -&gt; <span class="kw">impl </span>Iterator&lt;Item = RangeInclusive&lt;u32&gt;&gt; + <span class="lifetime">'_ </span>{
+    </span><span class="kw">pub fn </span>iter_ranges_for_value(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        value: T,
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = RangeInclusive&lt;u32&gt;&gt; + <span class="lifetime">'_ </span>{
         <span class="self">self</span>.iter_ranges()
             .filter(<span class="kw">move </span>|cpm_range| cpm_range.value == value)
             .map(|cpm_range| cpm_range.range)
@@ -2251,8 +2370,9 @@
     /// assert!(sip.contains32(end));
     /// assert!(!sip.contains32(end + 1));
     /// ```
+    </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
     </span><span class="kw">pub fn </span>get_set_for_value(<span class="kw-2">&amp;</span><span class="self">self</span>, value: T) -&gt; CodePointInversionList&lt;<span class="lifetime">'static</span>&gt; {
-        <span class="kw">let </span>value_ranges = <span class="self">self</span>.get_ranges_for_value(value);
+        <span class="kw">let </span>value_ranges = <span class="self">self</span>.iter_ranges_for_value(value);
         CodePointInversionList::from_iter(value_ranges)
     }
 
@@ -2264,7 +2384,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"databake"</span>)]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">'trie</span>, T: TrieValue + databake::Bake&gt; databake::Bake <span class="kw">for </span>CodePointTrie&lt;<span class="lifetime">'trie</span>, T&gt; {
+</span><span class="kw">impl</span>&lt;T: TrieValue + databake::Bake&gt; databake::Bake <span class="kw">for </span>CodePointTrie&lt;<span class="lifetime">'_</span>, T&gt; {
     <span class="kw">fn </span>bake(<span class="kw-2">&amp;</span><span class="self">self</span>, env: <span class="kw-2">&amp;</span>databake::CrateEnv) -&gt; databake::TokenStream {
         <span class="kw">let </span>header = <span class="self">self</span>.header.bake(env);
         <span class="kw">let </span>index = <span class="self">self</span>.index.bake(env);
@@ -2274,7 +2394,14 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'trie</span>, T: TrieValue + Into&lt;u32&gt;&gt; CodePointTrie&lt;<span class="lifetime">'trie</span>, T&gt; {
+<span class="attr">#[cfg(feature = <span class="string">"databake"</span>)]
+</span><span class="kw">impl</span>&lt;T: TrieValue + databake::Bake&gt; databake::BakeSize <span class="kw">for </span>CodePointTrie&lt;<span class="lifetime">'_</span>, T&gt; {
+    <span class="kw">fn </span>borrows_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.header.borrows_size() + <span class="self">self</span>.index.borrows_size() + <span class="self">self</span>.data.borrows_size()
+    }
+}
+
+<span class="kw">impl</span>&lt;T: TrieValue + Into&lt;u32&gt;&gt; CodePointTrie&lt;<span class="lifetime">'_</span>, T&gt; {
     <span class="doccomment">/// Returns the value that is associated with `code_point` for this [`CodePointTrie`]
     /// as a `u32`.
     ///
@@ -2297,7 +2424,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'trie</span>, T: TrieValue&gt; Clone <span class="kw">for </span>CodePointTrie&lt;<span class="lifetime">'trie</span>, T&gt;
+<span class="kw">impl</span>&lt;T: TrieValue&gt; Clone <span class="kw">for </span>CodePointTrie&lt;<span class="lifetime">'_</span>, T&gt;
 <span class="kw">where
     </span>&lt;T <span class="kw">as </span>zerovec::ule::AsULE&gt;::ULE: Clone,
 {
@@ -2312,7 +2439,9 @@
 }
 
 <span class="doccomment">/// Represents a range of consecutive code points sharing the same value in a
-/// code point map. The start and end of the interval is represented as a
+/// code point map.
+///
+/// The start and end of the interval is represented as a
 /// `RangeInclusive&lt;u32&gt;`, and the value is represented as `T`.
 </span><span class="attr">#[derive(PartialEq, Eq, Debug, Clone)]
 </span><span class="kw">pub struct </span>CodePointMapRange&lt;T&gt; {
@@ -2335,7 +2464,7 @@
     </span>cpm_range: <span class="prelude-ty">Option</span>&lt;CodePointMapRange&lt;T&gt;&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: TrieValue&gt; Iterator <span class="kw">for </span>CodePointMapRangeIterator&lt;<span class="lifetime">'a</span>, T&gt; {
+<span class="kw">impl</span>&lt;T: TrieValue&gt; Iterator <span class="kw">for </span>CodePointMapRangeIterator&lt;<span class="lifetime">'_</span>, T&gt; {
     <span class="kw">type </span>Item = CodePointMapRange&lt;T&gt;;
 
     <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
@@ -2503,7 +2632,7 @@
         <span class="macro">assert_eq!</span>(
             first_range,
             <span class="prelude-val">Some</span>(CodePointMapRange {
-                range: RangeInclusive::new(<span class="number">0x0</span>, <span class="number">0xffff</span>),
+                range: <span class="number">0x0</span>..=<span class="number">0xffff</span>,
                 value: <span class="number">0
             </span>})
         );
@@ -2512,7 +2641,7 @@
         <span class="macro">assert_eq!</span>(
             second_range,
             <span class="prelude-val">Some</span>(CodePointMapRange {
-                range: RangeInclusive::new(<span class="number">0x10000</span>, <span class="number">0x1ffff</span>),
+                range: <span class="number">0x10000</span>..=<span class="number">0x1ffff</span>,
                 value: <span class="number">1
             </span>})
         );
@@ -2521,7 +2650,7 @@
         <span class="macro">assert_eq!</span>(
             penultimate_range,
             <span class="prelude-val">Some</span>(CodePointMapRange {
-                range: RangeInclusive::new(<span class="number">0xf_0000</span>, <span class="number">0xf_ffff</span>),
+                range: <span class="number">0xf_0000</span>..=<span class="number">0xf_ffff</span>,
                 value: <span class="number">15
             </span>})
         );
@@ -2530,7 +2659,7 @@
         <span class="macro">assert_eq!</span>(
             last_range,
             <span class="prelude-val">Some</span>(CodePointMapRange {
-                range: RangeInclusive::new(<span class="number">0x10_0000</span>, <span class="number">0x10_ffff</span>),
+                range: <span class="number">0x10_0000</span>..=<span class="number">0x10_ffff</span>,
                 value: <span class="number">16
             </span>})
         );
@@ -2540,7 +2669,8 @@
     </span><span class="kw">fn </span>databake() {
         <span class="macro">databake::test_bake!</span>(
             CodePointTrie&lt;<span class="lifetime">'static</span>, u32&gt;,
-            <span class="kw">const</span>: <span class="kw">crate</span>::codepointtrie::CodePointTrie::from_parts(
+            <span class="kw">const</span>,
+            <span class="kw">crate</span>::codepointtrie::CodePointTrie::from_parts(
                 <span class="kw">crate</span>::codepointtrie::CodePointTrieHeader {
                     high_start: <span class="number">1u32</span>,
                     shifted12_high_start: <span class="number">2u16</span>,

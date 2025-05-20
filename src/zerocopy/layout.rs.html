@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerocopy-0.8.24/src/layout.rs`."><title>layout.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/</div>layout.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerocopy-0.8.25/src/layout.rs`."><title>layout.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/</div>layout.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1669,8 +1669,7 @@
 <a href="#1668" id="1668">1668</a>
 <a href="#1669" id="1669">1669</a>
 <a href="#1670" id="1670">1670</a>
-<a href="#1671" id="1671">1671</a>
-<a href="#1672" id="1672">1672</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2024 The Fuchsia Authors
+<a href="#1671" id="1671">1671</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2024 The Fuchsia Authors
 //
 // Licensed under the 2-Clause BSD License &lt;LICENSE-BSD or
 // https://opensource.org/license/bsd-2-clause&gt;, Apache License, Version 2.0
@@ -2156,7 +2155,7 @@
         // would have failed anyway for runtime reasons (such as a too-small
         // memory region).
         //
-        // TODO(#67): Once our MSRV is 1.65, use let-else:
+        // FIXME(#67): Once our MSRV is 1.65, use let-else:
         // https://blog.rust-lang.org/2022/11/03/Rust-1.65.0.html#let-else-statements
         </span><span class="kw">let </span>size_info = <span class="kw">match </span><span class="self">self</span>.size_info.try_to_nonzero_elem_size() {
             <span class="prelude-val">Some</span>(size_info) =&gt; size_info,
@@ -2216,7 +2215,7 @@
                 <span class="comment">// Calculate the maximum number of bytes that could be consumed
                 // by the trailing slice.
                 //
-                // TODO(#67): Once our MSRV is 1.65, use let-else:
+                // FIXME(#67): Once our MSRV is 1.65, use let-else:
                 // https://blog.rust-lang.org/2022/11/03/Rust-1.65.0.html#let-else-statements
                 </span><span class="kw">let </span>max_slice_and_padding_bytes = <span class="kw">match </span>max_total_bytes.checked_sub(offset) {
                     <span class="prelude-val">Some</span>(max) =&gt; max,
@@ -2280,7 +2279,7 @@
     }
 }
 
-<span class="comment">// TODO(#67): For some reason, on our MSRV toolchain, this `allow` isn't
+<span class="comment">// FIXME(#67): For some reason, on our MSRV toolchain, this `allow` isn't
 // enforced despite having `#![allow(unknown_lints)]` at the crate root, but
 // putting it here works. Once our MSRV is high enough that this bug has been
 // fixed, remove this `allow`.
@@ -2810,8 +2809,7 @@
                     <span class="kw">let </span>slc_field_ptr = addr_of_slice_field(ptr).as_ptr();
                     <span class="comment">// SAFETY: Both `slc_field_ptr` and `ptr` are pointers to
                     // the same valid Rust object.
-                    </span><span class="attr">#[allow(clippy::incompatible_msrv)]
-                    </span><span class="comment">// Work around https://github.com/rust-lang/rust-clippy/issues/12280
+                    // Work around https://github.com/rust-lang/rust-clippy/issues/12280
                     </span><span class="kw">let </span>offset: usize =
                         <span class="kw">unsafe </span>{ slc_field_ptr.byte_offset_from(ptr.as_ptr()).try_into().unwrap() };
                     <span class="macro">assert_eq!</span>(offset, args.offset);

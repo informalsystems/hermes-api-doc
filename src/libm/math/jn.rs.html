@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libm-0.2.11/src/math/jn.rs`."><title>jn.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="libm" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">libm/math/</div>jn.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libm-0.2.15/src/math/jn.rs`."><title>jn.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="libm" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">libm/math/</div>jn.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -335,7 +335,9 @@
 <a href="#334" id="334">334</a>
 <a href="#335" id="335">335</a>
 <a href="#336" id="336">336</a>
-<a href="#337" id="337">337</a></pre></div><pre class="rust"><code><span class="comment">/* origin: FreeBSD /usr/src/lib/msun/src/e_jn.c */
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a></pre></div><pre class="rust"><code><span class="comment">/* origin: FreeBSD /usr/src/lib/msun/src/e_jn.c */
 /*
  * ====================================================
  * Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
@@ -376,6 +378,7 @@
 <span class="kw">const </span>INVSQRTPI: f64 = <span class="number">5.64189583547756279280e-01</span>; <span class="comment">/* 0x3FE20DD7, 0x50429B6D */
 
 </span><span class="doccomment">/// Integer order of the [Bessel function](https://en.wikipedia.org/wiki/Bessel_function) of the first kind (f64).
+</span><span class="attr">#[cfg_attr(all(test, assert_no_panic), no_panic::no_panic)]
 </span><span class="kw">pub fn </span>jn(n: i32, <span class="kw-2">mut </span>x: f64) -&gt; f64 {
     <span class="kw">let </span><span class="kw-2">mut </span>ix: u32;
     <span class="kw">let </span>lx: u32;
@@ -392,7 +395,7 @@
     ix &amp;= <span class="number">0x7fffffff</span>;
 
     <span class="comment">// -lx == !lx + 1
-    </span><span class="kw">if </span>(ix | (lx | ((!lx).wrapping_add(<span class="number">1</span>))) &gt;&gt; <span class="number">31</span>) &gt; <span class="number">0x7ff00000 </span>{
+    </span><span class="kw">if </span>ix | ((lx | (!lx).wrapping_add(<span class="number">1</span>)) &gt;&gt; <span class="number">31</span>) &gt; <span class="number">0x7ff00000 </span>{
         <span class="comment">/* nan */
         </span><span class="kw">return </span>x;
     }
@@ -441,7 +444,8 @@
                 <span class="number">0 </span>=&gt; -cos(x) + sin(x),
                 <span class="number">1 </span>=&gt; -cos(x) - sin(x),
                 <span class="number">2 </span>=&gt; cos(x) - sin(x),
-                <span class="number">3 </span>| <span class="kw">_ </span>=&gt; cos(x) + sin(x),
+                <span class="comment">// 3
+                </span><span class="kw">_ </span>=&gt; cos(x) + sin(x),
             };
             b = INVSQRTPI * temp / sqrt(x);
         } <span class="kw">else </span>{
@@ -455,130 +459,128 @@
                 </span>a = temp;
             }
         }
-    } <span class="kw">else </span>{
-        <span class="kw">if </span>ix &lt; <span class="number">0x3e100000 </span>{
-            <span class="comment">/* x &lt; 2**-29 */
-            /* x is tiny, return the first Taylor expansion of J(n,x)
-             * J(n,x) = 1/n!*(x/2)^n  - ...
-             */
-            </span><span class="kw">if </span>nm1 &gt; <span class="number">32 </span>{
-                <span class="comment">/* underflow */
-                </span>b = <span class="number">0.0</span>;
-            } <span class="kw">else </span>{
-                temp = x * <span class="number">0.5</span>;
-                b = temp;
-                a = <span class="number">1.0</span>;
-                i = <span class="number">2</span>;
-                <span class="kw">while </span>i &lt;= nm1 + <span class="number">1 </span>{
-                    a <span class="kw-2">*</span>= i <span class="kw">as </span>f64; <span class="comment">/* a = n! */
-                    </span>b <span class="kw-2">*</span>= temp; <span class="comment">/* b = (x/2)^n */
-                    </span>i += <span class="number">1</span>;
-                }
-                b = b / a;
-            }
+    } <span class="kw">else if </span>ix &lt; <span class="number">0x3e100000 </span>{
+        <span class="comment">/* x &lt; 2**-29 */
+        /* x is tiny, return the first Taylor expansion of J(n,x)
+         * J(n,x) = 1/n!*(x/2)^n  - ...
+         */
+        </span><span class="kw">if </span>nm1 &gt; <span class="number">32 </span>{
+            <span class="comment">/* underflow */
+            </span>b = <span class="number">0.0</span>;
         } <span class="kw">else </span>{
-            <span class="comment">/* use backward recurrence */
-            /*                      x      x^2      x^2
-             *  J(n,x)/J(n-1,x) =  ----   ------   ------   .....
-             *                      2n  - 2(n+1) - 2(n+2)
-             *
-             *                      1      1        1
-             *  (for large x)   =  ----  ------   ------   .....
-             *                      2n   2(n+1)   2(n+2)
-             *                      -- - ------ - ------ -
-             *                       x     x         x
-             *
-             * Let w = 2n/x and h=2/x, then the above quotient
-             * is equal to the continued fraction:
-             *                  1
-             *      = -----------------------
-             *                     1
-             *         w - -----------------
-             *                        1
-             *              w+h - ---------
-             *                     w+2h - ...
-             *
-             * To determine how many terms needed, let
-             * Q(0) = w, Q(1) = w(w+h) - 1,
-             * Q(k) = (w+k*h)*Q(k-1) - Q(k-2),
-             * When Q(k) &gt; 1e4      good for single
-             * When Q(k) &gt; 1e9      good for double
-             * When Q(k) &gt; 1e17     good for quadruple
-             */
-            /* determine k */
-            </span><span class="kw">let </span><span class="kw-2">mut </span>t: f64;
-            <span class="kw">let </span><span class="kw-2">mut </span>q0: f64;
-            <span class="kw">let </span><span class="kw-2">mut </span>q1: f64;
-            <span class="kw">let </span><span class="kw-2">mut </span>w: f64;
-            <span class="kw">let </span>h: f64;
-            <span class="kw">let </span><span class="kw-2">mut </span>z: f64;
-            <span class="kw">let </span><span class="kw-2">mut </span>tmp: f64;
-            <span class="kw">let </span>nf: f64;
-
-            <span class="kw">let </span><span class="kw-2">mut </span>k: i32;
-
-            nf = (nm1 <span class="kw">as </span>f64) + <span class="number">1.0</span>;
-            w = <span class="number">2.0 </span>* nf / x;
-            h = <span class="number">2.0 </span>/ x;
-            z = w + h;
-            q0 = w;
-            q1 = w * z - <span class="number">1.0</span>;
-            k = <span class="number">1</span>;
-            <span class="kw">while </span>q1 &lt; <span class="number">1.0e9 </span>{
-                k += <span class="number">1</span>;
-                z += h;
-                tmp = z * q1 - q0;
-                q0 = q1;
-                q1 = tmp;
+            temp = x * <span class="number">0.5</span>;
+            b = temp;
+            a = <span class="number">1.0</span>;
+            i = <span class="number">2</span>;
+            <span class="kw">while </span>i &lt;= nm1 + <span class="number">1 </span>{
+                a <span class="kw-2">*</span>= i <span class="kw">as </span>f64; <span class="comment">/* a = n! */
+                </span>b <span class="kw-2">*</span>= temp; <span class="comment">/* b = (x/2)^n */
+                </span>i += <span class="number">1</span>;
             }
-            t = <span class="number">0.0</span>;
-            i = k;
-            <span class="kw">while </span>i &gt;= <span class="number">0 </span>{
-                t = <span class="number">1.0 </span>/ (<span class="number">2.0 </span>* ((i <span class="kw">as </span>f64) + nf) / x - t);
+            b = b / a;
+        }
+    } <span class="kw">else </span>{
+        <span class="comment">/* use backward recurrence */
+        /*                      x      x^2      x^2
+         *  J(n,x)/J(n-1,x) =  ----   ------   ------   .....
+         *                      2n  - 2(n+1) - 2(n+2)
+         *
+         *                      1      1        1
+         *  (for large x)   =  ----  ------   ------   .....
+         *                      2n   2(n+1)   2(n+2)
+         *                      -- - ------ - ------ -
+         *                       x     x         x
+         *
+         * Let w = 2n/x and h=2/x, then the above quotient
+         * is equal to the continued fraction:
+         *                  1
+         *      = -----------------------
+         *                     1
+         *         w - -----------------
+         *                        1
+         *              w+h - ---------
+         *                     w+2h - ...
+         *
+         * To determine how many terms needed, let
+         * Q(0) = w, Q(1) = w(w+h) - 1,
+         * Q(k) = (w+k*h)*Q(k-1) - Q(k-2),
+         * When Q(k) &gt; 1e4      good for single
+         * When Q(k) &gt; 1e9      good for double
+         * When Q(k) &gt; 1e17     good for quadruple
+         */
+        /* determine k */
+        </span><span class="kw">let </span><span class="kw-2">mut </span>t: f64;
+        <span class="kw">let </span><span class="kw-2">mut </span>q0: f64;
+        <span class="kw">let </span><span class="kw-2">mut </span>q1: f64;
+        <span class="kw">let </span><span class="kw-2">mut </span>w: f64;
+        <span class="kw">let </span>h: f64;
+        <span class="kw">let </span><span class="kw-2">mut </span>z: f64;
+        <span class="kw">let </span><span class="kw-2">mut </span>tmp: f64;
+        <span class="kw">let </span>nf: f64;
+
+        <span class="kw">let </span><span class="kw-2">mut </span>k: i32;
+
+        nf = (nm1 <span class="kw">as </span>f64) + <span class="number">1.0</span>;
+        w = <span class="number">2.0 </span>* nf / x;
+        h = <span class="number">2.0 </span>/ x;
+        z = w + h;
+        q0 = w;
+        q1 = w * z - <span class="number">1.0</span>;
+        k = <span class="number">1</span>;
+        <span class="kw">while </span>q1 &lt; <span class="number">1.0e9 </span>{
+            k += <span class="number">1</span>;
+            z += h;
+            tmp = z * q1 - q0;
+            q0 = q1;
+            q1 = tmp;
+        }
+        t = <span class="number">0.0</span>;
+        i = k;
+        <span class="kw">while </span>i &gt;= <span class="number">0 </span>{
+            t = <span class="number">1.0 </span>/ (<span class="number">2.0 </span>* ((i <span class="kw">as </span>f64) + nf) / x - t);
+            i -= <span class="number">1</span>;
+        }
+        a = t;
+        b = <span class="number">1.0</span>;
+        <span class="comment">/*  estimate log((2/x)^n*n!) = n*log(2/x)+n*ln(n)
+         *  Hence, if n*(log(2n/x)) &gt; ...
+         *  single 8.8722839355e+01
+         *  double 7.09782712893383973096e+02
+         *  long double 1.1356523406294143949491931077970765006170e+04
+         *  then recurrent value may overflow and the result is
+         *  likely underflow to zero
+         */
+        </span>tmp = nf * log(fabs(w));
+        <span class="kw">if </span>tmp &lt; <span class="number">7.09782712893383973096e+02 </span>{
+            i = nm1;
+            <span class="kw">while </span>i &gt; <span class="number">0 </span>{
+                temp = b;
+                b = b * (<span class="number">2.0 </span>* (i <span class="kw">as </span>f64)) / x - a;
+                a = temp;
                 i -= <span class="number">1</span>;
             }
-            a = t;
-            b = <span class="number">1.0</span>;
-            <span class="comment">/*  estimate log((2/x)^n*n!) = n*log(2/x)+n*ln(n)
-             *  Hence, if n*(log(2n/x)) &gt; ...
-             *  single 8.8722839355e+01
-             *  double 7.09782712893383973096e+02
-             *  long double 1.1356523406294143949491931077970765006170e+04
-             *  then recurrent value may overflow and the result is
-             *  likely underflow to zero
-             */
-            </span>tmp = nf * log(fabs(w));
-            <span class="kw">if </span>tmp &lt; <span class="number">7.09782712893383973096e+02 </span>{
-                i = nm1;
-                <span class="kw">while </span>i &gt; <span class="number">0 </span>{
-                    temp = b;
-                    b = b * (<span class="number">2.0 </span>* (i <span class="kw">as </span>f64)) / x - a;
-                    a = temp;
-                    i -= <span class="number">1</span>;
+        } <span class="kw">else </span>{
+            i = nm1;
+            <span class="kw">while </span>i &gt; <span class="number">0 </span>{
+                temp = b;
+                b = b * (<span class="number">2.0 </span>* (i <span class="kw">as </span>f64)) / x - a;
+                a = temp;
+                <span class="comment">/* scale b to avoid spurious overflow */
+                </span><span class="kw">let </span>x1p500 = f64::from_bits(<span class="number">0x5f30000000000000</span>); <span class="comment">// 0x1p500 == 2^500
+                </span><span class="kw">if </span>b &gt; x1p500 {
+                    a /= b;
+                    t /= b;
+                    b = <span class="number">1.0</span>;
                 }
-            } <span class="kw">else </span>{
-                i = nm1;
-                <span class="kw">while </span>i &gt; <span class="number">0 </span>{
-                    temp = b;
-                    b = b * (<span class="number">2.0 </span>* (i <span class="kw">as </span>f64)) / x - a;
-                    a = temp;
-                    <span class="comment">/* scale b to avoid spurious overflow */
-                    </span><span class="kw">let </span>x1p500 = f64::from_bits(<span class="number">0x5f30000000000000</span>); <span class="comment">// 0x1p500 == 2^500
-                    </span><span class="kw">if </span>b &gt; x1p500 {
-                        a /= b;
-                        t /= b;
-                        b = <span class="number">1.0</span>;
-                    }
-                    i -= <span class="number">1</span>;
-                }
+                i -= <span class="number">1</span>;
             }
-            z = j0(x);
-            w = j1(x);
-            <span class="kw">if </span>fabs(z) &gt;= fabs(w) {
-                b = t * z / b;
-            } <span class="kw">else </span>{
-                b = t * w / a;
-            }
+        }
+        z = j0(x);
+        w = j1(x);
+        <span class="kw">if </span>fabs(z) &gt;= fabs(w) {
+            b = t * z / b;
+        } <span class="kw">else </span>{
+            b = t * w / a;
         }
     }
 
@@ -586,6 +588,7 @@
 }
 
 <span class="doccomment">/// Integer order of the [Bessel function](https://en.wikipedia.org/wiki/Bessel_function) of the second kind (f64).
+</span><span class="attr">#[cfg_attr(all(test, assert_no_panic), no_panic::no_panic)]
 </span><span class="kw">pub fn </span>yn(n: i32, x: f64) -&gt; f64 {
     <span class="kw">let </span><span class="kw-2">mut </span>ix: u32;
     <span class="kw">let </span>lx: u32;
@@ -603,7 +606,7 @@
     ix &amp;= <span class="number">0x7fffffff</span>;
 
     <span class="comment">// -lx == !lx + 1
-    </span><span class="kw">if </span>(ix | (lx | ((!lx).wrapping_add(<span class="number">1</span>))) &gt;&gt; <span class="number">31</span>) &gt; <span class="number">0x7ff00000 </span>{
+    </span><span class="kw">if </span>ix | ((lx | (!lx).wrapping_add(<span class="number">1</span>)) &gt;&gt; <span class="number">31</span>) &gt; <span class="number">0x7ff00000 </span>{
         <span class="comment">/* nan */
         </span><span class="kw">return </span>x;
     }
@@ -652,7 +655,8 @@
             <span class="number">0 </span>=&gt; -sin(x) - cos(x),
             <span class="number">1 </span>=&gt; -sin(x) + cos(x),
             <span class="number">2 </span>=&gt; sin(x) + cos(x),
-            <span class="number">3 </span>| <span class="kw">_ </span>=&gt; sin(x) - cos(x),
+            <span class="comment">// 3
+            </span><span class="kw">_ </span>=&gt; sin(x) - cos(x),
         };
         b = INVSQRTPI * temp / sqrt(x);
     } <span class="kw">else </span>{

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libm-0.2.11/src/math/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="libm" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">libm/math/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libm-0.2.15/src/math/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="libm" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">libm/math/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -360,7 +360,39 @@
 <a href="#359" id="359">359</a>
 <a href="#360" id="360">360</a>
 <a href="#361" id="361">361</a>
-<a href="#362" id="362">362</a></pre></div><pre class="rust"><code><span class="macro">macro_rules!</span> force_eval {
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a></pre></div><pre class="rust"><code><span class="macro">macro_rules!</span> force_eval {
     (<span class="macro-nonterminal">$e</span>:expr) =&gt; {
         <span class="kw">unsafe </span>{ ::core::ptr::read_volatile(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$e</span>) }
     };
@@ -422,250 +454,40 @@
 // the time of this writing this is only used in a few places, and once
 // rust-lang/rust#72751 is fixed then this macro will no longer be necessary and
 // the native `/` operator can be used and panics won't be codegen'd.
-</span><span class="attr">#[cfg(any(debug_assertions, not(feature = <span class="string">"unstable"</span>)))]
+</span><span class="attr">#[cfg(any(debug_assertions, not(intrinsics_enabled)))]
 </span><span class="macro">macro_rules!</span> div {
     (<span class="macro-nonterminal">$a</span>:expr, <span class="macro-nonterminal">$b</span>:expr) =&gt; {
         <span class="macro-nonterminal">$a </span>/ <span class="macro-nonterminal">$b
     </span>};
 }
 
-<span class="attr">#[cfg(all(not(debug_assertions), feature = <span class="string">"unstable"</span>))]
+<span class="attr">#[cfg(all(not(debug_assertions), intrinsics_enabled))]
 </span><span class="macro">macro_rules!</span> div {
     (<span class="macro-nonterminal">$a</span>:expr, <span class="macro-nonterminal">$b</span>:expr) =&gt; {
         <span class="kw">unsafe </span>{ core::intrinsics::unchecked_div(<span class="macro-nonterminal">$a</span>, <span class="macro-nonterminal">$b</span>) }
     };
 }
 
-<span class="macro">macro_rules!</span> llvm_intrinsically_optimized {
-    (<span class="attr">#[cfg($(<span class="macro-nonterminal">$clause</span>:tt)<span class="kw-2">*</span>)] </span><span class="macro-nonterminal">$e</span>:expr) =&gt; {
-        <span class="attr">#[cfg(all(feature = <span class="string">"unstable"</span>, not(feature = <span class="string">"force-soft-floats"</span>), $(<span class="macro-nonterminal">$clause</span>)<span class="kw-2">*</span>))]
-        </span>{
-            <span class="kw">if </span><span class="bool-val">true </span>{ <span class="comment">// thwart the dead code lint
-                </span><span class="macro-nonterminal">$e
-            </span>}
-        }
-    };
+<span class="comment">// `support` may be public for testing
+</span><span class="attr">#[macro_use]
+#[cfg(feature = <span class="string">"unstable-public-internals"</span>)]
+</span><span class="kw">pub mod </span>support;
+
+<span class="attr">#[macro_use]
+#[cfg(not(feature = <span class="string">"unstable-public-internals"</span>))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>support;
+
+<span class="macro">cfg_if!</span> {
+    <span class="kw">if </span><span class="attr">#[cfg(feature = <span class="string">"unstable-public-internals"</span>)] </span>{
+        <span class="kw">pub mod </span>generic;
+    } <span class="kw">else </span>{
+        <span class="kw">mod </span>generic;
+    }
 }
 
-<span class="comment">// Public modules
-</span><span class="kw">mod </span>acos;
-<span class="kw">mod </span>acosf;
-<span class="kw">mod </span>acosh;
-<span class="kw">mod </span>acoshf;
-<span class="kw">mod </span>asin;
-<span class="kw">mod </span>asinf;
-<span class="kw">mod </span>asinh;
-<span class="kw">mod </span>asinhf;
-<span class="kw">mod </span>atan;
-<span class="kw">mod </span>atan2;
-<span class="kw">mod </span>atan2f;
-<span class="kw">mod </span>atanf;
-<span class="kw">mod </span>atanh;
-<span class="kw">mod </span>atanhf;
-<span class="kw">mod </span>cbrt;
-<span class="kw">mod </span>cbrtf;
-<span class="kw">mod </span>ceil;
-<span class="kw">mod </span>ceilf;
-<span class="kw">mod </span>copysign;
-<span class="kw">mod </span>copysignf;
-<span class="kw">mod </span>cos;
-<span class="kw">mod </span>cosf;
-<span class="kw">mod </span>cosh;
-<span class="kw">mod </span>coshf;
-<span class="kw">mod </span>erf;
-<span class="kw">mod </span>erff;
-<span class="kw">mod </span>exp;
-<span class="kw">mod </span>exp10;
-<span class="kw">mod </span>exp10f;
-<span class="kw">mod </span>exp2;
-<span class="kw">mod </span>exp2f;
-<span class="kw">mod </span>expf;
-<span class="kw">mod </span>expm1;
-<span class="kw">mod </span>expm1f;
-<span class="kw">mod </span>fabs;
-<span class="kw">mod </span>fabsf;
-<span class="kw">mod </span>fdim;
-<span class="kw">mod </span>fdimf;
-<span class="kw">mod </span>floor;
-<span class="kw">mod </span>floorf;
-<span class="kw">mod </span>fma;
-<span class="kw">mod </span>fmaf;
-<span class="kw">mod </span>fmax;
-<span class="kw">mod </span>fmaxf;
-<span class="kw">mod </span>fmin;
-<span class="kw">mod </span>fminf;
-<span class="kw">mod </span>fmod;
-<span class="kw">mod </span>fmodf;
-<span class="kw">mod </span>frexp;
-<span class="kw">mod </span>frexpf;
-<span class="kw">mod </span>hypot;
-<span class="kw">mod </span>hypotf;
-<span class="kw">mod </span>ilogb;
-<span class="kw">mod </span>ilogbf;
-<span class="kw">mod </span>j0;
-<span class="kw">mod </span>j0f;
-<span class="kw">mod </span>j1;
-<span class="kw">mod </span>j1f;
-<span class="kw">mod </span>jn;
-<span class="kw">mod </span>jnf;
-<span class="kw">mod </span>ldexp;
-<span class="kw">mod </span>ldexpf;
-<span class="kw">mod </span>lgamma;
-<span class="kw">mod </span>lgamma_r;
-<span class="kw">mod </span>lgammaf;
-<span class="kw">mod </span>lgammaf_r;
-<span class="kw">mod </span>log;
-<span class="kw">mod </span>log10;
-<span class="kw">mod </span>log10f;
-<span class="kw">mod </span>log1p;
-<span class="kw">mod </span>log1pf;
-<span class="kw">mod </span>log2;
-<span class="kw">mod </span>log2f;
-<span class="kw">mod </span>logf;
-<span class="kw">mod </span>modf;
-<span class="kw">mod </span>modff;
-<span class="kw">mod </span>nextafter;
-<span class="kw">mod </span>nextafterf;
-<span class="kw">mod </span>pow;
-<span class="kw">mod </span>powf;
-<span class="kw">mod </span>remainder;
-<span class="kw">mod </span>remainderf;
-<span class="kw">mod </span>remquo;
-<span class="kw">mod </span>remquof;
-<span class="kw">mod </span>rint;
-<span class="kw">mod </span>rintf;
-<span class="kw">mod </span>round;
-<span class="kw">mod </span>roundf;
-<span class="kw">mod </span>scalbn;
-<span class="kw">mod </span>scalbnf;
-<span class="kw">mod </span>sin;
-<span class="kw">mod </span>sincos;
-<span class="kw">mod </span>sincosf;
-<span class="kw">mod </span>sinf;
-<span class="kw">mod </span>sinh;
-<span class="kw">mod </span>sinhf;
-<span class="kw">mod </span>sqrt;
-<span class="kw">mod </span>sqrtf;
-<span class="kw">mod </span>tan;
-<span class="kw">mod </span>tanf;
-<span class="kw">mod </span>tanh;
-<span class="kw">mod </span>tanhf;
-<span class="kw">mod </span>tgamma;
-<span class="kw">mod </span>tgammaf;
-<span class="kw">mod </span>trunc;
-<span class="kw">mod </span>truncf;
-
-<span class="comment">// Use separated imports instead of {}-grouped imports for easier merging.
-</span><span class="kw">pub use </span><span class="self">self</span>::acos::acos;
-<span class="kw">pub use </span><span class="self">self</span>::acosf::acosf;
-<span class="kw">pub use </span><span class="self">self</span>::acosh::acosh;
-<span class="kw">pub use </span><span class="self">self</span>::acoshf::acoshf;
-<span class="kw">pub use </span><span class="self">self</span>::asin::asin;
-<span class="kw">pub use </span><span class="self">self</span>::asinf::asinf;
-<span class="kw">pub use </span><span class="self">self</span>::asinh::asinh;
-<span class="kw">pub use </span><span class="self">self</span>::asinhf::asinhf;
-<span class="kw">pub use </span><span class="self">self</span>::atan::atan;
-<span class="kw">pub use </span><span class="self">self</span>::atan2::atan2;
-<span class="kw">pub use </span><span class="self">self</span>::atan2f::atan2f;
-<span class="kw">pub use </span><span class="self">self</span>::atanf::atanf;
-<span class="kw">pub use </span><span class="self">self</span>::atanh::atanh;
-<span class="kw">pub use </span><span class="self">self</span>::atanhf::atanhf;
-<span class="kw">pub use </span><span class="self">self</span>::cbrt::cbrt;
-<span class="kw">pub use </span><span class="self">self</span>::cbrtf::cbrtf;
-<span class="kw">pub use </span><span class="self">self</span>::ceil::ceil;
-<span class="kw">pub use </span><span class="self">self</span>::ceilf::ceilf;
-<span class="kw">pub use </span><span class="self">self</span>::copysign::copysign;
-<span class="kw">pub use </span><span class="self">self</span>::copysignf::copysignf;
-<span class="kw">pub use </span><span class="self">self</span>::cos::cos;
-<span class="kw">pub use </span><span class="self">self</span>::cosf::cosf;
-<span class="kw">pub use </span><span class="self">self</span>::cosh::cosh;
-<span class="kw">pub use </span><span class="self">self</span>::coshf::coshf;
-<span class="kw">pub use </span><span class="self">self</span>::erf::{erf, erfc};
-<span class="kw">pub use </span><span class="self">self</span>::erff::{erfcf, erff};
-<span class="kw">pub use </span><span class="self">self</span>::exp::exp;
-<span class="kw">pub use </span><span class="self">self</span>::exp2::exp2;
-<span class="kw">pub use </span><span class="self">self</span>::exp2f::exp2f;
-<span class="kw">pub use </span><span class="self">self</span>::exp10::exp10;
-<span class="kw">pub use </span><span class="self">self</span>::exp10f::exp10f;
-<span class="kw">pub use </span><span class="self">self</span>::expf::expf;
-<span class="kw">pub use </span><span class="self">self</span>::expm1::expm1;
-<span class="kw">pub use </span><span class="self">self</span>::expm1f::expm1f;
-<span class="kw">pub use </span><span class="self">self</span>::fabs::fabs;
-<span class="kw">pub use </span><span class="self">self</span>::fabsf::fabsf;
-<span class="kw">pub use </span><span class="self">self</span>::fdim::fdim;
-<span class="kw">pub use </span><span class="self">self</span>::fdimf::fdimf;
-<span class="kw">pub use </span><span class="self">self</span>::floor::floor;
-<span class="kw">pub use </span><span class="self">self</span>::floorf::floorf;
-<span class="kw">pub use </span><span class="self">self</span>::fma::fma;
-<span class="kw">pub use </span><span class="self">self</span>::fmaf::fmaf;
-<span class="kw">pub use </span><span class="self">self</span>::fmax::fmax;
-<span class="kw">pub use </span><span class="self">self</span>::fmaxf::fmaxf;
-<span class="kw">pub use </span><span class="self">self</span>::fmin::fmin;
-<span class="kw">pub use </span><span class="self">self</span>::fminf::fminf;
-<span class="kw">pub use </span><span class="self">self</span>::fmod::fmod;
-<span class="kw">pub use </span><span class="self">self</span>::fmodf::fmodf;
-<span class="kw">pub use </span><span class="self">self</span>::frexp::frexp;
-<span class="kw">pub use </span><span class="self">self</span>::frexpf::frexpf;
-<span class="kw">pub use </span><span class="self">self</span>::hypot::hypot;
-<span class="kw">pub use </span><span class="self">self</span>::hypotf::hypotf;
-<span class="kw">pub use </span><span class="self">self</span>::ilogb::ilogb;
-<span class="kw">pub use </span><span class="self">self</span>::ilogbf::ilogbf;
-<span class="kw">pub use </span><span class="self">self</span>::j0::{j0, y0};
-<span class="kw">pub use </span><span class="self">self</span>::j0f::{j0f, y0f};
-<span class="kw">pub use </span><span class="self">self</span>::j1::{j1, y1};
-<span class="kw">pub use </span><span class="self">self</span>::j1f::{j1f, y1f};
-<span class="kw">pub use </span><span class="self">self</span>::jn::{jn, yn};
-<span class="kw">pub use </span><span class="self">self</span>::jnf::{jnf, ynf};
-<span class="kw">pub use </span><span class="self">self</span>::ldexp::ldexp;
-<span class="kw">pub use </span><span class="self">self</span>::ldexpf::ldexpf;
-<span class="kw">pub use </span><span class="self">self</span>::lgamma::lgamma;
-<span class="kw">pub use </span><span class="self">self</span>::lgamma_r::lgamma_r;
-<span class="kw">pub use </span><span class="self">self</span>::lgammaf::lgammaf;
-<span class="kw">pub use </span><span class="self">self</span>::lgammaf_r::lgammaf_r;
-<span class="kw">pub use </span><span class="self">self</span>::log::log;
-<span class="kw">pub use </span><span class="self">self</span>::log1p::log1p;
-<span class="kw">pub use </span><span class="self">self</span>::log1pf::log1pf;
-<span class="kw">pub use </span><span class="self">self</span>::log2::log2;
-<span class="kw">pub use </span><span class="self">self</span>::log2f::log2f;
-<span class="kw">pub use </span><span class="self">self</span>::log10::log10;
-<span class="kw">pub use </span><span class="self">self</span>::log10f::log10f;
-<span class="kw">pub use </span><span class="self">self</span>::logf::logf;
-<span class="kw">pub use </span><span class="self">self</span>::modf::modf;
-<span class="kw">pub use </span><span class="self">self</span>::modff::modff;
-<span class="kw">pub use </span><span class="self">self</span>::nextafter::nextafter;
-<span class="kw">pub use </span><span class="self">self</span>::nextafterf::nextafterf;
-<span class="kw">pub use </span><span class="self">self</span>::pow::pow;
-<span class="kw">pub use </span><span class="self">self</span>::powf::powf;
-<span class="kw">pub use </span><span class="self">self</span>::remainder::remainder;
-<span class="kw">pub use </span><span class="self">self</span>::remainderf::remainderf;
-<span class="kw">pub use </span><span class="self">self</span>::remquo::remquo;
-<span class="kw">pub use </span><span class="self">self</span>::remquof::remquof;
-<span class="kw">pub use </span><span class="self">self</span>::rint::rint;
-<span class="kw">pub use </span><span class="self">self</span>::rintf::rintf;
-<span class="kw">pub use </span><span class="self">self</span>::round::round;
-<span class="kw">pub use </span><span class="self">self</span>::roundf::roundf;
-<span class="kw">pub use </span><span class="self">self</span>::scalbn::scalbn;
-<span class="kw">pub use </span><span class="self">self</span>::scalbnf::scalbnf;
-<span class="kw">pub use </span><span class="self">self</span>::sin::sin;
-<span class="kw">pub use </span><span class="self">self</span>::sincos::sincos;
-<span class="kw">pub use </span><span class="self">self</span>::sincosf::sincosf;
-<span class="kw">pub use </span><span class="self">self</span>::sinf::sinf;
-<span class="kw">pub use </span><span class="self">self</span>::sinh::sinh;
-<span class="kw">pub use </span><span class="self">self</span>::sinhf::sinhf;
-<span class="kw">pub use </span><span class="self">self</span>::sqrt::sqrt;
-<span class="kw">pub use </span><span class="self">self</span>::sqrtf::sqrtf;
-<span class="kw">pub use </span><span class="self">self</span>::tan::tan;
-<span class="kw">pub use </span><span class="self">self</span>::tanf::tanf;
-<span class="kw">pub use </span><span class="self">self</span>::tanh::tanh;
-<span class="kw">pub use </span><span class="self">self</span>::tanhf::tanhf;
-<span class="kw">pub use </span><span class="self">self</span>::tgamma::tgamma;
-<span class="kw">pub use </span><span class="self">self</span>::tgammaf::tgammaf;
-<span class="kw">pub use </span><span class="self">self</span>::trunc::trunc;
-<span class="kw">pub use </span><span class="self">self</span>::truncf::truncf;
-
 <span class="comment">// Private modules
-</span><span class="kw">mod </span>expo2;
-<span class="kw">mod </span>fenv;
+</span><span class="kw">mod </span>arch;
+<span class="kw">mod </span>expo2;
 <span class="kw">mod </span>k_cos;
 <span class="kw">mod </span>k_cosf;
 <span class="kw">mod </span>k_expo2;
@@ -691,6 +513,248 @@
 <span class="kw">use </span><span class="self">self</span>::rem_pio2::rem_pio2;
 <span class="kw">use </span><span class="self">self</span>::rem_pio2_large::rem_pio2_large;
 <span class="kw">use </span><span class="self">self</span>::rem_pio2f::rem_pio2f;
+<span class="attr">#[allow(unused_imports)]
+</span><span class="kw">use </span><span class="self">self</span>::support::{CastFrom, CastInto, DFloat, DInt, Float, HFloat, HInt, Int, IntTy, MinInt};
+
+<span class="comment">// Public modules
+</span><span class="kw">mod </span>acos;
+<span class="kw">mod </span>acosf;
+<span class="kw">mod </span>acosh;
+<span class="kw">mod </span>acoshf;
+<span class="kw">mod </span>asin;
+<span class="kw">mod </span>asinf;
+<span class="kw">mod </span>asinh;
+<span class="kw">mod </span>asinhf;
+<span class="kw">mod </span>atan;
+<span class="kw">mod </span>atan2;
+<span class="kw">mod </span>atan2f;
+<span class="kw">mod </span>atanf;
+<span class="kw">mod </span>atanh;
+<span class="kw">mod </span>atanhf;
+<span class="kw">mod </span>cbrt;
+<span class="kw">mod </span>cbrtf;
+<span class="kw">mod </span>ceil;
+<span class="kw">mod </span>copysign;
+<span class="kw">mod </span>cos;
+<span class="kw">mod </span>cosf;
+<span class="kw">mod </span>cosh;
+<span class="kw">mod </span>coshf;
+<span class="kw">mod </span>erf;
+<span class="kw">mod </span>erff;
+<span class="kw">mod </span>exp;
+<span class="kw">mod </span>exp10;
+<span class="kw">mod </span>exp10f;
+<span class="kw">mod </span>exp2;
+<span class="kw">mod </span>exp2f;
+<span class="kw">mod </span>expf;
+<span class="kw">mod </span>expm1;
+<span class="kw">mod </span>expm1f;
+<span class="kw">mod </span>fabs;
+<span class="kw">mod </span>fdim;
+<span class="kw">mod </span>floor;
+<span class="kw">mod </span>fma;
+<span class="kw">mod </span>fmin_fmax;
+<span class="kw">mod </span>fminimum_fmaximum;
+<span class="kw">mod </span>fminimum_fmaximum_num;
+<span class="kw">mod </span>fmod;
+<span class="kw">mod </span>frexp;
+<span class="kw">mod </span>frexpf;
+<span class="kw">mod </span>hypot;
+<span class="kw">mod </span>hypotf;
+<span class="kw">mod </span>ilogb;
+<span class="kw">mod </span>ilogbf;
+<span class="kw">mod </span>j0;
+<span class="kw">mod </span>j0f;
+<span class="kw">mod </span>j1;
+<span class="kw">mod </span>j1f;
+<span class="kw">mod </span>jn;
+<span class="kw">mod </span>jnf;
+<span class="kw">mod </span>ldexp;
+<span class="kw">mod </span>lgamma;
+<span class="kw">mod </span>lgamma_r;
+<span class="kw">mod </span>lgammaf;
+<span class="kw">mod </span>lgammaf_r;
+<span class="kw">mod </span>log;
+<span class="kw">mod </span>log10;
+<span class="kw">mod </span>log10f;
+<span class="kw">mod </span>log1p;
+<span class="kw">mod </span>log1pf;
+<span class="kw">mod </span>log2;
+<span class="kw">mod </span>log2f;
+<span class="kw">mod </span>logf;
+<span class="kw">mod </span>modf;
+<span class="kw">mod </span>modff;
+<span class="kw">mod </span>nextafter;
+<span class="kw">mod </span>nextafterf;
+<span class="kw">mod </span>pow;
+<span class="kw">mod </span>powf;
+<span class="kw">mod </span>remainder;
+<span class="kw">mod </span>remainderf;
+<span class="kw">mod </span>remquo;
+<span class="kw">mod </span>remquof;
+<span class="kw">mod </span>rint;
+<span class="kw">mod </span>round;
+<span class="kw">mod </span>roundeven;
+<span class="kw">mod </span>scalbn;
+<span class="kw">mod </span>sin;
+<span class="kw">mod </span>sincos;
+<span class="kw">mod </span>sincosf;
+<span class="kw">mod </span>sinf;
+<span class="kw">mod </span>sinh;
+<span class="kw">mod </span>sinhf;
+<span class="kw">mod </span>sqrt;
+<span class="kw">mod </span>tan;
+<span class="kw">mod </span>tanf;
+<span class="kw">mod </span>tanh;
+<span class="kw">mod </span>tanhf;
+<span class="kw">mod </span>tgamma;
+<span class="kw">mod </span>tgammaf;
+<span class="kw">mod </span>trunc;
+
+<span class="comment">// Use separated imports instead of {}-grouped imports for easier merging.
+</span><span class="kw">pub use </span><span class="self">self</span>::acos::acos;
+<span class="kw">pub use </span><span class="self">self</span>::acosf::acosf;
+<span class="kw">pub use </span><span class="self">self</span>::acosh::acosh;
+<span class="kw">pub use </span><span class="self">self</span>::acoshf::acoshf;
+<span class="kw">pub use </span><span class="self">self</span>::asin::asin;
+<span class="kw">pub use </span><span class="self">self</span>::asinf::asinf;
+<span class="kw">pub use </span><span class="self">self</span>::asinh::asinh;
+<span class="kw">pub use </span><span class="self">self</span>::asinhf::asinhf;
+<span class="kw">pub use </span><span class="self">self</span>::atan::atan;
+<span class="kw">pub use </span><span class="self">self</span>::atan2::atan2;
+<span class="kw">pub use </span><span class="self">self</span>::atan2f::atan2f;
+<span class="kw">pub use </span><span class="self">self</span>::atanf::atanf;
+<span class="kw">pub use </span><span class="self">self</span>::atanh::atanh;
+<span class="kw">pub use </span><span class="self">self</span>::atanhf::atanhf;
+<span class="kw">pub use </span><span class="self">self</span>::cbrt::cbrt;
+<span class="kw">pub use </span><span class="self">self</span>::cbrtf::cbrtf;
+<span class="kw">pub use </span><span class="self">self</span>::ceil::{ceil, ceilf};
+<span class="kw">pub use </span><span class="self">self</span>::copysign::{copysign, copysignf};
+<span class="kw">pub use </span><span class="self">self</span>::cos::cos;
+<span class="kw">pub use </span><span class="self">self</span>::cosf::cosf;
+<span class="kw">pub use </span><span class="self">self</span>::cosh::cosh;
+<span class="kw">pub use </span><span class="self">self</span>::coshf::coshf;
+<span class="kw">pub use </span><span class="self">self</span>::erf::{erf, erfc};
+<span class="kw">pub use </span><span class="self">self</span>::erff::{erfcf, erff};
+<span class="kw">pub use </span><span class="self">self</span>::exp::exp;
+<span class="kw">pub use </span><span class="self">self</span>::exp2::exp2;
+<span class="kw">pub use </span><span class="self">self</span>::exp2f::exp2f;
+<span class="kw">pub use </span><span class="self">self</span>::exp10::exp10;
+<span class="kw">pub use </span><span class="self">self</span>::exp10f::exp10f;
+<span class="kw">pub use </span><span class="self">self</span>::expf::expf;
+<span class="kw">pub use </span><span class="self">self</span>::expm1::expm1;
+<span class="kw">pub use </span><span class="self">self</span>::expm1f::expm1f;
+<span class="kw">pub use </span><span class="self">self</span>::fabs::{fabs, fabsf};
+<span class="kw">pub use </span><span class="self">self</span>::fdim::{fdim, fdimf};
+<span class="kw">pub use </span><span class="self">self</span>::floor::{floor, floorf};
+<span class="kw">pub use </span><span class="self">self</span>::fma::{fma, fmaf};
+<span class="kw">pub use </span><span class="self">self</span>::fmin_fmax::{fmax, fmaxf, fmin, fminf};
+<span class="kw">pub use </span><span class="self">self</span>::fminimum_fmaximum::{fmaximum, fmaximumf, fminimum, fminimumf};
+<span class="kw">pub use </span><span class="self">self</span>::fminimum_fmaximum_num::{fmaximum_num, fmaximum_numf, fminimum_num, fminimum_numf};
+<span class="kw">pub use </span><span class="self">self</span>::fmod::{fmod, fmodf};
+<span class="kw">pub use </span><span class="self">self</span>::frexp::frexp;
+<span class="kw">pub use </span><span class="self">self</span>::frexpf::frexpf;
+<span class="kw">pub use </span><span class="self">self</span>::hypot::hypot;
+<span class="kw">pub use </span><span class="self">self</span>::hypotf::hypotf;
+<span class="kw">pub use </span><span class="self">self</span>::ilogb::ilogb;
+<span class="kw">pub use </span><span class="self">self</span>::ilogbf::ilogbf;
+<span class="kw">pub use </span><span class="self">self</span>::j0::{j0, y0};
+<span class="kw">pub use </span><span class="self">self</span>::j0f::{j0f, y0f};
+<span class="kw">pub use </span><span class="self">self</span>::j1::{j1, y1};
+<span class="kw">pub use </span><span class="self">self</span>::j1f::{j1f, y1f};
+<span class="kw">pub use </span><span class="self">self</span>::jn::{jn, yn};
+<span class="kw">pub use </span><span class="self">self</span>::jnf::{jnf, ynf};
+<span class="kw">pub use </span><span class="self">self</span>::ldexp::{ldexp, ldexpf};
+<span class="kw">pub use </span><span class="self">self</span>::lgamma::lgamma;
+<span class="kw">pub use </span><span class="self">self</span>::lgamma_r::lgamma_r;
+<span class="kw">pub use </span><span class="self">self</span>::lgammaf::lgammaf;
+<span class="kw">pub use </span><span class="self">self</span>::lgammaf_r::lgammaf_r;
+<span class="kw">pub use </span><span class="self">self</span>::log::log;
+<span class="kw">pub use </span><span class="self">self</span>::log1p::log1p;
+<span class="kw">pub use </span><span class="self">self</span>::log1pf::log1pf;
+<span class="kw">pub use </span><span class="self">self</span>::log2::log2;
+<span class="kw">pub use </span><span class="self">self</span>::log2f::log2f;
+<span class="kw">pub use </span><span class="self">self</span>::log10::log10;
+<span class="kw">pub use </span><span class="self">self</span>::log10f::log10f;
+<span class="kw">pub use </span><span class="self">self</span>::logf::logf;
+<span class="kw">pub use </span><span class="self">self</span>::modf::modf;
+<span class="kw">pub use </span><span class="self">self</span>::modff::modff;
+<span class="kw">pub use </span><span class="self">self</span>::nextafter::nextafter;
+<span class="kw">pub use </span><span class="self">self</span>::nextafterf::nextafterf;
+<span class="kw">pub use </span><span class="self">self</span>::pow::pow;
+<span class="kw">pub use </span><span class="self">self</span>::powf::powf;
+<span class="kw">pub use </span><span class="self">self</span>::remainder::remainder;
+<span class="kw">pub use </span><span class="self">self</span>::remainderf::remainderf;
+<span class="kw">pub use </span><span class="self">self</span>::remquo::remquo;
+<span class="kw">pub use </span><span class="self">self</span>::remquof::remquof;
+<span class="kw">pub use </span><span class="self">self</span>::rint::{rint, rintf};
+<span class="kw">pub use </span><span class="self">self</span>::round::{round, roundf};
+<span class="kw">pub use </span><span class="self">self</span>::roundeven::{roundeven, roundevenf};
+<span class="kw">pub use </span><span class="self">self</span>::scalbn::{scalbn, scalbnf};
+<span class="kw">pub use </span><span class="self">self</span>::sin::sin;
+<span class="kw">pub use </span><span class="self">self</span>::sincos::sincos;
+<span class="kw">pub use </span><span class="self">self</span>::sincosf::sincosf;
+<span class="kw">pub use </span><span class="self">self</span>::sinf::sinf;
+<span class="kw">pub use </span><span class="self">self</span>::sinh::sinh;
+<span class="kw">pub use </span><span class="self">self</span>::sinhf::sinhf;
+<span class="kw">pub use </span><span class="self">self</span>::sqrt::{sqrt, sqrtf};
+<span class="kw">pub use </span><span class="self">self</span>::tan::tan;
+<span class="kw">pub use </span><span class="self">self</span>::tanf::tanf;
+<span class="kw">pub use </span><span class="self">self</span>::tanh::tanh;
+<span class="kw">pub use </span><span class="self">self</span>::tanhf::tanhf;
+<span class="kw">pub use </span><span class="self">self</span>::tgamma::tgamma;
+<span class="kw">pub use </span><span class="self">self</span>::tgammaf::tgammaf;
+<span class="kw">pub use </span><span class="self">self</span>::trunc::{trunc, truncf};
+
+<span class="macro">cfg_if!</span> {
+    <span class="kw">if </span><span class="attr">#[cfg(f16_enabled)] </span>{
+        <span class="comment">// verify-sorted-start
+        </span><span class="kw">pub use </span><span class="self">self</span>::ceil::ceilf16;
+        <span class="kw">pub use </span><span class="self">self</span>::copysign::copysignf16;
+        <span class="kw">pub use </span><span class="self">self</span>::fabs::fabsf16;
+        <span class="kw">pub use </span><span class="self">self</span>::fdim::fdimf16;
+        <span class="kw">pub use </span><span class="self">self</span>::floor::floorf16;
+        <span class="kw">pub use </span><span class="self">self</span>::fmin_fmax::{fmaxf16, fminf16};
+        <span class="kw">pub use </span><span class="self">self</span>::fminimum_fmaximum::{fmaximumf16, fminimumf16};
+        <span class="kw">pub use </span><span class="self">self</span>::fminimum_fmaximum_num::{fmaximum_numf16, fminimum_numf16};
+        <span class="kw">pub use </span><span class="self">self</span>::fmod::fmodf16;
+        <span class="kw">pub use </span><span class="self">self</span>::ldexp::ldexpf16;
+        <span class="kw">pub use </span><span class="self">self</span>::rint::rintf16;
+        <span class="kw">pub use </span><span class="self">self</span>::round::roundf16;
+        <span class="kw">pub use </span><span class="self">self</span>::roundeven::roundevenf16;
+        <span class="kw">pub use </span><span class="self">self</span>::scalbn::scalbnf16;
+        <span class="kw">pub use </span><span class="self">self</span>::sqrt::sqrtf16;
+        <span class="kw">pub use </span><span class="self">self</span>::trunc::truncf16;
+        <span class="comment">// verify-sorted-end
+
+        </span><span class="attr">#[allow(unused_imports)]
+        </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::fma::fmaf16;
+    }
+}
+
+<span class="macro">cfg_if!</span> {
+    <span class="kw">if </span><span class="attr">#[cfg(f128_enabled)] </span>{
+        <span class="comment">// verify-sorted-start
+        </span><span class="kw">pub use </span><span class="self">self</span>::ceil::ceilf128;
+        <span class="kw">pub use </span><span class="self">self</span>::copysign::copysignf128;
+        <span class="kw">pub use </span><span class="self">self</span>::fabs::fabsf128;
+        <span class="kw">pub use </span><span class="self">self</span>::fdim::fdimf128;
+        <span class="kw">pub use </span><span class="self">self</span>::floor::floorf128;
+        <span class="kw">pub use </span><span class="self">self</span>::fma::fmaf128;
+        <span class="kw">pub use </span><span class="self">self</span>::fmin_fmax::{fmaxf128, fminf128};
+        <span class="kw">pub use </span><span class="self">self</span>::fminimum_fmaximum::{fmaximumf128, fminimumf128};
+        <span class="kw">pub use </span><span class="self">self</span>::fminimum_fmaximum_num::{fmaximum_numf128, fminimum_numf128};
+        <span class="kw">pub use </span><span class="self">self</span>::fmod::fmodf128;
+        <span class="kw">pub use </span><span class="self">self</span>::ldexp::ldexpf128;
+        <span class="kw">pub use </span><span class="self">self</span>::rint::rintf128;
+        <span class="kw">pub use </span><span class="self">self</span>::round::roundf128;
+        <span class="kw">pub use </span><span class="self">self</span>::roundeven::roundevenf128;
+        <span class="kw">pub use </span><span class="self">self</span>::scalbn::scalbnf128;
+        <span class="kw">pub use </span><span class="self">self</span>::sqrt::sqrtf128;
+        <span class="kw">pub use </span><span class="self">self</span>::trunc::truncf128;
+        <span class="comment">// verify-sorted-end
+    </span>}
+}
 
 <span class="attr">#[inline]
 </span><span class="kw">fn </span>get_high_word(x: f64) -&gt; u32 {
@@ -720,6 +784,6 @@
 
 <span class="attr">#[inline]
 </span><span class="kw">fn </span>combine_words(hi: u32, lo: u32) -&gt; f64 {
-    f64::from_bits((hi <span class="kw">as </span>u64) &lt;&lt; <span class="number">32 </span>| lo <span class="kw">as </span>u64)
+    f64::from_bits(((hi <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>) | lo <span class="kw">as </span>u64)
 }
 </code></pre></div></section></main></body></html>

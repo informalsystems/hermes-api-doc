@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tokio-1.44.2/src/runtime/scheduler/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tokio/runtime/scheduler/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tokio-1.45.0/src/runtime/scheduler/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tokio/runtime/scheduler/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -272,59 +272,7 @@
 <a href="#271" id="271">271</a>
 <a href="#272" id="272">272</a>
 <a href="#273" id="273">273</a>
-<a href="#274" id="274">274</a>
-<a href="#275" id="275">275</a>
-<a href="#276" id="276">276</a>
-<a href="#277" id="277">277</a>
-<a href="#278" id="278">278</a>
-<a href="#279" id="279">279</a>
-<a href="#280" id="280">280</a>
-<a href="#281" id="281">281</a>
-<a href="#282" id="282">282</a>
-<a href="#283" id="283">283</a>
-<a href="#284" id="284">284</a>
-<a href="#285" id="285">285</a>
-<a href="#286" id="286">286</a>
-<a href="#287" id="287">287</a>
-<a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a>
-<a href="#290" id="290">290</a>
-<a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
-<a href="#298" id="298">298</a>
-<a href="#299" id="299">299</a>
-<a href="#300" id="300">300</a>
-<a href="#301" id="301">301</a>
-<a href="#302" id="302">302</a>
-<a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a>
-<a href="#306" id="306">306</a>
-<a href="#307" id="307">307</a>
-<a href="#308" id="308">308</a>
-<a href="#309" id="309">309</a>
-<a href="#310" id="310">310</a>
-<a href="#311" id="311">311</a>
-<a href="#312" id="312">312</a>
-<a href="#313" id="313">313</a>
-<a href="#314" id="314">314</a>
-<a href="#315" id="315">315</a>
-<a href="#316" id="316">316</a>
-<a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
-<a href="#320" id="320">320</a>
-<a href="#321" id="321">321</a>
-<a href="#322" id="322">322</a>
-<a href="#323" id="323">323</a>
-<a href="#324" id="324">324</a>
-<a href="#325" id="325">325</a>
-<a href="#326" id="326">326</a></pre></div><pre class="rust"><code><span class="macro">cfg_rt!</span> {
+<a href="#274" id="274">274</a></pre></div><pre class="rust"><code><span class="macro">cfg_rt!</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>current_thread;
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>current_thread::CurrentThread;
 
@@ -335,6 +283,8 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>inject::Inject;
 
     <span class="kw">use </span><span class="kw">crate</span>::runtime::TaskHooks;
+
+    <span class="kw">use </span><span class="kw">crate</span>::runtime::WorkerMetrics;
 }
 
 <span class="macro">cfg_rt_multi_thread!</span> {
@@ -346,11 +296,6 @@
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>multi_thread;
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>multi_thread::MultiThread;
-
-    <span class="macro">cfg_unstable!</span> {
-        <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>multi_thread_alt;
-        <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>multi_thread_alt::MultiThread <span class="kw">as </span>MultiThreadAlt;
-    }
 }
 
 <span class="kw">use </span><span class="kw">crate</span>::runtime::driver;
@@ -362,9 +307,6 @@
 
     <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
     </span>MultiThread(Arc&lt;multi_thread::Handle&gt;),
-
-    <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-    </span>MultiThreadAlt(Arc&lt;multi_thread_alt::Handle&gt;),
 
     <span class="comment">// TODO: This is to avoid triggering "dead code" warnings many other places
     // in the codebase. Remove this during a later cleanup
@@ -379,9 +321,6 @@
 
     <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
     </span>MultiThread(multi_thread::Context),
-
-    <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-    </span>MultiThreadAlt(multi_thread_alt::Context),
 }
 
 <span class="kw">impl </span>Handle {
@@ -393,9 +332,6 @@
 
             <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
             </span>Handle::MultiThread(<span class="kw-2">ref </span>h) =&gt; <span class="kw-2">&amp;</span>h.driver,
-
-            <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-            </span>Handle::MultiThreadAlt(<span class="kw-2">ref </span>h) =&gt; <span class="kw-2">&amp;</span>h.driver,
 
             <span class="attr">#[cfg(not(feature = <span class="string">"rt"</span>))]
             </span>Handle::Disabled =&gt; <span class="macro">unreachable!</span>(),
@@ -419,9 +355,6 @@
 
                 <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
                 </span><span class="macro-nonterminal">$ty::MultiThread</span>(<span class="macro-nonterminal">$h</span>) =&gt; <span class="macro-nonterminal">$e</span>,
-
-                <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-                </span><span class="macro-nonterminal">$ty::MultiThreadAlt</span>(<span class="macro-nonterminal">$h</span>) =&gt; <span class="macro-nonterminal">$e</span>,
             }
         }
     }
@@ -445,9 +378,6 @@
 
                 <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
                 </span>Handle::MultiThread(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
-
-                <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-                </span>Handle::MultiThreadAlt(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
             }
         }
 
@@ -458,9 +388,6 @@
 
                 <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
                 </span>Handle::MultiThread(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
-
-                <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-                </span>Handle::MultiThreadAlt(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
             }
         }
 
@@ -474,9 +401,6 @@
 
                 <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
                 </span>Handle::MultiThread(h) =&gt; multi_thread::Handle::spawn(h, future, id),
-
-                <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-                </span>Handle::MultiThreadAlt(h) =&gt; multi_thread_alt::Handle::spawn(h, future, id),
             }
         }
 
@@ -504,9 +428,6 @@
 
                 <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
                 </span>Handle::MultiThread(<span class="kw-2">ref </span>h) =&gt; h.shutdown(),
-
-                <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-                </span>Handle::MultiThreadAlt(<span class="kw-2">ref </span>h) =&gt; h.shutdown(),
             }
         }
 
@@ -527,19 +448,6 @@
                 Handle::CurrentThread(h) =&gt; <span class="kw-2">&amp;</span>h.task_hooks,
                 <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
                 </span>Handle::MultiThread(h) =&gt; <span class="kw-2">&amp;</span>h.task_hooks,
-                <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-                </span>Handle::MultiThreadAlt(h) =&gt; <span class="kw-2">&amp;</span>h.task_hooks,
-            }
-        }
-
-        <span class="macro">cfg_rt_multi_thread!</span> {
-            <span class="macro">cfg_unstable!</span> {
-                <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>expect_multi_thread_alt(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Arc&lt;multi_thread_alt::Handle&gt; {
-                    <span class="kw">match </span><span class="self">self </span>{
-                        Handle::MultiThreadAlt(handle) =&gt; handle,
-                        <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"not a `MultiThreadAlt` handle"</span>),
-                    }
-                }
             }
         }
     }
@@ -550,8 +458,6 @@
                 Handle::CurrentThread(<span class="kw">_</span>) =&gt; <span class="number">1</span>,
                 <span class="attr">#[cfg(feature = <span class="string">"rt-multi-thread"</span>)]
                 </span>Handle::MultiThread(handle) =&gt; handle.num_workers(),
-                <span class="attr">#[cfg(all(tokio_unstable, feature = <span class="string">"rt-multi-thread"</span>))]
-                </span>Handle::MultiThreadAlt(handle) =&gt; handle.num_workers(),
             }
         }
 
@@ -562,10 +468,14 @@
         <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>injection_queue_depth(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
             <span class="macro">match_flavor!</span>(<span class="self">self</span>, Handle(handle) =&gt; handle.injection_queue_depth())
         }
+
+        <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>worker_metrics(<span class="kw-2">&amp;</span><span class="self">self</span>, worker: usize) -&gt; <span class="kw-2">&amp;</span>WorkerMetrics {
+            <span class="macro">match_flavor!</span>(<span class="self">self</span>, Handle(handle) =&gt; handle.worker_metrics(worker))
+        }
     }
 
     <span class="macro">cfg_unstable_metrics!</span> {
-        <span class="kw">use </span><span class="kw">crate</span>::runtime::{SchedulerMetrics, WorkerMetrics};
+        <span class="kw">use </span><span class="kw">crate</span>::runtime::SchedulerMetrics;
 
         <span class="kw">impl </span>Handle {
             <span class="macro">cfg_64bit_metrics!</span> {
@@ -584,10 +494,6 @@
 
             <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>scheduler_metrics(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>SchedulerMetrics {
                 <span class="macro">match_flavor!</span>(<span class="self">self</span>, Handle(handle) =&gt; handle.scheduler_metrics())
-            }
-
-            <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>worker_metrics(<span class="kw-2">&amp;</span><span class="self">self</span>, worker: usize) -&gt; <span class="kw-2">&amp;</span>WorkerMetrics {
-                <span class="macro">match_flavor!</span>(<span class="self">self</span>, Handle(handle) =&gt; handle.worker_metrics(worker))
             }
 
             <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>worker_local_queue_depth(<span class="kw-2">&amp;</span><span class="self">self</span>, worker: usize) -&gt; usize {
@@ -620,16 +526,6 @@
                 <span class="kw">match </span><span class="self">self </span>{
                     Context::MultiThread(context) =&gt; context,
                     <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"expected `MultiThread::Context`"</span>)
-                }
-            }
-
-            <span class="macro">cfg_unstable!</span> {
-                <span class="attr">#[track_caller]
-                </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>expect_multi_thread_alt(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>multi_thread_alt::Context {
-                    <span class="kw">match </span><span class="self">self </span>{
-                        Context::MultiThreadAlt(context) =&gt; context,
-                        <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"expected `MultiThreadAlt::Context`"</span>)
-                    }
                 }
             }
         }

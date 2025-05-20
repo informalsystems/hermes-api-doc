@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tokio-1.44.2/src/runtime/metrics/runtime.rs`."><title>runtime.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tokio/runtime/metrics/</div>runtime.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tokio-1.45.0/src/runtime/metrics/runtime.rs`."><title>runtime.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tokio/runtime/metrics/</div>runtime.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1103,15 +1103,18 @@
 <a href="#1102" id="1102">1102</a>
 <a href="#1103" id="1103">1103</a>
 <a href="#1104" id="1104">1104</a>
-<a href="#1105" id="1105">1105</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::runtime::Handle;
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::runtime::Handle;
+<span class="kw">use </span>std::time::Duration;
+
+<span class="macro">cfg_64bit_metrics!</span> {
+    <span class="kw">use </span>std::sync::atomic::Ordering::Relaxed;
+}
 
 <span class="macro">cfg_unstable_metrics!</span> {
     <span class="kw">use </span>std::ops::Range;
     <span class="kw">use </span>std::thread::ThreadId;
-    <span class="macro">cfg_64bit_metrics!</span> {
-        <span class="kw">use </span>std::sync::atomic::Ordering::Relaxed;
-    }
-    <span class="kw">use </span>std::time::Duration;
 }
 
 <span class="doccomment">/// Handle to the runtime's metrics.
@@ -1199,6 +1202,151 @@
     /// ```
     </span><span class="kw">pub fn </span>global_queue_depth(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.handle.inner.injection_queue_depth()
+    }
+
+    <span class="macro">cfg_64bit_metrics!</span> {
+        <span class="doccomment">/// Returns the amount of time the given worker thread has been busy.
+        ///
+        /// The worker busy duration starts at zero when the runtime is created and
+        /// increases whenever the worker is spending time processing work. Using
+        /// this value can indicate the load of the given worker. If a lot of time
+        /// is spent busy, then the worker is under load and will check for inbound
+        /// events less often.
+        ///
+        /// The timer is monotonically increasing. It is never decremented or reset
+        /// to zero.
+        ///
+        /// # Arguments
+        ///
+        /// `worker` is the index of the worker being queried. The given value must
+        /// be between 0 and `num_workers()`. The index uniquely identifies a single
+        /// worker and will continue to identify the worker throughout the lifetime
+        /// of the runtime instance.
+        ///
+        /// # Panics
+        ///
+        /// The method panics when `worker` represents an invalid worker, i.e. is
+        /// greater than or equal to `num_workers()`.
+        ///
+        /// # Examples
+        ///
+        /// ```
+        /// use tokio::runtime::Handle;
+        ///
+        /// #[tokio::main]
+        /// async fn main() {
+        ///     let metrics = Handle::current().metrics();
+        ///
+        ///     let n = metrics.worker_total_busy_duration(0);
+        ///     println!("worker 0 was busy for a total of {:?}", n);
+        /// }
+        /// ```
+        </span><span class="kw">pub fn </span>worker_total_busy_duration(<span class="kw-2">&amp;</span><span class="self">self</span>, worker: usize) -&gt; Duration {
+            <span class="kw">let </span>nanos = <span class="self">self
+                </span>.handle
+                .inner
+                .worker_metrics(worker)
+                .busy_duration_total
+                .load(Relaxed);
+            Duration::from_nanos(nanos)
+        }
+
+        <span class="doccomment">/// Returns the total number of times the given worker thread has parked.
+        ///
+        /// The worker park count starts at zero when the runtime is created and
+        /// increases by one each time the worker parks the thread waiting for new
+        /// inbound events to process. This usually means the worker has processed
+        /// all pending work and is currently idle.
+        ///
+        /// The counter is monotonically increasing. It is never decremented or
+        /// reset to zero.
+        ///
+        /// # Arguments
+        ///
+        /// `worker` is the index of the worker being queried. The given value must
+        /// be between 0 and `num_workers()`. The index uniquely identifies a single
+        /// worker and will continue to identify the worker throughout the lifetime
+        /// of the runtime instance.
+        ///
+        /// # Panics
+        ///
+        /// The method panics when `worker` represents an invalid worker, i.e. is
+        /// greater than or equal to `num_workers()`.
+        ///
+        /// # Examples
+        ///
+        /// ```
+        /// use tokio::runtime::Handle;
+        ///
+        /// #[tokio::main]
+        /// async fn main() {
+        ///     let metrics = Handle::current().metrics();
+        ///
+        ///     let n = metrics.worker_park_count(0);
+        ///     println!("worker 0 parked {} times", n);
+        /// }
+        /// ```
+        </span><span class="kw">pub fn </span>worker_park_count(<span class="kw-2">&amp;</span><span class="self">self</span>, worker: usize) -&gt; u64 {
+            <span class="self">self</span>.handle
+                .inner
+                .worker_metrics(worker)
+                .park_count
+                .load(Relaxed)
+        }
+
+        <span class="doccomment">/// Returns the total number of times the given worker thread has parked
+        /// and unparked.
+        ///
+        /// The worker park/unpark count starts at zero when the runtime is created
+        /// and increases by one each time the worker parks the thread waiting for
+        /// new inbound events to process. This usually means the worker has processed
+        /// all pending work and is currently idle. When new work becomes available,
+        /// the worker is unparked and the park/unpark count is again increased by one.
+        ///
+        /// An odd count means that the worker is currently parked.
+        /// An even count means that the worker is currently active.
+        ///
+        /// The counter is monotonically increasing. It is never decremented or
+        /// reset to zero.
+        ///
+        /// # Arguments
+        ///
+        /// `worker` is the index of the worker being queried. The given value must
+        /// be between 0 and `num_workers()`. The index uniquely identifies a single
+        /// worker and will continue to identify the worker throughout the lifetime
+        /// of the runtime instance.
+        ///
+        /// # Panics
+        ///
+        /// The method panics when `worker` represents an invalid worker, i.e. is
+        /// greater than or equal to `num_workers()`.
+        ///
+        /// # Examples
+        ///
+        /// ```
+        /// use tokio::runtime::Handle;
+        ///
+        /// #[tokio::main]
+        /// async fn main() {
+        ///     let metrics = Handle::current().metrics();
+        ///     let n = metrics.worker_park_unpark_count(0);
+        ///
+        ///     println!("worker 0 parked and unparked {} times", n);
+        ///
+        ///     if n % 2 == 0 {
+        ///         println!("worker 0 is active");
+        ///     } else {
+        ///         println!("worker 0 is parked");
+        ///     }
+        /// }
+        /// ```
+        </span><span class="kw">pub fn </span>worker_park_unpark_count(<span class="kw-2">&amp;</span><span class="self">self</span>, worker: usize) -&gt; u64 {
+            <span class="self">self</span>.handle
+                .inner
+                .worker_metrics(worker)
+                .park_unpark_count
+                .load(Relaxed)
+        }
     }
 
     <span class="macro">cfg_unstable_metrics!</span> {
@@ -1374,104 +1522,6 @@
                     .load(Relaxed)
             }
 
-            <span class="doccomment">/// Returns the total number of times the given worker thread has parked.
-            ///
-            /// The worker park count starts at zero when the runtime is created and
-            /// increases by one each time the worker parks the thread waiting for new
-            /// inbound events to process. This usually means the worker has processed
-            /// all pending work and is currently idle.
-            ///
-            /// The counter is monotonically increasing. It is never decremented or
-            /// reset to zero.
-            ///
-            /// # Arguments
-            ///
-            /// `worker` is the index of the worker being queried. The given value must
-            /// be between 0 and `num_workers()`. The index uniquely identifies a single
-            /// worker and will continue to identify the worker throughout the lifetime
-            /// of the runtime instance.
-            ///
-            /// # Panics
-            ///
-            /// The method panics when `worker` represents an invalid worker, i.e. is
-            /// greater than or equal to `num_workers()`.
-            ///
-            /// # Examples
-            ///
-            /// ```
-            /// use tokio::runtime::Handle;
-            ///
-            /// #[tokio::main]
-            /// async fn main() {
-            ///     let metrics = Handle::current().metrics();
-            ///
-            ///     let n = metrics.worker_park_count(0);
-            ///     println!("worker 0 parked {} times", n);
-            /// }
-            /// ```
-            </span><span class="kw">pub fn </span>worker_park_count(<span class="kw-2">&amp;</span><span class="self">self</span>, worker: usize) -&gt; u64 {
-                <span class="self">self</span>.handle
-                    .inner
-                    .worker_metrics(worker)
-                    .park_count
-                    .load(Relaxed)
-            }
-
-            <span class="doccomment">/// Returns the total number of times the given worker thread has parked
-            /// and unparked.
-            ///
-            /// The worker park/unpark count starts at zero when the runtime is created
-            /// and increases by one each time the worker parks the thread waiting for
-            /// new inbound events to process. This usually means the worker has processed
-            /// all pending work and is currently idle. When new work becomes available,
-            /// the worker is unparked and the park/unpark count is again increased by one.
-            ///
-            /// An odd count means that the worker is currently parked.
-            /// An even count means that the worker is currently active.
-            ///
-            /// The counter is monotonically increasing. It is never decremented or
-            /// reset to zero.
-            ///
-            /// # Arguments
-            ///
-            /// `worker` is the index of the worker being queried. The given value must
-            /// be between 0 and `num_workers()`. The index uniquely identifies a single
-            /// worker and will continue to identify the worker throughout the lifetime
-            /// of the runtime instance.
-            ///
-            /// # Panics
-            ///
-            /// The method panics when `worker` represents an invalid worker, i.e. is
-            /// greater than or equal to `num_workers()`.
-            ///
-            /// # Examples
-            ///
-            /// ```
-            /// use tokio::runtime::Handle;
-            ///
-            /// #[tokio::main]
-            /// async fn main() {
-            ///     let metrics = Handle::current().metrics();
-            ///     let n = metrics.worker_park_unpark_count(0);
-            ///
-            ///     println!("worker 0 parked and unparked {} times", n);
-            ///
-            ///     if n % 2 == 0 {
-            ///         println!("worker 0 is active");
-            ///     } else {
-            ///         println!("worker 0 is parked");
-            ///     }
-            /// }
-            /// ```
-            </span><span class="kw">pub fn </span>worker_park_unpark_count(<span class="kw-2">&amp;</span><span class="self">self</span>, worker: usize) -&gt; u64 {
-                <span class="self">self</span>.handle
-                    .inner
-                    .worker_metrics(worker)
-                    .park_unpark_count
-                    .load(Relaxed)
-            }
-
-
             <span class="doccomment">/// Returns the number of times the given worker thread unparked but
             /// performed no work before parking again.
             ///
@@ -1646,52 +1696,6 @@
                     .worker_metrics(worker)
                     .poll_count
                     .load(Relaxed)
-            }
-
-            <span class="doccomment">/// Returns the amount of time the given worker thread has been busy.
-            ///
-            /// The worker busy duration starts at zero when the runtime is created and
-            /// increases whenever the worker is spending time processing work. Using
-            /// this value can indicate the load of the given worker. If a lot of time
-            /// is spent busy, then the worker is under load and will check for inbound
-            /// events less often.
-            ///
-            /// The timer is monotonically increasing. It is never decremented or reset
-            /// to zero.
-            ///
-            /// # Arguments
-            ///
-            /// `worker` is the index of the worker being queried. The given value must
-            /// be between 0 and `num_workers()`. The index uniquely identifies a single
-            /// worker and will continue to identify the worker throughout the lifetime
-            /// of the runtime instance.
-            ///
-            /// # Panics
-            ///
-            /// The method panics when `worker` represents an invalid worker, i.e. is
-            /// greater than or equal to `num_workers()`.
-            ///
-            /// # Examples
-            ///
-            /// ```
-            /// use tokio::runtime::Handle;
-            ///
-            /// #[tokio::main]
-            /// async fn main() {
-            ///     let metrics = Handle::current().metrics();
-            ///
-            ///     let n = metrics.worker_total_busy_duration(0);
-            ///     println!("worker 0 was busy for a total of {:?}", n);
-            /// }
-            /// ```
-            </span><span class="kw">pub fn </span>worker_total_busy_duration(<span class="kw-2">&amp;</span><span class="self">self</span>, worker: usize) -&gt; Duration {
-                <span class="kw">let </span>nanos = <span class="self">self
-                    </span>.handle
-                    .inner
-                    .worker_metrics(worker)
-                    .busy_duration_total
-                    .load(Relaxed);
-                Duration::from_nanos(nanos)
             }
 
             <span class="doccomment">/// Returns the number of tasks scheduled from **within** the runtime on the

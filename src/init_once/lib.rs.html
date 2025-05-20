@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/init-once-0.6.0/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="init_once" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">init_once/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/init-once-0.6.1/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="init_once" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">init_once/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -516,7 +516,35 @@
 <a href="#515" id="515">515</a>
 <a href="#516" id="516">516</a>
 <a href="#517" id="517">517</a>
-<a href="#518" id="518">518</a></pre></div><pre class="rust"><code><span class="doccomment">//! The `init_once` crate provides a mechanic to attempt to read a value without
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a></pre></div><pre class="rust"><code><span class="doccomment">//! The `init_once` crate provides a mechanic to attempt to read a value without
 //! blocking the caller, in case it is being initialized concurrently. Such an
 //! abstraction might be useful in cache implementations whose consumers might
 //! not want to block on the cache to fill up with data.
@@ -694,8 +722,8 @@
 
         <span class="kw">if </span><span class="kw-2">*</span><span class="self">self</span>.state.get_mut() != init_once_state::INITIALIZED {
             unlikely_call(|| {
-                <span class="kw-2">*</span><span class="self">self</span>.state.get_mut() = init_once_state::INITIALIZED;
                 maybe_uninit.write(init());
+                <span class="kw-2">*</span><span class="self">self</span>.state.get_mut() = init_once_state::INITIALIZED;
             });
         }
 
@@ -714,8 +742,8 @@
 
         <span class="kw">if </span><span class="kw-2">*</span><span class="self">self</span>.state.get_mut() != init_once_state::INITIALIZED {
             unlikely_call(|| <span class="kw">async </span>{
-                <span class="kw-2">*</span><span class="self">self</span>.state.get_mut() = init_once_state::INITIALIZED;
                 maybe_uninit.write(init.<span class="kw">await</span>);
+                <span class="kw-2">*</span><span class="self">self</span>.state.get_mut() = init_once_state::INITIALIZED;
             })
             .<span class="kw">await</span>;
         }
@@ -1032,6 +1060,34 @@
         <span class="macro">assert_eq!</span>(<span class="kw-2">*</span>count.lock().unwrap(), <span class="number">0</span>);
         drop(once);
         <span class="macro">assert_eq!</span>(<span class="kw-2">*</span>count.lock().unwrap(), <span class="number">1</span>);
+    }
+
+    <span class="attr">#[tokio::test]
+    </span><span class="kw">async fn </span>init_async_drop_future() {
+        <span class="kw">let </span><span class="kw-2">mut </span>once = InitOnce::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>completed = <span class="bool-val">false</span>;
+
+        {
+            <span class="kw">let </span><span class="kw-2">mut </span>future = once.init_async(<span class="kw">async </span>{
+                tokio::task::yield_now().<span class="kw">await</span>;
+                completed = <span class="bool-val">true</span>;
+                <span class="number">420
+            </span>});
+            <span class="kw">let </span><span class="kw-2">mut </span>pinned_future = <span class="macro">core::pin::pin!</span>(future);
+
+            std::future::poll_fn(|cx| <span class="kw">match </span>pinned_future.as_mut().poll(cx) {
+                Poll::Ready(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(),
+                Poll::Pending =&gt; Poll::Ready(()),
+            })
+            .<span class="kw">await</span>;
+        }
+
+        <span class="macro">assert!</span>(!completed, <span class="string">"future was dropped before completing"</span>);
+        <span class="macro">assert_ne!</span>(
+            <span class="kw-2">*</span>once.state.get_mut(),
+            init_once_state::INITIALIZED,
+            <span class="string">"cell should not have been initialized"</span>,
+        );
     }
 }
 </code></pre></div></section></main></body></html>

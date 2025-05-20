@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/miniz_oxide-0.7.4/src/inflate/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="miniz_oxide" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">miniz_oxide/inflate/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/miniz_oxide-0.8.8/src/inflate/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="miniz_oxide" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">miniz_oxide/inflate/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -341,18 +341,40 @@
 <a href="#340" id="340">340</a>
 <a href="#341" id="341">341</a>
 <a href="#342" id="342">342</a>
-<a href="#343" id="343">343</a></pre></div><pre class="rust"><code><span class="doccomment">//! This module contains functionality for decompression.
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a></pre></div><pre class="rust"><code><span class="doccomment">//! This module contains functionality for decompression.
 
 </span><span class="attr">#[cfg(feature = <span class="string">"with-alloc"</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::alloc::{boxed::Box, vec, vec::Vec};
-<span class="kw">use </span>::core::usize;
 <span class="attr">#[cfg(all(feature = <span class="string">"std"</span>, feature = <span class="string">"with-alloc"</span>))]
 </span><span class="kw">use </span>std::error::Error;
 
 <span class="kw">pub mod </span>core;
 <span class="kw">mod </span>output_buffer;
-<span class="kw">pub mod </span>stream;
-<span class="kw">use </span><span class="self">self</span>::core::<span class="kw-2">*</span>;
+<span class="attr">#[cfg(not(feature = <span class="string">"rustc-dep-of-std"</span>))]
+</span><span class="kw">pub mod </span>stream;
+<span class="attr">#[cfg(not(feature = <span class="string">"rustc-dep-of-std"</span>))]
+</span><span class="kw">use </span><span class="self">self</span>::core::<span class="kw-2">*</span>;
 
 <span class="kw">const </span>TINFL_STATUS_FAILED_CANNOT_MAKE_PROGRESS: i32 = -<span class="number">4</span>;
 <span class="kw">const </span>TINFL_STATUS_BAD_PARAM: i32 = -<span class="number">3</span>;
@@ -361,10 +383,13 @@
 <span class="kw">const </span>TINFL_STATUS_DONE: i32 = <span class="number">0</span>;
 <span class="kw">const </span>TINFL_STATUS_NEEDS_MORE_INPUT: i32 = <span class="number">1</span>;
 <span class="kw">const </span>TINFL_STATUS_HAS_MORE_OUTPUT: i32 = <span class="number">2</span>;
+<span class="attr">#[cfg(feature = <span class="string">"block-boundary"</span>)]
+</span><span class="kw">const </span>TINFL_STATUS_BLOCK_BOUNDARY: i32 = <span class="number">3</span>;
 
 <span class="doccomment">/// Return status codes.
 </span><span class="attr">#[repr(i8)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[cfg_attr(not(feature = <span class="string">"rustc-dep-of-std"</span>), derive(Hash, Debug))]
+#[derive(Copy, Clone, PartialEq, Eq)]
 </span><span class="kw">pub enum </span>TINFLStatus {
     <span class="doccomment">/// More input data was expected, but the caller indicated that there was no more data, so the
     /// input stream is likely truncated.
@@ -403,6 +428,18 @@
 
     <span class="doccomment">/// There is still pending data that didn't fit in the output buffer.
     </span>HasMoreOutput = TINFL_STATUS_HAS_MORE_OUTPUT <span class="kw">as </span>i8,
+
+    <span class="doccomment">/// Reached the end of a deflate block, and the start of the next block.
+    ///
+    /// At this point, you can suspend decompression and later resume with a new `DecompressorOxide`.
+    /// The only state that must be preserved is [`DecompressorOxide::block_boundary_state()`],
+    /// plus the last 32KiB of the output buffer (or less if you know the stream was compressed with
+    /// a smaller window size).
+    ///
+    /// This is only returned if you use the
+    /// [`TINFL_FLAG_STOP_ON_BLOCK_BOUNDARY`][core::inflate_flags::TINFL_FLAG_STOP_ON_BLOCK_BOUNDARY] flag.
+    </span><span class="attr">#[cfg(feature = <span class="string">"block-boundary"</span>)]
+    </span>BlockBoundary = TINFL_STATUS_BLOCK_BOUNDARY <span class="kw">as </span>i8,
 }
 
 <span class="kw">impl </span>TINFLStatus {
@@ -416,6 +453,8 @@
             TINFL_STATUS_DONE =&gt; <span class="prelude-val">Some</span>(Done),
             TINFL_STATUS_NEEDS_MORE_INPUT =&gt; <span class="prelude-val">Some</span>(NeedsMoreInput),
             TINFL_STATUS_HAS_MORE_OUTPUT =&gt; <span class="prelude-val">Some</span>(HasMoreOutput),
+            <span class="attr">#[cfg(feature = <span class="string">"block-boundary"</span>)]
+            </span>TINFL_STATUS_BLOCK_BOUNDARY =&gt; <span class="prelude-val">Some</span>(BlockBoundary),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
@@ -443,6 +482,8 @@
             TINFLStatus::Done =&gt; <span class="string">""</span>, <span class="comment">// Unreachable
             </span>TINFLStatus::NeedsMoreInput =&gt; <span class="string">"Truncated input stream"</span>,
             TINFLStatus::HasMoreOutput =&gt; <span class="string">"Output size exceeded the specified limit"</span>,
+            <span class="attr">#[cfg(feature = <span class="string">"block-boundary"</span>)]
+            </span>TINFLStatus::BlockBoundary =&gt; <span class="string">"Reached end of a deflate block"</span>,
         })
     }
 }
@@ -466,7 +507,7 @@
 </span><span class="attr">#[inline]
 #[cfg(feature = <span class="string">"with-alloc"</span>)]
 </span><span class="kw">pub fn </span>decompress_to_vec(input: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;, DecompressError&gt; {
-    decompress_to_vec_inner(input, <span class="number">0</span>, usize::max_value())
+    decompress_to_vec_inner(input, <span class="number">0</span>, usize::MAX)
 }
 
 <span class="doccomment">/// Decompress the deflate-encoded data (with a zlib wrapper) in `input` to a vector.
@@ -482,7 +523,7 @@
     decompress_to_vec_inner(
         input,
         inflate_flags::TINFL_FLAG_PARSE_ZLIB_HEADER,
-        usize::max_value(),
+        usize::MAX,
     )
 }
 
@@ -584,6 +625,7 @@
 /// * `zlib_header` if the first slice out of the iterator is expected to have a
 ///   Zlib header. Otherwise the slices are assumed to be the deflate data only.
 /// * `ignore_adler32` if the adler32 checksum should be calculated or not.
+</span><span class="attr">#[cfg(not(feature = <span class="string">"rustc-dep-of-std"</span>))]
 </span><span class="kw">pub fn </span>decompress_slice_iter_to_slice&lt;<span class="lifetime">'out</span>, <span class="lifetime">'inp</span>&gt;(
     out: <span class="kw-2">&amp;</span><span class="lifetime">'out </span><span class="kw-2">mut </span>[u8],
     it: <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'inp </span>[u8]&gt;,

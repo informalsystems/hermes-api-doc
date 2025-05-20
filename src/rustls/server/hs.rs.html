@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.26/src/server/hs.rs`."><title>hs.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/server/</div>hs.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/server/hs.rs`."><title>hs.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/server/</div>hs.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -769,8 +769,8 @@
 <span class="attr">#[cfg(feature = <span class="string">"tls12"</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::msgs::handshake::SessionId;
 <span class="kw">use </span><span class="kw">crate</span>::msgs::handshake::{
-    ClientHelloPayload, ConvertProtocolNameList, ConvertServerNameList, HandshakePayload,
-    KeyExchangeAlgorithm, Random, ServerExtension,
+    ClientHelloPayload, HandshakePayload, KeyExchangeAlgorithm, Random, ServerExtension,
+    ServerNamePayload, SingleProtocolName,
 };
 <span class="kw">use </span><span class="kw">crate</span>::msgs::message::{Message, MessagePayload};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::persist;
@@ -796,6 +796,9 @@
     // the request to resume the session if the server_name extension contains
     // a different name. Instead, it proceeds with a full handshake to
     // establish a new session."
+    //
+    // RFC 8446: "The server MUST ensure that it selects
+    // a compatible PSK (if any) and cipher suite."
     </span>resumedata.cipher_suite == suite.suite()
         &amp;&amp; (resumedata.extended_ms == using_ems || (resumedata.extended_ms &amp;&amp; !using_ems))
         &amp;&amp; <span class="kw-2">&amp;</span>resumedata.sni == sni
@@ -827,23 +830,20 @@
         </span><span class="kw">let </span>our_protocols = <span class="kw-2">&amp;</span>config.alpn_protocols;
         <span class="kw">let </span>maybe_their_protocols = hello.alpn_extension();
         <span class="kw">if let </span><span class="prelude-val">Some</span>(their_protocols) = maybe_their_protocols {
-            <span class="kw">let </span>their_protocols = their_protocols.to_slices();
-
-            <span class="kw">if </span>their_protocols
-                .iter()
-                .any(|protocol| protocol.is_empty())
-            {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(PeerMisbehaved::OfferedEmptyApplicationProtocol.into());
-            }
-
             cx.common.alpn_protocol = our_protocols
                 .iter()
-                .find(|protocol| their_protocols.contains(<span class="kw-2">&amp;</span>protocol.as_slice()))
+                .find(|ours| {
+                    their_protocols
+                        .iter()
+                        .any(|theirs| theirs.as_ref() == ours.as_slice())
+                })
                 .cloned();
             <span class="kw">if let </span><span class="prelude-val">Some</span>(selected_protocol) = <span class="kw-2">&amp;</span>cx.common.alpn_protocol {
                 <span class="macro">debug!</span>(<span class="string">"Chosen ALPN protocol {:?}"</span>, selected_protocol);
                 <span class="self">self</span>.exts
-                    .push(ServerExtension::make_alpn(<span class="kw-2">&amp;</span>[selected_protocol]));
+                    .push(ServerExtension::Protocols(SingleProtocolName::new(
+                        selected_protocol.clone(),
+                    )));
             } <span class="kw">else if </span>!our_protocols.is_empty() {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(cx.common.send_fatal_alert(
                     AlertDescription::NoApplicationProtocol,
@@ -1093,9 +1093,9 @@
         <span class="comment">// Are we doing TLS1.3?
         </span><span class="kw">let </span>maybe_versions_ext = client_hello.versions_extension();
         <span class="kw">let </span>version = <span class="kw">if let </span><span class="prelude-val">Some</span>(versions) = maybe_versions_ext {
-            <span class="kw">if </span>versions.contains(<span class="kw-2">&amp;</span>ProtocolVersion::TLSv1_3) &amp;&amp; tls13_enabled {
+            <span class="kw">if </span>versions.tls13 &amp;&amp; tls13_enabled {
                 ProtocolVersion::TLSv1_3
-            } <span class="kw">else if </span>!versions.contains(<span class="kw-2">&amp;</span>ProtocolVersion::TLSv1_2) || !tls12_enabled {
+            } <span class="kw">else if </span>!versions.tls12 || !tls12_enabled {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(cx.common.send_fatal_alert(
                     AlertDescription::ProtocolVersion,
                     PeerIncompatible::Tls12NotOfferedOrEnabled,
@@ -1447,23 +1447,23 @@
     // send an Illegal Parameter alert instead of the Internal Error alert
     // (or whatever) that we'd send if this were checked later or in a
     // different way.
+    //
+    // [RFC6066][] specifies that literal IP addresses are illegal in
+    // `ServerName`s with a `name_type` of `host_name`.
+    //
+    // Some clients incorrectly send such extensions: we choose to
+    // successfully parse these (into `ServerNamePayload::IpAddress`)
+    // but then act like the client sent no `server_name` extension.
+    //
+    // [RFC6066]: https://datatracker.ietf.org/doc/html/rfc6066#section-3
     </span><span class="kw">let </span>sni: <span class="prelude-ty">Option</span>&lt;DnsName&lt;<span class="lifetime">'_</span>&gt;&gt; = <span class="kw">match </span>client_hello.sni_extension() {
-        <span class="prelude-val">Some</span>(sni) =&gt; {
-            <span class="kw">if </span>sni.has_duplicate_names_for_type() {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(cx.common.send_fatal_alert(
-                    AlertDescription::DecodeError,
-                    PeerMisbehaved::DuplicateServerNameTypes,
-                ));
-            }
-
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(hostname) = sni.single_hostname() {
-                <span class="prelude-val">Some</span>(hostname.to_lowercase_owned())
-            } <span class="kw">else </span>{
-                <span class="kw">return </span><span class="prelude-val">Err</span>(cx.common.send_fatal_alert(
-                    AlertDescription::IllegalParameter,
-                    PeerMisbehaved::ServerNameMustContainOneHostName,
-                ));
-            }
+        <span class="prelude-val">Some</span>(ServerNamePayload::SingleDnsName(dns_name)) =&gt; <span class="prelude-val">Some</span>(dns_name.to_lowercase_owned()),
+        <span class="prelude-val">Some</span>(ServerNamePayload::IpAddress) =&gt; <span class="prelude-val">None</span>,
+        <span class="prelude-val">Some</span>(ServerNamePayload::Invalid) =&gt; {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(cx.common.send_fatal_alert(
+                AlertDescription::IllegalParameter,
+                PeerMisbehaved::ServerNameMustContainOneHostName,
+            ));
         }
         <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
     };

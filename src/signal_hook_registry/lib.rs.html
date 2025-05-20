@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signal-hook-registry-1.4.2/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="signal_hook_registry" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">signal_hook_registry/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/signal-hook-registry-1.4.5/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="signal_hook_registry" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">signal_hook_registry/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -791,7 +791,28 @@
 <a href="#790" id="790">790</a>
 <a href="#791" id="791">791</a>
 <a href="#792" id="792">792</a>
-<a href="#793" id="793">793</a></pre></div><pre class="rust"><code><span class="attr">#![doc(test(attr(deny(warnings))))]
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
+<a href="#795" id="795">795</a>
+<a href="#796" id="796">796</a>
+<a href="#797" id="797">797</a>
+<a href="#798" id="798">798</a>
+<a href="#799" id="799">799</a>
+<a href="#800" id="800">800</a>
+<a href="#801" id="801">801</a>
+<a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
+<a href="#809" id="809">809</a>
+<a href="#810" id="810">810</a>
+<a href="#811" id="811">811</a>
+<a href="#812" id="812">812</a>
+<a href="#813" id="813">813</a>
+<a href="#814" id="814">814</a></pre></div><pre class="rust"><code><span class="attr">#![doc(test(attr(deny(warnings))))]
 #![warn(missing_docs)]
 #![allow(unknown_lints, renamed_and_remove_lints, bare_trait_objects)]
 
@@ -832,6 +853,10 @@
 //! require dependencies that don't build there, so tests need newer Rust version (they are run on
 //! stable).
 //!
+//! Note that this ancient version of rustc no longer compiles current versions of `libc`. If you
+//! want to use rustc this old, you need to force your dependency resolution to pick old enough
+//! version of `libc` (`0.2.156` was found to work, but newer ones may too).
+//!
 //! # Portability
 //!
 //! This crate includes a limited support for Windows, based on `signal`/`raise` in the CRT.
@@ -859,8 +884,8 @@
 <span class="kw">use </span>std::collections::{BTreeMap, HashMap};
 <span class="kw">use </span>std::io::Error;
 <span class="kw">use </span>std::mem;
-<span class="attr">#[cfg(not(windows))]
-</span><span class="kw">use </span>std::ptr;
+<span class="kw">use </span>std::ptr;
+<span class="kw">use </span>std::sync::atomic::{AtomicPtr, Ordering};
 <span class="comment">// Once::new is now a const-fn. But it is not stable in all the rustc versions we want to support
 // yet.
 </span><span class="attr">#[allow(deprecated)]
@@ -951,16 +976,29 @@
     </span><span class="kw">fn </span>new(signal: libc::c_int) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&gt; {
         <span class="comment">// C data structure, expected to be zeroed out.
         </span><span class="kw">let </span><span class="kw-2">mut </span>new: libc::sigaction = <span class="kw">unsafe </span>{ mem::zeroed() };
-        <span class="attr">#[cfg(not(target_os = <span class="string">"aix"</span>))]
-        </span>{ new.sa_sigaction = handler <span class="kw">as </span>usize; }
-        <span class="attr">#[cfg(target_os = <span class="string">"aix"</span>)]
-        </span>{ new.sa_union.__su_sigaction = handler; }
-        <span class="comment">// Android is broken and uses different int types than the rest (and different depending on
+
+        <span class="comment">// Note: AIX fixed their naming in libc 0.2.171.
+        //
+        // However, if we mandate that _for everyone_, other systems fail to compile on old Rust
+        // versions (eg. 1.26.0), because they are no longer able to compile this new libc.
+        //
+        // There doesn't seem to be a way to make Cargo force the dependency for only one target
+        // (it doesn't compile the ones it doesn't need, but it stills considers the other targets
+        // for version resolution).
+        //
+        // Therefore, we let the user have freedom - if they want AIX, they can upgrade to new
+        // enough libc. If they want ancient rustc, they can force older versions of libc.
+        //
+        // See #169.
+
+        </span>new.sa_sigaction = handler <span class="kw">as </span>usize; <span class="comment">// If it doesn't compile on AIX, upgrade the libc dependency
+
+        // Android is broken and uses different int types than the rest (and different depending on
         // the pointer width). This converts the flags to the proper type no matter what it is on
         // the given platform.
         </span><span class="attr">#[cfg(target_os = <span class="string">"nto"</span>)]
         </span><span class="kw">let </span>flags = <span class="number">0</span>;
-        <span class="comment">// SA_RESTART is supported by qnx https://www.qnx.com/support/knowledgebase.html?id=50130000000SmiD 
+        <span class="comment">// SA_RESTART is supported by qnx https://www.qnx.com/support/knowledgebase.html?id=50130000000SmiD
         </span><span class="attr">#[cfg(not(target_os = <span class="string">"nto"</span>))]
         </span><span class="kw">let </span>flags = libc::SA_RESTART;
         <span class="attr">#[allow(unused_assignments)]
@@ -1032,10 +1070,7 @@
 
     <span class="attr">#[cfg(not(windows))]
     </span><span class="kw">unsafe fn </span>execute(<span class="kw-2">&amp;</span><span class="self">self</span>, sig: c_int, info: <span class="kw-2">*mut </span>siginfo_t, data: <span class="kw-2">*mut </span>c_void) {
-        <span class="attr">#[cfg(not(target_os = <span class="string">"aix"</span>))]
-        </span><span class="kw">let </span>fptr = <span class="self">self</span>.info.sa_sigaction;
-        <span class="attr">#[cfg(target_os = <span class="string">"aix"</span>)]
-        </span><span class="kw">let </span>fptr = <span class="self">self</span>.info.sa_union.__su_sigaction <span class="kw">as </span>usize;
+        <span class="kw">let </span>fptr = <span class="self">self</span>.info.sa_sigaction;
         <span class="kw">if </span>fptr != <span class="number">0 </span>&amp;&amp; fptr != libc::SIG_DFL &amp;&amp; fptr != libc::SIG_IGN {
             <span class="comment">// Android is broken and uses different int types than the rest (and different
             // depending on the pointer width). This converts the flags to the proper type no
@@ -1075,23 +1110,30 @@
     </span>race_fallback: HalfLock&lt;<span class="prelude-ty">Option</span>&lt;Prev&gt;&gt;,
 }
 
-<span class="kw">static </span><span class="kw-2">mut </span>GLOBAL_DATA: <span class="prelude-ty">Option</span>&lt;GlobalData&gt; = <span class="prelude-val">None</span>;
+<span class="kw">static </span>GLOBAL_DATA: AtomicPtr&lt;GlobalData&gt; = AtomicPtr::new(ptr::null_mut());
 <span class="attr">#[allow(deprecated)]
 </span><span class="kw">static </span>GLOBAL_INIT: Once = ONCE_INIT;
 
 <span class="kw">impl </span>GlobalData {
     <span class="kw">fn </span>get() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span><span class="self">Self </span>{
-        <span class="kw">unsafe </span>{ GLOBAL_DATA.as_ref().unwrap() }
+        <span class="kw">let </span>data = GLOBAL_DATA.load(Ordering::Acquire);
+        <span class="comment">// # Safety
+        //
+        // * The data actually does live forever - created by Box::into_raw.
+        // * It is _never_ modified (apart for interior mutability, but that one is fine).
+        </span><span class="kw">unsafe </span>{ data.as_ref().expect(<span class="string">"We shall be set up already"</span>) }
     }
     <span class="kw">fn </span>ensure() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span><span class="self">Self </span>{
-        GLOBAL_INIT.call_once(|| <span class="kw">unsafe </span>{
-            GLOBAL_DATA = <span class="prelude-val">Some</span>(GlobalData {
+        GLOBAL_INIT.call_once(|| {
+            <span class="kw">let </span>data = Box::into_raw(Box::new(GlobalData {
                 data: HalfLock::new(SignalData {
                     signals: HashMap::new(),
                     next_id: <span class="number">1</span>,
                 }),
                 race_fallback: HalfLock::new(<span class="prelude-val">None</span>),
-            });
+            }));
+            <span class="kw">let </span>old = GLOBAL_DATA.swap(data, Ordering::Release);
+            <span class="macro">assert!</span>(old.is_null());
         });
         <span class="self">Self</span>::get()
     }

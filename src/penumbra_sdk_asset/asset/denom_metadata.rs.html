@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/penumbra-sdk-asset-1.4.0/src/asset/denom_metadata.rs`."><title>denom_metadata.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="penumbra_sdk_asset" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">penumbra_sdk_asset/asset/</div>denom_metadata.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/penumbra-sdk-asset-1.5.1/src/asset/denom_metadata.rs`."><title>denom_metadata.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="penumbra_sdk_asset" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">penumbra_sdk_asset/asset/</div>denom_metadata.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -662,7 +662,89 @@
 <a href="#661" id="661">661</a>
 <a href="#662" id="662">662</a>
 <a href="#663" id="663">663</a>
-<a href="#664" id="664">664</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::{
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
+<a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
+<a href="#725" id="725">725</a>
+<a href="#726" id="726">726</a>
+<a href="#727" id="727">727</a>
+<a href="#728" id="728">728</a>
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
+<a href="#732" id="732">732</a>
+<a href="#733" id="733">733</a>
+<a href="#734" id="734">734</a>
+<a href="#735" id="735">735</a>
+<a href="#736" id="736">736</a>
+<a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
+<a href="#739" id="739">739</a>
+<a href="#740" id="740">740</a>
+<a href="#741" id="741">741</a>
+<a href="#742" id="742">742</a>
+<a href="#743" id="743">743</a>
+<a href="#744" id="744">744</a>
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::{
     cmp::{Eq, PartialEq},
     fmt::{Debug, Display},
     hash::{<span class="self">self</span>, Hash},
@@ -673,7 +755,6 @@
 <span class="kw">use </span>decaf377::Fq;
 <span class="kw">use </span>penumbra_sdk_num::Amount;
 <span class="kw">use </span>penumbra_sdk_proto::{penumbra::core::asset::v1 <span class="kw">as </span>pb, view::v1::AssetsResponse, DomainType};
-<span class="kw">use </span>regex::Regex;
 <span class="kw">use </span>serde::{Deserialize, Serialize};
 
 <span class="kw">use crate</span>::{
@@ -890,8 +971,7 @@
     /// not include a unit for the base denomination.
     </span><span class="kw">pub fn </span>new(base_denom: String, <span class="kw-2">mut </span>units: Vec&lt;BareDenomUnit&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>id = Id(Fq::from_le_bytes_mod_order(
-            <span class="comment">// XXX choice of hash function?
-            </span>blake2b_simd::Params::default()
+            blake2b_simd::Params::default()
                 .personal(<span class="string">b"Penumbra_AssetID"</span>)
                 .hash(base_denom.as_bytes())
                 .as_bytes(),
@@ -1041,18 +1121,14 @@
 
     <span class="doccomment">/// Returns the IBC transfer path and base denom
     /// if this is an IBC transferred asset, `None` otherwise.
-    </span><span class="kw">pub fn </span>ibc_transfer_path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; anyhow::Result&lt;<span class="prelude-ty">Option</span>&lt;(String, String)&gt;&gt; {
+    ///
+    /// This *MUST NOT* be used on safety critical paths.
+    /// The reason is that this function has not received a great
+    /// deal of testing and is meant for low stakes RPC usecases.
+    /// Hence: `best_effort_ibc_transfer_parse`.
+    </span><span class="kw">pub fn </span>best_effort_ibc_transfer_parse(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;(String, String)&gt; {
         <span class="kw">let </span>base_denom = <span class="self">self</span>.base_denom().denom;
-        <span class="comment">// The base denom portion of an IBC asset path may contain slashes: https://github.com/cosmos/ibc/issues/737
-        </span><span class="kw">let </span>re = Regex::new(<span class="string">r"^(?&lt;path&gt;transfer/channel-[0-9]+)/(?&lt;denom&gt;[\w\/]+)$"</span>)
-            .context(<span class="string">"error instantiating denom matching regex"</span>)<span class="question-mark">?</span>;
-
-        <span class="kw">let </span><span class="prelude-val">Some</span>(caps) = re.captures(<span class="kw-2">&amp;</span>base_denom) <span class="kw">else </span>{
-            <span class="comment">// Not an IBC asset
-            </span><span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
-        };
-
-        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((caps[<span class="string">"path"</span>].to_string(), caps[<span class="string">"denom"</span>].to_string())))
+        parse::ibc_transfer_path(<span class="kw-2">&amp;</span>base_denom)
     }
 }
 
@@ -1246,6 +1322,94 @@
 <span class="kw">impl </span>Display <span class="kw">for </span>Unit {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; std::fmt::Result {
         f.write_str(<span class="self">self</span>.inner.units[<span class="self">self</span>.unit_index].denom.as_str())
+    }
+}
+
+<span class="kw">pub mod </span>parse {
+    <span class="kw">use </span>lazy_static::lazy_static;
+
+    <span class="macro">lazy_static!</span> {
+        <span class="kw">static </span><span class="kw-2">ref </span>IBC_RE: regex::Regex = regex::Regex::new(
+            <span class="string">r"^(?&lt;path&gt;transfer/[a-z0-9][a-z0-9\-]{0,63}(?:/transfer/[a-z0-9][a-z0-9\-]{0,63})*)/(?&lt;denom&gt;[^/][A-Za-z0-9/._\-]*)$"
+        </span>).expect(<span class="string">"regex compilation works"</span>);
+    }
+
+    <span class="kw">pub fn </span>ibc_transfer_path(base: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;(String, String)&gt; {
+        <span class="comment">// for future ref, here are some denom strings that we must support:
+        // - transfer/channel-2/uusdc
+        // - transfer/channel-4/factory/osmo1q77cw0mmlluxu0wr29fcdd0tdnh78gzhkvhe4n6ulal9qvrtu43qtd0nh8/shitmos
+        // - transfer/channel-0/transfer/08-wasm-1369/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+        // - transfer/channel-4/gamm/pool/1402
+        </span><span class="kw">let </span>caps = IBC_RE.captures(base)<span class="question-mark">?</span>;
+        <span class="prelude-val">Some</span>((caps[<span class="string">"path"</span>].to_owned(), caps[<span class="string">"denom"</span>].to_owned()))
+    }
+}
+
+<span class="attr">#[cfg(test)]
+</span><span class="kw">mod </span>ibc_transfer_path_tests {
+    <span class="kw">use </span><span class="kw">crate</span>::asset::denom_metadata::parse::ibc_transfer_path <span class="kw">as </span>p;
+
+    <span class="doccomment">/// Noble USDC
+    /// transfer/channel-2/uusdc
+    </span><span class="attr">#[test]
+    </span><span class="kw">fn </span>single_hop_uusdc() {
+        <span class="kw">let </span>got = p(<span class="string">"transfer/channel-2/uusdc"</span>);
+        <span class="macro">assert_eq!</span>(
+            got,
+            <span class="prelude-val">Some</span>((<span class="string">"transfer/channel-2"</span>.to_string(), <span class="string">"uusdc"</span>.to_string()))
+        );
+    }
+
+    <span class="doccomment">/// Beloved shitmos
+    /// transfer/channel-4/factory/osmo1q77cw0mmlluxu0wr29fcdd0tdnh78gzhkvhe4n6ulal9qvrtu43qtd0nh8/shitmos
+    </span><span class="attr">#[test]
+    </span><span class="kw">fn </span>factory_shitmos() {
+        <span class="kw">let </span>got = p(<span class="string">"transfer/channel-4/factory/osmo1q77cw0mmlluxu0wr29fcdd0tdnh78gzhkvhe4n6ulal9qvrtu43qtd0nh8/shitmos"</span>);
+        <span class="macro">assert_eq!</span>(
+            got,
+            <span class="prelude-val">Some</span>((
+                <span class="string">"transfer/channel-4"</span>.to_string(),
+                <span class="string">"factory/osmo1q77cw0mmlluxu0wr29fcdd0tdnh78gzhkvhe4n6ulal9qvrtu43qtd0nh8/shitmos"
+                    </span>.to_string()
+            ))
+        );
+    }
+
+    <span class="doccomment">/// cw20:inj19vy83ne9tzta2yqynj8yg7dq9ghca6yqn9hyej  (NOT an IBC asset)
+    </span><span class="attr">#[test]
+    </span><span class="kw">fn </span>cw20_filtered_out() {
+        <span class="kw">let </span>got = p(<span class="string">"cw20:inj19vy83ne9tzta2yqynj8yg7dq9ghca6yqn9hyej"</span>);
+        <span class="macro">assert_eq!</span>(got, <span class="prelude-val">None</span>);
+    }
+
+    <span class="doccomment">/// Eureka asset
+    /// transfer/channel-0/transfer/08-wasm-1369/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+    </span><span class="attr">#[test]
+    </span><span class="kw">fn </span>multihop_wasm_evm_hex() {
+        <span class="kw">let </span>got = p(
+            <span class="string">"transfer/channel-0/transfer/08-wasm-1369/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"</span>,
+        );
+        <span class="macro">assert_eq!</span>(
+            got,
+            <span class="prelude-val">Some</span>((
+                <span class="string">"transfer/channel-0/transfer/08-wasm-1369"</span>.to_string(),
+                <span class="string">"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"</span>.to_string()
+            ))
+        );
+    }
+
+    <span class="doccomment">/// Gamma pool
+    /// transfer/channel-4/gamm/pool/1402
+    </span><span class="attr">#[test]
+    </span><span class="kw">fn </span>gamm_pool() {
+        <span class="kw">let </span>got = p(<span class="string">"transfer/channel-4/gamm/pool/1402"</span>);
+        <span class="macro">assert_eq!</span>(
+            got,
+            <span class="prelude-val">Some</span>((
+                <span class="string">"transfer/channel-4"</span>.to_string(),
+                <span class="string">"gamm/pool/1402"</span>.to_string()
+            ))
+        );
     }
 }
 

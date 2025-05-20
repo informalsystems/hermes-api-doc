@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/contracts-0.6.3/src/implementation/invariant.rs`."><title>invariant.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="contracts" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">contracts/implementation/</div>invariant.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/contracts-0.6.6/src/implementation/invariant.rs`."><title>invariant.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="contracts" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">contracts/implementation/</div>invariant.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -83,30 +83,17 @@
 <a href="#82" id="82">82</a>
 <a href="#83" id="83">83</a>
 <a href="#84" id="84">84</a>
-<a href="#85" id="85">85</a>
-<a href="#86" id="86">86</a>
-<a href="#87" id="87">87</a>
-<a href="#88" id="88">88</a>
-<a href="#89" id="89">89</a>
-<a href="#90" id="90">90</a>
-<a href="#91" id="91">91</a>
-<a href="#92" id="92">92</a>
-<a href="#93" id="93">93</a>
-<a href="#94" id="94">94</a></pre></div><pre class="rust"><code><span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
+<a href="#85" id="85">85</a></pre></div><pre class="rust"><code><span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 </span><span class="kw">use </span>proc_macro2::TokenStream;
 <span class="kw">use </span>quote::ToTokens;
-<span class="kw">use </span>syn::{FnArg, ImplItem, ImplItemMethod, Item, ItemFn, ItemImpl};
+<span class="kw">use </span>syn::{FnArg, ImplItem, ImplItemFn, Item, ItemFn, ItemImpl};
 
 <span class="kw">use </span><span class="kw">crate</span>::implementation::{ContractMode, ContractType, FuncWithContracts};
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>invariant(
-    mode: ContractMode,
-    attr: TokenStream,
-    toks: TokenStream,
-) -&gt; TokenStream {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>invariant(mode: ContractMode, attr: TokenStream, toks: TokenStream) -&gt; TokenStream {
     <span class="kw">let </span>item: Item = <span class="macro">syn::parse_quote!</span>(#toks);
 
     <span class="kw">let </span>name = mode.name().unwrap().to_string() + <span class="string">"invariant"</span>;
@@ -121,11 +108,7 @@
     }
 }
 
-<span class="kw">fn </span>invariant_fn(
-    mode: ContractMode,
-    attr: TokenStream,
-    func: ItemFn,
-) -&gt; TokenStream {
+<span class="kw">fn </span>invariant_fn(mode: ContractMode, attr: TokenStream, func: ItemFn) -&gt; TokenStream {
     <span class="kw">let </span>ty = ContractType::Invariant;
 
     <span class="kw">let </span>f = FuncWithContracts::new_with_initial_contract(func, ty, mode, attr);
@@ -153,10 +136,9 @@
         }
     };
 
-    <span class="kw">let </span>invariant_ident =
-        syn::Ident::new(<span class="kw-2">&amp;</span>name, proc_macro2::Span::call_site());
+    <span class="kw">let </span>invariant_ident = syn::Ident::new(<span class="kw-2">&amp;</span>name, proc_macro2::Span::call_site());
 
-    <span class="kw">fn </span>method_uses_self(method: <span class="kw-2">&amp;</span>ImplItemMethod) -&gt; bool {
+    <span class="kw">fn </span>method_uses_self(method: <span class="kw-2">&amp;</span>ImplItemFn) -&gt; bool {
         <span class="kw">let </span>inputs = <span class="kw-2">&amp;</span>method.sig.inputs;
 
         <span class="kw">if </span>!inputs.is_empty() {
@@ -167,7 +149,7 @@
     }
 
     <span class="kw">for </span>item <span class="kw">in </span><span class="kw-2">&amp;mut </span>impl_def.items {
-        <span class="kw">if let </span>ImplItem::Method(method) = item {
+        <span class="kw">if let </span>ImplItem::Fn(method) = item {
             <span class="comment">// only implement invariants for methods that take `self`
             </span><span class="kw">if </span>!method_uses_self(method) {
                 <span class="kw">continue</span>;
@@ -178,7 +160,7 @@
                 </span>#method
             };
 
-            <span class="kw">let </span>met: ImplItemMethod = <span class="macro">syn::parse_quote!</span>(#method_toks);
+            <span class="kw">let </span>met: ImplItemFn = <span class="macro">syn::parse_quote!</span>(#method_toks);
 
             <span class="kw-2">*</span>method = met;
         }

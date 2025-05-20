@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tendermint-0.40.3/src/hash.rs`."><title>hash.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tendermint" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tendermint/</div>hash.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tendermint-0.40.4/src/hash.rs`."><title>hash.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tendermint" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tendermint/</div>hash.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -340,7 +340,39 @@
 <a href="#339" id="339">339</a>
 <a href="#340" id="340">340</a>
 <a href="#341" id="341">341</a>
-<a href="#342" id="342">342</a></pre></div><pre class="rust"><code><span class="doccomment">//! Hash functions and their outputs
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a></pre></div><pre class="rust"><code><span class="doccomment">//! Hash functions and their outputs
 
 </span><span class="kw">use </span>core::{
     fmt::{<span class="self">self</span>, Debug, Display},
@@ -350,6 +382,7 @@
 <span class="kw">use </span>bytes::Bytes;
 <span class="kw">use </span>serde::{de::Error <span class="kw">as _</span>, Deserialize, Deserializer, Serialize, Serializer};
 <span class="kw">use </span>subtle_encoding::{base64, Encoding, Hex};
+<span class="kw">use </span>tendermint_proto::serializers::cow_str::CowStr;
 <span class="kw">use </span>tendermint_proto::Protobuf;
 
 <span class="kw">use crate</span>::{error::Error, prelude::<span class="kw-2">*</span>};
@@ -507,12 +540,12 @@
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'de</span>&gt; Deserialize&lt;<span class="lifetime">'de</span>&gt; <span class="kw">for </span>Hash {
     <span class="kw">fn </span>deserialize&lt;D: Deserializer&lt;<span class="lifetime">'de</span>&gt;&gt;(deserializer: D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, D::Error&gt; {
-        <span class="kw">let </span>hex = &lt;<span class="kw-2">&amp;</span>str&gt;::deserialize(deserializer)<span class="question-mark">?</span>;
+        <span class="kw">let </span>hex = CowStr::deserialize(deserializer)<span class="question-mark">?</span>;
 
         <span class="kw">if </span>hex.is_empty() {
             <span class="prelude-val">Err</span>(D::Error::custom(<span class="string">"empty hash"</span>))
         } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(<span class="self">Self</span>::from_str(hex).map_err(|e| D::Error::custom(<span class="macro">format!</span>(<span class="string">"{e}"</span>)))<span class="question-mark">?</span>)
+            <span class="prelude-val">Ok</span>(<span class="self">Self</span>::from_str(<span class="kw-2">&amp;</span>hex).map_err(|e| D::Error::custom(<span class="macro">format!</span>(<span class="string">"{e}"</span>)))<span class="question-mark">?</span>)
         }
     }
 }
@@ -541,8 +574,8 @@
     <span class="kw">where
         </span>D: Deserializer&lt;<span class="lifetime">'de</span>&gt;,
     {
-        <span class="kw">let </span>hex = &lt;<span class="kw-2">&amp;</span>str&gt;::deserialize(deserializer)<span class="question-mark">?</span>;
-        Hash::from_str(hex).map_err(serde::de::Error::custom)
+        <span class="kw">let </span>hex = CowStr::deserialize(deserializer)<span class="question-mark">?</span>;
+        Hash::from_str(<span class="kw-2">&amp;</span>hex).map_err(serde::de::Error::custom)
     }
 }
 
@@ -642,15 +675,22 @@
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
     <span class="attr">#[derive(Debug, serde::Deserialize)]
-    </span><span class="kw">struct </span>Test {
+    </span><span class="kw">struct </span>AppHashTest {
         <span class="attr">#[serde(default)]
         #[serde(with = <span class="string">"crate::serializers::apphash"</span>)]
         </span><span class="kw">pub </span>app_hash: AppHash,
     }
 
+    <span class="attr">#[derive(Debug, serde::Deserialize)]
+    </span><span class="kw">struct </span>HashTest {
+        hash: Hash,
+        <span class="attr">#[serde(with = <span class="string">"super::allow_empty"</span>)]
+        </span>empty_hash: Hash,
+    }
+
     <span class="attr">#[test]
     </span><span class="kw">fn </span>apphash_decode_base64() {
-        <span class="kw">let </span>test = serde_json::from_str::&lt;Test&gt;(
+        <span class="kw">let </span>test = serde_json::from_str::&lt;AppHashTest&gt;(
             <span class="string">r#"{"app_hash":"MfX9f+bYoI8IioRb4YT/8/VhPvtNjgWFgTi4mmMSkBc="}"#</span>,
         )
         .unwrap();
@@ -667,7 +707,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>apphash_decode_hex() {
-        <span class="kw">let </span>test = serde_json::from_str::&lt;Test&gt;(
+        <span class="kw">let </span>test = serde_json::from_str::&lt;AppHashTest&gt;(
             <span class="string">r#"{"app_hash":"31F5FD7FE6D8A08F088A845BE184FFF3F5613EFB4D8E05858138B89A63129017"}"#</span>,
         )
         .unwrap();
@@ -680,6 +720,30 @@
                 <span class="number">0x63</span>, <span class="number">0x12</span>, <span class="number">0x90</span>, <span class="number">0x17
             </span>]
         );
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>hash_decode_hex() {
+        <span class="kw">let </span>s = <span class="string">r#"{
+            "hash": "9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08",
+            "empty_hash": ""
+        }"#</span>;
+
+        <span class="kw">let </span>expected_hash = <span class="kw-2">&amp;</span>[
+            <span class="number">0x9F</span>, <span class="number">0x86</span>, <span class="number">0xD0</span>, <span class="number">0x81</span>, <span class="number">0x88</span>, <span class="number">0x4C</span>, <span class="number">0x7D</span>, <span class="number">0x65</span>, <span class="number">0x9A</span>, <span class="number">0x2F</span>, <span class="number">0xEA</span>, <span class="number">0xA0</span>, <span class="number">0xC5</span>, <span class="number">0x5A</span>,
+            <span class="number">0xD0</span>, <span class="number">0x15</span>, <span class="number">0xA3</span>, <span class="number">0xBF</span>, <span class="number">0x4F</span>, <span class="number">0x1B</span>, <span class="number">0x2B</span>, <span class="number">0x0B</span>, <span class="number">0x82</span>, <span class="number">0x2C</span>, <span class="number">0xD1</span>, <span class="number">0x5D</span>, <span class="number">0x6C</span>, <span class="number">0x15</span>,
+            <span class="number">0xB0</span>, <span class="number">0xF0</span>, <span class="number">0x0A</span>, <span class="number">0x08</span>,
+        ];
+
+        <span class="kw">let </span>test = serde_json::from_str::&lt;HashTest&gt;(s).unwrap();
+        <span class="macro">assert_eq!</span>(test.hash.as_ref(), expected_hash);
+        <span class="macro">assert_eq!</span>(test.empty_hash, Hash::None);
+
+        <span class="comment">// Test issue 1474
+        </span><span class="kw">let </span>json_value = serde_json::from_str::&lt;serde_json::Value&gt;(s).unwrap();
+        <span class="kw">let </span>test = serde_json::from_value::&lt;HashTest&gt;(json_value).unwrap();
+        <span class="macro">assert_eq!</span>(test.hash.as_ref(), expected_hash);
+        <span class="macro">assert_eq!</span>(test.empty_hash, Hash::None);
     }
 }
 </code></pre></div></section></main></body></html>

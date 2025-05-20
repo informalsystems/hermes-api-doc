@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.10.4/src/ule/option.rs`."><title>option.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/ule/</div>option.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.11.2/src/ule/option.rs`."><title>option.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/ule/</div>option.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -331,16 +331,16 @@
 </span><span class="doccomment">///    zeroed or valid-T byte sequences to fill it)
 </span><span class="comment">//  2. OptionULE is aligned to 1 byte.
 //     (achieved by `#[repr(C, packed)]` on a struct containing only ULE fields, in the context of this impl)
-//  3. The impl of validate_byte_slice() returns an error if any byte is not valid.
-//  4. The impl of validate_byte_slice() returns an error if there are extra bytes.
+//  3. The impl of validate_bytes() returns an error if any byte is not valid.
+//  4. The impl of validate_bytes() returns an error if there are extra bytes.
 //  5. The other ULE methods use the default impl.
 //  6. OptionULE byte equality is semantic equality by relying on the ULE equality
 //     invariant on the subfields
 </span><span class="kw">unsafe impl</span>&lt;U: ULE&gt; ULE <span class="kw">for </span>OptionULE&lt;U&gt; {
-    <span class="kw">fn </span>validate_byte_slice(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ZeroVecError&gt; {
+    <span class="kw">fn </span>validate_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), UleError&gt; {
         <span class="kw">let </span>size = mem::size_of::&lt;<span class="self">Self</span>&gt;();
         <span class="kw">if </span>bytes.len() % size != <span class="number">0 </span>{
-            <span class="kw">return </span><span class="prelude-val">Err</span>(ZeroVecError::length::&lt;<span class="self">Self</span>&gt;(bytes.len()));
+            <span class="kw">return </span><span class="prelude-val">Err</span>(UleError::length::&lt;<span class="self">Self</span>&gt;(bytes.len()));
         }
         <span class="kw">for </span>chunk <span class="kw">in </span>bytes.chunks(size) {
             <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// `chunk` will have enough bytes to fit Self
@@ -349,11 +349,11 @@
                 // Rust booleans are always size 1, align 1 values with valid bit patterns 0x0 or 0x1
                 </span><span class="number">0 </span>=&gt; {
                     <span class="kw">if </span>!chunk[<span class="number">1</span>..].iter().all(|x| <span class="kw-2">*</span>x == <span class="number">0</span>) {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(ZeroVecError::parse::&lt;<span class="self">Self</span>&gt;());
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(UleError::parse::&lt;<span class="self">Self</span>&gt;());
                     }
                 }
-                <span class="number">1 </span>=&gt; U::validate_byte_slice(<span class="kw-2">&amp;</span>chunk[<span class="number">1</span>..])<span class="question-mark">?</span>,
-                <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(ZeroVecError::parse::&lt;<span class="self">Self</span>&gt;()),
+                <span class="number">1 </span>=&gt; U::validate_bytes(<span class="kw-2">&amp;</span>chunk[<span class="number">1</span>..])<span class="question-mark">?</span>,
+                <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(UleError::parse::&lt;<span class="self">Self</span>&gt;()),
             }
         }
         <span class="prelude-val">Ok</span>(())
@@ -414,7 +414,7 @@
         <span class="kw">if </span><span class="self">self</span>.<span class="number">1 </span>{
             <span class="kw">unsafe </span>{
                 <span class="comment">// Safety: byte field is a valid T if boolean field is true
-                </span><span class="prelude-val">Some</span>(U::from_byte_slice_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">2</span>))
+                </span><span class="prelude-val">Some</span>(U::from_bytes_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">2</span>))
             }
         } <span class="kw">else </span>{
             <span class="prelude-val">None
@@ -432,16 +432,16 @@
 //  1. OptionVarULE&lt;T&gt; does not include any uninitialized or padding bytes
 //     (achieved by being repr(C, packed) on ULE types)
 //  2. OptionVarULE&lt;T&gt; is aligned to 1 byte (achieved by being repr(C, packed) on ULE types)
-//  3. The impl of `validate_byte_slice()` returns an error if any byte is not valid.
-//  4. The impl of `validate_byte_slice()` returns an error if the slice cannot be used in its entirety
-//  5. The impl of `from_byte_slice_unchecked()` returns a reference to the same data.
+//  3. The impl of `validate_bytes()` returns an error if any byte is not valid.
+//  4. The impl of `validate_bytes()` returns an error if the slice cannot be used in its entirety
+//  5. The impl of `from_bytes_unchecked()` returns a reference to the same data.
 //  6. All other methods are defaulted
 //  7. OptionVarULE&lt;T&gt; byte equality is semantic equality (achieved by being an aggregate)
 </span><span class="kw">unsafe impl</span>&lt;U: VarULE + <span class="question-mark">?</span>Sized&gt; VarULE <span class="kw">for </span>OptionVarULE&lt;U&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>validate_byte_slice(slice: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ZeroVecError&gt; {
+    </span><span class="kw">fn </span>validate_bytes(slice: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), UleError&gt; {
         <span class="kw">if </span>slice.is_empty() {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(ZeroVecError::length::&lt;<span class="self">Self</span>&gt;(slice.len()));
+            <span class="kw">return </span><span class="prelude-val">Err</span>(UleError::length::&lt;<span class="self">Self</span>&gt;(slice.len()));
         }
         <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// slice already verified to be nonempty
         </span><span class="kw">match </span>slice[<span class="number">0</span>] {
@@ -449,18 +449,18 @@
             // Rust booleans are always size 1, align 1 values with valid bit patterns 0x0 or 0x1
             </span><span class="number">0 </span>=&gt; {
                 <span class="kw">if </span>slice.len() != <span class="number">1 </span>{
-                    <span class="prelude-val">Err</span>(ZeroVecError::length::&lt;<span class="self">Self</span>&gt;(slice.len()))
+                    <span class="prelude-val">Err</span>(UleError::length::&lt;<span class="self">Self</span>&gt;(slice.len()))
                 } <span class="kw">else </span>{
                     <span class="prelude-val">Ok</span>(())
                 }
             }
-            <span class="number">1 </span>=&gt; U::validate_byte_slice(<span class="kw-2">&amp;</span>slice[<span class="number">1</span>..]),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(ZeroVecError::parse::&lt;<span class="self">Self</span>&gt;()),
+            <span class="number">1 </span>=&gt; U::validate_bytes(<span class="kw-2">&amp;</span>slice[<span class="number">1</span>..]),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(UleError::parse::&lt;<span class="self">Self</span>&gt;()),
         }
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">unsafe fn </span>from_byte_slice_unchecked(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
+    </span><span class="kw">unsafe fn </span>from_bytes_unchecked(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
         <span class="kw">let </span>entire_struct_as_slice: <span class="kw-2">*const </span>[u8] =
             ::core::ptr::slice_from_raw_parts(bytes.as_ptr(), bytes.len() - <span class="number">1</span>);
         <span class="kw-2">&amp;*</span>(entire_struct_as_slice <span class="kw">as </span><span class="kw-2">*const </span><span class="self">Self</span>)

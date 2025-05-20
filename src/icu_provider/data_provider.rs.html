@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_provider-1.5.0/src/data_provider.rs`."><title>data_provider.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_provider" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_provider/</div>data_provider.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_provider-2.0.0/src/data_provider.rs`."><title>data_provider.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_provider" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_provider/</div>data_provider.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -536,23 +536,116 @@
 <a href="#535" id="535">535</a>
 <a href="#536" id="536">536</a>
 <a href="#537" id="537">537</a>
-<a href="#538" id="538">538</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
 </span><span class="kw">use </span>core::marker::PhantomData;
 <span class="kw">use </span>yoke::Yokeable;
 
-<span class="kw">use </span><span class="kw">crate</span>::error::DataError;
-<span class="kw">use </span><span class="kw">crate</span>::key::DataKey;
-<span class="kw">use </span><span class="kw">crate</span>::marker::{DataMarker, KeyedDataMarker};
-<span class="kw">use </span><span class="kw">crate</span>::request::DataRequest;
-<span class="kw">use </span><span class="kw">crate</span>::response::DataResponse;
+<span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
-<span class="doccomment">/// A data provider that loads data for a specific [`DataKey`].
+<span class="doccomment">/// A data provider that loads data for a specific [`DataMarkerInfo`].
 </span><span class="kw">pub trait </span>DataProvider&lt;M&gt;
 <span class="kw">where
-    </span>M: KeyedDataMarker,
+    </span>M: DataMarker,
 {
     <span class="doccomment">/// Query the provider for data, returning the result.
     ///
@@ -561,9 +654,9 @@
     </span><span class="kw">fn </span>load(<span class="kw-2">&amp;</span><span class="self">self</span>, req: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;M&gt;, DataError&gt;;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, M, P&gt; DataProvider&lt;M&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>P
+<span class="kw">impl</span>&lt;M, P&gt; DataProvider&lt;M&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>P
 <span class="kw">where
-    </span>M: KeyedDataMarker,
+    </span>M: DataMarker,
     P: DataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="attr">#[inline]
@@ -572,9 +665,10 @@
     }
 }
 
-<span class="kw">impl</span>&lt;M, P&gt; DataProvider&lt;M&gt; <span class="kw">for </span>alloc::boxed::Box&lt;P&gt;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; DataProvider&lt;M&gt; <span class="kw">for </span>alloc::boxed::Box&lt;P&gt;
 <span class="kw">where
-    </span>M: KeyedDataMarker,
+    </span>M: DataMarker,
     P: DataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="attr">#[inline]
@@ -583,9 +677,10 @@
     }
 }
 
-<span class="kw">impl</span>&lt;M, P&gt; DataProvider&lt;M&gt; <span class="kw">for </span>alloc::rc::Rc&lt;P&gt;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; DataProvider&lt;M&gt; <span class="kw">for </span>alloc::rc::Rc&lt;P&gt;
 <span class="kw">where
-    </span>M: KeyedDataMarker,
+    </span>M: DataMarker,
     P: DataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="attr">#[inline]
@@ -595,9 +690,10 @@
 }
 
 <span class="attr">#[cfg(target_has_atomic = <span class="string">"ptr"</span>)]
+#[cfg(feature = <span class="string">"alloc"</span>)]
 </span><span class="kw">impl</span>&lt;M, P&gt; DataProvider&lt;M&gt; <span class="kw">for </span>alloc::sync::Arc&lt;P&gt;
 <span class="kw">where
-    </span>M: KeyedDataMarker,
+    </span>M: DataMarker,
     P: DataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="attr">#[inline]
@@ -606,94 +702,291 @@
     }
 }
 
-<span class="doccomment">/// A data provider that loads data for a specific data type.
-///
-/// Unlike [`DataProvider`], there may be multiple keys corresponding to the same data type.
-/// This is often the case when returning `dyn` trait objects such as [`AnyMarker`].
-///
-/// [`AnyMarker`]: crate::any::AnyMarker
-</span><span class="kw">pub trait </span>DynamicDataProvider&lt;M&gt;
+<span class="doccomment">/// A data provider that can determine whether it can load a particular data identifier,
+/// potentially cheaper than actually performing the load.
+</span><span class="kw">pub trait </span>DryDataProvider&lt;M: DataMarker&gt;: DataProvider&lt;M&gt; {
+    <span class="doccomment">/// This method goes through the motions of [`load`], but only returns the metadata.
+    ///
+    /// If `dry_load` returns an error, [`load`] must return the same error, but
+    /// not vice-versa. Concretely, [`load`] could return deserialization or I/O errors
+    /// that `dry_load` cannot predict.
+    ///
+    /// [`load`]: DataProvider::load
+    </span><span class="kw">fn </span>dry_load(<span class="kw-2">&amp;</span><span class="self">self</span>, req: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponseMetadata, DataError&gt;;
+}
+
+<span class="kw">impl</span>&lt;M, P&gt; DryDataProvider&lt;M&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>P
 <span class="kw">where
     </span>M: DataMarker,
+    P: DryDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
+{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>dry_load(<span class="kw-2">&amp;</span><span class="self">self</span>, req: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponseMetadata, DataError&gt; {
+        (<span class="kw-2">*</span><span class="self">self</span>).dry_load(req)
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; DryDataProvider&lt;M&gt; <span class="kw">for </span>alloc::boxed::Box&lt;P&gt;
+<span class="kw">where
+    </span>M: DataMarker,
+    P: DryDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
+{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>dry_load(<span class="kw-2">&amp;</span><span class="self">self</span>, req: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponseMetadata, DataError&gt; {
+        (<span class="kw-2">**</span><span class="self">self</span>).dry_load(req)
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; DryDataProvider&lt;M&gt; <span class="kw">for </span>alloc::rc::Rc&lt;P&gt;
+<span class="kw">where
+    </span>M: DataMarker,
+    P: DryDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
+{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>dry_load(<span class="kw-2">&amp;</span><span class="self">self</span>, req: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponseMetadata, DataError&gt; {
+        (<span class="kw-2">**</span><span class="self">self</span>).dry_load(req)
+    }
+}
+
+<span class="attr">#[cfg(target_has_atomic = <span class="string">"ptr"</span>)]
+#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; DryDataProvider&lt;M&gt; <span class="kw">for </span>alloc::sync::Arc&lt;P&gt;
+<span class="kw">where
+    </span>M: DataMarker,
+    P: DryDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
+{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>dry_load(<span class="kw-2">&amp;</span><span class="self">self</span>, req: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponseMetadata, DataError&gt; {
+        (<span class="kw-2">**</span><span class="self">self</span>).dry_load(req)
+    }
+}
+
+<span class="doccomment">/// A [`DataProvider`] that can iterate over all supported [`DataIdentifierCow`]s.
+///
+/// The provider is not allowed to return `Ok` for requests that were not returned by `iter_ids`,
+/// and must not fail with a [`DataErrorKind::IdentifierNotFound`] for requests that were returned.
+</span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">pub trait </span>IterableDataProvider&lt;M: DataMarker&gt;: DataProvider&lt;M&gt; {
+    <span class="doccomment">/// Returns a set of [`DataIdentifierCow`].
+    </span><span class="kw">fn </span>iter_ids(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;alloc::collections::BTreeSet&lt;DataIdentifierCow&gt;, DataError&gt;;
+}
+
+<span class="doccomment">/// A data provider that loads data for a specific data type.
+///
+/// Unlike [`DataProvider`], there may be multiple markers corresponding to the same data type.
+</span><span class="kw">pub trait </span>DynamicDataProvider&lt;M&gt;
+<span class="kw">where
+    </span>M: DynamicDataMarker,
 {
     <span class="doccomment">/// Query the provider for data, returning the result.
     ///
     /// Returns [`Ok`] if the request successfully loaded data. If data failed to load, returns an
     /// Error with more information.
-    </span><span class="kw">fn </span>load_data(<span class="kw-2">&amp;</span><span class="self">self</span>, key: DataKey, req: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;M&gt;, DataError&gt;;
+    </span><span class="kw">fn </span>load_data(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        marker: DataMarkerInfo,
+        req: DataRequest,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;M&gt;, DataError&gt;;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, M, P&gt; DynamicDataProvider&lt;M&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>P
+<span class="kw">impl</span>&lt;M, P&gt; DynamicDataProvider&lt;M&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>P
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
     P: DynamicDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>load_data(<span class="kw-2">&amp;</span><span class="self">self</span>, key: DataKey, req: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;M&gt;, DataError&gt; {
-        (<span class="kw-2">*</span><span class="self">self</span>).load_data(key, req)
+    </span><span class="kw">fn </span>load_data(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        marker: DataMarkerInfo,
+        req: DataRequest,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;M&gt;, DataError&gt; {
+        (<span class="kw-2">*</span><span class="self">self</span>).load_data(marker, req)
     }
 }
 
-<span class="kw">impl</span>&lt;M, P&gt; DynamicDataProvider&lt;M&gt; <span class="kw">for </span>alloc::boxed::Box&lt;P&gt;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; DynamicDataProvider&lt;M&gt; <span class="kw">for </span>alloc::boxed::Box&lt;P&gt;
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
     P: DynamicDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>load_data(<span class="kw-2">&amp;</span><span class="self">self</span>, key: DataKey, req: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;M&gt;, DataError&gt; {
-        (<span class="kw-2">**</span><span class="self">self</span>).load_data(key, req)
+    </span><span class="kw">fn </span>load_data(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        marker: DataMarkerInfo,
+        req: DataRequest,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;M&gt;, DataError&gt; {
+        (<span class="kw-2">**</span><span class="self">self</span>).load_data(marker, req)
     }
 }
 
-<span class="kw">impl</span>&lt;M, P&gt; DynamicDataProvider&lt;M&gt; <span class="kw">for </span>alloc::rc::Rc&lt;P&gt;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; DynamicDataProvider&lt;M&gt; <span class="kw">for </span>alloc::rc::Rc&lt;P&gt;
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
     P: DynamicDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>load_data(<span class="kw-2">&amp;</span><span class="self">self</span>, key: DataKey, req: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;M&gt;, DataError&gt; {
-        (<span class="kw-2">**</span><span class="self">self</span>).load_data(key, req)
+    </span><span class="kw">fn </span>load_data(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        marker: DataMarkerInfo,
+        req: DataRequest,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;M&gt;, DataError&gt; {
+        (<span class="kw-2">**</span><span class="self">self</span>).load_data(marker, req)
     }
 }
 
 <span class="attr">#[cfg(target_has_atomic = <span class="string">"ptr"</span>)]
+#[cfg(feature = <span class="string">"alloc"</span>)]
 </span><span class="kw">impl</span>&lt;M, P&gt; DynamicDataProvider&lt;M&gt; <span class="kw">for </span>alloc::sync::Arc&lt;P&gt;
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
     P: DynamicDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>load_data(<span class="kw-2">&amp;</span><span class="self">self</span>, key: DataKey, req: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;M&gt;, DataError&gt; {
-        (<span class="kw-2">**</span><span class="self">self</span>).load_data(key, req)
+    </span><span class="kw">fn </span>load_data(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        marker: DataMarkerInfo,
+        req: DataRequest,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;M&gt;, DataError&gt; {
+        (<span class="kw-2">**</span><span class="self">self</span>).load_data(marker, req)
+    }
+}
+
+<span class="doccomment">/// A dynanmic data provider that can determine whether it can load a particular data identifier,
+/// potentially cheaper than actually performing the load.
+</span><span class="kw">pub trait </span>DynamicDryDataProvider&lt;M: DynamicDataMarker&gt;: DynamicDataProvider&lt;M&gt; {
+    <span class="doccomment">/// This method goes through the motions of [`load_data`], but only returns the metadata.
+    ///
+    /// If `dry_load_data` returns an error, [`load_data`] must return the same error, but
+    /// not vice-versa. Concretely, [`load_data`] could return deserialization or I/O errors
+    /// that `dry_load_data` cannot predict.
+    ///
+    /// [`load_data`]: DynamicDataProvider::load_data
+    </span><span class="kw">fn </span>dry_load_data(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        marker: DataMarkerInfo,
+        req: DataRequest,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponseMetadata, DataError&gt;;
+}
+
+<span class="kw">impl</span>&lt;M, P&gt; DynamicDryDataProvider&lt;M&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>P
+<span class="kw">where
+    </span>M: DynamicDataMarker,
+    P: DynamicDryDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
+{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>dry_load_data(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        marker: DataMarkerInfo,
+        req: DataRequest,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponseMetadata, DataError&gt; {
+        (<span class="kw-2">*</span><span class="self">self</span>).dry_load_data(marker, req)
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; DynamicDryDataProvider&lt;M&gt; <span class="kw">for </span>alloc::boxed::Box&lt;P&gt;
+<span class="kw">where
+    </span>M: DynamicDataMarker,
+    P: DynamicDryDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
+{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>dry_load_data(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        marker: DataMarkerInfo,
+        req: DataRequest,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponseMetadata, DataError&gt; {
+        (<span class="kw-2">**</span><span class="self">self</span>).dry_load_data(marker, req)
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; DynamicDryDataProvider&lt;M&gt; <span class="kw">for </span>alloc::rc::Rc&lt;P&gt;
+<span class="kw">where
+    </span>M: DynamicDataMarker,
+    P: DynamicDryDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
+{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>dry_load_data(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        marker: DataMarkerInfo,
+        req: DataRequest,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponseMetadata, DataError&gt; {
+        (<span class="kw-2">**</span><span class="self">self</span>).dry_load_data(marker, req)
+    }
+}
+
+<span class="attr">#[cfg(target_has_atomic = <span class="string">"ptr"</span>)]
+#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; DynamicDryDataProvider&lt;M&gt; <span class="kw">for </span>alloc::sync::Arc&lt;P&gt;
+<span class="kw">where
+    </span>M: DynamicDataMarker,
+    P: DynamicDryDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
+{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>dry_load_data(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        marker: DataMarkerInfo,
+        req: DataRequest,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponseMetadata, DataError&gt; {
+        (<span class="kw-2">**</span><span class="self">self</span>).dry_load_data(marker, req)
+    }
+}
+
+<span class="doccomment">/// A [`DynamicDataProvider`] that can iterate over all supported [`DataIdentifierCow`]s for a certain marker.
+///
+/// The provider is not allowed to return `Ok` for requests that were not returned by `iter_ids`,
+/// and must not fail with a [`DataErrorKind::IdentifierNotFound`] for requests that were returned.
+</span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">pub trait </span>IterableDynamicDataProvider&lt;M: DynamicDataMarker&gt;: DynamicDataProvider&lt;M&gt; {
+    <span class="doccomment">/// Given a [`DataMarkerInfo`], returns a set of [`DataIdentifierCow`].
+    </span><span class="kw">fn </span>iter_ids_for_marker(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        marker: DataMarkerInfo,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;alloc::collections::BTreeSet&lt;DataIdentifierCow&gt;, DataError&gt;;
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; IterableDynamicDataProvider&lt;M&gt; <span class="kw">for </span>alloc::boxed::Box&lt;P&gt;
+<span class="kw">where
+    </span>M: DynamicDataMarker,
+    P: IterableDynamicDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
+{
+    <span class="kw">fn </span>iter_ids_for_marker(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        marker: DataMarkerInfo,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;alloc::collections::BTreeSet&lt;DataIdentifierCow&gt;, DataError&gt; {
+        (<span class="kw-2">**</span><span class="self">self</span>).iter_ids_for_marker(marker)
     }
 }
 
 <span class="doccomment">/// A data provider that loads data for a specific data type.
 ///
-/// Unlike [`DataProvider`], the provider is bound to a specific key ahead of time.
+/// Unlike [`DataProvider`], the provider is bound to a specific marker ahead of time.
 ///
-/// This crate provides [`DataProviderWithKey`] which implements this trait on a single provider
-/// with a single key. However, this trait can also be implemented on providers that fork between
-/// multiple keys that all return the same data type. For example, it can abstract over many
+/// This crate provides [`DataProviderWithMarker`] which implements this trait on a single provider
+/// with a single marker. However, this trait can also be implemented on providers that fork between
+/// multiple markers that all return the same data type. For example, it can abstract over many
 /// calendar systems in the datetime formatter.
-///
-/// [`AnyMarker`]: crate::any::AnyMarker
 </span><span class="kw">pub trait </span>BoundDataProvider&lt;M&gt;
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
 {
     <span class="doccomment">/// Query the provider for data, returning the result.
     ///
     /// Returns [`Ok`] if the request successfully loaded data. If data failed to load, returns an
     /// Error with more information.
     </span><span class="kw">fn </span>load_bound(<span class="kw-2">&amp;</span><span class="self">self</span>, req: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;M&gt;, DataError&gt;;
-    <span class="doccomment">/// Returns the [`DataKey`] that this provider uses for loading data.
-    </span><span class="kw">fn </span>bound_key(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataKey;
+    <span class="doccomment">/// Returns the [`DataMarkerInfo`] that this provider uses for loading data.
+    </span><span class="kw">fn </span>bound_marker(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataMarkerInfo;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, M, P&gt; BoundDataProvider&lt;M&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>P
+<span class="kw">impl</span>&lt;M, P&gt; BoundDataProvider&lt;M&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>P
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
     P: BoundDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="attr">#[inline]
@@ -701,14 +994,15 @@
         (<span class="kw-2">*</span><span class="self">self</span>).load_bound(req)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>bound_key(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataKey {
-        (<span class="kw-2">*</span><span class="self">self</span>).bound_key()
+    </span><span class="kw">fn </span>bound_marker(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataMarkerInfo {
+        (<span class="kw-2">*</span><span class="self">self</span>).bound_marker()
     }
 }
 
-<span class="kw">impl</span>&lt;M, P&gt; BoundDataProvider&lt;M&gt; <span class="kw">for </span>alloc::boxed::Box&lt;P&gt;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; BoundDataProvider&lt;M&gt; <span class="kw">for </span>alloc::boxed::Box&lt;P&gt;
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
     P: BoundDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="attr">#[inline]
@@ -716,14 +1010,15 @@
         (<span class="kw-2">**</span><span class="self">self</span>).load_bound(req)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>bound_key(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataKey {
-        (<span class="kw-2">**</span><span class="self">self</span>).bound_key()
+    </span><span class="kw">fn </span>bound_marker(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataMarkerInfo {
+        (<span class="kw-2">**</span><span class="self">self</span>).bound_marker()
     }
 }
 
-<span class="kw">impl</span>&lt;M, P&gt; BoundDataProvider&lt;M&gt; <span class="kw">for </span>alloc::rc::Rc&lt;P&gt;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;M, P&gt; BoundDataProvider&lt;M&gt; <span class="kw">for </span>alloc::rc::Rc&lt;P&gt;
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
     P: BoundDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="attr">#[inline]
@@ -731,15 +1026,16 @@
         (<span class="kw-2">**</span><span class="self">self</span>).load_bound(req)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>bound_key(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataKey {
-        (<span class="kw-2">**</span><span class="self">self</span>).bound_key()
+    </span><span class="kw">fn </span>bound_marker(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataMarkerInfo {
+        (<span class="kw-2">**</span><span class="self">self</span>).bound_marker()
     }
 }
 
 <span class="attr">#[cfg(target_has_atomic = <span class="string">"ptr"</span>)]
+#[cfg(feature = <span class="string">"alloc"</span>)]
 </span><span class="kw">impl</span>&lt;M, P&gt; BoundDataProvider&lt;M&gt; <span class="kw">for </span>alloc::sync::Arc&lt;P&gt;
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
     P: BoundDataProvider&lt;M&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="attr">#[inline]
@@ -747,26 +1043,26 @@
         (<span class="kw-2">**</span><span class="self">self</span>).load_bound(req)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>bound_key(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataKey {
-        (<span class="kw-2">**</span><span class="self">self</span>).bound_key()
+    </span><span class="kw">fn </span>bound_marker(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataMarkerInfo {
+        (<span class="kw-2">**</span><span class="self">self</span>).bound_marker()
     }
 }
 
-<span class="doccomment">/// A [`DataProvider`] associated with a specific key.
+<span class="doccomment">/// A [`DataProvider`] associated with a specific marker.
 ///
 /// Implements [`BoundDataProvider`].
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>DataProviderWithKey&lt;M, P&gt; {
+</span><span class="kw">pub struct </span>DataProviderWithMarker&lt;M, P&gt; {
     inner: P,
     _marker: PhantomData&lt;M&gt;,
 }
 
-<span class="kw">impl</span>&lt;M, P&gt; DataProviderWithKey&lt;M, P&gt;
+<span class="kw">impl</span>&lt;M, P&gt; DataProviderWithMarker&lt;M, P&gt;
 <span class="kw">where
-    </span>M: KeyedDataMarker,
+    </span>M: DataMarker,
     P: DataProvider&lt;M&gt;,
 {
-    <span class="doccomment">/// Creates a [`DataProviderWithKey`] from a [`DataProvider`] with a [`KeyedDataMarker`].
+    <span class="doccomment">/// Creates a [`DataProviderWithMarker`] from a [`DataProvider`] with a [`DataMarker`].
     </span><span class="kw">pub const fn </span>new(inner: P) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             inner,
@@ -775,10 +1071,10 @@
     }
 }
 
-<span class="kw">impl</span>&lt;M, M0, Y, P&gt; BoundDataProvider&lt;M0&gt; <span class="kw">for </span>DataProviderWithKey&lt;M, P&gt;
+<span class="kw">impl</span>&lt;M, M0, Y, P&gt; BoundDataProvider&lt;M0&gt; <span class="kw">for </span>DataProviderWithMarker&lt;M, P&gt;
 <span class="kw">where
-    </span>M: KeyedDataMarker&lt;Yokeable = Y&gt;,
-    M0: DataMarker&lt;Yokeable = Y&gt;,
+    </span>M: DataMarker&lt;DataStruct = Y&gt;,
+    M0: DynamicDataMarker&lt;DataStruct = Y&gt;,
     Y: <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Yokeable&lt;<span class="lifetime">'a</span>&gt;,
     P: DataProvider&lt;M&gt;,
 {
@@ -787,8 +1083,8 @@
         <span class="self">self</span>.inner.load(req).map(DataResponse::cast)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>bound_key(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataKey {
-        M::KEY
+    </span><span class="kw">fn </span>bound_marker(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DataMarkerInfo {
+        M::INFO
     }
 }
 
@@ -797,7 +1093,6 @@
 
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::hello_world::<span class="kw-2">*</span>;
-    <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
     <span class="kw">use </span>alloc::borrow::Cow;
     <span class="kw">use </span>alloc::string::String;
     <span class="kw">use </span>core::fmt::Debug;
@@ -806,33 +1101,18 @@
     <span class="comment">// This tests DataProvider borrow semantics with a dummy data provider based on a
     // JSON string. It also exercises most of the data provider code paths.
 
-    </span><span class="doccomment">/// Key for HelloAlt, used for testing mismatched types
-    </span><span class="kw">const </span>HELLO_ALT_KEY: DataKey = <span class="macro">crate::data_key!</span>(<span class="string">"core/helloalt@1"</span>);
-
-    <span class="doccomment">/// A data struct serialization-compatible with HelloWorldV1 used for testing mismatched types
-    </span><span class="attr">#[derive(
-        Serialize, Deserialize, Debug, Clone, Default, PartialEq, yoke::Yokeable, zerofrom::ZeroFrom,
-    )]
-    </span><span class="kw">struct </span>HelloAlt {
-        <span class="attr">#[zerofrom(clone)]
-        </span>message: String,
+    </span><span class="doccomment">/// A data struct serialization-compatible with HelloWorld used for testing mismatched types
+    </span><span class="attr">#[derive(Serialize, Deserialize, Debug, Clone, Default, PartialEq, yoke::Yokeable)]
+    </span><span class="kw">pub struct </span>HelloAlt {
+        message: String,
     }
 
-    <span class="doccomment">/// Marker type for [`HelloAlt`].
-    </span><span class="kw">struct </span>HelloAltMarker {}
-
-    <span class="kw">impl </span>DataMarker <span class="kw">for </span>HelloAltMarker {
-        <span class="kw">type </span>Yokeable = HelloAlt;
-    }
-
-    <span class="kw">impl </span>KeyedDataMarker <span class="kw">for </span>HelloAltMarker {
-        <span class="kw">const </span>KEY: DataKey = HELLO_ALT_KEY;
-    }
+    <span class="macro">data_marker!</span>(HelloAltMarkerV1, HelloAlt);
 
     <span class="attr">#[derive(Deserialize, Debug, Clone, Default, PartialEq)]
     </span><span class="kw">struct </span>HelloCombined&lt;<span class="lifetime">'data</span>&gt; {
         <span class="attr">#[serde(borrow)]
-        </span><span class="kw">pub </span>hello_v1: HelloWorldV1&lt;<span class="lifetime">'data</span>&gt;,
+        </span><span class="kw">pub </span>hello_v1: HelloWorld&lt;<span class="lifetime">'data</span>&gt;,
         <span class="kw">pub </span>hello_alt: HelloAlt,
     }
 
@@ -840,20 +1120,18 @@
     /// Supports only key::HELLO_WORLD_V1. Uses `impl_dynamic_data_provider!()`.
     </span><span class="attr">#[derive(Debug)]
     </span><span class="kw">struct </span>DataWarehouse {
-        hello_v1: HelloWorldV1&lt;<span class="lifetime">'static</span>&gt;,
+        hello_v1: HelloWorld&lt;<span class="lifetime">'static</span>&gt;,
         hello_alt: HelloAlt,
     }
 
-    <span class="kw">impl </span>DataProvider&lt;HelloWorldV1Marker&gt; <span class="kw">for </span>DataWarehouse {
-        <span class="kw">fn </span>load(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;HelloWorldV1Marker&gt;, DataError&gt; {
+    <span class="kw">impl </span>DataProvider&lt;HelloWorldV1&gt; <span class="kw">for </span>DataWarehouse {
+        <span class="kw">fn </span>load(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;HelloWorldV1&gt;, DataError&gt; {
             <span class="prelude-val">Ok</span>(DataResponse {
                 metadata: DataResponseMetadata::default(),
-                payload: <span class="prelude-val">Some</span>(DataPayload::from_owned(<span class="self">self</span>.hello_v1.clone())),
+                payload: DataPayload::from_owned(<span class="self">self</span>.hello_v1.clone()),
             })
         }
     }
-
-    <span class="macro">crate::impl_dynamic_data_provider!</span>(DataWarehouse, [HelloWorldV1Marker,], AnyMarker);
 
     <span class="doccomment">/// A DataProvider that supports both key::HELLO_WORLD_V1 and HELLO_ALT.
     </span><span class="attr">#[derive(Debug)]
@@ -867,33 +1145,27 @@
         }
     }
 
-    <span class="kw">impl </span>DataProvider&lt;HelloWorldV1Marker&gt; <span class="kw">for </span>DataProvider2 {
-        <span class="kw">fn </span>load(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;HelloWorldV1Marker&gt;, DataError&gt; {
+    <span class="kw">impl </span>DataProvider&lt;HelloWorldV1&gt; <span class="kw">for </span>DataProvider2 {
+        <span class="kw">fn </span>load(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;HelloWorldV1&gt;, DataError&gt; {
             <span class="prelude-val">Ok</span>(DataResponse {
                 metadata: DataResponseMetadata::default(),
-                payload: <span class="prelude-val">Some</span>(DataPayload::from_owned(<span class="self">self</span>.data.hello_v1.clone())),
+                payload: DataPayload::from_owned(<span class="self">self</span>.data.hello_v1.clone()),
             })
         }
     }
 
-    <span class="kw">impl </span>DataProvider&lt;HelloAltMarker&gt; <span class="kw">for </span>DataProvider2 {
-        <span class="kw">fn </span>load(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;HelloAltMarker&gt;, DataError&gt; {
+    <span class="kw">impl </span>DataProvider&lt;HelloAltMarkerV1&gt; <span class="kw">for </span>DataProvider2 {
+        <span class="kw">fn </span>load(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: DataRequest) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;HelloAltMarkerV1&gt;, DataError&gt; {
             <span class="prelude-val">Ok</span>(DataResponse {
                 metadata: DataResponseMetadata::default(),
-                payload: <span class="prelude-val">Some</span>(DataPayload::from_owned(<span class="self">self</span>.data.hello_alt.clone())),
+                payload: DataPayload::from_owned(<span class="self">self</span>.data.hello_alt.clone()),
             })
         }
     }
-
-    <span class="macro">crate::impl_dynamic_data_provider!</span>(
-        DataProvider2,
-        [HelloWorldV1Marker, HelloAltMarker,],
-        AnyMarker
-    );
 
     <span class="kw">const </span>DATA: <span class="kw-2">&amp;</span>str = <span class="string">r#"{
         "hello_v1": {
-            "message": "Hello V1"
+            "message": "Hello "
         },
         "hello_alt": {
             "message": "Hello Alt"
@@ -908,16 +1180,16 @@
         }
     }
 
-    <span class="kw">fn </span>get_payload_v1&lt;P: DataProvider&lt;HelloWorldV1Marker&gt; + <span class="question-mark">?</span>Sized&gt;(
+    <span class="kw">fn </span>get_payload_v1&lt;P: DataProvider&lt;HelloWorldV1&gt; + <span class="question-mark">?</span>Sized&gt;(
         provider: <span class="kw-2">&amp;</span>P,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataPayload&lt;HelloWorldV1Marker&gt;, DataError&gt; {
-        provider.load(Default::default())<span class="question-mark">?</span>.take_payload()
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataPayload&lt;HelloWorldV1&gt;, DataError&gt; {
+        provider.load(Default::default()).map(|r| r.payload)
     }
 
-    <span class="kw">fn </span>get_payload_alt&lt;P: DataProvider&lt;HelloAltMarker&gt; + <span class="question-mark">?</span>Sized&gt;(
+    <span class="kw">fn </span>get_payload_alt&lt;P: DataProvider&lt;HelloAltMarkerV1&gt; + <span class="question-mark">?</span>Sized&gt;(
         provider: <span class="kw-2">&amp;</span>P,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataPayload&lt;HelloAltMarker&gt;, DataError&gt; {
-        provider.load(Default::default())<span class="question-mark">?</span>.take_payload()
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataPayload&lt;HelloAltMarkerV1&gt;, DataError&gt; {
+        provider.load(Default::default()).map(|r| r.payload)
     }
 
     <span class="attr">#[test]
@@ -926,19 +1198,7 @@
         <span class="kw">let </span>hello_data = get_payload_v1(<span class="kw-2">&amp;</span>warehouse).unwrap();
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
             hello_data.get(),
-            HelloWorldV1 {
-                message: Cow::Borrowed(<span class="kw">_</span>),
-            }
-        ));
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_warehouse_owned_dyn_erased() {
-        <span class="kw">let </span>warehouse = get_warehouse(DATA);
-        <span class="kw">let </span>hello_data = get_payload_v1(<span class="kw-2">&amp;</span>warehouse.as_any_provider().as_downcasting()).unwrap();
-        <span class="macro">assert!</span>(<span class="macro">matches!</span>(
-            hello_data.get(),
-            HelloWorldV1 {
+            HelloWorld {
                 message: Cow::Borrowed(<span class="kw">_</span>),
             }
         ));
@@ -947,26 +1207,12 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_warehouse_owned_dyn_generic() {
         <span class="kw">let </span>warehouse = get_warehouse(DATA);
-        <span class="kw">let </span>hello_data =
-            get_payload_v1(<span class="kw-2">&amp;</span>warehouse <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>DataProvider&lt;HelloWorldV1Marker&gt;).unwrap();
+        <span class="kw">let </span>hello_data = get_payload_v1(<span class="kw-2">&amp;</span>warehouse <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>DataProvider&lt;HelloWorldV1&gt;).unwrap();
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
             hello_data.get(),
-            HelloWorldV1 {
+            HelloWorld {
                 message: Cow::Borrowed(<span class="kw">_</span>),
             }
-        ));
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_warehouse_owned_dyn_erased_alt() {
-        <span class="kw">let </span>warehouse = get_warehouse(DATA);
-        <span class="kw">let </span>response = get_payload_alt(<span class="kw-2">&amp;</span>warehouse.as_any_provider().as_downcasting());
-        <span class="macro">assert!</span>(<span class="macro">matches!</span>(
-            response,
-            <span class="prelude-val">Err</span>(DataError {
-                kind: DataErrorKind::MissingDataKey,
-                ..
-            })
         ));
     }
 
@@ -977,42 +1223,20 @@
         <span class="kw">let </span>hello_data = get_payload_v1(<span class="kw-2">&amp;</span>provider).unwrap();
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
             hello_data.get(),
-            HelloWorldV1 {
+            HelloWorld {
                 message: Cow::Borrowed(<span class="kw">_</span>),
             }
         ));
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_provider2_dyn_erased() {
-        <span class="kw">let </span>warehouse = get_warehouse(DATA);
-        <span class="kw">let </span>provider = DataProvider2::from(warehouse);
-        <span class="kw">let </span>hello_data = get_payload_v1(<span class="kw-2">&amp;</span>provider.as_any_provider().as_downcasting()).unwrap();
-        <span class="macro">assert!</span>(<span class="macro">matches!</span>(
-            hello_data.get(),
-            HelloWorldV1 {
-                message: Cow::Borrowed(<span class="kw">_</span>),
-            }
-        ));
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_provider2_dyn_erased_alt() {
-        <span class="kw">let </span>warehouse = get_warehouse(DATA);
-        <span class="kw">let </span>provider = DataProvider2::from(warehouse);
-        <span class="kw">let </span>hello_data = get_payload_alt(<span class="kw-2">&amp;</span>provider.as_any_provider().as_downcasting()).unwrap();
-        <span class="macro">assert!</span>(<span class="macro">matches!</span>(hello_data.get(), HelloAlt { .. }));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_provider2_dyn_generic() {
         <span class="kw">let </span>warehouse = get_warehouse(DATA);
         <span class="kw">let </span>provider = DataProvider2::from(warehouse);
-        <span class="kw">let </span>hello_data =
-            get_payload_v1(<span class="kw-2">&amp;</span>provider <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>DataProvider&lt;HelloWorldV1Marker&gt;).unwrap();
+        <span class="kw">let </span>hello_data = get_payload_v1(<span class="kw-2">&amp;</span>provider <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>DataProvider&lt;HelloWorldV1&gt;).unwrap();
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
             hello_data.get(),
-            HelloWorldV1 {
+            HelloWorld {
                 message: Cow::Borrowed(<span class="kw">_</span>),
             }
         ));
@@ -1022,39 +1246,16 @@
     </span><span class="kw">fn </span>test_provider2_dyn_generic_alt() {
         <span class="kw">let </span>warehouse = get_warehouse(DATA);
         <span class="kw">let </span>provider = DataProvider2::from(warehouse);
-        <span class="kw">let </span>hello_data = get_payload_alt(<span class="kw-2">&amp;</span>provider <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>DataProvider&lt;HelloAltMarker&gt;).unwrap();
+        <span class="kw">let </span>hello_data = get_payload_alt(<span class="kw-2">&amp;</span>provider <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>DataProvider&lt;HelloAltMarkerV1&gt;).unwrap();
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(hello_data.get(), HelloAlt { .. }));
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_mismatched_types() {
-        <span class="kw">let </span>warehouse = get_warehouse(DATA);
-        <span class="kw">let </span>provider = DataProvider2::from(warehouse);
-        <span class="comment">// Request is for v2, but type argument is for v1
-        </span><span class="kw">let </span>response: <span class="prelude-ty">Result</span>&lt;DataResponse&lt;HelloWorldV1Marker&gt;, DataError&gt; = AnyProvider::load_any(
-            <span class="kw-2">&amp;</span>provider.as_any_provider(),
-            HELLO_ALT_KEY,
-            Default::default(),
-        )
-        .unwrap()
-        .downcast();
-        <span class="macro">assert!</span>(<span class="macro">matches!</span>(
-            response,
-            <span class="prelude-val">Err</span>(DataError {
-                kind: DataErrorKind::MismatchedType(<span class="kw">_</span>),
-                ..
-            })
-        ));
     }
 
     <span class="kw">fn </span>check_v1_v2&lt;P&gt;(d: <span class="kw-2">&amp;</span>P)
     <span class="kw">where
-        </span>P: DataProvider&lt;HelloWorldV1Marker&gt; + DataProvider&lt;HelloAltMarker&gt; + <span class="question-mark">?</span>Sized,
+        </span>P: DataProvider&lt;HelloWorldV1&gt; + DataProvider&lt;HelloAltMarkerV1&gt; + <span class="question-mark">?</span>Sized,
     {
-        <span class="kw">let </span>v1: DataPayload&lt;HelloWorldV1Marker&gt; =
-            d.load(Default::default()).unwrap().take_payload().unwrap();
-        <span class="kw">let </span>v2: DataPayload&lt;HelloAltMarker&gt; =
-            d.load(Default::default()).unwrap().take_payload().unwrap();
+        <span class="kw">let </span>v1: DataPayload&lt;HelloWorldV1&gt; = d.load(Default::default()).unwrap().payload;
+        <span class="kw">let </span>v2: DataPayload&lt;HelloAltMarkerV1&gt; = d.load(Default::default()).unwrap().payload;
         <span class="kw">if </span>v1.get().message == v2.get().message {
             <span class="macro">panic!</span>()
         }
@@ -1065,13 +1266,6 @@
         <span class="kw">let </span>warehouse = get_warehouse(DATA);
         <span class="kw">let </span>provider = DataProvider2::from(warehouse);
         check_v1_v2(<span class="kw-2">&amp;</span>provider);
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_v1_v2_dyn_erased() {
-        <span class="kw">let </span>warehouse = get_warehouse(DATA);
-        <span class="kw">let </span>provider = DataProvider2::from(warehouse);
-        check_v1_v2(<span class="kw-2">&amp;</span>provider.as_any_provider().as_downcasting());
     }
 }
 </code></pre></div></section></main></body></html>

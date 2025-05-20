@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.10.4/src/varzerovec/owned.rs`."><title>owned.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/varzerovec/</div>owned.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.11.2/src/varzerovec/owned.rs`."><title>owned.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/varzerovec/</div>owned.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -660,7 +660,41 @@
 <a href="#659" id="659">659</a>
 <a href="#660" id="660">660</a>
 <a href="#661" id="661">661</a>
-<a href="#662" id="662">662</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
@@ -672,7 +706,6 @@
 
 </span><span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::ule::<span class="kw-2">*</span>;
-<span class="kw">use </span>alloc::boxed::Box;
 <span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>core::any;
 <span class="kw">use </span>core::convert::TryInto;
@@ -681,10 +714,7 @@
 <span class="kw">use </span>core::ops::Range;
 <span class="kw">use </span>core::{fmt, ptr, slice};
 
-<span class="kw">use </span><span class="kw">super</span>::components::LENGTH_WIDTH;
-<span class="kw">use </span><span class="kw">super</span>::components::MAX_INDEX;
-<span class="kw">use </span><span class="kw">super</span>::components::MAX_LENGTH;
-<span class="kw">use </span><span class="kw">super</span>::components::METADATA_WIDTH;
+<span class="kw">use </span><span class="kw">super</span>::components::IntegerULE;
 
 <span class="doccomment">/// A fully-owned [`VarZeroVec`]. This type has no lifetime but has the same
 /// internal buffer representation of [`VarZeroVec`], making it cheaply convertible to
@@ -693,7 +723,8 @@
 /// The `F` type parameter is a [`VarZeroVecFormat`] (see its docs for more details), which can be used to select the
 /// precise format of the backing buffer with various size and performance tradeoffs. It defaults to [`Index16`].
 </span><span class="kw">pub struct </span>VarZeroVecOwned&lt;T: <span class="question-mark">?</span>Sized, F = Index16&gt; {
-    marker: PhantomData&lt;(Box&lt;T&gt;, F)&gt;,
+    marker1: PhantomData&lt;T&gt;,
+    marker2: PhantomData&lt;F&gt;,
     <span class="comment">// safety invariant: must parse into a valid VarZeroVecComponents
     </span>entire_slice: Vec&lt;u8&gt;,
 }
@@ -701,7 +732,8 @@
 <span class="kw">impl</span>&lt;T: <span class="question-mark">?</span>Sized, F&gt; Clone <span class="kw">for </span>VarZeroVecOwned&lt;T, F&gt; {
     <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         VarZeroVecOwned {
-            marker: <span class="self">self</span>.marker,
+            marker1: PhantomData,
+            marker2: PhantomData,
             entire_slice: <span class="self">self</span>.entire_slice.clone(),
         }
     }
@@ -726,7 +758,8 @@
     <span class="doccomment">/// Construct an empty VarZeroVecOwned
     </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            marker: PhantomData,
+            marker1: PhantomData,
+            marker2: PhantomData,
             entire_slice: Vec::new(),
         }
     }
@@ -736,7 +769,8 @@
     <span class="doccomment">/// Construct a VarZeroVecOwned from a [`VarZeroSlice`] by cloning the internal data
     </span><span class="kw">pub fn </span>from_slice(slice: <span class="kw-2">&amp;</span>VarZeroSlice&lt;T, F&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            marker: PhantomData,
+            marker1: PhantomData,
+            marker2: PhantomData,
             entire_slice: slice.as_bytes().into(),
         }
     }
@@ -750,13 +784,11 @@
             <span class="self">Self</span>::from_slice(VarZeroSlice::new_empty())
         } <span class="kw">else </span>{
             <span class="self">Self </span>{
-                marker: PhantomData,
+                marker1: PhantomData,
+                marker2: PhantomData,
                 <span class="comment">// TODO(#1410): Rethink length errors in VZV.
                 </span>entire_slice: components::get_serializable_bytes_non_empty::&lt;T, A, F&gt;(elements)
-                    .ok_or(
-                        <span class="string">"Attempted to build VarZeroVec out of elements that \
-                                     cumulatively are larger than a u32 in size"</span>,
-                    )<span class="question-mark">?</span>,
+                    .ok_or(F::Index::TOO_LARGE_ERROR)<span class="question-mark">?</span>,
             }
         })
     }
@@ -766,7 +798,7 @@
         <span class="kw">let </span>slice: <span class="kw-2">&amp;</span>[u8] = <span class="kw-2">&amp;</span><span class="self">self</span>.entire_slice;
         <span class="kw">unsafe </span>{
             <span class="comment">// safety: the slice is known to come from a valid parsed VZV
-            </span>VarZeroSlice::from_byte_slice_unchecked(slice)
+            </span>VarZeroSlice::from_bytes_unchecked(slice)
         }
     }
 
@@ -775,8 +807,9 @@
     /// just allocate enough space for 4-byte Ts
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>with_capacity(capacity: usize) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            marker: PhantomData,
-            entire_slice: Vec::with_capacity(capacity * (F::INDEX_WIDTH + <span class="number">4</span>)),
+            marker1: PhantomData,
+            marker2: PhantomData,
+            entire_slice: Vec::with_capacity(capacity * (F::Index::SIZE + <span class="number">4</span>)),
         }
     }
 
@@ -784,7 +817,7 @@
     /// elements. Since `T` can take up an arbitrary size this will
     /// just allocate enough space for 4-byte Ts
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>reserve(<span class="kw-2">&amp;mut </span><span class="self">self</span>, capacity: usize) {
-        <span class="self">self</span>.entire_slice.reserve(capacity * (F::INDEX_WIDTH + <span class="number">4</span>))
+        <span class="self">self</span>.entire_slice.reserve(capacity * (F::Index::SIZE + <span class="number">4</span>))
     }
 
     <span class="doccomment">/// Get the position of a specific element in the data segment.
@@ -796,13 +829,13 @@
     </span><span class="kw">unsafe fn </span>element_position_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>, idx: usize) -&gt; usize {
         <span class="kw">let </span>len = <span class="self">self</span>.len();
         <span class="kw">let </span>out = <span class="kw">if </span>idx == len {
-            <span class="self">self</span>.entire_slice.len() - LENGTH_WIDTH - METADATA_WIDTH - (F::INDEX_WIDTH * len)
+            <span class="self">self</span>.entire_slice.len() - F::Len::SIZE - (F::Index::SIZE * (len - <span class="number">1</span>))
+        } <span class="kw">else if let </span><span class="prelude-val">Some</span>(idx) = <span class="self">self</span>.index_data(idx) {
+            idx.iule_to_usize()
         } <span class="kw">else </span>{
-            F::rawbytes_to_usize(<span class="kw-2">*</span><span class="self">self</span>.index_data(idx))
-        };
-        <span class="macro">debug_assert!</span>(
-            out + LENGTH_WIDTH + METADATA_WIDTH + len * F::INDEX_WIDTH &lt;= <span class="self">self</span>.entire_slice.len()
-        );
+            <span class="number">0
+        </span>};
+        <span class="macro">debug_assert!</span>(out + F::Len::SIZE + (len - <span class="number">1</span>) * F::Index::SIZE &lt;= <span class="self">self</span>.entire_slice.len());
         out
     }
 
@@ -822,62 +855,71 @@
     /// ## Safety
     /// No safe functions may be called until `self.as_encoded_bytes()` is well-formed.
     </span><span class="kw">unsafe fn </span>set_len(<span class="kw-2">&amp;mut </span><span class="self">self</span>, len: usize) {
-        <span class="macro">assert!</span>(len &lt;= MAX_LENGTH);
+        <span class="macro">assert!</span>(len &lt;= F::Len::MAX_VALUE <span class="kw">as </span>usize);
         <span class="kw">let </span>len_bytes = len.to_le_bytes();
-        <span class="self">self</span>.entire_slice[<span class="number">0</span>..LENGTH_WIDTH].copy_from_slice(<span class="kw-2">&amp;</span>len_bytes[<span class="number">0</span>..LENGTH_WIDTH]);
+        <span class="kw">let </span>len_ule = F::Len::iule_from_usize(len).expect(F::Len::TOO_LARGE_ERROR);
+        <span class="self">self</span>.entire_slice[<span class="number">0</span>..F::Len::SIZE].copy_from_slice(ULE::slice_as_bytes(<span class="kw-2">&amp;</span>[len_ule]));
         <span class="comment">// Double-check that the length fits in the length field
-        </span><span class="macro">assert_eq!</span>(len_bytes[LENGTH_WIDTH..].iter().sum::&lt;u8&gt;(), <span class="number">0</span>);
+        </span><span class="macro">assert_eq!</span>(len_bytes[F::Len::SIZE..].iter().sum::&lt;u8&gt;(), <span class="number">0</span>);
     }
 
-    <span class="kw">fn </span>index_range(index: usize) -&gt; Range&lt;usize&gt; {
-        <span class="kw">let </span>pos = LENGTH_WIDTH + METADATA_WIDTH + F::INDEX_WIDTH * index;
-        pos..pos + F::INDEX_WIDTH
+    <span class="doccomment">/// Get the range in the full data for a given index. Returns None for index 0
+    /// since there is no stored index for it.
+    </span><span class="kw">fn </span>index_range(index: usize) -&gt; <span class="prelude-ty">Option</span>&lt;Range&lt;usize&gt;&gt; {
+        <span class="kw">let </span>index_minus_one = index.checked_sub(<span class="number">1</span>)<span class="question-mark">?</span>;
+        <span class="kw">let </span>pos = F::Len::SIZE + F::Index::SIZE * index_minus_one;
+        <span class="prelude-val">Some</span>(pos..pos + F::Index::SIZE)
     }
 
-    <span class="doccomment">/// Return the raw bytes representing the given `index`.
+    <span class="doccomment">/// Return the raw bytes representing the given `index`. Returns None when given index 0
     ///
     /// ## Safety
     /// The index must be valid, and self.as_encoded_bytes() must be well-formed
-    </span><span class="kw">unsafe fn </span>index_data(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="kw-2">&amp;</span>F::RawBytes {
-        <span class="kw-2">&amp;</span>F::RawBytes::from_byte_slice_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>.entire_slice[<span class="self">Self</span>::index_range(index)])[<span class="number">0</span>]
+    </span><span class="kw">unsafe fn </span>index_data(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>F::Index&gt; {
+        <span class="kw">let </span>index_range = <span class="self">Self</span>::index_range(index)<span class="question-mark">?</span>;
+        <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>F::Index::slice_from_bytes_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>.entire_slice[index_range])[<span class="number">0</span>])
     }
 
-    <span class="doccomment">/// Return the mutable slice representing the given `index`.
+    <span class="doccomment">/// Return the mutable slice representing the given `index`. Returns None when given index 0
     ///
     /// ## Safety
     /// The index must be valid. self.as_encoded_bytes() must have allocated space
     /// for this index, but need not have its length appropriately set.
-    </span><span class="kw">unsafe fn </span>index_data_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, index: usize) -&gt; <span class="kw-2">&amp;mut </span>F::RawBytes {
+    </span><span class="kw">unsafe fn </span>index_data_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, index: usize) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>F::Index&gt; {
         <span class="kw">let </span>ptr = <span class="self">self</span>.entire_slice.as_mut_ptr();
-        <span class="kw">let </span>range = <span class="self">Self</span>::index_range(index);
+        <span class="kw">let </span>range = <span class="self">Self</span>::index_range(index)<span class="question-mark">?</span>;
 
         <span class="comment">// Doing this instead of just `get_unchecked_mut()` because it's unclear
         // if `get_unchecked_mut()` can be called out of bounds on a slice even
         // if we know the buffer is larger.
-        </span><span class="kw">let </span>data = slice::from_raw_parts_mut(ptr.add(range.start), F::INDEX_WIDTH);
-
-        <span class="kw-2">&amp;mut </span>F::rawbytes_from_byte_slice_unchecked_mut(data)[<span class="number">0</span>]
+        </span><span class="kw">let </span>data = slice::from_raw_parts_mut(ptr.add(range.start), F::Index::SIZE);
+        <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>F::Index::iule_from_bytes_unchecked_mut(data)[<span class="number">0</span>])
     }
 
     <span class="doccomment">/// Shift the indices starting with and after `starting_index` by the provided `amount`.
+    ///
+    /// ## Panics
+    /// Should never be called with a starting index of 0, since that index cannot be shifted.
     ///
     /// ## Safety
     /// Adding `amount` to each index after `starting_index` must not result in the slice from becoming malformed.
     /// The length of the slice must be correctly set.
     </span><span class="kw">unsafe fn </span>shift_indices(<span class="kw-2">&amp;mut </span><span class="self">self</span>, starting_index: usize, amount: i32) {
+        <span class="kw">let </span>normalized_idx = starting_index
+            .checked_sub(<span class="number">1</span>)
+            .expect(<span class="string">"shift_indices called with a 0 starting index"</span>);
         <span class="kw">let </span>len = <span class="self">self</span>.len();
-        <span class="kw">let </span>indices = F::rawbytes_from_byte_slice_unchecked_mut(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>.entire_slice[LENGTH_WIDTH + METADATA_WIDTH
-                ..LENGTH_WIDTH + METADATA_WIDTH + F::INDEX_WIDTH * len],
+        <span class="kw">let </span>indices = F::Index::iule_from_bytes_unchecked_mut(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>.entire_slice[F::Len::SIZE..F::Len::SIZE + F::Index::SIZE * (len - <span class="number">1</span>)],
         );
-        <span class="kw">for </span>idx <span class="kw">in </span><span class="kw-2">&amp;mut </span>indices[starting_index..] {
-            <span class="kw">let </span><span class="kw-2">mut </span>new_idx = F::rawbytes_to_usize(<span class="kw-2">*</span>idx);
+        <span class="kw">for </span>idx <span class="kw">in </span><span class="kw-2">&amp;mut </span>indices[normalized_idx..] {
+            <span class="kw">let </span><span class="kw-2">mut </span>new_idx = idx.iule_to_usize();
             <span class="kw">if </span>amount &gt; <span class="number">0 </span>{
                 new_idx = new_idx.checked_add(amount.try_into().unwrap()).unwrap();
             } <span class="kw">else </span>{
                 new_idx = new_idx.checked_sub((-amount).try_into().unwrap()).unwrap();
             }
-            <span class="kw-2">*</span>idx = F::usize_to_rawbytes(new_idx);
+            <span class="kw-2">*</span>idx = F::Index::iule_from_usize(new_idx).expect(F::Index::TOO_LARGE_ERROR);
         }
     }
 
@@ -902,11 +944,14 @@
 
     <span class="doccomment">/// Invalidate and resize the data at an index, optionally inserting or removing the index.
     /// Also updates affected indices and the length.
+    ///
+    /// `new_size` is the encoded byte size of the element that is going to be inserted
+    ///
     /// Returns a slice to the new element data - it doesn't contain uninitialized data but its value is indeterminate.
     ///
     /// ## Safety
     /// - `index` must be a valid index, or, if `shift_type == ShiftType::Insert`, `index == self.len()` is allowed.
-    /// - `new_size` musn't result in the data segment growing larger than `F::MAX_VALUE`.
+    /// - `new_size` musn't result in the data segment growing larger than `F::Index::MAX_VALUE`.
     </span><span class="kw">unsafe fn </span>shift(<span class="kw-2">&amp;mut </span><span class="self">self</span>, index: usize, new_size: usize, shift_type: ShiftType) -&gt; <span class="kw-2">&amp;mut </span>[u8] {
         <span class="comment">// The format of the encoded data is:
         //  - four bytes of "len"
@@ -931,16 +976,16 @@
 
         <span class="comment">// How much shifting must be done in bytes due to removal/insertion of an index.
         </span><span class="kw">let </span>index_shift: i64 = <span class="kw">match </span>shift_type {
-            ShiftType::Insert =&gt; F::INDEX_WIDTH <span class="kw">as </span>i64,
+            ShiftType::Insert =&gt; F::Index::SIZE <span class="kw">as </span>i64,
             ShiftType::Replace =&gt; <span class="number">0</span>,
-            ShiftType::Remove =&gt; -(F::INDEX_WIDTH <span class="kw">as </span>i64),
+            ShiftType::Remove =&gt; -(F::Index::SIZE <span class="kw">as </span>i64),
         };
         <span class="comment">// The total shift in byte size of the owned slice.
         </span><span class="kw">let </span>shift: i64 =
             new_size <span class="kw">as </span>i64 - (prev_element.end - prev_element.start) <span class="kw">as </span>i64 + index_shift;
         <span class="kw">let </span>new_slice_len = slice_len.wrapping_add(shift <span class="kw">as </span>usize);
         <span class="kw">if </span>shift &gt; <span class="number">0 </span>{
-            <span class="kw">if </span>new_slice_len &gt; F::MAX_VALUE <span class="kw">as </span>usize {
+            <span class="kw">if </span>new_slice_len &gt; F::Index::MAX_VALUE <span class="kw">as </span>usize {
                 <span class="macro">panic!</span>(
                     <span class="string">"Attempted to grow VarZeroVec to an encoded size that does not fit within the length size used by {}"</span>,
                     any::type_name::&lt;F&gt;()
@@ -954,10 +999,10 @@
             <span class="comment">// Note: There are no references introduced between pointer creation and pointer use, and all
             //       raw pointers are derived from a single &amp;mut. This preserves pointer provenance.
             </span><span class="kw">let </span>slice_range = <span class="self">self</span>.entire_slice.as_mut_ptr_range();
+            <span class="comment">// The start of the indices buffer
+            </span><span class="kw">let </span>indices_start = slice_range.start.add(F::Len::SIZE);
             <span class="kw">let </span>old_slice_end = slice_range.start.add(slice_len);
-            <span class="kw">let </span>data_start = slice_range
-                .start
-                .add(LENGTH_WIDTH + METADATA_WIDTH + len * F::INDEX_WIDTH);
+            <span class="kw">let </span>data_start = indices_start.add((len - <span class="number">1</span>) * F::Index::SIZE);
             <span class="kw">let </span>prev_element_p =
                 data_start.add(prev_element.start)..data_start.add(prev_element.end);
 
@@ -965,12 +1010,13 @@
             // When inserting: where the new index goes.
             // When removing:  where the index being removed is.
             // When replacing: unused.
-            </span><span class="kw">let </span>index_range = {
-                <span class="kw">let </span>index_start = slice_range
-                    .start
-                    .add(LENGTH_WIDTH + METADATA_WIDTH + F::INDEX_WIDTH * index);
-                index_start..index_start.add(F::INDEX_WIDTH)
-            };
+            // Will be None when the affected index is index 0, which is special
+            </span><span class="kw">let </span>index_range = <span class="kw">if let </span><span class="prelude-val">Some</span>(index_minus_one) = index.checked_sub(<span class="number">1</span>) {
+                <span class="kw">let </span>index_start = indices_start.add(F::Index::SIZE * index_minus_one);
+                <span class="prelude-val">Some</span>(index_start..index_start.add(F::Index::SIZE))
+            } <span class="kw">else </span>{
+                <span class="prelude-val">None
+            </span>};
 
             <span class="kw">unsafe fn </span>shift_bytes(block: Range&lt;<span class="kw-2">*const </span>u8&gt;, to: <span class="kw-2">*mut </span>u8) {
                 <span class="macro">debug_assert!</span>(block.end &gt;= block.start);
@@ -978,8 +1024,16 @@
             }
 
             <span class="kw">if </span>shift_type == ShiftType::Remove {
-                <span class="comment">// Move the data before the element back by 4 to remove the index.
-                </span>shift_bytes(index_range.end..prev_element_p.start, index_range.start);
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>index_range) = index_range {
+                    shift_bytes(index_range.end..prev_element_p.start, index_range.start);
+                } <span class="kw">else </span>{
+                    <span class="comment">// We are removing the first index, so we skip the second index and copy it over. The second index
+                    // is now zero and unnecessary.
+                    </span>shift_bytes(
+                        indices_start.add(F::Index::SIZE)..prev_element_p.start,
+                        indices_start,
+                    )
+                }
             }
 
             <span class="comment">// Shift data after the element to its new position.
@@ -992,16 +1046,40 @@
 
             <span class="kw">let </span>first_affected_index = <span class="kw">match </span>shift_type {
                 ShiftType::Insert =&gt; {
-                    <span class="comment">// Move data before the element forward by 4 to make space for a new index.
-                    </span>shift_bytes(index_range.start..prev_element_p.start, index_range.end);
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(index_range) = index_range {
+                        <span class="comment">// Move data before the element forward by 4 to make space for a new index.
+                        </span>shift_bytes(index_range.start..prev_element_p.start, index_range.end);
+                        <span class="kw">let </span>index_data = <span class="self">self
+                            </span>.index_data_mut(index)
+                            .expect(<span class="string">"If index_range is some, index is &gt; 0 and should not panic in index_data_mut"</span>);
+                        <span class="kw-2">*</span>index_data = F::Index::iule_from_usize(prev_element.start)
+                            .expect(F::Index::TOO_LARGE_ERROR);
+                    } <span class="kw">else </span>{
+                        <span class="comment">// We are adding a new index 0. There's nothing in the indices array for index 0, but the element
+                        // that is currently at index 0 will become index 1 and need a value
+                        // We first shift bytes to make space
+                        </span>shift_bytes(
+                            indices_start..prev_element_p.start,
+                            indices_start.add(F::Index::SIZE),
+                        );
+                        <span class="comment">// And then we write a temporary zero to the zeroeth index, which will get shifted later
+                        </span><span class="kw">let </span>index_data = <span class="self">self
+                            </span>.index_data_mut(<span class="number">1</span>)
+                            .expect(<span class="string">"Should be able to write to index 1"</span>);
+                        <span class="kw-2">*</span>index_data = F::Index::iule_from_usize(<span class="number">0</span>).expect(<span class="string">"0 is always valid!"</span>);
+                    }
 
-                    <span class="kw-2">*</span><span class="self">self</span>.index_data_mut(index) = F::usize_to_rawbytes(prev_element.start);
                     <span class="self">self</span>.set_len(len + <span class="number">1</span>);
                     index + <span class="number">1
                 </span>}
                 ShiftType::Remove =&gt; {
                     <span class="self">self</span>.set_len(len - <span class="number">1</span>);
-                    index
+                    <span class="kw">if </span>index == <span class="number">0 </span>{
+                        <span class="comment">// We don't need to shift index 0 since index 0 is not stored in the indices buffer
+                        </span>index + <span class="number">1
+                    </span>} <span class="kw">else </span>{
+                        index
+                    }
                 }
                 ShiftType::Replace =&gt; index + <span class="number">1</span>,
             };
@@ -1009,7 +1087,6 @@
 
             // Set the new slice length. This must be done after shifting data around to avoid uninitialized data.
             </span><span class="self">self</span>.entire_slice.set_len(new_slice_len);
-
             <span class="comment">// Shift the affected indices.
             </span><span class="self">self</span>.shift_indices(first_affected_index, (shift - index_shift) <span class="kw">as </span>i32);
         };
@@ -1017,9 +1094,8 @@
         <span class="macro">debug_assert!</span>(<span class="self">self</span>.verify_integrity());
 
         <span class="comment">// Return a mut slice to the new element data.
-        </span><span class="kw">let </span>element_pos = LENGTH_WIDTH
-            + METADATA_WIDTH
-            + <span class="self">self</span>.len() * F::INDEX_WIDTH
+        </span><span class="kw">let </span>element_pos = F::Len::SIZE
+            + (<span class="self">self</span>.len() - <span class="number">1</span>) * F::Index::SIZE
             + <span class="self">self</span>.element_position_unchecked(index);
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.entire_slice[element_pos..element_pos + new_size]
     }
@@ -1030,53 +1106,45 @@
     /// Note: an index is valid if it doesn't point to data past the end of the slice and is
     /// less than or equal to all future indices. The length of the index segment is not part of each index.
     </span><span class="kw">fn </span>verify_integrity(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="kw">if </span><span class="self">self</span>.is_empty() &amp;&amp; !<span class="self">self</span>.entire_slice.is_empty() {
-            <span class="kw">return </span><span class="bool-val">false</span>;
-        }
-        <span class="kw">let </span>slice_len = <span class="self">self</span>.entire_slice.len();
-        <span class="kw">match </span>slice_len {
-            <span class="number">0 </span>=&gt; <span class="kw">return </span><span class="bool-val">true</span>,
-            <span class="number">1</span>..=<span class="number">3 </span>=&gt; <span class="kw">return </span><span class="bool-val">false</span>,
-            <span class="kw">_ </span>=&gt; (),
+        <span class="kw">if </span><span class="self">self</span>.is_empty() {
+            <span class="kw">if </span><span class="self">self</span>.entire_slice.is_empty() {
+                <span class="kw">return </span><span class="bool-val">true</span>;
+            } <span class="kw">else </span>{
+                <span class="macro">panic!</span>(
+                    <span class="string">"VarZeroVecOwned integrity: Found empty VarZeroVecOwned with a nonempty slice"
+                </span>);
+            }
         }
         <span class="kw">let </span>len = <span class="kw">unsafe </span>{
-            RawBytesULE::&lt;LENGTH_WIDTH&gt;::from_byte_slice_unchecked(
-                <span class="kw-2">&amp;</span><span class="self">self</span>.entire_slice[..LENGTH_WIDTH],
-            )[<span class="number">0</span>]
-            .as_unsigned_int()
+            &lt;F::Len <span class="kw">as </span>ULE&gt;::slice_from_bytes_unchecked(<span class="kw-2">&amp;</span><span class="self">self</span>.entire_slice[..F::Len::SIZE])[<span class="number">0</span>]
+                .iule_to_usize()
         };
         <span class="kw">if </span>len == <span class="number">0 </span>{
             <span class="comment">// An empty vec must have an empty slice: there is only a single valid byte representation.
-            </span><span class="kw">return </span><span class="bool-val">false</span>;
+            </span><span class="macro">panic!</span>(<span class="string">"VarZeroVecOwned integrity: Found empty VarZeroVecOwned with a nonempty slice"</span>);
         }
-        <span class="kw">if </span>slice_len &lt; LENGTH_WIDTH + METADATA_WIDTH + len <span class="kw">as </span>usize * F::INDEX_WIDTH {
-            <span class="comment">// Not enough room for the indices.
-            </span><span class="kw">return </span><span class="bool-val">false</span>;
+        <span class="kw">if </span><span class="self">self</span>.entire_slice.len() &lt; F::Len::SIZE + (len - <span class="number">1</span>) * F::Index::SIZE {
+            <span class="macro">panic!</span>(<span class="string">"VarZeroVecOwned integrity: Not enough room for the indices"</span>);
         }
-        <span class="kw">let </span>data_len =
-            <span class="self">self</span>.entire_slice.len() - LENGTH_WIDTH - METADATA_WIDTH - len <span class="kw">as </span>usize * F::INDEX_WIDTH;
-        <span class="kw">if </span>data_len &gt; MAX_INDEX {
-            <span class="comment">// The data segment is too long.
-            </span><span class="kw">return </span><span class="bool-val">false</span>;
+        <span class="kw">let </span>data_len = <span class="self">self</span>.entire_slice.len() - F::Len::SIZE - (len - <span class="number">1</span>) * F::Index::SIZE;
+        <span class="kw">if </span>data_len &gt; F::Index::MAX_VALUE <span class="kw">as </span>usize {
+            <span class="macro">panic!</span>(<span class="string">"VarZeroVecOwned integrity: Data segment is too long"</span>);
         }
 
         <span class="comment">// Test index validity.
         </span><span class="kw">let </span>indices = <span class="kw">unsafe </span>{
-            F::RawBytes::from_byte_slice_unchecked(
-                <span class="kw-2">&amp;</span><span class="self">self</span>.entire_slice[LENGTH_WIDTH + METADATA_WIDTH
-                    ..LENGTH_WIDTH + METADATA_WIDTH + len <span class="kw">as </span>usize * F::INDEX_WIDTH],
+            F::Index::slice_from_bytes_unchecked(
+                <span class="kw-2">&amp;</span><span class="self">self</span>.entire_slice[F::Len::SIZE..F::Len::SIZE + (len - <span class="number">1</span>) * F::Index::SIZE],
             )
         };
         <span class="kw">for </span>idx <span class="kw">in </span>indices {
-            <span class="kw">if </span>F::rawbytes_to_usize(<span class="kw-2">*</span>idx) &gt; data_len {
-                <span class="comment">// Indices must not point past the data segment.
-                </span><span class="kw">return </span><span class="bool-val">false</span>;
+            <span class="kw">if </span>idx.iule_to_usize() &gt; data_len {
+                <span class="macro">panic!</span>(<span class="string">"VarZeroVecOwned integrity: Indices must not point past the data segment"</span>);
             }
         }
         <span class="kw">for </span>window <span class="kw">in </span>indices.windows(<span class="number">2</span>) {
-            <span class="kw">if </span>F::rawbytes_to_usize(window[<span class="number">0</span>]) &gt; F::rawbytes_to_usize(window[<span class="number">1</span>]) {
-                <span class="comment">// Indices must be in non-decreasing order.
-                </span><span class="kw">return </span><span class="bool-val">false</span>;
+            <span class="kw">if </span>window[<span class="number">0</span>].iule_to_usize() &gt; window[<span class="number">1</span>].iule_to_usize() {
+                <span class="macro">panic!</span>(<span class="string">"VarZeroVecOwned integrity: Indices must be in non-decreasing order"</span>);
             }
         }
         <span class="bool-val">true
@@ -1097,15 +1165,15 @@
         <span class="kw">let </span>value_len = element.encode_var_ule_len();
 
         <span class="kw">if </span>len == <span class="number">0 </span>{
-            <span class="kw">let </span>header_len = LENGTH_WIDTH + METADATA_WIDTH + F::INDEX_WIDTH;
-            <span class="kw">let </span>cap = header_len + value_len;
+            <span class="kw">let </span>header_len = F::Len::SIZE; <span class="comment">// Index array is size 0 for len = 1
+            </span><span class="kw">let </span>cap = header_len + value_len;
             <span class="self">self</span>.entire_slice.resize(cap, <span class="number">0</span>);
             <span class="self">self</span>.entire_slice[<span class="number">0</span>] = <span class="number">1</span>; <span class="comment">// set length
             </span>element.encode_var_ule_write(<span class="kw-2">&amp;mut </span><span class="self">self</span>.entire_slice[header_len..]);
             <span class="kw">return</span>;
         }
 
-        <span class="macro">assert!</span>(value_len &lt; MAX_INDEX);
+        <span class="macro">assert!</span>(value_len &lt; F::Index::MAX_VALUE <span class="kw">as </span>usize);
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>place = <span class="self">self</span>.shift(index, value_len, ShiftType::Insert);
             element.encode_var_ule_write(place);
@@ -1137,7 +1205,7 @@
 
         <span class="kw">let </span>value_len = element.encode_var_ule_len();
 
-        <span class="macro">assert!</span>(value_len &lt; MAX_INDEX);
+        <span class="macro">assert!</span>(value_len &lt; F::Index::MAX_VALUE <span class="kw">as </span>usize);
         <span class="kw">unsafe </span>{
             <span class="kw">let </span>place = <span class="self">self</span>.shift(index, value_len, ShiftType::Replace);
             element.encode_var_ule_write(place);

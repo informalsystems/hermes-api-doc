@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/backtrace-0.3.71/src/backtrace/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="backtrace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">backtrace/backtrace/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/backtrace-0.3.75/src/backtrace/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="backtrace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">backtrace/backtrace/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -204,8 +204,7 @@
 <a href="#203" id="203">203</a>
 <a href="#204" id="204">204</a>
 <a href="#205" id="205">205</a>
-<a href="#206" id="206">206</a>
-<a href="#207" id="207">207</a></pre></div><pre class="rust"><code><span class="kw">use </span>core::ffi::c_void;
+<a href="#206" id="206">206</a></pre></div><pre class="rust"><code><span class="kw">use </span>core::ffi::c_void;
 <span class="kw">use </span>core::fmt;
 
 <span class="doccomment">/// Inspects the current call-stack, passing all active frames into the closure
@@ -270,7 +269,7 @@
 ///
 /// See information on `trace` for caveats on `cb` panicking.
 </span><span class="kw">pub unsafe fn </span>trace_unsynchronized&lt;F: FnMut(<span class="kw-2">&amp;</span>Frame) -&gt; bool&gt;(<span class="kw-2">mut </span>cb: F) {
-    trace_imp(<span class="kw-2">&amp;mut </span>cb)
+    <span class="kw">unsafe </span>{ trace_imp(<span class="kw-2">&amp;mut </span>cb) }
 }
 
 <span class="doccomment">/// A trait representing one frame of a backtrace, yielded to the `trace`
@@ -383,7 +382,6 @@
                 unix,
                 not(target_os = <span class="string">"emscripten"</span>),
                 not(all(target_os = <span class="string">"ios"</span>, target_arch = <span class="string">"arm"</span>)),
-                not(all(target_os = <span class="string">"nto"</span>, target_env = <span class="string">"nto70"</span>)),
             ),
             all(
                 target_env = <span class="string">"sgx"</span>,
@@ -397,15 +395,15 @@
     } <span class="kw">else if </span><span class="attr">#[cfg(all(windows, not(target_vendor = <span class="string">"uwp"</span>)))] </span>{
         <span class="macro">cfg_if::cfg_if!</span> {
             <span class="kw">if </span><span class="attr">#[cfg(any(target_arch = <span class="string">"x86_64"</span>, target_arch = <span class="string">"aarch64"</span>, target_arch = <span class="string">"arm64ec"</span>))] </span>{
-                <span class="kw">mod </span>dbghelp64;
-                <span class="kw">use </span>dbghelp64 <span class="kw">as </span>dbghelp;
+                <span class="kw">mod </span>win64;
+                <span class="kw">use </span><span class="self">self</span>::win64::trace <span class="kw">as </span>trace_imp;
+                <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::win64::Frame <span class="kw">as </span>FrameImp;
             } <span class="kw">else if </span><span class="attr">#[cfg(any(target_arch = <span class="string">"x86"</span>, target_arch = <span class="string">"arm"</span>))] </span>{
-                <span class="kw">mod </span>dbghelp32;
-                <span class="kw">use </span>dbghelp32 <span class="kw">as </span>dbghelp;
+                <span class="kw">mod </span>win32;
+                <span class="kw">use </span><span class="self">self</span>::win32::trace <span class="kw">as </span>trace_imp;
+                <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::win32::Frame <span class="kw">as </span>FrameImp;
             }
         }
-        <span class="kw">use </span><span class="self">self</span>::dbghelp::trace <span class="kw">as </span>trace_imp;
-        <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::dbghelp::Frame <span class="kw">as </span>FrameImp;
     } <span class="kw">else </span>{
         <span class="kw">mod </span>noop;
         <span class="kw">use </span><span class="self">self</span>::noop::trace <span class="kw">as </span>trace_imp;

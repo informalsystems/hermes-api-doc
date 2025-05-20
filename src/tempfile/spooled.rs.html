@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.19.1/src/spooled.rs`."><title>spooled.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tempfile" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://www.rust-lang.org/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tempfile/</div>spooled.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.20.0/src/spooled.rs`."><title>spooled.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tempfile" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://www.rust-lang.org/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tempfile/</div>spooled.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -195,11 +195,68 @@
 <a href="#194" id="194">194</a>
 <a href="#195" id="195">195</a>
 <a href="#196" id="196">196</a>
-<a href="#197" id="197">197</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::file::tempfile;
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
+<a href="#229" id="229">229</a>
+<a href="#230" id="230">230</a>
+<a href="#231" id="231">231</a>
+<a href="#232" id="232">232</a>
+<a href="#233" id="233">233</a>
+<a href="#234" id="234">234</a>
+<a href="#235" id="235">235</a>
+<a href="#236" id="236">236</a>
+<a href="#237" id="237">237</a>
+<a href="#238" id="238">238</a>
+<a href="#239" id="239">239</a>
+<a href="#240" id="240">240</a>
+<a href="#241" id="241">241</a>
+<a href="#242" id="242">242</a>
+<a href="#243" id="243">243</a>
+<a href="#244" id="244">244</a>
+<a href="#245" id="245">245</a>
+<a href="#246" id="246">246</a>
+<a href="#247" id="247">247</a>
+<a href="#248" id="248">248</a>
+<a href="#249" id="249">249</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::file::tempfile;
+<span class="kw">use </span><span class="kw">crate</span>::tempfile_in;
 <span class="kw">use </span>std::fs::File;
 <span class="kw">use </span>std::io::{<span class="self">self</span>, Cursor, Read, Seek, SeekFrom, Write};
+<span class="kw">use </span>std::path::{Path, PathBuf};
 
-<span class="doccomment">/// A wrapper for the two states of a `SpooledTempFile`.
+<span class="doccomment">/// A wrapper for the two states of a [`SpooledTempFile`]. Either:
+///
+/// 1. An in-memory [`Cursor`] representing the state of the file.
+/// 2. A temporary [`File`].
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub enum </span>SpooledData {
     InMemory(Cursor&lt;Vec&lt;u8&gt;&gt;),
@@ -213,15 +270,23 @@
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>SpooledTempFile {
     max_size: usize,
+    dir: <span class="prelude-ty">Option</span>&lt;PathBuf&gt;,
     inner: SpooledData,
 }
 
-<span class="doccomment">/// Create a new spooled temporary file.
+<span class="doccomment">/// Create a new [`SpooledTempFile`]. Also see [`spooled_tempfile_in`].
 ///
 /// # Security
 ///
 /// This variant is secure/reliable in the presence of a pathological temporary
 /// file cleaner.
+///
+/// # Backing Storage
+///
+/// By default, the underlying temporary file will be created in your operating system's temporary
+/// file directory which is _often_ an in-memory filesystem. You may want to consider using
+/// [`spooled_tempfile_in`] instead, passing a storage-backed filesystem (e.g., `/var/tmp` on
+/// Linux).
 ///
 /// # Resource Leaking
 ///
@@ -252,11 +317,46 @@
     SpooledTempFile::new(max_size)
 }
 
+<span class="doccomment">/// Construct a new [`SpooledTempFile`], backed by a file in the specified directory. Use this when,
+/// e.g., you need the temporary file to be backed by a specific filesystem (e.g., when your default
+/// temporary directory is in-memory). Also see [`spooled_tempfile`].
+///
+/// **NOTE:** The specified path isn't checked until the temporary file is "rolled over" into a real
+/// temporary file. If the specified directory isn't writable, writes to the temporary file will
+/// fail once the `max_size` is reached.
+</span><span class="attr">#[inline]
+</span><span class="kw">pub fn </span>spooled_tempfile_in&lt;P: AsRef&lt;Path&gt;&gt;(max_size: usize, dir: P) -&gt; SpooledTempFile {
+    SpooledTempFile::new_in(max_size, dir)
+}
+
+<span class="doccomment">/// Write a cursor into a temporary file, returning the temporary file.
+</span><span class="kw">fn </span>cursor_to_tempfile(cursor: <span class="kw-2">&amp;</span>Cursor&lt;Vec&lt;u8&gt;&gt;, p: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span>&lt;PathBuf&gt;) -&gt; io::Result&lt;File&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>file = <span class="kw">match </span>p {
+        <span class="prelude-val">Some</span>(p) =&gt; tempfile_in(p)<span class="question-mark">?</span>,
+        <span class="prelude-val">None </span>=&gt; tempfile()<span class="question-mark">?</span>,
+    };
+    file.write_all(cursor.get_ref())<span class="question-mark">?</span>;
+    file.seek(SeekFrom::Start(cursor.position()))<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(file)
+}
+
 <span class="kw">impl </span>SpooledTempFile {
-    <span class="attr">#[must_use]
+    <span class="doccomment">/// Construct a new [`SpooledTempFile`].
+    </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>new(max_size: usize) -&gt; SpooledTempFile {
         SpooledTempFile {
             max_size,
+            dir: <span class="prelude-val">None</span>,
+            inner: SpooledData::InMemory(Cursor::new(Vec::new())),
+        }
+    }
+
+    <span class="doccomment">/// Construct a new [`SpooledTempFile`], backed by a file in the specified directory.
+    </span><span class="attr">#[must_use]
+    </span><span class="kw">pub fn </span>new_in&lt;P: AsRef&lt;Path&gt;&gt;(max_size: usize, dir: P) -&gt; SpooledTempFile {
+        SpooledTempFile {
+            max_size,
+            dir: <span class="prelude-val">Some</span>(dir.as_ref().to_owned()),
             inner: SpooledData::InMemory(Cursor::new(Vec::new())),
         }
     }
@@ -273,18 +373,14 @@
     <span class="doccomment">/// Rolls over to a file on disk, regardless of current size. Does nothing
     /// if already rolled over.
     </span><span class="kw">pub fn </span>roll(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
-        <span class="kw">if </span>!<span class="self">self</span>.is_rolled() {
-            <span class="kw">let </span><span class="kw-2">mut </span>file = tempfile()<span class="question-mark">?</span>;
-            <span class="kw">if let </span>SpooledData::InMemory(cursor) = <span class="kw-2">&amp;mut </span><span class="self">self</span>.inner {
-                file.write_all(cursor.get_ref())<span class="question-mark">?</span>;
-                file.seek(SeekFrom::Start(cursor.position()))<span class="question-mark">?</span>;
-            }
-            <span class="self">self</span>.inner = SpooledData::OnDisk(file);
+        <span class="kw">if let </span>SpooledData::InMemory(cursor) = <span class="kw-2">&amp;mut </span><span class="self">self</span>.inner {
+            <span class="self">self</span>.inner = SpooledData::OnDisk(cursor_to_tempfile(cursor, <span class="kw-2">&amp;</span><span class="self">self</span>.dir)<span class="question-mark">?</span>);
         }
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">pub fn </span>set_len(<span class="kw-2">&amp;mut </span><span class="self">self</span>, size: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), io::Error&gt; {
+    <span class="doccomment">/// Truncate the file to the specified size.
+    </span><span class="kw">pub fn </span>set_len(<span class="kw-2">&amp;mut </span><span class="self">self</span>, size: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), io::Error&gt; {
         <span class="kw">if </span>size &gt; <span class="self">self</span>.max_size <span class="kw">as </span>u64 {
             <span class="self">self</span>.roll()<span class="question-mark">?</span>; <span class="comment">// does nothing if already rolled over
         </span>}
@@ -301,6 +397,14 @@
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>into_inner(<span class="self">self</span>) -&gt; SpooledData {
         <span class="self">self</span>.inner
+    }
+
+    <span class="doccomment">/// Convert into a regular unnamed temporary file, writing it to disk if necessary.
+    </span><span class="kw">pub fn </span>into_file(<span class="self">self</span>) -&gt; io::Result&lt;File&gt; {
+        <span class="kw">match </span><span class="self">self</span>.inner {
+            SpooledData::InMemory(cursor) =&gt; cursor_to_tempfile(<span class="kw-2">&amp;</span>cursor, <span class="kw-2">&amp;</span><span class="self">self</span>.dir),
+            SpooledData::OnDisk(file) =&gt; <span class="prelude-val">Ok</span>(file),
+        }
     }
 }
 

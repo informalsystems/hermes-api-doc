@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.10.4/src/map/map.rs`."><title>map.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/map/</div>map.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.11.2/src/map/map.rs`."><title>map.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/map/</div>map.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -645,19 +645,13 @@
 <a href="#644" id="644">644</a>
 <a href="#645" id="645">645</a>
 <a href="#646" id="646">646</a>
-<a href="#647" id="647">647</a>
-<a href="#648" id="648">648</a>
-<a href="#649" id="649">649</a>
-<a href="#650" id="650">650</a>
-<a href="#651" id="651">651</a>
-<a href="#652" id="652">652</a>
-<a href="#653" id="653">653</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#647" id="647">647</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
 </span><span class="kw">use super</span>::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::ule::{AsULE, EncodeAsVarULE, VarULE};
-<span class="kw">use crate</span>::{VarZeroVec, ZeroSlice, ZeroVec, ZeroVecError};
+<span class="kw">use </span><span class="kw">crate</span>::ule::{AsULE, EncodeAsVarULE, UleError, VarULE};
+<span class="kw">use crate</span>::{VarZeroVec, ZeroSlice, ZeroVec};
 <span class="kw">use </span>alloc::borrow::Borrow;
 <span class="kw">use </span>alloc::boxed::Box;
 <span class="kw">use </span>core::cmp::Ordering;
@@ -976,9 +970,8 @@
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, K, V&gt; ZeroMap&lt;<span class="lifetime">'a</span>, K, V&gt;
 <span class="kw">where
-    </span>K: ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, K&gt;&gt; + <span class="question-mark">?</span>Sized,
+    </span>K: AsULE + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, K&gt;&gt;,
     V: ZeroMapKV&lt;<span class="lifetime">'a</span>&gt; + <span class="question-mark">?</span>Sized,
-    K: AsULE,
 {
     <span class="doccomment">/// Cast a `ZeroMap&lt;K, V&gt;` to `ZeroMap&lt;P, V&gt;` where `K` and `P` are [`AsULE`] types
     /// with the same representation.
@@ -988,7 +981,7 @@
     /// If `K` and `P` have different ordering semantics, unexpected behavior may occur.
     </span><span class="kw">pub fn </span>cast_zv_k_unchecked&lt;P&gt;(<span class="self">self</span>) -&gt; ZeroMap&lt;<span class="lifetime">'a</span>, P, V&gt;
     <span class="kw">where
-        </span>P: AsULE&lt;ULE = K::ULE&gt; + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, P&gt;&gt; + <span class="question-mark">?</span>Sized,
+        </span>P: AsULE&lt;ULE = K::ULE&gt; + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, P&gt;&gt;,
     {
         ZeroMap {
             keys: <span class="self">self</span>.keys.cast(),
@@ -1006,9 +999,9 @@
     /// # Panics
     ///
     /// Panics if `K::ULE` and `P::ULE` are not the same size.
-    </span><span class="kw">pub fn </span>try_convert_zv_k_unchecked&lt;P&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;ZeroMap&lt;<span class="lifetime">'a</span>, P, V&gt;, ZeroVecError&gt;
+    </span><span class="kw">pub fn </span>try_convert_zv_k_unchecked&lt;P&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;ZeroMap&lt;<span class="lifetime">'a</span>, P, V&gt;, UleError&gt;
     <span class="kw">where
-        </span>P: AsULE + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, P&gt;&gt; + <span class="question-mark">?</span>Sized,
+        </span>P: AsULE + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, P&gt;&gt;,
     {
         <span class="prelude-val">Ok</span>(ZeroMap {
             keys: <span class="self">self</span>.keys.try_into_converted()<span class="question-mark">?</span>,
@@ -1020,8 +1013,7 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, K, V&gt; ZeroMap&lt;<span class="lifetime">'a</span>, K, V&gt;
 <span class="kw">where
     </span>K: ZeroMapKV&lt;<span class="lifetime">'a</span>&gt; + <span class="question-mark">?</span>Sized,
-    V: ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, V&gt;&gt; + <span class="question-mark">?</span>Sized,
-    V: AsULE,
+    V: AsULE + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, V&gt;&gt;,
 {
     <span class="doccomment">/// Cast a `ZeroMap&lt;K, V&gt;` to `ZeroMap&lt;K, P&gt;` where `V` and `P` are [`AsULE`] types
     /// with the same representation.
@@ -1031,7 +1023,7 @@
     /// If `V` and `P` have different ordering semantics, unexpected behavior may occur.
     </span><span class="kw">pub fn </span>cast_zv_v_unchecked&lt;P&gt;(<span class="self">self</span>) -&gt; ZeroMap&lt;<span class="lifetime">'a</span>, K, P&gt;
     <span class="kw">where
-        </span>P: AsULE&lt;ULE = V::ULE&gt; + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, P&gt;&gt; + <span class="question-mark">?</span>Sized,
+        </span>P: AsULE&lt;ULE = V::ULE&gt; + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, P&gt;&gt;,
     {
         ZeroMap {
             keys: <span class="self">self</span>.keys,
@@ -1049,9 +1041,9 @@
     /// # Panics
     ///
     /// Panics if `V::ULE` and `P::ULE` are not the same size.
-    </span><span class="kw">pub fn </span>try_convert_zv_v_unchecked&lt;P&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;ZeroMap&lt;<span class="lifetime">'a</span>, K, P&gt;, ZeroVecError&gt;
+    </span><span class="kw">pub fn </span>try_convert_zv_v_unchecked&lt;P&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;ZeroMap&lt;<span class="lifetime">'a</span>, K, P&gt;, UleError&gt;
     <span class="kw">where
-        </span>P: AsULE + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, P&gt;&gt; + <span class="question-mark">?</span>Sized,
+        </span>P: AsULE + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, P&gt;&gt;,
     {
         <span class="prelude-val">Ok</span>(ZeroMap {
             keys: <span class="self">self</span>.keys,
@@ -1121,8 +1113,7 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, K, V&gt; ZeroMap&lt;<span class="lifetime">'a</span>, K, V&gt;
 <span class="kw">where
     </span>K: ZeroMapKV&lt;<span class="lifetime">'a</span>&gt; + <span class="question-mark">?</span>Sized + Ord,
-    V: ZeroMapKV&lt;<span class="lifetime">'a</span>&gt; + <span class="question-mark">?</span>Sized,
-    V: Copy,
+    V: Copy + ZeroMapKV&lt;<span class="lifetime">'a</span>&gt;,
 {
     <span class="doccomment">/// For cases when `V` is fixed-size, obtain a direct copy of `V` instead of `V::ULE`.
     ///
@@ -1176,8 +1167,7 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, K, V&gt; ZeroMap&lt;<span class="lifetime">'a</span>, K, V&gt;
 <span class="kw">where
     </span>K: ZeroMapKV&lt;<span class="lifetime">'a</span>&gt; + <span class="question-mark">?</span>Sized,
-    V: ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, V&gt;&gt; + <span class="question-mark">?</span>Sized,
-    V: AsULE + Copy,
+    V: AsULE + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, V&gt;&gt;,
 {
     <span class="doccomment">/// Similar to [`Self::iter()`] except it returns a direct copy of the values instead of references
     /// to `V::ULE`, in cases when `V` is fixed-size
@@ -1197,10 +1187,8 @@
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, K, V&gt; ZeroMap&lt;<span class="lifetime">'a</span>, K, V&gt;
 <span class="kw">where
-    </span>K: ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, K&gt;&gt; + <span class="question-mark">?</span>Sized,
-    V: ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, V&gt;&gt; + <span class="question-mark">?</span>Sized,
-    K: AsULE + Copy,
-    V: AsULE + Copy,
+    </span>K: AsULE + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, K&gt;&gt;,
+    V: AsULE + ZeroMapKV&lt;<span class="lifetime">'a</span>, Container = ZeroVec&lt;<span class="lifetime">'a</span>, V&gt;&gt;,
 {
     <span class="doccomment">/// Similar to [`Self::iter()`] except it returns a direct copy of the keys values instead of references
     /// to `K::ULE` and `V::ULE`, in cases when `K` and `V` are fixed-size

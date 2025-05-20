@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.11/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="ahash" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ahash/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.12/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="ahash" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ahash/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -356,45 +356,7 @@
 <a href="#355" id="355">355</a>
 <a href="#356" id="356">356</a>
 <a href="#357" id="357">357</a>
-<a href="#358" id="358">358</a>
-<a href="#359" id="359">359</a>
-<a href="#360" id="360">360</a>
-<a href="#361" id="361">361</a>
-<a href="#362" id="362">362</a>
-<a href="#363" id="363">363</a>
-<a href="#364" id="364">364</a>
-<a href="#365" id="365">365</a>
-<a href="#366" id="366">366</a>
-<a href="#367" id="367">367</a>
-<a href="#368" id="368">368</a>
-<a href="#369" id="369">369</a>
-<a href="#370" id="370">370</a>
-<a href="#371" id="371">371</a>
-<a href="#372" id="372">372</a>
-<a href="#373" id="373">373</a>
-<a href="#374" id="374">374</a>
-<a href="#375" id="375">375</a>
-<a href="#376" id="376">376</a>
-<a href="#377" id="377">377</a>
-<a href="#378" id="378">378</a>
-<a href="#379" id="379">379</a>
-<a href="#380" id="380">380</a>
-<a href="#381" id="381">381</a>
-<a href="#382" id="382">382</a>
-<a href="#383" id="383">383</a>
-<a href="#384" id="384">384</a>
-<a href="#385" id="385">385</a>
-<a href="#386" id="386">386</a>
-<a href="#387" id="387">387</a>
-<a href="#388" id="388">388</a>
-<a href="#389" id="389">389</a>
-<a href="#390" id="390">390</a>
-<a href="#391" id="391">391</a>
-<a href="#392" id="392">392</a>
-<a href="#393" id="393">393</a>
-<a href="#394" id="394">394</a>
-<a href="#395" id="395">395</a>
-<a href="#396" id="396">396</a></pre></div><pre class="rust"><code><span class="doccomment">//! AHash is a high performance keyed hash function.
+<a href="#358" id="358">358</a></pre></div><pre class="rust"><code><span class="doccomment">//! AHash is a high performance keyed hash function.
 //!
 //! It quickly provides a high quality hash where the result is not predictable without knowing the Key.
 //! AHash works with `HashMap` to hash keys, but without allowing for the possibility that an malicious user can
@@ -430,7 +392,7 @@ map.insert(12, 34);
 The above requires a source of randomness to generate keys for the hashmap. By default this obtained from the OS.
 It is also possible to have randomness supplied via the `compile-time-rng` flag, or manually.
 
-### If randomess is not available
+### If randomness is not available
 
 [AHasher::default()] can be used to hash using fixed keys. This works with
 [BuildHasherDefault](std::hash::BuildHasherDefault). For example:
@@ -493,7 +455,7 @@ Note the import of [HashMapExt]. This is needed for the constructor.
 #![deny(clippy::correctness, clippy::complexity, clippy::perf)]
 #![allow(clippy::pedantic, clippy::cast_lossless, clippy::unreadable_literal)]
 #![cfg_attr(all(not(test), not(feature = <span class="string">"std"</span>)), no_std)]
-#![cfg_attr(feature = <span class="string">"specialize"</span>, feature(min_specialization))]
+#![cfg_attr(specialize, feature(min_specialization))]
 #![cfg_attr(feature = <span class="string">"nightly-arm-aes"</span>, feature(stdarch_arm_neon_intrinsics))]
 
 #[macro_use]
@@ -542,8 +504,6 @@ Note the import of [HashMapExt]. This is needed for the constructor.
 <span class="kw">pub use </span><span class="kw">crate</span>::random_state::RandomState;
 
 <span class="kw">use </span>core::hash::BuildHasher;
-<span class="kw">use </span>core::hash::Hash;
-<span class="kw">use </span>core::hash::Hasher;
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="doccomment">/// A convenience trait that can be used together with the type aliases defined to
@@ -644,63 +604,6 @@ Note the import of [HashMapExt]. This is needed for the constructor.
     }
 }
 
-<span class="doccomment">/// Used for specialization. (Sealed)
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>BuildHasherExt: BuildHasher {
-    <span class="attr">#[doc(hidden)]
-    </span><span class="kw">fn </span>hash_as_u64&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64;
-
-    <span class="attr">#[doc(hidden)]
-    </span><span class="kw">fn </span>hash_as_fixed_length&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64;
-
-    <span class="attr">#[doc(hidden)]
-    </span><span class="kw">fn </span>hash_as_str&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64;
-}
-
-<span class="kw">impl</span>&lt;B: BuildHasher&gt; BuildHasherExt <span class="kw">for </span>B {
-    <span class="attr">#[inline]
-    #[cfg(feature = <span class="string">"specialize"</span>)]
-    </span>default <span class="kw">fn </span>hash_as_u64&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64 {
-        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.build_hasher();
-        value.hash(<span class="kw-2">&amp;mut </span>hasher);
-        hasher.finish()
-    }
-    <span class="attr">#[inline]
-    #[cfg(not(feature = <span class="string">"specialize"</span>))]
-    </span><span class="kw">fn </span>hash_as_u64&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64 {
-        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.build_hasher();
-        value.hash(<span class="kw-2">&amp;mut </span>hasher);
-        hasher.finish()
-    }
-    <span class="attr">#[inline]
-    #[cfg(feature = <span class="string">"specialize"</span>)]
-    </span>default <span class="kw">fn </span>hash_as_fixed_length&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64 {
-        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.build_hasher();
-        value.hash(<span class="kw-2">&amp;mut </span>hasher);
-        hasher.finish()
-    }
-    <span class="attr">#[inline]
-    #[cfg(not(feature = <span class="string">"specialize"</span>))]
-    </span><span class="kw">fn </span>hash_as_fixed_length&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64 {
-        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.build_hasher();
-        value.hash(<span class="kw-2">&amp;mut </span>hasher);
-        hasher.finish()
-    }
-    <span class="attr">#[inline]
-    #[cfg(feature = <span class="string">"specialize"</span>)]
-    </span>default <span class="kw">fn </span>hash_as_str&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64 {
-        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.build_hasher();
-        value.hash(<span class="kw-2">&amp;mut </span>hasher);
-        hasher.finish()
-    }
-    <span class="attr">#[inline]
-    #[cfg(not(feature = <span class="string">"specialize"</span>))]
-    </span><span class="kw">fn </span>hash_as_str&lt;T: Hash + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; u64 {
-        <span class="kw">let </span><span class="kw-2">mut </span>hasher = <span class="self">self</span>.build_hasher();
-        value.hash(<span class="kw-2">&amp;mut </span>hasher);
-        hasher.finish()
-    }
-}
-
 <span class="comment">// #[inline(never)]
 // #[doc(hidden)]
 // pub fn hash_test(input: &amp;[u8]) -&gt; u64 {
@@ -714,6 +617,8 @@ Note the import of [HashMapExt]. This is needed for the constructor.
     <span class="kw">use </span><span class="kw">crate</span>::convert::Convert;
     <span class="kw">use </span><span class="kw">crate</span>::specialize::CallHasher;
     <span class="kw">use crate</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span>core::hash::Hash;
+    <span class="kw">use </span>core::hash::Hasher;
     <span class="kw">use </span>std::collections::HashMap;
 
     <span class="attr">#[test]
@@ -788,6 +693,25 @@ Note the import of [HashMapExt]. This is needed for the constructor.
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_ahasher_construction() {
         <span class="kw">let _ </span>= AHasher::new_with_keys(<span class="number">1234</span>, <span class="number">5678</span>);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_specialize_reference_hash() {
+        <span class="kw">let </span>hasher_build = RandomState::with_seeds(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
+        <span class="kw">let </span>h1 = hasher_build.hash_one(<span class="number">1u64</span>);
+        <span class="kw">let </span>h2 = hasher_build.hash_one(<span class="kw-2">&amp;</span><span class="number">1u64</span>);
+
+        <span class="macro">assert_eq!</span>(h1, h2);
+
+        <span class="kw">let </span>h1 = u64::get_hash(<span class="kw-2">&amp;</span><span class="number">1_u64</span>, <span class="kw-2">&amp;</span>hasher_build);
+        <span class="kw">let </span>h2 = &lt;<span class="kw-2">&amp;</span>u64&gt;::get_hash(&amp;&amp;<span class="number">1_u64</span>, <span class="kw-2">&amp;</span>hasher_build);
+
+        <span class="macro">assert_eq!</span>(h1, h2);
+
+        <span class="kw">let </span>h1 = hasher_build.hash_one(<span class="number">1u128</span>);
+        <span class="kw">let </span>h2 = hasher_build.hash_one(<span class="kw-2">&amp;</span><span class="number">1u128</span>);
+
+        <span class="macro">assert_eq!</span>(h1, h2);
     }
 }
 </code></pre></div></section></main></body></html>

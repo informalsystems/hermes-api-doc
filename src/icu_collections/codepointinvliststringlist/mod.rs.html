@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_collections-1.5.0/src/codepointinvliststringlist/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="icu_collections" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_collections/codepointinvliststringlist/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_collections-2.0.0/src/codepointinvliststringlist/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="icu_collections" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_collections/codepointinvliststringlist/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -381,7 +381,8 @@
 <a href="#380" id="380">380</a>
 <a href="#381" id="381">381</a>
 <a href="#382" id="382">382</a>
-<a href="#383" id="383">383</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
@@ -392,24 +393,27 @@
 //!
 //! It is an implementation of the existing [ICU4C UnicodeSet API](https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/classicu_1_1UnicodeSet.html).
 
-</span><span class="kw">use </span><span class="kw">crate</span>::codepointinvlist::{
-    CodePointInversionList, CodePointInversionListBuilder, CodePointInversionListError,
-    CodePointInversionListULE,
-};
-<span class="kw">use </span>alloc::string::{String, ToString};
-<span class="kw">use </span>alloc::vec::Vec;
+</span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::codepointinvlist::CodePointInversionListBuilder;
+<span class="kw">use </span><span class="kw">crate</span>::codepointinvlist::{CodePointInversionList, CodePointInversionListULE};
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>alloc::string::{String, ToString};
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>displaydoc::Display;
 <span class="kw">use </span>yoke::Yokeable;
 <span class="kw">use </span>zerofrom::ZeroFrom;
 <span class="kw">use </span>zerovec::{VarZeroSlice, VarZeroVec};
 
-<span class="doccomment">/// A data structure providing a concrete implementation of a `UnicodeSet`
-/// (which represents a set of code points and strings) using an inversion list for the code points and a simple
-/// list-like structure to store and iterate over the strings.
+<span class="doccomment">/// A data structure providing a concrete implementation of a set of code points and strings,
+/// using an inversion list for the code points.
+///
+/// This is what ICU4C calls a `UnicodeSet`.
 </span><span class="attr">#[zerovec::make_varule(CodePointInversionListAndStringListULE)]
 #[zerovec::skip_derive(Ord)]
 #[zerovec::derive(Debug)]
 #[derive(Debug, Eq, PartialEq, Clone, Yokeable, ZeroFrom)]
+#[cfg_attr(not(feature = <span class="string">"alloc"</span>), zerovec::skip_derive(ZeroMapKV, ToOwned))]
 </span><span class="comment">// Valid to auto-derive Deserialize because the invariants are weakly held
 </span><span class="attr">#[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = <span class="string">"serde"</span>, zerovec::derive(Serialize, Deserialize, Debug))]
@@ -438,13 +442,20 @@
     }
 }
 
+<span class="attr">#[cfg(feature = <span class="string">"databake"</span>)]
+</span><span class="kw">impl </span>databake::BakeSize <span class="kw">for </span>CodePointInversionListAndStringList&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>borrows_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.cp_inv_list.borrows_size() + <span class="self">self</span>.str_list.borrows_size()
+    }
+}
+
 <span class="kw">impl</span>&lt;<span class="lifetime">'data</span>&gt; CodePointInversionListAndStringList&lt;<span class="lifetime">'data</span>&gt; {
     <span class="doccomment">/// Returns a new [`CodePointInversionListAndStringList`] from both a [`CodePointInversionList`] for the
     /// code points and a [`VarZeroVec`]`&lt;`[`str`]`&gt;` of strings.
     </span><span class="kw">pub fn </span>try_from(
         cp_inv_list: CodePointInversionList&lt;<span class="lifetime">'data</span>&gt;,
         str_list: VarZeroVec&lt;<span class="lifetime">'data</span>, str&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, CodePointInversionListAndStringListError&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidStringList&gt; {
         <span class="comment">// Verify invariants:
         // Do so by using the equivalent of str_list.iter().windows(2) to get
         // overlapping windows of size 2. The above putative code is not possible
@@ -455,32 +466,29 @@
             <span class="kw">let </span><span class="kw-2">mut </span>it = str_list.iter();
             <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>x) = it.next() {
                 <span class="kw">if </span>x.len() == <span class="number">1 </span>{
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(
-                        CodePointInversionListAndStringListError::InvalidStringLength(
-                            x.to_string(),
-                        ),
-                    );
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidStringList::InvalidStringLength(
+                        <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+                        </span>x.to_string(),
+                    ));
                 }
                 <span class="kw">for </span>y <span class="kw">in </span>it {
                     <span class="kw">if </span>x.len() == <span class="number">1 </span>{
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(
-                            CodePointInversionListAndStringListError::InvalidStringLength(
-                                x.to_string(),
-                            ),
-                        );
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidStringList::InvalidStringLength(
+                            <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+                            </span>x.to_string(),
+                        ));
                     } <span class="kw">else if </span>x == y {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(
-                            CodePointInversionListAndStringListError::StringListNotUnique(
-                                x.to_string(),
-                            ),
-                        );
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidStringList::StringListNotUnique(
+                            <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+                            </span>x.to_string(),
+                        ));
                     } <span class="kw">else if </span>x &gt; y {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(
-                            CodePointInversionListAndStringListError::StringListNotSorted(
-                                x.to_string(),
-                                y.to_string(),
-                            ),
-                        );
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidStringList::StringListNotSorted(
+                            <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+                            </span>x.to_string(),
+                            <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+                            </span>y.to_string(),
+                        ));
                     }
 
                     <span class="comment">// Next window begins. Update `x` here, `y` will be updated in next loop iteration.
@@ -495,7 +503,7 @@
         })
     }
 
-    <span class="attr">#[doc(hidden)]
+    <span class="attr">#[doc(hidden)] </span><span class="comment">// databake internal
     </span><span class="kw">pub const fn </span>from_parts_unchecked(
         cp_inv_list: CodePointInversionList&lt;<span class="lifetime">'data</span>&gt;,
         str_list: VarZeroVec&lt;<span class="lifetime">'data</span>, str&gt;,
@@ -527,23 +535,23 @@
     ///
     /// let cp_slice = &amp;[0, 0x1_0000, 0x10_FFFF, 0x11_0000];
     /// let cp_list =
-    ///    CodePointInversionList::try_clone_from_inversion_list_slice(cp_slice).unwrap();
+    ///    CodePointInversionList::try_from_u32_inversion_list_slice(cp_slice).unwrap();
     /// let str_slice = &amp;["", "bmp_max", "unicode_max", "zero"];
     /// let str_list = VarZeroVec::&lt;str&gt;::from(str_slice);
     ///
     /// let cpilsl = CodePointInversionListAndStringList::try_from(cp_list, str_list).unwrap();
     ///
-    /// assert!(cpilsl.contains("bmp_max"));
-    /// assert!(cpilsl.contains(""));
-    /// assert!(cpilsl.contains("A"));
-    /// assert!(cpilsl.contains("ቔ"));  // U+1254 ETHIOPIC SYLLABLE QHEE
-    /// assert!(!cpilsl.contains("bazinga!"));
+    /// assert!(cpilsl.contains_str("bmp_max"));
+    /// assert!(cpilsl.contains_str(""));
+    /// assert!(cpilsl.contains_str("A"));
+    /// assert!(cpilsl.contains_str("ቔ"));  // U+1254 ETHIOPIC SYLLABLE QHEE
+    /// assert!(!cpilsl.contains_str("bazinga!"));
     /// ```
-    </span><span class="kw">pub fn </span>contains(<span class="kw-2">&amp;</span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>str) -&gt; bool {
+    </span><span class="kw">pub fn </span>contains_str(<span class="kw-2">&amp;</span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>str) -&gt; bool {
         <span class="kw">let </span><span class="kw-2">mut </span>chars = s.chars();
         <span class="kw">if let </span><span class="prelude-val">Some</span>(first_char) = chars.next() {
             <span class="kw">if </span>chars.next().is_none() {
-                <span class="kw">return </span><span class="self">self</span>.contains_char(first_char);
+                <span class="kw">return </span><span class="self">self</span>.contains(first_char);
             }
         }
         <span class="self">self</span>.str_list.binary_search(s).is_ok()
@@ -558,7 +566,7 @@
     ///
     /// let cp_slice = &amp;[0, 0x80, 0xFFFF, 0x1_0000, 0x10_FFFF, 0x11_0000];
     /// let cp_list =
-    ///     CodePointInversionList::try_clone_from_inversion_list_slice(cp_slice).unwrap();
+    ///     CodePointInversionList::try_from_u32_inversion_list_slice(cp_slice).unwrap();
     /// let str_slice = &amp;["", "ascii_max", "bmp_max", "unicode_max", "zero"];
     /// let str_list = VarZeroVec::&lt;str&gt;::from(str_slice);
     ///
@@ -581,17 +589,17 @@
     ///
     /// let cp_slice = &amp;[0, 0x1_0000, 0x10_FFFF, 0x11_0000];
     /// let cp_list =
-    ///    CodePointInversionList::try_clone_from_inversion_list_slice(cp_slice).unwrap();
+    ///    CodePointInversionList::try_from_u32_inversion_list_slice(cp_slice).unwrap();
     /// let str_slice = &amp;["", "bmp_max", "unicode_max", "zero"];
     /// let str_list = VarZeroVec::&lt;str&gt;::from(str_slice);
     ///
     /// let cpilsl = CodePointInversionListAndStringList::try_from(cp_list, str_list).unwrap();
     ///
-    /// assert!(cpilsl.contains_char('A'));
-    /// assert!(cpilsl.contains_char('ቔ'));  // U+1254 ETHIOPIC SYLLABLE QHEE
-    /// assert!(!cpilsl.contains_char('\u{1_0000}'));
-    /// assert!(!cpilsl.contains_char('🨫'));  // U+1FA2B NEUTRAL CHESS TURNED QUEEN
-    </span><span class="kw">pub fn </span>contains_char(<span class="kw-2">&amp;</span><span class="self">self</span>, ch: char) -&gt; bool {
+    /// assert!(cpilsl.contains('A'));
+    /// assert!(cpilsl.contains('ቔ'));  // U+1254 ETHIOPIC SYLLABLE QHEE
+    /// assert!(!cpilsl.contains('\u{1_0000}'));
+    /// assert!(!cpilsl.contains('🨫'));  // U+1FA2B NEUTRAL CHESS TURNED QUEEN
+    </span><span class="kw">pub fn </span>contains(<span class="kw-2">&amp;</span><span class="self">self</span>, ch: char) -&gt; bool {
         <span class="self">self</span>.contains32(ch <span class="kw">as </span>u32)
     }
 
@@ -606,7 +614,8 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; FromIterator&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; <span class="kw">for </span>CodePointInversionListAndStringList&lt;<span class="lifetime">'_</span>&gt; {
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; FromIterator&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; <span class="kw">for </span>CodePointInversionListAndStringList&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>from_iter&lt;I&gt;(it: I) -&gt; <span class="self">Self
     </span><span class="kw">where
         </span>I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;,
@@ -625,7 +634,7 @@
         }
 
         <span class="comment">// Ensure that the string list is sorted. If not, the binary search that
-        // is used for `.contains(&amp;str)` will return garbase otuput.
+        // is used for `.contains(&amp;str)` will return garbage output.
         </span>strings.sort_unstable();
         strings.dedup();
 
@@ -640,26 +649,24 @@
 }
 
 <span class="doccomment">/// Custom Errors for [`CodePointInversionListAndStringList`].
-///
-/// Re-exported as [`Error`].
 </span><span class="attr">#[derive(Display, Debug)]
-</span><span class="kw">pub enum </span>CodePointInversionListAndStringListError {
-    <span class="doccomment">/// An invalid CodePointInversionList was constructed
-    </span><span class="attr">#[displaydoc(<span class="string">"Invalid code point inversion list: {0:?}"</span>)]
-    </span>InvalidCodePointInversionList(CodePointInversionListError),
+</span><span class="kw">pub enum </span>InvalidStringList {
     <span class="doccomment">/// A string in the string list had an invalid length
-    </span><span class="attr">#[displaydoc(<span class="string">"Invalid string length for string: {0}"</span>)]
-    </span>InvalidStringLength(String),
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"alloc"</span>, displaydoc(<span class="string">"Invalid string length for string: {0}"</span>))]
+    </span>InvalidStringLength(<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)] </span>String),
     <span class="doccomment">/// A string in the string list appears more than once
-    </span><span class="attr">#[displaydoc(<span class="string">"String list has duplicate: {0}"</span>)]
-    </span>StringListNotUnique(String),
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"alloc"</span>, displaydoc(<span class="string">"String list has duplicate: {0}"</span>))]
+    </span>StringListNotUnique(<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)] </span>String),
     <span class="doccomment">/// Two strings in the string list compare to each other opposite of sorted order
-    </span><span class="attr">#[displaydoc(<span class="string">"Strings in string list not in sorted order: ({0}, {1})"</span>)]
-    </span>StringListNotSorted(String, String),
+    </span><span class="attr">#[cfg_attr(
+        feature = <span class="string">"alloc"</span>,
+        displaydoc(<span class="string">"Strings in string list not in sorted order: ({0}, {1})"</span>)
+    )]
+    </span>StringListNotSorted(
+        <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)] </span>String,
+        <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)] </span>String,
+    ),
 }
-
-<span class="attr">#[doc(no_inline)]
-</span><span class="kw">pub use </span>CodePointInversionListAndStringListError <span class="kw">as </span>Error;
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
@@ -668,8 +675,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_size_has_strings() {
         <span class="kw">let </span>cp_slice = <span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">1</span>, <span class="number">0x7F</span>, <span class="number">0x80</span>, <span class="number">0xFFFF</span>, <span class="number">0x1_0000</span>, <span class="number">0x10_FFFF</span>, <span class="number">0x11_0000</span>];
-        <span class="kw">let </span>cp_list =
-            CodePointInversionList::try_clone_from_inversion_list_slice(cp_slice).unwrap();
+        <span class="kw">let </span>cp_list = CodePointInversionList::try_from_u32_inversion_list_slice(cp_slice).unwrap();
         <span class="kw">let </span>str_slice = <span class="kw-2">&amp;</span>[<span class="string">"ascii_max"</span>, <span class="string">"bmp_max"</span>, <span class="string">"unicode_max"</span>, <span class="string">"zero"</span>];
         <span class="kw">let </span>str_list = VarZeroVec::&lt;str&gt;::from(str_slice);
 
@@ -682,8 +688,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_empty_string_allowed() {
         <span class="kw">let </span>cp_slice = <span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">1</span>, <span class="number">0x7F</span>, <span class="number">0x80</span>, <span class="number">0xFFFF</span>, <span class="number">0x1_0000</span>, <span class="number">0x10_FFFF</span>, <span class="number">0x11_0000</span>];
-        <span class="kw">let </span>cp_list =
-            CodePointInversionList::try_clone_from_inversion_list_slice(cp_slice).unwrap();
+        <span class="kw">let </span>cp_list = CodePointInversionList::try_from_u32_inversion_list_slice(cp_slice).unwrap();
         <span class="kw">let </span>str_slice = <span class="kw-2">&amp;</span>[<span class="string">""</span>, <span class="string">"ascii_max"</span>, <span class="string">"bmp_max"</span>, <span class="string">"unicode_max"</span>, <span class="string">"zero"</span>];
         <span class="kw">let </span>str_list = VarZeroVec::&lt;str&gt;::from(str_slice);
 
@@ -696,8 +701,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_invalid_string() {
         <span class="kw">let </span>cp_slice = <span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">1</span>];
-        <span class="kw">let </span>cp_list =
-            CodePointInversionList::try_clone_from_inversion_list_slice(cp_slice).unwrap();
+        <span class="kw">let </span>cp_list = CodePointInversionList::try_from_u32_inversion_list_slice(cp_slice).unwrap();
         <span class="kw">let </span>str_slice = <span class="kw-2">&amp;</span>[<span class="string">"a"</span>];
         <span class="kw">let </span>str_list = VarZeroVec::&lt;str&gt;::from(str_slice);
 
@@ -705,15 +709,14 @@
 
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
             cpilsl,
-            <span class="prelude-val">Err</span>(CodePointInversionListAndStringListError::InvalidStringLength(<span class="kw">_</span>))
+            <span class="prelude-val">Err</span>(InvalidStringList::InvalidStringLength(<span class="kw">_</span>))
         ));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_invalid_string_list_has_duplicate() {
         <span class="kw">let </span>cp_slice = <span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">1</span>];
-        <span class="kw">let </span>cp_list =
-            CodePointInversionList::try_clone_from_inversion_list_slice(cp_slice).unwrap();
+        <span class="kw">let </span>cp_list = CodePointInversionList::try_from_u32_inversion_list_slice(cp_slice).unwrap();
         <span class="kw">let </span>str_slice = <span class="kw-2">&amp;</span>[<span class="string">"abc"</span>, <span class="string">"abc"</span>];
         <span class="kw">let </span>str_list = VarZeroVec::&lt;str&gt;::from(str_slice);
 
@@ -721,15 +724,14 @@
 
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
             cpilsl,
-            <span class="prelude-val">Err</span>(CodePointInversionListAndStringListError::StringListNotUnique(<span class="kw">_</span>))
+            <span class="prelude-val">Err</span>(InvalidStringList::StringListNotUnique(<span class="kw">_</span>))
         ));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_invalid_string_list_not_sorted() {
         <span class="kw">let </span>cp_slice = <span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">1</span>];
-        <span class="kw">let </span>cp_list =
-            CodePointInversionList::try_clone_from_inversion_list_slice(cp_slice).unwrap();
+        <span class="kw">let </span>cp_list = CodePointInversionList::try_from_u32_inversion_list_slice(cp_slice).unwrap();
         <span class="kw">let </span>str_slice = <span class="kw-2">&amp;</span>[<span class="string">"xyz"</span>, <span class="string">"abc"</span>];
         <span class="kw">let </span>str_list = VarZeroVec::&lt;str&gt;::from(str_slice);
 
@@ -737,7 +739,7 @@
 
         <span class="macro">assert!</span>(<span class="macro">matches!</span>(
             cpilsl,
-            <span class="prelude-val">Err</span>(CodePointInversionListAndStringListError::StringListNotSorted(<span class="kw">_</span>, <span class="kw">_</span>))
+            <span class="prelude-val">Err</span>(InvalidStringList::StringListNotSorted(<span class="kw">_</span>, <span class="kw">_</span>))
         ));
     }
 
@@ -752,14 +754,14 @@
         <span class="macro">assert_eq!</span>(cpilsl_1, cpilsl_2);
 
         <span class="macro">assert!</span>(cpilsl_1.has_strings());
-        <span class="macro">assert!</span>(cpilsl_1.contains(<span class="string">"abc"</span>));
-        <span class="macro">assert!</span>(cpilsl_1.contains(<span class="string">"xyz"</span>));
-        <span class="macro">assert!</span>(!cpilsl_1.contains(<span class="string">"def"</span>));
+        <span class="macro">assert!</span>(cpilsl_1.contains_str(<span class="string">"abc"</span>));
+        <span class="macro">assert!</span>(cpilsl_1.contains_str(<span class="string">"xyz"</span>));
+        <span class="macro">assert!</span>(!cpilsl_1.contains_str(<span class="string">"def"</span>));
 
         <span class="macro">assert_eq!</span>(<span class="number">1</span>, cpilsl_1.cp_inv_list.size());
-        <span class="macro">assert!</span>(cpilsl_1.contains_char(<span class="string">'a'</span>));
-        <span class="macro">assert!</span>(!cpilsl_1.contains_char(<span class="string">'0'</span>));
-        <span class="macro">assert!</span>(!cpilsl_1.contains_char(<span class="string">'q'</span>));
+        <span class="macro">assert!</span>(cpilsl_1.contains(<span class="string">'a'</span>));
+        <span class="macro">assert!</span>(!cpilsl_1.contains(<span class="string">'0'</span>));
+        <span class="macro">assert!</span>(!cpilsl_1.contains(<span class="string">'q'</span>));
 
         <span class="macro">assert_eq!</span>(<span class="number">3</span>, cpilsl_1.size());
     }

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hashbrown-0.15.2/src/raw/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="hashbrown" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">hashbrown/raw/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hashbrown-0.15.3/src/raw/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="hashbrown" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">hashbrown/raw/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -4381,7 +4381,60 @@
 <a href="#4380" id="4380">4380</a>
 <a href="#4381" id="4381">4381</a>
 <a href="#4382" id="4382">4382</a>
-<a href="#4383" id="4383">4383</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::alloc::alloc::{handle_alloc_error, Layout};
+<a href="#4383" id="4383">4383</a>
+<a href="#4384" id="4384">4384</a>
+<a href="#4385" id="4385">4385</a>
+<a href="#4386" id="4386">4386</a>
+<a href="#4387" id="4387">4387</a>
+<a href="#4388" id="4388">4388</a>
+<a href="#4389" id="4389">4389</a>
+<a href="#4390" id="4390">4390</a>
+<a href="#4391" id="4391">4391</a>
+<a href="#4392" id="4392">4392</a>
+<a href="#4393" id="4393">4393</a>
+<a href="#4394" id="4394">4394</a>
+<a href="#4395" id="4395">4395</a>
+<a href="#4396" id="4396">4396</a>
+<a href="#4397" id="4397">4397</a>
+<a href="#4398" id="4398">4398</a>
+<a href="#4399" id="4399">4399</a>
+<a href="#4400" id="4400">4400</a>
+<a href="#4401" id="4401">4401</a>
+<a href="#4402" id="4402">4402</a>
+<a href="#4403" id="4403">4403</a>
+<a href="#4404" id="4404">4404</a>
+<a href="#4405" id="4405">4405</a>
+<a href="#4406" id="4406">4406</a>
+<a href="#4407" id="4407">4407</a>
+<a href="#4408" id="4408">4408</a>
+<a href="#4409" id="4409">4409</a>
+<a href="#4410" id="4410">4410</a>
+<a href="#4411" id="4411">4411</a>
+<a href="#4412" id="4412">4412</a>
+<a href="#4413" id="4413">4413</a>
+<a href="#4414" id="4414">4414</a>
+<a href="#4415" id="4415">4415</a>
+<a href="#4416" id="4416">4416</a>
+<a href="#4417" id="4417">4417</a>
+<a href="#4418" id="4418">4418</a>
+<a href="#4419" id="4419">4419</a>
+<a href="#4420" id="4420">4420</a>
+<a href="#4421" id="4421">4421</a>
+<a href="#4422" id="4422">4422</a>
+<a href="#4423" id="4423">4423</a>
+<a href="#4424" id="4424">4424</a>
+<a href="#4425" id="4425">4425</a>
+<a href="#4426" id="4426">4426</a>
+<a href="#4427" id="4427">4427</a>
+<a href="#4428" id="4428">4428</a>
+<a href="#4429" id="4429">4429</a>
+<a href="#4430" id="4430">4430</a>
+<a href="#4431" id="4431">4431</a>
+<a href="#4432" id="4432">4432</a>
+<a href="#4433" id="4433">4433</a>
+<a href="#4434" id="4434">4434</a>
+<a href="#4435" id="4435">4435</a>
+<a href="#4436" id="4436">4436</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::alloc::alloc::{handle_alloc_error, Layout};
 <span class="kw">use </span><span class="kw">crate</span>::control::{BitMaskIter, Group, Tag, TagSliceExt};
 <span class="kw">use </span><span class="kw">crate</span>::scopeguard::{guard, ScopeGuard};
 <span class="kw">use </span><span class="kw">crate</span>::util::{invalid_mut, likely, unlikely};
@@ -4395,6 +4448,8 @@
 <span class="kw">use </span>core::{hint, ptr};
 
 <span class="kw">mod </span>alloc;
+<span class="attr">#[cfg(test)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::alloc::AllocError;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::alloc::{do_alloc, Allocator, Global};
 
 <span class="attr">#[inline]
@@ -4481,16 +4536,51 @@
 </span><span class="comment">// Workaround for emscripten bug emscripten-core/emscripten-fastcomp#258
 </span><span class="attr">#[cfg_attr(target_os = <span class="string">"emscripten"</span>, inline(never))]
 #[cfg_attr(not(target_os = <span class="string">"emscripten"</span>), inline)]
-</span><span class="kw">fn </span>capacity_to_buckets(cap: usize) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+</span><span class="kw">fn </span>capacity_to_buckets(cap: usize, table_layout: TableLayout) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
     <span class="macro">debug_assert_ne!</span>(cap, <span class="number">0</span>);
 
     <span class="comment">// For small tables we require at least 1 empty bucket so that lookups are
     // guaranteed to terminate if an element doesn't exist in the table.
-    </span><span class="kw">if </span>cap &lt; <span class="number">8 </span>{
+    </span><span class="kw">if </span>cap &lt; <span class="number">15 </span>{
+        <span class="comment">// Consider a small TableLayout like { size: 1, ctrl_align: 16 } on a
+        // platform with Group::WIDTH of 16 (like x86_64 with SSE2). For small
+        // bucket sizes, this ends up wasting quite a few bytes just to pad to
+        // the relatively larger ctrl_align:
+        //
+        // | capacity | buckets | bytes allocated | bytes per item |
+        // | -------- | ------- | --------------- | -------------- |
+        // |        3 |       4 |              36 | (Yikes!)  12.0 |
+        // |        7 |       8 |              40 | (Poor)     5.7 |
+        // |       14 |      16 |              48 |            3.4 |
+        // |       28 |      32 |              80 |            3.3 |
+        //
+        // In general, buckets * table_layout.size &gt;= table_layout.ctrl_align
+        // must be true to avoid these edges. This is implemented by adjusting
+        // the minimum capacity upwards for small items. This code only needs
+        // to handle ctrl_align which are less than or equal to Group::WIDTH,
+        // because valid layout sizes are always a multiple of the alignment,
+        // so anything with alignment over the Group::WIDTH won't hit this edge
+        // case.
+
+        // This is brittle, e.g. if we ever add 32 byte groups, it will select
+        // 3 regardless of the table_layout.size.
+        </span><span class="kw">let </span>min_cap = <span class="kw">match </span>(Group::WIDTH, table_layout.size) {
+            (<span class="number">16</span>, <span class="number">0</span>..=<span class="number">1</span>) =&gt; <span class="number">14</span>,
+            (<span class="number">16</span>, <span class="number">2</span>..=<span class="number">3</span>) =&gt; <span class="number">7</span>,
+            (<span class="number">8</span>, <span class="number">0</span>..=<span class="number">1</span>) =&gt; <span class="number">7</span>,
+            <span class="kw">_ </span>=&gt; <span class="number">3</span>,
+        };
+        <span class="kw">let </span>cap = min_cap.max(cap);
         <span class="comment">// We don't bother with a table size of 2 buckets since that can only
-        // hold a single element. Instead we skip directly to a 4 bucket table
+        // hold a single element. Instead, we skip directly to a 4 bucket table
         // which can hold 3 elements.
-        </span><span class="kw">return </span><span class="prelude-val">Some</span>(<span class="kw">if </span>cap &lt; <span class="number">4 </span>{ <span class="number">4 </span>} <span class="kw">else </span>{ <span class="number">8 </span>});
+        </span><span class="kw">return </span><span class="prelude-val">Some</span>(<span class="kw">if </span>cap &lt; <span class="number">4 </span>{
+            <span class="number">4
+        </span>} <span class="kw">else if </span>cap &lt; <span class="number">8 </span>{
+            <span class="number">8
+        </span>} <span class="kw">else </span>{
+            <span class="number">16
+        </span>});
     }
 
     <span class="comment">// Otherwise require 1/8 buckets to be empty (87.5% load)
@@ -5232,7 +5322,7 @@
         // elements. If the calculation overflows then the requested bucket
         // count must be larger than what we have right and nothing needs to be
         // done.
-        </span><span class="kw">let </span>min_buckets = <span class="kw">match </span>capacity_to_buckets(min_size) {
+        </span><span class="kw">let </span>min_buckets = <span class="kw">match </span>capacity_to_buckets(min_size, <span class="self">Self</span>::TABLE_LAYOUT) {
             <span class="prelude-val">Some</span>(buckets) =&gt; buckets,
             <span class="prelude-val">None </span>=&gt; <span class="kw">return</span>,
         };
@@ -5363,14 +5453,8 @@
     /// * If `self.table.items != 0`, calling of this function with `capacity`
     ///   equal to 0 (`capacity == 0`) results in [`undefined behavior`].
     ///
-    /// * If `capacity_to_buckets(capacity) &lt; Group::WIDTH` and
-    ///   `self.table.items &gt; capacity_to_buckets(capacity)`
-    ///   calling this function results in [`undefined behavior`].
-    ///
-    /// * If `capacity_to_buckets(capacity) &gt;= Group::WIDTH` and
-    ///   `self.table.items &gt; capacity_to_buckets(capacity)`
-    ///   calling this function are never return (will go into an
-    ///   infinite loop).
+    /// * If `self.table.items &gt; capacity_to_buckets(capacity, Self::TABLE_LAYOUT)`
+    ///   calling this function are never return (will loop infinitely).
     ///
     /// See [`RawTableInner::find_insert_slot`] for more information.
     ///
@@ -5860,8 +5944,8 @@
             <span class="comment">// SAFETY: We checked that we could successfully allocate the new table, and then
             // initialized all control bytes with the constant `Tag::EMPTY` byte.
             </span><span class="kw">unsafe </span>{
-                <span class="kw">let </span>buckets =
-                    capacity_to_buckets(capacity).ok_or_else(|| fallibility.capacity_overflow())<span class="question-mark">?</span>;
+                <span class="kw">let </span>buckets = capacity_to_buckets(capacity, table_layout)
+                    .ok_or_else(|| fallibility.capacity_overflow())<span class="question-mark">?</span>;
 
                 <span class="kw">let </span><span class="kw-2">mut </span>result =
                     <span class="self">Self</span>::new_uninitialized(alloc, table_layout, buckets, fallibility)<span class="question-mark">?</span>;
@@ -6070,18 +6154,20 @@
                 insert_slot = <span class="self">self</span>.find_insert_slot_in_group(<span class="kw-2">&amp;</span>group, <span class="kw-2">&amp;</span>probe_seq);
             }
 
-            <span class="comment">// Only stop the search if the group contains at least one empty element.
-            // Otherwise, the element that we are looking for might be in a following group.
-            </span><span class="kw">if </span>likely(group.match_empty().any_bit_set()) {
-                <span class="comment">// We must have found a insert slot by now, since the current group contains at
-                // least one. For tables smaller than the group width, there will still be an
-                // empty element in the current (and only) group due to the load factor.
-                </span><span class="kw">unsafe </span>{
-                    <span class="comment">// SAFETY:
-                    // * Caller of this function ensures that the control bytes are properly initialized.
-                    //
-                    // * We use this function with the slot / index found by `self.find_insert_slot_in_group`
-                    </span><span class="kw">return </span><span class="prelude-val">Err</span>(<span class="self">self</span>.fix_insert_slot(insert_slot.unwrap_unchecked()));
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(insert_slot) = insert_slot {
+                <span class="comment">// Only stop the search if the group contains at least one empty element.
+                // Otherwise, the element that we are looking for might be in a following group.
+                </span><span class="kw">if </span>likely(group.match_empty().any_bit_set()) {
+                    <span class="comment">// We must have found a insert slot by now, since the current group contains at
+                    // least one. For tables smaller than the group width, there will still be an
+                    // empty element in the current (and only) group due to the load factor.
+                    </span><span class="kw">unsafe </span>{
+                        <span class="comment">// SAFETY:
+                        // * Caller of this function ensures that the control bytes are properly initialized.
+                        //
+                        // * We use this function with the slot / index found by `self.find_insert_slot_in_group`
+                        </span><span class="kw">return </span><span class="prelude-val">Err</span>(<span class="self">self</span>.fix_insert_slot(insert_slot));
+                    }
                 }
             }
 
@@ -8518,6 +8604,26 @@
 </span><span class="kw">mod </span>test_map {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_minimum_capacity_for_small_types() {
+        <span class="attr">#[track_caller]
+        </span><span class="kw">fn </span>test_t&lt;T&gt;() {
+            <span class="kw">let </span>raw_table: RawTable&lt;T&gt; = RawTable::with_capacity(<span class="number">1</span>);
+            <span class="kw">let </span>actual_buckets = raw_table.buckets();
+            <span class="kw">let </span>min_buckets = Group::WIDTH / core::mem::size_of::&lt;T&gt;();
+            <span class="macro">assert!</span>(
+                actual_buckets &gt;= min_buckets,
+                <span class="string">"expected at least {min_buckets} buckets, got {actual_buckets} buckets"
+            </span>);
+        }
+
+        test_t::&lt;u8&gt;();
+
+        <span class="comment">// This is only "small" for some platforms, like x86_64 with SSE2, but
+        // there's no harm in running it on other platforms.
+        </span>test_t::&lt;u16&gt;();
+    }
+
     <span class="kw">fn </span>rehash_in_place&lt;T&gt;(table: <span class="kw-2">&amp;mut </span>RawTable&lt;T&gt;, hasher: <span class="kw">impl </span>Fn(<span class="kw-2">&amp;</span>T) -&gt; u64) {
         <span class="kw">unsafe </span>{
             table.table.rehash_in_place(
@@ -8621,9 +8727,9 @@
     /// ARE ZERO, EVEN IF WE HAVE `FULL` CONTROL BYTES.
     </span><span class="attr">#[test]
     </span><span class="kw">fn </span>test_catch_panic_clone_from() {
+        <span class="kw">use super</span>::{AllocError, Allocator, Global};
         <span class="kw">use </span>::alloc::sync::Arc;
         <span class="kw">use </span>::alloc::vec::Vec;
-        <span class="kw">use </span>allocator_api2::alloc::{AllocError, Allocator, Global};
         <span class="kw">use </span>core::sync::atomic::{AtomicI8, Ordering};
         <span class="kw">use </span>std::thread;
 

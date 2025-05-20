@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tinystr-0.7.6/src/ascii.rs`."><title>ascii.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tinystr" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tinystr/</div>ascii.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tinystr-0.8.1/src/ascii.rs`."><title>ascii.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tinystr" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tinystr/</div>ascii.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1031,13 +1031,156 @@
 <a href="#1030" id="1030">1030</a>
 <a href="#1031" id="1031">1031</a>
 <a href="#1032" id="1032">1032</a>
-<a href="#1033" id="1033">1033</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#1033" id="1033">1033</a>
+<a href="#1034" id="1034">1034</a>
+<a href="#1035" id="1035">1035</a>
+<a href="#1036" id="1036">1036</a>
+<a href="#1037" id="1037">1037</a>
+<a href="#1038" id="1038">1038</a>
+<a href="#1039" id="1039">1039</a>
+<a href="#1040" id="1040">1040</a>
+<a href="#1041" id="1041">1041</a>
+<a href="#1042" id="1042">1042</a>
+<a href="#1043" id="1043">1043</a>
+<a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a>
+<a href="#1048" id="1048">1048</a>
+<a href="#1049" id="1049">1049</a>
+<a href="#1050" id="1050">1050</a>
+<a href="#1051" id="1051">1051</a>
+<a href="#1052" id="1052">1052</a>
+<a href="#1053" id="1053">1053</a>
+<a href="#1054" id="1054">1054</a>
+<a href="#1055" id="1055">1055</a>
+<a href="#1056" id="1056">1056</a>
+<a href="#1057" id="1057">1057</a>
+<a href="#1058" id="1058">1058</a>
+<a href="#1059" id="1059">1059</a>
+<a href="#1060" id="1060">1060</a>
+<a href="#1061" id="1061">1061</a>
+<a href="#1062" id="1062">1062</a>
+<a href="#1063" id="1063">1063</a>
+<a href="#1064" id="1064">1064</a>
+<a href="#1065" id="1065">1065</a>
+<a href="#1066" id="1066">1066</a>
+<a href="#1067" id="1067">1067</a>
+<a href="#1068" id="1068">1068</a>
+<a href="#1069" id="1069">1069</a>
+<a href="#1070" id="1070">1070</a>
+<a href="#1071" id="1071">1071</a>
+<a href="#1072" id="1072">1072</a>
+<a href="#1073" id="1073">1073</a>
+<a href="#1074" id="1074">1074</a>
+<a href="#1075" id="1075">1075</a>
+<a href="#1076" id="1076">1076</a>
+<a href="#1077" id="1077">1077</a>
+<a href="#1078" id="1078">1078</a>
+<a href="#1079" id="1079">1079</a>
+<a href="#1080" id="1080">1080</a>
+<a href="#1081" id="1081">1081</a>
+<a href="#1082" id="1082">1082</a>
+<a href="#1083" id="1083">1083</a>
+<a href="#1084" id="1084">1084</a>
+<a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a>
+<a href="#1114" id="1114">1114</a>
+<a href="#1115" id="1115">1115</a>
+<a href="#1116" id="1116">1116</a>
+<a href="#1117" id="1117">1117</a>
+<a href="#1118" id="1118">1118</a>
+<a href="#1119" id="1119">1119</a>
+<a href="#1120" id="1120">1120</a>
+<a href="#1121" id="1121">1121</a>
+<a href="#1122" id="1122">1122</a>
+<a href="#1123" id="1123">1123</a>
+<a href="#1124" id="1124">1124</a>
+<a href="#1125" id="1125">1125</a>
+<a href="#1126" id="1126">1126</a>
+<a href="#1127" id="1127">1127</a>
+<a href="#1128" id="1128">1128</a>
+<a href="#1129" id="1129">1129</a>
+<a href="#1130" id="1130">1130</a>
+<a href="#1131" id="1131">1131</a>
+<a href="#1132" id="1132">1132</a>
+<a href="#1133" id="1133">1133</a>
+<a href="#1134" id="1134">1134</a>
+<a href="#1135" id="1135">1135</a>
+<a href="#1136" id="1136">1136</a>
+<a href="#1137" id="1137">1137</a>
+<a href="#1138" id="1138">1138</a>
+<a href="#1139" id="1139">1139</a>
+<a href="#1140" id="1140">1140</a>
+<a href="#1141" id="1141">1141</a>
+<a href="#1142" id="1142">1142</a>
+<a href="#1143" id="1143">1143</a>
+<a href="#1144" id="1144">1144</a>
+<a href="#1145" id="1145">1145</a>
+<a href="#1146" id="1146">1146</a>
+<a href="#1147" id="1147">1147</a>
+<a href="#1148" id="1148">1148</a>
+<a href="#1149" id="1149">1149</a>
+<a href="#1150" id="1150">1150</a>
+<a href="#1151" id="1151">1151</a>
+<a href="#1152" id="1152">1152</a>
+<a href="#1153" id="1153">1153</a>
+<a href="#1154" id="1154">1154</a>
+<a href="#1155" id="1155">1155</a>
+<a href="#1156" id="1156">1156</a>
+<a href="#1157" id="1157">1157</a>
+<a href="#1158" id="1158">1158</a>
+<a href="#1159" id="1159">1159</a>
+<a href="#1160" id="1160">1160</a>
+<a href="#1161" id="1161">1161</a>
+<a href="#1162" id="1162">1162</a>
+<a href="#1163" id="1163">1163</a>
+<a href="#1164" id="1164">1164</a>
+<a href="#1165" id="1165">1165</a>
+<a href="#1166" id="1166">1166</a>
+<a href="#1167" id="1167">1167</a>
+<a href="#1168" id="1168">1168</a>
+<a href="#1169" id="1169">1169</a>
+<a href="#1170" id="1170">1170</a>
+<a href="#1171" id="1171">1171</a>
+<a href="#1172" id="1172">1172</a>
+<a href="#1173" id="1173">1173</a>
+<a href="#1174" id="1174">1174</a>
+<a href="#1175" id="1175">1175</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
 </span><span class="kw">use </span><span class="kw">crate</span>::asciibyte::AsciiByte;
 <span class="kw">use </span><span class="kw">crate</span>::int_ops::{Aligned4, Aligned8};
-<span class="kw">use </span><span class="kw">crate</span>::TinyStrError;
+<span class="kw">use </span><span class="kw">crate</span>::ParseError;
+<span class="kw">use </span>core::borrow::Borrow;
 <span class="kw">use </span>core::fmt;
 <span class="kw">use </span>core::ops::Deref;
 <span class="kw">use </span>core::str::{<span class="self">self</span>, FromStr};
@@ -1049,33 +1192,85 @@
 }
 
 <span class="kw">impl</span>&lt;<span class="kw">const </span>N: usize&gt; TinyAsciiStr&lt;N&gt; {
-    <span class="doccomment">/// Creates a `TinyAsciiStr&lt;N&gt;` from the given byte slice.
-    /// `bytes` may contain at most `N` non-null ASCII bytes.
-    </span><span class="kw">pub const fn </span>from_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, TinyStrError&gt; {
-        <span class="self">Self</span>::from_bytes_inner(bytes, <span class="number">0</span>, bytes.len(), <span class="bool-val">false</span>)
+    <span class="attr">#[inline]
+    </span><span class="kw">pub const fn </span>try_from_str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ParseError&gt; {
+        <span class="self">Self</span>::try_from_utf8(s.as_bytes())
     }
 
-    <span class="doccomment">/// Creates a `TinyAsciiStr&lt;N&gt;` from a byte slice, replacing invalid bytes.
+    <span class="doccomment">/// Creates a `TinyAsciiStr&lt;N&gt;` from the given UTF-8 slice.
+    /// `code_units` may contain at most `N` non-null ASCII code points.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub const fn </span>try_from_utf8(code_units: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ParseError&gt; {
+        <span class="self">Self</span>::try_from_utf8_inner(code_units, <span class="bool-val">false</span>)
+    }
+
+    <span class="doccomment">/// Creates a `TinyAsciiStr&lt;N&gt;` from the given UTF-16 slice.
+    /// `code_units` may contain at most `N` non-null ASCII code points.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub const fn </span>try_from_utf16(code_units: <span class="kw-2">&amp;</span>[u16]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ParseError&gt; {
+        <span class="self">Self</span>::try_from_utf16_inner(code_units, <span class="number">0</span>, code_units.len(), <span class="bool-val">false</span>)
+    }
+
+    <span class="doccomment">/// Creates a `TinyAsciiStr&lt;N&gt;` from a UTF-8 slice, replacing invalid code units.
     ///
-    /// Null and non-ASCII bytes (i.e. those outside the range `0x01..=0x7F`)
-    /// will be replaced with the '?' character.
+    /// Invalid code units, as well as null or non-ASCII code points
+    /// (i.e. those outside the range U+0001..=U+007F`)
+    /// will be replaced with the replacement byte.
     ///
     /// The input slice will be truncated if its length exceeds `N`.
-    </span><span class="kw">pub const fn </span>from_bytes_lossy(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="self">Self </span>{
-        <span class="kw">const </span>QUESTION: u8 = <span class="string">b'?'</span>;
+    </span><span class="kw">pub const fn </span>from_utf8_lossy(code_units: <span class="kw-2">&amp;</span>[u8], replacement: u8) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>out = [<span class="number">0</span>; N];
         <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
         <span class="comment">// Ord is not available in const, so no `.min(N)`
-        </span><span class="kw">let </span>len = <span class="kw">if </span>bytes.len() &gt; N { N } <span class="kw">else </span>{ bytes.len() };
+        </span><span class="kw">let </span>len = <span class="kw">if </span>code_units.len() &gt; N {
+            N
+        } <span class="kw">else </span>{
+            code_units.len()
+        };
 
         <span class="comment">// Indexing is protected by the len check above
         </span><span class="attr">#[allow(clippy::indexing_slicing)]
         </span><span class="kw">while </span>i &lt; len {
-            <span class="kw">let </span>b = bytes[i];
+            <span class="kw">let </span>b = code_units[i];
             <span class="kw">if </span>b &gt; <span class="number">0 </span>&amp;&amp; b &lt; <span class="number">0x80 </span>{
                 out[i] = b;
             } <span class="kw">else </span>{
-                out[i] = QUESTION;
+                out[i] = replacement;
+            }
+            i += <span class="number">1</span>;
+        }
+
+        <span class="self">Self </span>{
+            <span class="comment">// SAFETY: `out` only contains ASCII bytes and has same size as `self.bytes`
+            </span>bytes: <span class="kw">unsafe </span>{ AsciiByte::to_ascii_byte_array(<span class="kw-2">&amp;</span>out) },
+        }
+    }
+
+    <span class="doccomment">/// Creates a `TinyAsciiStr&lt;N&gt;` from a UTF-16 slice, replacing invalid code units.
+    ///
+    /// Invalid code units, as well as null or non-ASCII code points
+    /// (i.e. those outside the range U+0001..=U+007F`)
+    /// will be replaced with the replacement byte.
+    ///
+    /// The input slice will be truncated if its length exceeds `N`.
+    </span><span class="kw">pub const fn </span>from_utf16_lossy(code_units: <span class="kw-2">&amp;</span>[u16], replacement: u8) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>out = [<span class="number">0</span>; N];
+        <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+        <span class="comment">// Ord is not available in const, so no `.min(N)`
+        </span><span class="kw">let </span>len = <span class="kw">if </span>code_units.len() &gt; N {
+            N
+        } <span class="kw">else </span>{
+            code_units.len()
+        };
+
+        <span class="comment">// Indexing is protected by the len check above
+        </span><span class="attr">#[allow(clippy::indexing_slicing)]
+        </span><span class="kw">while </span>i &lt; len {
+            <span class="kw">let </span>b = code_units[i];
+            <span class="kw">if </span>b &gt; <span class="number">0 </span>&amp;&amp; b &lt; <span class="number">0x80 </span>{
+                out[i] = b <span class="kw">as </span>u8;
+            } <span class="kw">else </span>{
+                out[i] = replacement;
             }
             i += <span class="number">1</span>;
         }
@@ -1106,30 +1301,19 @@
     /// );
     /// assert!(matches!(TinyAsciiStr::&lt;3&gt;::try_from_raw(*b"\0A\0"), Err(_)));
     /// ```
-    </span><span class="kw">pub const fn </span>try_from_raw(raw: [u8; N]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, TinyStrError&gt; {
-        <span class="self">Self</span>::from_bytes_inner(<span class="kw-2">&amp;</span>raw, <span class="number">0</span>, N, <span class="bool-val">true</span>)
+    </span><span class="kw">pub const fn </span>try_from_raw(raw: [u8; N]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ParseError&gt; {
+        <span class="self">Self</span>::try_from_utf8_inner(<span class="kw-2">&amp;</span>raw, <span class="bool-val">true</span>)
     }
 
-    <span class="doccomment">/// Equivalent to [`from_bytes(bytes[start..end])`](Self::from_bytes),
-    /// but callable in a `const` context (which range indexing is not).
-    </span><span class="kw">pub const fn </span>from_bytes_manual_slice(
-        bytes: <span class="kw-2">&amp;</span>[u8],
-        start: usize,
-        end: usize,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, TinyStrError&gt; {
-        <span class="self">Self</span>::from_bytes_inner(bytes, start, end, <span class="bool-val">false</span>)
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>from_bytes_inner(
-        bytes: <span class="kw-2">&amp;</span>[u8],
-        start: usize,
-        end: usize,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>try_from_utf8_inner(
+        code_units: <span class="kw-2">&amp;</span>[u8],
         allow_trailing_null: bool,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, TinyStrError&gt; {
-        <span class="kw">let </span>len = end - start;
-        <span class="kw">if </span>len &gt; N {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(TinyStrError::TooLarge { max: N, len });
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ParseError&gt; {
+        <span class="kw">if </span>code_units.len() &gt; N {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(ParseError::TooLong {
+                max: N,
+                len: code_units.len(),
+            });
         }
 
         <span class="kw">let </span><span class="kw-2">mut </span>out = [<span class="number">0</span>; N];
@@ -1137,16 +1321,16 @@
         <span class="kw">let </span><span class="kw-2">mut </span>found_null = <span class="bool-val">false</span>;
         <span class="comment">// Indexing is protected by TinyStrError::TooLarge
         </span><span class="attr">#[allow(clippy::indexing_slicing)]
-        </span><span class="kw">while </span>i &lt; len {
-            <span class="kw">let </span>b = bytes[start + i];
+        </span><span class="kw">while </span>i &lt; code_units.len() {
+            <span class="kw">let </span>b = code_units[i];
 
             <span class="kw">if </span>b == <span class="number">0 </span>{
                 found_null = <span class="bool-val">true</span>;
             } <span class="kw">else if </span>b &gt;= <span class="number">0x80 </span>{
-                <span class="kw">return </span><span class="prelude-val">Err</span>(TinyStrError::NonAscii);
+                <span class="kw">return </span><span class="prelude-val">Err</span>(ParseError::NonAscii);
             } <span class="kw">else if </span>found_null {
                 <span class="comment">// Error if there are contentful bytes after null
-                </span><span class="kw">return </span><span class="prelude-val">Err</span>(TinyStrError::ContainsNull);
+                </span><span class="kw">return </span><span class="prelude-val">Err</span>(ParseError::ContainsNull);
             }
             out[i] = b;
 
@@ -1155,7 +1339,7 @@
 
         <span class="kw">if </span>!allow_trailing_null &amp;&amp; found_null {
             <span class="comment">// We found some trailing nulls, error
-            </span><span class="kw">return </span><span class="prelude-val">Err</span>(TinyStrError::ContainsNull);
+            </span><span class="kw">return </span><span class="prelude-val">Err</span>(ParseError::ContainsNull);
         }
 
         <span class="prelude-val">Ok</span>(<span class="self">Self </span>{
@@ -1164,16 +1348,53 @@
         })
     }
 
-    <span class="comment">// TODO: This function shadows the FromStr trait. Rename?
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub const fn </span>from_str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, TinyStrError&gt; {
-        <span class="self">Self</span>::from_bytes_inner(s.as_bytes(), <span class="number">0</span>, s.len(), <span class="bool-val">false</span>)
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>try_from_utf16_inner(
+        code_units: <span class="kw-2">&amp;</span>[u16],
+        start: usize,
+        end: usize,
+        allow_trailing_null: bool,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ParseError&gt; {
+        <span class="kw">let </span>len = end - start;
+        <span class="kw">if </span>len &gt; N {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(ParseError::TooLong { max: N, len });
+        }
+
+        <span class="kw">let </span><span class="kw-2">mut </span>out = [<span class="number">0</span>; N];
+        <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>found_null = <span class="bool-val">false</span>;
+        <span class="comment">// Indexing is protected by TinyStrError::TooLarge
+        </span><span class="attr">#[allow(clippy::indexing_slicing)]
+        </span><span class="kw">while </span>i &lt; len {
+            <span class="kw">let </span>b = code_units[start + i];
+
+            <span class="kw">if </span>b == <span class="number">0 </span>{
+                found_null = <span class="bool-val">true</span>;
+            } <span class="kw">else if </span>b &gt;= <span class="number">0x80 </span>{
+                <span class="kw">return </span><span class="prelude-val">Err</span>(ParseError::NonAscii);
+            } <span class="kw">else if </span>found_null {
+                <span class="comment">// Error if there are contentful bytes after null
+                </span><span class="kw">return </span><span class="prelude-val">Err</span>(ParseError::ContainsNull);
+            }
+            out[i] = b <span class="kw">as </span>u8;
+
+            i += <span class="number">1</span>;
+        }
+
+        <span class="kw">if </span>!allow_trailing_null &amp;&amp; found_null {
+            <span class="comment">// We found some trailing nulls, error
+            </span><span class="kw">return </span><span class="prelude-val">Err</span>(ParseError::ContainsNull);
+        }
+
+        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{
+            <span class="comment">// SAFETY: `out` only contains ASCII bytes and has same size as `self.bytes`
+            </span>bytes: <span class="kw">unsafe </span>{ AsciiByte::to_ascii_byte_array(<span class="kw-2">&amp;</span>out) },
+        })
     }
 
     <span class="attr">#[inline]
     </span><span class="kw">pub const fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
-        <span class="comment">// as_bytes is valid utf8
-        </span><span class="kw">unsafe </span>{ str::from_utf8_unchecked(<span class="self">self</span>.as_bytes()) }
+        <span class="comment">// as_utf8 is valid utf8
+        </span><span class="kw">unsafe </span>{ str::from_utf8_unchecked(<span class="self">self</span>.as_utf8()) }
     }
 
     <span class="attr">#[inline]
@@ -1201,7 +1422,7 @@
 
     <span class="attr">#[inline]
     #[must_use]
-    </span><span class="kw">pub const fn </span>as_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
+    </span><span class="kw">pub const fn </span>as_utf8(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
         <span class="comment">// Safe because `self.bytes.as_slice()` pointer-casts to `&amp;[u8]`,
         // and changing the length of that slice to self.len() &lt; N is safe.
         </span><span class="kw">unsafe </span>{
@@ -1233,16 +1454,59 @@
         }
         <span class="comment">// `self.bytes` only contains ASCII bytes, with no null bytes between
         // ASCII characters, so this also holds for `bytes`.
-        </span><span class="kw">unsafe </span>{ TinyAsciiStr::from_bytes_unchecked(bytes) }
+        </span><span class="kw">unsafe </span>{ TinyAsciiStr::from_utf8_unchecked(bytes) }
+    }
+
+    <span class="attr">#[inline]
+    #[must_use]
+    </span><span class="doccomment">/// Returns a `TinyAsciiStr&lt;Q&gt;` with the concatenation of this string,
+    /// `TinyAsciiStr&lt;N&gt;`, and another string, `TinyAsciiStr&lt;M&gt;`.
+    ///
+    /// If `Q &lt; N + M`, the string gets truncated.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use tinystr::tinystr;
+    /// use tinystr::TinyAsciiStr;
+    ///
+    /// let abc = tinystr!(6, "abc");
+    /// let defg = tinystr!(6, "defg");
+    ///
+    /// // The concatenation is successful if Q is large enough...
+    /// assert_eq!(abc.concat(defg), tinystr!(16, "abcdefg"));
+    /// assert_eq!(abc.concat(defg), tinystr!(12, "abcdefg"));
+    /// assert_eq!(abc.concat(defg), tinystr!(8, "abcdefg"));
+    /// assert_eq!(abc.concat(defg), tinystr!(7, "abcdefg"));
+    ///
+    /// /// ...but it truncates of Q is too small.
+    /// assert_eq!(abc.concat(defg), tinystr!(6, "abcdef"));
+    /// assert_eq!(abc.concat(defg), tinystr!(2, "ab"));
+    /// ```
+    </span><span class="kw">pub const fn </span>concat&lt;<span class="kw">const </span>M: usize, <span class="kw">const </span>Q: usize&gt;(
+        <span class="self">self</span>,
+        other: TinyAsciiStr&lt;M&gt;,
+    ) -&gt; TinyAsciiStr&lt;Q&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>result = <span class="self">self</span>.resize::&lt;Q&gt;();
+        <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="self">self</span>.len();
+        <span class="kw">let </span><span class="kw-2">mut </span>j = <span class="number">0</span>;
+        <span class="comment">// Indexing is protected by the loop guard
+        </span><span class="attr">#[allow(clippy::indexing_slicing)]
+        </span><span class="kw">while </span>i &lt; Q &amp;&amp; j &lt; M {
+            result.bytes[i] = other.bytes[j];
+            i += <span class="number">1</span>;
+            j += <span class="number">1</span>;
+        }
+        result
     }
 
     <span class="doccomment">/// # Safety
     /// Must be called with a bytes array made of valid ASCII bytes, with no null bytes
     /// between ASCII characters
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub const unsafe fn </span>from_bytes_unchecked(bytes: [u8; N]) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const unsafe fn </span>from_utf8_unchecked(code_units: [u8; N]) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            bytes: AsciiByte::to_ascii_byte_array(<span class="kw-2">&amp;</span>bytes),
+            bytes: AsciiByte::to_ascii_byte_array(<span class="kw-2">&amp;</span>code_units),
         }
     }
 }
@@ -1686,11 +1950,18 @@
     }
 }
 
+<span class="kw">impl</span>&lt;<span class="kw">const </span>N: usize&gt; Borrow&lt;str&gt; <span class="kw">for </span>TinyAsciiStr&lt;N&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="self">self</span>.as_str()
+    }
+}
+
 <span class="kw">impl</span>&lt;<span class="kw">const </span>N: usize&gt; FromStr <span class="kw">for </span>TinyAsciiStr&lt;N&gt; {
-    <span class="kw">type </span><span class="prelude-val">Err </span>= TinyStrError;
+    <span class="kw">type </span><span class="prelude-val">Err </span>= ParseError;
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>from_str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Err&gt; {
-        <span class="self">Self</span>::from_str(s)
+        <span class="self">Self</span>::try_from_str(s)
     }
 }
 
@@ -1790,7 +2061,17 @@
         {
             <span class="kw">let </span>t = <span class="kw">match </span>TinyAsciiStr::&lt;N&gt;::from_str(<span class="kw-2">&amp;</span>s) {
                 <span class="prelude-val">Ok</span>(t) =&gt; t,
-                <span class="prelude-val">Err</span>(TinyStrError::TooLarge { .. }) =&gt; <span class="kw">continue</span>,
+                <span class="prelude-val">Err</span>(ParseError::TooLong { .. }) =&gt; <span class="kw">continue</span>,
+                <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">panic!</span>(<span class="string">"{}"</span>, e),
+            };
+            <span class="kw">let </span>expected = reference_f(<span class="kw-2">&amp;</span>s);
+            <span class="kw">let </span>actual = tinystr_f(t);
+            <span class="macro">assert_eq!</span>(expected, actual, <span class="string">"TinyAsciiStr&lt;{N}&gt;: {s:?}"</span>);
+
+            <span class="kw">let </span>s_utf16: Vec&lt;u16&gt; = s.encode_utf16().collect();
+            <span class="kw">let </span>t = <span class="kw">match </span>TinyAsciiStr::&lt;N&gt;::try_from_utf16(<span class="kw-2">&amp;</span>s_utf16) {
+                <span class="prelude-val">Ok</span>(t) =&gt; t,
+                <span class="prelude-val">Err</span>(ParseError::TooLong { .. }) =&gt; <span class="kw">continue</span>,
                 <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">panic!</span>(<span class="string">"{}"</span>, e),
             };
             <span class="kw">let </span>expected = reference_f(<span class="kw-2">&amp;</span>s);
@@ -1852,7 +2133,7 @@
         <span class="kw">fn </span>check&lt;<span class="kw">const </span>N: usize&gt;() {
             check_operation(
                 |s| {
-                    s == TinyAsciiStr::&lt;<span class="number">16</span>&gt;::from_str(s)
+                    s == TinyAsciiStr::&lt;<span class="number">16</span>&gt;::try_from_str(s)
                         .unwrap()
                         .to_ascii_lowercase()
                         .as_str()
@@ -1873,7 +2154,7 @@
         <span class="kw">fn </span>check&lt;<span class="kw">const </span>N: usize&gt;() {
             check_operation(
                 |s| {
-                    s == TinyAsciiStr::&lt;<span class="number">16</span>&gt;::from_str(s)
+                    s == TinyAsciiStr::&lt;<span class="number">16</span>&gt;::try_from_str(s)
                         .unwrap()
                         .to_ascii_titlecase()
                         .as_str()
@@ -1894,7 +2175,7 @@
         <span class="kw">fn </span>check&lt;<span class="kw">const </span>N: usize&gt;() {
             check_operation(
                 |s| {
-                    s == TinyAsciiStr::&lt;<span class="number">16</span>&gt;::from_str(s)
+                    s == TinyAsciiStr::&lt;<span class="number">16</span>&gt;::try_from_str(s)
                         .unwrap()
                         .to_ascii_uppercase()
                         .as_str()
@@ -1918,7 +2199,7 @@
                     <span class="comment">// Check alphabetic
                     </span>s.chars().all(|c| c.is_ascii_alphabetic()) &amp;&amp;
                     <span class="comment">// Check lowercase
-                    </span>s == TinyAsciiStr::&lt;<span class="number">16</span>&gt;::from_str(s)
+                    </span>s == TinyAsciiStr::&lt;<span class="number">16</span>&gt;::try_from_str(s)
                         .unwrap()
                         .to_ascii_lowercase()
                         .as_str()
@@ -1942,7 +2223,7 @@
                     <span class="comment">// Check alphabetic
                     </span>s.chars().all(|c| c.is_ascii_alphabetic()) &amp;&amp;
                     <span class="comment">// Check titlecase
-                    </span>s == TinyAsciiStr::&lt;<span class="number">16</span>&gt;::from_str(s)
+                    </span>s == TinyAsciiStr::&lt;<span class="number">16</span>&gt;::try_from_str(s)
                         .unwrap()
                         .to_ascii_titlecase()
                         .as_str()
@@ -1966,7 +2247,7 @@
                     <span class="comment">// Check alphabetic
                     </span>s.chars().all(|c| c.is_ascii_alphabetic()) &amp;&amp;
                     <span class="comment">// Check uppercase
-                    </span>s == TinyAsciiStr::&lt;<span class="number">16</span>&gt;::from_str(s)
+                    </span>s == TinyAsciiStr::&lt;<span class="number">16</span>&gt;::try_from_str(s)
                         .unwrap()
                         .to_ascii_uppercase()
                         .as_str()
@@ -2048,18 +2329,21 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>lossy_constructor() {
-        <span class="macro">assert_eq!</span>(TinyAsciiStr::&lt;<span class="number">4</span>&gt;::from_bytes_lossy(<span class="string">b""</span>).as_str(), <span class="string">""</span>);
+        <span class="macro">assert_eq!</span>(TinyAsciiStr::&lt;<span class="number">4</span>&gt;::from_utf8_lossy(<span class="string">b""</span>, <span class="string">b'?'</span>).as_str(), <span class="string">""</span>);
         <span class="macro">assert_eq!</span>(
-            TinyAsciiStr::&lt;<span class="number">4</span>&gt;::from_bytes_lossy(<span class="string">b"oh\0o"</span>).as_str(),
+            TinyAsciiStr::&lt;<span class="number">4</span>&gt;::from_utf8_lossy(<span class="string">b"oh\0o"</span>, <span class="string">b'?'</span>).as_str(),
             <span class="string">"oh?o"
         </span>);
-        <span class="macro">assert_eq!</span>(TinyAsciiStr::&lt;<span class="number">4</span>&gt;::from_bytes_lossy(<span class="string">b"\0"</span>).as_str(), <span class="string">"?"</span>);
         <span class="macro">assert_eq!</span>(
-            TinyAsciiStr::&lt;<span class="number">4</span>&gt;::from_bytes_lossy(<span class="string">b"toolong"</span>).as_str(),
+            TinyAsciiStr::&lt;<span class="number">4</span>&gt;::from_utf8_lossy(<span class="string">b"\0"</span>, <span class="string">b'?'</span>).as_str(),
+            <span class="string">"?"
+        </span>);
+        <span class="macro">assert_eq!</span>(
+            TinyAsciiStr::&lt;<span class="number">4</span>&gt;::from_utf8_lossy(<span class="string">b"toolong"</span>, <span class="string">b'?'</span>).as_str(),
             <span class="string">"tool"
         </span>);
         <span class="macro">assert_eq!</span>(
-            TinyAsciiStr::&lt;<span class="number">4</span>&gt;::from_bytes_lossy(<span class="kw-2">&amp;</span>[<span class="string">b'a'</span>, <span class="number">0x80</span>, <span class="number">0xFF</span>, <span class="string">b'1'</span>]).as_str(),
+            TinyAsciiStr::&lt;<span class="number">4</span>&gt;::from_utf8_lossy(<span class="kw-2">&amp;</span>[<span class="string">b'a'</span>, <span class="number">0x80</span>, <span class="number">0xFF</span>, <span class="string">b'1'</span>], <span class="string">b'?'</span>).as_str(),
             <span class="string">"a??1"
         </span>);
     }

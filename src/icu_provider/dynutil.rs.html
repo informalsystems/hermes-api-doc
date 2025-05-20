@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_provider-1.5.0/src/dynutil.rs`."><title>dynutil.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_provider" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_provider/</div>dynutil.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_provider-2.0.0/src/dynutil.rs`."><title>dynutil.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_provider" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_provider/</div>dynutil.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -182,79 +182,7 @@
 <a href="#181" id="181">181</a>
 <a href="#182" id="182">182</a>
 <a href="#183" id="183">183</a>
-<a href="#184" id="184">184</a>
-<a href="#185" id="185">185</a>
-<a href="#186" id="186">186</a>
-<a href="#187" id="187">187</a>
-<a href="#188" id="188">188</a>
-<a href="#189" id="189">189</a>
-<a href="#190" id="190">190</a>
-<a href="#191" id="191">191</a>
-<a href="#192" id="192">192</a>
-<a href="#193" id="193">193</a>
-<a href="#194" id="194">194</a>
-<a href="#195" id="195">195</a>
-<a href="#196" id="196">196</a>
-<a href="#197" id="197">197</a>
-<a href="#198" id="198">198</a>
-<a href="#199" id="199">199</a>
-<a href="#200" id="200">200</a>
-<a href="#201" id="201">201</a>
-<a href="#202" id="202">202</a>
-<a href="#203" id="203">203</a>
-<a href="#204" id="204">204</a>
-<a href="#205" id="205">205</a>
-<a href="#206" id="206">206</a>
-<a href="#207" id="207">207</a>
-<a href="#208" id="208">208</a>
-<a href="#209" id="209">209</a>
-<a href="#210" id="210">210</a>
-<a href="#211" id="211">211</a>
-<a href="#212" id="212">212</a>
-<a href="#213" id="213">213</a>
-<a href="#214" id="214">214</a>
-<a href="#215" id="215">215</a>
-<a href="#216" id="216">216</a>
-<a href="#217" id="217">217</a>
-<a href="#218" id="218">218</a>
-<a href="#219" id="219">219</a>
-<a href="#220" id="220">220</a>
-<a href="#221" id="221">221</a>
-<a href="#222" id="222">222</a>
-<a href="#223" id="223">223</a>
-<a href="#224" id="224">224</a>
-<a href="#225" id="225">225</a>
-<a href="#226" id="226">226</a>
-<a href="#227" id="227">227</a>
-<a href="#228" id="228">228</a>
-<a href="#229" id="229">229</a>
-<a href="#230" id="230">230</a>
-<a href="#231" id="231">231</a>
-<a href="#232" id="232">232</a>
-<a href="#233" id="233">233</a>
-<a href="#234" id="234">234</a>
-<a href="#235" id="235">235</a>
-<a href="#236" id="236">236</a>
-<a href="#237" id="237">237</a>
-<a href="#238" id="238">238</a>
-<a href="#239" id="239">239</a>
-<a href="#240" id="240">240</a>
-<a href="#241" id="241">241</a>
-<a href="#242" id="242">242</a>
-<a href="#243" id="243">243</a>
-<a href="#244" id="244">244</a>
-<a href="#245" id="245">245</a>
-<a href="#246" id="246">246</a>
-<a href="#247" id="247">247</a>
-<a href="#248" id="248">248</a>
-<a href="#249" id="249">249</a>
-<a href="#250" id="250">250</a>
-<a href="#251" id="251">251</a>
-<a href="#252" id="252">252</a>
-<a href="#253" id="253">253</a>
-<a href="#254" id="254">254</a>
-<a href="#255" id="255">255</a>
-<a href="#256" id="256">256</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#184" id="184">184</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
@@ -262,39 +190,18 @@
 
 /// Trait to allow conversion from `DataPayload&lt;T&gt;` to `DataPayload&lt;S&gt;`.
 ///
-/// This trait can be manually implemented in order to enable [`impl_dynamic_data_provider`](crate::impl_dynamic_data_provider).
-///
-/// [`DataPayload::downcast`]: crate::DataPayload::downcast
+/// This trait can be manually implemented in order to enable [`impl_dynamic_data_provider`].
 </span><span class="kw">pub trait </span>UpcastDataPayload&lt;M&gt;
 <span class="kw">where
-    </span>M: <span class="kw">crate</span>::DataMarker,
-    <span class="self">Self</span>: Sized + <span class="kw">crate</span>::DataMarker,
+    </span>M: <span class="kw">crate</span>::DynamicDataMarker,
+    <span class="self">Self</span>: Sized + <span class="kw">crate</span>::DynamicDataMarker,
 {
     <span class="doccomment">/// Upcast a `DataPayload&lt;T&gt;` to a `DataPayload&lt;S&gt;` where `T` implements trait `S`.
-    ///
-    /// # Examples
-    ///
-    /// Upcast and then downcast a data struct of type `Cow&lt;str&gt;` (cart type `String`) via
-    /// [`AnyPayload`](crate::any::AnyPayload):
-    ///
-    /// ```
-    /// use icu_provider::dynutil::UpcastDataPayload;
-    /// use icu_provider::hello_world::*;
-    /// use icu_provider::prelude::*;
-    /// use std::borrow::Cow;
-    ///
-    /// let original = DataPayload::&lt;HelloWorldV1Marker&gt;::from_static_str("foo");
-    /// let upcasted = AnyMarker::upcast(original);
-    /// let downcasted = upcasted
-    ///     .downcast::&lt;HelloWorldV1Marker&gt;()
-    ///     .expect("Type conversion");
-    /// assert_eq!(downcasted.get().message, "foo");
-    /// ```
     </span><span class="kw">fn </span>upcast(other: <span class="kw">crate</span>::DataPayload&lt;M&gt;) -&gt; <span class="kw">crate</span>::DataPayload&lt;<span class="self">Self</span>&gt;;
 }
 
 <span class="doccomment">/// Implements [`UpcastDataPayload`] from several data markers to a single data marker
-/// that all share the same [`DataMarker::Yokeable`].
+/// that all share the same [`DynamicDataMarker::DataStruct`].
 ///
 /// # Examples
 ///
@@ -302,24 +209,27 @@
 /// use icu_provider::prelude::*;
 /// use std::borrow::Cow;
 ///
-/// #[icu_provider::data_struct(
-///     FooV1Marker,
-///     BarV1Marker = "demo/bar@1",
-///     BazV1Marker = "demo/baz@1"
-/// )]
-/// pub struct FooV1&lt;'data&gt; {
+/// struct FooV1;
+/// impl DynamicDataMarker for FooV1 {
+///     type DataStruct = Foo&lt;'static&gt;;
+/// }
+/// icu_provider::data_marker!(BarV1, Foo&lt;'static&gt;);
+/// icu_provider::data_marker!(BazV1, Foo&lt;'static&gt;);
+///
+/// #[derive(yoke::Yokeable)]
+/// pub struct Foo&lt;'data&gt; {
 ///     message: Cow&lt;'data, str&gt;,
 /// };
 ///
-/// icu_provider::impl_casting_upcast!(
-///     FooV1Marker,
-///     [BarV1Marker, BazV1Marker,]
-/// );
+/// icu_provider::data_struct!(Foo&lt;'_&gt;);
+///
+/// icu_provider::dynutil::impl_casting_upcast!(FooV1, [BarV1, BazV1,]);
 /// ```
 ///
-/// [`DataMarker::Yokeable`]: crate::DataMarker::Yokeable
+/// [`DynamicDataMarker::DataStruct`]: crate::DynamicDataMarker::DataStruct
 </span><span class="attr">#[macro_export]
-</span><span class="macro">macro_rules!</span> impl_casting_upcast {
+#[doc(hidden)] </span><span class="comment">// macro
+</span><span class="macro">macro_rules!</span> __impl_casting_upcast {
     (<span class="macro-nonterminal">$dyn_m</span>:path, [ $(<span class="macro-nonterminal">$struct_m</span>:ident),+, ]) =&gt; {
         $(
             <span class="kw">impl </span><span class="macro-nonterminal">$crate::dynutil::UpcastDataPayload</span>&lt;<span class="macro-nonterminal">$struct_m</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$dyn_m </span>{
@@ -330,150 +240,74 @@
         )+
     }
 }
+<span class="attr">#[doc(inline)]
+</span><span class="kw">pub use </span>__impl_casting_upcast <span class="kw">as </span>impl_casting_upcast;
 
 <span class="doccomment">/// Implements [`DynamicDataProvider`] for a marker type `S` on a type that already implements
 /// [`DynamicDataProvider`] or [`DataProvider`] for one or more `M`, where `M` is a concrete type
 /// that is convertible to `S` via [`UpcastDataPayload`].
 ///
-/// Use this macro to add support to your data provider for:
-///
-/// - [`AnyPayload`] if your provider can return typed objects as [`Any`](core::any::Any).
-///
 /// ## Wrapping DataProvider
 ///
 /// If your type implements [`DataProvider`], pass a list of markers as the second argument.
-/// This results in a `DynamicDataProvider` that delegates to a specific marker if the key
-/// matches or else returns [`DataErrorKind::MissingDataKey`].
-///
-/// ```
-/// use icu_provider::prelude::*;
-/// use icu_provider::hello_world::*;
-/// #
-/// # // Duplicating HelloWorldProvider because the real one already implements DynamicDataProvider&lt;AnyMarker&gt;
-/// # struct HelloWorldProvider;
-/// # impl DataProvider&lt;HelloWorldV1Marker&gt; for HelloWorldProvider {
-/// #     fn load(
-/// #         &amp;self,
-/// #         req: DataRequest,
-/// #     ) -&gt; Result&lt;DataResponse&lt;HelloWorldV1Marker&gt;, DataError&gt; {
-/// #         icu_provider::hello_world::HelloWorldProvider.load(req)
-/// #     }
-/// # }
-///
-/// // Implement DynamicDataProvider&lt;AnyMarker&gt; on HelloWorldProvider: DataProvider&lt;HelloWorldV1Marker&gt;
-/// icu_provider::impl_dynamic_data_provider!(HelloWorldProvider, [HelloWorldV1Marker,], AnyMarker);
-///
-/// let req = DataRequest {
-///     locale: &amp;icu_locid::langid!("de").into(),
-///     metadata: Default::default(),
-/// };
-///
-/// // Successful because the key matches:
-/// HelloWorldProvider.load_data(HelloWorldV1Marker::KEY, req).unwrap();
-///
-/// // MissingDataKey error as the key does not match:
-/// assert_eq!(
-///     HelloWorldProvider.load_data(icu_provider::data_key!("dummy@1"), req).unwrap_err().kind,
-///     DataErrorKind::MissingDataKey,
-/// );
-/// ```
-///
-/// ## Wrapping DynamicDataProvider
-///
-/// It is also possible to wrap a [`DynamicDataProvider`] to create another [`DynamicDataProvider`]. To do this,
-/// pass a match-like statement for keys as the second argument:
-///
-/// ```
-/// use icu_provider::prelude::*;
-/// use icu_provider::hello_world::*;
-/// #
-/// # struct HelloWorldProvider;
-/// # impl DynamicDataProvider&lt;HelloWorldV1Marker&gt; for HelloWorldProvider {
-/// #     fn load_data(&amp;self, key: DataKey, req: DataRequest)
-/// #             -&gt; Result&lt;DataResponse&lt;HelloWorldV1Marker&gt;, DataError&gt; {
-/// #         icu_provider::hello_world::HelloWorldProvider.load(req)
-/// #     }
-/// # }
-///
-/// // Implement DataProvider&lt;AnyMarker&gt; on HelloWorldProvider: DynamicDataProvider&lt;HelloWorldV1Marker&gt;
-/// icu_provider::impl_dynamic_data_provider!(HelloWorldProvider, {
-///     // Match HelloWorldV1Marker::KEY and delegate to DynamicDataProvider&lt;HelloWorldV1Marker&gt;.
-///     HW = HelloWorldV1Marker::KEY =&gt; HelloWorldV1Marker,
-///     // Send the wildcard match also to DynamicDataProvider&lt;HelloWorldV1Marker&gt;.
-///     _ =&gt; HelloWorldV1Marker,
-/// }, AnyMarker);
-///
-/// let req = DataRequest {
-///     locale: &amp;icu_locid::langid!("de").into(),
-///     metadata: Default::default(),
-/// };
-///
-/// // Successful because the key matches:
-/// HelloWorldProvider.as_any_provider().load_any(HelloWorldV1Marker::KEY, req).unwrap();
-///
-/// // Because of the wildcard, any key actually works:
-/// HelloWorldProvider.as_any_provider().load_any(icu_provider::data_key!("dummy@1"), req).unwrap();
-/// ```
+/// This results in a `DynamicDataProvider` that delegates to a specific marker if the marker
+/// matches or else returns [`DataErrorKind::MarkerNotFound`].
 ///
 /// [`DynamicDataProvider`]: crate::DynamicDataProvider
 /// [`DataProvider`]: crate::DataProvider
-/// [`AnyPayload`]: (crate::any::AnyPayload)
-/// [`DataErrorKind::MissingDataKey`]: (crate::DataErrorKind::MissingDataKey)
-/// [`SerializeMarker`]: (crate::serde::SerializeMarker)
+/// [`DataErrorKind::MarkerNotFound`]: (crate::DataErrorKind::MarkerNotFound)
+/// [`SerializeMarker`]: (crate::buf::SerializeMarker)
+</span><span class="attr">#[doc(hidden)] </span><span class="comment">// macro
 </span><span class="attr">#[macro_export]
-</span><span class="macro">macro_rules!</span> impl_dynamic_data_provider {
+</span><span class="macro">macro_rules!</span> __impl_dynamic_data_provider {
     <span class="comment">// allow passing in multiple things to do and get dispatched
     </span>(<span class="macro-nonterminal">$provider</span>:ty, <span class="macro-nonterminal">$arms</span>:tt, <span class="macro-nonterminal">$one</span>:path, $(<span class="macro-nonterminal">$rest</span>:path),+) =&gt; {
-        <span class="macro-nonterminal">$</span><span class="macro">crate::impl_dynamic_data_provider!</span>(
+        <span class="macro-nonterminal">$</span><span class="macro">crate::dynutil::impl_dynamic_data_provider!</span>(
             <span class="macro-nonterminal">$provider</span>,
             <span class="macro-nonterminal">$arms</span>,
             <span class="macro-nonterminal">$one
         </span>);
 
-        <span class="macro-nonterminal">$</span><span class="macro">crate::impl_dynamic_data_provider!</span>(
+        <span class="macro-nonterminal">$</span><span class="macro">crate::dynutil::impl_dynamic_data_provider!</span>(
             <span class="macro-nonterminal">$provider</span>,
             <span class="macro-nonterminal">$arms</span>,
             $(<span class="macro-nonterminal">$rest</span>),+
         );
     };
 
-    (<span class="macro-nonterminal">$provider</span>:ty, { $(<span class="macro-nonterminal">$ident</span>:ident = <span class="macro-nonterminal">$key</span>:path =&gt; <span class="macro-nonterminal">$struct_m</span>:ty),+, $(<span class="kw">_ </span>=&gt; <span class="macro-nonterminal">$struct_d</span>:ty,)<span class="question-mark">?</span>}, <span class="macro-nonterminal">$dyn_m</span>:ty) =&gt; {
+    (<span class="macro-nonterminal">$provider</span>:ty, { $(<span class="macro-nonterminal">$ident</span>:ident = <span class="macro-nonterminal">$marker</span>:path =&gt; <span class="macro-nonterminal">$struct_m</span>:ty),+, $(<span class="kw">_ </span>=&gt; <span class="macro-nonterminal">$struct_d</span>:ty,)<span class="question-mark">?</span>}, <span class="macro-nonterminal">$dyn_m</span>:ty) =&gt; {
         <span class="kw">impl </span><span class="macro-nonterminal">$crate::DynamicDataProvider</span>&lt;<span class="macro-nonterminal">$dyn_m</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$provider
         </span>{
             <span class="kw">fn </span>load_data(
                 <span class="kw-2">&amp;</span><span class="self">self</span>,
-                key: <span class="macro-nonterminal">$crate::DataKey</span>,
+                marker: <span class="macro-nonterminal">$crate::DataMarkerInfo</span>,
                 req: <span class="macro-nonterminal">$crate::DataRequest</span>,
             ) -&gt; <span class="prelude-ty">Result</span>&lt;
                 <span class="macro-nonterminal">$crate::DataResponse</span>&lt;<span class="macro-nonterminal">$dyn_m</span>&gt;,
                 <span class="macro-nonterminal">$crate::DataError</span>,
             &gt; {
-                <span class="kw">match </span>key.hashed() {
+                <span class="kw">match </span>marker.id.hashed() {
                     $(
-                        h <span class="kw">if </span>h == <span class="macro-nonterminal">$key</span>.hashed() =&gt; {
+                        h <span class="kw">if </span>h == <span class="macro-nonterminal">$marker</span>.id.hashed() =&gt; {
                             <span class="kw">let </span>result: <span class="macro-nonterminal">$crate::DataResponse</span>&lt;<span class="macro-nonterminal">$struct_m</span>&gt; =
-                                <span class="macro-nonterminal">$crate::DynamicDataProvider</span>::&lt;<span class="macro-nonterminal">$struct_m</span>&gt;::load_data(<span class="self">self</span>, key, req)<span class="question-mark">?</span>;
+                                <span class="macro-nonterminal">$crate::DynamicDataProvider</span>::&lt;<span class="macro-nonterminal">$struct_m</span>&gt;::load_data(<span class="self">self</span>, marker, req)<span class="question-mark">?</span>;
                             <span class="prelude-val">Ok</span>(<span class="macro-nonterminal">$crate::DataResponse </span>{
                                 metadata: result.metadata,
-                                payload: result.payload.map(|p| {
-                                    <span class="macro-nonterminal">$crate::dynutil::UpcastDataPayload</span>::&lt;<span class="macro-nonterminal">$struct_m</span>&gt;::upcast(p)
-                                }),
+                                payload: <span class="macro-nonterminal">$crate::dynutil::UpcastDataPayload</span>::&lt;<span class="macro-nonterminal">$struct_m</span>&gt;::upcast(result.payload),
                             })
                         }
                     )+,
                     $(
                         <span class="kw">_ </span>=&gt; {
                             <span class="kw">let </span>result: <span class="macro-nonterminal">$crate::DataResponse</span>&lt;<span class="macro-nonterminal">$struct_d</span>&gt; =
-                                <span class="macro-nonterminal">$crate::DynamicDataProvider</span>::&lt;<span class="macro-nonterminal">$struct_d</span>&gt;::load_data(<span class="self">self</span>, key, req)<span class="question-mark">?</span>;
+                                <span class="macro-nonterminal">$crate::DynamicDataProvider</span>::&lt;<span class="macro-nonterminal">$struct_d</span>&gt;::load_data(<span class="self">self</span>, marker, req)<span class="question-mark">?</span>;
                             <span class="prelude-val">Ok</span>(<span class="macro-nonterminal">$crate::DataResponse </span>{
                                 metadata: result.metadata,
-                                payload: result.payload.map(|p| {
-                                    <span class="macro-nonterminal">$crate::dynutil::UpcastDataPayload</span>::&lt;<span class="macro-nonterminal">$struct_d</span>&gt;::upcast(p)
-                                }),
+                                payload: <span class="macro-nonterminal">$crate::dynutil::UpcastDataPayload</span>::&lt;<span class="macro-nonterminal">$struct_d</span>&gt;::upcast(result.payload),
                             })
                         }
                     )<span class="question-mark">?
-                    </span><span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(<span class="macro-nonterminal">$crate::DataErrorKind::MissingDataKey</span>.with_req(key, req))
+                    </span><span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(<span class="macro-nonterminal">$crate::DataErrorKind::MarkerNotFound</span>.with_req(marker, req))
                 }
             }
         }
@@ -484,30 +318,52 @@
         </span>{
             <span class="kw">fn </span>load_data(
                 <span class="kw-2">&amp;</span><span class="self">self</span>,
-                key: <span class="macro-nonterminal">$crate::DataKey</span>,
+                marker: <span class="macro-nonterminal">$crate::DataMarkerInfo</span>,
                 req: <span class="macro-nonterminal">$crate::DataRequest</span>,
             ) -&gt; <span class="prelude-ty">Result</span>&lt;
                 <span class="macro-nonterminal">$crate::DataResponse</span>&lt;<span class="macro-nonterminal">$dyn_m</span>&gt;,
                 <span class="macro-nonterminal">$crate::DataError</span>,
             &gt; {
-                <span class="kw">match </span>key.hashed() {
+                <span class="kw">match </span>marker.id.hashed() {
                     $(
                         $(<span class="attr">#[<span class="macro-nonterminal">$cfg</span>]</span>)<span class="question-mark">?
-                        </span>h <span class="kw">if </span>h == &lt;<span class="macro-nonterminal">$struct_m</span>&gt;::KEY.hashed() =&gt; {
+                        </span>h <span class="kw">if </span>h == &lt;<span class="macro-nonterminal">$struct_m </span><span class="kw">as </span><span class="macro-nonterminal">$crate::DataMarker</span>&gt;::INFO.id.hashed() =&gt; {
                             <span class="kw">let </span>result: <span class="macro-nonterminal">$crate::DataResponse</span>&lt;<span class="macro-nonterminal">$struct_m</span>&gt; =
                                 <span class="macro-nonterminal">$crate::DataProvider::load</span>(<span class="self">self</span>, req)<span class="question-mark">?</span>;
                             <span class="prelude-val">Ok</span>(<span class="macro-nonterminal">$crate::DataResponse </span>{
                                 metadata: result.metadata,
-                                payload: result.payload.map(|p| {
-                                    <span class="macro-nonterminal">$crate::dynutil::UpcastDataPayload</span>::&lt;<span class="macro-nonterminal">$struct_m</span>&gt;::upcast(p)
-                                }),
+                                payload: <span class="macro-nonterminal">$crate::dynutil::UpcastDataPayload</span>::&lt;<span class="macro-nonterminal">$struct_m</span>&gt;::upcast(result.payload),
                             })
                         }
                     )+,
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(<span class="macro-nonterminal">$crate::DataErrorKind::MissingDataKey</span>.with_req(key, req))
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(<span class="macro-nonterminal">$crate::DataErrorKind::MarkerNotFound</span>.with_req(marker, req))
                 }
             }
         }
     };
 }
+<span class="attr">#[doc(inline)]
+</span><span class="kw">pub use </span>__impl_dynamic_data_provider <span class="kw">as </span>impl_dynamic_data_provider;
+
+<span class="attr">#[doc(hidden)] </span><span class="comment">// macro
+</span><span class="attr">#[macro_export]
+</span><span class="macro">macro_rules!</span> __impl_iterable_dynamic_data_provider {
+    (<span class="macro-nonterminal">$provider</span>:ty, [ $($(<span class="attr">#[<span class="macro-nonterminal">$cfg</span>:meta]</span>)<span class="question-mark">? </span><span class="macro-nonterminal">$struct_m</span>:ty),+, ], <span class="macro-nonterminal">$dyn_m</span>:path) =&gt; {
+        <span class="kw">impl </span><span class="macro-nonterminal">$crate::IterableDynamicDataProvider</span>&lt;<span class="macro-nonterminal">$dyn_m</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$provider </span>{
+            <span class="kw">fn </span>iter_ids_for_marker(<span class="kw-2">&amp;</span><span class="self">self</span>, marker: <span class="macro-nonterminal">$crate::DataMarkerInfo</span>) -&gt; <span class="prelude-ty">Result</span>&lt;alloc::collections::BTreeSet&lt;<span class="macro-nonterminal">$crate::DataIdentifierCow</span>&gt;, <span class="macro-nonterminal">$crate::DataError</span>&gt; {
+                <span class="kw">match </span>marker.id.hashed() {
+                    $(
+                        $(<span class="attr">#[<span class="macro-nonterminal">$cfg</span>]</span>)<span class="question-mark">?
+                        </span>h <span class="kw">if </span>h == &lt;<span class="macro-nonterminal">$struct_m </span><span class="kw">as </span><span class="macro-nonterminal">$crate::DataMarker</span>&gt;::INFO.id.hashed() =&gt; {
+                            <span class="macro-nonterminal">$crate::IterableDataProvider</span>::&lt;<span class="macro-nonterminal">$struct_m</span>&gt;::iter_ids(<span class="self">self</span>)
+                        }
+                    )+,
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(<span class="macro-nonterminal">$crate::DataErrorKind::MarkerNotFound</span>.with_marker(marker))
+                }
+            }
+        }
+    }
+}
+<span class="attr">#[doc(inline)]
+</span><span class="kw">pub use </span>__impl_iterable_dynamic_data_provider <span class="kw">as </span>impl_iterable_dynamic_data_provider;
 </code></pre></div></section></main></body></html>

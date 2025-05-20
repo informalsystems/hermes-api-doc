@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.26/src/conn.rs`."><title>conn.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/</div>conn.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/conn.rs`."><title>conn.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/</div>conn.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1246,10 +1246,42 @@
 <a href="#1245" id="1245">1245</a>
 <a href="#1246" id="1246">1246</a>
 <a href="#1247" id="1247">1247</a>
-<a href="#1248" id="1248">1248</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::boxed::Box;
+<a href="#1248" id="1248">1248</a>
+<a href="#1249" id="1249">1249</a>
+<a href="#1250" id="1250">1250</a>
+<a href="#1251" id="1251">1251</a>
+<a href="#1252" id="1252">1252</a>
+<a href="#1253" id="1253">1253</a>
+<a href="#1254" id="1254">1254</a>
+<a href="#1255" id="1255">1255</a>
+<a href="#1256" id="1256">1256</a>
+<a href="#1257" id="1257">1257</a>
+<a href="#1258" id="1258">1258</a>
+<a href="#1259" id="1259">1259</a>
+<a href="#1260" id="1260">1260</a>
+<a href="#1261" id="1261">1261</a>
+<a href="#1262" id="1262">1262</a>
+<a href="#1263" id="1263">1263</a>
+<a href="#1264" id="1264">1264</a>
+<a href="#1265" id="1265">1265</a>
+<a href="#1266" id="1266">1266</a>
+<a href="#1267" id="1267">1267</a>
+<a href="#1268" id="1268">1268</a>
+<a href="#1269" id="1269">1269</a>
+<a href="#1270" id="1270">1270</a>
+<a href="#1271" id="1271">1271</a>
+<a href="#1272" id="1272">1272</a>
+<a href="#1273" id="1273">1273</a>
+<a href="#1274" id="1274">1274</a>
+<a href="#1275" id="1275">1275</a>
+<a href="#1276" id="1276">1276</a>
+<a href="#1277" id="1277">1277</a>
+<a href="#1278" id="1278">1278</a>
+<a href="#1279" id="1279">1279</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::boxed::Box;
 <span class="kw">use </span>core::fmt::Debug;
 <span class="kw">use </span>core::mem;
 <span class="kw">use </span>core::ops::{Deref, DerefMut, Range};
+<span class="kw">use </span>kernel::KernelConnection;
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">use </span>std::io;
 
@@ -1263,9 +1295,11 @@
 <span class="kw">use </span><span class="kw">crate</span>::msgs::handshake::Random;
 <span class="kw">use </span><span class="kw">crate</span>::msgs::message::{InboundPlainMessage, Message, MessagePayload};
 <span class="kw">use </span><span class="kw">crate</span>::record_layer::Decrypted;
-<span class="kw">use </span><span class="kw">crate</span>::suites::{ExtractedSecrets, PartiallyExtractedSecrets};
+<span class="kw">use </span><span class="kw">crate</span>::suites::ExtractedSecrets;
 <span class="kw">use </span><span class="kw">crate</span>::vecbuf::ChunkVecBuffer;
 
+<span class="comment">// pub so that it can be re-exported from the crate root
+</span><span class="kw">pub mod </span>kernel;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>unbuffered;
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
@@ -2406,6 +2440,14 @@ https://docs.rs/rustls/latest/rustls/manual/_03_howto/index.html#unexpected-eof"
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>dangerous_extract_secrets(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;ExtractedSecrets, Error&gt; {
+        <span class="prelude-val">Ok</span>(<span class="self">self
+            </span>.dangerous_into_kernel_connection()<span class="question-mark">?
+            </span>.<span class="number">0</span>)
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>dangerous_into_kernel_connection(
+        <span class="self">self</span>,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(ExtractedSecrets, KernelConnection&lt;Data&gt;), Error&gt; {
         <span class="kw">if </span>!<span class="self">self
             </span>.common_state
             .enable_secret_extraction
@@ -2413,14 +2455,34 @@ https://docs.rs/rustls/latest/rustls/manual/_03_howto/index.html#unexpected-eof"
             <span class="kw">return </span><span class="prelude-val">Err</span>(Error::General(<span class="string">"Secret extraction is disabled"</span>.into()));
         }
 
-        <span class="kw">let </span>st = <span class="self">self</span>.state<span class="question-mark">?</span>;
+        <span class="kw">if </span><span class="self">self</span>.common_state.is_handshaking() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(Error::HandshakeNotComplete);
+        }
 
-        <span class="kw">let </span>record_layer = <span class="self">self</span>.common_state.record_layer;
-        <span class="kw">let </span>PartiallyExtractedSecrets { tx, rx } = st.extract_secrets()<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(ExtractedSecrets {
-            tx: (record_layer.write_seq(), tx),
-            rx: (record_layer.read_seq(), rx),
-        })
+        <span class="kw">if </span>!<span class="self">self
+            </span>.common_state
+            .sendable_tls
+            .is_empty()
+        {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(Error::General(
+                <span class="string">"cannot convert into an KernelConnection while there are still buffered TLS records to send"
+                    </span>.into()
+            ));
+        }
+
+        <span class="kw">let </span>state = <span class="self">self</span>.state<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>record_layer = <span class="kw-2">&amp;</span><span class="self">self</span>.common_state.record_layer;
+        <span class="kw">let </span>secrets = state.extract_secrets()<span class="question-mark">?</span>;
+        <span class="kw">let </span>secrets = ExtractedSecrets {
+            tx: (record_layer.write_seq(), secrets.tx),
+            rx: (record_layer.read_seq(), secrets.rx),
+        };
+
+        <span class="kw">let </span>state = state.into_external_state()<span class="question-mark">?</span>;
+        <span class="kw">let </span>external = KernelConnection::new(state, <span class="self">self</span>.common_state)<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>((secrets, external))
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>export_keying_material&lt;T: AsMut&lt;[u8]&gt;&gt;(

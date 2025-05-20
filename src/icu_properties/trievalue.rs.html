@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_properties-1.5.1/src/trievalue.rs`."><title>trievalue.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_properties" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_properties/</div>trievalue.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_properties-2.0.1/src/trievalue.rs`."><title>trievalue.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_properties" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_properties/</div>trievalue.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -271,19 +271,57 @@
 <a href="#270" id="270">270</a>
 <a href="#271" id="271">271</a>
 <a href="#272" id="272">272</a>
-<a href="#273" id="273">273</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
-</span><span class="kw">use </span><span class="kw">crate</span>::provider::bidi_data::{
-    CheckedBidiPairedBracketType, MirroredPairedBracketData, MirroredPairedBracketDataTryFromError,
+</span><span class="kw">use </span><span class="kw">crate</span>::bidi::BidiMirroringGlyph;
+<span class="kw">use </span><span class="kw">crate</span>::props::{
+    BidiClass, CanonicalCombiningClass, EastAsianWidth, GeneralCategory, GeneralCategoryGroup,
+    GraphemeClusterBreak, HangulSyllableType, IndicConjunctBreak, IndicSyllabicCategory,
+    JoiningType, LineBreak, Script, SentenceBreak, VerticalOrientation, WordBreak,
 };
 <span class="kw">use </span><span class="kw">crate</span>::script::ScriptWithExt;
-<span class="kw">use crate</span>::{
-    BidiClass, CanonicalCombiningClass, EastAsianWidth, GeneralCategory, GeneralCategoryGroup,
-    GraphemeClusterBreak, HangulSyllableType, IndicSyllabicCategory, JoiningType, LineBreak,
-    Script, SentenceBreak, WordBreak,
-};
 <span class="kw">use </span>core::convert::TryInto;
 <span class="kw">use </span>core::num::TryFromIntError;
 <span class="kw">use </span>zerovec::ule::{AsULE, RawBytesULE};
@@ -426,19 +464,31 @@
     }
 }
 
-<span class="kw">impl </span>TrieValue <span class="kw">for </span>CheckedBidiPairedBracketType {
+<span class="kw">impl </span>TrieValue <span class="kw">for </span>IndicConjunctBreak {
     <span class="kw">type </span>TryFromU32Error = TryFromIntError;
 
     <span class="kw">fn </span>try_from_u32(i: u32) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::TryFromU32Error&gt; {
-        <span class="prelude-val">Ok</span>(<span class="kw">match </span>i {
-            <span class="number">1 </span>=&gt; CheckedBidiPairedBracketType::Open,
-            <span class="number">2 </span>=&gt; CheckedBidiPairedBracketType::Close,
-            <span class="kw">_ </span>=&gt; CheckedBidiPairedBracketType::None,
-        })
+        u8::try_from(i).map(<span class="self">Self</span>)
+    }
+
+    <span class="kw">fn </span>to_u32(<span class="self">self</span>) -&gt; u32 {
+        u32::from(<span class="self">self</span>.<span class="number">0</span>)
     }
 }
 
 <span class="kw">impl </span>TrieValue <span class="kw">for </span>IndicSyllabicCategory {
+    <span class="kw">type </span>TryFromU32Error = TryFromIntError;
+
+    <span class="kw">fn </span>try_from_u32(i: u32) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::TryFromU32Error&gt; {
+        u8::try_from(i).map(<span class="self">Self</span>)
+    }
+
+    <span class="kw">fn </span>to_u32(<span class="self">self</span>) -&gt; u32 {
+        u32::from(<span class="self">self</span>.<span class="number">0</span>)
+    }
+}
+
+<span class="kw">impl </span>TrieValue <span class="kw">for </span>VerticalOrientation {
     <span class="kw">type </span>TryFromU32Error = TryFromIntError;
 
     <span class="kw">fn </span>try_from_u32(i: u32) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::TryFromU32Error&gt; {
@@ -493,7 +543,7 @@
 
 <span class="kw">fn </span>gcg_to_packed_u16(gcg: GeneralCategoryGroup) -&gt; u16 {
     <span class="comment">// if it's a single property, translate to that property
-    </span><span class="kw">if </span>gcg.<span class="number">0</span>.count_ones() == <span class="number">1 </span>{
+    </span><span class="kw">if </span>gcg.<span class="number">0</span>.is_power_of_two() {
         <span class="comment">// inverse operation of a bitshift
         </span>gcg.<span class="number">0</span>.trailing_zeros() <span class="kw">as </span>u16
     } <span class="kw">else </span>{
@@ -525,11 +575,41 @@
     }
 }
 
-<span class="kw">impl </span>TrieValue <span class="kw">for </span>MirroredPairedBracketData {
-    <span class="kw">type </span>TryFromU32Error = MirroredPairedBracketDataTryFromError;
+<span class="kw">impl </span>TrieValue <span class="kw">for </span>BidiMirroringGlyph {
+    <span class="kw">type </span>TryFromU32Error = u32;
 
     <span class="kw">fn </span>try_from_u32(i: u32) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::TryFromU32Error&gt; {
-        <span class="self">Self</span>::try_from(i)
+        <span class="kw">let </span>code_point = i &amp; <span class="number">0x1FFFFF</span>;
+        <span class="kw">let </span>mirroring_glyph = <span class="kw">if </span>code_point == <span class="number">0 </span>{
+            <span class="prelude-val">None
+        </span>} <span class="kw">else </span>{
+            <span class="prelude-val">Some</span>(char::try_from_u32(code_point).map_err(|<span class="kw">_</span>| i)<span class="question-mark">?</span>)
+        };
+        <span class="kw">let </span>mirrored = ((i &gt;&gt; <span class="number">21</span>) &amp; <span class="number">0x1</span>) == <span class="number">1</span>;
+        <span class="kw">let </span>paired_bracket_type = {
+            <span class="kw">let </span>value = ((i &gt;&gt; <span class="number">22</span>) &amp; <span class="number">0x3</span>) <span class="kw">as </span>u8;
+            <span class="kw">match </span>value {
+                <span class="number">0 </span>=&gt; <span class="kw">crate</span>::bidi::BidiPairedBracketType::None,
+                <span class="number">1 </span>=&gt; <span class="kw">crate</span>::bidi::BidiPairedBracketType::Open,
+                <span class="number">2 </span>=&gt; <span class="kw">crate</span>::bidi::BidiPairedBracketType::Close,
+                <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(i),
+            }
+        };
+        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{
+            mirrored,
+            mirroring_glyph,
+            paired_bracket_type,
+        })
+    }
+
+    <span class="kw">fn </span>to_u32(<span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.mirroring_glyph.unwrap_or_default() <span class="kw">as </span>u32
+            | ((<span class="self">self</span>.mirrored <span class="kw">as </span>u32) &lt;&lt; <span class="number">21</span>)
+            | (<span class="kw">match </span><span class="self">self</span>.paired_bracket_type {
+                <span class="kw">crate</span>::bidi::BidiPairedBracketType::None =&gt; <span class="number">0</span>,
+                <span class="kw">crate</span>::bidi::BidiPairedBracketType::Open =&gt; <span class="number">1</span>,
+                <span class="kw">crate</span>::bidi::BidiPairedBracketType::Close =&gt; <span class="number">2</span>,
+            } &lt;&lt; <span class="number">22</span>)
     }
 }
 

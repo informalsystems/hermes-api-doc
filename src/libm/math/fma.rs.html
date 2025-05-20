@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libm-0.2.11/src/math/fma.rs`."><title>fma.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="libm" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">libm/math/</div>fma.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libm-0.2.15/src/math/fma.rs`."><title>fma.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="libm" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">libm/math/</div>fma.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -169,258 +169,142 @@
 <a href="#168" id="168">168</a>
 <a href="#169" id="169">169</a>
 <a href="#170" id="170">170</a>
-<a href="#171" id="171">171</a>
-<a href="#172" id="172">172</a>
-<a href="#173" id="173">173</a>
-<a href="#174" id="174">174</a>
-<a href="#175" id="175">175</a>
-<a href="#176" id="176">176</a>
-<a href="#177" id="177">177</a>
-<a href="#178" id="178">178</a>
-<a href="#179" id="179">179</a>
-<a href="#180" id="180">180</a>
-<a href="#181" id="181">181</a>
-<a href="#182" id="182">182</a>
-<a href="#183" id="183">183</a>
-<a href="#184" id="184">184</a>
-<a href="#185" id="185">185</a>
-<a href="#186" id="186">186</a>
-<a href="#187" id="187">187</a>
-<a href="#188" id="188">188</a>
-<a href="#189" id="189">189</a>
-<a href="#190" id="190">190</a>
-<a href="#191" id="191">191</a>
-<a href="#192" id="192">192</a>
-<a href="#193" id="193">193</a>
-<a href="#194" id="194">194</a>
-<a href="#195" id="195">195</a>
-<a href="#196" id="196">196</a>
-<a href="#197" id="197">197</a>
-<a href="#198" id="198">198</a>
-<a href="#199" id="199">199</a>
-<a href="#200" id="200">200</a>
-<a href="#201" id="201">201</a>
-<a href="#202" id="202">202</a>
-<a href="#203" id="203">203</a>
-<a href="#204" id="204">204</a>
-<a href="#205" id="205">205</a>
-<a href="#206" id="206">206</a>
-<a href="#207" id="207">207</a>
-<a href="#208" id="208">208</a>
-<a href="#209" id="209">209</a>
-<a href="#210" id="210">210</a>
-<a href="#211" id="211">211</a>
-<a href="#212" id="212">212</a>
-<a href="#213" id="213">213</a>
-<a href="#214" id="214">214</a>
-<a href="#215" id="215">215</a>
-<a href="#216" id="216">216</a>
-<a href="#217" id="217">217</a>
-<a href="#218" id="218">218</a>
-<a href="#219" id="219">219</a>
-<a href="#220" id="220">220</a>
-<a href="#221" id="221">221</a>
-<a href="#222" id="222">222</a>
-<a href="#223" id="223">223</a>
-<a href="#224" id="224">224</a>
-<a href="#225" id="225">225</a>
-<a href="#226" id="226">226</a></pre></div><pre class="rust"><code><span class="kw">use </span>core::{f32, f64};
+<a href="#171" id="171">171</a></pre></div><pre class="rust"><code><span class="comment">/* SPDX-License-Identifier: MIT */
+/* origin: musl src/math/fma.c, fmaf.c Ported to generic Rust algorithm in 2025, TG. */
 
-<span class="kw">use </span><span class="kw">super</span>::scalbn;
+</span><span class="kw">use </span><span class="kw">super</span>::generic;
+<span class="kw">use </span><span class="kw">crate</span>::support::Round;
 
-<span class="kw">const </span>ZEROINFNAN: i32 = <span class="number">0x7ff </span>- <span class="number">0x3ff </span>- <span class="number">52 </span>- <span class="number">1</span>;
-
-<span class="kw">struct </span>Num {
-    m: u64,
-    e: i32,
-    sign: i32,
+<span class="comment">// Placeholder so we can have `fmaf16` in the `Float` trait.
+</span><span class="attr">#[allow(unused)]
+#[cfg(f16_enabled)]
+#[cfg_attr(all(test, assert_no_panic), no_panic::no_panic)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>fmaf16(_x: f16, _y: f16, _z: f16) -&gt; f16 {
+    <span class="macro">unimplemented!</span>()
 }
 
-<span class="kw">fn </span>normalize(x: f64) -&gt; Num {
-    <span class="kw">let </span>x1p63: f64 = f64::from_bits(<span class="number">0x43e0000000000000</span>); <span class="comment">// 0x1p63 === 2 ^ 63
-
-    </span><span class="kw">let </span><span class="kw-2">mut </span>ix: u64 = x.to_bits();
-    <span class="kw">let </span><span class="kw-2">mut </span>e: i32 = (ix &gt;&gt; <span class="number">52</span>) <span class="kw">as </span>i32;
-    <span class="kw">let </span>sign: i32 = e &amp; <span class="number">0x800</span>;
-    e &amp;= <span class="number">0x7ff</span>;
-    <span class="kw">if </span>e == <span class="number">0 </span>{
-        ix = (x * x1p63).to_bits();
-        e = (ix &gt;&gt; <span class="number">52</span>) <span class="kw">as </span>i32 &amp; <span class="number">0x7ff</span>;
-        e = <span class="kw">if </span>e != <span class="number">0 </span>{ e - <span class="number">63 </span>} <span class="kw">else </span>{ <span class="number">0x800 </span>};
-    }
-    ix &amp;= (<span class="number">1 </span>&lt;&lt; <span class="number">52</span>) - <span class="number">1</span>;
-    ix |= <span class="number">1 </span>&lt;&lt; <span class="number">52</span>;
-    ix &lt;&lt;= <span class="number">1</span>;
-    e -= <span class="number">0x3ff </span>+ <span class="number">52 </span>+ <span class="number">1</span>;
-    Num { m: ix, e, sign }
-}
-
-<span class="attr">#[inline]
-</span><span class="kw">fn </span>mul(x: u64, y: u64) -&gt; (u64, u64) {
-    <span class="kw">let </span>t = (x <span class="kw">as </span>u128).wrapping_mul(y <span class="kw">as </span>u128);
-    ((t &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>u64, t <span class="kw">as </span>u64)
-}
-
-<span class="doccomment">/// Floating multiply add (f64)
+<span class="doccomment">/// Floating multiply add (f32)
 ///
-/// Computes `(x*y)+z`, rounded as one ternary operation:
-/// Computes the value (as if) to infinite precision and rounds once to the result format,
-/// according to the rounding mode characterized by the value of FLT_ROUNDS.
+/// Computes `(x*y)+z`, rounded as one ternary operation (i.e. calculated with infinite precision).
+</span><span class="attr">#[cfg_attr(all(test, assert_no_panic), no_panic::no_panic)]
+</span><span class="kw">pub fn </span>fmaf(x: f32, y: f32, z: f32) -&gt; f32 {
+    <span class="macro">select_implementation!</span> {
+        name: fmaf,
+        use_arch: any(
+            all(target_arch = <span class="string">"aarch64"</span>, target_feature = <span class="string">"neon"</span>),
+            target_feature = <span class="string">"sse2"</span>,
+        ),
+        args: x, y, z,
+    }
+
+    generic::fma_wide_round(x, y, z, Round::Nearest).val
+}
+
+<span class="doccomment">/// Fused multiply add (f64)
+///
+/// Computes `(x*y)+z`, rounded as one ternary operation (i.e. calculated with infinite precision).
 </span><span class="attr">#[cfg_attr(all(test, assert_no_panic), no_panic::no_panic)]
 </span><span class="kw">pub fn </span>fma(x: f64, y: f64, z: f64) -&gt; f64 {
-    <span class="kw">let </span>x1p63: f64 = f64::from_bits(<span class="number">0x43e0000000000000</span>); <span class="comment">// 0x1p63 === 2 ^ 63
-    </span><span class="kw">let </span>x0_ffffff8p_63 = f64::from_bits(<span class="number">0x3bfffffff0000000</span>); <span class="comment">// 0x0.ffffff8p-63
-
-    /* normalize so top 10bits and last bit are 0 */
-    </span><span class="kw">let </span>nx = normalize(x);
-    <span class="kw">let </span>ny = normalize(y);
-    <span class="kw">let </span>nz = normalize(z);
-
-    <span class="kw">if </span>nx.e &gt;= ZEROINFNAN || ny.e &gt;= ZEROINFNAN {
-        <span class="kw">return </span>x * y + z;
-    }
-    <span class="kw">if </span>nz.e &gt;= ZEROINFNAN {
-        <span class="kw">if </span>nz.e &gt; ZEROINFNAN {
-            <span class="comment">/* z==0 */
-            </span><span class="kw">return </span>x * y + z;
-        }
-        <span class="kw">return </span>z;
+    <span class="macro">select_implementation!</span> {
+        name: fma,
+        use_arch: any(
+            all(target_arch = <span class="string">"aarch64"</span>, target_feature = <span class="string">"neon"</span>),
+            target_feature = <span class="string">"sse2"</span>,
+        ),
+        args: x, y, z,
     }
 
-    <span class="comment">/* mul: r = x*y */
-    </span><span class="kw">let </span>zhi: u64;
-    <span class="kw">let </span>zlo: u64;
-    <span class="kw">let </span>(<span class="kw-2">mut </span>rhi, <span class="kw-2">mut </span>rlo) = mul(nx.m, ny.m);
-    <span class="comment">/* either top 20 or 21 bits of rhi and last 2 bits of rlo are 0 */
+    generic::fma_round(x, y, z, Round::Nearest).val
+}
 
-    /* align exponents */
-    </span><span class="kw">let </span><span class="kw-2">mut </span>e: i32 = nx.e + ny.e;
-    <span class="kw">let </span><span class="kw-2">mut </span>d: i32 = nz.e - e;
-    <span class="comment">/* shift bits z&lt;&lt;=kz, r&gt;&gt;=kr, so kz+kr == d, set e = e+kr (== ez-kz) */
-    </span><span class="kw">if </span>d &gt; <span class="number">0 </span>{
-        <span class="kw">if </span>d &lt; <span class="number">64 </span>{
-            zlo = nz.m &lt;&lt; d;
-            zhi = nz.m &gt;&gt; (<span class="number">64 </span>- d);
-        } <span class="kw">else </span>{
-            zlo = <span class="number">0</span>;
-            zhi = nz.m;
-            e = nz.e - <span class="number">64</span>;
-            d -= <span class="number">64</span>;
-            <span class="kw">if </span>d == <span class="number">0 </span>{
-            } <span class="kw">else if </span>d &lt; <span class="number">64 </span>{
-                rlo = rhi &lt;&lt; (<span class="number">64 </span>- d) | rlo &gt;&gt; d | ((rlo &lt;&lt; (<span class="number">64 </span>- d)) != <span class="number">0</span>) <span class="kw">as </span>u64;
-                rhi = rhi &gt;&gt; d;
-            } <span class="kw">else </span>{
-                rlo = <span class="number">1</span>;
-                rhi = <span class="number">0</span>;
-            }
-        }
-    } <span class="kw">else </span>{
-        zhi = <span class="number">0</span>;
-        d = -d;
-        <span class="kw">if </span>d == <span class="number">0 </span>{
-            zlo = nz.m;
-        } <span class="kw">else if </span>d &lt; <span class="number">64 </span>{
-            zlo = nz.m &gt;&gt; d | ((nz.m &lt;&lt; (<span class="number">64 </span>- d)) != <span class="number">0</span>) <span class="kw">as </span>u64;
-        } <span class="kw">else </span>{
-            zlo = <span class="number">1</span>;
-        }
-    }
-
-    <span class="comment">/* add */
-    </span><span class="kw">let </span><span class="kw-2">mut </span>sign: i32 = nx.sign ^ ny.sign;
-    <span class="kw">let </span>samesign: bool = (sign ^ nz.sign) == <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>nonzero: i32 = <span class="number">1</span>;
-    <span class="kw">if </span>samesign {
-        <span class="comment">/* r += z */
-        </span>rlo = rlo.wrapping_add(zlo);
-        rhi += zhi + (rlo &lt; zlo) <span class="kw">as </span>u64;
-    } <span class="kw">else </span>{
-        <span class="comment">/* r -= z */
-        </span><span class="kw">let </span>(res, borrow) = rlo.overflowing_sub(zlo);
-        rlo = res;
-        rhi = rhi.wrapping_sub(zhi.wrapping_add(borrow <span class="kw">as </span>u64));
-        <span class="kw">if </span>(rhi &gt;&gt; <span class="number">63</span>) != <span class="number">0 </span>{
-            rlo = (rlo <span class="kw">as </span>i64).wrapping_neg() <span class="kw">as </span>u64;
-            rhi = (rhi <span class="kw">as </span>i64).wrapping_neg() <span class="kw">as </span>u64 - (rlo != <span class="number">0</span>) <span class="kw">as </span>u64;
-            sign = (sign == <span class="number">0</span>) <span class="kw">as </span>i32;
-        }
-        nonzero = (rhi != <span class="number">0</span>) <span class="kw">as </span>i32;
-    }
-
-    <span class="comment">/* set rhi to top 63bit of the result (last bit is sticky) */
-    </span><span class="kw">if </span>nonzero != <span class="number">0 </span>{
-        e += <span class="number">64</span>;
-        d = rhi.leading_zeros() <span class="kw">as </span>i32 - <span class="number">1</span>;
-        <span class="comment">/* note: d &gt; 0 */
-        </span>rhi = rhi &lt;&lt; d | rlo &gt;&gt; (<span class="number">64 </span>- d) | ((rlo &lt;&lt; d) != <span class="number">0</span>) <span class="kw">as </span>u64;
-    } <span class="kw">else if </span>rlo != <span class="number">0 </span>{
-        d = rlo.leading_zeros() <span class="kw">as </span>i32 - <span class="number">1</span>;
-        <span class="kw">if </span>d &lt; <span class="number">0 </span>{
-            rhi = rlo &gt;&gt; <span class="number">1 </span>| (rlo &amp; <span class="number">1</span>);
-        } <span class="kw">else </span>{
-            rhi = rlo &lt;&lt; d;
-        }
-    } <span class="kw">else </span>{
-        <span class="comment">/* exact +-0 */
-        </span><span class="kw">return </span>x * y + z;
-    }
-    e -= d;
-
-    <span class="comment">/* convert to double */
-    </span><span class="kw">let </span><span class="kw-2">mut </span>i: i64 = rhi <span class="kw">as </span>i64; <span class="comment">/* i is in [1&lt;&lt;62,(1&lt;&lt;63)-1] */
-    </span><span class="kw">if </span>sign != <span class="number">0 </span>{
-        i = -i;
-    }
-    <span class="kw">let </span><span class="kw-2">mut </span>r: f64 = i <span class="kw">as </span>f64; <span class="comment">/* |r| is in [0x1p62,0x1p63] */
-
-    </span><span class="kw">if </span>e &lt; -<span class="number">1022 </span>- <span class="number">62 </span>{
-        <span class="comment">/* result is subnormal before rounding */
-        </span><span class="kw">if </span>e == -<span class="number">1022 </span>- <span class="number">63 </span>{
-            <span class="kw">let </span><span class="kw-2">mut </span>c: f64 = x1p63;
-            <span class="kw">if </span>sign != <span class="number">0 </span>{
-                c = -c;
-            }
-            <span class="kw">if </span>r == c {
-                <span class="comment">/* min normal after rounding, underflow depends
-                on arch behaviour which can be imitated by
-                a double to float conversion */
-                </span><span class="kw">let </span>fltmin: f32 = (x0_ffffff8p_63 * f32::MIN_POSITIVE <span class="kw">as </span>f64 * r) <span class="kw">as </span>f32;
-                <span class="kw">return </span>f64::MIN_POSITIVE / f32::MIN_POSITIVE <span class="kw">as </span>f64 * fltmin <span class="kw">as </span>f64;
-            }
-            <span class="comment">/* one bit is lost when scaled, add another top bit to
-            only round once at conversion if it is inexact */
-            </span><span class="kw">if </span>(rhi &lt;&lt; <span class="number">53</span>) != <span class="number">0 </span>{
-                i = (rhi &gt;&gt; <span class="number">1 </span>| (rhi &amp; <span class="number">1</span>) | <span class="number">1 </span>&lt;&lt; <span class="number">62</span>) <span class="kw">as </span>i64;
-                <span class="kw">if </span>sign != <span class="number">0 </span>{
-                    i = -i;
-                }
-                r = i <span class="kw">as </span>f64;
-                r = <span class="number">2. </span>* r - c; <span class="comment">/* remove top bit */
-
-                /* raise underflow portably, such that it
-                cannot be optimized away */
-                </span>{
-                    <span class="kw">let </span>tiny: f64 = f64::MIN_POSITIVE / f32::MIN_POSITIVE <span class="kw">as </span>f64 * r;
-                    r += (tiny * tiny) * (r - r);
-                }
-            }
-        } <span class="kw">else </span>{
-            <span class="comment">/* only round once when scaled */
-            </span>d = <span class="number">10</span>;
-            i = ((rhi &gt;&gt; d | ((rhi &lt;&lt; (<span class="number">64 </span>- d)) != <span class="number">0</span>) <span class="kw">as </span>u64) &lt;&lt; d) <span class="kw">as </span>i64;
-            <span class="kw">if </span>sign != <span class="number">0 </span>{
-                i = -i;
-            }
-            r = i <span class="kw">as </span>f64;
-        }
-    }
-    scalbn(r, e)
+<span class="doccomment">/// Fused multiply add (f128)
+///
+/// Computes `(x*y)+z`, rounded as one ternary operation (i.e. calculated with infinite precision).
+</span><span class="attr">#[cfg(f128_enabled)]
+#[cfg_attr(all(test, assert_no_panic), no_panic::no_panic)]
+</span><span class="kw">pub fn </span>fmaf128(x: f128, y: f128, z: f128) -&gt; f128 {
+    generic::fma_round(x, y, z, Round::Nearest).val
 }
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span><span class="kw">crate</span>::support::{CastFrom, CastInto, Float, FpResult, HInt, MinInt, Round, Status};
+
+    <span class="doccomment">/// Test the generic `fma_round` algorithm for a given float.
+    </span><span class="kw">fn </span>spec_test&lt;F&gt;(f: <span class="kw">impl </span>Fn(F, F, F) -&gt; F)
+    <span class="kw">where
+        </span>F: Float,
+        F: CastFrom&lt;F::SignedInt&gt;,
+        F: CastFrom&lt;i8&gt;,
+        F::Int: HInt,
+        u32: CastInto&lt;F::Int&gt;,
+    {
+        <span class="kw">let </span>x = F::from_bits(F::Int::ONE);
+        <span class="kw">let </span>y = F::from_bits(F::Int::ONE);
+        <span class="kw">let </span>z = F::ZERO;
+
+        <span class="comment">// 754-2020 says "When the exact result of (a × b) + c is non-zero yet the result of
+        // fusedMultiplyAdd is zero because of rounding, the zero result takes the sign of the
+        // exact result"
+        </span><span class="macro">assert_biteq!</span>(f(x, y, z), F::ZERO);
+        <span class="macro">assert_biteq!</span>(f(x, -y, z), F::NEG_ZERO);
+        <span class="macro">assert_biteq!</span>(f(-x, y, z), F::NEG_ZERO);
+        <span class="macro">assert_biteq!</span>(f(-x, -y, z), F::ZERO);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>spec_test_f32() {
+        spec_test::&lt;f32&gt;(fmaf);
+
+        <span class="comment">// Also do a small check that the non-widening version works for f32 (this should ideally
+        // get tested some more).
+        </span>spec_test::&lt;f32&gt;(|x, y, z| generic::fma_round(x, y, z, Round::Nearest).val);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>spec_test_f64() {
+        spec_test::&lt;f64&gt;(fma);
+
+        <span class="kw">let </span>expect_underflow = [
+            (
+                <span class="macro">hf64!</span>(<span class="string">"0x1.0p-1070"</span>),
+                <span class="macro">hf64!</span>(<span class="string">"0x1.0p-1070"</span>),
+                <span class="macro">hf64!</span>(<span class="string">"0x1.ffffffffffffp-1023"</span>),
+                <span class="macro">hf64!</span>(<span class="string">"0x0.ffffffffffff8p-1022"</span>),
+            ),
+            (
+                <span class="comment">// FIXME: we raise underflow but this should only be inexact (based on C and
+                // `rustc_apfloat`).
+                </span><span class="macro">hf64!</span>(<span class="string">"0x1.0p-1070"</span>),
+                <span class="macro">hf64!</span>(<span class="string">"0x1.0p-1070"</span>),
+                <span class="macro">hf64!</span>(<span class="string">"-0x1.0p-1022"</span>),
+                <span class="macro">hf64!</span>(<span class="string">"-0x1.0p-1022"</span>),
+            ),
+        ];
+
+        <span class="kw">for </span>(x, y, z, res) <span class="kw">in </span>expect_underflow {
+            <span class="kw">let </span>FpResult { val, status } = generic::fma_round(x, y, z, Round::Nearest);
+            <span class="macro">assert_biteq!</span>(val, res);
+            <span class="macro">assert_eq!</span>(status, Status::UNDERFLOW);
+        }
+    }
+
+    <span class="attr">#[test]
+    #[cfg(f128_enabled)]
+    </span><span class="kw">fn </span>spec_test_f128() {
+        spec_test::&lt;f128&gt;(fmaf128);
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>issue_263() {
+        <span class="kw">let </span>a = f32::from_bits(<span class="number">1266679807</span>);
+        <span class="kw">let </span>b = f32::from_bits(<span class="number">1300234242</span>);
+        <span class="kw">let </span>c = f32::from_bits(<span class="number">1115553792</span>);
+        <span class="kw">let </span>expected = f32::from_bits(<span class="number">1501560833</span>);
+        <span class="macro">assert_eq!</span>(fmaf(a, b, c), expected);
+    }
+
     <span class="attr">#[test]
     </span><span class="kw">fn </span>fma_segfault() {
         <span class="comment">// These two inputs cause fma to segfault on release due to overflow:
@@ -442,12 +326,18 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>fma_sbb() {
-        <span class="macro">assert_eq!</span>(fma(-(<span class="number">1.0 </span>- f64::EPSILON), f64::MIN, f64::MIN), -<span class="number">3991680619069439e277</span>);
+        <span class="macro">assert_eq!</span>(
+            fma(-(<span class="number">1.0 </span>- f64::EPSILON), f64::MIN, f64::MIN),
+            -<span class="number">3991680619069439e277
+        </span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>fma_underflow() {
-        <span class="macro">assert_eq!</span>(fma(<span class="number">1.1102230246251565e-16</span>, -<span class="number">9.812526705433188e-305</span>, <span class="number">1.0894e-320</span>), <span class="number">0.0</span>,);
+        <span class="macro">assert_eq!</span>(
+            fma(<span class="number">1.1102230246251565e-16</span>, -<span class="number">9.812526705433188e-305</span>, <span class="number">1.0894e-320</span>),
+            <span class="number">0.0</span>,
+        );
     }
 }
 </code></pre></div></section></main></body></html>

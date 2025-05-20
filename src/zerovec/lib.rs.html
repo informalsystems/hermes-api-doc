@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.10.4/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.11.2/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -556,7 +556,25 @@
 <a href="#555" id="555">555</a>
 <a href="#556" id="556">556</a>
 <a href="#557" id="557">557</a>
-<a href="#558" id="558">558</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
@@ -577,7 +595,7 @@
 //! - [`ZeroMap2d&lt;'a, K0, K1, V&gt;`] to map from the pair `(K0, K1)` to `V`
 //!
 //! The first two are intended as close-to-drop-in replacements for `Vec&lt;T&gt;` in Serde structs. The third and fourth are
-//! intended as a replacement for `HashMap` or [`LiteMap`](docs.rs/litemap). When used with Serde derives, **be sure to apply
+//! intended as a replacement for `HashMap` or [`LiteMap`](https://docs.rs/litemap). When used with Serde derives, **be sure to apply
 //! `#[serde(borrow)]` to these types**, same as one would for [`Cow&lt;'a, T&gt;`].
 //!
 //! [`ZeroVec&lt;'a, T&gt;`], [`VarZeroVec&lt;'a, T&gt;`], [`ZeroMap&lt;'a, K, V&gt;`], and [`ZeroMap2d&lt;'a, K0, K1, V&gt;`] all behave like
@@ -593,12 +611,12 @@
 //! # Cargo features
 //!
 //! This crate has several optional Cargo features:
-//!  -  `serde`: Allows serializing and deserializing `zerovec`'s abstractions via [`serde`](https://docs.rs/serde)
-//!  -   `yoke`: Enables implementations of `Yokeable` from the [`yoke`](https://docs.rs/yoke/) crate, which is also useful
-//!              in situations involving a lot of zero-copy deserialization.
+//!  - `serde`: Allows serializing and deserializing `zerovec`'s abstractions via [`serde`](https://docs.rs/serde)
+//!  - `yoke`: Enables implementations of `Yokeable` from the [`yoke`](https://docs.rs/yoke/) crate, which is also useful
+//!    in situations involving a lot of zero-copy deserialization.
 //!  - `derive`: Makes it easier to use custom types in these collections by providing the [`#[make_ule]`](crate::make_ule) and
-//!     [`#[make_varule]`](crate::make_varule) proc macros, which generate appropriate [`ULE`](crate::ule::ULE) and
-//!     [`VarULE`](crate::ule::VarULE)-conformant types for a given "normal" type.
+//!    [`#[make_varule]`](crate::make_varule) proc macros, which generate appropriate [`ULE`](crate::ule::ULE) and
+//!    [`VarULE`](crate::ule::VarULE)-conformant types for a given "normal" type.
 //!  - `std`: Enabled `std::Error` implementations for error types. This crate is by default `no_std` with a dependency on `alloc`.
 //!
 //! [`ZeroVec&lt;'a, T&gt;`]: ZeroVec
@@ -633,7 +651,7 @@
 //! };
 //! let bincode_bytes =
 //!     bincode::serialize(&amp;data).expect("Serialization should be successful");
-//! assert_eq!(bincode_bytes.len(), 67);
+//! assert_eq!(bincode_bytes.len(), 63);
 //!
 //! let deserialized: DataStruct = bincode::deserialize(&amp;bincode_bytes)
 //!     .expect("Deserialization should be successful");
@@ -707,7 +725,7 @@
 //!
 //! let bincode_bytes = bincode::serialize(&amp;data)
 //!     .expect("Serialization should be successful");
-//! assert_eq!(bincode_bytes.len(), 168);
+//! assert_eq!(bincode_bytes.len(), 160);
 //!
 //! let deserialized: Data = bincode::deserialize(&amp;bincode_bytes)
 //!     .expect("Deserialization should be successful");
@@ -752,7 +770,7 @@
 //! is appended for baseline comparisons, e.g. `zeromap/lookup/small/hashmap`.
 
 </span><span class="comment">// https://github.com/unicode-org/icu4x/blob/main/documents/process/boilerplate.md#library-annotations
-</span><span class="attr">#![cfg_attr(not(any(test, feature = <span class="string">"std"</span>)), no_std)]
+</span><span class="attr">#![cfg_attr(not(any(test, doc)), no_std)]
 #![cfg_attr(
     not(test),
     deny(
@@ -762,6 +780,7 @@
         clippy::panic,
         clippy::exhaustive_structs,
         clippy::exhaustive_enums,
+        clippy::trivially_copy_pass_by_ref,
         missing_debug_implementations,
     )
 )]
@@ -769,14 +788,16 @@
 // is better here.
 </span><span class="attr">#![allow(clippy::needless_lifetimes)]
 
+#[cfg(feature = <span class="string">"alloc"</span>)]
 </span><span class="kw">extern crate </span>alloc;
 
-<span class="kw">mod </span>error;
-<span class="kw">mod </span>flexzerovec;
+<span class="kw">mod </span>cow;
 <span class="attr">#[cfg(feature = <span class="string">"hashmap"</span>)]
 </span><span class="kw">pub mod </span>hashmap;
-<span class="kw">mod </span>map;
-<span class="kw">mod </span>map2d;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">mod </span>map;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">mod </span>map2d;
 <span class="attr">#[cfg(test)]
 </span><span class="kw">pub mod </span>samples;
 <span class="kw">mod </span>varzerovec;
@@ -785,32 +806,35 @@
 <span class="comment">// This must be after `mod zerovec` for some impls on `ZeroSlice&lt;RawBytesULE&gt;`
 // to show up in the right spot in the docs
 </span><span class="kw">pub mod </span>ule;
-
 <span class="attr">#[cfg(feature = <span class="string">"yoke"</span>)]
 </span><span class="kw">mod </span>yoke_impls;
 <span class="kw">mod </span>zerofrom_impls;
 
-<span class="kw">pub use </span><span class="kw">crate</span>::error::ZeroVecError;
+<span class="kw">pub use </span><span class="kw">crate</span>::cow::VarZeroCow;
 <span class="attr">#[cfg(feature = <span class="string">"hashmap"</span>)]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::hashmap::ZeroHashMap;
-<span class="kw">pub use </span><span class="kw">crate</span>::map::map::ZeroMap;
-<span class="kw">pub use </span><span class="kw">crate</span>::map2d::map::ZeroMap2d;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::map::map::ZeroMap;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::map2d::map::ZeroMap2d;
 <span class="kw">pub use </span><span class="kw">crate</span>::varzerovec::{slice::VarZeroSlice, vec::VarZeroVec};
 <span class="kw">pub use </span><span class="kw">crate</span>::zerovec::{ZeroSlice, ZeroVec};
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>flexzerovec::chunk_to_usize;
-
-<span class="attr">#[doc(hidden)]
+<span class="attr">#[doc(hidden)] </span><span class="comment">// macro use
 </span><span class="kw">pub mod </span>__zerovec_internal_reexport {
     <span class="kw">pub use </span>zerofrom::ZeroFrom;
 
-    <span class="kw">pub use </span>alloc::boxed;
+    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">pub use </span>alloc::borrow;
+    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">pub use </span>alloc::boxed;
 
     <span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
     </span><span class="kw">pub use </span>serde;
 }
 
-<span class="kw">pub mod </span>maps {
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">pub mod </span>maps {
     <span class="doccomment">//! This module contains additional utility types and traits for working with
     //! [`ZeroMap`] and [`ZeroMap2d`]. See their docs for more details on the general purpose
     //! of these types.
@@ -850,12 +874,19 @@
     </span><span class="attr">#[doc(no_inline)]
     </span><span class="kw">pub use </span><span class="kw">crate</span>::zerovec::{ZeroSlice, ZeroVec};
 
+    <span class="kw">pub use </span><span class="kw">crate</span>::zerovec::ZeroSliceIter;
+
     <span class="attr">#[doc(no_inline)]
     </span><span class="kw">pub use </span><span class="kw">crate</span>::varzerovec::{VarZeroSlice, VarZeroVec};
 
-    <span class="kw">pub use </span><span class="kw">crate</span>::varzerovec::{Index16, Index32, VarZeroVecFormat, VarZeroVecOwned};
+    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">pub use </span><span class="kw">crate</span>::varzerovec::VarZeroVecOwned;
+    <span class="kw">pub use </span><span class="kw">crate</span>::varzerovec::{Index16, Index32, Index8, VarZeroSliceIter, VarZeroVecFormat};
 
-    <span class="kw">pub use </span><span class="kw">crate</span>::flexzerovec::{FlexZeroSlice, FlexZeroVec, FlexZeroVecOwned};
+    <span class="kw">pub type </span>VarZeroVec16&lt;<span class="lifetime">'a</span>, T&gt; = VarZeroVec&lt;<span class="lifetime">'a</span>, T, Index16&gt;;
+    <span class="kw">pub type </span>VarZeroVec32&lt;<span class="lifetime">'a</span>, T&gt; = VarZeroVec&lt;<span class="lifetime">'a</span>, T, Index32&gt;;
+    <span class="kw">pub type </span>VarZeroSlice16&lt;T&gt; = VarZeroSlice&lt;T, Index16&gt;;
+    <span class="kw">pub type </span>VarZeroSlice32&lt;T&gt; = VarZeroSlice&lt;T, Index32&gt;;
 }
 
 <span class="comment">// Proc macro reexports
@@ -975,6 +1006,7 @@
 ///
 /// - [`Ord`] and [`PartialOrd`]
 /// - [`ZeroMapKV`]
+/// - [`alloc::borrow::ToOwned`]
 ///
 /// To disable one of the automatic derives, use `#[zerovec::skip_derive(...)]` like so: `#[zerovec::skip_derive(ZeroMapKV)]`.
 /// `Ord` and `PartialOrd` are implemented as a unit and can only be disabled as a group with `#[zerovec::skip_derive(Ord)]`.
@@ -994,6 +1026,10 @@
 ///
 /// Note that this implementation will autogenerate [`EncodeAsVarULE`] impls for _both_ `Self` and `&amp;Self`
 /// for convenience. This allows for a little more flexibility encoding slices.
+///
+/// In case there are multiple [`VarULE`] (i.e., variable-sized) fields, this macro will produce private fields that
+/// appropriately pack the data together, with the packing format by default being [`crate::vecs::Index16`], but can be
+/// overridden with `#[zerovec::format(zerovec::vecs::Index8)]`.
 ///
 /// [`EncodeAsVarULE`]: ule::EncodeAsVarULE
 /// [`VarULE`]: ule::VarULE
@@ -1078,6 +1114,8 @@
 </span><span class="kw">pub use </span>zerovec_derive::make_varule;
 
 <span class="attr">#[cfg(test)]
+</span><span class="comment">// Expected sizes are based on a 64-bit architecture
+</span><span class="attr">#[cfg(target_pointer_width = <span class="string">"64"</span>)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span>core::mem::size_of;
@@ -1105,13 +1143,11 @@
         <span class="macro">check_size_of!</span>(<span class="number">56 </span>| <span class="number">48</span>, ZeroMap&lt;str, u32&gt;);
         <span class="macro">check_size_of!</span>(<span class="number">64 </span>| <span class="number">48</span>, ZeroMap&lt;str, str&gt;);
         <span class="macro">check_size_of!</span>(<span class="number">120 </span>| <span class="number">96</span>, ZeroMap2d&lt;str, str, str&gt;);
-        <span class="macro">check_size_of!</span>(<span class="number">32 </span>| <span class="number">24</span>, vecs::FlexZeroVec);
 
         <span class="macro">check_size_of!</span>(<span class="number">24</span>, <span class="prelude-ty">Option</span>&lt;ZeroVec&lt;u8&gt;&gt;);
         <span class="macro">check_size_of!</span>(<span class="number">32 </span>| <span class="number">24</span>, <span class="prelude-ty">Option</span>&lt;VarZeroVec&lt;str&gt;&gt;);
         <span class="macro">check_size_of!</span>(<span class="number">64 </span>| <span class="number">56 </span>| <span class="number">48</span>, <span class="prelude-ty">Option</span>&lt;ZeroMap&lt;str, str&gt;&gt;);
         <span class="macro">check_size_of!</span>(<span class="number">120 </span>| <span class="number">104 </span>| <span class="number">96</span>, <span class="prelude-ty">Option</span>&lt;ZeroMap2d&lt;str, str, str&gt;&gt;);
-        <span class="macro">check_size_of!</span>(<span class="number">32 </span>| <span class="number">24</span>, <span class="prelude-ty">Option</span>&lt;vecs::FlexZeroVec&gt;);
     }
 }
 </code></pre></div></section></main></body></html>

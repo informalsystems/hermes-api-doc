@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.26/src/msgs/base.rs`."><title>base.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/msgs/</div>base.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/msgs/base.rs`."><title>base.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/msgs/</div>base.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -202,8 +202,43 @@
 <a href="#201" id="201">201</a>
 <a href="#202" id="202">202</a>
 <a href="#203" id="203">203</a>
-<a href="#204" id="204">204</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::vec::Vec;
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
+<a href="#229" id="229">229</a>
+<a href="#230" id="230">230</a>
+<a href="#231" id="231">231</a>
+<a href="#232" id="232">232</a>
+<a href="#233" id="233">233</a>
+<a href="#234" id="234">234</a>
+<a href="#235" id="235">235</a>
+<a href="#236" id="236">236</a>
+<a href="#237" id="237">237</a>
+<a href="#238" id="238">238</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>core::fmt;
+<span class="kw">use </span>core::marker::PhantomData;
 
 <span class="kw">use </span>pki_types::CertificateDer;
 <span class="kw">use </span>zeroize::Zeroize;
@@ -314,86 +349,119 @@
 }
 
 <span class="doccomment">/// An arbitrary, unknown-content, u16-length-prefixed payload
+///
+/// The `C` type parameter controls whether decoded values may
+/// be empty.
 </span><span class="attr">#[derive(Clone, Eq, PartialEq)]
-</span><span class="kw">pub struct </span>PayloadU16(<span class="kw">pub </span>Vec&lt;u8&gt;);
+</span><span class="kw">pub struct </span>PayloadU16&lt;C: Cardinality = MaybeEmpty&gt;(<span class="kw">pub</span>(<span class="kw">crate</span>) Vec&lt;u8&gt;, PhantomData&lt;C&gt;);
 
-<span class="kw">impl </span>PayloadU16 {
+<span class="kw">impl</span>&lt;C: Cardinality&gt; PayloadU16&lt;C&gt; {
     <span class="kw">pub fn </span>new(bytes: Vec&lt;u8&gt;) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>(bytes)
-    }
-
-    <span class="kw">pub fn </span>empty() -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::new(Vec::new())
-    }
-
-    <span class="kw">pub fn </span>encode_slice(slice: <span class="kw-2">&amp;</span>[u8], bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
-        (slice.len() <span class="kw">as </span>u16).encode(bytes);
-        bytes.extend_from_slice(slice);
+        <span class="macro">debug_assert!</span>(bytes.len() &gt;= C::MIN);
+        <span class="self">Self</span>(bytes, PhantomData)
     }
 }
 
-<span class="kw">impl </span>Codec&lt;<span class="lifetime">'_</span>&gt; <span class="kw">for </span>PayloadU16 {
+<span class="kw">impl </span>PayloadU16&lt;MaybeEmpty&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>empty() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new(Vec::new())
+    }
+}
+
+<span class="kw">impl</span>&lt;C: Cardinality&gt; Codec&lt;<span class="lifetime">'_</span>&gt; <span class="kw">for </span>PayloadU16&lt;C&gt; {
     <span class="kw">fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>, bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
-        <span class="self">Self</span>::encode_slice(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, bytes);
+        <span class="macro">debug_assert!</span>(<span class="self">self</span>.<span class="number">0</span>.len() &gt;= C::MIN);
+        (<span class="self">self</span>.<span class="number">0</span>.len() <span class="kw">as </span>u16).encode(bytes);
+        bytes.extend_from_slice(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>);
     }
 
     <span class="kw">fn </span>read(r: <span class="kw-2">&amp;mut </span>Reader&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidMessage&gt; {
         <span class="kw">let </span>len = u16::read(r)<span class="question-mark">? </span><span class="kw">as </span>usize;
+        <span class="kw">if </span>len &lt; C::MIN {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidMessage::IllegalEmptyValue);
+        }
         <span class="kw">let </span><span class="kw-2">mut </span>sub = r.sub(len)<span class="question-mark">?</span>;
         <span class="kw">let </span>body = sub.rest().to_vec();
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span>(body))
+        <span class="prelude-val">Ok</span>(<span class="self">Self</span>(body, PhantomData))
     }
 }
 
-<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>PayloadU16 {
+<span class="kw">impl</span>&lt;C: Cardinality&gt; fmt::Debug <span class="kw">for </span>PayloadU16&lt;C&gt; {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         hex(f, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
     }
 }
 
 <span class="doccomment">/// An arbitrary, unknown-content, u8-length-prefixed payload
+///
+/// `C` controls the minimum length accepted when decoding.
 </span><span class="attr">#[derive(Clone, Eq, PartialEq)]
-</span><span class="kw">pub struct </span>PayloadU8(<span class="kw">pub</span>(<span class="kw">crate</span>) Vec&lt;u8&gt;);
+</span><span class="kw">pub struct </span>PayloadU8&lt;C: Cardinality = MaybeEmpty&gt;(<span class="kw">pub</span>(<span class="kw">crate</span>) Vec&lt;u8&gt;, PhantomData&lt;C&gt;);
 
-<span class="kw">impl </span>PayloadU8 {
+<span class="kw">impl</span>&lt;C: Cardinality&gt; PayloadU8&lt;C&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>encode_slice(slice: <span class="kw-2">&amp;</span>[u8], bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
         (slice.len() <span class="kw">as </span>u8).encode(bytes);
         bytes.extend_from_slice(slice);
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(bytes: Vec&lt;u8&gt;) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>(bytes)
-    }
-
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>empty() -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>(Vec::new())
+        <span class="macro">debug_assert!</span>(bytes.len() &gt;= C::MIN);
+        <span class="self">Self</span>(bytes, PhantomData)
     }
 }
 
-<span class="kw">impl </span>Codec&lt;<span class="lifetime">'_</span>&gt; <span class="kw">for </span>PayloadU8 {
+<span class="kw">impl </span>PayloadU8&lt;MaybeEmpty&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>empty() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>(Vec::new(), PhantomData)
+    }
+}
+
+<span class="kw">impl</span>&lt;C: Cardinality&gt; Codec&lt;<span class="lifetime">'_</span>&gt; <span class="kw">for </span>PayloadU8&lt;C&gt; {
     <span class="kw">fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>, bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
+        <span class="macro">debug_assert!</span>(<span class="self">self</span>.<span class="number">0</span>.len() &gt;= C::MIN);
         (<span class="self">self</span>.<span class="number">0</span>.len() <span class="kw">as </span>u8).encode(bytes);
         bytes.extend_from_slice(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>);
     }
 
     <span class="kw">fn </span>read(r: <span class="kw-2">&amp;mut </span>Reader&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidMessage&gt; {
         <span class="kw">let </span>len = u8::read(r)<span class="question-mark">? </span><span class="kw">as </span>usize;
+        <span class="kw">if </span>len &lt; C::MIN {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidMessage::IllegalEmptyValue);
+        }
         <span class="kw">let </span><span class="kw-2">mut </span>sub = r.sub(len)<span class="question-mark">?</span>;
         <span class="kw">let </span>body = sub.rest().to_vec();
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span>(body))
+        <span class="prelude-val">Ok</span>(<span class="self">Self</span>(body, PhantomData))
     }
 }
 
-<span class="kw">impl </span>Zeroize <span class="kw">for </span>PayloadU8 {
+<span class="kw">impl</span>&lt;C: Cardinality&gt; Zeroize <span class="kw">for </span>PayloadU8&lt;C&gt; {
     <span class="kw">fn </span>zeroize(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="self">self</span>.<span class="number">0</span>.zeroize();
     }
 }
 
-<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>PayloadU8 {
+<span class="kw">impl</span>&lt;C: Cardinality&gt; fmt::Debug <span class="kw">for </span>PayloadU8&lt;C&gt; {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         hex(f, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
     }
+}
+
+<span class="kw">pub trait </span>Cardinality: Clone + Eq + PartialEq {
+    <span class="kw">const </span>MIN: usize;
+}
+
+<span class="attr">#[derive(Clone, Eq, PartialEq)]
+</span><span class="kw">pub struct </span>MaybeEmpty;
+
+<span class="kw">impl </span>Cardinality <span class="kw">for </span>MaybeEmpty {
+    <span class="kw">const </span>MIN: usize = <span class="number">0</span>;
+}
+
+<span class="attr">#[derive(Clone, Eq, PartialEq)]
+</span><span class="kw">pub struct </span>NonEmpty;
+
+<span class="kw">impl </span>Cardinality <span class="kw">for </span>NonEmpty {
+    <span class="kw">const </span>MIN: usize = <span class="number">1</span>;
 }
 
 <span class="comment">// Format an iterator of u8 into a hex string

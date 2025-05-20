@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_collections-1.5.0/src/codepointinvlist/cpinvlist.rs`."><title>cpinvlist.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="icu_collections" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_collections/codepointinvlist/</div>cpinvlist.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_collections-2.0.0/src/codepointinvlist/cpinvlist.rs`."><title>cpinvlist.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="icu_collections" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_collections/codepointinvlist/</div>cpinvlist.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1062,11 +1062,7 @@
 <a href="#1061" id="1061">1061</a>
 <a href="#1062" id="1062">1062</a>
 <a href="#1063" id="1063">1063</a>
-<a href="#1064" id="1064">1064</a>
-<a href="#1065" id="1065">1065</a>
-<a href="#1066" id="1066">1066</a>
-<a href="#1067" id="1067">1067</a>
-<a href="#1068" id="1068">1068</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#1064" id="1064">1064</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
@@ -1074,25 +1070,25 @@
 </span><span class="kw">use </span>alloc::format;
 <span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
 </span><span class="kw">use </span>alloc::string::String;
-<span class="kw">use </span>alloc::vec::Vec;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>core::{char, ops::RangeBounds, ops::RangeInclusive};
+<span class="kw">use </span>potential_utf::PotentialCodePoint;
 <span class="kw">use </span>yoke::Yokeable;
 <span class="kw">use </span>zerofrom::ZeroFrom;
 <span class="kw">use </span>zerovec::{ule::AsULE, zerovec, ZeroVec};
 
-<span class="kw">use </span><span class="kw">super</span>::CodePointInversionListError;
+<span class="kw">use </span><span class="kw">super</span>::InvalidSetError;
 <span class="kw">use </span><span class="kw">crate</span>::codepointinvlist::utils::{deconstruct_range, is_valid_zv};
 
 <span class="doccomment">/// Represents the end code point of the Basic Multilingual Plane range, starting from code point 0, inclusive
 </span><span class="kw">const </span>BMP_MAX: u32 = <span class="number">0xFFFF</span>;
 
 <span class="doccomment">/// Represents the inversion list for a set of all code points in the Basic Multilingual Plane.
-</span><span class="kw">const </span>BMP_INV_LIST_VEC: ZeroVec&lt;u32&gt; =
-    <span class="macro">zerovec!</span>(u32; &lt;u32 <span class="kw">as </span>AsULE&gt;::ULE::from_unsigned; [<span class="number">0x0</span>, BMP_MAX + <span class="number">1</span>]);
+</span><span class="kw">const </span>BMP_INV_LIST_VEC: ZeroVec&lt;PotentialCodePoint&gt; = <span class="macro">zerovec!</span>(PotentialCodePoint; PotentialCodePoint::to_unaligned; [PotentialCodePoint::from_u24(<span class="number">0x0</span>), PotentialCodePoint::from_u24(BMP_MAX + <span class="number">1</span>)]);
 
 <span class="doccomment">/// Represents the inversion list for all of the code points in the Unicode range.
-</span><span class="kw">const </span>ALL_VEC: ZeroVec&lt;u32&gt; =
-    <span class="macro">zerovec!</span>(u32; &lt;u32 <span class="kw">as </span>AsULE&gt;::ULE::from_unsigned; [<span class="number">0x0</span>, (char::MAX <span class="kw">as </span>u32) + <span class="number">1</span>]);
+</span><span class="kw">const </span>ALL_VEC: ZeroVec&lt;PotentialCodePoint&gt; = <span class="macro">zerovec!</span>(PotentialCodePoint; PotentialCodePoint::to_unaligned; [PotentialCodePoint::from_u24(<span class="number">0x0</span>), PotentialCodePoint::from_u24((char::MAX <span class="kw">as </span>u32) + <span class="number">1</span>)]);
 
 <span class="doccomment">/// A membership wrapper for [`CodePointInversionList`].
 ///
@@ -1102,13 +1098,14 @@
 #[zerovec::skip_derive(Ord)]
 #[zerovec::derive(Debug)]
 #[derive(Debug, Eq, PartialEq, Clone, Yokeable, ZeroFrom)]
+#[cfg_attr(not(feature = <span class="string">"alloc"</span>), zerovec::skip_derive(ZeroMapKV, ToOwned))]
 </span><span class="kw">pub struct </span>CodePointInversionList&lt;<span class="lifetime">'data</span>&gt; {
     <span class="comment">// If we wanted to use an array to keep the memory on the stack, there is an unsafe nightly feature
     // https://doc.rust-lang.org/nightly/core/array/trait.FixedSizeArray.html
     // Allows for traits of fixed size arrays
 
     // Implements an [inversion list.](https://en.wikipedia.org/wiki/Inversion_list)
-    </span>inv_list: ZeroVec&lt;<span class="lifetime">'data</span>, u32&gt;,
+    </span>inv_list: ZeroVec&lt;<span class="lifetime">'data</span>, PotentialCodePoint&gt;,
     size: u32,
 }
 
@@ -1121,47 +1118,32 @@
         <span class="kw">use </span>serde::de::Error;
 
         <span class="kw">let </span>parsed_inv_list = <span class="kw">if </span>deserializer.is_human_readable() {
-            <span class="attr">#[derive(serde::Deserialize)]
-            #[serde(untagged)]
-            </span><span class="kw">pub enum </span>De&lt;<span class="lifetime">'data</span>&gt; {
-                <span class="comment">// TODO(#2856): Remove in ICU4X 2.0
-                </span><span class="attr">#[serde(borrow)]
-                </span>OldStyle(ZeroVec&lt;<span class="lifetime">'data</span>, u32&gt;),
-                <span class="attr">#[serde(borrow)]
-                </span>NewStyle(Vec&lt;alloc::borrow::Cow&lt;<span class="lifetime">'data</span>, str&gt;&gt;),
-            }
-
-            <span class="kw">match </span>De::&lt;<span class="lifetime">'de</span>&gt;::deserialize(deserializer)<span class="question-mark">? </span>{
-                De::OldStyle(parsed_inv_list) =&gt; parsed_inv_list,
-                De::NewStyle(parsed_strings) =&gt; {
-                    <span class="kw">let </span><span class="kw-2">mut </span>inv_list =
-                        ZeroVec::new_owned(Vec::with_capacity(parsed_strings.len() * <span class="number">2</span>));
-                    <span class="kw">for </span>range <span class="kw">in </span>parsed_strings {
-                        <span class="kw">fn </span>internal(range: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;(u32, u32)&gt; {
-                            <span class="kw">let </span>(start, range) = UnicodeCodePoint::parse(range)<span class="question-mark">?</span>;
-                            <span class="kw">if </span>range.is_empty() {
-                                <span class="kw">return </span><span class="prelude-val">Some</span>((start.<span class="number">0</span>, start.<span class="number">0</span>));
-                            }
-                            <span class="kw">let </span>(hyphen, range) = UnicodeCodePoint::parse(range)<span class="question-mark">?</span>;
-                            <span class="kw">if </span>hyphen.<span class="number">0 </span>!= <span class="string">'-' </span><span class="kw">as </span>u32 {
-                                <span class="kw">return </span><span class="prelude-val">None</span>;
-                            }
-                            <span class="kw">let </span>(end, range) = UnicodeCodePoint::parse(range)<span class="question-mark">?</span>;
-                            range.is_empty().then_some((start.<span class="number">0</span>, end.<span class="number">0</span>))
-                        }
-                        <span class="kw">let </span>(start, end) = internal(<span class="kw-2">&amp;</span>range).ok_or_else(|| Error::custom(<span class="macro">format!</span>(
-                            <span class="string">"Cannot deserialize invalid inversion list for CodePointInversionList: {range:?}"
-                        </span>)))<span class="question-mark">?</span>;
-                        inv_list.with_mut(|v| {
-                            v.push(start.to_unaligned());
-                            v.push((end + <span class="number">1</span>).to_unaligned());
-                        });
+            <span class="kw">let </span>parsed_strings = Vec::&lt;alloc::borrow::Cow&lt;<span class="lifetime">'de</span>, str&gt;&gt;::deserialize(deserializer)<span class="question-mark">?</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>inv_list = ZeroVec::new_owned(Vec::with_capacity(parsed_strings.len() * <span class="number">2</span>));
+            <span class="kw">for </span>range <span class="kw">in </span>parsed_strings {
+                <span class="kw">fn </span>internal(range: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;(u32, u32)&gt; {
+                    <span class="kw">let </span>(start, range) = UnicodeCodePoint::parse(range)<span class="question-mark">?</span>;
+                    <span class="kw">if </span>range.is_empty() {
+                        <span class="kw">return </span><span class="prelude-val">Some</span>((start.<span class="number">0</span>, start.<span class="number">0</span>));
                     }
-                    inv_list
+                    <span class="kw">let </span>(hyphen, range) = UnicodeCodePoint::parse(range)<span class="question-mark">?</span>;
+                    <span class="kw">if </span>hyphen.<span class="number">0 </span>!= <span class="string">'-' </span><span class="kw">as </span>u32 {
+                        <span class="kw">return </span><span class="prelude-val">None</span>;
+                    }
+                    <span class="kw">let </span>(end, range) = UnicodeCodePoint::parse(range)<span class="question-mark">?</span>;
+                    range.is_empty().then_some((start.<span class="number">0</span>, end.<span class="number">0</span>))
                 }
+                <span class="kw">let </span>(start, end) = internal(<span class="kw-2">&amp;</span>range).ok_or_else(|| Error::custom(<span class="macro">format!</span>(
+                    <span class="string">"Cannot deserialize invalid inversion list for CodePointInversionList: {range:?}"
+                </span>)))<span class="question-mark">?</span>;
+                inv_list.with_mut(|v| {
+                    v.push(PotentialCodePoint::from_u24(start).to_unaligned());
+                    v.push(PotentialCodePoint::from_u24(end + <span class="number">1</span>).to_unaligned());
+                });
             }
+            inv_list
         } <span class="kw">else </span>{
-            ZeroVec::&lt;u32&gt;::deserialize(deserializer)<span class="question-mark">?
+            ZeroVec::&lt;PotentialCodePoint&gt;::deserialize(deserializer)<span class="question-mark">?
         </span>};
         CodePointInversionList::try_from_inversion_list(parsed_inv_list).map_err(|e| {
             Error::custom(<span class="macro">format!</span>(
@@ -1182,6 +1164,13 @@
             <span class="attr">#[allow(unused_unsafe)]
             </span>icu_collections::codepointinvlist::CodePointInversionList::from_parts_unchecked(#inv_list, #size)
         }}
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"databake"</span>)]
+</span><span class="kw">impl </span>databake::BakeSize <span class="kw">for </span>CodePointInversionList&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>borrows_size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.inv_list.borrows_size()
     }
 }
 
@@ -1215,14 +1204,19 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; core::fmt::Result {
         <span class="kw">match </span><span class="self">self</span>.<span class="number">0 </span>{
             s @ <span class="number">0xD800</span>..=<span class="number">0xDFFF </span>=&gt; <span class="macro">write!</span>(f, <span class="string">"U+{s:X}"</span>),
-            <span class="comment">// SAFETY: c &lt;= char::MAX by construction, and not a surrogate
-            </span>c =&gt; <span class="macro">write!</span>(f, <span class="string">"{}"</span>, <span class="kw">unsafe </span>{ char::from_u32_unchecked(c) }),
+            <span class="comment">// char should be in range by construction but this code is not so performance-sensitive
+            // so we just use the replacement character
+            </span>c =&gt; <span class="macro">write!</span>(
+                f,
+                <span class="string">"{}"</span>,
+                char::from_u32(c).unwrap_or(char::REPLACEMENT_CHARACTER)
+            ),
         }
     }
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">'data</span>&gt; serde::Serialize <span class="kw">for </span>CodePointInversionList&lt;<span class="lifetime">'data</span>&gt; {
+</span><span class="kw">impl </span>serde::Serialize <span class="kw">for </span>CodePointInversionList&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>serialize&lt;S&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, serializer: S) -&gt; <span class="prelude-ty">Result</span>&lt;S::Ok, S::Error&gt;
     <span class="kw">where
         </span>S: serde::Serializer,
@@ -1252,7 +1246,7 @@
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'data</span>&gt; CodePointInversionList&lt;<span class="lifetime">'data</span>&gt; {
     <span class="doccomment">/// Returns a new [`CodePointInversionList`] from an [inversion list](https://en.wikipedia.org/wiki/Inversion_list)
-    /// represented as a [`ZeroVec`]`&lt;`[`u32`]`&gt;` of code points.
+    /// represented as a [`ZeroVec`]`&lt;`[`PotentialCodePoint`]`&gt;` of code points.
     ///
     /// The inversion list must be of even length, sorted ascending non-overlapping,
     /// and within the bounds of `0x0 -&gt; 0x10FFFF` inclusive, and end points being exclusive.
@@ -1261,85 +1255,66 @@
     ///
     /// ```
     /// use icu::collections::codepointinvlist::CodePointInversionList;
-    /// use icu::collections::codepointinvlist::CodePointInversionListError;
+    /// use icu::collections::codepointinvlist::InvalidSetError;
+    /// use potential_utf::PotentialCodePoint;
     /// use zerovec::ZeroVec;
+    ///
     /// let valid = [0x0, 0x10000];
-    /// let inv_list: ZeroVec&lt;u32&gt; = ZeroVec::from_slice_or_alloc(&amp;valid);
+    /// let inv_list: ZeroVec&lt;PotentialCodePoint&gt; = valid
+    ///     .into_iter()
+    ///     .map(PotentialCodePoint::from_u24)
+    ///     .collect();
     /// let result = CodePointInversionList::try_from_inversion_list(inv_list);
     /// assert!(matches!(result, CodePointInversionList));
     ///
-    /// let invalid: Vec&lt;u32&gt; = vec![0x0, 0x80, 0x3];
-    /// let inv_list: ZeroVec&lt;u32&gt; = ZeroVec::from_slice_or_alloc(&amp;invalid);
+    /// let invalid = vec![0x0, 0x80, 0x3];
+    /// let inv_list: ZeroVec&lt;PotentialCodePoint&gt; = invalid
+    ///     .iter()
+    ///     .copied()
+    ///     .map(PotentialCodePoint::from_u24)
+    ///     .collect();
     /// let result = CodePointInversionList::try_from_inversion_list(inv_list);
-    /// assert!(matches!(
-    ///     result,
-    ///     Err(CodePointInversionListError::InvalidSet(_))
-    /// ));
-    /// if let Err(CodePointInversionListError::InvalidSet(actual)) = result {
-    ///     assert_eq!(&amp;invalid, &amp;actual);
+    /// assert!(matches!(result, Err(InvalidSetError(_))));
+    /// if let Err(InvalidSetError(actual)) = result {
+    ///     assert_eq!(
+    ///         &amp;invalid,
+    ///         &amp;actual.into_iter().map(u32::from).collect::&lt;Vec&lt;_&gt;&gt;()
+    ///     );
     /// }
     /// ```
     </span><span class="kw">pub fn </span>try_from_inversion_list(
-        inv_list: ZeroVec&lt;<span class="lifetime">'data</span>, u32&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, CodePointInversionListError&gt; {
+        inv_list: ZeroVec&lt;<span class="lifetime">'data</span>, PotentialCodePoint&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidSetError&gt; {
         <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// chunks
         </span><span class="kw">if </span>is_valid_zv(<span class="kw-2">&amp;</span>inv_list) {
             <span class="kw">let </span>size = inv_list
                 .as_ule_slice()
                 .chunks(<span class="number">2</span>)
                 .map(|end_points| {
-                    &lt;u32 <span class="kw">as </span>AsULE&gt;::from_unaligned(end_points[<span class="number">1</span>])
-                        - &lt;u32 <span class="kw">as </span>AsULE&gt;::from_unaligned(end_points[<span class="number">0</span>])
+                    u32::from(&lt;PotentialCodePoint <span class="kw">as </span>AsULE&gt;::from_unaligned(end_points[<span class="number">1</span>]))
+                        - u32::from(&lt;PotentialCodePoint <span class="kw">as </span>AsULE&gt;::from_unaligned(end_points[<span class="number">0</span>]))
                 })
                 .sum::&lt;u32&gt;();
             <span class="prelude-val">Ok</span>(<span class="self">Self </span>{ inv_list, size })
         } <span class="kw">else </span>{
-            <span class="prelude-val">Err</span>(CodePointInversionListError::InvalidSet(inv_list.to_vec()))
+            <span class="prelude-val">Err</span>(InvalidSetError(
+                <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+                </span>inv_list.to_vec(),
+            ))
         }
     }
 
-    <span class="attr">#[doc(hidden)] </span><span class="comment">// databake internal
-    </span><span class="kw">pub const unsafe fn </span>from_parts_unchecked(inv_list: ZeroVec&lt;<span class="lifetime">'data</span>, u32&gt;, size: u32) -&gt; <span class="self">Self </span>{
+    <span class="doccomment">/// Safety: no actual safety invariants, however has correctness invariants
+    </span><span class="attr">#[doc(hidden)] </span><span class="comment">// databake internal
+    </span><span class="kw">pub const unsafe fn </span>from_parts_unchecked(
+        inv_list: ZeroVec&lt;<span class="lifetime">'data</span>, PotentialCodePoint&gt;,
+        size: u32,
+    ) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ inv_list, size }
     }
 
-    <span class="doccomment">/// Returns a new [`CodePointInversionList`] by borrowing an [inversion list](https://en.wikipedia.org/wiki/Inversion_list)
-    /// represented as a slice of [`u32`] code points.
-    ///
-    /// The inversion list must be of even length, sorted ascending non-overlapping,
-    /// and within the bounds of `0x0 -&gt; 0x10FFFF` inclusive, and end points being exclusive.
-    ///
-    /// Note: The slice may be cloned on certain platforms; for more information, see [`ZeroVec::from_slice_or_alloc`].
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use icu::collections::codepointinvlist::CodePointInversionList;
-    /// use icu::collections::codepointinvlist::CodePointInversionListError;
-    /// let valid = [0x0, 0x10000];
-    /// let result = CodePointInversionList::try_from_inversion_list_slice(&amp;valid);
-    /// assert!(matches!(result, CodePointInversionList));
-    ///
-    /// let invalid: Vec&lt;u32&gt; = vec![0x0, 0x80, 0x3];
-    /// let result =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;invalid);
-    /// assert!(matches!(
-    ///     result,
-    ///     Err(CodePointInversionListError::InvalidSet(_))
-    /// ));
-    /// if let Err(CodePointInversionListError::InvalidSet(actual)) = result {
-    ///     assert_eq!(&amp;invalid, &amp;actual);
-    /// }
-    /// ```
-    </span><span class="kw">pub fn </span>try_from_inversion_list_slice(
-        inv_list: <span class="kw-2">&amp;</span><span class="lifetime">'data </span>[u32],
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, CodePointInversionListError&gt; {
-        <span class="kw">let </span>inv_list_zv: ZeroVec&lt;u32&gt; = ZeroVec::from_slice_or_alloc(inv_list);
-        CodePointInversionList::try_from_inversion_list(inv_list_zv)
-    }
-
     <span class="doccomment">/// Returns a new, fully-owned [`CodePointInversionList`] by cloning an [inversion list](https://en.wikipedia.org/wiki/Inversion_list)
-    /// represented as a slice of [`u32`] code points.
+    /// represented as a slice of [`PotentialCodePoint`] code points.
     ///
     /// The inversion list must be of even length, sorted ascending non-overlapping,
     /// and within the bounds of `0x0 -&gt; 0x10FFFF` inclusive, and end points being exclusive.
@@ -1357,7 +1332,7 @@
     ///     [&amp;bmp_list[..], smp_list, sip_list]
     ///         .into_iter()
     ///         .map(|l| {
-    ///             CodePointInversionList::try_clone_from_inversion_list_slice(l)
+    ///             CodePointInversionList::try_from_u32_inversion_list_slice(l)
     ///                 .unwrap()
     ///         })
     ///         .collect();
@@ -1368,14 +1343,18 @@
     ///
     /// assert!(!lists.iter().any(|set| set.contains32(0x40000)));
     /// ```
-    </span><span class="kw">pub fn </span>try_clone_from_inversion_list_slice(
-        inv_list: <span class="kw-2">&amp;</span>[u32],
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, CodePointInversionListError&gt; {
-        <span class="kw">let </span>inv_list_zv: ZeroVec&lt;u32&gt; = ZeroVec::alloc_from_slice(inv_list);
+    </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">pub fn </span>try_from_u32_inversion_list_slice(inv_list: <span class="kw-2">&amp;</span>[u32]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidSetError&gt; {
+        <span class="kw">let </span>inv_list_zv: ZeroVec&lt;PotentialCodePoint&gt; = inv_list
+            .iter()
+            .copied()
+            .map(PotentialCodePoint::from_u24)
+            .collect();
         CodePointInversionList::try_from_inversion_list(inv_list_zv)
     }
 
     <span class="doccomment">/// Attempts to convert this list into a fully-owned one. No-op if already fully owned
+    </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
     </span><span class="kw">pub fn </span>into_owned(<span class="self">self</span>) -&gt; CodePointInversionList&lt;<span class="lifetime">'static</span>&gt; {
         CodePointInversionList {
             inv_list: <span class="self">self</span>.inv_list.into_owned(),
@@ -1384,9 +1363,9 @@
     }
 
     <span class="doccomment">/// Returns an owned inversion list representing the current [`CodePointInversionList`]
+    </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
     </span><span class="kw">pub fn </span>get_inversion_list_vec(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;u32&gt; {
-        <span class="kw">let </span>result: Vec&lt;u32&gt; = <span class="self">self</span>.as_inversion_list().to_vec(); <span class="comment">// Only crate public, to not leak impl
-        </span>result
+        <span class="self">self</span>.as_inversion_list().iter().map(u32::from).collect()
     }
 
     <span class="doccomment">/// Returns [`CodePointInversionList`] spanning entire Unicode range
@@ -1446,7 +1425,8 @@
     <span class="doccomment">/// Returns the inversion list as a slice
     ///
     /// Public only to the crate, not exposed to public
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>as_inversion_list(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ZeroVec&lt;u32&gt; {
+    </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>as_inversion_list(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ZeroVec&lt;PotentialCodePoint&gt; {
         <span class="kw-2">&amp;</span><span class="self">self</span>.inv_list
     }
 
@@ -1457,9 +1437,10 @@
     /// ```
     /// use icu::collections::codepointinvlist::CodePointInversionList;
     /// let example_list = [0x41, 0x44, 0x45, 0x46];
-    /// let example =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;example_list)
-    ///         .unwrap();
+    /// let example = CodePointInversionList::try_from_u32_inversion_list_slice(
+    ///     &amp;example_list,
+    /// )
+    /// .unwrap();
     /// let mut ex_iter_chars = example.iter_chars();
     /// assert_eq!(Some('A'), ex_iter_chars.next());
     /// assert_eq!(Some('B'), ex_iter_chars.next());
@@ -1472,7 +1453,10 @@
         </span><span class="self">self</span>.inv_list
             .as_ule_slice()
             .chunks(<span class="number">2</span>)
-            .flat_map(|pair| (AsULE::from_unaligned(pair[<span class="number">0</span>])..AsULE::from_unaligned(pair[<span class="number">1</span>])))
+            .flat_map(|pair| {
+                u32::from(PotentialCodePoint::from_unaligned(pair[<span class="number">0</span>]))
+                    ..u32::from(PotentialCodePoint::from_unaligned(pair[<span class="number">1</span>]))
+            })
             .filter_map(char::from_u32)
     }
 
@@ -1488,9 +1472,10 @@
     /// ```
     /// use icu::collections::codepointinvlist::CodePointInversionList;
     /// let example_list = [0x41, 0x44, 0x45, 0x46];
-    /// let example =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;example_list)
-    ///         .unwrap();
+    /// let example = CodePointInversionList::try_from_u32_inversion_list_slice(
+    ///     &amp;example_list,
+    /// )
+    /// .unwrap();
     /// let mut example_iter_ranges = example.iter_ranges();
     /// assert_eq!(Some(0x41..=0x43), example_iter_ranges.next());
     /// assert_eq!(Some(0x45..=0x45), example_iter_ranges.next());
@@ -1499,9 +1484,9 @@
     </span><span class="kw">pub fn </span>iter_ranges(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>ExactSizeIterator&lt;Item = RangeInclusive&lt;u32&gt;&gt; + <span class="lifetime">'_ </span>{
         <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// chunks
         </span><span class="self">self</span>.inv_list.as_ule_slice().chunks(<span class="number">2</span>).map(|pair| {
-            <span class="kw">let </span>range_start: u32 = AsULE::from_unaligned(pair[<span class="number">0</span>]);
-            <span class="kw">let </span>range_limit: u32 = AsULE::from_unaligned(pair[<span class="number">1</span>]);
-            RangeInclusive::new(range_start, range_limit - <span class="number">1</span>)
+            <span class="kw">let </span>range_start = u32::from(PotentialCodePoint::from_unaligned(pair[<span class="number">0</span>]));
+            <span class="kw">let </span>range_limit = u32::from(PotentialCodePoint::from_unaligned(pair[<span class="number">1</span>]));
+            range_start..=(range_limit - <span class="number">1</span>)
         })
     }
 
@@ -1517,9 +1502,10 @@
     /// ```
     /// use icu::collections::codepointinvlist::CodePointInversionList;
     /// let example_list = [0x41, 0x44, 0x45, 0x46];
-    /// let example =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;example_list)
-    ///         .unwrap();
+    /// let example = CodePointInversionList::try_from_u32_inversion_list_slice(
+    ///     &amp;example_list,
+    /// )
+    /// .unwrap();
     /// let mut example_iter_ranges = example.iter_ranges_complemented();
     /// assert_eq!(Some(0..=0x40), example_iter_ranges.next());
     /// assert_eq!(Some(0x44..=0x44), example_iter_ranges.next());
@@ -1530,6 +1516,7 @@
         <span class="kw">let </span>inv_ule = <span class="self">self</span>.inv_list.as_ule_slice();
         <span class="kw">let </span>middle = inv_ule.get(<span class="number">1</span>..inv_ule.len() - <span class="number">1</span>).unwrap_or(<span class="kw-2">&amp;</span>[]);
         <span class="kw">let </span>beginning = <span class="kw">if let </span><span class="prelude-val">Some</span>(first) = <span class="self">self</span>.inv_list.first() {
+            <span class="kw">let </span>first = u32::from(first);
             <span class="kw">if </span>first == <span class="number">0 </span>{
                 <span class="prelude-val">None
             </span>} <span class="kw">else </span>{
@@ -1539,6 +1526,7 @@
             <span class="prelude-val">None
         </span>};
         <span class="kw">let </span>end = <span class="kw">if let </span><span class="prelude-val">Some</span>(last) = <span class="self">self</span>.inv_list.last() {
+            <span class="kw">let </span>last = u32::from(last);
             <span class="kw">if </span>last == char::MAX <span class="kw">as </span>u32 {
                 <span class="prelude-val">None
             </span>} <span class="kw">else </span>{
@@ -1549,9 +1537,9 @@
         </span>};
         <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// chunks
         </span><span class="kw">let </span>chunks = middle.chunks(<span class="number">2</span>).map(|pair| {
-            <span class="kw">let </span>range_start: u32 = AsULE::from_unaligned(pair[<span class="number">0</span>]);
-            <span class="kw">let </span>range_limit: u32 = AsULE::from_unaligned(pair[<span class="number">1</span>]);
-            RangeInclusive::new(range_start, range_limit - <span class="number">1</span>)
+            <span class="kw">let </span>range_start = u32::from(PotentialCodePoint::from_unaligned(pair[<span class="number">0</span>]));
+            <span class="kw">let </span>range_limit = u32::from(PotentialCodePoint::from_unaligned(pair[<span class="number">1</span>]));
+            range_start..=(range_limit - <span class="number">1</span>)
         });
         beginning.into_iter().chain(chunks).chain(end)
     }
@@ -1566,9 +1554,9 @@
     </span><span class="kw">pub fn </span>get_nth_range(<span class="kw-2">&amp;</span><span class="self">self</span>, idx: usize) -&gt; <span class="prelude-ty">Option</span>&lt;RangeInclusive&lt;u32&gt;&gt; {
         <span class="kw">let </span>start_idx = idx * <span class="number">2</span>;
         <span class="kw">let </span>end_idx = start_idx + <span class="number">1</span>;
-        <span class="kw">let </span>start = <span class="self">self</span>.inv_list.get(start_idx)<span class="question-mark">?</span>;
-        <span class="kw">let </span>end = <span class="self">self</span>.inv_list.get(end_idx)<span class="question-mark">?</span>;
-        <span class="prelude-val">Some</span>(RangeInclusive::new(start, end - <span class="number">1</span>))
+        <span class="kw">let </span>start = u32::from(<span class="self">self</span>.inv_list.get(start_idx)<span class="question-mark">?</span>);
+        <span class="kw">let </span>end = u32::from(<span class="self">self</span>.inv_list.get(end_idx)<span class="question-mark">?</span>);
+        <span class="prelude-val">Some</span>(start..=(end - <span class="number">1</span>))
     }
 
     <span class="doccomment">/// Returns the number of elements of the [`CodePointInversionList`]
@@ -1589,6 +1577,7 @@
     /// Returns an [`Option`] as to whether or not it is possible for the query to be contained.
     /// The value in the [`Option`] is the start index of the range that contains the query.
     </span><span class="kw">fn </span>contains_query(<span class="kw-2">&amp;</span><span class="self">self</span>, query: u32) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+        <span class="kw">let </span>query = PotentialCodePoint::try_from(query).ok()<span class="question-mark">?</span>;
         <span class="kw">match </span><span class="self">self</span>.inv_list.binary_search(<span class="kw-2">&amp;</span>query) {
             <span class="prelude-val">Ok</span>(pos) =&gt; {
                 <span class="kw">if </span>pos % <span class="number">2 </span>== <span class="number">0 </span>{
@@ -1617,9 +1606,10 @@
     /// ```
     /// use icu::collections::codepointinvlist::CodePointInversionList;
     /// let example_list = [0x41, 0x43, 0x44, 0x45];
-    /// let example =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;example_list)
-    ///         .unwrap();
+    /// let example = CodePointInversionList::try_from_u32_inversion_list_slice(
+    ///     &amp;example_list,
+    /// )
+    /// .unwrap();
     /// assert!(example.contains('A'));
     /// assert!(!example.contains('C'));
     /// ```
@@ -1642,9 +1632,10 @@
     /// ```
     /// use icu::collections::codepointinvlist::CodePointInversionList;
     /// let example_list = [0x41, 0x43, 0x44, 0x45];
-    /// let example =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;example_list)
-    ///         .unwrap();
+    /// let example = CodePointInversionList::try_from_u32_inversion_list_slice(
+    ///     &amp;example_list,
+    /// )
+    /// .unwrap();
     /// assert!(example.contains32(0x41));
     /// assert!(!example.contains32(0x43));
     /// ```
@@ -1663,12 +1654,13 @@
     /// ```
     /// use icu::collections::codepointinvlist::CodePointInversionList;
     /// let example_list = [0x41, 0x43, 0x44, 0x45];
-    /// let example =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;example_list)
-    ///         .unwrap();
-    /// assert!(example.contains_range(&amp;('A'..'C')));
-    /// assert!(example.contains_range(&amp;('A'..='B')));
-    /// assert!(!example.contains_range(&amp;('A'..='C')));
+    /// let example = CodePointInversionList::try_from_u32_inversion_list_slice(
+    ///     &amp;example_list,
+    /// )
+    /// .unwrap();
+    /// assert!(example.contains_range('A'..'C'));
+    /// assert!(example.contains_range('A'..='B'));
+    /// assert!(!example.contains_range('A'..='C'));
     /// ```
     ///
     /// Surrogate points (`0xD800 -&gt; 0xDFFF`) will return [`false`] if the Range contains them but the
@@ -1687,12 +1679,13 @@
     /// let check =
     ///     char::from_u32(0xD7FE).unwrap()..char::from_u32(0xE001).unwrap();
     /// let example_list = [0xD7FE, 0xD7FF, 0xE000, 0xE001];
-    /// let example =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;example_list)
-    ///         .unwrap();
-    /// assert!(!example.contains_range(&amp;(check)));
+    /// let example = CodePointInversionList::try_from_u32_inversion_list_slice(
+    ///     &amp;example_list,
+    /// )
+    /// .unwrap();
+    /// assert!(!example.contains_range(check));
     /// ```
-    </span><span class="kw">pub fn </span>contains_range(<span class="kw-2">&amp;</span><span class="self">self</span>, range: <span class="kw-2">&amp;</span><span class="kw">impl </span>RangeBounds&lt;char&gt;) -&gt; bool {
+    </span><span class="kw">pub fn </span>contains_range(<span class="kw-2">&amp;</span><span class="self">self</span>, range: <span class="kw">impl </span>RangeBounds&lt;char&gt;) -&gt; bool {
         <span class="kw">let </span>(from, till) = deconstruct_range(range);
         <span class="kw">if </span>from &gt;= till {
             <span class="kw">return </span><span class="bool-val">false</span>;
@@ -1700,7 +1693,7 @@
         <span class="kw">match </span><span class="self">self</span>.contains_query(from) {
             <span class="prelude-val">Some</span>(pos) =&gt; {
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(x) = <span class="self">self</span>.inv_list.get(pos + <span class="number">1</span>) {
-                    (till) &lt;= x
+                    (till) &lt;= x.into()
                 } <span class="kw">else </span>{
                     <span class="macro">debug_assert!</span>(
                         <span class="bool-val">false</span>,
@@ -1720,18 +1713,22 @@
     /// ```
     /// use icu::collections::codepointinvlist::CodePointInversionList;
     /// let example_list = [0x41, 0x46, 0x55, 0x5B]; // A - E, U - Z
-    /// let example =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;example_list)
-    ///         .unwrap();
-    /// let a_to_d =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;[0x41, 0x45])
-    ///         .unwrap();
-    /// let f_to_t =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;[0x46, 0x55])
-    ///         .unwrap();
-    /// let r_to_x =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;[0x52, 0x58])
-    ///         .unwrap();
+    /// let example = CodePointInversionList::try_from_u32_inversion_list_slice(
+    ///     &amp;example_list,
+    /// )
+    /// .unwrap();
+    /// let a_to_d = CodePointInversionList::try_from_u32_inversion_list_slice(&amp;[
+    ///     0x41, 0x45,
+    /// ])
+    /// .unwrap();
+    /// let f_to_t = CodePointInversionList::try_from_u32_inversion_list_slice(&amp;[
+    ///     0x46, 0x55,
+    /// ])
+    /// .unwrap();
+    /// let r_to_x = CodePointInversionList::try_from_u32_inversion_list_slice(&amp;[
+    ///     0x52, 0x58,
+    /// ])
+    /// .unwrap();
     /// assert!(example.contains_set(&amp;a_to_d)); // contains all
     /// assert!(!example.contains_set(&amp;f_to_t)); // contains none
     /// assert!(!example.contains_set(&amp;r_to_x)); // contains some
@@ -1768,9 +1765,10 @@
     /// ```
     /// use icu::collections::codepointinvlist::CodePointInversionList;
     /// let example_list = [0x41, 0x44]; // {A, B, C}
-    /// let example =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;example_list)
-    ///         .unwrap();
+    /// let example = CodePointInversionList::try_from_u32_inversion_list_slice(
+    ///     &amp;example_list,
+    /// )
+    /// .unwrap();
     /// assert_eq!(example.span("CABXYZ", true), 3);
     /// assert_eq!(example.span("XYZC", false), 3);
     /// assert_eq!(example.span("XYZ", true), 0);
@@ -1791,9 +1789,10 @@
     /// ```
     /// use icu::collections::codepointinvlist::CodePointInversionList;
     /// let example_list = [0x41, 0x44]; // {A, B, C}
-    /// let example =
-    ///     CodePointInversionList::try_from_inversion_list_slice(&amp;example_list)
-    ///         .unwrap();
+    /// let example = CodePointInversionList::try_from_u32_inversion_list_slice(
+    ///     &amp;example_list,
+    /// )
+    /// .unwrap();
     /// assert_eq!(example.span_back("XYZCAB", true), 3);
     /// assert_eq!(example.span_back("ABCXYZ", true), 6);
     /// assert_eq!(example.span_back("CABXYZ", false), 3);
@@ -1810,14 +1809,14 @@
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
-    <span class="kw">use super</span>::{CodePointInversionList, CodePointInversionListError};
+    <span class="kw">use super</span>::{CodePointInversionList, InvalidSetError};
     <span class="kw">use </span>std::{char, vec::Vec};
     <span class="kw">use </span>zerovec::ZeroVec;
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_try_from_vec() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x2</span>, <span class="number">0x3</span>, <span class="number">0x4</span>, <span class="number">0x5</span>];
-        <span class="kw">let </span>check = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>check = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="macro">assert_eq!</span>(ex, check.get_inversion_list_vec());
         <span class="macro">assert_eq!</span>(<span class="number">2</span>, check.size());
     }
@@ -1825,14 +1824,13 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_try_from_vec_error() {
         <span class="kw">let </span>check = <span class="macro">vec!</span>[<span class="number">0x1</span>, <span class="number">0x1</span>, <span class="number">0x2</span>, <span class="number">0x3</span>, <span class="number">0x4</span>];
-        <span class="kw">let </span>inv_list = ZeroVec::from_slice_or_alloc(<span class="kw-2">&amp;</span>check);
-        <span class="kw">let </span>set = CodePointInversionList::try_from_inversion_list(inv_list);
-        <span class="macro">assert!</span>(<span class="macro">matches!</span>(
-            set,
-            <span class="prelude-val">Err</span>(CodePointInversionListError::InvalidSet(<span class="kw">_</span>))
-        ));
-        <span class="kw">if let </span><span class="prelude-val">Err</span>(CodePointInversionListError::InvalidSet(actual)) = set {
-            <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>check, <span class="kw-2">&amp;</span>actual);
+        <span class="kw">let </span>set = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>check);
+        <span class="macro">assert!</span>(<span class="macro">matches!</span>(set, <span class="prelude-val">Err</span>(InvalidSetError(<span class="kw">_</span>))));
+        <span class="kw">if let </span><span class="prelude-val">Err</span>(InvalidSetError(actual)) = set {
+            <span class="macro">assert_eq!</span>(
+                <span class="kw-2">&amp;</span>check,
+                <span class="kw-2">&amp;</span>actual.into_iter().map(u32::from).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+            );
         }
     }
 
@@ -1840,7 +1838,7 @@
     </span><span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_contains_query() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x41</span>, <span class="number">0x46</span>, <span class="number">0x4B</span>, <span class="number">0x55</span>];
-        <span class="kw">let </span>check = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>check = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="macro">assert!</span>(check.contains_query(<span class="number">0x40</span>).is_none());
         <span class="macro">assert_eq!</span>(check.contains_query(<span class="number">0x41</span>).unwrap(), <span class="number">0</span>);
         <span class="macro">assert_eq!</span>(check.contains_query(<span class="number">0x44</span>).unwrap(), <span class="number">0</span>);
@@ -1852,7 +1850,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_contains() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x2</span>, <span class="number">0x5</span>, <span class="number">0xA</span>, <span class="number">0xF</span>];
-        <span class="kw">let </span>check = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>check = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="macro">assert!</span>(check.contains(<span class="number">0x2 </span><span class="kw">as </span>char));
         <span class="macro">assert!</span>(check.contains(<span class="number">0x4 </span><span class="kw">as </span>char));
         <span class="macro">assert!</span>(check.contains(<span class="number">0xA </span><span class="kw">as </span>char));
@@ -1862,7 +1860,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_contains_false() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x2</span>, <span class="number">0x5</span>, <span class="number">0xA</span>, <span class="number">0xF</span>];
-        <span class="kw">let </span>check = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>check = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="macro">assert!</span>(!check.contains(<span class="number">0x1 </span><span class="kw">as </span>char));
         <span class="macro">assert!</span>(!check.contains(<span class="number">0x5 </span><span class="kw">as </span>char));
         <span class="macro">assert!</span>(!check.contains(<span class="number">0x9 </span><span class="kw">as </span>char));
@@ -1873,56 +1871,56 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_contains_range() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x41</span>, <span class="number">0x46</span>, <span class="number">0x4B</span>, <span class="number">0x55</span>];
-        <span class="kw">let </span>check = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
-        <span class="macro">assert!</span>(check.contains_range(<span class="kw-2">&amp;</span>(<span class="string">'A'</span>..=<span class="string">'E'</span>))); <span class="comment">// 65 - 69
-        </span><span class="macro">assert!</span>(check.contains_range(<span class="kw-2">&amp;</span>(<span class="string">'C'</span>..<span class="string">'D'</span>))); <span class="comment">// 67 - 67
-        </span><span class="macro">assert!</span>(check.contains_range(<span class="kw-2">&amp;</span>(<span class="string">'L'</span>..<span class="string">'P'</span>))); <span class="comment">// 76 - 80
-        </span><span class="macro">assert!</span>(!check.contains_range(<span class="kw-2">&amp;</span>(<span class="string">'L'</span>..=<span class="string">'U'</span>))); <span class="comment">// 76 - 85
+        <span class="kw">let </span>check = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="macro">assert!</span>(check.contains_range(<span class="string">'A'</span>..=<span class="string">'E'</span>)); <span class="comment">// 65 - 69
+        </span><span class="macro">assert!</span>(check.contains_range(<span class="string">'C'</span>..<span class="string">'D'</span>)); <span class="comment">// 67 - 67
+        </span><span class="macro">assert!</span>(check.contains_range(<span class="string">'L'</span>..<span class="string">'P'</span>)); <span class="comment">// 76 - 80
+        </span><span class="macro">assert!</span>(!check.contains_range(<span class="string">'L'</span>..=<span class="string">'U'</span>)); <span class="comment">// 76 - 85
     </span>}
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_contains_range_false() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x41</span>, <span class="number">0x46</span>, <span class="number">0x4B</span>, <span class="number">0x55</span>];
-        <span class="kw">let </span>check = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
-        <span class="macro">assert!</span>(!check.contains_range(<span class="kw-2">&amp;</span>(<span class="string">'!'</span>..<span class="string">'A'</span>))); <span class="comment">// 33 - 65
-        </span><span class="macro">assert!</span>(!check.contains_range(<span class="kw-2">&amp;</span>(<span class="string">'F'</span>..<span class="string">'K'</span>))); <span class="comment">// 70 - 74
-        </span><span class="macro">assert!</span>(!check.contains_range(<span class="kw-2">&amp;</span>(<span class="string">'U'</span>..))); <span class="comment">// 85 - ..
+        <span class="kw">let </span>check = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="macro">assert!</span>(!check.contains_range(<span class="string">'!'</span>..<span class="string">'A'</span>)); <span class="comment">// 33 - 65
+        </span><span class="macro">assert!</span>(!check.contains_range(<span class="string">'F'</span>..<span class="string">'K'</span>)); <span class="comment">// 70 - 74
+        </span><span class="macro">assert!</span>(!check.contains_range(<span class="string">'U'</span>..)); <span class="comment">// 85 - ..
     </span>}
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_contains_range_invalid() {
         <span class="kw">let </span>check = CodePointInversionList::all();
-        <span class="macro">assert!</span>(!check.contains_range(<span class="kw-2">&amp;</span>(<span class="string">'A'</span>..<span class="string">'!'</span>))); <span class="comment">// 65 - 33
-        </span><span class="macro">assert!</span>(!check.contains_range(<span class="kw-2">&amp;</span>(<span class="string">'A'</span>..<span class="string">'A'</span>))); <span class="comment">// 65 - 65
+        <span class="macro">assert!</span>(!check.contains_range(<span class="string">'A'</span>..<span class="string">'!'</span>)); <span class="comment">// 65 - 33
+        </span><span class="macro">assert!</span>(!check.contains_range(<span class="string">'A'</span>..<span class="string">'A'</span>)); <span class="comment">// 65 - 65
     </span>}
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_contains_set_u() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0xA</span>, <span class="number">0x14</span>, <span class="number">0x28</span>, <span class="number">0x32</span>, <span class="number">0x46</span>, <span class="number">0x50</span>, <span class="number">0x64</span>, <span class="number">0x6E</span>];
-        <span class="kw">let </span>u = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>u = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="kw">let </span>inside = <span class="macro">vec!</span>[<span class="number">0xF</span>, <span class="number">0x14</span>, <span class="number">0x2C</span>, <span class="number">0x31</span>, <span class="number">0x46</span>, <span class="number">0x50</span>, <span class="number">0x64</span>, <span class="number">0x6D</span>];
-        <span class="kw">let </span>s = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>inside).unwrap();
+        <span class="kw">let </span>s = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>inside).unwrap();
         <span class="macro">assert!</span>(u.contains_set(<span class="kw-2">&amp;</span>s));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_contains_set_u_false() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0xA</span>, <span class="number">0x14</span>, <span class="number">0x28</span>, <span class="number">0x32</span>, <span class="number">0x46</span>, <span class="number">0x50</span>, <span class="number">0x64</span>, <span class="number">0x78</span>];
-        <span class="kw">let </span>u = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>u = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="kw">let </span>outside = <span class="macro">vec!</span>[<span class="number">0x0</span>, <span class="number">0xA</span>, <span class="number">0x16</span>, <span class="number">0x2C</span>, <span class="number">0x32</span>, <span class="number">0x46</span>, <span class="number">0x4F</span>, <span class="number">0x51</span>, <span class="number">0x6D</span>, <span class="number">0x6F</span>];
-        <span class="kw">let </span>s = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>outside).unwrap();
+        <span class="kw">let </span>s = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>outside).unwrap();
         <span class="macro">assert!</span>(!u.contains_set(<span class="kw-2">&amp;</span>s));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_size() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x2</span>, <span class="number">0x5</span>, <span class="number">0xA</span>, <span class="number">0xF</span>];
-        <span class="kw">let </span>check = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>check = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="macro">assert_eq!</span>(<span class="number">8</span>, check.size());
         <span class="kw">let </span>check = CodePointInversionList::all();
         <span class="kw">let </span>expected = (char::MAX <span class="kw">as </span>u32) + <span class="number">1</span>;
         <span class="macro">assert_eq!</span>(expected <span class="kw">as </span>usize, check.size());
-        <span class="kw">let </span>inv_list_vec: Vec&lt;u32&gt; = <span class="macro">vec!</span>[];
+        <span class="kw">let </span>inv_list_vec = <span class="macro">vec!</span>[];
         <span class="kw">let </span>check = CodePointInversionList {
             inv_list: ZeroVec::from_slice_or_alloc(<span class="kw-2">&amp;</span>inv_list_vec),
             size: <span class="number">0</span>,
@@ -1932,7 +1930,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_is_empty() {
-        <span class="kw">let </span>inv_list_vec: Vec&lt;u32&gt; = <span class="macro">vec!</span>[];
+        <span class="kw">let </span>inv_list_vec = <span class="macro">vec!</span>[];
         <span class="kw">let </span>check = CodePointInversionList {
             inv_list: ZeroVec::from_slice_or_alloc(<span class="kw-2">&amp;</span>inv_list_vec),
             size: <span class="number">0</span>,
@@ -1949,7 +1947,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_iter_chars() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x41</span>, <span class="number">0x44</span>, <span class="number">0x45</span>, <span class="number">0x46</span>, <span class="number">0xD800</span>, <span class="number">0xD801</span>];
-        <span class="kw">let </span>check = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>check = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>iter = check.iter_chars();
         <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="string">'A'</span>), iter.next());
         <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="string">'B'</span>), iter.next());
@@ -1961,7 +1959,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_iter_ranges() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x41</span>, <span class="number">0x44</span>, <span class="number">0x45</span>, <span class="number">0x46</span>, <span class="number">0xD800</span>, <span class="number">0xD801</span>];
-        <span class="kw">let </span>set = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>set = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>ranges = set.iter_ranges();
         <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0x41</span>..=<span class="number">0x43</span>), ranges.next());
         <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0x45</span>..=<span class="number">0x45</span>), ranges.next());
@@ -1972,7 +1970,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_iter_ranges_exactsizeiter_trait() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x41</span>, <span class="number">0x44</span>, <span class="number">0x45</span>, <span class="number">0x46</span>, <span class="number">0xD800</span>, <span class="number">0xD801</span>];
-        <span class="kw">let </span>set = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>set = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="kw">let </span>ranges = set.iter_ranges();
         <span class="macro">assert_eq!</span>(<span class="number">3</span>, ranges.len());
     }
@@ -1980,14 +1978,14 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_range_count() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x41</span>, <span class="number">0x44</span>, <span class="number">0x45</span>, <span class="number">0x46</span>, <span class="number">0xD800</span>, <span class="number">0xD801</span>];
-        <span class="kw">let </span>set = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>set = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="macro">assert_eq!</span>(<span class="number">3</span>, set.get_range_count());
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_get_nth_range() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x41</span>, <span class="number">0x44</span>, <span class="number">0x45</span>, <span class="number">0x46</span>, <span class="number">0xD800</span>, <span class="number">0xD801</span>];
-        <span class="kw">let </span>set = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>set = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0x41</span>..=<span class="number">0x43</span>), set.get_nth_range(<span class="number">0</span>));
         <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0x45</span>..=<span class="number">0x45</span>), set.get_nth_range(<span class="number">1</span>));
         <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0xD800</span>..=<span class="number">0xD800</span>), set.get_nth_range(<span class="number">2</span>));
@@ -1999,7 +1997,7 @@
     </span><span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_iter_ranges_with_max_code_point() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x80</span>, (char::MAX <span class="kw">as </span>u32) + <span class="number">1</span>];
-        <span class="kw">let </span>set = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        <span class="kw">let </span>set = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>ranges = set.iter_ranges();
         <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="number">0x80</span>..=(char::MAX <span class="kw">as </span>u32)), ranges.next());
         <span class="macro">assert_eq!</span>(<span class="prelude-val">None</span>, ranges.next());
@@ -2008,7 +2006,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_span_contains() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x41</span>, <span class="number">0x44</span>, <span class="number">0x46</span>, <span class="number">0x4B</span>]; <span class="comment">// A - D, F - K
-        </span><span class="kw">let </span>check = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        </span><span class="kw">let </span>check = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="macro">assert_eq!</span>(check.span(<span class="string">"ABCDE"</span>, <span class="bool-val">true</span>), <span class="number">3</span>);
         <span class="macro">assert_eq!</span>(check.span(<span class="string">"E"</span>, <span class="bool-val">true</span>), <span class="number">0</span>);
     }
@@ -2016,7 +2014,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_span_does_not_contain() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x41</span>, <span class="number">0x44</span>, <span class="number">0x46</span>, <span class="number">0x4B</span>]; <span class="comment">// A - D, F - K
-        </span><span class="kw">let </span>check = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        </span><span class="kw">let </span>check = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="macro">assert_eq!</span>(check.span(<span class="string">"DEF"</span>, <span class="bool-val">false</span>), <span class="number">2</span>);
         <span class="macro">assert_eq!</span>(check.span(<span class="string">"KLMA"</span>, <span class="bool-val">false</span>), <span class="number">3</span>);
     }
@@ -2024,7 +2022,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_span_back_contains() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x41</span>, <span class="number">0x44</span>, <span class="number">0x46</span>, <span class="number">0x4B</span>]; <span class="comment">// A - D, F - K
-        </span><span class="kw">let </span>check = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        </span><span class="kw">let </span>check = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="macro">assert_eq!</span>(check.span_back(<span class="string">"XYZABFH"</span>, <span class="bool-val">true</span>), <span class="number">3</span>);
         <span class="macro">assert_eq!</span>(check.span_back(<span class="string">"ABCXYZ"</span>, <span class="bool-val">true</span>), <span class="number">6</span>);
     }
@@ -2032,7 +2030,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_codepointinversionlist_span_back_does_not_contain() {
         <span class="kw">let </span>ex = <span class="macro">vec!</span>[<span class="number">0x41</span>, <span class="number">0x44</span>, <span class="number">0x46</span>, <span class="number">0x4B</span>]; <span class="comment">// A - D, F - K
-        </span><span class="kw">let </span>check = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
+        </span><span class="kw">let </span>check = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>ex).unwrap();
         <span class="macro">assert_eq!</span>(check.span_back(<span class="string">"ABCXYZ"</span>, <span class="bool-val">false</span>), <span class="number">3</span>);
         <span class="macro">assert_eq!</span>(check.span_back(<span class="string">"XYZABC"</span>, <span class="bool-val">false</span>), <span class="number">6</span>);
     }
@@ -2044,15 +2042,18 @@
             <span class="number">0x202A</span>, <span class="number">0x202F</span>, <span class="number">0x2030</span>, <span class="number">0x205F</span>, <span class="number">0x2060</span>, <span class="number">0x3000</span>, <span class="number">0x3001</span>,
         ];
         <span class="kw">let </span>s: CodePointInversionList =
-            CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>inv_list).unwrap();
+            CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>inv_list).unwrap();
         <span class="kw">let </span>round_trip_inv_list = s.get_inversion_list_vec();
-        <span class="macro">assert_eq!</span>(round_trip_inv_list, inv_list);
+        <span class="macro">assert_eq!</span>(
+            round_trip_inv_list.into_iter().collect::&lt;ZeroVec&lt;u32&gt;&gt;(),
+            inv_list
+        );
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_serde_serialize() {
         <span class="kw">let </span>inv_list = [<span class="number">0x41</span>, <span class="number">0x46</span>, <span class="number">0x4B</span>, <span class="number">0x55</span>];
-        <span class="kw">let </span>uniset = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>inv_list).unwrap();
+        <span class="kw">let </span>uniset = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>inv_list).unwrap();
         <span class="kw">let </span>json_str = serde_json::to_string(<span class="kw-2">&amp;</span>uniset).unwrap();
         <span class="macro">assert_eq!</span>(json_str, <span class="string">r#"["A-E","K-T"]"#</span>);
     }
@@ -2060,7 +2061,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_serde_serialize_surrogates() {
         <span class="kw">let </span>inv_list = [<span class="number">0xDFAB</span>, <span class="number">0xDFFF</span>];
-        <span class="kw">let </span>uniset = CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>inv_list).unwrap();
+        <span class="kw">let </span>uniset = CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>inv_list).unwrap();
         <span class="kw">let </span>json_str = serde_json::to_string(<span class="kw-2">&amp;</span>uniset).unwrap();
         <span class="macro">assert_eq!</span>(json_str, <span class="string">r#"["U+DFAB-U+DFFE"]"#</span>);
     }
@@ -2070,7 +2071,7 @@
         <span class="kw">let </span>inv_list_str = <span class="string">r#"["A-E","K-T"]"#</span>;
         <span class="kw">let </span>exp_inv_list = [<span class="number">0x41</span>, <span class="number">0x46</span>, <span class="number">0x4B</span>, <span class="number">0x55</span>];
         <span class="kw">let </span>exp_uniset =
-            CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>exp_inv_list).unwrap();
+            CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>exp_inv_list).unwrap();
         <span class="kw">let </span>act_uniset: CodePointInversionList = serde_json::from_str(inv_list_str).unwrap();
         <span class="macro">assert_eq!</span>(act_uniset, exp_uniset);
     }
@@ -2080,17 +2081,7 @@
         <span class="kw">let </span>inv_list_str = <span class="string">r#"["U+DFAB-U+DFFE"]"#</span>;
         <span class="kw">let </span>exp_inv_list = [<span class="number">0xDFAB</span>, <span class="number">0xDFFF</span>];
         <span class="kw">let </span>exp_uniset =
-            CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>exp_inv_list).unwrap();
-        <span class="kw">let </span>act_uniset: CodePointInversionList = serde_json::from_str(inv_list_str).unwrap();
-        <span class="macro">assert_eq!</span>(act_uniset, exp_uniset);
-    }
-
-    <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_serde_deserialize_legacy() {
-        <span class="kw">let </span>inv_list_str = <span class="string">"[65,70,75,85]"</span>;
-        <span class="kw">let </span>exp_inv_list = [<span class="number">0x41</span>, <span class="number">0x46</span>, <span class="number">0x4B</span>, <span class="number">0x55</span>];
-        <span class="kw">let </span>exp_uniset =
-            CodePointInversionList::try_from_inversion_list_slice(<span class="kw-2">&amp;</span>exp_inv_list).unwrap();
+            CodePointInversionList::try_from_u32_inversion_list_slice(<span class="kw-2">&amp;</span>exp_inv_list).unwrap();
         <span class="kw">let </span>act_uniset: CodePointInversionList = serde_json::from_str(inv_list_str).unwrap();
         <span class="macro">assert_eq!</span>(act_uniset, exp_uniset);
     }
@@ -2118,13 +2109,14 @@
     </span><span class="kw">fn </span>databake() {
         <span class="macro">databake::test_bake!</span>(
             CodePointInversionList&lt;<span class="lifetime">'static</span>&gt;,
-            <span class="kw">const</span>: <span class="kw">unsafe </span>{
+            <span class="kw">const</span>,
+            <span class="kw">unsafe </span>{
                 <span class="attr">#[allow(unused_unsafe)]
                 </span><span class="kw">crate</span>::codepointinvlist::CodePointInversionList::from_parts_unchecked(
                     <span class="kw">unsafe </span>{
                         zerovec::ZeroVec::from_bytes_unchecked(
-                            <span class="string">b"0\0\0\0:\0\0\0A\0\0\0G\0\0\0a\0\0\0g\0\0\0"
-                        </span>)
+                            <span class="string">b"0\0\0\0:\0\0\0A\0\0\0G\0\0\0a\0\0\0g\0\0\0"</span>,
+                        )
                     },
                     <span class="number">22u32</span>,
                 )

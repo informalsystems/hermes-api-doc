@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.26/src/msgs/handshake.rs`."><title>handshake.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/msgs/</div>handshake.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/msgs/handshake.rs`."><title>handshake.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/msgs/</div>handshake.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -3208,7 +3208,167 @@
 <a href="#3207" id="3207">3207</a>
 <a href="#3208" id="3208">3208</a>
 <a href="#3209" id="3209">3209</a>
-<a href="#3210" id="3210">3210</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::collections::BTreeSet;
+<a href="#3210" id="3210">3210</a>
+<a href="#3211" id="3211">3211</a>
+<a href="#3212" id="3212">3212</a>
+<a href="#3213" id="3213">3213</a>
+<a href="#3214" id="3214">3214</a>
+<a href="#3215" id="3215">3215</a>
+<a href="#3216" id="3216">3216</a>
+<a href="#3217" id="3217">3217</a>
+<a href="#3218" id="3218">3218</a>
+<a href="#3219" id="3219">3219</a>
+<a href="#3220" id="3220">3220</a>
+<a href="#3221" id="3221">3221</a>
+<a href="#3222" id="3222">3222</a>
+<a href="#3223" id="3223">3223</a>
+<a href="#3224" id="3224">3224</a>
+<a href="#3225" id="3225">3225</a>
+<a href="#3226" id="3226">3226</a>
+<a href="#3227" id="3227">3227</a>
+<a href="#3228" id="3228">3228</a>
+<a href="#3229" id="3229">3229</a>
+<a href="#3230" id="3230">3230</a>
+<a href="#3231" id="3231">3231</a>
+<a href="#3232" id="3232">3232</a>
+<a href="#3233" id="3233">3233</a>
+<a href="#3234" id="3234">3234</a>
+<a href="#3235" id="3235">3235</a>
+<a href="#3236" id="3236">3236</a>
+<a href="#3237" id="3237">3237</a>
+<a href="#3238" id="3238">3238</a>
+<a href="#3239" id="3239">3239</a>
+<a href="#3240" id="3240">3240</a>
+<a href="#3241" id="3241">3241</a>
+<a href="#3242" id="3242">3242</a>
+<a href="#3243" id="3243">3243</a>
+<a href="#3244" id="3244">3244</a>
+<a href="#3245" id="3245">3245</a>
+<a href="#3246" id="3246">3246</a>
+<a href="#3247" id="3247">3247</a>
+<a href="#3248" id="3248">3248</a>
+<a href="#3249" id="3249">3249</a>
+<a href="#3250" id="3250">3250</a>
+<a href="#3251" id="3251">3251</a>
+<a href="#3252" id="3252">3252</a>
+<a href="#3253" id="3253">3253</a>
+<a href="#3254" id="3254">3254</a>
+<a href="#3255" id="3255">3255</a>
+<a href="#3256" id="3256">3256</a>
+<a href="#3257" id="3257">3257</a>
+<a href="#3258" id="3258">3258</a>
+<a href="#3259" id="3259">3259</a>
+<a href="#3260" id="3260">3260</a>
+<a href="#3261" id="3261">3261</a>
+<a href="#3262" id="3262">3262</a>
+<a href="#3263" id="3263">3263</a>
+<a href="#3264" id="3264">3264</a>
+<a href="#3265" id="3265">3265</a>
+<a href="#3266" id="3266">3266</a>
+<a href="#3267" id="3267">3267</a>
+<a href="#3268" id="3268">3268</a>
+<a href="#3269" id="3269">3269</a>
+<a href="#3270" id="3270">3270</a>
+<a href="#3271" id="3271">3271</a>
+<a href="#3272" id="3272">3272</a>
+<a href="#3273" id="3273">3273</a>
+<a href="#3274" id="3274">3274</a>
+<a href="#3275" id="3275">3275</a>
+<a href="#3276" id="3276">3276</a>
+<a href="#3277" id="3277">3277</a>
+<a href="#3278" id="3278">3278</a>
+<a href="#3279" id="3279">3279</a>
+<a href="#3280" id="3280">3280</a>
+<a href="#3281" id="3281">3281</a>
+<a href="#3282" id="3282">3282</a>
+<a href="#3283" id="3283">3283</a>
+<a href="#3284" id="3284">3284</a>
+<a href="#3285" id="3285">3285</a>
+<a href="#3286" id="3286">3286</a>
+<a href="#3287" id="3287">3287</a>
+<a href="#3288" id="3288">3288</a>
+<a href="#3289" id="3289">3289</a>
+<a href="#3290" id="3290">3290</a>
+<a href="#3291" id="3291">3291</a>
+<a href="#3292" id="3292">3292</a>
+<a href="#3293" id="3293">3293</a>
+<a href="#3294" id="3294">3294</a>
+<a href="#3295" id="3295">3295</a>
+<a href="#3296" id="3296">3296</a>
+<a href="#3297" id="3297">3297</a>
+<a href="#3298" id="3298">3298</a>
+<a href="#3299" id="3299">3299</a>
+<a href="#3300" id="3300">3300</a>
+<a href="#3301" id="3301">3301</a>
+<a href="#3302" id="3302">3302</a>
+<a href="#3303" id="3303">3303</a>
+<a href="#3304" id="3304">3304</a>
+<a href="#3305" id="3305">3305</a>
+<a href="#3306" id="3306">3306</a>
+<a href="#3307" id="3307">3307</a>
+<a href="#3308" id="3308">3308</a>
+<a href="#3309" id="3309">3309</a>
+<a href="#3310" id="3310">3310</a>
+<a href="#3311" id="3311">3311</a>
+<a href="#3312" id="3312">3312</a>
+<a href="#3313" id="3313">3313</a>
+<a href="#3314" id="3314">3314</a>
+<a href="#3315" id="3315">3315</a>
+<a href="#3316" id="3316">3316</a>
+<a href="#3317" id="3317">3317</a>
+<a href="#3318" id="3318">3318</a>
+<a href="#3319" id="3319">3319</a>
+<a href="#3320" id="3320">3320</a>
+<a href="#3321" id="3321">3321</a>
+<a href="#3322" id="3322">3322</a>
+<a href="#3323" id="3323">3323</a>
+<a href="#3324" id="3324">3324</a>
+<a href="#3325" id="3325">3325</a>
+<a href="#3326" id="3326">3326</a>
+<a href="#3327" id="3327">3327</a>
+<a href="#3328" id="3328">3328</a>
+<a href="#3329" id="3329">3329</a>
+<a href="#3330" id="3330">3330</a>
+<a href="#3331" id="3331">3331</a>
+<a href="#3332" id="3332">3332</a>
+<a href="#3333" id="3333">3333</a>
+<a href="#3334" id="3334">3334</a>
+<a href="#3335" id="3335">3335</a>
+<a href="#3336" id="3336">3336</a>
+<a href="#3337" id="3337">3337</a>
+<a href="#3338" id="3338">3338</a>
+<a href="#3339" id="3339">3339</a>
+<a href="#3340" id="3340">3340</a>
+<a href="#3341" id="3341">3341</a>
+<a href="#3342" id="3342">3342</a>
+<a href="#3343" id="3343">3343</a>
+<a href="#3344" id="3344">3344</a>
+<a href="#3345" id="3345">3345</a>
+<a href="#3346" id="3346">3346</a>
+<a href="#3347" id="3347">3347</a>
+<a href="#3348" id="3348">3348</a>
+<a href="#3349" id="3349">3349</a>
+<a href="#3350" id="3350">3350</a>
+<a href="#3351" id="3351">3351</a>
+<a href="#3352" id="3352">3352</a>
+<a href="#3353" id="3353">3353</a>
+<a href="#3354" id="3354">3354</a>
+<a href="#3355" id="3355">3355</a>
+<a href="#3356" id="3356">3356</a>
+<a href="#3357" id="3357">3357</a>
+<a href="#3358" id="3358">3358</a>
+<a href="#3359" id="3359">3359</a>
+<a href="#3360" id="3360">3360</a>
+<a href="#3361" id="3361">3361</a>
+<a href="#3362" id="3362">3362</a>
+<a href="#3363" id="3363">3363</a>
+<a href="#3364" id="3364">3364</a>
+<a href="#3365" id="3365">3365</a>
+<a href="#3366" id="3366">3366</a>
+<a href="#3367" id="3367">3367</a>
+<a href="#3368" id="3368">3368</a>
+<a href="#3369" id="3369">3369</a>
+<a href="#3370" id="3370">3370</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::collections::BTreeSet;
 <span class="attr">#[cfg(feature = <span class="string">"logging"</span>)]
 </span><span class="kw">use </span>alloc::string::String;
 <span class="kw">use </span>alloc::vec;
@@ -3229,12 +3389,12 @@
 <span class="attr">#[cfg(feature = <span class="string">"tls12"</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::ffdhe_groups::FfdheGroup;
 <span class="kw">use </span><span class="kw">crate</span>::log::warn;
-<span class="kw">use </span><span class="kw">crate</span>::msgs::base::{Payload, PayloadU8, PayloadU16, PayloadU24};
+<span class="kw">use </span><span class="kw">crate</span>::msgs::base::{MaybeEmpty, NonEmpty, Payload, PayloadU8, PayloadU16, PayloadU24};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::codec::{<span class="self">self</span>, Codec, LengthPrefixedBuffer, ListLength, Reader, TlsListElement};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::enums::{
     CertificateStatusType, CertificateType, ClientCertificateType, Compression, ECCurveType,
     ECPointFormat, EchVersion, ExtensionType, HpkeAead, HpkeKdf, HpkeKem, KeyUpdateRequest,
-    NamedGroup, PSKKeyExchangeMode, ServerNameType,
+    NamedGroup, PskKeyExchangeMode, ServerNameType,
 };
 <span class="kw">use </span><span class="kw">crate</span>::rand;
 <span class="kw">use </span><span class="kw">crate</span>::sync::Arc;
@@ -3247,10 +3407,10 @@
 /// the `PayloadU8` or `PayloadU16` types. This is typically used for types where we don't need
 /// anything other than access to the underlying bytes.
 </span><span class="macro">macro_rules!</span> wrapped_payload(
-  ($(<span class="attr">#[<span class="macro-nonterminal">$comment</span>:meta]</span>)* <span class="macro-nonterminal">$vis</span>:vis <span class="kw">struct </span><span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$inner</span>:ident,) =&gt; {
+  ($(<span class="attr">#[<span class="macro-nonterminal">$comment</span>:meta]</span>)* <span class="macro-nonterminal">$vis</span>:vis <span class="kw">struct </span><span class="macro-nonterminal">$name</span>:ident, <span class="macro-nonterminal">$inner</span>:ident$(&lt;<span class="macro-nonterminal">$inner_ty</span>:ty&gt;)<span class="question-mark">?</span>,) =&gt; {
     $(<span class="attr">#[<span class="macro-nonterminal">$comment</span>]</span>)*
     <span class="attr">#[derive(Clone, Debug)]
-    </span><span class="macro-nonterminal">$vis </span><span class="kw">struct </span><span class="macro-nonterminal">$name</span>(<span class="macro-nonterminal">$inner</span>);
+    </span><span class="macro-nonterminal">$vis </span><span class="kw">struct </span><span class="macro-nonterminal">$name</span>(<span class="macro-nonterminal">$inner</span>$(&lt;<span class="macro-nonterminal">$inner_ty</span>&gt;)<span class="question-mark">?</span>);
 
     <span class="kw">impl </span>From&lt;Vec&lt;u8&gt;&gt; <span class="kw">for </span><span class="macro-nonterminal">$name </span>{
         <span class="kw">fn </span>from(v: Vec&lt;u8&gt;) -&gt; <span class="self">Self </span>{
@@ -3416,148 +3576,205 @@
     }
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>ECPointFormat {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U8;
+<span class="doccomment">/// RFC8422: `ECPointFormat ec_point_format_list&lt;1..2^8-1&gt;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>ECPointFormat {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU8 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"ECPointFormats"</span>),
+    };
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>NamedGroup {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
+<span class="doccomment">/// RFC8422: `NamedCurve named_curve_list&lt;2..2^16-1&gt;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>NamedGroup {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU16 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"NamedGroups"</span>),
+    };
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>SignatureScheme {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
+<span class="doccomment">/// RFC8446: `SignatureScheme supported_signature_algorithms&lt;2..2^16-2&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>SignatureScheme {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU16 {
+        empty_error: InvalidMessage::NoSignatureSchemes,
+    };
 }
 
 <span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>ServerNamePayload {
-    HostName(DnsName&lt;<span class="lifetime">'static</span>&gt;),
-    IpAddress(PayloadU16),
-    Unknown(Payload&lt;<span class="lifetime">'static</span>&gt;),
+</span><span class="kw">pub enum </span>ServerNamePayload&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="doccomment">/// A successfully decoded value:
+    </span>SingleDnsName(DnsName&lt;<span class="lifetime">'a</span>&gt;),
+
+    <span class="doccomment">/// A DNS name which was actually an IP address
+    </span>IpAddress,
+
+    <span class="doccomment">/// A successfully decoded, but syntactically-invalid value.
+    </span>Invalid,
 }
 
-<span class="kw">impl </span>ServerNamePayload {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_hostname(hostname: DnsName&lt;<span class="lifetime">'static</span>&gt;) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::HostName(hostname)
+<span class="kw">impl </span>ServerNamePayload&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>into_owned(<span class="self">self</span>) -&gt; ServerNamePayload&lt;<span class="lifetime">'static</span>&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::SingleDnsName(d) =&gt; ServerNamePayload::SingleDnsName(d.to_owned()),
+            <span class="self">Self</span>::IpAddress =&gt; ServerNamePayload::IpAddress,
+            <span class="self">Self</span>::Invalid =&gt; ServerNamePayload::Invalid,
+        }
     }
 
-    <span class="kw">fn </span>read_hostname(r: <span class="kw-2">&amp;mut </span>Reader&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidMessage&gt; {
+    <span class="doccomment">/// RFC6066: `ServerName server_name_list&lt;1..2^16-1&gt;`
+    </span><span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU16 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"ServerNames"</span>),
+    };
+}
+
+<span class="doccomment">/// Simplified encoding/decoding for a `ServerName` extension payload to/from `DnsName`
+///
+/// This is possible because:
+///
+/// - the spec (RFC6066) disallows multiple names for a given name type
+/// - name types other than ServerNameType::HostName are not defined, and they and
+///   any data that follows them cannot be skipped over.
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Codec&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>ServerNamePayload&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>, bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
+        <span class="kw">let </span>server_name_list = LengthPrefixedBuffer::new(<span class="self">Self</span>::SIZE_LEN, bytes);
+
+        <span class="kw">let </span>ServerNamePayload::SingleDnsName(dns_name) = <span class="self">self </span><span class="kw">else </span>{
+            <span class="kw">return</span>;
+        };
+
+        ServerNameType::HostName.encode(server_name_list.buf);
+        <span class="kw">let </span>name_slice = dns_name.as_ref().as_bytes();
+        (name_slice.len() <span class="kw">as </span>u16).encode(server_name_list.buf);
+        server_name_list
+            .buf
+            .extend_from_slice(name_slice);
+    }
+
+    <span class="kw">fn </span>read(r: <span class="kw-2">&amp;mut </span>Reader&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidMessage&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>found = <span class="prelude-val">None</span>;
+
+        <span class="kw">let </span>len = <span class="self">Self</span>::SIZE_LEN.read(r)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>sub = r.sub(len)<span class="question-mark">?</span>;
+
+        <span class="kw">while </span>sub.any_left() {
+            <span class="kw">let </span>typ = ServerNameType::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>;
+
+            <span class="kw">let </span>payload = <span class="kw">match </span>typ {
+                ServerNameType::HostName =&gt; HostNamePayload::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>,
+                <span class="kw">_ </span>=&gt; {
+                    <span class="comment">// Consume remainder of extension bytes.  Since the length of the item
+                    // is an unknown encoding, we cannot continue.
+                    </span>sub.rest();
+                    <span class="kw">break</span>;
+                }
+            };
+
+            <span class="comment">// "The ServerNameList MUST NOT contain more than one name of
+            // the same name_type." - RFC6066
+            </span><span class="kw">if </span>found.is_some() {
+                <span class="macro">warn!</span>(<span class="string">"Illegal SNI extension: duplicate host_name received"</span>);
+                <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidMessage::InvalidServerName);
+            }
+
+            found = <span class="kw">match </span>payload {
+                HostNamePayload::HostName(dns_name) =&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::SingleDnsName(dns_name.to_owned()))
+                }
+
+                HostNamePayload::IpAddress(_invalid) =&gt; {
+                    <span class="macro">warn!</span>(
+                        <span class="string">"Illegal SNI extension: ignoring IP address presented as hostname ({:?})"</span>,
+                        _invalid
+                    );
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::IpAddress)
+                }
+
+                HostNamePayload::Invalid(_invalid) =&gt; {
+                    <span class="macro">warn!</span>(
+                        <span class="string">"Illegal SNI hostname received {:?}"</span>,
+                        String::from_utf8_lossy(<span class="kw-2">&amp;</span>_invalid.<span class="number">0</span>)
+                    );
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::Invalid)
+                }
+            };
+        }
+
+        <span class="prelude-val">Ok</span>(found.unwrap_or(<span class="self">Self</span>::Invalid))
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; From&lt;<span class="kw-2">&amp;</span>DnsName&lt;<span class="lifetime">'a</span>&gt;&gt; <span class="kw">for </span>ServerNamePayload&lt;<span class="lifetime">'static</span>&gt; {
+    <span class="kw">fn </span>from(value: <span class="kw-2">&amp;</span>DnsName&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::SingleDnsName(trim_hostname_trailing_dot_for_sni(value))
+    }
+}
+
+<span class="attr">#[derive(Clone, Debug)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>HostNamePayload {
+    HostName(DnsName&lt;<span class="lifetime">'static</span>&gt;),
+    IpAddress(PayloadU16&lt;NonEmpty&gt;),
+    Invalid(PayloadU16&lt;NonEmpty&gt;),
+}
+
+<span class="kw">impl </span>HostNamePayload {
+    <span class="kw">fn </span>read(r: <span class="kw-2">&amp;mut </span>Reader&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidMessage&gt; {
         <span class="kw">use </span>pki_types::ServerName;
-        <span class="kw">let </span>raw = PayloadU16::read(r)<span class="question-mark">?</span>;
+        <span class="kw">let </span>raw = PayloadU16::&lt;NonEmpty&gt;::read(r)<span class="question-mark">?</span>;
 
         <span class="kw">match </span>ServerName::try_from(raw.<span class="number">0</span>.as_slice()) {
             <span class="prelude-val">Ok</span>(ServerName::DnsName(d)) =&gt; <span class="prelude-val">Ok</span>(<span class="self">Self</span>::HostName(d.to_owned())),
             <span class="prelude-val">Ok</span>(ServerName::IpAddress(<span class="kw">_</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="self">Self</span>::IpAddress(raw)),
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) | <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; {
-                <span class="macro">warn!</span>(
-                    <span class="string">"Illegal SNI hostname received {:?}"</span>,
-                    String::from_utf8_lossy(<span class="kw-2">&amp;</span>raw.<span class="number">0</span>)
-                );
-                <span class="prelude-val">Err</span>(InvalidMessage::InvalidServerName)
-            }
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) | <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="self">Self</span>::Invalid(raw)),
         }
     }
+}
 
+<span class="macro">wrapped_payload!</span>(
+    <span class="doccomment">/// RFC7301: `opaque ProtocolName&lt;1..2^8-1&gt;;`
+    </span><span class="kw">pub struct </span>ProtocolName, PayloadU8&lt;NonEmpty&gt;,
+);
+
+<span class="doccomment">/// RFC7301: `ProtocolName protocol_name_list&lt;2..2^16-1&gt;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>ProtocolName {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU16 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"ProtocolNames"</span>),
+    };
+}
+
+<span class="doccomment">/// RFC7301 encodes a single protocol name as `Vec&lt;ProtocolName&gt;`
+</span><span class="attr">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>SingleProtocolName(ProtocolName);
+
+<span class="kw">impl </span>SingleProtocolName {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(bytes: Vec&lt;u8&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>(ProtocolName::from(bytes))
+    }
+
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU16 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"ProtocolNames"</span>),
+    };
+}
+
+<span class="kw">impl </span>Codec&lt;<span class="lifetime">'_</span>&gt; <span class="kw">for </span>SingleProtocolName {
     <span class="kw">fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>, bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
-        <span class="kw">match </span><span class="self">self </span>{
-            <span class="self">Self</span>::HostName(name) =&gt; {
-                (name.as_ref().len() <span class="kw">as </span>u16).encode(bytes);
-                bytes.extend_from_slice(name.as_ref().as_bytes());
-            }
-            <span class="self">Self</span>::IpAddress(r) =&gt; r.encode(bytes),
-            <span class="self">Self</span>::Unknown(r) =&gt; r.encode(bytes),
-        }
-    }
-}
-
-<span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>ServerName {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) typ: ServerNameType,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) payload: ServerNamePayload,
-}
-
-<span class="kw">impl </span>Codec&lt;<span class="lifetime">'_</span>&gt; <span class="kw">for </span>ServerName {
-    <span class="kw">fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>, bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
-        <span class="self">self</span>.typ.encode(bytes);
-        <span class="self">self</span>.payload.encode(bytes);
+        <span class="kw">let </span>body = LengthPrefixedBuffer::new(<span class="self">Self</span>::SIZE_LEN, bytes);
+        <span class="self">self</span>.<span class="number">0</span>.encode(body.buf);
     }
 
-    <span class="kw">fn </span>read(r: <span class="kw-2">&amp;mut </span>Reader&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidMessage&gt; {
-        <span class="kw">let </span>typ = ServerNameType::read(r)<span class="question-mark">?</span>;
+    <span class="kw">fn </span>read(reader: <span class="kw-2">&amp;mut </span>Reader&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidMessage&gt; {
+        <span class="kw">let </span>len = <span class="self">Self</span>::SIZE_LEN.read(reader)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>sub = reader.sub(len)<span class="question-mark">?</span>;
 
-        <span class="kw">let </span>payload = <span class="kw">match </span>typ {
-            ServerNameType::HostName =&gt; ServerNamePayload::read_hostname(r)<span class="question-mark">?</span>,
-            <span class="kw">_ </span>=&gt; ServerNamePayload::Unknown(Payload::read(r).into_owned()),
-        };
+        <span class="kw">let </span>item = ProtocolName::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{ typ, payload })
-    }
-}
-
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>ServerName {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
-}
-
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>ConvertServerNameList {
-    <span class="kw">fn </span>has_duplicate_names_for_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool;
-    <span class="kw">fn </span>single_hostname(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;DnsName&lt;<span class="lifetime">'_</span>&gt;&gt;;
-}
-
-<span class="kw">impl </span>ConvertServerNameList <span class="kw">for </span>[ServerName] {
-    <span class="doccomment">/// RFC6066: "The ServerNameList MUST NOT contain more than one name of the same name_type."
-    </span><span class="kw">fn </span>has_duplicate_names_for_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        has_duplicates::&lt;<span class="kw">_</span>, <span class="kw">_</span>, u8&gt;(<span class="self">self</span>.iter().map(|name| name.typ))
-    }
-
-    <span class="kw">fn </span>single_hostname(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;DnsName&lt;<span class="lifetime">'_</span>&gt;&gt; {
-        <span class="kw">fn </span>only_dns_hostnames(name: <span class="kw-2">&amp;</span>ServerName) -&gt; <span class="prelude-ty">Option</span>&lt;DnsName&lt;<span class="lifetime">'_</span>&gt;&gt; {
-            <span class="kw">if let </span>ServerNamePayload::HostName(dns) = <span class="kw-2">&amp;</span>name.payload {
-                <span class="prelude-val">Some</span>(dns.borrow())
-            } <span class="kw">else </span>{
-                <span class="prelude-val">None
-            </span>}
-        }
-
-        <span class="self">self</span>.iter()
-            .filter_map(only_dns_hostnames)
-            .next()
-    }
-}
-
-<span class="macro">wrapped_payload!</span>(<span class="kw">pub struct </span>ProtocolName, PayloadU8,);
-
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>ProtocolName {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
-}
-
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>ConvertProtocolNameList {
-    <span class="kw">fn </span>from_slices(names: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>[u8]]) -&gt; <span class="self">Self</span>;
-    <span class="kw">fn </span>to_slices(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;<span class="kw-2">&amp;</span>[u8]&gt;;
-    <span class="kw">fn </span>as_single_slice(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt;;
-}
-
-<span class="kw">impl </span>ConvertProtocolNameList <span class="kw">for </span>Vec&lt;ProtocolName&gt; {
-    <span class="kw">fn </span>from_slices(names: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>[u8]]) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>ret = <span class="self">Self</span>::new();
-
-        <span class="kw">for </span>name <span class="kw">in </span>names {
-            ret.push(ProtocolName::from(name.to_vec()));
-        }
-
-        ret
-    }
-
-    <span class="kw">fn </span>to_slices(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;<span class="kw-2">&amp;</span>[u8]&gt; {
-        <span class="self">self</span>.iter()
-            .map(|proto| proto.as_ref())
-            .collect::&lt;Vec&lt;<span class="kw-2">&amp;</span>[u8]&gt;&gt;()
-    }
-
-    <span class="kw">fn </span>as_single_slice(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt; {
-        <span class="kw">if </span><span class="self">self</span>.len() == <span class="number">1 </span>{
-            <span class="prelude-val">Some</span>(<span class="self">self</span>[<span class="number">0</span>].as_ref())
+        <span class="kw">if </span>sub.any_left() {
+            <span class="prelude-val">Err</span>(InvalidMessage::TrailingData(<span class="string">"SingleProtocolName"</span>))
         } <span class="kw">else </span>{
-            <span class="prelude-val">None
-        </span>}
+            <span class="prelude-val">Ok</span>(<span class="self">Self</span>(item))
+        }
+    }
+}
+
+<span class="kw">impl </span>AsRef&lt;[u8]&gt; <span class="kw">for </span>SingleProtocolName {
+    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
+        <span class="self">self</span>.<span class="number">0</span>.as_ref()
     }
 }
 
@@ -3565,7 +3782,8 @@
 </span><span class="attr">#[derive(Clone, Debug)]
 </span><span class="kw">pub struct </span>KeyShareEntry {
     <span class="kw">pub</span>(<span class="kw">crate</span>) group: NamedGroup,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) payload: PayloadU16,
+    <span class="doccomment">/// RFC8446: `opaque key_exchange&lt;1..2^16-1&gt;;`
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) payload: PayloadU16&lt;NonEmpty&gt;,
 }
 
 <span class="kw">impl </span>KeyShareEntry {
@@ -3598,7 +3816,8 @@
 <span class="comment">// --- TLS 1.3 PresharedKey offers ---
 </span><span class="attr">#[derive(Clone, Debug)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>PresharedKeyIdentity {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) identity: PayloadU16,
+    <span class="doccomment">/// RFC8446: `opaque identity&lt;1..2^16-1&gt;;`
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) identity: PayloadU16&lt;NonEmpty&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) obfuscated_ticket_age: u32,
 }
 
@@ -3625,14 +3844,23 @@
     }
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>PresharedKeyIdentity {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
+<span class="doccomment">/// RFC8446: `PskIdentity identities&lt;7..2^16-1&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>PresharedKeyIdentity {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU16 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"PskIdentities"</span>),
+    };
 }
 
-<span class="macro">wrapped_payload!</span>(<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>PresharedKeyBinder, PayloadU8,);
+<span class="macro">wrapped_payload!</span>(
+    <span class="doccomment">/// RFC8446: `opaque PskBinderEntry&lt;32..255&gt;;`
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>PresharedKeyBinder, PayloadU8&lt;NonEmpty&gt;,
+);
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>PresharedKeyBinder {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
+<span class="doccomment">/// RFC8446: `PskBinderEntry binders&lt;33..2^16-1&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>PresharedKeyBinder {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU16 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"PskBinders"</span>),
+    };
 }
 
 <span class="attr">#[derive(Clone, Debug)]
@@ -3668,7 +3896,8 @@
 <span class="comment">// --- RFC6066 certificate status request ---
 </span><span class="macro">wrapped_payload!</span>(<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ResponderId, PayloadU16,);
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>ResponderId {
+<span class="doccomment">/// RFC6066: `ResponderID responder_id_list&lt;0..2^16-1&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>ResponderId {
     <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
 }
 
@@ -3738,24 +3967,98 @@
 
 <span class="comment">// ---
 
-</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>PSKKeyExchangeMode {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U8;
+</span><span class="doccomment">/// RFC8446: `PskKeyExchangeMode ke_modes&lt;1..255&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>PskKeyExchangeMode {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU8 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"PskKeyExchangeModes"</span>),
+    };
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>KeyShareEntry {
+<span class="doccomment">/// RFC8446: `KeyShareEntry client_shares&lt;0..2^16-1&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>KeyShareEntry {
     <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
 }
 
+<span class="doccomment">/// The body of the `SupportedVersions` extension when it appears in a
+/// `ClientHello`
+///
+/// This is documented as a preference-order vector, but we (as a server)
+/// ignore the preference of the client.
+///
+/// RFC8446: `ProtocolVersion versions&lt;2..254&gt;;`
+</span><span class="attr">#[derive(Clone, Copy, Debug, Default)]
+</span><span class="kw">pub struct </span>SupportedProtocolVersions {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) tls13: bool,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) tls12: bool,
+}
+
+<span class="kw">impl </span>SupportedProtocolVersions {
+    <span class="doccomment">/// Return true if `filter` returns true for any enabled version.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>any(<span class="kw-2">&amp;</span><span class="self">self</span>, filter: <span class="kw">impl </span>Fn(ProtocolVersion) -&gt; bool) -&gt; bool {
+        <span class="kw">if </span><span class="self">self</span>.tls13 &amp;&amp; filter(ProtocolVersion::TLSv1_3) {
+            <span class="kw">return </span><span class="bool-val">true</span>;
+        }
+        <span class="kw">if </span><span class="self">self</span>.tls12 &amp;&amp; filter(ProtocolVersion::TLSv1_2) {
+            <span class="kw">return </span><span class="bool-val">true</span>;
+        }
+        <span class="bool-val">false
+    </span>}
+
+    <span class="kw">const </span>LIST_LENGTH: ListLength = ListLength::NonZeroU8 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"ProtocolVersions"</span>),
+    };
+}
+
+<span class="kw">impl </span>Codec&lt;<span class="lifetime">'_</span>&gt; <span class="kw">for </span>SupportedProtocolVersions {
+    <span class="kw">fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>, bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
+        <span class="kw">let </span>inner = LengthPrefixedBuffer::new(<span class="self">Self</span>::LIST_LENGTH, bytes);
+        <span class="kw">if </span><span class="self">self</span>.tls13 {
+            ProtocolVersion::TLSv1_3.encode(inner.buf);
+        }
+        <span class="kw">if </span><span class="self">self</span>.tls12 {
+            ProtocolVersion::TLSv1_2.encode(inner.buf);
+        }
+    }
+
+    <span class="kw">fn </span>read(reader: <span class="kw-2">&amp;mut </span>Reader&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidMessage&gt; {
+        <span class="kw">let </span>len = <span class="self">Self</span>::LIST_LENGTH.read(reader)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>sub = reader.sub(len)<span class="question-mark">?</span>;
+
+        <span class="kw">let </span><span class="kw-2">mut </span>tls12 = <span class="bool-val">false</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>tls13 = <span class="bool-val">false</span>;
+
+        <span class="kw">while </span>sub.any_left() {
+            <span class="kw">match </span>ProtocolVersion::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">? </span>{
+                ProtocolVersion::TLSv1_3 =&gt; tls13 = <span class="bool-val">true</span>,
+                ProtocolVersion::TLSv1_2 =&gt; tls12 = <span class="bool-val">true</span>,
+                <span class="kw">_ </span>=&gt; <span class="kw">continue</span>,
+            };
+        }
+
+        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{ tls13, tls12 })
+    }
+}
+
 <span class="kw">impl </span>TlsListElement <span class="kw">for </span>ProtocolVersion {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U8;
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU8 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"ProtocolVersions"</span>),
+    };
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>CertificateType {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U8;
+<span class="doccomment">/// RFC7250: `CertificateType client_certificate_types&lt;1..2^8-1&gt;;`
+///
+/// Ditto `CertificateType server_certificate_types&lt;1..2^8-1&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>CertificateType {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU8 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"CertificateTypes"</span>),
+    };
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>CertificateCompressionAlgorithm {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U8;
+<span class="doccomment">/// RFC8879: `CertificateCompressionAlgorithm algorithms&lt;2..2^8-2&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>CertificateCompressionAlgorithm {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU8 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"CertificateCompressionAlgorithms"</span>),
+    };
 }
 
 <span class="attr">#[derive(Clone, Debug)]
@@ -3763,14 +4066,14 @@
     EcPointFormats(Vec&lt;ECPointFormat&gt;),
     NamedGroups(Vec&lt;NamedGroup&gt;),
     SignatureAlgorithms(Vec&lt;SignatureScheme&gt;),
-    ServerName(Vec&lt;ServerName&gt;),
+    ServerName(ServerNamePayload&lt;<span class="lifetime">'static</span>&gt;),
     SessionTicket(ClientSessionTicket),
     Protocols(Vec&lt;ProtocolName&gt;),
-    SupportedVersions(Vec&lt;ProtocolVersion&gt;),
+    SupportedVersions(SupportedProtocolVersions),
     KeyShare(Vec&lt;KeyShareEntry&gt;),
-    PresharedKeyModes(Vec&lt;PSKKeyExchangeMode&gt;),
+    PresharedKeyModes(Vec&lt;PskKeyExchangeMode&gt;),
     PresharedKey(PresharedKeyOffer),
-    Cookie(PayloadU16),
+    Cookie(PayloadU16&lt;NonEmpty&gt;),
     ExtendedMasterSecretRequest,
     CertificateStatusRequest(CertificateStatusRequest),
     ServerCertTypes(Vec&lt;CertificateType&gt;),
@@ -3860,7 +4163,9 @@
             ExtensionType::ECPointFormats =&gt; <span class="self">Self</span>::EcPointFormats(Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
             ExtensionType::EllipticCurves =&gt; <span class="self">Self</span>::NamedGroups(Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
             ExtensionType::SignatureAlgorithms =&gt; <span class="self">Self</span>::SignatureAlgorithms(Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
-            ExtensionType::ServerName =&gt; <span class="self">Self</span>::ServerName(Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
+            ExtensionType::ServerName =&gt; {
+                <span class="self">Self</span>::ServerName(ServerNamePayload::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>.into_owned())
+            }
             ExtensionType::SessionTicket =&gt; {
                 <span class="kw">if </span>sub.any_left() {
                     <span class="kw">let </span>contents = Payload::read(<span class="kw-2">&amp;mut </span>sub).into_owned();
@@ -3870,7 +4175,9 @@
                 }
             }
             ExtensionType::ALProtocolNegotiation =&gt; <span class="self">Self</span>::Protocols(Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
-            ExtensionType::SupportedVersions =&gt; <span class="self">Self</span>::SupportedVersions(Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
+            ExtensionType::SupportedVersions =&gt; {
+                <span class="self">Self</span>::SupportedVersions(SupportedProtocolVersions::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>)
+            }
             ExtensionType::KeyShare =&gt; <span class="self">Self</span>::KeyShare(Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
             ExtensionType::PSKKeyExchangeModes =&gt; <span class="self">Self</span>::PresharedKeyModes(Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
             ExtensionType::PreSharedKey =&gt; <span class="self">Self</span>::PresharedKey(PresharedKeyOffer::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
@@ -3895,7 +4202,13 @@
             ExtensionType::EncryptedClientHelloOuterExtensions =&gt; {
                 <span class="self">Self</span>::EncryptedClientHelloOuterExtensions(Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>)
             }
-            ExtensionType::CertificateAuthorities =&gt; <span class="self">Self</span>::AuthorityNames(Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
+            ExtensionType::CertificateAuthorities =&gt; <span class="self">Self</span>::AuthorityNames({
+                <span class="kw">let </span>items = Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>;
+                <span class="kw">if </span>items.is_empty() {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidMessage::IllegalEmptyList(<span class="string">"DistinguishedNames"</span>));
+                }
+                items
+            }),
             <span class="kw">_ </span>=&gt; <span class="self">Self</span>::Unknown(UnknownExtension::read(typ, <span class="kw-2">&amp;mut </span>sub)),
         };
 
@@ -3919,18 +4232,6 @@
     }
 }
 
-<span class="kw">impl </span>ClientExtension {
-    <span class="doccomment">/// Make a basic SNI ServerNameRequest quoting `hostname`.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>make_sni(dns_name: <span class="kw-2">&amp;</span>DnsName&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>name = ServerName {
-            typ: ServerNameType::HostName,
-            payload: ServerNamePayload::new_hostname(trim_hostname_trailing_dot_for_sni(dns_name)),
-        };
-
-        <span class="self">Self</span>::ServerName(<span class="macro">vec!</span>[name])
-    }
-}
-
 <span class="attr">#[derive(Clone, Debug)]
 </span><span class="kw">pub enum </span>ClientSessionTicket {
     Request,
@@ -3943,7 +4244,7 @@
     ServerNameAck,
     SessionTicketAck,
     RenegotiationInfo(PayloadU8),
-    Protocols(Vec&lt;ProtocolName&gt;),
+    Protocols(SingleProtocolName),
     KeyShare(KeyShareEntry),
     PresharedKey(u16),
     ExtendedMasterSecretAck,
@@ -4020,7 +4321,9 @@
             ExtensionType::SessionTicket =&gt; <span class="self">Self</span>::SessionTicketAck,
             ExtensionType::StatusRequest =&gt; <span class="self">Self</span>::CertificateStatusAck,
             ExtensionType::RenegotiationInfo =&gt; <span class="self">Self</span>::RenegotiationInfo(PayloadU8::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
-            ExtensionType::ALProtocolNegotiation =&gt; <span class="self">Self</span>::Protocols(Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
+            ExtensionType::ALProtocolNegotiation =&gt; {
+                <span class="self">Self</span>::Protocols(SingleProtocolName::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>)
+            }
             ExtensionType::ClientCertificateType =&gt; {
                 <span class="self">Self</span>::ClientCertType(CertificateType::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>)
             }
@@ -4050,10 +4353,6 @@
 }
 
 <span class="kw">impl </span>ServerExtension {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>make_alpn(proto: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>[u8]]) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::Protocols(Vec::from_slices(proto))
-    }
-
     <span class="attr">#[cfg(feature = <span class="string">"tls12"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>make_empty_renegotiation_info() -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>empty = Vec::new();
@@ -4098,20 +4397,29 @@
     }
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>CipherSuite {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
+<span class="doccomment">/// RFC8446: `CipherSuite cipher_suites&lt;2..2^16-2&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>CipherSuite {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU16 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"CipherSuites"</span>),
+    };
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>Compression {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U8;
+<span class="doccomment">/// RFC5246: `CompressionMethod compression_methods&lt;1..2^8-1&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>Compression {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU8 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"Compressions"</span>),
+    };
 }
 
 <span class="kw">impl </span>TlsListElement <span class="kw">for </span>ClientExtension {
     <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>ExtensionType {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U8;
+<span class="doccomment">/// draft-ietf-tls-esni-17: `ExtensionType OuterExtensions&lt;2..254&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>ExtensionType {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU8 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"ExtensionTypes"</span>),
+    };
 }
 
 <span class="kw">impl </span>ClientHelloPayload {
@@ -4193,26 +4501,10 @@
             .find(|x| x.ext_type() == ext)
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>sni_extension(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[ServerName]&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>sni_extension(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>ServerNamePayload&lt;<span class="lifetime">'_</span>&gt;&gt; {
         <span class="kw">let </span>ext = <span class="self">self</span>.find_extension(ExtensionType::ServerName)<span class="question-mark">?</span>;
         <span class="kw">match </span>ext {
-            <span class="comment">// Does this comply with RFC6066?
-            //
-            // [RFC6066][] specifies that literal IP addresses are illegal in
-            // `ServerName`s with a `name_type` of `host_name`.
-            //
-            // Some clients incorrectly send such extensions: we choose to
-            // successfully parse these (into `ServerNamePayload::IpAddress`)
-            // but then act like the client sent no `server_name` extension.
-            //
-            // [RFC6066]: https://datatracker.ietf.org/doc/html/rfc6066#section-3
-            </span>ClientExtension::ServerName(req)
-                <span class="kw">if </span>!req
-                    .iter()
-                    .any(|name| <span class="macro">matches!</span>(name.payload, ServerNamePayload::IpAddress(<span class="kw">_</span>))) =&gt;
-            {
-                <span class="prelude-val">Some</span>(req)
-            }
+            ClientExtension::ServerName(req) =&gt; <span class="prelude-val">Some</span>(req),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
@@ -4282,10 +4574,10 @@
         <span class="self">self</span>.find_extension(ExtensionType::SessionTicket)
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>versions_extension(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[ProtocolVersion]&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>versions_extension(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;SupportedProtocolVersions&gt; {
         <span class="kw">let </span>ext = <span class="self">self</span>.find_extension(ExtensionType::SupportedVersions)<span class="question-mark">?</span>;
         <span class="kw">match </span>ext {
-            ClientExtension::SupportedVersions(vers) =&gt; <span class="prelude-val">Some</span>(vers),
+            ClientExtension::SupportedVersions(vers) =&gt; <span class="prelude-val">Some</span>(<span class="kw-2">*</span>vers),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
@@ -4324,7 +4616,7 @@
             .is_some_and(|ext| ext.ext_type() == ExtensionType::PreSharedKey)
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>psk_modes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[PSKKeyExchangeMode]&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>psk_modes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[PskKeyExchangeMode]&gt; {
         <span class="kw">let </span>ext = <span class="self">self</span>.find_extension(ExtensionType::PSKKeyExchangeModes)<span class="question-mark">?</span>;
         <span class="kw">match </span>ext {
             ClientExtension::PresharedKeyModes(psk_modes) =&gt; <span class="prelude-val">Some</span>(psk_modes),
@@ -4332,7 +4624,7 @@
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>psk_mode_offered(<span class="kw-2">&amp;</span><span class="self">self</span>, mode: PSKKeyExchangeMode) -&gt; bool {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>psk_mode_offered(<span class="kw-2">&amp;</span><span class="self">self</span>, mode: PskKeyExchangeMode) -&gt; bool {
         <span class="self">self</span>.psk_modes()
             .map(|modes| modes.contains(<span class="kw-2">&amp;</span>mode))
             .unwrap_or(<span class="bool-val">false</span>)
@@ -4385,7 +4677,7 @@
 <span class="attr">#[derive(Clone, Debug)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>HelloRetryExtension {
     KeyShare(NamedGroup),
-    Cookie(PayloadU16),
+    Cookie(PayloadU16&lt;NonEmpty&gt;),
     SupportedVersions(ProtocolVersion),
     EchHelloRetryRequest(Vec&lt;u8&gt;),
     Unknown(UnknownExtension),
@@ -4508,7 +4800,7 @@
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>cookie(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PayloadU16&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>cookie(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>PayloadU16&lt;NonEmpty&gt;&gt; {
         <span class="kw">let </span>ext = <span class="self">self</span>.find_extension(ExtensionType::Cookie)<span class="question-mark">?</span>;
         <span class="kw">match </span>ext {
             HelloRetryExtension::Cookie(ck) =&gt; <span class="prelude-val">Some</span>(ck),
@@ -4944,11 +5236,10 @@
         <span class="bool-val">false
     </span>}
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>end_entity_ocsp(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;u8&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>end_entity_ocsp(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
         <span class="self">self</span>.entries
             .first()
             .and_then(CertificateEntry::ocsp_response)
-            .map(|resp| resp.to_vec())
             .unwrap_or_default()
     }
 
@@ -5051,7 +5342,8 @@
 <span class="attr">#[cfg(feature = <span class="string">"tls12"</span>)]
 #[derive(Debug)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ClientEcdhParams {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) public: PayloadU8,
+    <span class="doccomment">/// RFC4492: `opaque point &lt;1..2^8-1&gt;;`
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) public: PayloadU8&lt;NonEmpty&gt;,
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"tls12"</span>)]
@@ -5069,7 +5361,8 @@
 <span class="attr">#[cfg(feature = <span class="string">"tls12"</span>)]
 #[derive(Debug)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ClientDhParams {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) public: PayloadU16,
+    <span class="doccomment">/// RFC5246: `opaque dh_Yc&lt;1..2^16-1&gt;;`
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) public: PayloadU16&lt;NonEmpty&gt;,
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"tls12"</span>)]
@@ -5088,7 +5381,8 @@
 <span class="attr">#[derive(Debug)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ServerEcdhParams {
     <span class="kw">pub</span>(<span class="kw">crate</span>) curve_params: EcParameters,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) public: PayloadU8,
+    <span class="doccomment">/// RFC4492: `opaque point &lt;1..2^8-1&gt;;`
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) public: PayloadU8&lt;NonEmpty&gt;,
 }
 
 <span class="kw">impl </span>ServerEcdhParams {
@@ -5124,9 +5418,12 @@
 <span class="attr">#[derive(Debug)]
 #[allow(non_snake_case)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ServerDhParams {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) dh_p: PayloadU16,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) dh_g: PayloadU16,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) dh_Ys: PayloadU16,
+    <span class="doccomment">/// RFC5246: `opaque dh_p&lt;1..2^16-1&gt;;`
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) dh_p: PayloadU16&lt;NonEmpty&gt;,
+    <span class="doccomment">/// RFC5246: `opaque dh_g&lt;1..2^16-1&gt;;`
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) dh_g: PayloadU16&lt;NonEmpty&gt;,
+    <span class="doccomment">/// RFC5246: `opaque dh_Ys&lt;1..2^16-1&gt;;`
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) dh_Ys: PayloadU16&lt;NonEmpty&gt;,
 }
 
 <span class="kw">impl </span>ServerDhParams {
@@ -5296,7 +5593,7 @@
     <span class="kw">fn </span>alpn_protocol(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt; {
         <span class="kw">let </span>ext = <span class="self">self</span>.find_extension(ExtensionType::ALProtocolNegotiation)<span class="question-mark">?</span>;
         <span class="kw">match </span>ext {
-            ServerExtension::Protocols(protos) =&gt; protos.as_single_slice(),
+            ServerExtension::Protocols(protos) =&gt; <span class="prelude-val">Some</span>(protos.as_ref()),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
@@ -5348,8 +5645,11 @@
     </span>}
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>ClientCertificateType {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U8;
+<span class="doccomment">/// RFC5246: `ClientCertificateType certificate_types&lt;1..2^8-1&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>ClientCertificateType {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU8 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"ClientCertificateTypes"</span>),
+    };
 }
 
 <span class="macro">wrapped_payload!</span>(
@@ -5365,8 +5665,10 @@
     ///     println!("{}", x509_parser::x509::X509Name::from_der(&amp;name.0)?.1);
     /// }
     /// ```
+    ///
+    /// The TLS encoding is defined in RFC5246: `opaque DistinguishedName&lt;1..2^16-1&gt;;`
     </span><span class="kw">pub struct </span>DistinguishedName,
-    PayloadU16,
+    PayloadU16&lt;NonEmpty&gt;,
 );
 
 <span class="kw">impl </span>DistinguishedName {
@@ -5383,7 +5685,9 @@
     }
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>DistinguishedName {
+<span class="doccomment">/// RFC8446: `DistinguishedName authorities&lt;3..2^16-1&gt;;` however,
+/// RFC5246: `DistinguishedName certificate_authorities&lt;0..2^16-1&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>DistinguishedName {
     <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
 }
 
@@ -5466,6 +5770,9 @@
             }
             ExtensionType::CertificateAuthorities =&gt; {
                 <span class="kw">let </span>cas = Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>;
+                <span class="kw">if </span>cas.is_empty() {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidMessage::IllegalEmptyList(<span class="string">"DistinguishedNames"</span>));
+                }
                 <span class="self">Self</span>::AuthorityNames(cas)
             }
             ExtensionType::CompressCertificate =&gt; {
@@ -5679,7 +5986,12 @@
         <span class="kw">let </span>lifetime = u32::read(r)<span class="question-mark">?</span>;
         <span class="kw">let </span>age_add = u32::read(r)<span class="question-mark">?</span>;
         <span class="kw">let </span>nonce = PayloadU8::read(r)<span class="question-mark">?</span>;
-        <span class="kw">let </span>ticket = Arc::new(PayloadU16::read(r)<span class="question-mark">?</span>);
+        <span class="comment">// nb. RFC8446: `opaque ticket&lt;1..2^16-1&gt;;`
+        </span><span class="kw">let </span>ticket = Arc::new(<span class="kw">match </span>PayloadU16::&lt;NonEmpty&gt;::read(r) {
+            <span class="prelude-val">Err</span>(InvalidMessage::IllegalEmptyValue) =&gt; <span class="prelude-val">Err</span>(InvalidMessage::EmptyTicketValue),
+            <span class="prelude-val">Err</span>(err) =&gt; <span class="prelude-val">Err</span>(err),
+            <span class="prelude-val">Ok</span>(pl) =&gt; <span class="prelude-val">Ok</span>(PayloadU16::new(pl.<span class="number">0</span>)),
+        }<span class="question-mark">?</span>);
         <span class="kw">let </span>exts = Vec::read(r)<span class="question-mark">?</span>;
 
         <span class="prelude-val">Ok</span>(<span class="self">Self </span>{
@@ -6065,15 +6377,19 @@
     }
 }
 
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>HpkeSymmetricCipherSuite {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
+<span class="doccomment">/// draft-ietf-tls-esni-24: `HpkeSymmetricCipherSuite cipher_suites&lt;4..2^16-4&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>HpkeSymmetricCipherSuite {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU16 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"HpkeSymmetricCipherSuites"</span>),
+    };
 }
 
 <span class="attr">#[derive(Clone, Debug, PartialEq)]
 </span><span class="kw">pub struct </span>HpkeKeyConfig {
     <span class="kw">pub </span>config_id: u8,
     <span class="kw">pub </span>kem_id: HpkeKem,
-    <span class="kw">pub </span>public_key: PayloadU16,
+    <span class="doccomment">/// draft-ietf-tls-esni-24: `opaque HpkePublicKey&lt;1..2^16-1&gt;;`
+    </span><span class="kw">pub </span>public_key: PayloadU16&lt;NonEmpty&gt;,
     <span class="kw">pub </span>symmetric_cipher_suites: Vec&lt;HpkeSymmetricCipherSuite&gt;,
 }
 
@@ -6132,7 +6448,7 @@
         <span class="self">self</span>.key_config.encode(bytes);
         <span class="self">self</span>.maximum_name_length.encode(bytes);
         <span class="kw">let </span>dns_name = <span class="kw-2">&amp;</span><span class="self">self</span>.public_name.borrow();
-        PayloadU8::encode_slice(dns_name.as_ref().as_ref(), bytes);
+        PayloadU8::&lt;MaybeEmpty&gt;::encode_slice(dns_name.as_ref().as_ref(), bytes);
         <span class="self">self</span>.extensions.encode(bytes);
     }
 
@@ -6141,9 +6457,13 @@
             key_config: HpkeKeyConfig::read(r)<span class="question-mark">?</span>,
             maximum_name_length: u8::read(r)<span class="question-mark">?</span>,
             public_name: {
-                DnsName::try_from(PayloadU8::read(r)<span class="question-mark">?</span>.<span class="number">0</span>.as_slice())
-                    .map_err(|<span class="kw">_</span>| InvalidMessage::InvalidServerName)<span class="question-mark">?
-                    </span>.to_owned()
+                DnsName::try_from(
+                    PayloadU8::&lt;MaybeEmpty&gt;::read(r)<span class="question-mark">?
+                        </span>.<span class="number">0
+                        </span>.as_slice(),
+                )
+                .map_err(|<span class="kw">_</span>| InvalidMessage::InvalidServerName)<span class="question-mark">?
+                </span>.to_owned()
             },
             extensions: Vec::read(r)<span class="question-mark">?</span>,
         })
@@ -6298,7 +6618,7 @@
     /// This field is empty in a ClientHelloOuter sent in response to a HelloRetryRequest.
     </span><span class="kw">pub </span>enc: PayloadU16,
     <span class="doccomment">/// The serialized and encrypted ClientHelloInner structure, encrypted using HPKE.
-    </span><span class="kw">pub </span>payload: PayloadU16,
+    </span><span class="kw">pub </span>payload: PayloadU16&lt;NonEmpty&gt;,
 }
 
 <span class="kw">impl </span>Codec&lt;<span class="lifetime">'_</span>&gt; <span class="kw">for </span>EncryptedClientHelloOuter {
@@ -6406,7 +6726,7 @@
             key_config: HpkeKeyConfig {
                 config_id: <span class="number">0</span>,
                 kem_id: HpkeKem::DHKEM_P256_HKDF_SHA256,
-                public_key: PayloadU16(<span class="string">b"xxx"</span>.into()),
+                public_key: PayloadU16::new(<span class="string">b"xxx"</span>.into()),
                 symmetric_cipher_suites: <span class="macro">vec!</span>[HpkeSymmetricCipherSuite {
                     kdf_id: HpkeKdf::HKDF_SHA256,
                     aead_id: HpkeAead::AES_128_GCM,

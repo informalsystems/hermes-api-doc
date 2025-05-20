@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/toml_edit-0.22.24/src/table.rs`."><title>table.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="toml_edit" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">toml_edit/</div>table.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/toml_edit-0.22.26/src/table.rs`."><title>table.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="toml_edit" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">toml_edit/</div>table.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -792,7 +792,31 @@
 <a href="#791" id="791">791</a>
 <a href="#792" id="792">792</a>
 <a href="#793" id="793">793</a>
-<a href="#794" id="794">794</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::iter::FromIterator;
+<a href="#794" id="794">794</a>
+<a href="#795" id="795">795</a>
+<a href="#796" id="796">796</a>
+<a href="#797" id="797">797</a>
+<a href="#798" id="798">798</a>
+<a href="#799" id="799">799</a>
+<a href="#800" id="800">800</a>
+<a href="#801" id="801">801</a>
+<a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
+<a href="#809" id="809">809</a>
+<a href="#810" id="810">810</a>
+<a href="#811" id="811">811</a>
+<a href="#812" id="812">812</a>
+<a href="#813" id="813">813</a>
+<a href="#814" id="814">814</a>
+<a href="#815" id="815">815</a>
+<a href="#816" id="816">816</a>
+<a href="#817" id="817">817</a>
+<a href="#818" id="818">818</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::iter::FromIterator;
 
 <span class="kw">use </span>indexmap::map::IndexMap;
 
@@ -801,7 +825,8 @@
 <span class="kw">use </span><span class="kw">crate</span>::value::DEFAULT_VALUE_DECOR;
 <span class="kw">use crate</span>::{InlineTable, InternalString, Item, KeyMut, Value};
 
-<span class="doccomment">/// Type representing a TOML non-inline table
+<span class="doccomment">/// A TOML table, a top-level collection of key/[`Value`] pairs under a header and logical
+/// sub-tables
 </span><span class="attr">#[derive(Clone, Debug, Default)]
 </span><span class="kw">pub struct </span>Table {
     <span class="comment">// Comments/spaces before and after the header
@@ -897,9 +922,16 @@
         decorate_table(<span class="self">self</span>);
     }
 
-    <span class="doccomment">/// Sorts Key/Value Pairs of the table.
+    <span class="doccomment">/// Sorts [Key]/[Value]-pairs of the table
     ///
-    /// Doesn't affect subtables or subarrays.
+    /// &lt;div class="warning"&gt;
+    ///
+    /// This sorts the syntactic table (everything under the `[header]`) and not the logical map of
+    /// key-value pairs.
+    /// This does not affect the order of [sub-tables][Table] or [sub-arrays][crate::ArrayOfTables].
+    /// This is not recursive.
+    ///
+    /// &lt;/div&gt;
     </span><span class="kw">pub fn </span>sort_values(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="comment">// Assuming standard tables have their doc_position set and this won't negatively impact them
         </span><span class="self">self</span>.items.sort_keys();
@@ -913,10 +945,19 @@
         }
     }
 
-    <span class="doccomment">/// Sort Key/Value Pairs of the table using the using the comparison function `compare`.
+    <span class="doccomment">/// Sort [Key]/[Value]-pairs of the table using the using the comparison function `compare`
     ///
     /// The comparison function receives two key and value pairs to compare (you can sort by keys or
     /// values or their combination as needed).
+    ///
+    /// &lt;div class="warning"&gt;
+    ///
+    /// This sorts the syntactic table (everything under the `[header]`) and not the logical map of
+    /// key-value pairs.
+    /// This does not affect the order of [sub-tables][Table] or [sub-arrays][crate::ArrayOfTables].
+    /// This is not recursive.
+    ///
+    /// &lt;/div&gt;
     </span><span class="kw">pub fn </span>sort_values_by&lt;F&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>compare: F)
     <span class="kw">where
         </span>F: FnMut(<span class="kw-2">&amp;</span>Key, <span class="kw-2">&amp;</span>Item, <span class="kw-2">&amp;</span>Key, <span class="kw-2">&amp;</span>Item) -&gt; std::cmp::Ordering,
@@ -1318,11 +1359,11 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>DEFAULT_TABLE_DECOR: (<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str) = (<span class="string">"\n"</span>, <span class="string">""</span>);
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>DEFAULT_KEY_PATH_DECOR: (<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str) = (<span class="string">""</span>, <span class="string">""</span>);
 
-<span class="doccomment">/// An owned iterator type over `Table`'s key/value pairs.
+<span class="doccomment">/// An owned iterator type over [`Table`]'s [`Key`]/[`Item`] pairs
 </span><span class="kw">pub type </span>IntoIter = Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = (InternalString, Item)&gt;&gt;;
-<span class="doccomment">/// An iterator type over `Table`'s key/value pairs.
+<span class="doccomment">/// An iterator type over [`Table`]'s [`Key`]/[`Item`] pairs
 </span><span class="kw">pub type </span>Iter&lt;<span class="lifetime">'a</span>&gt; = Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Item)&gt; + <span class="lifetime">'a</span>&gt;;
-<span class="doccomment">/// A mutable iterator type over `Table`'s key/value pairs.
+<span class="doccomment">/// A mutable iterator type over [`Table`]'s [`Key`]/[`Item`] pairs
 </span><span class="kw">pub type </span>IterMut&lt;<span class="lifetime">'a</span>&gt; = Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = (KeyMut&lt;<span class="lifetime">'a</span>&gt;, <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Item)&gt; + <span class="lifetime">'a</span>&gt;;
 
 <span class="doccomment">/// This trait represents either a `Table`, or an `InlineTable`.
@@ -1367,9 +1408,16 @@
 
     <span class="doccomment">/// Auto formats the table.
     </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;mut </span><span class="self">self</span>);
-    <span class="doccomment">/// Sorts Key/Value Pairs of the table.
+    <span class="doccomment">/// Sorts [Key]/[Value]-pairs of the table
     ///
-    /// Doesn't affect subtables or subarrays.
+    /// &lt;div class="warning"&gt;
+    ///
+    /// This sorts the syntactic table (everything under the `[header]`) and not the logical map of
+    /// key-value pairs.
+    /// This does not affect the order of [sub-tables][Table] or [sub-arrays][crate::ArrayOfTables].
+    /// This is not recursive.
+    ///
+    /// &lt;/div&gt;
     </span><span class="kw">fn </span>sort_values(<span class="kw-2">&amp;mut </span><span class="self">self</span>);
     <span class="doccomment">/// Change this table's dotted status
     </span><span class="kw">fn </span>set_dotted(<span class="kw-2">&amp;mut </span><span class="self">self</span>, yes: bool);
@@ -1458,7 +1506,7 @@
     }
 }
 
-<span class="doccomment">/// A view into a single location in a map, which may be vacant or occupied.
+<span class="doccomment">/// A view into a single location in a [`Table`], which may be vacant or occupied.
 </span><span class="kw">pub enum </span>Entry&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// An occupied Entry.
     </span>Occupied(OccupiedEntry&lt;<span class="lifetime">'a</span>&gt;),
@@ -1504,7 +1552,7 @@
     }
 }
 
-<span class="doccomment">/// A view into a single occupied location in a `IndexMap`.
+<span class="doccomment">/// A view into a single occupied location in a [`Table`].
 </span><span class="kw">pub struct </span>OccupiedEntry&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) entry: indexmap::map::OccupiedEntry&lt;<span class="lifetime">'a</span>, Key, Item&gt;,
 }
@@ -1558,7 +1606,7 @@
     }
 }
 
-<span class="doccomment">/// A view into a single empty location in a `IndexMap`.
+<span class="doccomment">/// A view into a single empty location in a [`Table`].
 </span><span class="kw">pub struct </span>VacantEntry&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) entry: indexmap::map::VacantEntry&lt;<span class="lifetime">'a</span>, Key, Item&gt;,
 }

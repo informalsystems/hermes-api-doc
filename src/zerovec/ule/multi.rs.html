@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.10.4/src/ule/multi.rs`."><title>multi.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/ule/</div>multi.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.11.2/src/ule/multi.rs`."><title>multi.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/ule/</div>multi.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -152,59 +152,64 @@
 <a href="#151" id="151">151</a>
 <a href="#152" id="152">152</a>
 <a href="#153" id="153">153</a>
-<a href="#154" id="154">154</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
+<a href="#156" id="156">156</a>
+<a href="#157" id="157">157</a>
+<a href="#158" id="158">158</a>
+<a href="#159" id="159">159</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
 </span><span class="kw">use super</span>::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::varzerovec::Index32;
-<span class="kw">use </span><span class="kw">crate</span>::VarZeroSlice;
-<span class="kw">use </span>core::mem;
+<span class="kw">use </span><span class="kw">crate</span>::varzerovec::lengthless::VarZeroLengthlessSlice;
+<span class="kw">use </span><span class="kw">crate</span>::vecs::VarZeroVecFormat;
+<span class="kw">use </span>core::{fmt, mem};
 
 <span class="doccomment">/// This type is used by the custom derive to represent multiple [`VarULE`]
 /// fields packed into a single end-of-struct field. It is not recommended
-/// to use this type directly.
+/// to use this type directly, use [`Tuple2VarULE`](crate::ule::tuplevar::Tuple2VarULE) etc instead.
 ///
-/// Logically, consider it to be `(V1, V2, V3, ..)`
-/// where `V1` etc are potentially different [`VarULE`] types.
+/// Logically, consider it to be `(, , , ..)`
+/// where `` etc are potentially different [`VarULE`] types.
 ///
-/// Internally, it is represented by a VarZeroSlice.
-</span><span class="attr">#[derive(PartialEq, Eq, Debug)]
+/// Internally, it is represented by a VarZeroSlice without the length part.
+</span><span class="attr">#[derive(PartialEq, Eq)]
 #[repr(transparent)]
-</span><span class="kw">pub struct </span>MultiFieldsULE(VarZeroSlice&lt;[u8], Index32&gt;);
+</span><span class="kw">pub struct </span>MultiFieldsULE&lt;<span class="kw">const </span>LEN: usize, Format: VarZeroVecFormat&gt;(
+    VarZeroLengthlessSlice&lt;[u8], Format&gt;,
+);
 
-<span class="kw">impl </span>MultiFieldsULE {
+<span class="kw">impl</span>&lt;<span class="kw">const </span>LEN: usize, Format: VarZeroVecFormat&gt; MultiFieldsULE&lt;LEN, Format&gt; {
     <span class="doccomment">/// Compute the amount of bytes needed to support elements with lengths `lengths`
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>compute_encoded_len_for(lengths: <span class="kw-2">&amp;</span>[usize]) -&gt; usize {
-        <span class="attr">#[allow(clippy::expect_used)] </span><span class="comment">// See #1410
-        </span><span class="kw">unsafe </span>{
-            <span class="comment">// safe since BlankSliceEncoder is transparent over usize
-            </span><span class="kw">let </span>lengths = <span class="kw-2">&amp;*</span>(lengths <span class="kw">as </span><span class="kw-2">*const </span>[usize] <span class="kw">as </span><span class="kw-2">*const </span>[BlankSliceEncoder]);
-            <span class="kw">crate</span>::varzerovec::components::compute_serializable_len::&lt;<span class="kw">_</span>, <span class="kw">_</span>, Index32&gt;(lengths)
-                .expect(<span class="string">"Too many bytes to encode"</span>) <span class="kw">as </span>usize
-        }
+    #[allow(clippy::expect_used)] </span><span class="comment">// See #1410
+    </span><span class="kw">pub fn </span>compute_encoded_len_for(lengths: [usize; LEN]) -&gt; usize {
+        <span class="kw">let </span>lengths = lengths.map(BlankSliceEncoder);
+        <span class="kw">crate</span>::varzerovec::components::compute_serializable_len_without_length::&lt;<span class="kw">_</span>, <span class="kw">_</span>, Format&gt;(
+            <span class="kw-2">&amp;</span>lengths,
+        )
+        .expect(<span class="string">"Too many bytes to encode"</span>) <span class="kw">as </span>usize
     }
 
     <span class="doccomment">/// Construct a partially initialized MultiFieldsULE backed by a mutable byte buffer
     </span><span class="kw">pub fn </span>new_from_lengths_partially_initialized&lt;<span class="lifetime">'a</span>&gt;(
-        lengths: <span class="kw-2">&amp;</span>[usize],
+        lengths: [usize; LEN],
         output: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>[u8],
     ) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">Self </span>{
+        <span class="kw">let </span>lengths = lengths.map(BlankSliceEncoder);
+        <span class="kw">crate</span>::varzerovec::components::write_serializable_bytes_without_length::&lt;<span class="kw">_</span>, <span class="kw">_</span>, Format&gt;(
+            <span class="kw-2">&amp;</span>lengths, output,
+        );
+        <span class="macro">debug_assert!</span>(
+            &lt;VarZeroLengthlessSlice&lt;[u8], Format&gt;&gt;::parse_bytes(LEN <span class="kw">as </span>u32, output).is_ok(),
+            <span class="string">"Encoded slice must be valid VarZeroSlice"
+        </span>);
         <span class="kw">unsafe </span>{
-            <span class="comment">// safe since BlankSliceEncoder is transparent over usize
-            </span><span class="kw">let </span>lengths = <span class="kw-2">&amp;*</span>(lengths <span class="kw">as </span><span class="kw-2">*const </span>[usize] <span class="kw">as </span><span class="kw-2">*const </span>[BlankSliceEncoder]);
-            <span class="kw">crate</span>::varzerovec::components::write_serializable_bytes::&lt;<span class="kw">_</span>, <span class="kw">_</span>, Index32&gt;(
-                lengths, output,
-            );
-            <span class="macro">debug_assert!</span>(
-                &lt;VarZeroSlice&lt;[u8], Index32&gt;&gt;::validate_byte_slice(output).is_ok(),
-                <span class="string">"Encoded slice must be valid VarZeroSlice"
-            </span>);
-            <span class="comment">// Safe since write_serializable_bytes produces a valid VarZeroSlice buffer
-            </span><span class="kw">let </span>slice = &lt;VarZeroSlice&lt;[u8], Index32&gt;&gt;::from_byte_slice_unchecked_mut(output);
-            <span class="comment">// safe since `Self` is transparent over VarZeroSlice
-            </span>mem::transmute::&lt;<span class="kw-2">&amp;mut </span>VarZeroSlice&lt;<span class="kw">_</span>, Index32&gt;, <span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;(slice)
+            <span class="comment">// Safe since write_serializable_bytes produces a valid VarZeroLengthlessSlice buffer with the right format
+            </span><span class="kw">let </span>slice = &lt;VarZeroLengthlessSlice&lt;[u8], Format&gt;&gt;::from_bytes_unchecked_mut(output);
+            <span class="comment">// safe since `Self` is transparent over VarZeroLengthlessSlice&lt;[u8], Format&gt;
+            </span>mem::transmute::&lt;<span class="kw-2">&amp;mut </span>VarZeroLengthlessSlice&lt;[u8], Format&gt;, <span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;(slice)
         }
     }
 
@@ -219,7 +224,7 @@
         idx: usize,
         value: <span class="kw-2">&amp;</span>A,
     ) {
-        value.encode_var_ule_write(<span class="self">self</span>.<span class="number">0</span>.get_bytes_at_mut(idx))
+        value.encode_var_ule_write(<span class="self">self</span>.<span class="number">0</span>.get_bytes_at_mut(LEN <span class="kw">as </span>u32, idx))
     }
 
     <span class="doccomment">/// Validate field at `index` to see if it is a valid `T` VarULE type
@@ -228,11 +233,8 @@
     ///
     /// - `index` must be in range
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub unsafe fn </span>validate_field&lt;T: VarULE + <span class="question-mark">?</span>Sized&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        index: usize,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), ZeroVecError&gt; {
-        T::validate_byte_slice(<span class="self">self</span>.<span class="number">0</span>.get_unchecked(index))
+    </span><span class="kw">pub unsafe fn </span>validate_field&lt;T: VarULE + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="prelude-ty">Result</span>&lt;(), UleError&gt; {
+        T::validate_bytes(<span class="self">self</span>.<span class="number">0</span>.get_unchecked(LEN <span class="kw">as </span>u32, index))
     }
 
     <span class="doccomment">/// Get field at `index` as a value of type T
@@ -243,20 +245,30 @@
     /// - Element at `index` must have been created with the VarULE type T
     </span><span class="attr">#[inline]
     </span><span class="kw">pub unsafe fn </span>get_field&lt;T: VarULE + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="kw-2">&amp;</span>T {
-        T::from_byte_slice_unchecked(<span class="self">self</span>.<span class="number">0</span>.get_unchecked(index))
+        T::from_bytes_unchecked(<span class="self">self</span>.<span class="number">0</span>.get_unchecked(LEN <span class="kw">as </span>u32, index))
     }
 
     <span class="doccomment">/// Construct from a byte slice
     ///
     /// # Safety
-    /// - byte slice must be a valid VarZeroSlice&lt;[u8]&gt;
+    /// - byte slice must be a valid VarZeroLengthlessSlice&lt;[u8], Format&gt; with length LEN
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub unsafe fn </span>from_byte_slice_unchecked(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
-        <span class="comment">// &amp;Self is transparent over &amp;VZS&lt;..&gt;
-        </span>mem::transmute(&lt;VarZeroSlice&lt;[u8]&gt;&gt;::from_byte_slice_unchecked(bytes))
+    </span><span class="kw">pub unsafe fn </span>from_bytes_unchecked(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
+        <span class="comment">// &amp;Self is transparent over &amp;VZS&lt;..&gt; with the right format
+        </span>mem::transmute(&lt;VarZeroLengthlessSlice&lt;[u8], Format&gt;&gt;::from_bytes_unchecked(bytes))
+    }
+
+    <span class="doccomment">/// Get the bytes behind this value
+    </span><span class="kw">pub fn </span>as_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
+        <span class="self">self</span>.<span class="number">0</span>.as_bytes()
     }
 }
 
+<span class="kw">impl</span>&lt;<span class="kw">const </span>LEN: usize, Format: VarZeroVecFormat&gt; fmt::Debug <span class="kw">for </span>MultiFieldsULE&lt;LEN, Format&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"MultiFieldsULE&lt;{LEN}&gt;({:?})"</span>, <span class="self">self</span>.<span class="number">0</span>.as_bytes())
+    }
+}
 <span class="doccomment">/// This lets us conveniently use the EncodeAsVarULE functionality to create
 /// `VarZeroVec&lt;[u8]&gt;`s that have the right amount of space for elements
 /// without having to duplicate any unsafe code
@@ -283,27 +295,25 @@
 <span class="comment">// Safety (based on the safety checklist on the VarULE trait):
 //  1. MultiFieldsULE does not include any uninitialized or padding bytes (achieved by being transparent over a VarULE type)
 //  2. MultiFieldsULE is aligned to 1 byte (achieved by being transparent over a VarULE type)
-//  3. The impl of `validate_byte_slice()` returns an error if any byte is not valid.
-//  4. The impl of `validate_byte_slice()` returns an error if the slice cannot be used in its entirety
-//  5. The impl of `from_byte_slice_unchecked()` returns a reference to the same data.
+//  3. The impl of `validate_bytes()` returns an error if any byte is not valid.
+//  4. The impl of `validate_bytes()` returns an error if the slice cannot be used in its entirety
+//  5. The impl of `from_bytes_unchecked()` returns a reference to the same data.
 //  6. All other methods are defaulted
 //  7. `MultiFieldsULE` byte equality is semantic equality (achieved by being transparent over a VarULE type)
-</span><span class="kw">unsafe impl </span>VarULE <span class="kw">for </span>MultiFieldsULE {
+</span><span class="kw">unsafe impl</span>&lt;<span class="kw">const </span>LEN: usize, Format: VarZeroVecFormat&gt; VarULE <span class="kw">for </span>MultiFieldsULE&lt;LEN, Format&gt; {
     <span class="doccomment">/// Note: MultiFieldsULE is usually used in cases where one should be calling .validate_field() directly for
     /// each field, rather than using the regular VarULE impl.
     ///
     /// This impl exists so that EncodeAsVarULE can work.
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>validate_byte_slice(slice: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ZeroVecError&gt; {
-        &lt;VarZeroSlice&lt;[u8], Index32&gt;&gt;::validate_byte_slice(slice)
+    </span><span class="kw">fn </span>validate_bytes(slice: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), UleError&gt; {
+        &lt;VarZeroLengthlessSlice&lt;[u8], Format&gt;&gt;::parse_bytes(LEN <span class="kw">as </span>u32, slice).map(|<span class="kw">_</span>| ())
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">unsafe fn </span>from_byte_slice_unchecked(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
+    </span><span class="kw">unsafe fn </span>from_bytes_unchecked(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
         <span class="comment">// &amp;Self is transparent over &amp;VZS&lt;..&gt;
-        </span>mem::transmute(&lt;VarZeroSlice&lt;[u8], Index32&gt;&gt;::from_byte_slice_unchecked(
-            bytes,
-        ))
+        </span>mem::transmute(&lt;VarZeroLengthlessSlice&lt;[u8], Format&gt;&gt;::from_bytes_unchecked(bytes))
     }
 }
 </code></pre></div></section></main></body></html>

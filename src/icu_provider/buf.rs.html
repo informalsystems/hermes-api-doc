@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_provider-1.5.0/src/buf.rs`."><title>buf.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_provider" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_provider/</div>buf.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_provider-2.0.0/src/buf.rs`."><title>buf.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_provider" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_provider/</div>buf.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -131,46 +131,7 @@
 <a href="#130" id="130">130</a>
 <a href="#131" id="131">131</a>
 <a href="#132" id="132">132</a>
-<a href="#133" id="133">133</a>
-<a href="#134" id="134">134</a>
-<a href="#135" id="135">135</a>
-<a href="#136" id="136">136</a>
-<a href="#137" id="137">137</a>
-<a href="#138" id="138">138</a>
-<a href="#139" id="139">139</a>
-<a href="#140" id="140">140</a>
-<a href="#141" id="141">141</a>
-<a href="#142" id="142">142</a>
-<a href="#143" id="143">143</a>
-<a href="#144" id="144">144</a>
-<a href="#145" id="145">145</a>
-<a href="#146" id="146">146</a>
-<a href="#147" id="147">147</a>
-<a href="#148" id="148">148</a>
-<a href="#149" id="149">149</a>
-<a href="#150" id="150">150</a>
-<a href="#151" id="151">151</a>
-<a href="#152" id="152">152</a>
-<a href="#153" id="153">153</a>
-<a href="#154" id="154">154</a>
-<a href="#155" id="155">155</a>
-<a href="#156" id="156">156</a>
-<a href="#157" id="157">157</a>
-<a href="#158" id="158">158</a>
-<a href="#159" id="159">159</a>
-<a href="#160" id="160">160</a>
-<a href="#161" id="161">161</a>
-<a href="#162" id="162">162</a>
-<a href="#163" id="163">163</a>
-<a href="#164" id="164">164</a>
-<a href="#165" id="165">165</a>
-<a href="#166" id="166">166</a>
-<a href="#167" id="167">167</a>
-<a href="#168" id="168">168</a>
-<a href="#169" id="169">169</a>
-<a href="#170" id="170">170</a>
-<a href="#171" id="171">171</a>
-<a href="#172" id="172">172</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#133" id="133">133</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
@@ -178,16 +139,21 @@
 
 </span><span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
 
-<span class="doccomment">/// [`DataMarker`] for raw buffers. Returned by [`BufferProvider`].
+<span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
+</span><span class="kw">mod </span>serde;
+<span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
+</span><span class="kw">pub use </span><span class="self">self</span>::serde::<span class="kw-2">*</span>;
+
+<span class="doccomment">/// [`DynamicDataMarker`] for raw buffers. Returned by [`BufferProvider`].
 ///
 /// The data is expected to be deserialized before it can be used; see
 /// [`DataPayload::into_deserialized`].
-</span><span class="attr">#[allow(clippy::exhaustive_structs)] </span><span class="comment">// marker type
-</span><span class="attr">#[derive(Debug)]
+</span><span class="attr">#[non_exhaustive]
+#[derive(Debug)]
 </span><span class="kw">pub struct </span>BufferMarker;
 
-<span class="kw">impl </span>DataMarker <span class="kw">for </span>BufferMarker {
-    <span class="kw">type </span>Yokeable = <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[u8];
+<span class="kw">impl </span>DynamicDataMarker <span class="kw">for </span>BufferMarker {
+    <span class="kw">type </span>DataStruct = <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[u8];
 }
 
 <span class="doccomment">/// A data provider that returns opaque bytes.
@@ -209,46 +175,50 @@
 ///
 /// ```
 /// # #[cfg(feature = "deserialize_json")] {
-/// use icu_locid::langid;
+/// use icu_locale_core::langid;
 /// use icu_provider::hello_world::*;
 /// use icu_provider::prelude::*;
 /// use std::borrow::Cow;
 ///
 /// let buffer_provider = HelloWorldProvider.into_json_provider();
 ///
-/// let req = DataRequest {
-///     locale: &amp;langid!("de").into(),
-///     metadata: Default::default(),
-/// };
-///
 /// // Deserializing manually
 /// assert_eq!(
-///     serde_json::from_slice::&lt;HelloWorldV1&gt;(
+///     serde_json::from_slice::&lt;HelloWorld&gt;(
 ///         buffer_provider
-///             .load_buffer(HelloWorldV1Marker::KEY, req)
+///             .load_data(
+///                 HelloWorldV1::INFO,
+///                 DataRequest {
+///                     id: DataIdentifierBorrowed::for_locale(
+///                         &amp;langid!("de").into()
+///                     ),
+///                     ..Default::default()
+///                 }
+///             )
 ///             .expect("load should succeed")
-///             .take_payload()
-///             .unwrap()
+///             .payload
 ///             .get()
 ///     )
 ///     .expect("should deserialize"),
-///     HelloWorldV1 {
+///     HelloWorld {
 ///         message: Cow::Borrowed("Hallo Welt"),
 ///     },
 /// );
 ///
 /// // Deserialize automatically
-/// let deserializing_provider: &amp;dyn DataProvider&lt;HelloWorldV1Marker&gt; =
+/// let deserializing_provider: &amp;dyn DataProvider&lt;HelloWorldV1&gt; =
 ///     &amp;buffer_provider.as_deserializing();
 ///
 /// assert_eq!(
 ///     deserializing_provider
-///         .load(req)
+///         .load(DataRequest {
+///             id: DataIdentifierBorrowed::for_locale(&amp;langid!("de").into()),
+///             ..Default::default()
+///         })
 ///         .expect("load should succeed")
-///         .take_payload()
-///         .unwrap()
+///         .payload
 ///         .get(),
-///     &amp;HelloWorldV1 {
+///     &amp;HelloWorld {
 ///         message: Cow::Borrowed("Hallo Welt"),
 ///     },
 /// );
@@ -256,70 +226,20 @@
 /// ```
 ///
 /// [`as_deserializing()`]: AsDeserializingBufferProvider::as_deserializing
-</span><span class="kw">pub trait </span>BufferProvider {
-    <span class="doccomment">/// Loads a [`DataPayload`]`&lt;`[`BufferMarker`]`&gt;` according to the key and request.
-    </span><span class="kw">fn </span>load_buffer(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        key: DataKey,
-        req: DataRequest,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;BufferMarker&gt;, DataError&gt;;
-}
+</span><span class="kw">pub trait </span>BufferProvider: DynamicDataProvider&lt;BufferMarker&gt; {}
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: BufferProvider + <span class="question-mark">?</span>Sized&gt; BufferProvider <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>T {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>load_buffer(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        key: DataKey,
-        req: DataRequest,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;BufferMarker&gt;, DataError&gt; {
-        (<span class="kw-2">**</span><span class="self">self</span>).load_buffer(key, req)
-    }
-}
-
-<span class="kw">impl</span>&lt;T: BufferProvider + <span class="question-mark">?</span>Sized&gt; BufferProvider <span class="kw">for </span>alloc::boxed::Box&lt;T&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>load_buffer(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        key: DataKey,
-        req: DataRequest,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;BufferMarker&gt;, DataError&gt; {
-        (<span class="kw-2">**</span><span class="self">self</span>).load_buffer(key, req)
-    }
-}
-
-<span class="kw">impl</span>&lt;T: BufferProvider + <span class="question-mark">?</span>Sized&gt; BufferProvider <span class="kw">for </span>alloc::rc::Rc&lt;T&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>load_buffer(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        key: DataKey,
-        req: DataRequest,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;BufferMarker&gt;, DataError&gt; {
-        (<span class="kw-2">**</span><span class="self">self</span>).load_buffer(key, req)
-    }
-}
-
-<span class="attr">#[cfg(target_has_atomic = <span class="string">"ptr"</span>)]
-</span><span class="kw">impl</span>&lt;T: BufferProvider + <span class="question-mark">?</span>Sized&gt; BufferProvider <span class="kw">for </span>alloc::sync::Arc&lt;T&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>load_buffer(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        key: DataKey,
-        req: DataRequest,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;DataResponse&lt;BufferMarker&gt;, DataError&gt; {
-        (<span class="kw-2">**</span><span class="self">self</span>).load_buffer(key, req)
-    }
-}
+<span class="kw">impl</span>&lt;P: DynamicDataProvider&lt;BufferMarker&gt; + <span class="question-mark">?</span>Sized&gt; BufferProvider <span class="kw">for </span>P {}
 
 <span class="doccomment">/// An enum expressing all Serde formats known to ICU4X.
 </span><span class="attr">#[derive(Debug, PartialEq, Eq, Hash, Copy, Clone)]
-#[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = <span class="string">"serde"</span>, derive(::serde::Serialize, ::serde::Deserialize))]
 #[non_exhaustive]
 </span><span class="kw">pub enum </span>BufferFormat {
-    <span class="doccomment">/// Serialize using JavaScript Object Notation (JSON).
+    <span class="doccomment">/// Serialize using JavaScript Object Notation (JSON), using the [`serde_json`] crate.
     </span>Json,
-    <span class="doccomment">/// Serialize using Bincode version 1.
+    <span class="doccomment">/// Serialize using the [`bincode`] crate, version 1.
     </span>Bincode1,
-    <span class="doccomment">/// Serialize using Postcard version 1.
+    <span class="doccomment">/// Serialize using the [`postcard`] crate, version 1.
     </span>Postcard1,
 }
 
@@ -329,16 +249,18 @@
         <span class="kw">match </span><span class="self">self </span>{
             <span class="attr">#[cfg(feature = <span class="string">"deserialize_json"</span>)]
             </span>BufferFormat::Json =&gt; <span class="prelude-val">Ok</span>(()),
+            <span class="attr">#[cfg(not(feature = <span class="string">"deserialize_json"</span>))]
+            </span>BufferFormat::Json =&gt; <span class="prelude-val">Err</span>(DataErrorKind::Deserialize.with_str_context(<span class="string">"deserializing `BufferFormat::Json` requires the `deserialize_json` Cargo feature"</span>)),
 
             <span class="attr">#[cfg(feature = <span class="string">"deserialize_bincode_1"</span>)]
             </span>BufferFormat::Bincode1 =&gt; <span class="prelude-val">Ok</span>(()),
+            <span class="attr">#[cfg(not(feature = <span class="string">"deserialize_bincode_1"</span>))]
+            </span>BufferFormat::Bincode1 =&gt; <span class="prelude-val">Err</span>(DataErrorKind::Deserialize.with_str_context(<span class="string">"deserializing `BufferFormat::Bincode1` requires the `deserialize_bincode_1` Cargo feature"</span>)),
 
             <span class="attr">#[cfg(feature = <span class="string">"deserialize_postcard_1"</span>)]
             </span>BufferFormat::Postcard1 =&gt; <span class="prelude-val">Ok</span>(()),
-
-            <span class="comment">// Allowed for cases in which all features are enabled
-            </span><span class="attr">#[allow(unreachable_patterns)]
-            </span><span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(DataErrorKind::UnavailableBufferFormat(<span class="kw-2">*</span><span class="self">self</span>).into_error()),
+            <span class="attr">#[cfg(not(feature = <span class="string">"deserialize_postcard_1"</span>))]
+            </span>BufferFormat::Postcard1 =&gt; <span class="prelude-val">Err</span>(DataErrorKind::Deserialize.with_str_context(<span class="string">"deserializing `BufferFormat::Postcard1` requires the `deserialize_postcard_1` Cargo feature"</span>)),
         }
     }
 }

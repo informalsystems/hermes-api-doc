@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/toml_edit-0.22.24/src/inline_table.rs`."><title>inline_table.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="toml_edit" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">toml_edit/</div>inline_table.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/toml_edit-0.22.26/src/inline_table.rs`."><title>inline_table.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="toml_edit" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">toml_edit/</div>inline_table.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -743,15 +743,25 @@
 <a href="#742" id="742">742</a>
 <a href="#743" id="743">743</a>
 <a href="#744" id="744">744</a>
-<a href="#745" id="745">745</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::iter::FromIterator;
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a>
+<a href="#747" id="747">747</a>
+<a href="#748" id="748">748</a>
+<a href="#749" id="749">749</a>
+<a href="#750" id="750">750</a>
+<a href="#751" id="751">751</a>
+<a href="#752" id="752">752</a>
+<a href="#753" id="753">753</a>
+<a href="#754" id="754">754</a>
+<a href="#755" id="755">755</a>
+<a href="#756" id="756">756</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::iter::FromIterator;
 
 <span class="kw">use </span><span class="kw">crate</span>::key::Key;
 <span class="kw">use </span><span class="kw">crate</span>::repr::Decor;
 <span class="kw">use </span><span class="kw">crate</span>::table::{Iter, IterMut, KeyValuePairs, TableLike};
 <span class="kw">use crate</span>::{InternalString, Item, KeyMut, RawString, Table, Value};
 
-<span class="doccomment">/// Type representing a TOML inline table,
-/// payload of the `Value::InlineTable` variant
+<span class="doccomment">/// A TOML [`Value`] that contains a collection of [`Key`]/[`Value`] pairs
 </span><span class="attr">#[derive(Debug, Default, Clone)]
 </span><span class="kw">pub struct </span>InlineTable {
     <span class="comment">// `preamble` represents whitespaces in an empty table
@@ -827,7 +837,13 @@
         decorate_inline_table(<span class="self">self</span>);
     }
 
-    <span class="doccomment">/// Sorts the key/value pairs by key.
+    <span class="doccomment">/// Sorts [Key]/[Value]-pairs of the table
+    ///
+    /// &lt;div class="warning"&gt;
+    ///
+    /// This is not recursive.
+    ///
+    /// &lt;/div&gt;
     </span><span class="kw">pub fn </span>sort_values(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="comment">// Assuming standard tables have their position set and this won't negatively impact them
         </span><span class="self">self</span>.items.sort_keys();
@@ -841,10 +857,16 @@
         }
     }
 
-    <span class="doccomment">/// Sort Key/Value Pairs of the table using the using the comparison function `compare`.
+    <span class="doccomment">/// Sort [Key]/[Value]-pairs of the table using the using the comparison function `compare`
     ///
     /// The comparison function receives two key and value pairs to compare (you can sort by keys or
     /// values or their combination as needed).
+    ///
+    /// &lt;div class="warning"&gt;
+    ///
+    /// This is not recursive.
+    ///
+    /// &lt;/div&gt;
     </span><span class="kw">pub fn </span>sort_values_by&lt;F&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>compare: F)
     <span class="kw">where
         </span>F: FnMut(<span class="kw-2">&amp;</span>Key, <span class="kw-2">&amp;</span>Value, <span class="kw-2">&amp;</span>Key, <span class="kw-2">&amp;</span>Value) -&gt; std::cmp::Ordering,
@@ -1256,11 +1278,11 @@
     }
 }
 
-<span class="doccomment">/// An owned iterator type over key/value pairs of an inline table.
+<span class="doccomment">/// An owned iterator type over an [`InlineTable`]'s [`Key`]/[`Value`] pairs
 </span><span class="kw">pub type </span>InlineTableIntoIter = Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = (InternalString, Value)&gt;&gt;;
-<span class="doccomment">/// An iterator type over key/value pairs of an inline table.
+<span class="doccomment">/// An iterator type over [`InlineTable`]'s [`Key`]/[`Value`] pairs
 </span><span class="kw">pub type </span>InlineTableIter&lt;<span class="lifetime">'a</span>&gt; = Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Value)&gt; + <span class="lifetime">'a</span>&gt;;
-<span class="doccomment">/// A mutable iterator type over key/value pairs of an inline table.
+<span class="doccomment">/// A mutable iterator type over [`InlineTable`]'s [`Key`]/[`Value`] pairs
 </span><span class="kw">pub type </span>InlineTableIterMut&lt;<span class="lifetime">'a</span>&gt; = Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = (KeyMut&lt;<span class="lifetime">'a</span>&gt;, <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Value)&gt; + <span class="lifetime">'a</span>&gt;;
 
 <span class="kw">impl </span>TableLike <span class="kw">for </span>InlineTable {
@@ -1358,7 +1380,7 @@
 <span class="comment">// `{ key1 = value1, ... }`
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>DEFAULT_INLINE_KEY_DECOR: (<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str) = (<span class="string">" "</span>, <span class="string">" "</span>);
 
-<span class="doccomment">/// A view into a single location in a map, which may be vacant or occupied.
+<span class="doccomment">/// A view into a single location in an [`InlineTable`], which may be vacant or occupied.
 </span><span class="kw">pub enum </span>InlineEntry&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// An occupied Entry.
     </span>Occupied(InlineOccupiedEntry&lt;<span class="lifetime">'a</span>&gt;),
@@ -1404,7 +1426,7 @@
     }
 }
 
-<span class="doccomment">/// A view into a single occupied location in a `IndexMap`.
+<span class="doccomment">/// A view into a single occupied location in an [`InlineTable`].
 </span><span class="kw">pub struct </span>InlineOccupiedEntry&lt;<span class="lifetime">'a</span>&gt; {
     entry: indexmap::map::OccupiedEntry&lt;<span class="lifetime">'a</span>, Key, Item&gt;,
 }
@@ -1459,7 +1481,7 @@
     }
 }
 
-<span class="doccomment">/// A view into a single empty location in a `IndexMap`.
+<span class="doccomment">/// A view into a single empty location in an [`InlineTable`].
 </span><span class="kw">pub struct </span>InlineVacantEntry&lt;<span class="lifetime">'a</span>&gt; {
     entry: indexmap::map::VacantEntry&lt;<span class="lifetime">'a</span>, Key, Item&gt;,
 }

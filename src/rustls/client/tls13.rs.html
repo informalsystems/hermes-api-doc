@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.26/src/client/tls13.rs`."><title>tls13.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>tls13.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/client/tls13.rs`."><title>tls13.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>tls13.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1640,7 +1640,67 @@
 <a href="#1639" id="1639">1639</a>
 <a href="#1640" id="1640">1640</a>
 <a href="#1641" id="1641">1641</a>
-<a href="#1642" id="1642">1642</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::boxed::Box;
+<a href="#1642" id="1642">1642</a>
+<a href="#1643" id="1643">1643</a>
+<a href="#1644" id="1644">1644</a>
+<a href="#1645" id="1645">1645</a>
+<a href="#1646" id="1646">1646</a>
+<a href="#1647" id="1647">1647</a>
+<a href="#1648" id="1648">1648</a>
+<a href="#1649" id="1649">1649</a>
+<a href="#1650" id="1650">1650</a>
+<a href="#1651" id="1651">1651</a>
+<a href="#1652" id="1652">1652</a>
+<a href="#1653" id="1653">1653</a>
+<a href="#1654" id="1654">1654</a>
+<a href="#1655" id="1655">1655</a>
+<a href="#1656" id="1656">1656</a>
+<a href="#1657" id="1657">1657</a>
+<a href="#1658" id="1658">1658</a>
+<a href="#1659" id="1659">1659</a>
+<a href="#1660" id="1660">1660</a>
+<a href="#1661" id="1661">1661</a>
+<a href="#1662" id="1662">1662</a>
+<a href="#1663" id="1663">1663</a>
+<a href="#1664" id="1664">1664</a>
+<a href="#1665" id="1665">1665</a>
+<a href="#1666" id="1666">1666</a>
+<a href="#1667" id="1667">1667</a>
+<a href="#1668" id="1668">1668</a>
+<a href="#1669" id="1669">1669</a>
+<a href="#1670" id="1670">1670</a>
+<a href="#1671" id="1671">1671</a>
+<a href="#1672" id="1672">1672</a>
+<a href="#1673" id="1673">1673</a>
+<a href="#1674" id="1674">1674</a>
+<a href="#1675" id="1675">1675</a>
+<a href="#1676" id="1676">1676</a>
+<a href="#1677" id="1677">1677</a>
+<a href="#1678" id="1678">1678</a>
+<a href="#1679" id="1679">1679</a>
+<a href="#1680" id="1680">1680</a>
+<a href="#1681" id="1681">1681</a>
+<a href="#1682" id="1682">1682</a>
+<a href="#1683" id="1683">1683</a>
+<a href="#1684" id="1684">1684</a>
+<a href="#1685" id="1685">1685</a>
+<a href="#1686" id="1686">1686</a>
+<a href="#1687" id="1687">1687</a>
+<a href="#1688" id="1688">1688</a>
+<a href="#1689" id="1689">1689</a>
+<a href="#1690" id="1690">1690</a>
+<a href="#1691" id="1691">1691</a>
+<a href="#1692" id="1692">1692</a>
+<a href="#1693" id="1693">1693</a>
+<a href="#1694" id="1694">1694</a>
+<a href="#1695" id="1695">1695</a>
+<a href="#1696" id="1696">1696</a>
+<a href="#1697" id="1697">1697</a>
+<a href="#1698" id="1698">1698</a>
+<a href="#1699" id="1699">1699</a>
+<a href="#1700" id="1700">1700</a>
+<a href="#1701" id="1701">1701</a>
+<a href="#1702" id="1702">1702</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::boxed::Box;
 <span class="kw">use </span>alloc::vec;
 <span class="kw">use </span>alloc::vec::Vec;
 
@@ -1657,6 +1717,7 @@
     CommonState, HandshakeFlightTls13, HandshakeKind, KxState, Protocol, Side, State,
 };
 <span class="kw">use </span><span class="kw">crate</span>::conn::ConnectionRandoms;
+<span class="kw">use </span><span class="kw">crate</span>::conn::kernel::{Direction, KernelContext, KernelState};
 <span class="kw">use </span><span class="kw">crate</span>::crypto::{ActiveKeyExchange, SharedSecret};
 <span class="kw">use </span><span class="kw">crate</span>::enums::{
     AlertDescription, ContentType, HandshakeType, ProtocolVersion, SignatureScheme,
@@ -1687,7 +1748,7 @@
     Tls13CipherSuite, construct_client_verify_message, construct_server_verify_message,
 };
 <span class="kw">use </span><span class="kw">crate</span>::verify::{<span class="self">self</span>, DigitallySignedStruct};
-<span class="kw">use crate</span>::{KeyLog, compress, crypto};
+<span class="kw">use crate</span>::{ConnectionTrafficSecrets, KeyLog, compress, crypto};
 
 <span class="comment">// Extensions we expect in plaintext in the ServerHello.
 </span><span class="kw">static </span>ALLOWED_PLAINTEXT_EXTS: <span class="kw-2">&amp;</span>[ExtensionType] = <span class="kw-2">&amp;</span>[
@@ -1705,7 +1766,9 @@
     ExtensionType::ExtendedMasterSecret,
 ];
 
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>handle_server_hello(
+<span class="doccomment">/// `early_data_key_schedule` is `Some` if we sent the
+/// "early_data" extension to the server.
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>handle_server_hello(
     config: Arc&lt;ClientConfig&gt;,
     cx: <span class="kw-2">&amp;mut </span>ClientContext&lt;<span class="lifetime">'_</span>&gt;,
     server_hello: <span class="kw-2">&amp;</span>ServerHelloPayload,
@@ -1714,7 +1777,7 @@
     <span class="kw-2">mut </span>randoms: ConnectionRandoms,
     suite: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>Tls13CipherSuite,
     <span class="kw-2">mut </span>transcript: HandshakeHash,
-    early_key_schedule: <span class="prelude-ty">Option</span>&lt;KeyScheduleEarly&gt;,
+    early_data_key_schedule: <span class="prelude-ty">Option</span>&lt;KeyScheduleEarly&gt;,
     <span class="kw-2">mut </span>hello: ClientHelloDetails,
     our_key_share: Box&lt;<span class="kw">dyn </span>ActiveKeyExchange&gt;,
     <span class="kw-2">mut </span>sent_tls13_fake_ccs: bool,
@@ -1740,7 +1803,7 @@
             )
         })<span class="question-mark">?</span>;
 
-    <span class="kw">let </span>key_schedule_pre_handshake = <span class="kw">match </span>(server_hello.psk_index(), early_key_schedule) {
+    <span class="kw">let </span>key_schedule_pre_handshake = <span class="kw">match </span>(server_hello.psk_index(), early_data_key_schedule) {
         (<span class="prelude-val">Some</span>(selected_psk), <span class="prelude-val">Some</span>(early_key_schedule)) =&gt; {
             <span class="kw">match </span><span class="kw-2">&amp;</span>resuming_session {
                 <span class="prelude-val">Some</span>(resuming) =&gt; {
@@ -1981,7 +2044,6 @@
 ) {
     <span class="kw">let </span>resuming_suite = resuming_session.suite();
     cx.common.suite = <span class="prelude-val">Some</span>(resuming_suite.into());
-    cx.data.resumption_ciphersuite = <span class="prelude-val">Some</span>(resuming_suite.into());
     <span class="comment">// The EarlyData extension MUST be supplied together with the
     // PreSharedKey extension.
     </span><span class="kw">let </span>max_early_data_size = resuming_session.max_early_data_size();
@@ -2114,7 +2176,7 @@
         <span class="self">self</span>.transcript.add_message(<span class="kw-2">&amp;</span>m);
 
         validate_encrypted_extensions(cx.common, <span class="kw-2">&amp;</span><span class="self">self</span>.hello, exts)<span class="question-mark">?</span>;
-        hs::process_alpn_protocol(cx.common, <span class="kw-2">&amp;</span><span class="self">self</span>.config, exts.alpn_protocol())<span class="question-mark">?</span>;
+        hs::process_alpn_protocol(cx.common, <span class="kw-2">&amp;</span><span class="self">self</span>.hello.alpn_protocols, exts.alpn_protocol())<span class="question-mark">?</span>;
         hs::process_client_cert_type_extension(cx.common, <span class="kw-2">&amp;</span><span class="self">self</span>.config, exts.client_cert_type())<span class="question-mark">?</span>;
         hs::process_server_cert_type_extension(cx.common, <span class="kw-2">&amp;</span><span class="self">self</span>.config, exts.server_cert_type())<span class="question-mark">?</span>;
 
@@ -2725,7 +2787,7 @@
                 PeerMisbehaved::BadCertChainExtensions,
             ));
         }
-        <span class="kw">let </span>end_entity_ocsp = cert_chain.end_entity_ocsp();
+        <span class="kw">let </span>end_entity_ocsp = cert_chain.end_entity_ocsp().to_vec();
         <span class="kw">let </span>server_cert = ServerCertDetails::new(
             cert_chain
                 .into_certificate_chain()
@@ -3101,16 +3163,13 @@
 }
 
 <span class="kw">impl </span>ExpectTraffic {
-    <span class="kw">fn </span>handle_new_ticket_tls13(
+    <span class="kw">fn </span>handle_new_ticket_impl(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-        cx: <span class="kw-2">&amp;mut </span>ClientContext&lt;<span class="lifetime">'_</span>&gt;,
+        cx: <span class="kw-2">&amp;mut </span>KernelContext&lt;<span class="lifetime">'_</span>&gt;,
         nst: <span class="kw-2">&amp;</span>NewSessionTicketPayloadTls13,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
         <span class="kw">if </span>nst.has_duplicate_extension() {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(cx.common.send_fatal_alert(
-                AlertDescription::IllegalParameter,
-                PeerMisbehaved::DuplicateNewSessionTicketExtensions,
-            ));
+            <span class="kw">return </span><span class="prelude-val">Err</span>(PeerMisbehaved::DuplicateNewSessionTicketExtensions.into());
         }
 
         <span class="kw">let </span>handshake_hash = <span class="self">self</span>.transcript.current_hash();
@@ -3124,9 +3183,8 @@
             <span class="self">self</span>.suite,
             Arc::clone(<span class="kw-2">&amp;</span>nst.ticket),
             secret.as_ref(),
-            cx.common
-                .peer_certificates
-                .clone()
+            cx.peer_certificates
+                .cloned()
                 .unwrap_or_default(),
             <span class="kw-2">&amp;</span><span class="self">self</span>.config.verifier,
             <span class="kw-2">&amp;</span><span class="self">self</span>.config.client_auth_cert_resolver,
@@ -3137,14 +3195,14 @@
                 .unwrap_or_default(),
         );
 
-        <span class="kw">if </span>cx.common.is_quic() {
+        <span class="kw">if </span>cx.is_quic() {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(sz) = nst.max_early_data_size() {
                 <span class="kw">if </span>sz != <span class="number">0 </span>&amp;&amp; sz != <span class="number">0xffff_ffff </span>{
                     <span class="kw">return </span><span class="prelude-val">Err</span>(PeerMisbehaved::InvalidMaxEarlyDataSize.into());
                 }
             }
 
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(quic_params) = <span class="kw-2">&amp;</span>cx.common.quic.params {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(quic_params) = <span class="kw-2">&amp;</span>cx.quic.params {
                 value.set_quic_params(quic_params);
             }
         }
@@ -3152,6 +3210,26 @@
         <span class="self">self</span>.session_storage
             .insert_tls13_ticket(<span class="self">self</span>.server_name.clone(), value);
         <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="kw">fn </span>handle_new_ticket_tls13(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        cx: <span class="kw-2">&amp;mut </span>ClientContext&lt;<span class="lifetime">'_</span>&gt;,
+        nst: <span class="kw-2">&amp;</span>NewSessionTicketPayloadTls13,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
+        <span class="kw">if </span>nst.has_duplicate_extension() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(cx.common.send_fatal_alert(
+                AlertDescription::IllegalParameter,
+                PeerMisbehaved::DuplicateNewSessionTicketExtensions,
+            ));
+        }
+
+        <span class="kw">let </span><span class="kw-2">mut </span>kcx = KernelContext {
+            peer_certificates: cx.common.peer_certificates.as_ref(),
+            protocol: cx.common.protocol,
+            quic: <span class="kw-2">&amp;</span>cx.common.quic,
+        };
+        <span class="self">self</span>.handle_new_ticket_impl(<span class="kw-2">&amp;mut </span>kcx, nst)
     }
 
     <span class="kw">fn </span>handle_key_update(
@@ -3242,9 +3320,31 @@
             .extract_secrets(Side::Client)
     }
 
+    <span class="kw">fn </span>into_external_state(<span class="self">self</span>: Box&lt;<span class="self">Self</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;Box&lt;<span class="kw">dyn </span>KernelState + <span class="lifetime">'static</span>&gt;, Error&gt; {
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
     <span class="kw">fn </span>into_owned(<span class="self">self</span>: Box&lt;<span class="self">Self</span>&gt;) -&gt; hs::NextState&lt;<span class="lifetime">'static</span>&gt; {
         <span class="self">self
     </span>}
+}
+
+<span class="kw">impl </span>KernelState <span class="kw">for </span>ExpectTraffic {
+    <span class="kw">fn </span>update_secrets(<span class="kw-2">&amp;mut </span><span class="self">self</span>, dir: Direction) -&gt; <span class="prelude-ty">Result</span>&lt;ConnectionTrafficSecrets, Error&gt; {
+        <span class="self">self</span>.key_schedule
+            .refresh_traffic_secret(<span class="kw">match </span>dir {
+                Direction::Transmit =&gt; Side::Client,
+                Direction::Receive =&gt; Side::Server,
+            })
+    }
+
+    <span class="kw">fn </span>handle_new_session_ticket(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        cx: <span class="kw-2">&amp;mut </span>KernelContext&lt;<span class="lifetime">'_</span>&gt;,
+        message: <span class="kw-2">&amp;</span>NewSessionTicketPayloadTls13,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
+        <span class="self">self</span>.handle_new_ticket_impl(cx, message)
+    }
 }
 
 <span class="kw">struct </span>ExpectQuicTraffic(ExpectTraffic);
@@ -3278,8 +3378,28 @@
             </span>.export_keying_material(output, label, context)
     }
 
+    <span class="kw">fn </span>into_external_state(<span class="self">self</span>: Box&lt;<span class="self">Self</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;Box&lt;<span class="kw">dyn </span>KernelState + <span class="lifetime">'static</span>&gt;, Error&gt; {
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
     <span class="kw">fn </span>into_owned(<span class="self">self</span>: Box&lt;<span class="self">Self</span>&gt;) -&gt; hs::NextState&lt;<span class="lifetime">'static</span>&gt; {
         <span class="self">self
     </span>}
+}
+
+<span class="kw">impl </span>KernelState <span class="kw">for </span>ExpectQuicTraffic {
+    <span class="kw">fn </span>update_secrets(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw">_</span>: Direction) -&gt; <span class="prelude-ty">Result</span>&lt;ConnectionTrafficSecrets, Error&gt; {
+        <span class="prelude-val">Err</span>(Error::General(
+            <span class="string">"KeyUpdate is not supported for QUIC connections"</span>.into(),
+        ))
+    }
+
+    <span class="kw">fn </span>handle_new_session_ticket(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        cx: <span class="kw-2">&amp;mut </span>KernelContext&lt;<span class="lifetime">'_</span>&gt;,
+        nst: <span class="kw-2">&amp;</span>NewSessionTicketPayloadTls13,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
+        <span class="self">self</span>.<span class="number">0</span>.handle_new_ticket_impl(cx, nst)
+    }
 }
 </code></pre></div></section></main></body></html>

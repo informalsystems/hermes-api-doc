@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_provider-1.5.0/src/error.rs`."><title>error.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_provider" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_provider/</div>error.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_provider-2.0.0/src/error.rs`."><title>error.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_provider" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_provider/</div>error.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -279,17 +279,12 @@
 <a href="#278" id="278">278</a>
 <a href="#279" id="279">279</a>
 <a href="#280" id="280">280</a>
-<a href="#281" id="281">281</a>
-<a href="#282" id="282">282</a>
-<a href="#283" id="283">283</a>
-<a href="#284" id="284">284</a>
-<a href="#285" id="285">285</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#281" id="281">281</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
-</span><span class="kw">use </span><span class="kw">crate</span>::_internal::log;
-<span class="kw">use </span><span class="kw">crate</span>::buf::BufferFormat;
-<span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
+</span><span class="kw">use </span><span class="kw">crate</span>::log;
+<span class="kw">use crate</span>::{marker::DataMarkerId, prelude::<span class="kw-2">*</span>};
 <span class="kw">use </span>core::fmt;
 <span class="kw">use </span>displaydoc::Display;
 
@@ -300,63 +295,42 @@
 </span><span class="attr">#[derive(Clone, Copy, Eq, PartialEq, Display, Debug)]
 #[non_exhaustive]
 </span><span class="kw">pub enum </span>DataErrorKind {
-    <span class="doccomment">/// No data for the provided resource key.
-    </span><span class="attr">#[displaydoc(<span class="string">"Missing data for key"</span>)]
-    </span>MissingDataKey,
+    <span class="doccomment">/// No data for the requested data marker. This is only returned by [`DynamicDataProvider`].
+    </span><span class="attr">#[displaydoc(<span class="string">"Missing data for marker"</span>)]
+    </span>MarkerNotFound,
 
-    <span class="doccomment">/// There is data for the key, but not for this particular locale.
-    </span><span class="attr">#[displaydoc(<span class="string">"Missing data for locale"</span>)]
-    </span>MissingLocale,
+    <span class="doccomment">/// There is data for the data marker, but not for this particular data identifier.
+    </span><span class="attr">#[displaydoc(<span class="string">"Missing data for identifier"</span>)]
+    </span>IdentifierNotFound,
 
-    <span class="doccomment">/// The request should include a locale.
-    </span><span class="attr">#[displaydoc(<span class="string">"Request needs a locale"</span>)]
-    </span>NeedsLocale,
+    <span class="doccomment">/// The request is invalid, such as a request for a singleton marker containing a data identifier.
+    </span><span class="attr">#[displaydoc(<span class="string">"Invalid request"</span>)]
+    </span>InvalidRequest,
 
-    <span class="doccomment">/// The request should not contain a locale.
-    </span><span class="attr">#[displaydoc(<span class="string">"Request has an extraneous locale"</span>)]
-    </span>ExtraneousLocale,
+    <span class="doccomment">/// The data for two [`DataMarker`]s is not consistent.
+    </span><span class="attr">#[displaydoc(<span class="string">"The data for two markers is not consistent: {0:?} (were they generated in different datagen invocations?)"</span>)]
+    </span>InconsistentData(DataMarkerInfo),
 
-    <span class="doccomment">/// The resource was blocked by a filter. The resource may or may not be available.
-    </span><span class="attr">#[displaydoc(<span class="string">"Resource blocked by filter"</span>)]
-    </span>FilteredResource,
+    <span class="doccomment">/// An error occured during [`Any`](core::any::Any) downcasting.
+    </span><span class="attr">#[displaydoc(<span class="string">"Downcast: expected {0}, found"</span>)]
+    </span>Downcast(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str),
 
-    <span class="doccomment">/// The generic type parameter does not match the TypeId. The expected type name is stored
-    /// as context when this error is returned.
-    </span><span class="attr">#[displaydoc(<span class="string">"Mismatched types: tried to downcast with {0}, but actual type is different"</span>)]
-    </span>MismatchedType(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str),
+    <span class="doccomment">/// An error occured during [`serde`] deserialization.
+    ///
+    /// Check debug logs for potentially more information.
+    </span><span class="attr">#[displaydoc(<span class="string">"Deserialize"</span>)]
+    </span>Deserialize,
 
-    <span class="doccomment">/// The payload is missing. This is usually caused by a previous error.
-    </span><span class="attr">#[displaydoc(<span class="string">"Missing payload"</span>)]
-    </span>MissingPayload,
-
-    <span class="doccomment">/// A data provider object was given to an operation in an invalid state.
-    </span><span class="attr">#[displaydoc(<span class="string">"Invalid state"</span>)]
-    </span>InvalidState,
-
-    <span class="doccomment">/// The syntax of the [`DataKey`] or [`DataLocale`] was invalid.
-    </span><span class="attr">#[displaydoc(<span class="string">"Parse error for data key or data locale"</span>)]
-    </span>KeyLocaleSyntax,
-
-    <span class="doccomment">/// An unspecified error occurred, such as a Serde error.
+    <span class="doccomment">/// An unspecified error occurred.
     ///
     /// Check debug logs for potentially more information.
     </span><span class="attr">#[displaydoc(<span class="string">"Custom"</span>)]
     </span>Custom,
 
     <span class="doccomment">/// An error occurred while accessing a system resource.
-    </span><span class="attr">#[displaydoc(<span class="string">"I/O error: {0:?}"</span>)]
+    </span><span class="attr">#[displaydoc(<span class="string">"I/O: {0:?}"</span>)]
     #[cfg(feature = <span class="string">"std"</span>)]
     </span>Io(std::io::ErrorKind),
-
-    <span class="doccomment">/// An unspecified data source containing the required data is unavailable.
-    </span><span class="attr">#[displaydoc(<span class="string">"Missing source data"</span>)]
-    #[cfg(feature = <span class="string">"datagen"</span>)]
-    </span>MissingSourceData,
-
-    <span class="doccomment">/// An error indicating that the desired buffer format is not available. This usually
-    /// means that a required Cargo feature was not enabled
-    </span><span class="attr">#[displaydoc(<span class="string">"Unavailable buffer format: {0:?} (does icu_provider need to be compiled with an additional Cargo feature?)"</span>)]
-    </span>UnavailableBufferFormat(BufferFormat),
 }
 
 <span class="doccomment">/// The error type for ICU4X data provider operations.
@@ -365,13 +339,13 @@
 ///
 /// # Example
 ///
-/// Create a NeedsLocale error and attach a data request for context:
+/// Create a IdentifierNotFound error and attach a data request for context:
 ///
 /// ```no_run
 /// # use icu_provider::prelude::*;
-/// let key: DataKey = unimplemented!();
+/// let marker: DataMarkerInfo = unimplemented!();
 /// let req: DataRequest = unimplemented!();
-/// DataErrorKind::NeedsLocale.with_req(key, req);
+/// DataErrorKind::IdentifierNotFound.with_req(marker, req);
 /// ```
 ///
 /// Create a named custom error:
@@ -386,8 +360,8 @@
     <span class="doccomment">/// Broad category of the error.
     </span><span class="kw">pub </span>kind: DataErrorKind,
 
-    <span class="doccomment">/// The data key of the request, if available.
-    </span><span class="kw">pub </span>key: <span class="prelude-ty">Option</span>&lt;DataKey&gt;,
+    <span class="doccomment">/// The data marker of the request, if available.
+    </span><span class="kw">pub </span>marker: <span class="prelude-ty">Option</span>&lt;DataMarkerId&gt;,
 
     <span class="doccomment">/// Additional context, if available.
     </span><span class="kw">pub </span>str_context: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;,
@@ -402,8 +376,8 @@
         <span class="kw">if </span><span class="self">self</span>.kind != DataErrorKind::Custom {
             <span class="macro">write!</span>(f, <span class="string">": {}"</span>, <span class="self">self</span>.kind)<span class="question-mark">?</span>;
         }
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(key) = <span class="self">self</span>.key {
-            <span class="macro">write!</span>(f, <span class="string">" (key: {key})"</span>)<span class="question-mark">?</span>;
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(marker) = <span class="self">self</span>.marker {
+            <span class="macro">write!</span>(f, <span class="string">" (marker: {marker:?})"</span>)<span class="question-mark">?</span>;
         }
         <span class="kw">if let </span><span class="prelude-val">Some</span>(str_context) = <span class="self">self</span>.str_context {
             <span class="macro">write!</span>(f, <span class="string">": {str_context}"</span>)<span class="question-mark">?</span>;
@@ -420,16 +394,16 @@
     </span><span class="kw">pub const fn </span>into_error(<span class="self">self</span>) -&gt; DataError {
         DataError {
             kind: <span class="self">self</span>,
-            key: <span class="prelude-val">None</span>,
+            marker: <span class="prelude-val">None</span>,
             str_context: <span class="prelude-val">None</span>,
             silent: <span class="bool-val">false</span>,
         }
     }
 
-    <span class="doccomment">/// Creates a DataError with a resource key context.
+    <span class="doccomment">/// Creates a DataError with a data marker context.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub const fn </span>with_key(<span class="self">self</span>, key: DataKey) -&gt; DataError {
-        <span class="self">self</span>.into_error().with_key(key)
+    </span><span class="kw">pub const fn </span>with_marker(<span class="self">self</span>, marker: DataMarkerInfo) -&gt; DataError {
+        <span class="self">self</span>.into_error().with_marker(marker)
     }
 
     <span class="doccomment">/// Creates a DataError with a string context.
@@ -446,8 +420,8 @@
 
     <span class="doccomment">/// Creates a DataError with a request context.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>with_req(<span class="self">self</span>, key: DataKey, req: DataRequest) -&gt; DataError {
-        <span class="self">self</span>.into_error().with_req(key, req)
+    </span><span class="kw">pub fn </span>with_req(<span class="self">self</span>, marker: DataMarkerInfo, req: DataRequest) -&gt; DataError {
+        <span class="self">self</span>.into_error().with_req(marker, req)
     }
 }
 
@@ -457,18 +431,18 @@
     </span><span class="kw">pub const fn </span>custom(str_context: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             kind: DataErrorKind::Custom,
-            key: <span class="prelude-val">None</span>,
+            marker: <span class="prelude-val">None</span>,
             str_context: <span class="prelude-val">Some</span>(str_context),
             silent: <span class="bool-val">false</span>,
         }
     }
 
-    <span class="doccomment">/// Sets the resource key of a DataError, returning a modified error.
+    <span class="doccomment">/// Sets the data marker of a DataError, returning a modified error.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub const fn </span>with_key(<span class="self">self</span>, key: DataKey) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const fn </span>with_marker(<span class="self">self</span>, marker: DataMarkerInfo) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             kind: <span class="self">self</span>.kind,
-            key: <span class="prelude-val">Some</span>(key),
+            marker: <span class="prelude-val">Some</span>(marker.id),
             str_context: <span class="self">self</span>.str_context,
             silent: <span class="self">self</span>.silent,
         }
@@ -479,7 +453,7 @@
     </span><span class="kw">pub const fn </span>with_str_context(<span class="self">self</span>, context: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             kind: <span class="self">self</span>.kind,
-            key: <span class="self">self</span>.key,
+            marker: <span class="self">self</span>.marker,
             str_context: <span class="prelude-val">Some</span>(context),
             silent: <span class="self">self</span>.silent,
         }
@@ -494,19 +468,19 @@
         <span class="self">self</span>.with_str_context(core::any::type_name::&lt;T&gt;())
     }
 
-    <span class="doccomment">/// Logs the data error with the given request, returning an error containing the resource key.
+    <span class="doccomment">/// Logs the data error with the given request, returning an error containing the data marker.
     ///
     /// If the "logging" Cargo feature is enabled, this logs the whole request. Either way,
-    /// it returns an error with the resource key portion of the request as context.
-    </span><span class="kw">pub fn </span>with_req(<span class="kw-2">mut </span><span class="self">self</span>, key: DataKey, req: DataRequest) -&gt; <span class="self">Self </span>{
+    /// it returns an error with the data marker portion of the request as context.
+    </span><span class="kw">pub fn </span>with_req(<span class="kw-2">mut </span><span class="self">self</span>, marker: DataMarkerInfo, req: DataRequest) -&gt; <span class="self">Self </span>{
         <span class="kw">if </span>req.metadata.silent {
             <span class="self">self</span>.silent = <span class="bool-val">true</span>;
         }
-        <span class="comment">// Don't write out a log for MissingDataKey since there is no context to add
-        </span><span class="kw">if </span>!<span class="self">self</span>.silent &amp;&amp; <span class="self">self</span>.kind != DataErrorKind::MissingDataKey {
-            <span class="macro">log::warn!</span>(<span class="string">"{} (key: {}, request: {})"</span>, <span class="self">self</span>, key, req);
+        <span class="comment">// Don't write out a log for MissingDataMarker since there is no context to add
+        </span><span class="kw">if </span>!<span class="self">self</span>.silent &amp;&amp; <span class="self">self</span>.kind != DataErrorKind::MarkerNotFound {
+            <span class="macro">log::warn!</span>(<span class="string">"{self} (marker: {marker:?}, request: {})"</span>, req.id);
         }
-        <span class="self">self</span>.with_key(key)
+        <span class="self">self</span>.with_marker(marker)
     }
 
     <span class="doccomment">/// Logs the data error with the given context, then return self.
@@ -514,9 +488,9 @@
     /// This does not modify the error, but if the "logging" Cargo feature is enabled,
     /// it will print out the context.
     </span><span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
-    </span><span class="kw">pub fn </span>with_path_context&lt;P: AsRef&lt;std::path::Path&gt; + <span class="question-mark">?</span>Sized&gt;(<span class="self">self</span>, _path: <span class="kw-2">&amp;</span>P) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>with_path_context(<span class="self">self</span>, _path: <span class="kw-2">&amp;</span>std::path::Path) -&gt; <span class="self">Self </span>{
         <span class="kw">if </span>!<span class="self">self</span>.silent {
-            <span class="macro">log::warn!</span>(<span class="string">"{} (path: {:?})"</span>, <span class="self">self</span>, _path.as_ref());
+            <span class="macro">log::warn!</span>(<span class="string">"{self} (path: {_path:?})"</span>);
         }
         <span class="self">self
     </span>}
@@ -550,22 +524,40 @@
     <span class="attr">#[inline]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>for_type&lt;T&gt;() -&gt; DataError {
         DataError {
-            kind: DataErrorKind::MismatchedType(core::any::type_name::&lt;T&gt;()),
-            key: <span class="prelude-val">None</span>,
+            kind: DataErrorKind::Downcast(core::any::type_name::&lt;T&gt;()),
+            marker: <span class="prelude-val">None</span>,
             str_context: <span class="prelude-val">None</span>,
             silent: <span class="bool-val">false</span>,
         }
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
-</span><span class="kw">impl </span>std::error::Error <span class="kw">for </span>DataError {}
+<span class="kw">impl </span>core::error::Error <span class="kw">for </span>DataError {}
 
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl </span>From&lt;std::io::Error&gt; <span class="kw">for </span>DataError {
     <span class="kw">fn </span>from(e: std::io::Error) -&gt; <span class="self">Self </span>{
         <span class="macro">log::warn!</span>(<span class="string">"I/O error: {}"</span>, e);
         DataErrorKind::Io(e.kind()).into_error()
+    }
+}
+
+<span class="doccomment">/// Extension trait for `Result&lt;T, DataError&gt;`.
+</span><span class="kw">pub trait </span>ResultDataError&lt;T&gt;: Sized {
+    <span class="doccomment">/// Propagates all errors other than [`DataErrorKind::IdentifierNotFound`], and returns `None` in that case.
+    </span><span class="kw">fn </span>allow_identifier_not_found(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;T&gt;, DataError&gt;;
+}
+
+<span class="kw">impl</span>&lt;T&gt; ResultDataError&lt;T&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, DataError&gt; {
+    <span class="kw">fn </span>allow_identifier_not_found(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;T&gt;, DataError&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="prelude-val">Ok</span>(t) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(t)),
+            <span class="prelude-val">Err</span>(DataError {
+                kind: DataErrorKind::IdentifierNotFound,
+                ..
+            }) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Err</span>(e),
+        }
     }
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_properties-1.5.1/src/provider.rs`."><title>provider.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_properties" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_properties/</div>provider.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_properties-2.0.1/src/provider.rs`."><title>provider.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_properties" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_properties/</div>provider.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -927,7 +927,191 @@
 <a href="#926" id="926">926</a>
 <a href="#927" id="927">927</a>
 <a href="#928" id="928">928</a>
-<a href="#929" id="929">929</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#929" id="929">929</a>
+<a href="#930" id="930">930</a>
+<a href="#931" id="931">931</a>
+<a href="#932" id="932">932</a>
+<a href="#933" id="933">933</a>
+<a href="#934" id="934">934</a>
+<a href="#935" id="935">935</a>
+<a href="#936" id="936">936</a>
+<a href="#937" id="937">937</a>
+<a href="#938" id="938">938</a>
+<a href="#939" id="939">939</a>
+<a href="#940" id="940">940</a>
+<a href="#941" id="941">941</a>
+<a href="#942" id="942">942</a>
+<a href="#943" id="943">943</a>
+<a href="#944" id="944">944</a>
+<a href="#945" id="945">945</a>
+<a href="#946" id="946">946</a>
+<a href="#947" id="947">947</a>
+<a href="#948" id="948">948</a>
+<a href="#949" id="949">949</a>
+<a href="#950" id="950">950</a>
+<a href="#951" id="951">951</a>
+<a href="#952" id="952">952</a>
+<a href="#953" id="953">953</a>
+<a href="#954" id="954">954</a>
+<a href="#955" id="955">955</a>
+<a href="#956" id="956">956</a>
+<a href="#957" id="957">957</a>
+<a href="#958" id="958">958</a>
+<a href="#959" id="959">959</a>
+<a href="#960" id="960">960</a>
+<a href="#961" id="961">961</a>
+<a href="#962" id="962">962</a>
+<a href="#963" id="963">963</a>
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a>
+<a href="#968" id="968">968</a>
+<a href="#969" id="969">969</a>
+<a href="#970" id="970">970</a>
+<a href="#971" id="971">971</a>
+<a href="#972" id="972">972</a>
+<a href="#973" id="973">973</a>
+<a href="#974" id="974">974</a>
+<a href="#975" id="975">975</a>
+<a href="#976" id="976">976</a>
+<a href="#977" id="977">977</a>
+<a href="#978" id="978">978</a>
+<a href="#979" id="979">979</a>
+<a href="#980" id="980">980</a>
+<a href="#981" id="981">981</a>
+<a href="#982" id="982">982</a>
+<a href="#983" id="983">983</a>
+<a href="#984" id="984">984</a>
+<a href="#985" id="985">985</a>
+<a href="#986" id="986">986</a>
+<a href="#987" id="987">987</a>
+<a href="#988" id="988">988</a>
+<a href="#989" id="989">989</a>
+<a href="#990" id="990">990</a>
+<a href="#991" id="991">991</a>
+<a href="#992" id="992">992</a>
+<a href="#993" id="993">993</a>
+<a href="#994" id="994">994</a>
+<a href="#995" id="995">995</a>
+<a href="#996" id="996">996</a>
+<a href="#997" id="997">997</a>
+<a href="#998" id="998">998</a>
+<a href="#999" id="999">999</a>
+<a href="#1000" id="1000">1000</a>
+<a href="#1001" id="1001">1001</a>
+<a href="#1002" id="1002">1002</a>
+<a href="#1003" id="1003">1003</a>
+<a href="#1004" id="1004">1004</a>
+<a href="#1005" id="1005">1005</a>
+<a href="#1006" id="1006">1006</a>
+<a href="#1007" id="1007">1007</a>
+<a href="#1008" id="1008">1008</a>
+<a href="#1009" id="1009">1009</a>
+<a href="#1010" id="1010">1010</a>
+<a href="#1011" id="1011">1011</a>
+<a href="#1012" id="1012">1012</a>
+<a href="#1013" id="1013">1013</a>
+<a href="#1014" id="1014">1014</a>
+<a href="#1015" id="1015">1015</a>
+<a href="#1016" id="1016">1016</a>
+<a href="#1017" id="1017">1017</a>
+<a href="#1018" id="1018">1018</a>
+<a href="#1019" id="1019">1019</a>
+<a href="#1020" id="1020">1020</a>
+<a href="#1021" id="1021">1021</a>
+<a href="#1022" id="1022">1022</a>
+<a href="#1023" id="1023">1023</a>
+<a href="#1024" id="1024">1024</a>
+<a href="#1025" id="1025">1025</a>
+<a href="#1026" id="1026">1026</a>
+<a href="#1027" id="1027">1027</a>
+<a href="#1028" id="1028">1028</a>
+<a href="#1029" id="1029">1029</a>
+<a href="#1030" id="1030">1030</a>
+<a href="#1031" id="1031">1031</a>
+<a href="#1032" id="1032">1032</a>
+<a href="#1033" id="1033">1033</a>
+<a href="#1034" id="1034">1034</a>
+<a href="#1035" id="1035">1035</a>
+<a href="#1036" id="1036">1036</a>
+<a href="#1037" id="1037">1037</a>
+<a href="#1038" id="1038">1038</a>
+<a href="#1039" id="1039">1039</a>
+<a href="#1040" id="1040">1040</a>
+<a href="#1041" id="1041">1041</a>
+<a href="#1042" id="1042">1042</a>
+<a href="#1043" id="1043">1043</a>
+<a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a>
+<a href="#1048" id="1048">1048</a>
+<a href="#1049" id="1049">1049</a>
+<a href="#1050" id="1050">1050</a>
+<a href="#1051" id="1051">1051</a>
+<a href="#1052" id="1052">1052</a>
+<a href="#1053" id="1053">1053</a>
+<a href="#1054" id="1054">1054</a>
+<a href="#1055" id="1055">1055</a>
+<a href="#1056" id="1056">1056</a>
+<a href="#1057" id="1057">1057</a>
+<a href="#1058" id="1058">1058</a>
+<a href="#1059" id="1059">1059</a>
+<a href="#1060" id="1060">1060</a>
+<a href="#1061" id="1061">1061</a>
+<a href="#1062" id="1062">1062</a>
+<a href="#1063" id="1063">1063</a>
+<a href="#1064" id="1064">1064</a>
+<a href="#1065" id="1065">1065</a>
+<a href="#1066" id="1066">1066</a>
+<a href="#1067" id="1067">1067</a>
+<a href="#1068" id="1068">1068</a>
+<a href="#1069" id="1069">1069</a>
+<a href="#1070" id="1070">1070</a>
+<a href="#1071" id="1071">1071</a>
+<a href="#1072" id="1072">1072</a>
+<a href="#1073" id="1073">1073</a>
+<a href="#1074" id="1074">1074</a>
+<a href="#1075" id="1075">1075</a>
+<a href="#1076" id="1076">1076</a>
+<a href="#1077" id="1077">1077</a>
+<a href="#1078" id="1078">1078</a>
+<a href="#1079" id="1079">1079</a>
+<a href="#1080" id="1080">1080</a>
+<a href="#1081" id="1081">1081</a>
+<a href="#1082" id="1082">1082</a>
+<a href="#1083" id="1083">1083</a>
+<a href="#1084" id="1084">1084</a>
+<a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
@@ -946,19 +1130,38 @@
 
 </span><span class="kw">pub mod </span>names;
 
-<span class="kw">use </span><span class="kw">crate</span>::script::ScriptWithExt;
-<span class="kw">use </span><span class="kw">crate</span>::Script;
+<span class="kw">pub use </span>names::{
+    PropertyNameLongBidiClassV1, PropertyNameLongCanonicalCombiningClassV1,
+    PropertyNameLongEastAsianWidthV1, PropertyNameLongGeneralCategoryV1,
+    PropertyNameLongGraphemeClusterBreakV1, PropertyNameLongHangulSyllableTypeV1,
+    PropertyNameLongIndicSyllabicCategoryV1, PropertyNameLongJoiningTypeV1,
+    PropertyNameLongLineBreakV1, PropertyNameLongScriptV1, PropertyNameLongSentenceBreakV1,
+    PropertyNameLongVerticalOrientationV1, PropertyNameLongWordBreakV1,
+    PropertyNameParseBidiClassV1, PropertyNameParseCanonicalCombiningClassV1,
+    PropertyNameParseEastAsianWidthV1, PropertyNameParseGeneralCategoryMaskV1,
+    PropertyNameParseGeneralCategoryV1, PropertyNameParseGraphemeClusterBreakV1,
+    PropertyNameParseHangulSyllableTypeV1, PropertyNameParseIndicSyllabicCategoryV1,
+    PropertyNameParseJoiningTypeV1, PropertyNameParseLineBreakV1, PropertyNameParseScriptV1,
+    PropertyNameParseSentenceBreakV1, PropertyNameParseVerticalOrientationV1,
+    PropertyNameParseWordBreakV1, PropertyNameShortBidiClassV1,
+    PropertyNameShortCanonicalCombiningClassV1, PropertyNameShortEastAsianWidthV1,
+    PropertyNameShortGeneralCategoryV1, PropertyNameShortGraphemeClusterBreakV1,
+    PropertyNameShortHangulSyllableTypeV1, PropertyNameShortIndicSyllabicCategoryV1,
+    PropertyNameShortJoiningTypeV1, PropertyNameShortLineBreakV1, PropertyNameShortScriptV1,
+    PropertyNameShortSentenceBreakV1, PropertyNameShortVerticalOrientationV1,
+    PropertyNameShortWordBreakV1,
+};
 
+<span class="kw">pub use </span><span class="kw">crate</span>::props::gc::GeneralCategoryULE;
+<span class="kw">use </span><span class="kw">crate</span>::props::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::script::ScriptWithExt;
 <span class="kw">use </span>core::ops::RangeInclusive;
-<span class="kw">use </span>core::str;
 <span class="kw">use </span>icu_collections::codepointinvlist::CodePointInversionList;
 <span class="kw">use </span>icu_collections::codepointinvliststringlist::CodePointInversionListAndStringList;
 <span class="kw">use </span>icu_collections::codepointtrie::{CodePointMapRange, CodePointTrie, TrieValue};
 <span class="kw">use </span>icu_provider::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span>icu_provider::{DataKeyMetadata, FallbackPriority};
 <span class="kw">use </span>zerofrom::ZeroFrom;
-
-<span class="kw">use </span>zerovec::{VarZeroVec, ZeroSlice, ZeroVecError};
+<span class="kw">use </span>zerovec::{VarZeroVec, ZeroSlice};
 
 <span class="attr">#[cfg(feature = <span class="string">"compiled_data"</span>)]
 #[derive(Debug)]
@@ -972,140 +1175,756 @@
 </span><span class="kw">pub struct </span>Baked;
 
 <span class="attr">#[cfg(feature = <span class="string">"compiled_data"</span>)]
+#[allow(unused_imports)]
 </span><span class="kw">const _</span>: () = {
+    <span class="kw">use </span>icu_properties_data::<span class="kw-2">*</span>;
     <span class="kw">pub mod </span>icu {
         <span class="kw">pub use crate as </span>properties;
         <span class="kw">pub use </span>icu_collections <span class="kw">as </span>collections;
-        <span class="attr">#[allow(unused_imports)] </span><span class="comment">// baked data may or may not need this
-        </span><span class="kw">pub use </span>icu_locid_transform <span class="kw">as </span>locid_transform;
     }
-    <span class="macro">icu_properties_data::make_provider!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_gcb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_bc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_ccc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_ea_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_gc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_gcm_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_hst_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_insc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_jt_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_lb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_sb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_sc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_from_wb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_long_linear_bc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_long_linear_ea_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_long_linear_gc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_long_linear_gcb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_long_linear_hst_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_long_linear_insc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_long_linear_jt_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_long_linear_lb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_long_linear_sb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_long_linear_sc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_long_linear_wb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_long_sparse_ccc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_short_linear_bc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_short_linear_ea_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_short_linear_gc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_short_linear_gcb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_short_linear_hst_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_short_linear_insc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_short_linear_jt_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_short_linear_lb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_short_linear_sb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_short_linear_wb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_short_linear4_sc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_propnames_to_short_sparse_ccc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_ahex_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_alnum_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_alpha_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_basic_emoji_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_bc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_bidi_c_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_bidi_m_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_bidiauxiliaryprops_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_blank_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_cased_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_ccc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_ci_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_comp_ex_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_cwcf_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_cwcm_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_cwkcf_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_cwl_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_cwt_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_cwu_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_dash_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_dep_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_di_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_dia_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_ea_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_ebase_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_ecomp_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_emod_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_emoji_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_epres_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_exemplarchars_auxiliary_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_exemplarchars_index_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_exemplarchars_main_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_exemplarchars_numbers_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_exemplarchars_punctuation_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_ext_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_extpict_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_gc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_gcb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_gr_base_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_gr_ext_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_gr_link_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_graph_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_hex_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_hst_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_hyphen_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_idc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_ideo_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_ids_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_idsb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_idst_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_insc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_join_c_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_jt_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_lb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_loe_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_lower_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_math_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_nchar_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_nfcinert_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_nfdinert_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_nfkcinert_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_nfkdinert_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_pat_syn_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_pat_ws_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_pcm_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_print_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_qmark_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_radical_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_ri_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_sb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_sc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_scx_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_sd_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_segstart_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_sensitive_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_sterm_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_term_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_uideo_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_upper_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_vs_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_wb_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_wspace_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_xdigit_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_xidc_v1!</span>(Baked);
-    <span class="macro">icu_properties_data::impl_props_xids_v1!</span>(Baked);
+    <span class="macro">make_provider!</span>(Baked);
+    <span class="macro">impl_property_binary_alnum_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_alphabetic_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_ascii_hex_digit_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_basic_emoji_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_bidi_control_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_bidi_mirrored_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_blank_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_case_ignorable_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_case_sensitive_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_cased_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_changes_when_casefolded_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_changes_when_casemapped_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_changes_when_lowercased_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_changes_when_nfkc_casefolded_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_changes_when_titlecased_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_changes_when_uppercased_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_dash_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_default_ignorable_code_point_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_deprecated_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_diacritic_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_emoji_component_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_emoji_modifier_base_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_emoji_modifier_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_emoji_presentation_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_emoji_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_extended_pictographic_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_extender_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_full_composition_exclusion_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_graph_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_grapheme_base_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_grapheme_extend_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_grapheme_link_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_hex_digit_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_hyphen_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_id_continue_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_id_start_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_ideographic_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_ids_binary_operator_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_ids_trinary_operator_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_join_control_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_logical_order_exception_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_lowercase_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_math_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_nfc_inert_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_nfd_inert_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_nfkc_inert_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_nfkd_inert_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_noncharacter_code_point_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_pattern_syntax_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_pattern_white_space_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_prepended_concatenation_mark_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_print_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_quotation_mark_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_radical_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_regional_indicator_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_segment_starter_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_sentence_terminal_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_soft_dotted_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_terminal_punctuation_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_unified_ideograph_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_uppercase_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_variation_selector_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_white_space_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_xdigit_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_xid_continue_v1!</span>(Baked);
+    <span class="macro">impl_property_binary_xid_start_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_bidi_class_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_bidi_mirroring_glyph_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_canonical_combining_class_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_east_asian_width_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_general_category_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_grapheme_cluster_break_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_hangul_syllable_type_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_indic_conjunct_break_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_indic_syllabic_category_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_joining_type_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_line_break_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_script_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_sentence_break_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_vertical_orientation_v1!</span>(Baked);
+    <span class="macro">impl_property_enum_word_break_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_bidi_class_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_canonical_combining_class_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_east_asian_width_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_general_category_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_grapheme_cluster_break_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_hangul_syllable_type_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_indic_syllabic_category_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_joining_type_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_line_break_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_script_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_sentence_break_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_vertical_orientation_v1!</span>(Baked);
+    <span class="macro">impl_property_name_long_word_break_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_bidi_class_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_canonical_combining_class_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_east_asian_width_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_general_category_mask_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_general_category_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_grapheme_cluster_break_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_hangul_syllable_type_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_indic_syllabic_category_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_joining_type_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_line_break_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_script_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_sentence_break_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_vertical_orientation_v1!</span>(Baked);
+    <span class="macro">impl_property_name_parse_word_break_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_bidi_class_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_canonical_combining_class_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_east_asian_width_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_general_category_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_grapheme_cluster_break_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_hangul_syllable_type_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_indic_syllabic_category_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_joining_type_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_line_break_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_script_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_sentence_break_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_vertical_orientation_v1!</span>(Baked);
+    <span class="macro">impl_property_name_short_word_break_v1!</span>(Baked);
+    <span class="macro">impl_property_script_with_extensions_v1!</span>(Baked);
 };
 
-<span class="comment">// include the specialized structs for the compact representation of Bidi property data
-</span><span class="kw">pub mod </span>bidi_data;
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryAlnumV1`
+    </span>PropertyBinaryAlnumV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryAlphabeticV1`
+    </span>PropertyBinaryAlphabeticV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryAsciiHexDigitV1`
+    </span>PropertyBinaryAsciiHexDigitV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryBidiControlV1`
+    </span>PropertyBinaryBidiControlV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryBidiMirroredV1`
+    </span>PropertyBinaryBidiMirroredV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryBlankV1`
+    </span>PropertyBinaryBlankV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryCasedV1`
+    </span>PropertyBinaryCasedV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryCaseIgnorableV1`
+    </span>PropertyBinaryCaseIgnorableV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryCaseSensitiveV1`
+    </span>PropertyBinaryCaseSensitiveV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryChangesWhenCasefoldedV1`
+    </span>PropertyBinaryChangesWhenCasefoldedV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryChangesWhenCasemappedV1`
+    </span>PropertyBinaryChangesWhenCasemappedV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryChangesWhenLowercasedV1`
+    </span>PropertyBinaryChangesWhenLowercasedV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryChangesWhenNfkcCasefoldedV1`
+    </span>PropertyBinaryChangesWhenNfkcCasefoldedV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryChangesWhenTitlecasedV1`
+    </span>PropertyBinaryChangesWhenTitlecasedV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryChangesWhenUppercasedV1`
+    </span>PropertyBinaryChangesWhenUppercasedV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryDashV1`
+    </span>PropertyBinaryDashV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryDefaultIgnorableCodePointV1`
+    </span>PropertyBinaryDefaultIgnorableCodePointV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryDeprecatedV1`
+    </span>PropertyBinaryDeprecatedV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryDiacriticV1`
+    </span>PropertyBinaryDiacriticV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryEmojiComponentV1`
+    </span>PropertyBinaryEmojiComponentV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryEmojiModifierBaseV1`
+    </span>PropertyBinaryEmojiModifierBaseV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryEmojiModifierV1`
+    </span>PropertyBinaryEmojiModifierV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryEmojiPresentationV1`
+    </span>PropertyBinaryEmojiPresentationV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryEmojiV1`
+    </span>PropertyBinaryEmojiV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryExtendedPictographicV1`
+    </span>PropertyBinaryExtendedPictographicV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryExtenderV1`
+    </span>PropertyBinaryExtenderV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryFullCompositionExclusionV1`
+    </span>PropertyBinaryFullCompositionExclusionV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryGraphemeBaseV1`
+    </span>PropertyBinaryGraphemeBaseV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryGraphemeExtendV1`
+    </span>PropertyBinaryGraphemeExtendV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryGraphemeLinkV1`
+    </span>PropertyBinaryGraphemeLinkV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryGraphV1`
+    </span>PropertyBinaryGraphV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryHexDigitV1`
+    </span>PropertyBinaryHexDigitV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryHyphenV1`
+    </span>PropertyBinaryHyphenV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryIdContinueV1`
+    </span>PropertyBinaryIdContinueV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryIdeographicV1`
+    </span>PropertyBinaryIdeographicV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryIdsBinaryOperatorV1`
+    </span>PropertyBinaryIdsBinaryOperatorV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryIdStartV1`
+    </span>PropertyBinaryIdStartV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryIdsTrinaryOperatorV1`
+    </span>PropertyBinaryIdsTrinaryOperatorV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryJoinControlV1`
+    </span>PropertyBinaryJoinControlV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryLogicalOrderExceptionV1`
+    </span>PropertyBinaryLogicalOrderExceptionV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryLowercaseV1`
+    </span>PropertyBinaryLowercaseV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryMathV1`
+    </span>PropertyBinaryMathV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryNfcInertV1`
+    </span>PropertyBinaryNfcInertV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryNfdInertV1`
+    </span>PropertyBinaryNfdInertV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryNfkcInertV1`
+    </span>PropertyBinaryNfkcInertV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryNfkdInertV1`
+    </span>PropertyBinaryNfkdInertV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryNoncharacterCodePointV1`
+    </span>PropertyBinaryNoncharacterCodePointV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryPatternSyntaxV1`
+    </span>PropertyBinaryPatternSyntaxV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryPatternWhiteSpaceV1`
+    </span>PropertyBinaryPatternWhiteSpaceV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryPrependedConcatenationMarkV1`
+    </span>PropertyBinaryPrependedConcatenationMarkV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryPrintV1`
+    </span>PropertyBinaryPrintV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryQuotationMarkV1`
+    </span>PropertyBinaryQuotationMarkV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryRadicalV1`
+    </span>PropertyBinaryRadicalV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryRegionalIndicatorV1`
+    </span>PropertyBinaryRegionalIndicatorV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinarySegmentStarterV1`
+    </span>PropertyBinarySegmentStarterV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinarySentenceTerminalV1`
+    </span>PropertyBinarySentenceTerminalV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinarySoftDottedV1`
+    </span>PropertyBinarySoftDottedV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryTerminalPunctuationV1`
+    </span>PropertyBinaryTerminalPunctuationV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryUnifiedIdeographV1`
+    </span>PropertyBinaryUnifiedIdeographV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryUppercaseV1`
+    </span>PropertyBinaryUppercaseV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryVariationSelectorV1`
+    </span>PropertyBinaryVariationSelectorV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryWhiteSpaceV1`
+    </span>PropertyBinaryWhiteSpaceV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryXdigitV1`
+    </span>PropertyBinaryXdigitV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryXidContinueV1`
+    </span>PropertyBinaryXidContinueV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryXidStartV1`
+    </span>PropertyBinaryXidStartV1,
+    PropertyCodePointSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'BidiClass' Unicode property
+    </span>PropertyEnumBidiClassV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::BidiClass&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'CanonicalCombiningClass' Unicode property
+    </span>PropertyEnumCanonicalCombiningClassV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::CanonicalCombiningClass&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'EastAsianWidth' Unicode property
+    </span>PropertyEnumEastAsianWidthV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::EastAsianWidth&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'GeneralCategory' Unicode property
+    </span>PropertyEnumGeneralCategoryV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::GeneralCategory&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'GraphemeClusterBreak' Unicode property
+    </span>PropertyEnumGraphemeClusterBreakV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::GraphemeClusterBreak&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'HangulSyllableType' Unicode property
+    </span>PropertyEnumHangulSyllableTypeV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::HangulSyllableType&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'IndicConjunctBreak' Unicode property
+    </span>PropertyEnumIndicConjunctBreakV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::IndicConjunctBreak&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'IndicSyllabicCategory' Unicode property
+    </span>PropertyEnumIndicSyllabicCategoryV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::IndicSyllabicCategory&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'JoiningType' Unicode property
+    </span>PropertyEnumJoiningTypeV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::JoiningType&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'LineBreak' Unicode property
+    </span>PropertyEnumLineBreakV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::LineBreak&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'Script' Unicode property
+    </span>PropertyEnumScriptV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::Script&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'SentenceBreak' Unicode property
+    </span>PropertyEnumSentenceBreakV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::SentenceBreak&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'Vertical_Orientation' Unicode property
+    </span>PropertyEnumVerticalOrientationV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::VerticalOrientation&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'WordBreak' Unicode property
+    </span>PropertyEnumWordBreakV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::props::WordBreak&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// Data marker for the 'BidiMirroringGlyph' Unicode property
+    </span>PropertyEnumBidiMirroringGlyphV1,
+    PropertyCodePointMap&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::bidi::BidiMirroringGlyph&gt;,
+    is_singleton = <span class="bool-val">true</span>,
+);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyBinaryBasicEmojiV1`
+    </span>PropertyBinaryBasicEmojiV1,
+    PropertyUnicodeSet&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+<span class="macro">icu_provider::data_marker!</span>(
+    <span class="doccomment">/// `PropertyScriptWithExtensionsV1`
+    </span>PropertyScriptWithExtensionsV1,
+    ScriptWithExtensionsProperty&lt;<span class="lifetime">'static</span>&gt;,
+    is_singleton = <span class="bool-val">true
+</span>);
+
+<span class="doccomment">/// All data keys in this module.
+</span><span class="kw">pub const </span>MARKERS: <span class="kw-2">&amp;</span>[DataMarkerInfo] = <span class="kw-2">&amp;</span>[
+    PropertyNameLongBidiClassV1::INFO,
+    PropertyNameLongCanonicalCombiningClassV1::INFO,
+    PropertyNameLongEastAsianWidthV1::INFO,
+    PropertyNameLongGeneralCategoryV1::INFO,
+    PropertyNameLongGraphemeClusterBreakV1::INFO,
+    PropertyNameLongHangulSyllableTypeV1::INFO,
+    PropertyNameLongIndicSyllabicCategoryV1::INFO,
+    PropertyNameLongJoiningTypeV1::INFO,
+    PropertyNameLongLineBreakV1::INFO,
+    PropertyNameLongScriptV1::INFO,
+    PropertyNameLongSentenceBreakV1::INFO,
+    PropertyNameLongVerticalOrientationV1::INFO,
+    PropertyNameLongWordBreakV1::INFO,
+    PropertyNameParseBidiClassV1::INFO,
+    PropertyNameParseCanonicalCombiningClassV1::INFO,
+    PropertyNameParseEastAsianWidthV1::INFO,
+    PropertyNameParseGeneralCategoryMaskV1::INFO,
+    PropertyNameParseGeneralCategoryV1::INFO,
+    PropertyNameParseGraphemeClusterBreakV1::INFO,
+    PropertyNameParseHangulSyllableTypeV1::INFO,
+    PropertyNameParseIndicSyllabicCategoryV1::INFO,
+    PropertyNameParseJoiningTypeV1::INFO,
+    PropertyNameParseLineBreakV1::INFO,
+    PropertyNameParseScriptV1::INFO,
+    PropertyNameParseSentenceBreakV1::INFO,
+    PropertyNameParseVerticalOrientationV1::INFO,
+    PropertyNameParseWordBreakV1::INFO,
+    PropertyNameShortBidiClassV1::INFO,
+    PropertyNameShortCanonicalCombiningClassV1::INFO,
+    PropertyNameShortEastAsianWidthV1::INFO,
+    PropertyNameShortGeneralCategoryV1::INFO,
+    PropertyNameShortGraphemeClusterBreakV1::INFO,
+    PropertyNameShortHangulSyllableTypeV1::INFO,
+    PropertyNameShortIndicSyllabicCategoryV1::INFO,
+    PropertyNameShortJoiningTypeV1::INFO,
+    PropertyNameShortLineBreakV1::INFO,
+    PropertyNameShortScriptV1::INFO,
+    PropertyNameShortSentenceBreakV1::INFO,
+    PropertyNameShortVerticalOrientationV1::INFO,
+    PropertyNameShortWordBreakV1::INFO,
+    PropertyBinaryAlnumV1::INFO,
+    PropertyBinaryAlphabeticV1::INFO,
+    PropertyBinaryAsciiHexDigitV1::INFO,
+    PropertyBinaryBidiControlV1::INFO,
+    PropertyBinaryBidiMirroredV1::INFO,
+    PropertyBinaryBlankV1::INFO,
+    PropertyBinaryCasedV1::INFO,
+    PropertyBinaryCaseIgnorableV1::INFO,
+    PropertyBinaryCaseSensitiveV1::INFO,
+    PropertyBinaryChangesWhenCasefoldedV1::INFO,
+    PropertyBinaryChangesWhenCasemappedV1::INFO,
+    PropertyBinaryChangesWhenLowercasedV1::INFO,
+    PropertyBinaryChangesWhenNfkcCasefoldedV1::INFO,
+    PropertyBinaryChangesWhenTitlecasedV1::INFO,
+    PropertyBinaryChangesWhenUppercasedV1::INFO,
+    PropertyBinaryDashV1::INFO,
+    PropertyBinaryDefaultIgnorableCodePointV1::INFO,
+    PropertyBinaryDeprecatedV1::INFO,
+    PropertyBinaryDiacriticV1::INFO,
+    PropertyBinaryEmojiComponentV1::INFO,
+    PropertyBinaryEmojiModifierBaseV1::INFO,
+    PropertyBinaryEmojiModifierV1::INFO,
+    PropertyBinaryEmojiPresentationV1::INFO,
+    PropertyBinaryEmojiV1::INFO,
+    PropertyBinaryExtendedPictographicV1::INFO,
+    PropertyBinaryExtenderV1::INFO,
+    PropertyBinaryFullCompositionExclusionV1::INFO,
+    PropertyBinaryGraphemeBaseV1::INFO,
+    PropertyBinaryGraphemeExtendV1::INFO,
+    PropertyBinaryGraphemeLinkV1::INFO,
+    PropertyBinaryGraphV1::INFO,
+    PropertyBinaryHexDigitV1::INFO,
+    PropertyBinaryHyphenV1::INFO,
+    PropertyBinaryIdContinueV1::INFO,
+    PropertyBinaryIdeographicV1::INFO,
+    PropertyBinaryIdsBinaryOperatorV1::INFO,
+    PropertyBinaryIdStartV1::INFO,
+    PropertyBinaryIdsTrinaryOperatorV1::INFO,
+    PropertyBinaryJoinControlV1::INFO,
+    PropertyBinaryLogicalOrderExceptionV1::INFO,
+    PropertyBinaryLowercaseV1::INFO,
+    PropertyBinaryMathV1::INFO,
+    PropertyBinaryNfcInertV1::INFO,
+    PropertyBinaryNfdInertV1::INFO,
+    PropertyBinaryNfkcInertV1::INFO,
+    PropertyBinaryNfkdInertV1::INFO,
+    PropertyBinaryNoncharacterCodePointV1::INFO,
+    PropertyBinaryPatternSyntaxV1::INFO,
+    PropertyBinaryPatternWhiteSpaceV1::INFO,
+    PropertyBinaryPrependedConcatenationMarkV1::INFO,
+    PropertyBinaryPrintV1::INFO,
+    PropertyBinaryQuotationMarkV1::INFO,
+    PropertyBinaryRadicalV1::INFO,
+    PropertyBinaryRegionalIndicatorV1::INFO,
+    PropertyBinarySegmentStarterV1::INFO,
+    PropertyBinarySentenceTerminalV1::INFO,
+    PropertyBinarySoftDottedV1::INFO,
+    PropertyBinaryTerminalPunctuationV1::INFO,
+    PropertyBinaryUnifiedIdeographV1::INFO,
+    PropertyBinaryUppercaseV1::INFO,
+    PropertyBinaryVariationSelectorV1::INFO,
+    PropertyBinaryWhiteSpaceV1::INFO,
+    PropertyBinaryXdigitV1::INFO,
+    PropertyBinaryXidContinueV1::INFO,
+    PropertyBinaryXidStartV1::INFO,
+    PropertyEnumBidiClassV1::INFO,
+    PropertyEnumCanonicalCombiningClassV1::INFO,
+    PropertyEnumEastAsianWidthV1::INFO,
+    PropertyEnumGeneralCategoryV1::INFO,
+    PropertyEnumGraphemeClusterBreakV1::INFO,
+    PropertyEnumHangulSyllableTypeV1::INFO,
+    PropertyEnumIndicConjunctBreakV1::INFO,
+    PropertyEnumIndicSyllabicCategoryV1::INFO,
+    PropertyEnumJoiningTypeV1::INFO,
+    PropertyEnumLineBreakV1::INFO,
+    PropertyEnumScriptV1::INFO,
+    PropertyEnumSentenceBreakV1::INFO,
+    PropertyEnumVerticalOrientationV1::INFO,
+    PropertyEnumWordBreakV1::INFO,
+    PropertyEnumBidiMirroringGlyphV1::INFO,
+    PropertyBinaryBasicEmojiV1::INFO,
+    PropertyScriptWithExtensionsV1::INFO,
+];
 
 <span class="doccomment">/// A set of characters which share a particular property value.
 ///
@@ -1118,14 +1937,11 @@
 /// to be stable, their Rust representation might not be. Use with caution.
 /// &lt;/div&gt;
 </span><span class="attr">#[derive(Debug, Eq, PartialEq, Clone, yoke::Yokeable, zerofrom::ZeroFrom)]
-#[cfg_attr(
-    feature = <span class="string">"datagen"</span>, 
-    derive(serde::Serialize, databake::Bake),
-    databake(path = icu_properties::provider),
-)]
+#[cfg_attr(feature = <span class="string">"datagen"</span>, derive(serde::Serialize, databake::Bake))]
+#[cfg_attr(feature = <span class="string">"datagen"</span>, databake(path = icu_properties::provider))]
 #[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Deserialize))]
 #[non_exhaustive]
-</span><span class="kw">pub enum </span>PropertyCodePointSetV1&lt;<span class="lifetime">'data</span>&gt; {
+</span><span class="kw">pub enum </span>PropertyCodePointSet&lt;<span class="lifetime">'data</span>&gt; {
     <span class="doccomment">/// The set of characters, represented as an inversion list
     </span>InversionList(<span class="attr">#[cfg_attr(feature = <span class="string">"serde"</span>, serde(borrow))] </span>CodePointInversionList&lt;<span class="lifetime">'data</span>&gt;),
     <span class="comment">// new variants should go BELOW existing ones
@@ -1133,166 +1949,13 @@
     // https://docs.rs/serde/latest/serde/trait.Serializer.html#tymethod.serialize_unit_variant
 </span>}
 
-<span class="doccomment">/// A map efficiently storing data about individual characters.
-///
-/// This data enum is extensible, more backends may be added in the future.
-/// Old data can be used with newer code but not vice versa.
-///
-/// &lt;div class="stab unstable"&gt;
-/// 🚧 This code is considered unstable; it may change at any time, in breaking or non-breaking ways,
-/// including in SemVer minor releases. While the serde representation of data structs is guaranteed
-/// to be stable, their Rust representation might not be. Use with caution.
-/// &lt;/div&gt;
-</span><span class="attr">#[derive(Clone, Debug, Eq, PartialEq, yoke::Yokeable, zerofrom::ZeroFrom)]
-#[cfg_attr(
-    feature = <span class="string">"datagen"</span>, 
-    derive(serde::Serialize, databake::Bake),
-    databake(path = icu_properties::provider),
-)]
-#[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Deserialize))]
-#[non_exhaustive]
-</span><span class="kw">pub enum </span>PropertyCodePointMapV1&lt;<span class="lifetime">'data</span>, T: TrieValue&gt; {
-    <span class="doccomment">/// A codepoint trie storing the data
-    </span>CodePointTrie(<span class="attr">#[cfg_attr(feature = <span class="string">"serde"</span>, serde(borrow))] </span>CodePointTrie&lt;<span class="lifetime">'data</span>, T&gt;),
-    <span class="comment">// new variants should go BELOW existing ones
-    // Serde serializes based on variant name and index in the enum
-    // https://docs.rs/serde/latest/serde/trait.Serializer.html#tymethod.serialize_unit_variant
-</span>}
-
-<span class="doccomment">/// A set of characters and strings which share a particular property value.
-///
-/// &lt;div class="stab unstable"&gt;
-/// 🚧 This code is considered unstable; it may change at any time, in breaking or non-breaking ways,
-/// including in SemVer minor releases. While the serde representation of data structs is guaranteed
-/// to be stable, their Rust representation might not be. Use with caution.
-/// &lt;/div&gt;
-</span><span class="attr">#[derive(Debug, Eq, PartialEq, Clone, yoke::Yokeable, zerofrom::ZeroFrom)]
-#[cfg_attr(
-    feature = <span class="string">"datagen"</span>, 
-    derive(serde::Serialize, databake::Bake),
-    databake(path = icu_properties::provider),
-)]
-#[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Deserialize))]
-#[non_exhaustive]
-</span><span class="kw">pub enum </span>PropertyUnicodeSetV1&lt;<span class="lifetime">'data</span>&gt; {
-    <span class="doccomment">/// A set representing characters in an inversion list, and the strings in a list.
-    </span>CPInversionListStrList(
-        <span class="attr">#[cfg_attr(feature = <span class="string">"serde"</span>, serde(borrow))] </span>CodePointInversionListAndStringList&lt;<span class="lifetime">'data</span>&gt;,
-    ),
-    <span class="comment">// new variants should go BELOW existing ones
-    // Serde serializes based on variant name and index in the enum
-    // https://docs.rs/serde/latest/serde/trait.Serializer.html#tymethod.serialize_unit_variant
-</span>}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">'data</span>&gt; PropertyUnicodeSetV1&lt;<span class="lifetime">'data</span>&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>contains(<span class="kw-2">&amp;</span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>str) -&gt; bool {
-        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            <span class="self">Self</span>::CPInversionListStrList(<span class="kw-2">ref </span>l) =&gt; l.contains(s),
-        }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>contains32(<span class="kw-2">&amp;</span><span class="self">self</span>, cp: u32) -&gt; bool {
-        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            <span class="self">Self</span>::CPInversionListStrList(<span class="kw-2">ref </span>l) =&gt; l.contains32(cp),
-        }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>contains_char(<span class="kw-2">&amp;</span><span class="self">self</span>, ch: char) -&gt; bool {
-        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            <span class="self">Self</span>::CPInversionListStrList(<span class="kw-2">ref </span>l) =&gt; l.contains_char(ch),
-        }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_code_point_inversion_list_string_list(
-        l: CodePointInversionListAndStringList&lt;<span class="lifetime">'static</span>&gt;,
-    ) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::CPInversionListStrList(l)
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>as_code_point_inversion_list_string_list(
-        <span class="kw-2">&amp;</span><span class="lifetime">'_ </span><span class="self">self</span>,
-    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'_ </span>CodePointInversionListAndStringList&lt;<span class="lifetime">'data</span>&gt;&gt; {
-        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            <span class="self">Self</span>::CPInversionListStrList(<span class="kw-2">ref </span>l) =&gt; <span class="prelude-val">Some</span>(l),
-            <span class="comment">// any other backing data structure that cannot return a CPInversionListStrList in O(1) time should return None
-        </span>}
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>to_code_point_inversion_list_string_list(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-    ) -&gt; CodePointInversionListAndStringList&lt;<span class="lifetime">'_</span>&gt; {
-        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            <span class="self">Self</span>::CPInversionListStrList(<span class="kw-2">ref </span>t) =&gt; ZeroFrom::zero_from(t),
-        }
-    }
-}
-
-<span class="doccomment">/// A struct that efficiently stores `Script` and `Script_Extensions` property data.
-///
-/// &lt;div class="stab unstable"&gt;
-/// 🚧 This code is considered unstable; it may change at any time, in breaking or non-breaking ways,
-/// including in SemVer minor releases. While the serde representation of data structs is guaranteed
-/// to be stable, their Rust representation might not be. Use with caution.
-/// &lt;/div&gt;
-</span><span class="attr">#[icu_provider::data_struct(marker(
-    ScriptWithExtensionsPropertyV1Marker,
-    <span class="string">"props/scx@1"</span>,
-    singleton
-))]
-#[derive(Debug, Eq, PartialEq, Clone)]
-#[cfg_attr(
-    feature = <span class="string">"datagen"</span>, 
-    derive(serde::Serialize, databake::Bake),
-    databake(path = icu_properties::provider),
-)]
-#[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Deserialize))]
-</span><span class="kw">pub struct </span>ScriptWithExtensionsPropertyV1&lt;<span class="lifetime">'data</span>&gt; {
-    <span class="doccomment">/// Note: The `ScriptWithExt` values in this array will assume a 12-bit layout. The 2
-    /// higher order bits 11..10 will indicate how to deduce the Script value and
-    /// Script_Extensions value, nearly matching the representation
-    /// [in ICU](https://github.com/unicode-org/icu/blob/main/icu4c/source/common/uprops.h):
-    ///
-    /// | High order 2 bits value | Script                                                 | Script_Extensions                                              |
-    /// |-------------------------|--------------------------------------------------------|----------------------------------------------------------------|
-    /// | 3                       | First value in sub-array, index given by lower 10 bits | Sub-array excluding first value, index given by lower 10 bits  |
-    /// | 2                       | Script=Inherited                                       | Entire sub-array, index given by lower 10 bits                 |
-    /// | 1                       | Script=Common                                          | Entire sub-array, index given by lower 10 bits                 |
-    /// | 0                       | Value in lower 10 bits                                 | `[ Script value ]` single-element array                        |
-    ///
-    /// When the lower 10 bits of the value are used as an index, that index is
-    /// used for the outer-level vector of the nested `extensions` structure.
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">"serde"</span>, serde(borrow))]
-    </span><span class="kw">pub </span>trie: CodePointTrie&lt;<span class="lifetime">'data</span>, ScriptWithExt&gt;,
-
-    <span class="doccomment">/// This companion structure stores Script_Extensions values, which are
-    /// themselves arrays / vectors. This structure only stores the values for
-    /// cases in which `scx(cp) != [ sc(cp) ]`. Each sub-vector is distinct. The
-    /// sub-vector represents the Script_Extensions array value for a code point,
-    /// and may also indicate Script value, as described for the `trie` field.
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">"serde"</span>, serde(borrow))]
-    </span><span class="kw">pub </span>extensions: VarZeroVec&lt;<span class="lifetime">'data</span>, ZeroSlice&lt;Script&gt;&gt;,
-}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">'data</span>&gt; ScriptWithExtensionsPropertyV1&lt;<span class="lifetime">'data</span>&gt; {
-    <span class="comment">// This method is intended to be used by constructors of deserialized data
-    // in a data provider.
-    </span><span class="attr">#[doc(hidden)]
-    </span><span class="kw">pub fn </span>new(
-        trie: CodePointTrie&lt;<span class="lifetime">'data</span>, ScriptWithExt&gt;,
-        extensions: VarZeroVec&lt;<span class="lifetime">'data</span>, ZeroSlice&lt;Script&gt;&gt;,
-    ) -&gt; ScriptWithExtensionsPropertyV1&lt;<span class="lifetime">'data</span>&gt; {
-        ScriptWithExtensionsPropertyV1 { trie, extensions }
-    }
-}
+<span class="macro">icu_provider::data_struct!</span>(
+    PropertyCodePointSet&lt;<span class="lifetime">'_</span>&gt;,
+    <span class="attr">#[cfg(feature = <span class="string">"datagen"</span>)]
+</span>);
 
 <span class="comment">// See CodePointSetData for documentation of these functions
-</span><span class="kw">impl</span>&lt;<span class="lifetime">'data</span>&gt; PropertyCodePointSetV1&lt;<span class="lifetime">'data</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'data</span>&gt; PropertyCodePointSet&lt;<span class="lifetime">'data</span>&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>contains(<span class="kw-2">&amp;</span><span class="self">self</span>, ch: char) -&gt; bool {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
@@ -1346,8 +2009,36 @@
     }
 }
 
+<span class="doccomment">/// A map efficiently storing data about individual characters.
+///
+/// This data enum is extensible, more backends may be added in the future.
+/// Old data can be used with newer code but not vice versa.
+///
+/// &lt;div class="stab unstable"&gt;
+/// 🚧 This code is considered unstable; it may change at any time, in breaking or non-breaking ways,
+/// including in SemVer minor releases. While the serde representation of data structs is guaranteed
+/// to be stable, their Rust representation might not be. Use with caution.
+/// &lt;/div&gt;
+</span><span class="attr">#[derive(Clone, Debug, Eq, PartialEq, yoke::Yokeable, zerofrom::ZeroFrom)]
+#[cfg_attr(feature = <span class="string">"datagen"</span>, derive(serde::Serialize, databake::Bake))]
+#[cfg_attr(feature = <span class="string">"datagen"</span>, databake(path = icu_properties::provider))]
+#[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Deserialize))]
+#[non_exhaustive]
+</span><span class="kw">pub enum </span>PropertyCodePointMap&lt;<span class="lifetime">'data</span>, T: TrieValue&gt; {
+    <span class="doccomment">/// A codepoint trie storing the data
+    </span>CodePointTrie(<span class="attr">#[cfg_attr(feature = <span class="string">"serde"</span>, serde(borrow))] </span>CodePointTrie&lt;<span class="lifetime">'data</span>, T&gt;),
+    <span class="comment">// new variants should go BELOW existing ones
+    // Serde serializes based on variant name and index in the enum
+    // https://docs.rs/serde/latest/serde/trait.Serializer.html#tymethod.serialize_unit_variant
+</span>}
+
+<span class="macro">icu_provider::data_struct!</span>(
+    &lt;T: TrieValue&gt; PropertyCodePointMap&lt;<span class="lifetime">'_</span>, T&gt;,
+    <span class="attr">#[cfg(feature = <span class="string">"datagen"</span>)]
+</span>);
+
 <span class="comment">// See CodePointMapData for documentation of these functions
-</span><span class="kw">impl</span>&lt;<span class="lifetime">'data</span>, T: TrieValue&gt; PropertyCodePointMapV1&lt;<span class="lifetime">'data</span>, T&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'data</span>, T: TrieValue&gt; PropertyCodePointMap&lt;<span class="lifetime">'data</span>, T&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get32(<span class="kw-2">&amp;</span><span class="self">self</span>, ch: u32) -&gt; T {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
@@ -1356,20 +2047,22 @@
     }
 
     <span class="attr">#[inline]
+    #[cfg(feature = <span class="string">"alloc"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>try_into_converted&lt;P&gt;(
         <span class="self">self</span>,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;PropertyCodePointMapV1&lt;<span class="lifetime">'data</span>, P&gt;, ZeroVecError&gt;
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;PropertyCodePointMap&lt;<span class="lifetime">'data</span>, P&gt;, zerovec::ule::UleError&gt;
     <span class="kw">where
         </span>P: TrieValue,
     {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="self">Self</span>::CodePointTrie(t) =&gt; t
                 .try_into_converted()
-                .map(PropertyCodePointMapV1::CodePointTrie),
+                .map(PropertyCodePointMap::CodePointTrie),
         }
     }
 
     <span class="attr">#[inline]
+    #[cfg(feature = <span class="string">"alloc"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get_set_for_value(<span class="kw-2">&amp;</span><span class="self">self</span>, value: T) -&gt; CodePointInversionList&lt;<span class="lifetime">'static</span>&gt; {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             <span class="self">Self</span>::CodePointTrie(<span class="kw-2">ref </span>t) =&gt; t.get_set_for_value(value),
@@ -1413,447 +2106,122 @@
     }
 }
 
-<span class="macro">macro_rules!</span> expand {
-    (
-        ($((<span class="macro-nonterminal">$code_point_set_marker</span>:ident, <span class="macro-nonterminal">$bin_cp_s</span>:literal),)+),
-        ($((<span class="macro-nonterminal">$unicode_set_marker</span>:ident, <span class="macro-nonterminal">$bin_us_s</span>:literal, <span class="macro-nonterminal">$us_singleton</span>:literal),)+),
-        ($((<span class="macro-nonterminal">$code_point_map_marker</span>:ident,
-            <span class="macro-nonterminal">$name_value_marker</span>:ident,
+<span class="doccomment">/// A set of characters and strings which share a particular property value.
+///
+/// &lt;div class="stab unstable"&gt;
+/// 🚧 This code is considered unstable; it may change at any time, in breaking or non-breaking ways,
+/// including in SemVer minor releases. While the serde representation of data structs is guaranteed
+/// to be stable, their Rust representation might not be. Use with caution.
+/// &lt;/div&gt;
+</span><span class="attr">#[derive(Debug, Eq, PartialEq, Clone, yoke::Yokeable, zerofrom::ZeroFrom)]
+#[cfg_attr(feature = <span class="string">"datagen"</span>, derive(serde::Serialize, databake::Bake))]
+#[cfg_attr(feature = <span class="string">"datagen"</span>, databake(path = icu_properties::provider))]
+#[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Deserialize))]
+#[non_exhaustive]
+</span><span class="kw">pub enum </span>PropertyUnicodeSet&lt;<span class="lifetime">'data</span>&gt; {
+    <span class="doccomment">/// A set representing characters in an inversion list, and the strings in a list.
+    </span>CPInversionListStrList(
+        <span class="attr">#[cfg_attr(feature = <span class="string">"serde"</span>, serde(borrow))] </span>CodePointInversionListAndStringList&lt;<span class="lifetime">'data</span>&gt;,
+    ),
+    <span class="comment">// new variants should go BELOW existing ones
+    // Serde serializes based on variant name and index in the enum
+    // https://docs.rs/serde/latest/serde/trait.Serializer.html#tymethod.serialize_unit_variant
+</span>}
 
-            $((sparse: <span class="macro-nonterminal">$value_short_name_marker_sparse</span>:ident, <span class="macro-nonterminal">$value_long_name_marker_sparse</span>:ident),)<span class="question-mark">?
-            </span>$((linear: <span class="macro-nonterminal">$value_short_name_marker_linear</span>:ident, <span class="macro-nonterminal">$value_long_name_marker_linear</span>:ident ),)<span class="question-mark">?
-            </span>$((linear4: <span class="macro-nonterminal">$value_short_name_marker_linear4</span>:ident, <span class="macro-nonterminal">$value_long_name_marker_linear4</span>:ident ),)<span class="question-mark">?
-            </span><span class="macro-nonterminal">$enum_s</span>:literal, <span class="macro-nonterminal">$value_ty</span>:ident),)+)
-    ) =&gt; {
+<span class="macro">icu_provider::data_struct!</span>(
+    PropertyUnicodeSet&lt;<span class="lifetime">'_</span>&gt;,
+    <span class="attr">#[cfg(feature = <span class="string">"datagen"</span>)]
+</span>);
 
-            <span class="comment">// Data keys that return code point sets (represented as CodePointSetData).
-            // For now, synonymous with binary properties of code points only.
-            </span>$(
-                <span class="attr">#[doc = <span class="macro">core::concat!</span>(<span class="string">"Data marker for the '"</span>, <span class="macro-nonterminal">$bin_cp_s</span>, <span class="string">"' Unicode property"</span>)]
-                #[derive(Debug, Default)]
-                #[cfg_attr(
-                    feature = <span class="string">"datagen"</span>,
-                    derive(databake::Bake),
-                    databake(path = icu_properties::provider),
-                )]
-                </span><span class="kw">pub struct </span><span class="macro-nonterminal">$code_point_set_marker</span>;
+<span class="kw">impl</span>&lt;<span class="lifetime">'data</span>&gt; PropertyUnicodeSet&lt;<span class="lifetime">'data</span>&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>contains_str(<span class="kw-2">&amp;</span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>str) -&gt; bool {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            <span class="self">Self</span>::CPInversionListStrList(<span class="kw-2">ref </span>l) =&gt; l.contains_str(s),
+        }
+    }
 
-                <span class="kw">impl </span>DataMarker <span class="kw">for </span><span class="macro-nonterminal">$code_point_set_marker </span>{
-                    <span class="kw">type </span>Yokeable = PropertyCodePointSetV1&lt;<span class="lifetime">'static</span>&gt;;
-                }
-                <span class="kw">impl </span>KeyedDataMarker <span class="kw">for </span><span class="macro-nonterminal">$code_point_set_marker </span>{
-                    <span class="kw">const </span>KEY: DataKey = <span class="macro">data_key!</span>(<span class="macro">concat!</span>(<span class="string">"props/"</span>, <span class="macro-nonterminal">$bin_cp_s</span>, <span class="string">"@1"</span>), DataKeyMetadata::construct_internal(FallbackPriority::Language, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="bool-val">true</span>));
-                }
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>contains32(<span class="kw-2">&amp;</span><span class="self">self</span>, cp: u32) -&gt; bool {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            <span class="self">Self</span>::CPInversionListStrList(<span class="kw-2">ref </span>l) =&gt; l.contains32(cp),
+        }
+    }
 
-            )+
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>contains(<span class="kw-2">&amp;</span><span class="self">self</span>, ch: char) -&gt; bool {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            <span class="self">Self</span>::CPInversionListStrList(<span class="kw-2">ref </span>l) =&gt; l.contains(ch),
+        }
+    }
 
-            <span class="comment">// Data keys that return sets of strings + code points (represented as UnicodeSetData).
-            // Includes:
-            //   - binary properties of strings + code points
-            //   - exemplar characters
-            </span>$(
-                <span class="attr">#[doc = <span class="macro">core::concat!</span>(<span class="string">"Data marker for the '"</span>, <span class="macro-nonterminal">$bin_us_s</span>, <span class="string">"' Unicode property"</span>)]
-                #[derive(Debug, Default)]
-                #[cfg_attr(
-                    feature = <span class="string">"datagen"</span>,
-                    derive(databake::Bake),
-                    databake(path = icu_properties::provider),
-                )]
-                </span><span class="kw">pub struct </span><span class="macro-nonterminal">$unicode_set_marker</span>;
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_code_point_inversion_list_string_list(
+        l: CodePointInversionListAndStringList&lt;<span class="lifetime">'static</span>&gt;,
+    ) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::CPInversionListStrList(l)
+    }
 
-                <span class="kw">impl </span>DataMarker <span class="kw">for </span><span class="macro-nonterminal">$unicode_set_marker </span>{
-                    <span class="kw">type </span>Yokeable = PropertyUnicodeSetV1&lt;<span class="lifetime">'static</span>&gt;;
-                }
-                <span class="kw">impl </span>KeyedDataMarker <span class="kw">for </span><span class="macro-nonterminal">$unicode_set_marker </span>{
-                    <span class="kw">const </span>KEY: DataKey = <span class="macro">data_key!</span>(<span class="macro">concat!</span>(<span class="string">"props/"</span>, <span class="macro-nonterminal">$bin_us_s</span>, <span class="string">"@1"</span>), DataKeyMetadata::construct_internal(FallbackPriority::Language, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="macro-nonterminal">$us_singleton</span>));
-                }
-            )+
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>as_code_point_inversion_list_string_list(
+        <span class="kw-2">&amp;</span><span class="lifetime">'_ </span><span class="self">self</span>,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'_ </span>CodePointInversionListAndStringList&lt;<span class="lifetime">'data</span>&gt;&gt; {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            <span class="self">Self</span>::CPInversionListStrList(<span class="kw-2">ref </span>l) =&gt; <span class="prelude-val">Some</span>(l),
+            <span class="comment">// any other backing data structure that cannot return a CPInversionListStrList in O(1) time should return None
+        </span>}
+    }
 
-            <span class="comment">// Data keys that return code point map (represented as CodePointMapData).
-            // For now, synonymous with enumerated properties [of code points only].
-            </span>$(
-                <span class="attr">#[doc = <span class="macro">core::concat!</span>(<span class="string">"Data marker for the '"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"' Unicode property"</span>)]
-                #[derive(Debug, Default)]
-                #[cfg_attr(
-                    feature = <span class="string">"datagen"</span>,
-                    derive(databake::Bake),
-                    databake(path = icu_properties::provider),
-                )]
-                </span><span class="kw">pub struct </span><span class="macro-nonterminal">$code_point_map_marker</span>;
-
-                <span class="kw">impl </span>DataMarker <span class="kw">for </span><span class="macro-nonterminal">$code_point_map_marker </span>{
-                    <span class="kw">type </span>Yokeable = PropertyCodePointMapV1&lt;<span class="lifetime">'static</span>, <span class="kw">crate</span>::<span class="macro-nonterminal">$value_ty</span>&gt;;
-                }
-
-                <span class="kw">impl </span>KeyedDataMarker <span class="kw">for </span><span class="macro-nonterminal">$code_point_map_marker </span>{
-                    <span class="kw">const </span>KEY: DataKey = <span class="macro">data_key!</span>(<span class="macro">concat!</span>(<span class="string">"props/"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"@1"</span>), DataKeyMetadata::construct_internal(FallbackPriority::Language, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="bool-val">true</span>));
-                }
-
-
-                <span class="attr">#[doc = <span class="macro">core::concat!</span>(<span class="string">"Data marker for parsing the names of the values of the '"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"' Unicode property"</span>)]
-                #[derive(Debug, Default)]
-                #[cfg_attr(
-                    feature = <span class="string">"datagen"</span>,
-                    derive(databake::Bake),
-                    databake(path = icu_properties::provider),
-                )]
-                </span><span class="kw">pub struct </span><span class="macro-nonterminal">$name_value_marker</span>;
-
-                <span class="kw">impl </span>DataMarker <span class="kw">for </span><span class="macro-nonterminal">$name_value_marker </span>{
-                    <span class="kw">type </span>Yokeable = names::PropertyValueNameToEnumMapV1&lt;<span class="lifetime">'static</span>&gt;;
-                }
-
-                <span class="kw">impl </span>KeyedDataMarker <span class="kw">for </span><span class="macro-nonterminal">$name_value_marker </span>{
-                    <span class="kw">const </span>KEY: DataKey = <span class="macro">data_key!</span>(<span class="macro">concat!</span>(<span class="string">"propnames/from/"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"@1"</span>), DataKeyMetadata::construct_internal(FallbackPriority::Language, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="bool-val">true</span>));
-                }
-
-                $(
-                    <span class="attr">#[doc = <span class="macro">core::concat!</span>(<span class="string">"Data marker for producing short names of the values of the '"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"' Unicode property"</span>)]
-                    #[derive(Debug, Default)]
-                    #[cfg_attr(
-                        feature = <span class="string">"datagen"</span>,
-                        derive(databake::Bake),
-                        databake(path = icu_properties::provider),
-                    )]
-                    </span><span class="kw">pub struct </span><span class="macro-nonterminal">$value_short_name_marker_sparse</span>;
-
-                    <span class="kw">impl </span>DataMarker <span class="kw">for </span><span class="macro-nonterminal">$value_short_name_marker_sparse </span>{
-                        <span class="kw">type </span>Yokeable = names::PropertyEnumToValueNameSparseMapV1&lt;<span class="lifetime">'static</span>&gt;;
-                    }
-
-                    <span class="kw">impl </span>KeyedDataMarker <span class="kw">for </span><span class="macro-nonterminal">$value_short_name_marker_sparse </span>{
-                        <span class="kw">const </span>KEY: DataKey = <span class="macro">data_key!</span>(<span class="macro">concat!</span>(<span class="string">"propnames/to/short/sparse/"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"@1"</span>), DataKeyMetadata::construct_internal(FallbackPriority::Language, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="bool-val">true</span>));
-                    }
-
-                    <span class="attr">#[doc = <span class="macro">core::concat!</span>(<span class="string">"Data marker for producing long names of the values of the '"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"' Unicode property"</span>)]
-                    #[derive(Debug, Default)]
-                    #[cfg_attr(
-                        feature = <span class="string">"datagen"</span>,
-                        derive(databake::Bake),
-                        databake(path = icu_properties::provider),
-                    )]
-                    </span><span class="kw">pub struct </span><span class="macro-nonterminal">$value_long_name_marker_sparse</span>;
-
-                    <span class="kw">impl </span>DataMarker <span class="kw">for </span><span class="macro-nonterminal">$value_long_name_marker_sparse </span>{
-                        <span class="kw">type </span>Yokeable = names::PropertyEnumToValueNameSparseMapV1&lt;<span class="lifetime">'static</span>&gt;;
-                    }
-
-                    <span class="kw">impl </span>KeyedDataMarker <span class="kw">for </span><span class="macro-nonterminal">$value_long_name_marker_sparse </span>{
-                        <span class="kw">const </span>KEY: DataKey = <span class="macro">data_key!</span>(<span class="macro">concat!</span>(<span class="string">"propnames/to/long/sparse/"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"@1"</span>), DataKeyMetadata::construct_internal(FallbackPriority::Language, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="bool-val">true</span>));
-                    }
-                )<span class="question-mark">?
-
-                </span>$(
-                    <span class="attr">#[doc = <span class="macro">core::concat!</span>(<span class="string">"Data marker for producing short names of the values of the '"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"' Unicode property"</span>)]
-                    #[derive(Debug, Default)]
-                    #[cfg_attr(
-                        feature = <span class="string">"datagen"</span>,
-                        derive(databake::Bake),
-                        databake(path = icu_properties::provider),
-                    )]
-                    </span><span class="kw">pub struct </span><span class="macro-nonterminal">$value_short_name_marker_linear</span>;
-
-                    <span class="kw">impl </span>DataMarker <span class="kw">for </span><span class="macro-nonterminal">$value_short_name_marker_linear </span>{
-                        <span class="kw">type </span>Yokeable = names::PropertyEnumToValueNameLinearMapV1&lt;<span class="lifetime">'static</span>&gt;;
-                    }
-
-                    <span class="kw">impl </span>KeyedDataMarker <span class="kw">for </span><span class="macro-nonterminal">$value_short_name_marker_linear </span>{
-                        <span class="kw">const </span>KEY: DataKey = <span class="macro">data_key!</span>(<span class="macro">concat!</span>(<span class="string">"propnames/to/short/linear/"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"@1"</span>), DataKeyMetadata::construct_internal(FallbackPriority::Language, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="bool-val">true</span>));
-                    }
-
-                    <span class="attr">#[doc = <span class="macro">core::concat!</span>(<span class="string">"Data marker for producing long names of the values of the '"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"' Unicode property"</span>)]
-                    #[derive(Debug, Default)]
-                    #[cfg_attr(
-                        feature = <span class="string">"datagen"</span>,
-                        derive(databake::Bake),
-                        databake(path = icu_properties::provider),
-                    )]
-                    </span><span class="kw">pub struct </span><span class="macro-nonterminal">$value_long_name_marker_linear</span>;
-
-                    <span class="kw">impl </span>DataMarker <span class="kw">for </span><span class="macro-nonterminal">$value_long_name_marker_linear </span>{
-                        <span class="kw">type </span>Yokeable = names::PropertyEnumToValueNameLinearMapV1&lt;<span class="lifetime">'static</span>&gt;;
-                    }
-
-                    <span class="kw">impl </span>KeyedDataMarker <span class="kw">for </span><span class="macro-nonterminal">$value_long_name_marker_linear </span>{
-                        <span class="kw">const </span>KEY: DataKey = <span class="macro">data_key!</span>(<span class="macro">concat!</span>(<span class="string">"propnames/to/long/linear/"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"@1"</span>), DataKeyMetadata::construct_internal(FallbackPriority::Language, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="bool-val">true</span>));
-                    }
-                )<span class="question-mark">?
-
-                </span>$(
-                    <span class="attr">#[doc = <span class="macro">core::concat!</span>(<span class="string">"Data marker for producing short names of the values of the '"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"' Unicode property"</span>)]
-                    #[derive(Debug, Default)]
-                    #[cfg_attr(
-                        feature = <span class="string">"datagen"</span>,
-                        derive(databake::Bake),
-                        databake(path = icu_properties::provider),
-                    )]
-                    </span><span class="kw">pub struct </span><span class="macro-nonterminal">$value_short_name_marker_linear4</span>;
-
-                    <span class="kw">impl </span>DataMarker <span class="kw">for </span><span class="macro-nonterminal">$value_short_name_marker_linear4 </span>{
-                        <span class="kw">type </span>Yokeable = names::PropertyEnumToValueNameLinearTiny4MapV1&lt;<span class="lifetime">'static</span>&gt;;
-                    }
-
-                    <span class="kw">impl </span>KeyedDataMarker <span class="kw">for </span><span class="macro-nonterminal">$value_short_name_marker_linear4 </span>{
-                        <span class="kw">const </span>KEY: DataKey = <span class="macro">data_key!</span>(<span class="macro">concat!</span>(<span class="string">"propnames/to/short/linear4/"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"@1"</span>), DataKeyMetadata::construct_internal(FallbackPriority::Language, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="bool-val">true</span>));
-                    }
-
-                    <span class="attr">#[doc = <span class="macro">core::concat!</span>(<span class="string">"Data marker for producing long names of the values of the '"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"' Unicode property"</span>)]
-                    #[derive(Debug, Default)]
-                    #[cfg_attr(
-                        feature = <span class="string">"datagen"</span>,
-                        derive(databake::Bake),
-                        databake(path = icu_properties::provider),
-                    )]
-                    </span><span class="kw">pub struct </span><span class="macro-nonterminal">$value_long_name_marker_linear4</span>;
-
-                    <span class="kw">impl </span>DataMarker <span class="kw">for </span><span class="macro-nonterminal">$value_long_name_marker_linear4 </span>{
-                        <span class="comment">// Tiny4 is only for short names
-                        </span><span class="kw">type </span>Yokeable = names::PropertyEnumToValueNameLinearMapV1&lt;<span class="lifetime">'static</span>&gt;;
-                    }
-
-                    <span class="kw">impl </span>KeyedDataMarker <span class="kw">for </span><span class="macro-nonterminal">$value_long_name_marker_linear4 </span>{
-                        <span class="kw">const </span>KEY: DataKey = <span class="macro">data_key!</span>(<span class="macro">concat!</span>(<span class="string">"propnames/to/long/linear/"</span>, <span class="macro-nonterminal">$enum_s</span>, <span class="string">"@1"</span>), DataKeyMetadata::construct_internal(FallbackPriority::Language, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>, <span class="bool-val">true</span>));
-                    }
-                )<span class="question-mark">?
-            </span>)+
-
-        <span class="doccomment">/// All data keys in this module.
-        </span><span class="kw">pub const </span>KEYS: <span class="kw-2">&amp;</span>[DataKey] = <span class="kw-2">&amp;</span>[
-            $(<span class="macro-nonterminal">$code_point_set_marker::KEY</span>,)+
-            $(<span class="macro-nonterminal">$unicode_set_marker::KEY</span>,)+
-            $(
-                <span class="macro-nonterminal">$code_point_map_marker::KEY</span>,
-                <span class="macro-nonterminal">$name_value_marker::KEY</span>,
-                $(<span class="macro-nonterminal">$value_short_name_marker_sparse::KEY</span>, <span class="macro-nonterminal">$value_long_name_marker_sparse::KEY</span>,)<span class="question-mark">?
-                </span>$(<span class="macro-nonterminal">$value_short_name_marker_linear::KEY</span>, <span class="macro-nonterminal">$value_long_name_marker_linear::KEY</span>,)<span class="question-mark">?
-                </span>$(<span class="macro-nonterminal">$value_short_name_marker_linear4::KEY</span>, <span class="macro-nonterminal">$value_long_name_marker_linear4::KEY</span>,)<span class="question-mark">?
-            </span>)+
-            bidi_data::BidiAuxiliaryPropertiesV1Marker::KEY,
-            GeneralCategoryMaskNameToValueV1Marker::KEY,
-            ScriptWithExtensionsPropertyV1Marker::KEY,
-        ];
-    };
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>to_code_point_inversion_list_string_list(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+    ) -&gt; CodePointInversionListAndStringList&lt;<span class="lifetime">'_</span>&gt; {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            <span class="self">Self</span>::CPInversionListStrList(<span class="kw-2">ref </span>t) =&gt; ZeroFrom::zero_from(t),
+        }
+    }
 }
 
-<span class="kw">pub use </span><span class="self">self</span>::names::GeneralCategoryMaskNameToValueV1Marker;
+<span class="doccomment">/// A struct that efficiently stores `Script` and `Script_Extensions` property data.
+///
+/// &lt;div class="stab unstable"&gt;
+/// 🚧 This code is considered unstable; it may change at any time, in breaking or non-breaking ways,
+/// including in SemVer minor releases. While the serde representation of data structs is guaranteed
+/// to be stable, their Rust representation might not be. Use with caution.
+/// &lt;/div&gt;
+</span><span class="attr">#[derive(Debug, Eq, PartialEq, Clone, yoke::Yokeable, zerofrom::ZeroFrom)]
+#[cfg_attr(feature = <span class="string">"datagen"</span>, derive(serde::Serialize, databake::Bake))]
+#[cfg_attr(feature = <span class="string">"datagen"</span>, databake(path = icu_properties::provider))]
+#[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Deserialize))]
+</span><span class="kw">pub struct </span>ScriptWithExtensionsProperty&lt;<span class="lifetime">'data</span>&gt; {
+    <span class="doccomment">/// Note: The `ScriptWithExt` values in this array will assume a 12-bit layout. The 2
+    /// higher order bits 11..10 will indicate how to deduce the Script value and
+    /// Script_Extensions value, nearly matching the representation
+    /// [in ICU](https://github.com/unicode-org/icu/blob/main/icu4c/source/common/uprops.h):
+    ///
+    /// | High order 2 bits value | Script                                                 | Script_Extensions                                              |
+    /// |-------------------------|--------------------------------------------------------|----------------------------------------------------------------|
+    /// | 3                       | First value in sub-array, index given by lower 10 bits | Sub-array excluding first value, index given by lower 10 bits  |
+    /// | 2                       | Script=Inherited                                       | Entire sub-array, index given by lower 10 bits                 |
+    /// | 1                       | Script=Common                                          | Entire sub-array, index given by lower 10 bits                 |
+    /// | 0                       | Value in lower 10 bits                                 | `[ Script value ]` single-element array                        |
+    ///
+    /// When the lower 10 bits of the value are used as an index, that index is
+    /// used for the outer-level vector of the nested `extensions` structure.
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"serde"</span>, serde(borrow))]
+    </span><span class="kw">pub </span>trie: CodePointTrie&lt;<span class="lifetime">'data</span>, ScriptWithExt&gt;,
 
-<span class="macro">expand!</span>(
-    (
-        <span class="comment">// code point sets
-        </span>(AsciiHexDigitV1Marker, <span class="string">"AHex"</span>),
-        (AlnumV1Marker, <span class="string">"alnum"</span>),
-        (AlphabeticV1Marker, <span class="string">"Alpha"</span>),
-        (BidiControlV1Marker, <span class="string">"Bidi_C"</span>),
-        (BidiMirroredV1Marker, <span class="string">"Bidi_M"</span>),
-        (BlankV1Marker, <span class="string">"blank"</span>),
-        (CasedV1Marker, <span class="string">"Cased"</span>),
-        (CaseIgnorableV1Marker, <span class="string">"CI"</span>),
-        (FullCompositionExclusionV1Marker, <span class="string">"Comp_Ex"</span>),
-        (ChangesWhenCasefoldedV1Marker, <span class="string">"CWCF"</span>),
-        (ChangesWhenCasemappedV1Marker, <span class="string">"CWCM"</span>),
-        (ChangesWhenNfkcCasefoldedV1Marker, <span class="string">"CWKCF"</span>),
-        (ChangesWhenLowercasedV1Marker, <span class="string">"CWL"</span>),
-        (ChangesWhenTitlecasedV1Marker, <span class="string">"CWT"</span>),
-        (ChangesWhenUppercasedV1Marker, <span class="string">"CWU"</span>),
-        (DashV1Marker, <span class="string">"Dash"</span>),
-        (DeprecatedV1Marker, <span class="string">"Dep"</span>),
-        (DefaultIgnorableCodePointV1Marker, <span class="string">"DI"</span>),
-        (DiacriticV1Marker, <span class="string">"Dia"</span>),
-        (EmojiModifierBaseV1Marker, <span class="string">"EBase"</span>),
-        (EmojiComponentV1Marker, <span class="string">"EComp"</span>),
-        (EmojiModifierV1Marker, <span class="string">"EMod"</span>),
-        (EmojiV1Marker, <span class="string">"Emoji"</span>),
-        (EmojiPresentationV1Marker, <span class="string">"EPres"</span>),
-        (ExtenderV1Marker, <span class="string">"Ext"</span>),
-        (ExtendedPictographicV1Marker, <span class="string">"ExtPict"</span>),
-        (GraphV1Marker, <span class="string">"graph"</span>),
-        (GraphemeBaseV1Marker, <span class="string">"Gr_Base"</span>),
-        (GraphemeExtendV1Marker, <span class="string">"Gr_Ext"</span>),
-        (GraphemeLinkV1Marker, <span class="string">"Gr_Link"</span>),
-        (HexDigitV1Marker, <span class="string">"Hex"</span>),
-        (HyphenV1Marker, <span class="string">"Hyphen"</span>),
-        (IdContinueV1Marker, <span class="string">"IDC"</span>),
-        (IdeographicV1Marker, <span class="string">"Ideo"</span>),
-        (IdStartV1Marker, <span class="string">"IDS"</span>),
-        (IdsBinaryOperatorV1Marker, <span class="string">"IDSB"</span>),
-        (IdsTrinaryOperatorV1Marker, <span class="string">"IDST"</span>),
-        (JoinControlV1Marker, <span class="string">"Join_C"</span>),
-        (LogicalOrderExceptionV1Marker, <span class="string">"LOE"</span>),
-        (LowercaseV1Marker, <span class="string">"Lower"</span>),
-        (MathV1Marker, <span class="string">"Math"</span>),
-        (NoncharacterCodePointV1Marker, <span class="string">"NChar"</span>),
-        (NfcInertV1Marker, <span class="string">"nfcinert"</span>),
-        (NfdInertV1Marker, <span class="string">"nfdinert"</span>),
-        (NfkcInertV1Marker, <span class="string">"nfkcinert"</span>),
-        (NfkdInertV1Marker, <span class="string">"nfkdinert"</span>),
-        (PatternSyntaxV1Marker, <span class="string">"Pat_Syn"</span>),
-        (PatternWhiteSpaceV1Marker, <span class="string">"Pat_WS"</span>),
-        (PrependedConcatenationMarkV1Marker, <span class="string">"PCM"</span>),
-        (PrintV1Marker, <span class="string">"print"</span>),
-        (QuotationMarkV1Marker, <span class="string">"QMark"</span>),
-        (RadicalV1Marker, <span class="string">"Radical"</span>),
-        (RegionalIndicatorV1Marker, <span class="string">"RI"</span>),
-        (SoftDottedV1Marker, <span class="string">"SD"</span>),
-        (SegmentStarterV1Marker, <span class="string">"segstart"</span>),
-        (CaseSensitiveV1Marker, <span class="string">"Sensitive"</span>),
-        (SentenceTerminalV1Marker, <span class="string">"STerm"</span>),
-        (TerminalPunctuationV1Marker, <span class="string">"Term"</span>),
-        (UnifiedIdeographV1Marker, <span class="string">"UIdeo"</span>),
-        (UppercaseV1Marker, <span class="string">"Upper"</span>),
-        (VariationSelectorV1Marker, <span class="string">"VS"</span>),
-        (WhiteSpaceV1Marker, <span class="string">"WSpace"</span>),
-        (XdigitV1Marker, <span class="string">"xdigit"</span>),
-        (XidContinueV1Marker, <span class="string">"XIDC"</span>),
-        (XidStartV1Marker, <span class="string">"XIDS"</span>),
-    ),
-    (
-        <span class="comment">// UnicodeSets (code points + strings)
-        </span>(BasicEmojiV1Marker, <span class="string">"Basic_Emoji"</span>, <span class="bool-val">true</span>),
-        (ExemplarCharactersMainV1Marker, <span class="string">"exemplarchars/main"</span>, <span class="bool-val">false</span>),
-        (
-            ExemplarCharactersAuxiliaryV1Marker,
-            <span class="string">"exemplarchars/auxiliary"</span>,
-            <span class="bool-val">false
-        </span>),
-        (
-            ExemplarCharactersPunctuationV1Marker,
-            <span class="string">"exemplarchars/punctuation"</span>,
-            <span class="bool-val">false
-        </span>),
-        (
-            ExemplarCharactersNumbersV1Marker,
-            <span class="string">"exemplarchars/numbers"</span>,
-            <span class="bool-val">false
-        </span>),
-        (
-            ExemplarCharactersIndexV1Marker,
-            <span class="string">"exemplarchars/index"</span>,
-            <span class="bool-val">false
-        </span>),
-    ),
-    (
-        <span class="comment">// code point maps
-        </span>(
-            CanonicalCombiningClassV1Marker,
-            CanonicalCombiningClassNameToValueV1Marker,
-            (
-                sparse: CanonicalCombiningClassValueToShortNameV1Marker,
-                CanonicalCombiningClassValueToLongNameV1Marker
-            ),
-            <span class="string">"ccc"</span>,
-            CanonicalCombiningClass
-        ),
-        (
-            GeneralCategoryV1Marker,
-            GeneralCategoryNameToValueV1Marker,
-            (
-                linear: GeneralCategoryValueToShortNameV1Marker,
-                GeneralCategoryValueToLongNameV1Marker
-            ),
-            <span class="string">"gc"</span>,
-            GeneralCategory
-        ),
-        (
-            BidiClassV1Marker,
-            BidiClassNameToValueV1Marker,
-            (
-                linear: BidiClassValueToShortNameV1Marker,
-                BidiClassValueToLongNameV1Marker
-            ),
-            <span class="string">"bc"</span>,
-            BidiClass
-        ),
-        (
-            ScriptV1Marker,
-            ScriptNameToValueV1Marker,
-            (
-                linear4: ScriptValueToShortNameV1Marker,
-                ScriptValueToLongNameV1Marker
-            ),
-            <span class="string">"sc"</span>,
-            Script
-        ),
-        (
-            HangulSyllableTypeV1Marker,
-            HangulSyllableTypeNameToValueV1Marker,
-            (
-                linear: HangulSyllableTypeValueToShortNameV1Marker,
-                HangulSyllableTypeValueToLongNameV1Marker
-            ),
-            <span class="string">"hst"</span>,
-            HangulSyllableType
-        ),
-        (
-            EastAsianWidthV1Marker,
-            EastAsianWidthNameToValueV1Marker,
-            (
-                linear: EastAsianWidthValueToShortNameV1Marker,
-                EastAsianWidthValueToLongNameV1Marker
-            ),
-            <span class="string">"ea"</span>,
-            EastAsianWidth
-        ),
-        (
-            LineBreakV1Marker,
-            LineBreakNameToValueV1Marker,
-            (
-                linear: LineBreakValueToShortNameV1Marker,
-                LineBreakValueToLongNameV1Marker
-            ),
-            <span class="string">"lb"</span>,
-            LineBreak
-        ),
-        (
-            GraphemeClusterBreakV1Marker,
-            GraphemeClusterBreakNameToValueV1Marker,
-            (
-                linear: GraphemeClusterBreakValueToShortNameV1Marker,
-                GraphemeClusterBreakValueToLongNameV1Marker
-            ),
-            <span class="string">"GCB"</span>,
-            GraphemeClusterBreak
-        ),
-        (
-            WordBreakV1Marker,
-            WordBreakNameToValueV1Marker,
-            (
-                linear: WordBreakValueToShortNameV1Marker,
-                WordBreakValueToLongNameV1Marker
-            ),
-            <span class="string">"WB"</span>,
-            WordBreak
-        ),
-        (
-            SentenceBreakV1Marker,
-            SentenceBreakNameToValueV1Marker,
-            (
-                linear: SentenceBreakValueToShortNameV1Marker,
-                SentenceBreakValueToLongNameV1Marker
-            ),
-            <span class="string">"SB"</span>,
-            SentenceBreak
-        ),
-        (
-            IndicSyllabicCategoryV1Marker,
-            IndicSyllabicCategoryNameToValueV1Marker,
-            (
-                linear: IndicSyllabicCategoryValueToShortNameV1Marker,
-                IndicSyllabicCategoryValueToLongNameV1Marker
-            ),
-            <span class="string">"InSC"</span>,
-            IndicSyllabicCategory
-        ),
-        (
-            JoiningTypeV1Marker,
-            JoiningTypeNameToValueV1Marker,
-            (
-                linear: JoiningTypeValueToShortNameV1Marker,
-                JoiningTypeValueToLongNameV1Marker
-            ),
-            <span class="string">"jt"</span>,
-            JoiningType
-        ),
-        <span class="comment">// note: the names key for the GCM mask is handled above
-    </span>)
-);
+    <span class="doccomment">/// This companion structure stores Script_Extensions values, which are
+    /// themselves arrays / vectors. This structure only stores the values for
+    /// cases in which `scx(cp) != [ sc(cp) ]`. Each sub-vector is distinct. The
+    /// sub-vector represents the Script_Extensions array value for a code point,
+    /// and may also indicate Script value, as described for the `trie` field.
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"serde"</span>, serde(borrow))]
+    </span><span class="kw">pub </span>extensions: VarZeroVec&lt;<span class="lifetime">'data</span>, ZeroSlice&lt;Script&gt;&gt;,
+}
+
+<span class="macro">icu_provider::data_struct!</span>(
+    ScriptWithExtensionsProperty&lt;<span class="lifetime">'_</span>&gt;,
+    <span class="attr">#[cfg(feature = <span class="string">"datagen"</span>)]
+</span>);
 </code></pre></div></section></main></body></html>

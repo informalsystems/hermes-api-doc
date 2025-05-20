@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_provider-1.5.0/src/response.rs`."><title>response.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_provider" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_provider/</div>response.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/icu_provider-2.0.0/src/response.rs`."><title>response.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="icu_provider" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">icu_provider/</div>response.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1007,26 +1007,127 @@
 <a href="#1006" id="1006">1006</a>
 <a href="#1007" id="1007">1007</a>
 <a href="#1008" id="1008">1008</a>
-<a href="#1009" id="1009">1009</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#1009" id="1009">1009</a>
+<a href="#1010" id="1010">1010</a>
+<a href="#1011" id="1011">1011</a>
+<a href="#1012" id="1012">1012</a>
+<a href="#1013" id="1013">1013</a>
+<a href="#1014" id="1014">1014</a>
+<a href="#1015" id="1015">1015</a>
+<a href="#1016" id="1016">1016</a>
+<a href="#1017" id="1017">1017</a>
+<a href="#1018" id="1018">1018</a>
+<a href="#1019" id="1019">1019</a>
+<a href="#1020" id="1020">1020</a>
+<a href="#1021" id="1021">1021</a>
+<a href="#1022" id="1022">1022</a>
+<a href="#1023" id="1023">1023</a>
+<a href="#1024" id="1024">1024</a>
+<a href="#1025" id="1025">1025</a>
+<a href="#1026" id="1026">1026</a>
+<a href="#1027" id="1027">1027</a>
+<a href="#1028" id="1028">1028</a>
+<a href="#1029" id="1029">1029</a>
+<a href="#1030" id="1030">1030</a>
+<a href="#1031" id="1031">1031</a>
+<a href="#1032" id="1032">1032</a>
+<a href="#1033" id="1033">1033</a>
+<a href="#1034" id="1034">1034</a>
+<a href="#1035" id="1035">1035</a>
+<a href="#1036" id="1036">1036</a>
+<a href="#1037" id="1037">1037</a>
+<a href="#1038" id="1038">1038</a>
+<a href="#1039" id="1039">1039</a>
+<a href="#1040" id="1040">1040</a>
+<a href="#1041" id="1041">1041</a>
+<a href="#1042" id="1042">1042</a>
+<a href="#1043" id="1043">1043</a>
+<a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a>
+<a href="#1048" id="1048">1048</a>
+<a href="#1049" id="1049">1049</a>
+<a href="#1050" id="1050">1050</a>
+<a href="#1051" id="1051">1051</a>
+<a href="#1052" id="1052">1052</a>
+<a href="#1053" id="1053">1053</a>
+<a href="#1054" id="1054">1054</a>
+<a href="#1055" id="1055">1055</a>
+<a href="#1056" id="1056">1056</a>
+<a href="#1057" id="1057">1057</a>
+<a href="#1058" id="1058">1058</a>
+<a href="#1059" id="1059">1059</a>
+<a href="#1060" id="1060">1060</a>
+<a href="#1061" id="1061">1061</a>
+<a href="#1062" id="1062">1062</a>
+<a href="#1063" id="1063">1063</a>
+<a href="#1064" id="1064">1064</a>
+<a href="#1065" id="1065">1065</a>
+<a href="#1066" id="1066">1066</a>
+<a href="#1067" id="1067">1067</a>
+<a href="#1068" id="1068">1068</a>
+<a href="#1069" id="1069">1069</a>
+<a href="#1070" id="1070">1070</a>
+<a href="#1071" id="1071">1071</a>
+<a href="#1072" id="1072">1072</a>
+<a href="#1073" id="1073">1073</a>
+<a href="#1074" id="1074">1074</a>
+<a href="#1075" id="1075">1075</a>
+<a href="#1076" id="1076">1076</a>
+<a href="#1077" id="1077">1077</a>
+<a href="#1078" id="1078">1078</a>
+<a href="#1079" id="1079">1079</a>
+<a href="#1080" id="1080">1080</a>
+<a href="#1081" id="1081">1081</a>
+<a href="#1082" id="1082">1082</a>
+<a href="#1083" id="1083">1083</a>
+<a href="#1084" id="1084">1084</a>
+<a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
 </span><span class="kw">use </span><span class="kw">crate</span>::buf::BufferMarker;
-<span class="kw">use </span><span class="kw">crate</span>::error::{DataError, DataErrorKind};
-<span class="kw">use </span><span class="kw">crate</span>::marker::DataMarker;
-<span class="kw">use </span><span class="kw">crate</span>::request::DataLocale;
-<span class="kw">use </span>alloc::boxed::Box;
-<span class="kw">use </span>core::convert::TryFrom;
+<span class="kw">use </span><span class="kw">crate</span>::DataError;
+<span class="kw">use </span><span class="kw">crate</span>::DataLocale;
+<span class="kw">use </span><span class="kw">crate</span>::DynamicDataMarker;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>alloc::boxed::Box;
 <span class="kw">use </span>core::fmt::Debug;
 <span class="kw">use </span>core::marker::PhantomData;
-<span class="kw">use </span>core::ops::Deref;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span>core::ops::Deref;
 <span class="kw">use </span>yoke::cartable_ptr::CartableOptionPointer;
-<span class="kw">use </span>yoke::trait_hack::YokeTraitHack;
 <span class="kw">use </span>yoke::<span class="kw-2">*</span>;
 
-<span class="attr">#[cfg(not(feature = <span class="string">"sync"</span>))]
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+#[cfg(not(feature = <span class="string">"sync"</span>))]
 </span><span class="kw">use </span>alloc::rc::Rc <span class="kw">as </span>SelectedRc;
-<span class="attr">#[cfg(feature = <span class="string">"sync"</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+#[cfg(feature = <span class="string">"sync"</span>)]
 </span><span class="kw">use </span>alloc::sync::Arc <span class="kw">as </span>SelectedRc;
 
 <span class="doccomment">/// A response object containing metadata about the returned data.
@@ -1037,6 +1138,18 @@
     </span><span class="kw">pub </span>locale: <span class="prelude-ty">Option</span>&lt;DataLocale&gt;,
     <span class="doccomment">/// The format of the buffer for buffer-backed data, if known (for example, JSON).
     </span><span class="kw">pub </span>buffer_format: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::buf::BufferFormat&gt;,
+    <span class="doccomment">/// An optional checksum. This can be used to ensure consistency across different markers.
+    </span><span class="kw">pub </span>checksum: <span class="prelude-ty">Option</span>&lt;u64&gt;,
+}
+
+<span class="kw">impl </span>DataResponseMetadata {
+    <span class="doccomment">/// Sets the checksum.
+    </span><span class="kw">pub fn </span>with_checksum(<span class="self">self</span>, checksum: u64) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            checksum: <span class="prelude-val">Some</span>(checksum),
+            ..<span class="self">self
+        </span>}
+    }
 }
 
 <span class="doccomment">/// A container for data payloads returned from a data provider.
@@ -1044,7 +1157,7 @@
 /// [`DataPayload`] is built on top of the [`yoke`] framework, which allows for cheap, zero-copy
 /// operations on data via the use of self-references.
 ///
-/// The type of the data stored in [`DataPayload`] is determined by the [`DataMarker`] type parameter.
+/// The type of the data stored in [`DataPayload`] is determined by the [`DynamicDataMarker`] type parameter.
 ///
 /// ## Accessing the data
 ///
@@ -1068,20 +1181,20 @@
 ///
 /// # Examples
 ///
-/// Basic usage, using the `HelloWorldV1Marker` marker:
+/// Basic usage, using the `HelloWorldV1` marker:
 ///
 /// ```
 /// use icu_provider::hello_world::*;
 /// use icu_provider::prelude::*;
 /// use std::borrow::Cow;
 ///
-/// let payload = DataPayload::&lt;HelloWorldV1Marker&gt;::from_owned(HelloWorldV1 {
+/// let payload = DataPayload::&lt;HelloWorldV1&gt;::from_owned(HelloWorld {
 ///     message: Cow::Borrowed("Demo"),
 /// });
 ///
 /// assert_eq!("Demo", payload.get().message);
 /// ```
-</span><span class="kw">pub struct </span>DataPayload&lt;M: DataMarker&gt;(<span class="kw">pub</span>(<span class="kw">crate</span>) DataPayloadInner&lt;M&gt;);
+</span><span class="kw">pub struct </span>DataPayload&lt;M: DynamicDataMarker&gt;(<span class="kw">pub</span>(<span class="kw">crate</span>) DataPayloadInner&lt;M&gt;);
 
 <span class="doccomment">/// A container for data payloads with storage for something else.
 ///
@@ -1094,26 +1207,25 @@
 /// Create and use DataPayloadOr:
 ///
 /// ```
+/// use icu_locale_core::langid;
 /// use icu_provider::hello_world::*;
 /// use icu_provider::prelude::*;
 /// use icu_provider::DataPayloadOr;
 ///
-/// let payload: DataPayload&lt;HelloWorldV1Marker&gt; = HelloWorldProvider
+/// let response: DataResponse&lt;HelloWorldV1&gt; = HelloWorldProvider
 ///     .load(DataRequest {
-///         locale: &amp;"de".parse().unwrap(),
-///         metadata: Default::default(),
+///         id: DataIdentifierBorrowed::for_locale(&amp;langid!("de").into()),
+///         ..Default::default()
 ///     })
-///     .expect("Loading should succeed")
-///     .take_payload()
-///     .expect("Data should be present");
+///     .expect("Loading should succeed");
 ///
 /// let payload_some =
-///     DataPayloadOr::&lt;HelloWorldV1Marker, ()&gt;::from_payload(payload);
-/// let payload_none = DataPayloadOr::&lt;HelloWorldV1Marker, ()&gt;::from_other(());
+///     DataPayloadOr::&lt;HelloWorldV1, ()&gt;::from_payload(response.payload);
+/// let payload_none = DataPayloadOr::&lt;HelloWorldV1, ()&gt;::from_other(());
 ///
 /// assert_eq!(
 ///     payload_some.get(),
-///     Ok(&amp;HelloWorldV1 {
+///     Ok(&amp;HelloWorld {
 ///         message: "Hallo Welt".into()
 ///     })
 /// );
@@ -1129,40 +1241,37 @@
 ///
 /// const W: usize = size_of::&lt;usize&gt;();
 ///
-/// // SampleStruct is 3 words:
-/// # #[icu_provider::data_struct(SampleStructMarker)]
-/// # pub struct SampleStruct&lt;'data&gt;(usize, usize, &amp;'data ());
-/// assert_eq!(W * 3, size_of::&lt;SampleStruct&gt;());
+/// // Data struct is 3 words:
+/// icu_provider::data_marker!(SampleV1, [usize; 3]);
 ///
 /// // DataPayload adds a word for a total of 4 words:
-/// assert_eq!(W * 4, size_of::&lt;DataPayload&lt;SampleStructMarker&gt;&gt;());
+/// assert_eq!(W * 4, size_of::&lt;DataPayload&lt;SampleV1&gt;&gt;());
 ///
 /// // Option&lt;DataPayload&gt; balloons to 5 words:
-/// assert_eq!(W * 5, size_of::&lt;Option&lt;DataPayload&lt;SampleStructMarker&gt;&gt;&gt;());
+/// assert_eq!(W * 5, size_of::&lt;Option&lt;DataPayload&lt;SampleV1&gt;&gt;&gt;());
 ///
 /// // But, using DataPayloadOr is the same size as DataPayload:
-/// assert_eq!(W * 4, size_of::&lt;DataPayloadOr&lt;SampleStructMarker, ()&gt;&gt;());
+/// assert_eq!(W * 4, size_of::&lt;DataPayloadOr&lt;SampleV1, ()&gt;&gt;());
 ///
 /// // The largest optimized Other type is two words smaller than the DataPayload:
-/// assert_eq!(W * 4, size_of::&lt;DataPayloadOr&lt;SampleStructMarker, [usize; 1]&gt;&gt;());
-/// assert_eq!(W * 4, size_of::&lt;DataPayloadOr&lt;SampleStructMarker, [usize; 2]&gt;&gt;());
-/// assert_eq!(W * 5, size_of::&lt;DataPayloadOr&lt;SampleStructMarker, [usize; 3]&gt;&gt;());
+/// assert_eq!(W * 4, size_of::&lt;DataPayloadOr&lt;SampleV1, [usize; 1]&gt;&gt;());
+/// assert_eq!(W * 4, size_of::&lt;DataPayloadOr&lt;SampleV1, [usize; 2]&gt;&gt;());
+/// assert_eq!(W * 5, size_of::&lt;DataPayloadOr&lt;SampleV1, [usize; 3]&gt;&gt;());
 /// ```
-</span><span class="attr">#[doc(hidden)] </span><span class="comment">// TODO(#4467): establish this as an internal API
-</span><span class="kw">pub struct </span>DataPayloadOr&lt;M: DataMarker, O&gt;(<span class="kw">pub</span>(<span class="kw">crate</span>) DataPayloadOrInner&lt;M, O&gt;);
+</span><span class="kw">pub struct </span>DataPayloadOr&lt;M: DynamicDataMarker, O&gt;(<span class="kw">pub</span>(<span class="kw">crate</span>) DataPayloadOrInner&lt;M, O&gt;);
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>DataPayloadInner&lt;M: DataMarker&gt; {
-    Yoke(Yoke&lt;M::Yokeable, CartableOptionPointer&lt;CartInner&gt;&gt;),
-    StaticRef(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>M::Yokeable),
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>DataPayloadInner&lt;M: DynamicDataMarker&gt; {
+    Yoke(Yoke&lt;M::DataStruct, CartableOptionPointer&lt;CartInner&gt;&gt;),
+    StaticRef(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>M::DataStruct),
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>DataPayloadOrInner&lt;M: DataMarker, O&gt; {
-    Yoke(Yoke&lt;M::Yokeable, CartableOptionPointer&lt;CartInner&gt;&gt;),
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>DataPayloadOrInner&lt;M: DynamicDataMarker, O&gt; {
+    Yoke(Yoke&lt;M::DataStruct, CartableOptionPointer&lt;CartInner&gt;&gt;),
     Inner(DataPayloadOrInnerInner&lt;M, O&gt;),
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>DataPayloadOrInnerInner&lt;M: DataMarker, O&gt; {
-    StaticRef(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>M::Yokeable),
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>DataPayloadOrInnerInner&lt;M: DynamicDataMarker, O&gt; {
+    StaticRef(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>M::DataStruct),
     Other(O),
 }
 
@@ -1173,31 +1282,38 @@
 /// it to a [`DataPayload`] with [`DataPayload::from_yoked_buffer`].
 </span><span class="attr">#[derive(Clone, Debug)]
 #[allow(clippy::redundant_allocation)] </span><span class="comment">// false positive, it's cheaper to wrap an existing Box in an Rc than to reallocate a huge Rc
-</span><span class="kw">pub struct </span>Cart(CartInner);
+</span><span class="kw">pub struct </span>Cart(<span class="attr">#[allow(dead_code)] </span>CartInner);
 
 <span class="doccomment">/// The actual cart type (private typedef).
+</span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>CartInner = SelectedRc&lt;Box&lt;[u8]&gt;&gt;;
+<span class="attr">#[cfg(not(feature = <span class="string">"alloc"</span>))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>CartInner = <span class="kw-2">&amp;</span><span class="lifetime">'static </span>();
 
-<span class="kw">impl </span>Deref <span class="kw">for </span>Cart {
+<span class="comment">// Safety: Rc, Arc, and () are CloneableCart, and our impl delegates.
+</span><span class="kw">unsafe impl </span>yoke::CloneableCart <span class="kw">for </span>Cart {}
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl </span>Deref <span class="kw">for </span>Cart {
     <span class="kw">type </span>Target = Box&lt;[u8]&gt;;
     <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
     </span>}
 }
-<span class="comment">// Safe because both Rc and Arc are StableDeref, and our impl delegates.
+<span class="comment">// Safety: both Rc and Arc are StableDeref, and our impl delegates.
+</span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
 </span><span class="kw">unsafe impl </span>stable_deref_trait::StableDeref <span class="kw">for </span>Cart {}
-<span class="comment">// Safe because both Rc and Arc are CloneableCart, and our impl delegates.
-</span><span class="kw">unsafe impl </span>yoke::CloneableCart <span class="kw">for </span>Cart {}
 
 <span class="kw">impl </span>Cart {
-    <span class="doccomment">/// Creates a `Yoke&lt;Y, Option&lt;Cart&gt;&gt;` from owned bytes by applying `f`.
+    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="doccomment">/// Creates a `Yoke&lt;Y, Option&lt;Cart&gt;&gt;` from owned bytes by applying `f`.
     </span><span class="kw">pub fn </span>try_make_yoke&lt;Y, F, E&gt;(cart: Box&lt;[u8]&gt;, f: F) -&gt; <span class="prelude-ty">Result</span>&lt;Yoke&lt;Y, <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;&gt;, E&gt;
     <span class="kw">where
         for</span>&lt;<span class="lifetime">'a</span>&gt; Y: Yokeable&lt;<span class="lifetime">'a</span>&gt;,
         F: FnOnce(<span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;&lt;Y <span class="kw">as </span>Yokeable&gt;::Output, E&gt;,
     {
         Yoke::try_attach_to_cart(SelectedRc::new(cart), |b| f(b))
-            <span class="comment">// Safe because the cart is only wrapped
+            <span class="comment">// Safety: The cart is only wrapped, no data is leaked
             </span>.map(|yoke| <span class="kw">unsafe </span>{ yoke.replace_cart(Cart) })
             .map(Yoke::wrap_cart_in_option)
     }
@@ -1216,8 +1332,8 @@
 
 <span class="kw">impl</span>&lt;M&gt; Debug <span class="kw">for </span>DataPayload&lt;M&gt;
 <span class="kw">where
-    </span>M: DataMarker,
-    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: Debug,
+    </span>M: DynamicDataMarker,
+    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: Debug,
 {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; core::fmt::Result {
         <span class="self">self</span>.get().fmt(f)
@@ -1226,8 +1342,8 @@
 
 <span class="kw">impl</span>&lt;M, O&gt; Debug <span class="kw">for </span>DataPayloadOr&lt;M, O&gt;
 <span class="kw">where
-    </span>M: DataMarker,
-    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: Debug,
+    </span>M: DynamicDataMarker,
+    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: Debug,
     O: Debug,
 {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; core::fmt::Result {
@@ -1246,13 +1362,13 @@
 /// use icu_provider::hello_world::*;
 /// use icu_provider::prelude::*;
 ///
-/// let resp1: DataPayload&lt;HelloWorldV1Marker&gt; = todo!();
+/// let resp1: DataPayload&lt;HelloWorldV1&gt; = todo!();
 /// let resp2 = resp1.clone();
 /// ```
 </span><span class="kw">impl</span>&lt;M&gt; Clone <span class="kw">for </span>DataPayload&lt;M&gt;
 <span class="kw">where
-    </span>M: DataMarker,
-    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; YokeTraitHack&lt;&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output&gt;: Clone,
+    </span>M: DynamicDataMarker,
+    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; &lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: Clone,
 {
     <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(<span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span>{
@@ -1264,8 +1380,8 @@
 
 <span class="kw">impl</span>&lt;M, O&gt; Clone <span class="kw">for </span>DataPayloadOr&lt;M, O&gt;
 <span class="kw">where
-    </span>M: DataMarker,
-    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; YokeTraitHack&lt;&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output&gt;: Clone,
+    </span>M: DynamicDataMarker,
+    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; &lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: Clone,
     O: Clone,
 {
     <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
@@ -1283,23 +1399,22 @@
 
 <span class="kw">impl</span>&lt;M&gt; PartialEq <span class="kw">for </span>DataPayload&lt;M&gt;
 <span class="kw">where
-    </span>M: DataMarker,
-    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; YokeTraitHack&lt;&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output&gt;: PartialEq,
+    </span>M: DynamicDataMarker,
+    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; &lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: PartialEq,
 {
     <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
-        YokeTraitHack(<span class="self">self</span>.get()).into_ref() == YokeTraitHack(other.get()).into_ref()
+        <span class="self">self</span>.get() == other.get()
     }
 }
-
 <span class="kw">impl</span>&lt;M, O&gt; PartialEq <span class="kw">for </span>DataPayloadOr&lt;M, O&gt;
 <span class="kw">where
-    </span>M: DataMarker,
-    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; YokeTraitHack&lt;&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output&gt;: PartialEq,
+    </span>M: DynamicDataMarker,
+    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; &lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: PartialEq,
     O: Eq,
 {
     <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
         <span class="kw">match </span>(<span class="self">self</span>.get(), other.get()) {
-            (<span class="prelude-val">Ok</span>(x), <span class="prelude-val">Ok</span>(y)) =&gt; YokeTraitHack(x).into_ref() == YokeTraitHack(y).into_ref(),
+            (<span class="prelude-val">Ok</span>(x), <span class="prelude-val">Ok</span>(y)) =&gt; x == y,
             (<span class="prelude-val">Err</span>(x), <span class="prelude-val">Err</span>(y)) =&gt; x == y,
             <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
         }
@@ -1308,15 +1423,15 @@
 
 <span class="kw">impl</span>&lt;M&gt; Eq <span class="kw">for </span>DataPayload&lt;M&gt;
 <span class="kw">where
-    </span>M: DataMarker,
-    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; YokeTraitHack&lt;&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output&gt;: Eq,
+    </span>M: DynamicDataMarker,
+    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; &lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: Eq,
 {
 }
 
 <span class="kw">impl</span>&lt;M, O&gt; Eq <span class="kw">for </span>DataPayloadOr&lt;M, O&gt;
 <span class="kw">where
-    </span>M: DataMarker,
-    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; YokeTraitHack&lt;&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output&gt;: Eq,
+    </span>M: DynamicDataMarker,
+    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; &lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: Eq,
     O: Eq,
 {
 }
@@ -1324,22 +1439,22 @@
 <span class="attr">#[test]
 </span><span class="kw">fn </span>test_clone_eq() {
     <span class="kw">use </span><span class="kw">crate</span>::hello_world::<span class="kw-2">*</span>;
-    <span class="kw">let </span>p1 = DataPayload::&lt;HelloWorldV1Marker&gt;::from_static_str(<span class="string">"Demo"</span>);
+    <span class="kw">let </span>p1 = DataPayload::&lt;HelloWorldV1&gt;::from_static_str(<span class="string">"Demo"</span>);
     <span class="attr">#[allow(clippy::redundant_clone)]
     </span><span class="kw">let </span>p2 = p1.clone();
     <span class="macro">assert_eq!</span>(p1, p2);
 
-    <span class="kw">let </span>p1 = DataPayloadOr::&lt;HelloWorldV1Marker, usize&gt;::from_payload(p1);
+    <span class="kw">let </span>p1 = DataPayloadOr::&lt;HelloWorldV1, usize&gt;::from_payload(p1);
     <span class="attr">#[allow(clippy::redundant_clone)]
     </span><span class="kw">let </span>p2 = p1.clone();
     <span class="macro">assert_eq!</span>(p1, p2);
 
-    <span class="kw">let </span>p3 = DataPayloadOr::&lt;HelloWorldV1Marker, usize&gt;::from_other(<span class="number">555</span>);
+    <span class="kw">let </span>p3 = DataPayloadOr::&lt;HelloWorldV1, usize&gt;::from_other(<span class="number">555</span>);
     <span class="attr">#[allow(clippy::redundant_clone)]
     </span><span class="kw">let </span>p4 = p3.clone();
     <span class="macro">assert_eq!</span>(p3, p4);
 
-    <span class="kw">let </span>p5 = DataPayloadOr::&lt;HelloWorldV1Marker, usize&gt;::from_other(<span class="number">666</span>);
+    <span class="kw">let </span>p5 = DataPayloadOr::&lt;HelloWorldV1, usize&gt;::from_other(<span class="number">666</span>);
     <span class="macro">assert_ne!</span>(p3, p5);
     <span class="macro">assert_ne!</span>(p4, p5);
 
@@ -1353,7 +1468,7 @@
 
 <span class="kw">impl</span>&lt;M&gt; DataPayload&lt;M&gt;
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
 {
     <span class="doccomment">/// Convert a fully owned (`'static`) data struct into a DataPayload.
     ///
@@ -1366,36 +1481,27 @@
     /// use icu_provider::prelude::*;
     /// use std::borrow::Cow;
     ///
-    /// let local_struct = HelloWorldV1 {
+    /// let local_struct = HelloWorld {
     ///     message: Cow::Owned("example".to_owned()),
     /// };
     ///
-    /// let payload =
-    ///     DataPayload::&lt;HelloWorldV1Marker&gt;::from_owned(local_struct.clone());
+    /// let payload = DataPayload::&lt;HelloWorldV1&gt;::from_owned(local_struct.clone());
     ///
     /// assert_eq!(payload.get(), &amp;local_struct);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>from_owned(data: M::Yokeable) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>from_owned(data: M::DataStruct) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(DataPayloadInner::Yoke(
             Yoke::new_owned(data).convert_cart_into_option_pointer(),
         ))
     }
 
-    <span class="attr">#[doc(hidden)]
-    #[inline]
-    </span><span class="kw">pub const fn </span>from_static_ref(data: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>M::Yokeable) -&gt; <span class="self">Self </span>{
+    <span class="doccomment">/// Construct a [`DataPayload`] from a static reference.
+    ///
+    /// This is mainly used by databake.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub const fn </span>from_static_ref(data: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>M::DataStruct) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(DataPayloadInner::StaticRef(data))
-    }
-
-    <span class="doccomment">/// Convert a DataPayload that was created via [`DataPayload::from_owned()`] back into the
-    /// concrete type used to construct it.
-    </span><span class="kw">pub fn </span>try_unwrap_owned(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;M::Yokeable, DataError&gt; {
-        <span class="kw">match </span><span class="self">self</span>.<span class="number">0 </span>{
-            DataPayloadInner::Yoke(yoke) =&gt; yoke.try_into_yokeable().ok(),
-            DataPayloadInner::StaticRef(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
-        }
-        .ok_or(DataErrorKind::InvalidState.with_str_context(<span class="string">"try_unwrap_owned"</span>))
     }
 
     <span class="doccomment">/// Mutate the data contained in this DataPayload.
@@ -1408,11 +1514,10 @@
     /// Basic usage:
     ///
     /// ```
-    /// use icu_provider::hello_world::HelloWorldV1Marker;
+    /// use icu_provider::hello_world::HelloWorldV1;
     /// use icu_provider::prelude::*;
     ///
-    /// let mut payload =
-    ///     DataPayload::&lt;HelloWorldV1Marker&gt;::from_static_str("Hello");
+    /// let mut payload = DataPayload::&lt;HelloWorldV1&gt;::from_static_str("Hello");
     ///
     /// payload.with_mut(|s| s.message.to_mut().push_str(" World"));
     ///
@@ -1422,11 +1527,10 @@
     /// To transfer data from the context into the data struct, use the `move` keyword:
     ///
     /// ```
-    /// use icu_provider::hello_world::HelloWorldV1Marker;
+    /// use icu_provider::hello_world::HelloWorldV1;
     /// use icu_provider::prelude::*;
     ///
-    /// let mut payload =
-    ///     DataPayload::&lt;HelloWorldV1Marker&gt;::from_static_str("Hello");
+    /// let mut payload = DataPayload::&lt;HelloWorldV1&gt;::from_static_str("Hello");
     ///
     /// let suffix = " World";
     /// payload.with_mut(move |s| s.message.to_mut().push_str(suffix));
@@ -1435,8 +1539,8 @@
     /// ```
     </span><span class="kw">pub fn </span>with_mut&lt;<span class="lifetime">'a</span>, F&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="self">self</span>, f: F)
     <span class="kw">where
-        </span>F: <span class="lifetime">'static </span>+ <span class="kw">for</span>&lt;<span class="lifetime">'b</span>&gt; FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="kw-2">mut </span>&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output),
-        M::Yokeable: zerofrom::ZeroFrom&lt;<span class="lifetime">'static</span>, M::Yokeable&gt;,
+        </span>F: <span class="lifetime">'static </span>+ <span class="kw">for</span>&lt;<span class="lifetime">'b</span>&gt; FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="kw-2">mut </span>&lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output),
+        M::DataStruct: zerofrom::ZeroFrom&lt;<span class="lifetime">'static</span>, M::DataStruct&gt;,
     {
         <span class="kw">if let </span>DataPayloadInner::StaticRef(r) = <span class="self">self</span>.<span class="number">0 </span>{
             <span class="self">self</span>.<span class="number">0 </span>= DataPayloadInner::Yoke(
@@ -1458,19 +1562,31 @@
     /// # Examples
     ///
     /// ```
-    /// use icu_provider::hello_world::HelloWorldV1Marker;
+    /// use icu_provider::hello_world::HelloWorldV1;
     /// use icu_provider::prelude::*;
     ///
-    /// let payload = DataPayload::&lt;HelloWorldV1Marker&gt;::from_static_str("Demo");
+    /// let payload = DataPayload::&lt;HelloWorldV1&gt;::from_static_str("Demo");
     ///
     /// assert_eq!("Demo", payload.get().message);
     /// ```
     </span><span class="attr">#[inline]
     #[allow(clippy::needless_lifetimes)]
-    </span><span class="kw">pub fn </span>get&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output {
+    </span><span class="kw">pub fn </span>get&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output {
         <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span>{
             DataPayloadInner::Yoke(yoke) =&gt; yoke.get(),
             DataPayloadInner::StaticRef(r) =&gt; Yokeable::transform(<span class="kw-2">*</span>r),
+        }
+    }
+
+    <span class="doccomment">/// Borrows the underlying data statically if possible.
+    ///
+    /// This will succeed if [`DataPayload`] is constructed with [`DataPayload::from_static_ref`], which is used by
+    /// baked providers.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>get_static(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>&lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'static</span>&gt;&gt;::Output&gt; {
+        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span>{
+            DataPayloadInner::Yoke(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
+            DataPayloadInner::StaticRef(r) =&gt; <span class="prelude-val">Some</span>(Yokeable::transform(<span class="kw-2">*</span>r)),
         }
     }
 
@@ -1489,22 +1605,22 @@
     ///
     /// # Examples
     ///
-    /// Map from `HelloWorldV1` to a `Cow&lt;str&gt;` containing just the message:
+    /// Map from `HelloWorld` to a `Cow&lt;str&gt;` containing just the message:
     ///
     /// ```
     /// use icu_provider::hello_world::*;
     /// use icu_provider::prelude::*;
     /// use std::borrow::Cow;
     ///
-    /// // A custom marker type is required when using `map_project`. The Yokeable should be the
+    /// // A custom marker type is required when using `map_project`. The DataStruct should be the
     /// // target type, and the Cart should correspond to the type being transformed.
     ///
     /// struct HelloWorldV1MessageMarker;
-    /// impl DataMarker for HelloWorldV1MessageMarker {
-    ///     type Yokeable = Cow&lt;'static, str&gt;;
+    /// impl DynamicDataMarker for HelloWorldV1MessageMarker {
+    ///     type DataStruct = Cow&lt;'static, str&gt;;
     /// }
     ///
-    /// let p1: DataPayload&lt;HelloWorldV1Marker&gt; = DataPayload::from_owned(HelloWorldV1 {
+    /// let p1: DataPayload&lt;HelloWorldV1&gt; = DataPayload::from_owned(HelloWorld {
     ///     message: Cow::Borrowed("Hello World"),
     /// });
     ///
@@ -1518,12 +1634,12 @@
     </span><span class="attr">#[allow(clippy::type_complexity)]
     </span><span class="kw">pub fn </span>map_project&lt;M2, F&gt;(<span class="self">self</span>, f: F) -&gt; DataPayload&lt;M2&gt;
     <span class="kw">where
-        </span>M2: DataMarker,
+        </span>M2: DynamicDataMarker,
         F: <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; FnOnce(
-            &lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output,
+            &lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output,
             PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>()&gt;,
-        ) -&gt; &lt;M2::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output,
-        M::Yokeable: zerofrom::ZeroFrom&lt;<span class="lifetime">'static</span>, M::Yokeable&gt;,
+        ) -&gt; &lt;M2::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output,
+        M::DataStruct: zerofrom::ZeroFrom&lt;<span class="lifetime">'static</span>, M::DataStruct&gt;,
     {
         DataPayload(DataPayloadInner::Yoke(
             <span class="kw">match </span><span class="self">self</span>.<span class="number">0 </span>{
@@ -1547,14 +1663,13 @@
     /// # use icu_provider::prelude::*;
     /// # use std::borrow::Cow;
     /// # struct HelloWorldV1MessageMarker;
-    /// # impl DataMarker for HelloWorldV1MessageMarker {
-    /// #     type Yokeable = Cow&lt;'static, str&gt;;
+    /// # impl DynamicDataMarker for HelloWorldV1MessageMarker {
+    /// #     type DataStruct = Cow&lt;'static, str&gt;;
     /// # }
     ///
-    /// let p1: DataPayload&lt;HelloWorldV1Marker&gt; =
-    ///     DataPayload::from_owned(HelloWorldV1 {
-    ///         message: Cow::Borrowed("Hello World"),
-    ///     });
+    /// let p1: DataPayload&lt;HelloWorldV1&gt; = DataPayload::from_owned(HelloWorld {
+    ///     message: Cow::Borrowed("Hello World"),
+    /// });
     ///
     /// assert_eq!("Hello World", p1.get().message);
     ///
@@ -1567,21 +1682,21 @@
     </span><span class="attr">#[allow(clippy::type_complexity)]
     </span><span class="kw">pub fn </span>map_project_cloned&lt;<span class="lifetime">'this</span>, M2, F&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'this </span><span class="self">self</span>, f: F) -&gt; DataPayload&lt;M2&gt;
     <span class="kw">where
-        </span>M2: DataMarker,
+        </span>M2: DynamicDataMarker,
         F: <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; FnOnce(
-            <span class="kw-2">&amp;</span><span class="lifetime">'this </span>&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output,
+            <span class="kw-2">&amp;</span><span class="lifetime">'this </span>&lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output,
             PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>()&gt;,
-        ) -&gt; &lt;M2::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output,
+        ) -&gt; &lt;M2::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output,
     {
         DataPayload(DataPayloadInner::Yoke(<span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span>{
             DataPayloadInner::Yoke(yoke) =&gt; yoke.map_project_cloned(f),
             DataPayloadInner::StaticRef(r) =&gt; {
-                <span class="kw">let </span>output: &lt;M2::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'static</span>&gt;&gt;::Output =
+                <span class="kw">let </span>output: &lt;M2::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'static</span>&gt;&gt;::Output =
                     f(Yokeable::transform(<span class="kw-2">*</span>r), PhantomData);
                 <span class="comment">// Safety: &lt;M2::Yokeable as Yokeable&lt;'static&gt;&gt;::Output is the same type as M2::Yokeable;
                 // we're going from 'static to 'static, however in a generic context it's not
                 // clear to the compiler that that is the case. We have to use the unsafe make API to do this.
-                </span><span class="kw">let </span>yokeable: M2::Yokeable = <span class="kw">unsafe </span>{ M2::Yokeable::make(output) };
+                </span><span class="kw">let </span>yokeable: M2::DataStruct = <span class="kw">unsafe </span>{ M2::DataStruct::make(output) };
                 Yoke::new_owned(yokeable).convert_cart_into_option_pointer()
             }
         }))
@@ -1599,14 +1714,13 @@
     /// # use icu_provider::prelude::*;
     /// # use std::borrow::Cow;
     /// # struct HelloWorldV1MessageMarker;
-    /// # impl DataMarker for HelloWorldV1MessageMarker {
-    /// #     type Yokeable = Cow&lt;'static, str&gt;;
+    /// # impl DynamicDataMarker for HelloWorldV1MessageMarker {
+    /// #     type DataStruct = Cow&lt;'static, str&gt;;
     /// # }
     ///
-    /// let p1: DataPayload&lt;HelloWorldV1Marker&gt; =
-    ///     DataPayload::from_owned(HelloWorldV1 {
-    ///         message: Cow::Borrowed("Hello World"),
-    ///     });
+    /// let p1: DataPayload&lt;HelloWorldV1&gt; = DataPayload::from_owned(HelloWorld {
+    ///     message: Cow::Borrowed("Hello World"),
+    /// });
     ///
     /// assert_eq!("Hello World", p1.get().message);
     ///
@@ -1626,12 +1740,12 @@
     </span><span class="attr">#[allow(clippy::type_complexity)]
     </span><span class="kw">pub fn </span>try_map_project&lt;M2, F, E&gt;(<span class="self">self</span>, f: F) -&gt; <span class="prelude-ty">Result</span>&lt;DataPayload&lt;M2&gt;, E&gt;
     <span class="kw">where
-        </span>M2: DataMarker,
+        </span>M2: DynamicDataMarker,
         F: <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; FnOnce(
-            &lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output,
+            &lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output,
             PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>()&gt;,
-        ) -&gt; <span class="prelude-ty">Result</span>&lt;&lt;M2::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output, E&gt;,
-        M::Yokeable: zerofrom::ZeroFrom&lt;<span class="lifetime">'static</span>, M::Yokeable&gt;,
+        ) -&gt; <span class="prelude-ty">Result</span>&lt;&lt;M2::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output, E&gt;,
+        M::DataStruct: zerofrom::ZeroFrom&lt;<span class="lifetime">'static</span>, M::DataStruct&gt;,
     {
         <span class="prelude-val">Ok</span>(DataPayload(DataPayloadInner::Yoke(
             <span class="kw">match </span><span class="self">self</span>.<span class="number">0 </span>{
@@ -1655,14 +1769,13 @@
     /// # use icu_provider::prelude::*;
     /// # use std::borrow::Cow;
     /// # struct HelloWorldV1MessageMarker;
-    /// # impl DataMarker for HelloWorldV1MessageMarker {
-    /// #     type Yokeable = Cow&lt;'static, str&gt;;
+    /// # impl DynamicDataMarker for HelloWorldV1MessageMarker {
+    /// #     type DataStruct = Cow&lt;'static, str&gt;;
     /// # }
     ///
-    /// let p1: DataPayload&lt;HelloWorldV1Marker&gt; =
-    ///     DataPayload::from_owned(HelloWorldV1 {
-    ///         message: Cow::Borrowed("Hello World"),
-    ///     });
+    /// let p1: DataPayload&lt;HelloWorldV1&gt; = DataPayload::from_owned(HelloWorld {
+    ///     message: Cow::Borrowed("Hello World"),
+    /// });
     ///
     /// assert_eq!("Hello World", p1.get().message);
     ///
@@ -1685,30 +1798,31 @@
     </span><span class="attr">#[allow(clippy::type_complexity)]
     </span><span class="kw">pub fn </span>try_map_project_cloned&lt;<span class="lifetime">'this</span>, M2, F, E&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'this </span><span class="self">self</span>, f: F) -&gt; <span class="prelude-ty">Result</span>&lt;DataPayload&lt;M2&gt;, E&gt;
     <span class="kw">where
-        </span>M2: DataMarker,
+        </span>M2: DynamicDataMarker,
         F: <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; FnOnce(
-            <span class="kw-2">&amp;</span><span class="lifetime">'this </span>&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output,
+            <span class="kw-2">&amp;</span><span class="lifetime">'this </span>&lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output,
             PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>()&gt;,
-        ) -&gt; <span class="prelude-ty">Result</span>&lt;&lt;M2::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output, E&gt;,
+        ) -&gt; <span class="prelude-ty">Result</span>&lt;&lt;M2::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output, E&gt;,
     {
         <span class="prelude-val">Ok</span>(DataPayload(DataPayloadInner::Yoke(<span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span>{
             DataPayloadInner::Yoke(yoke) =&gt; yoke.try_map_project_cloned(f)<span class="question-mark">?</span>,
             DataPayloadInner::StaticRef(r) =&gt; {
-                <span class="kw">let </span>output: &lt;M2::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'static</span>&gt;&gt;::Output =
+                <span class="kw">let </span>output: &lt;M2::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'static</span>&gt;&gt;::Output =
                     f(Yokeable::transform(<span class="kw-2">*</span>r), PhantomData)<span class="question-mark">?</span>;
-                <span class="comment">// Safety: &lt;M2::Yokeable as Yokeable&lt;'static&gt;&gt;::Output is the same type as M2::Yokeable
-                </span>Yoke::new_owned(<span class="kw">unsafe </span>{ M2::Yokeable::make(output) })
+                <span class="comment">// Safety: &lt;M2::Yokeable as Yokeable&lt;'static&gt;&gt;::Output is the same type as M2::Yokeable,
+                // and `output` is `'static` so there are no lifetimes to manage for `make()`
+                </span>Yoke::new_owned(<span class="kw">unsafe </span>{ M2::DataStruct::make(output) })
                     .convert_cart_into_option_pointer()
             }
         })))
     }
 
-    <span class="doccomment">/// Convert between two [`DataMarker`] types that are compatible with each other
+    <span class="doccomment">/// Convert between two [`DynamicDataMarker`] types that are compatible with each other
     /// with compile-time type checking.
     ///
-    /// This happens if they both have the same [`DataMarker::Yokeable`] type.
+    /// This happens if they both have the same [`DynamicDataMarker::DataStruct`] type.
     ///
-    /// Can be used to erase the key of a data payload in cases where multiple keys correspond
+    /// Can be used to erase the marker of a data payload in cases where multiple markers correspond
     /// to the same data struct.
     ///
     /// For runtime dynamic casting, use [`DataPayload::dynamic_cast_mut()`].
@@ -1719,23 +1833,117 @@
     /// use icu_provider::hello_world::*;
     /// use icu_provider::prelude::*;
     ///
-    /// struct CustomHelloWorldV1Marker;
-    /// impl DataMarker for CustomHelloWorldV1Marker {
-    ///     type Yokeable = HelloWorldV1&lt;'static&gt;;
+    /// struct CustomHelloWorldV1;
+    /// impl DynamicDataMarker for CustomHelloWorldV1 {
+    ///     type DataStruct = HelloWorld&lt;'static&gt;;
     /// }
     ///
-    /// let hello_world: DataPayload&lt;HelloWorldV1Marker&gt; = todo!();
-    /// let custom: DataPayload&lt;CustomHelloWorldV1Marker&gt; = hello_world.cast();
+    /// let hello_world: DataPayload&lt;HelloWorldV1&gt; = todo!();
+    /// let custom: DataPayload&lt;CustomHelloWorldV1&gt; = hello_world.cast();
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>cast&lt;M2&gt;(<span class="self">self</span>) -&gt; DataPayload&lt;M2&gt;
     <span class="kw">where
-        </span>M2: DataMarker&lt;Yokeable = M::Yokeable&gt;,
+        </span>M2: DynamicDataMarker&lt;DataStruct = M::DataStruct&gt;,
     {
         DataPayload(<span class="kw">match </span><span class="self">self</span>.<span class="number">0 </span>{
             DataPayloadInner::Yoke(yoke) =&gt; DataPayloadInner::Yoke(yoke),
             DataPayloadInner::StaticRef(r) =&gt; DataPayloadInner::StaticRef(r),
         })
+    }
+
+    <span class="doccomment">/// Convert between two [`DynamicDataMarker`] types that are compatible with each other
+    /// with compile-time type checking.
+    ///
+    /// This happens if they both have the same [`DynamicDataMarker::DataStruct`] type.
+    ///
+    /// Can be used to erase the marker of a data payload in cases where multiple markers correspond
+    /// to the same data struct.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>cast_ref&lt;M2&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>DataPayload&lt;M2&gt;
+    <span class="kw">where
+        </span>M2: DynamicDataMarker&lt;DataStruct = M::DataStruct&gt;,
+    {
+        <span class="comment">// SAFETY: As seen in the implementation of `cast`, the struct is the same, it's just the generic that changes.
+        </span><span class="kw">unsafe </span>{ core::mem::transmute(<span class="self">self</span>) }
+    }
+
+    <span class="doccomment">/// Convert a [`DataPayload`] to one of the same type with runtime type checking.
+    ///
+    /// Primarily useful to convert from a generic to a concrete marker type.
+    ///
+    /// If the `M2` type argument does not match the true marker type, a `DataError` is returned.
+    ///
+    /// For compile-time static casting, use [`DataPayload::cast()`].
+    ///
+    /// # Examples
+    ///
+    /// Short-circuit a data request request based on the marker, returning
+    /// a result from a different data provider:
+    ///
+    /// ```
+    /// use core::any::TypeId;
+    /// use icu_locale_core::locale;
+    /// use icu_provider::hello_world::*;
+    /// use icu_provider::prelude::*;
+    /// use icu_provider_adapters::empty::EmptyDataProvider;
+    /// use std::borrow::Cow;
+    ///
+    /// struct MyForkingProvider&lt;P0, P1&gt; {
+    ///     fallback_provider: P0,
+    ///     hello_world_provider: P1,
+    /// }
+    ///
+    /// impl&lt;M, P0, P1&gt; DataProvider&lt;M&gt; for MyForkingProvider&lt;P0, P1&gt;
+    /// where
+    ///     M: DataMarker,
+    ///     P0: DataProvider&lt;M&gt;,
+    ///     P1: DataProvider&lt;HelloWorldV1&gt;,
+    /// {
+    ///     #[inline]
+    ///     fn load(&amp;self, req: DataRequest) -&gt; Result&lt;DataResponse&lt;M&gt;, DataError&gt; {
+    ///         if TypeId::of::&lt;HelloWorldV1&gt;() == TypeId::of::&lt;M&gt;() {
+    ///             let response = DataProvider::&lt;HelloWorldV1&gt;::load(
+    ///                 &amp;self.hello_world_provider,
+    ///                 req,
+    ///             )?;
+    ///             Ok(DataResponse {
+    ///                 metadata: response.metadata,
+    ///                 payload: response.payload.dynamic_cast()?,
+    ///             })
+    ///         } else {
+    ///             self.fallback_provider.load(req)
+    ///         }
+    ///     }
+    /// }
+    ///
+    /// let provider = MyForkingProvider {
+    ///     fallback_provider: EmptyDataProvider::new(),
+    ///     hello_world_provider: HelloWorldProvider,
+    /// };
+    ///
+    /// let formatter =
+    ///     HelloWorldFormatter::try_new_unstable(&amp;provider, locale!("de").into())
+    ///         .unwrap();
+    ///
+    /// // This succeeds because the data was loaded from HelloWorldProvider
+    /// // rather than the empty fallback provider.
+    /// assert_eq!(formatter.format_to_string(), "Hallo Welt");
+    /// ```
+    </span><span class="kw">pub fn </span>dynamic_cast&lt;M2&gt;(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;DataPayload&lt;M2&gt;, DataError&gt;
+    <span class="kw">where
+        </span>M2: DynamicDataMarker,
+    {
+        <span class="kw">let </span><span class="kw-2">mut </span>option_self = <span class="prelude-val">Some</span>(<span class="self">self</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>option_out = <span class="prelude-val">None</span>::&lt;DataPayload&lt;M2&gt;&gt;;
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(x) = (<span class="kw-2">&amp;mut </span>option_out <span class="kw">as </span><span class="kw-2">&amp;mut </span><span class="kw">dyn </span>core::any::Any).downcast_mut() {
+            core::mem::swap(<span class="kw-2">&amp;mut </span>option_self, x);
+            <span class="macro">debug_assert!</span>(option_out.is_some());
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(out) = option_out {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(out);
+            }
+        }
+        <span class="prelude-val">Err</span>(DataError::for_type::&lt;M2&gt;().with_str_context(core::any::type_name::&lt;M&gt;()))
     }
 
     <span class="doccomment">/// Convert a mutable reference of a [`DataPayload`] to another mutable reference
@@ -1749,10 +1957,10 @@
     ///
     /// # Examples
     ///
-    /// Change the results of a particular request based on key:
+    /// Change the results of a particular request based on marker:
     ///
     /// ```
-    /// use icu_locid::locale;
+    /// use icu_locale_core::locale;
     /// use icu_provider::hello_world::*;
     /// use icu_provider::prelude::*;
     ///
@@ -1762,21 +1970,19 @@
     ///
     /// impl&lt;M, P&gt; DataProvider&lt;M&gt; for MyWrapper&lt;P&gt;
     /// where
-    ///     M: KeyedDataMarker,
+    ///     M: DataMarker,
     ///     P: DataProvider&lt;M&gt;,
     /// {
     ///     #[inline]
     ///     fn load(&amp;self, req: DataRequest) -&gt; Result&lt;DataResponse&lt;M&gt;, DataError&gt; {
     ///         let mut res = self.inner.load(req)?;
-    ///         if let Some(ref mut generic_payload) = res.payload {
-    ///             let mut cast_result =
-    ///                 generic_payload.dynamic_cast_mut::&lt;HelloWorldV1Marker&gt;();
-    ///             if let Ok(ref mut concrete_payload) = cast_result {
-    ///                 // Add an emoji to the hello world message
-    ///                 concrete_payload.with_mut(|data| {
-    ///                     data.message.to_mut().insert_str(0, "✨ ");
-    ///                 });
-    ///             }
+    ///         let mut cast_result =
+    ///             res.payload.dynamic_cast_mut::&lt;HelloWorldV1&gt;();
+    ///         if let Ok(ref mut concrete_payload) = cast_result {
+    ///             // Add an emoji to the hello world message
+    ///             concrete_payload.with_mut(|data| {
+    ///                 data.message.to_mut().insert_str(0, "✨ ");
+    ///             });
     ///         }
     ///         Ok(res)
     ///     }
@@ -1786,7 +1992,7 @@
     ///     inner: HelloWorldProvider,
     /// };
     /// let formatter =
-    ///     HelloWorldFormatter::try_new_unstable(&amp;provider, &amp;locale!("de").into())
+    ///     HelloWorldFormatter::try_new_unstable(&amp;provider, locale!("de").into())
     ///         .unwrap();
     ///
     /// assert_eq!(formatter.format_to_string(), "✨ Hallo Welt");
@@ -1794,7 +2000,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>dynamic_cast_mut&lt;M2&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;mut </span>DataPayload&lt;M2&gt;, DataError&gt;
     <span class="kw">where
-        </span>M2: DataMarker,
+        </span>M2: DynamicDataMarker,
     {
         <span class="kw">let </span>this: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>core::any::Any = <span class="self">self</span>;
         <span class="kw">if let </span><span class="prelude-val">Some</span>(this) = this.downcast_mut() {
@@ -1807,6 +2013,7 @@
 
 <span class="kw">impl </span>DataPayload&lt;BufferMarker&gt; {
     <span class="doccomment">/// Converts an owned byte buffer into a `DataPayload&lt;BufferMarker&gt;`.
+    </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
     </span><span class="kw">pub fn </span>from_owned_buffer(buffer: Box&lt;[u8]&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>yoke = Yoke::attach_to_cart(SelectedRc::new(buffer), |b| <span class="kw-2">&amp;**</span>b)
             .wrap_cart_in_option()
@@ -1832,8 +2039,8 @@
 
 <span class="kw">impl</span>&lt;M&gt; Default <span class="kw">for </span>DataPayload&lt;M&gt;
 <span class="kw">where
-    </span>M: DataMarker,
-    M::Yokeable: Default,
+    </span>M: DynamicDataMarker,
+    M::DataStruct: Default,
 {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::from_owned(Default::default())
@@ -1842,7 +2049,7 @@
 
 <span class="kw">impl</span>&lt;M, O&gt; DataPayloadOr&lt;M, O&gt;
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
 {
     <span class="doccomment">/// Creates a [`DataPayloadOr`] from a [`DataPayload`].
     </span><span class="attr">#[inline]
@@ -1863,10 +2070,20 @@
         )))
     }
 
+    <span class="doccomment">/// Returns whether this object represents a [`DataPayload`].
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>is_payload(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span>{
+            DataPayloadOrInner::Yoke(<span class="kw">_</span>) =&gt; <span class="bool-val">true</span>,
+            DataPayloadOrInner::Inner(DataPayloadOrInnerInner::StaticRef(<span class="kw">_</span>)) =&gt; <span class="bool-val">true</span>,
+            DataPayloadOrInner::Inner(DataPayloadOrInnerInner::Other(<span class="kw">_</span>)) =&gt; <span class="bool-val">false</span>,
+        }
+    }
+
     <span class="doccomment">/// Gets the value from this [`DataPayload`] as `Ok` or the other type as `Err`.
     </span><span class="attr">#[allow(clippy::needless_lifetimes)]
     #[inline]
-    </span><span class="kw">pub fn </span>get&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>O&gt; {
+    </span><span class="kw">pub fn </span>get&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>O&gt; {
         <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span>{
             DataPayloadOrInner::Yoke(yoke) =&gt; <span class="prelude-val">Ok</span>(yoke.get()),
             DataPayloadOrInner::Inner(DataPayloadOrInnerInner::StaticRef(r)) =&gt; {
@@ -1890,85 +2107,66 @@
     }
 }
 
+<span class="kw">impl</span>&lt;M&gt; DataPayloadOr&lt;M, ()&gt;
+<span class="kw">where
+    </span>M: DynamicDataMarker,
+{
+    <span class="doccomment">/// Convenience function to return the other type with value `()`
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>none() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::from_other(())
+    }
+
+    <span class="doccomment">/// Convenience function to return `Some` or `None` for other type `()`
+    </span><span class="attr">#[allow(clippy::needless_lifetimes)]
+    #[inline]
+    </span><span class="kw">pub fn </span>get_option&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output&gt; {
+        <span class="self">self</span>.get().ok()
+    }
+}
+
 <span class="doccomment">/// A response object containing an object as payload and metadata about it.
 </span><span class="attr">#[allow(clippy::exhaustive_structs)] </span><span class="comment">// this type is stable
 </span><span class="kw">pub struct </span>DataResponse&lt;M&gt;
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
 {
     <span class="doccomment">/// Metadata about the returned object.
     </span><span class="kw">pub </span>metadata: DataResponseMetadata,
 
-    <span class="doccomment">/// The object itself; `None` if it was not loaded.
-    </span><span class="kw">pub </span>payload: <span class="prelude-ty">Option</span>&lt;DataPayload&lt;M&gt;&gt;,
+    <span class="doccomment">/// The object itself
+    </span><span class="kw">pub </span>payload: DataPayload&lt;M&gt;,
 }
 
 <span class="kw">impl</span>&lt;M&gt; DataResponse&lt;M&gt;
 <span class="kw">where
-    </span>M: DataMarker,
+    </span>M: DynamicDataMarker,
 {
-    <span class="doccomment">/// Takes ownership of the underlying payload. Error if not present.
-    ///
-    /// To take the metadata, too, use [`Self::take_metadata_and_payload()`].
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>take_payload(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;DataPayload&lt;M&gt;, DataError&gt; {
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>.take_metadata_and_payload()<span class="question-mark">?</span>.<span class="number">1</span>)
-    }
-
-    <span class="doccomment">/// Takes ownership of the underlying metadata and payload. Error if payload is not present.
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>take_metadata_and_payload(
-        <span class="self">self</span>,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(DataResponseMetadata, DataPayload&lt;M&gt;), DataError&gt; {
-        <span class="prelude-val">Ok</span>((
-            <span class="self">self</span>.metadata,
-            <span class="self">self</span>.payload
-                .ok_or_else(|| DataErrorKind::MissingPayload.with_type_context::&lt;M&gt;())<span class="question-mark">?</span>,
-        ))
-    }
-
-    <span class="doccomment">/// Convert between two [`DataMarker`] types that are compatible with each other
+    <span class="doccomment">/// Convert between two [`DynamicDataMarker`] types that are compatible with each other
     /// with compile-time type checking.
     ///
-    /// This happens if they both have the same [`DataMarker::Yokeable`] type.
+    /// This happens if they both have the same [`DynamicDataMarker::DataStruct`] type.
     ///
-    /// Can be used to erase the key of a data payload in cases where multiple keys correspond
+    /// Can be used to erase the marker of a data payload in cases where multiple markers correspond
     /// to the same data struct.
     ///
     /// For runtime dynamic casting, use [`DataPayload::dynamic_cast_mut()`].
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>cast&lt;M2&gt;(<span class="self">self</span>) -&gt; DataResponse&lt;M2&gt;
     <span class="kw">where
-        </span>M2: DataMarker&lt;Yokeable = M::Yokeable&gt;,
+        </span>M2: DynamicDataMarker&lt;DataStruct = M::DataStruct&gt;,
     {
-        <span class="kw">match </span><span class="self">self</span>.payload {
-            <span class="prelude-val">Some</span>(payload) =&gt; DataResponse {
-                metadata: <span class="self">self</span>.metadata,
-                payload: <span class="prelude-val">Some</span>(payload.cast()),
-            },
-            <span class="prelude-val">None </span>=&gt; DataResponse {
-                metadata: <span class="self">self</span>.metadata,
-                payload: <span class="prelude-val">None</span>,
-            },
+        DataResponse {
+            metadata: <span class="self">self</span>.metadata,
+            payload: <span class="self">self</span>.payload.cast(),
         }
-    }
-}
-
-<span class="kw">impl</span>&lt;M&gt; TryFrom&lt;DataResponse&lt;M&gt;&gt; <span class="kw">for </span>DataPayload&lt;M&gt;
-<span class="kw">where
-    </span>M: DataMarker,
-{
-    <span class="kw">type </span>Error = DataError;
-
-    <span class="kw">fn </span>try_from(response: DataResponse&lt;M&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
-        response.take_payload()
     }
 }
 
 <span class="kw">impl</span>&lt;M&gt; Debug <span class="kw">for </span>DataResponse&lt;M&gt;
 <span class="kw">where
-    </span>M: DataMarker,
-    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: Debug,
+    </span>M: DynamicDataMarker,
+    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: Debug,
 {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; core::fmt::Result {
         <span class="macro">write!</span>(
@@ -1988,13 +2186,13 @@
 /// use icu_provider::hello_world::*;
 /// use icu_provider::prelude::*;
 ///
-/// let resp1: DataResponse&lt;HelloWorldV1Marker&gt; = todo!();
+/// let resp1: DataResponse&lt;HelloWorldV1&gt; = todo!();
 /// let resp2 = resp1.clone();
 /// ```
 </span><span class="kw">impl</span>&lt;M&gt; Clone <span class="kw">for </span>DataResponse&lt;M&gt;
 <span class="kw">where
-    </span>M: DataMarker,
-    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; YokeTraitHack&lt;&lt;M::Yokeable <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output&gt;: Clone,
+    </span>M: DynamicDataMarker,
+    <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; &lt;M::DataStruct <span class="kw">as </span>Yokeable&lt;<span class="lifetime">'a</span>&gt;&gt;::Output: Clone,
 {
     <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
@@ -2007,13 +2205,13 @@
 <span class="attr">#[test]
 </span><span class="kw">fn </span>test_debug() {
     <span class="kw">use </span><span class="kw">crate</span>::hello_world::<span class="kw-2">*</span>;
-    <span class="kw">use </span>alloc::borrow::Cow;
-    <span class="kw">let </span>resp = DataResponse::&lt;HelloWorldV1Marker&gt; {
-        metadata: Default::default(),
-        payload: <span class="prelude-val">Some</span>(DataPayload::from_owned(HelloWorldV1 {
-            message: Cow::Borrowed(<span class="string">"foo"</span>),
-        })),
-    };
-    <span class="macro">assert_eq!</span>(<span class="string">"DataResponse { metadata: DataResponseMetadata { locale: None, buffer_format: None }, payload: Some(HelloWorldV1 { message: \"foo\" }) }"</span>, <span class="macro">format!</span>(<span class="string">"{resp:?}"</span>));
+    <span class="kw">use </span><span class="kw">crate</span>::prelude::<span class="kw-2">*</span>;
+    <span class="kw">let </span>resp = HelloWorldProvider
+        .load(DataRequest {
+            id: DataIdentifierBorrowed::for_locale(<span class="kw-2">&amp;</span><span class="macro">icu_locale_core::locale!</span>(<span class="string">"en"</span>).into()),
+            ..Default::default()
+        })
+        .unwrap();
+    <span class="macro">assert_eq!</span>(<span class="string">"DataResponse { metadata: DataResponseMetadata { locale: None, buffer_format: None, checksum: Some(1234) }, payload: HelloWorld { message: \"Hello World\" } }"</span>, <span class="macro">format!</span>(<span class="string">"{resp:?}"</span>));
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.10.4/src/zerovec/slice.rs`."><title>slice.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/zerovec/</div>slice.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.11.2/src/zerovec/slice.rs`."><title>slice.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/zerovec/</div>slice.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -594,16 +594,42 @@
 <a href="#593" id="593">593</a>
 <a href="#594" id="594">594</a>
 <a href="#595" id="595">595</a>
-<a href="#596" id="596">596</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
 </span><span class="kw">use super</span>::<span class="kw-2">*</span>;
-<span class="kw">use </span>alloc::boxed::Box;
 <span class="kw">use </span>core::cmp::Ordering;
 <span class="kw">use </span>core::ops::Range;
 
-<span class="doccomment">/// A zero-copy "slice", i.e. the zero-copy version of `[T]`. This behaves
+<span class="doccomment">/// A zero-copy "slice", i.e. the zero-copy version of `[T]`.
+///
+/// This behaves
 /// similarly to [`ZeroVec&lt;T&gt;`], however [`ZeroVec&lt;T&gt;`] is allowed to contain
 /// owned data and as such is ideal for deserialization since most human readable
 /// serialization formats cannot unconditionally deserialize zero-copy.
@@ -650,8 +676,8 @@
 
     <span class="doccomment">/// Attempt to construct a `&amp;ZeroSlice&lt;T&gt;` from a byte slice, returning an error
     /// if it's not a valid byte sequence
-    </span><span class="kw">pub fn </span>parse_byte_slice(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="self">Self</span>, ZeroVecError&gt; {
-        T::ULE::parse_byte_slice(bytes).map(<span class="self">Self</span>::from_ule_slice)
+    </span><span class="kw">pub fn </span>parse_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="self">Self</span>, UleError&gt; {
+        T::ULE::parse_bytes_to_slice(bytes).map(<span class="self">Self</span>::from_ule_slice)
     }
 
     <span class="doccomment">/// Uses a `&amp;[u8]` buffer as a `ZeroVec&lt;T&gt;` without any verification.
@@ -682,10 +708,11 @@
 
     <span class="doccomment">/// Construct a `Box&lt;ZeroSlice&lt;T&gt;&gt;` from a boxed slice of ULEs
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>from_boxed_slice(slice: Box&lt;[T::ULE]&gt;) -&gt; Box&lt;<span class="self">Self</span>&gt; {
+    #[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">pub fn </span>from_boxed_slice(slice: alloc::boxed::Box&lt;[T::ULE]&gt;) -&gt; alloc::boxed::Box&lt;<span class="self">Self</span>&gt; {
         <span class="comment">// This is safe because ZeroSlice is transparent over [T::ULE]
         // so Box&lt;ZeroSlice&lt;T&gt;&gt; can be safely cast from Box&lt;[T::ULE]&gt;
-        </span><span class="kw">unsafe </span>{ Box::from_raw(Box::into_raw(slice) <span class="kw">as </span><span class="kw-2">*mut </span><span class="self">Self</span>) }
+        </span><span class="kw">unsafe </span>{ alloc::boxed::Box::from_raw(alloc::boxed::Box::into_raw(slice) <span class="kw">as </span><span class="kw-2">*mut </span><span class="self">Self</span>) }
     }
 
     <span class="doccomment">/// Returns this slice as its underlying `&amp;[u8]` byte buffer representation.
@@ -707,7 +734,7 @@
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>as_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        T::ULE::as_byte_slice(<span class="self">self</span>.as_ule_slice())
+        T::ULE::slice_as_bytes(<span class="self">self</span>.as_ule_slice())
     }
 
     <span class="doccomment">/// Dereferences this slice as `&amp;[T::ULE]`.
@@ -726,7 +753,7 @@
     ///
     /// let bytes: &amp;[u8] = &amp;[0xD3, 0x00, 0x19, 0x01, 0xA5, 0x01, 0xCD, 0x80];
     /// let zerovec: ZeroVec&lt;u16&gt; =
-    ///     ZeroVec::parse_byte_slice(bytes).expect("infallible");
+    ///     ZeroVec::parse_bytes(bytes).expect("infallible");
     ///
     /// assert_eq!(4, zerovec.len());
     /// assert_eq!(
@@ -748,11 +775,10 @@
     ///
     /// let bytes: &amp;[u8] = &amp;[0xD3, 0x00, 0x19, 0x01, 0xA5, 0x01, 0xCD, 0x80];
     /// let zerovec: ZeroVec&lt;u16&gt; =
-    ///     ZeroVec::parse_byte_slice(bytes).expect("infallible");
+    ///     ZeroVec::parse_bytes(bytes).expect("infallible");
     /// assert!(!zerovec.is_empty());
     ///
-    /// let emptyvec: ZeroVec&lt;u16&gt; =
-    ///     ZeroVec::parse_byte_slice(&amp;[]).expect("infallible");
+    /// let emptyvec: ZeroVec&lt;u16&gt; = ZeroVec::parse_bytes(&amp;[]).expect("infallible");
     /// assert!(emptyvec.is_empty());
     /// ```
     </span><span class="attr">#[inline]
@@ -774,7 +800,7 @@
     ///
     /// let bytes: &amp;[u8] = &amp;[0xD3, 0x00, 0x19, 0x01, 0xA5, 0x01, 0xCD, 0x80];
     /// let zerovec: ZeroVec&lt;u16&gt; =
-    ///     ZeroVec::parse_byte_slice(bytes).expect("infallible");
+    ///     ZeroVec::parse_bytes(bytes).expect("infallible");
     ///
     /// assert_eq!(zerovec.get(2), Some(421));
     /// assert_eq!(zerovec.get(4), None);
@@ -797,7 +823,7 @@
     ///
     /// let bytes: &amp;[u8] = &amp;[0xD3, 0x00, 0x19, 0x01, 0xA5, 0x01, 0xCD, 0x80];
     /// let zerovec: ZeroVec&lt;u16&gt; =
-    ///     ZeroVec::parse_byte_slice(bytes).expect("infallible");
+    ///     ZeroVec::parse_bytes(bytes).expect("infallible");
     /// let array: [u16; 4] =
     ///     zerovec.get_as_array().expect("should be 4 items in array");
     ///
@@ -818,7 +844,7 @@
     ///
     /// let bytes: &amp;[u8] = &amp;[0xD3, 0x00, 0x19, 0x01, 0xA5, 0x01, 0xCD, 0x80];
     /// let zerovec: ZeroVec&lt;u16&gt; =
-    ///     ZeroVec::parse_byte_slice(bytes).expect("infallible");
+    ///     ZeroVec::parse_bytes(bytes).expect("infallible");
     ///
     /// assert_eq!(
     ///     zerovec.get_subslice(1..3),
@@ -898,8 +924,8 @@
     /// assert_eq!(zs_u8_4.get(0), Some([0x7F, 0xF3, 0x01, 0x00]));
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>try_as_converted&lt;P: AsULE&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>ZeroSlice&lt;P&gt;, ZeroVecError&gt; {
-        <span class="kw">let </span>new_slice = P::ULE::parse_byte_slice(<span class="self">self</span>.as_bytes())<span class="question-mark">?</span>;
+    </span><span class="kw">pub fn </span>try_as_converted&lt;P: AsULE&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>ZeroSlice&lt;P&gt;, UleError&gt; {
+        <span class="kw">let </span>new_slice = P::ULE::parse_bytes_to_slice(<span class="self">self</span>.as_bytes())<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(ZeroSlice::from_ule_slice(new_slice))
     }
 
@@ -912,7 +938,7 @@
     ///
     /// let bytes: &amp;[u8] = &amp;[0xD3, 0x00, 0x19, 0x01, 0xA5, 0x01, 0xCD, 0x80];
     /// let zerovec: ZeroVec&lt;u16&gt; =
-    ///     ZeroVec::parse_byte_slice(bytes).expect("infallible");
+    ///     ZeroVec::parse_bytes(bytes).expect("infallible");
     ///
     /// assert_eq!(zerovec.first(), Some(211));
     /// ```
@@ -930,7 +956,7 @@
     ///
     /// let bytes: &amp;[u8] = &amp;[0xD3, 0x00, 0x19, 0x01, 0xA5, 0x01, 0xCD, 0x80];
     /// let zerovec: ZeroVec&lt;u16&gt; =
-    ///     ZeroVec::parse_byte_slice(bytes).expect("infallible");
+    ///     ZeroVec::parse_bytes(bytes).expect("infallible");
     ///
     /// assert_eq!(zerovec.last(), Some(32973));
     /// ```
@@ -948,7 +974,7 @@
     ///
     /// let bytes: &amp;[u8] = &amp;[0xD3, 0x00, 0x19, 0x01, 0xA5, 0x01, 0xCD, 0x80];
     /// let zerovec: ZeroVec&lt;u16&gt; =
-    ///     ZeroVec::parse_byte_slice(bytes).expect("infallible");
+    ///     ZeroVec::parse_bytes(bytes).expect("infallible");
     /// let mut it = zerovec.iter();
     ///
     /// assert_eq!(it.next(), Some(211));
@@ -958,8 +984,8 @@
     /// assert_eq!(it.next(), None);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>DoubleEndedIterator&lt;Item = T&gt; + ExactSizeIterator&lt;Item = T&gt; + <span class="lifetime">'_ </span>{
-        <span class="self">self</span>.as_ule_slice().iter().copied().map(T::from_unaligned)
+    </span><span class="kw">pub fn </span>iter&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>) -&gt; ZeroSliceIter&lt;<span class="lifetime">'a</span>, T&gt; {
+        ZeroSliceIter(<span class="self">self</span>.as_ule_slice().iter())
     }
 
     <span class="doccomment">/// Returns a tuple with the first element and a subslice of the remaining elements.
@@ -996,6 +1022,29 @@
     </span>}
 }
 
+<span class="doccomment">/// An iterator over elements in a VarZeroVec
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>ZeroSliceIter&lt;<span class="lifetime">'a</span>, T: AsULE&gt;(core::slice::Iter&lt;<span class="lifetime">'a</span>, T::ULE&gt;);
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: AsULE&gt; Iterator <span class="kw">for </span>ZeroSliceIter&lt;<span class="lifetime">'a</span>, T&gt; {
+    <span class="kw">type </span>Item = T;
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt; {
+        <span class="self">self</span>.<span class="number">0</span>.next().copied().map(T::from_unaligned)
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: AsULE&gt; ExactSizeIterator <span class="kw">for </span>ZeroSliceIter&lt;<span class="lifetime">'a</span>, T&gt; {
+    <span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.<span class="number">0</span>.len()
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: AsULE&gt; DoubleEndedIterator <span class="kw">for </span>ZeroSliceIter&lt;<span class="lifetime">'a</span>, T&gt; {
+    <span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt; {
+        <span class="self">self</span>.<span class="number">0</span>.next_back().copied().map(T::from_unaligned)
+    }
+}
+
 <span class="kw">impl</span>&lt;T&gt; ZeroSlice&lt;T&gt;
 <span class="kw">where
     </span>T: AsULE + Ord,
@@ -1010,7 +1059,7 @@
     ///
     /// let bytes: &amp;[u8] = &amp;[0xD3, 0x00, 0x19, 0x01, 0xA5, 0x01, 0xCD, 0x80];
     /// let zerovec: ZeroVec&lt;u16&gt; =
-    ///     ZeroVec::parse_byte_slice(bytes).expect("infallible");
+    ///     ZeroVec::parse_bytes(bytes).expect("infallible");
     ///
     /// assert_eq!(zerovec.binary_search(&amp;281), Ok(1));
     /// assert_eq!(zerovec.binary_search(&amp;282), Err(2));
@@ -1038,7 +1087,7 @@
     ///
     /// let bytes: &amp;[u8] = &amp;[0xD3, 0x00, 0x19, 0x01, 0xA5, 0x01, 0xCD, 0x80];
     /// let zerovec: ZeroVec&lt;u16&gt; =
-    ///     ZeroVec::parse_byte_slice(bytes).expect("infallible");
+    ///     ZeroVec::parse_bytes(bytes).expect("infallible");
     ///
     /// assert_eq!(zerovec.binary_search_by(|x| x.cmp(&amp;281)), Ok(1));
     /// assert_eq!(zerovec.binary_search_by(|x| x.cmp(&amp;282)), Err(2));
@@ -1059,20 +1108,20 @@
 // (`ZeroSlice&lt;T&gt;` is a transparent wrapper around [T::ULE])
 //  1. [T::ULE] does not include any uninitialized or padding bytes (achieved by being a slice of a ULE type)
 //  2. [T::ULE] is aligned to 1 byte (achieved by being a slice of a ULE type)
-//  3. The impl of `validate_byte_slice()` returns an error if any byte is not valid.
-//  4. The impl of `validate_byte_slice()` returns an error if the slice cannot be used in its entirety
-//  5. The impl of `from_byte_slice_unchecked()` returns a reference to the same data.
-//  6. `as_byte_slice()` and `parse_byte_slice()` are defaulted
+//  3. The impl of `validate_bytes()` returns an error if any byte is not valid.
+//  4. The impl of `validate_bytes()` returns an error if the slice cannot be used in its entirety
+//  5. The impl of `from_bytes_unchecked()` returns a reference to the same data.
+//  6. `as_bytes()` and `parse_bytes()` are defaulted
 //  7. `[T::ULE]` byte equality is semantic equality (relying on the guideline of the underlying `ULE` type)
 </span><span class="kw">unsafe impl</span>&lt;T: AsULE + <span class="lifetime">'static</span>&gt; VarULE <span class="kw">for </span>ZeroSlice&lt;T&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>validate_byte_slice(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ZeroVecError&gt; {
-        T::ULE::validate_byte_slice(bytes)
+    </span><span class="kw">fn </span>validate_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), UleError&gt; {
+        T::ULE::validate_bytes(bytes)
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">unsafe fn </span>from_byte_slice_unchecked(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
-        <span class="self">Self</span>::from_ule_slice(T::ULE::from_byte_slice_unchecked(bytes))
+    </span><span class="kw">unsafe fn </span>from_bytes_unchecked(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
+        <span class="self">Self</span>::from_ule_slice(T::ULE::slice_from_bytes_unchecked(bytes))
     }
 }
 
@@ -1139,7 +1188,8 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T: AsULE&gt; AsRef&lt;ZeroSlice&lt;T&gt;&gt; <span class="kw">for </span>Vec&lt;T::ULE&gt; {
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;T: AsULE&gt; AsRef&lt;ZeroSlice&lt;T&gt;&gt; <span class="kw">for </span>alloc::vec::Vec&lt;T::ULE&gt; {
     <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ZeroSlice&lt;T&gt; {
         ZeroSlice::&lt;T&gt;::from_ule_slice(<span class="self">self</span>)
     }

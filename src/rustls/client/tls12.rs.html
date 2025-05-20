@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.26/src/client/tls12.rs`."><title>tls12.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>tls12.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/client/tls12.rs`."><title>tls12.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>tls12.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1335,7 +1335,31 @@
 <a href="#1334" id="1334">1334</a>
 <a href="#1335" id="1335">1335</a>
 <a href="#1336" id="1336">1336</a>
-<a href="#1337" id="1337">1337</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::borrow::ToOwned;
+<a href="#1337" id="1337">1337</a>
+<a href="#1338" id="1338">1338</a>
+<a href="#1339" id="1339">1339</a>
+<a href="#1340" id="1340">1340</a>
+<a href="#1341" id="1341">1341</a>
+<a href="#1342" id="1342">1342</a>
+<a href="#1343" id="1343">1343</a>
+<a href="#1344" id="1344">1344</a>
+<a href="#1345" id="1345">1345</a>
+<a href="#1346" id="1346">1346</a>
+<a href="#1347" id="1347">1347</a>
+<a href="#1348" id="1348">1348</a>
+<a href="#1349" id="1349">1349</a>
+<a href="#1350" id="1350">1350</a>
+<a href="#1351" id="1351">1351</a>
+<a href="#1352" id="1352">1352</a>
+<a href="#1353" id="1353">1353</a>
+<a href="#1354" id="1354">1354</a>
+<a href="#1355" id="1355">1355</a>
+<a href="#1356" id="1356">1356</a>
+<a href="#1357" id="1357">1357</a>
+<a href="#1358" id="1358">1358</a>
+<a href="#1359" id="1359">1359</a>
+<a href="#1360" id="1360">1360</a>
+<a href="#1361" id="1361">1361</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::borrow::ToOwned;
 <span class="kw">use </span>alloc::boxed::Box;
 <span class="kw">use </span>alloc::vec;
 <span class="kw">use </span>alloc::vec::Vec;
@@ -1346,11 +1370,13 @@
 
 <span class="kw">use </span><span class="kw">super</span>::client_conn::ClientConnectionData;
 <span class="kw">use </span><span class="kw">super</span>::hs::ClientContext;
+<span class="kw">use </span><span class="kw">crate</span>::ConnectionTrafficSecrets;
 <span class="kw">use </span><span class="kw">crate</span>::check::{inappropriate_handshake_message, inappropriate_message};
 <span class="kw">use </span><span class="kw">crate</span>::client::common::{ClientAuthDetails, ServerCertDetails};
 <span class="kw">use </span><span class="kw">crate</span>::client::{ClientConfig, hs};
 <span class="kw">use </span><span class="kw">crate</span>::common_state::{CommonState, HandshakeKind, KxState, Side, State};
 <span class="kw">use </span><span class="kw">crate</span>::conn::ConnectionRandoms;
+<span class="kw">use </span><span class="kw">crate</span>::conn::kernel::{Direction, KernelContext, KernelState};
 <span class="kw">use </span><span class="kw">crate</span>::crypto::KeyExchangeAlgorithm;
 <span class="kw">use </span><span class="kw">crate</span>::enums::{AlertDescription, ContentType, HandshakeType, ProtocolVersion};
 <span class="kw">use </span><span class="kw">crate</span>::error::{Error, InvalidMessage, PeerIncompatible, PeerMisbehaved};
@@ -1360,8 +1386,8 @@
 <span class="kw">use </span><span class="kw">crate</span>::msgs::ccs::ChangeCipherSpecPayload;
 <span class="kw">use </span><span class="kw">crate</span>::msgs::handshake::{
     CertificateChain, ClientDhParams, ClientEcdhParams, ClientKeyExchangeParams,
-    HandshakeMessagePayload, HandshakePayload, NewSessionTicketPayload, ServerKeyExchangeParams,
-    SessionId,
+    HandshakeMessagePayload, HandshakePayload, NewSessionTicketPayload,
+    NewSessionTicketPayloadTls13, ServerKeyExchangeParams, SessionId,
 };
 <span class="kw">use </span><span class="kw">crate</span>::msgs::message::{Message, MessagePayload};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::persist;
@@ -2668,8 +2694,30 @@
             .extract_secrets(Side::Client)
     }
 
+    <span class="kw">fn </span>into_external_state(<span class="self">self</span>: Box&lt;<span class="self">Self</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;Box&lt;<span class="kw">dyn </span>KernelState + <span class="lifetime">'static</span>&gt;, Error&gt; {
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
     <span class="kw">fn </span>into_owned(<span class="self">self</span>: Box&lt;<span class="self">Self</span>&gt;) -&gt; hs::NextState&lt;<span class="lifetime">'static</span>&gt; {
         <span class="self">self
     </span>}
+}
+
+<span class="kw">impl </span>KernelState <span class="kw">for </span>ExpectTraffic {
+    <span class="kw">fn </span>update_secrets(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw">_</span>: Direction) -&gt; <span class="prelude-ty">Result</span>&lt;ConnectionTrafficSecrets, Error&gt; {
+        <span class="prelude-val">Err</span>(Error::General(
+            <span class="string">"TLS 1.2 connections do not support traffic secret updates"</span>.into(),
+        ))
+    }
+
+    <span class="kw">fn </span>handle_new_session_ticket(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        _cx: <span class="kw-2">&amp;mut </span>KernelContext&lt;<span class="lifetime">'_</span>&gt;,
+        _message: <span class="kw-2">&amp;</span>NewSessionTicketPayloadTls13,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
+        <span class="prelude-val">Err</span>(Error::General(
+            <span class="string">"TLS 1.2 session tickets may not be sent once the handshake has completed"</span>.into(),
+        ))
+    }
 }
 </code></pre></div></section></main></body></html>

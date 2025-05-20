@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ct-codecs-1.1.3/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="ct_codecs" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ct_codecs/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ct-codecs-1.1.6/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="ct_codecs" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">ct_codecs/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -61,7 +61,251 @@
 <a href="#60" id="60">60</a>
 <a href="#61" id="61">61</a>
 <a href="#62" id="62">62</a>
-<a href="#63" id="63">63</a></pre></div><pre class="rust"><code><span class="doccomment">//! Constant-time codecs.
+<a href="#63" id="63">63</a>
+<a href="#64" id="64">64</a>
+<a href="#65" id="65">65</a>
+<a href="#66" id="66">66</a>
+<a href="#67" id="67">67</a>
+<a href="#68" id="68">68</a>
+<a href="#69" id="69">69</a>
+<a href="#70" id="70">70</a>
+<a href="#71" id="71">71</a>
+<a href="#72" id="72">72</a>
+<a href="#73" id="73">73</a>
+<a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
+<a href="#83" id="83">83</a>
+<a href="#84" id="84">84</a>
+<a href="#85" id="85">85</a>
+<a href="#86" id="86">86</a>
+<a href="#87" id="87">87</a>
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
+<a href="#129" id="129">129</a>
+<a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
+<a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
+<a href="#156" id="156">156</a>
+<a href="#157" id="157">157</a>
+<a href="#158" id="158">158</a>
+<a href="#159" id="159">159</a>
+<a href="#160" id="160">160</a>
+<a href="#161" id="161">161</a>
+<a href="#162" id="162">162</a>
+<a href="#163" id="163">163</a>
+<a href="#164" id="164">164</a>
+<a href="#165" id="165">165</a>
+<a href="#166" id="166">166</a>
+<a href="#167" id="167">167</a>
+<a href="#168" id="168">168</a>
+<a href="#169" id="169">169</a>
+<a href="#170" id="170">170</a>
+<a href="#171" id="171">171</a>
+<a href="#172" id="172">172</a>
+<a href="#173" id="173">173</a>
+<a href="#174" id="174">174</a>
+<a href="#175" id="175">175</a>
+<a href="#176" id="176">176</a>
+<a href="#177" id="177">177</a>
+<a href="#178" id="178">178</a>
+<a href="#179" id="179">179</a>
+<a href="#180" id="180">180</a>
+<a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
+<a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
+<a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
+<a href="#229" id="229">229</a>
+<a href="#230" id="230">230</a>
+<a href="#231" id="231">231</a>
+<a href="#232" id="232">232</a></pre></div><pre class="rust"><code><span class="doccomment">//! # CT-Codecs
+//!
+//! A Rust implementation of constant-time Base64 and Hexadecimal codecs,
+//! reimplemented from libsodium and libhydrogen.
+//!
+//! ## Features
+//!
+//! - **Constant-time implementation** for cryptographic applications where timing attacks are a concern
+//! - **Strict validation** ensuring Base64 strings are not malleable
+//! - **Multiple variants** of Base64: standard, URL-safe, with and without padding
+//! - **Character filtering** for ignoring specific characters during decoding (like whitespace)
+//! - **Zero dependencies** and **`no_std` compatible**
+//! - **Memory safety** with `#![forbid(unsafe_code)]`
+//!
+//! ## Usage Examples
+//!
+//! ### Base64 Encoding
+//!
+//! ```
+//! use ct_codecs::{Base64, Encoder};
+//!
+//! fn example() -&gt; Result&lt;(), ct_codecs::Error&gt; {
+//!     let data = b"Hello, world!";
+//!     let encoded = Base64::encode_to_string(data)?;
+//!     assert_eq!(encoded, "SGVsbG8sIHdvcmxkIQ==");
+//!     Ok(())
+//! }
+//! # example().unwrap();
+//! ```
+//!
+//! ### Base64 Decoding
+//!
+//! ```
+//! use ct_codecs::{Base64, Decoder};
+//!
+//! fn example() -&gt; Result&lt;(), ct_codecs::Error&gt; {
+//!     let encoded = "SGVsbG8sIHdvcmxkIQ==";
+//!     let decoded = Base64::decode_to_vec(encoded, None)?;
+//!     assert_eq!(decoded, b"Hello, world!");
+//!     Ok(())
+//! }
+//! # example().unwrap();
+//! ```
+//!
+//! ### Hexadecimal Encoding/Decoding
+//!
+//! ```
+//! use ct_codecs::{Hex, Encoder, Decoder};
+//!
+//! fn example() -&gt; Result&lt;(), ct_codecs::Error&gt; {
+//!     let data = b"Hello, world!";
+//!     let encoded = Hex::encode_to_string(data)?;
+//!     let decoded = Hex::decode_to_vec(&amp;encoded, None)?;
+//!     assert_eq!(decoded, data);
+//!     Ok(())
+//! }
+//! # example().unwrap();
+//! ```
+//!
+//! ### No-std Usage with Pre-allocated Buffers
+//!
+//! ```
+//! use ct_codecs::{Base64, Encoder, Decoder};
+//!
+//! fn example() -&gt; Result&lt;(), ct_codecs::Error&gt; {
+//!     let data = b"Hello, world!";
+//!     let mut encoded_buf = [0u8; 20]; // Must be large enough
+//!     let encoded = Base64::encode(&amp;mut encoded_buf, data)?;
+//!     
+//!     let mut decoded_buf = [0u8; 13]; // Must be large enough
+//!     let decoded = Base64::decode(&amp;mut decoded_buf, encoded, None)?;
+//!     assert_eq!(decoded, data);
+//!     Ok(())
+//! }
+//! # example().unwrap();
+//! ```
 
 </span><span class="attr">#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
 #![forbid(unsafe_code)]
@@ -74,23 +318,63 @@
 <span class="kw">pub use </span>error::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>hex::<span class="kw-2">*</span>;
 
-<span class="kw">pub trait </span>Encoder {
-    <span class="doccomment">/// Length of `bin_len` bytes after encoding.
+<span class="doccomment">/// Trait for encoding binary data into text representations.
+///
+/// Implementors of this trait provide constant-time encoding operations
+/// for a specific encoding format (Base64, Hex, etc.).
+</span><span class="kw">pub trait </span>Encoder {
+    <span class="doccomment">/// Calculates the length of the encoded output for a given binary input length.
+    ///
+    /// # Arguments
+    ///
+    /// * `bin_len` - The length of the binary input in bytes
+    ///
+    /// # Returns
+    ///
+    /// * `Ok(usize)` - The required length for the encoded output
+    /// * `Err(Error::Overflow)` - If the calculation would overflow
     </span><span class="kw">fn </span>encoded_len(bin_len: usize) -&gt; <span class="prelude-ty">Result</span>&lt;usize, Error&gt;;
 
-    <span class="doccomment">/// Encode `bin` into `encoded`.
-    /// The output buffer can be larger than required; the returned slice is
-    /// a view of the buffer with the correct length.
+    <span class="doccomment">/// Encodes binary data into a text representation.
+    ///
+    /// # Arguments
+    ///
+    /// * `encoded` - Mutable buffer to store the encoded output
+    /// * `bin` - Binary input data to encode
+    ///
+    /// # Returns
+    ///
+    /// * `Ok(&amp;[u8])` - A slice of the encoded buffer containing the encoded data
+    /// * `Err(Error::Overflow)` - If the output buffer is too small
     </span><span class="kw">fn </span>encode&lt;IN: AsRef&lt;[u8]&gt;&gt;(encoded: <span class="kw-2">&amp;mut </span>[u8], bin: IN) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>[u8], Error&gt;;
 
-    <span class="doccomment">/// Encode `bin` into `encoded`, return the result as a `str`.
-    /// The output buffer can be larger than required; the returned slice is
-    /// a view of the buffer with the correct length.
+    <span class="doccomment">/// Encodes binary data and returns the result as a string slice.
+    ///
+    /// # Arguments
+    ///
+    /// * `encoded` - Mutable buffer to store the encoded output
+    /// * `bin` - Binary input data to encode
+    ///
+    /// # Returns
+    ///
+    /// * `Ok(&amp;str)` - A string slice containing the encoded data
+    /// * `Err(Error::Overflow)` - If the output buffer is too small
     </span><span class="kw">fn </span>encode_to_str&lt;IN: AsRef&lt;[u8]&gt;&gt;(encoded: <span class="kw-2">&amp;mut </span>[u8], bin: IN) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>str, Error&gt; {
         <span class="prelude-val">Ok</span>(core::str::from_utf8(<span class="self">Self</span>::encode(encoded, bin)<span class="question-mark">?</span>).unwrap())
     }
 
-    <span class="doccomment">/// Encode `bin` as a `String`.
+    <span class="doccomment">/// Encodes binary data and returns the result as a String.
+    ///
+    /// This method is only available when the `std` feature is enabled.
+    ///
+    /// # Arguments
+    ///
+    /// * `bin` - Binary input data to encode
+    ///
+    /// # Returns
+    ///
+    /// * `Ok(String)` - A String containing the encoded data
+    /// * `Err(Error::Overflow)` - If the calculation would overflow
     </span><span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
     </span><span class="kw">fn </span>encode_to_string&lt;IN: AsRef&lt;[u8]&gt;&gt;(bin: IN) -&gt; <span class="prelude-ty">Result</span>&lt;String, Error&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>encoded = <span class="macro">vec!</span>[<span class="number">0u8</span>; <span class="self">Self</span>::encoded_len(bin.as_ref().len())<span class="question-mark">?</span>];
@@ -100,19 +384,43 @@
     }
 }
 
-<span class="kw">pub trait </span>Decoder {
-    <span class="doccomment">/// Decode `encoded` into `bin`.
-    /// The output buffer can be larger than required; the returned slice is
-    /// a view of the buffer with the correct length.
-    /// `ignore` is an optional set of characters to ignore.
+<span class="doccomment">/// Trait for decoding text representations back into binary data.
+///
+/// Implementors of this trait provide constant-time decoding operations
+/// for a specific encoding format (Base64, Hex, etc.).
+</span><span class="kw">pub trait </span>Decoder {
+    <span class="doccomment">/// Decodes text data back into its binary representation.
+    ///
+    /// # Arguments
+    ///
+    /// * `bin` - Mutable buffer to store the decoded output
+    /// * `encoded` - Text input data to decode
+    /// * `ignore` - Optional set of characters to ignore during decoding (e.g., whitespace)
+    ///
+    /// # Returns
+    ///
+    /// * `Ok(&amp;[u8])` - A slice of the binary buffer containing the decoded data
+    /// * `Err(Error::Overflow)` - If the output buffer is too small
+    /// * `Err(Error::InvalidInput)` - If the input contains invalid characters
     </span><span class="kw">fn </span>decode&lt;<span class="lifetime">'t</span>, IN: AsRef&lt;[u8]&gt;&gt;(
         bin: <span class="kw-2">&amp;</span><span class="lifetime">'t </span><span class="kw-2">mut </span>[u8],
         encoded: IN,
         ignore: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'t </span>[u8], Error&gt;;
 
-    <span class="doccomment">/// Decode `encoded` into a `Vec&lt;u8&gt;`.
-    /// `ignore` is an optional set of characters to ignore.
+    <span class="doccomment">/// Decodes text data and returns the result as a Vec&lt;u8&gt;.
+    ///
+    /// This method is only available when the `std` feature is enabled.
+    ///
+    /// # Arguments
+    ///
+    /// * `encoded` - Text input data to decode
+    /// * `ignore` - Optional set of characters to ignore during decoding (e.g., whitespace)
+    ///
+    /// # Returns
+    ///
+    /// * `Ok(Vec&lt;u8&gt;)` - A Vec containing the decoded binary data
+    /// * `Err(Error::InvalidInput)` - If the input contains invalid characters
     </span><span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
     </span><span class="kw">fn </span>decode_to_vec&lt;IN: AsRef&lt;[u8]&gt;&gt;(
         encoded: IN,
@@ -124,4 +432,34 @@
         <span class="prelude-val">Ok</span>(bin)
     }
 }
+
+<span class="doccomment">/// Constant-time equality check for two byte slices.
+///
+/// # Arguments
+///
+/// * `x` - First byte slice
+/// * `y` - Second byte slice
+///
+/// # Returns
+///
+/// * `bool` - `true` if the slices are equal, `false` otherwise
+</span><span class="kw">pub fn </span>verify(x: <span class="kw-2">&amp;</span>[u8], y: <span class="kw-2">&amp;</span>[u8]) -&gt; bool {
+    <span class="kw">if </span>x.len() != y.len() {
+        <span class="kw">return </span><span class="bool-val">false</span>;
+    }
+    <span class="kw">let </span><span class="kw-2">mut </span>v: u32 = <span class="number">0</span>;
+    <span class="comment">// Old Rust versions, don't have black_box(), using volatile is unsafe,
+    // and WebAssembly doesn't support volatile and ignores black_box() anyway.
+    // So, add an extra layer of compiler confusion.
+    </span><span class="kw">let </span>(<span class="kw-2">mut </span>h1, <span class="kw-2">mut </span>h2) = (<span class="number">0u32</span>, <span class="number">0u32</span>);
+    <span class="kw">for </span>(b1, b2) <span class="kw">in </span>x.iter().zip(y.iter()) {
+        h1 ^= (h1 &lt;&lt; <span class="number">5</span>).wrapping_add((h1 &gt;&gt; <span class="number">2</span>) ^ <span class="kw-2">*</span>b1 <span class="kw">as </span>u32);
+        h2 ^= (h2 &lt;&lt; <span class="number">5</span>).wrapping_add((h2 &gt;&gt; <span class="number">2</span>) ^ <span class="kw-2">*</span>b2 <span class="kw">as </span>u32);
+    }
+    v |= h1 ^ h2;
+    <span class="kw">for </span>(a, b) <span class="kw">in </span>x.iter().zip(y.iter()) {
+        v |= (a ^ b) <span class="kw">as </span>u32;
+    }
+    v == <span class="number">0
+</span>}
 </code></pre></div></section></main></body></html>

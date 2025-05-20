@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.10.4/src/ule/plain.rs`."><title>plain.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/ule/</div>plain.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.11.2/src/ule/plain.rs`."><title>plain.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/ule/</div>plain.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -364,7 +364,40 @@
 <a href="#363" id="363">363</a>
 <a href="#364" id="364">364</a>
 <a href="#365" id="365">365</a>
-<a href="#366" id="366">366</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
@@ -389,7 +422,7 @@
     </span>}
 
     <span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>from_byte_slice_unchecked_mut(bytes: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="kw-2">&amp;mut </span>[<span class="self">Self</span>] {
+    </span><span class="kw">pub fn </span>from_bytes_unchecked_mut(bytes: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="kw-2">&amp;mut </span>[<span class="self">Self</span>] {
         <span class="kw">let </span>data = bytes.as_mut_ptr();
         <span class="kw">let </span>len = bytes.len() / N;
         <span class="comment">// Safe because Self is transparent over [u8; N]
@@ -402,18 +435,18 @@
 //     (achieved by `#[repr(transparent)]` on a type that satisfies this invariant)
 //  2. RawBytesULE is aligned to 1 byte.
 //     (achieved by `#[repr(transparent)]` on a type that satisfies this invariant)
-//  3. The impl of validate_byte_slice() returns an error if any byte is not valid (never).
-//  4. The impl of validate_byte_slice() returns an error if there are leftover bytes.
+//  3. The impl of validate_bytes() returns an error if any byte is not valid (never).
+//  4. The impl of validate_bytes() returns an error if there are leftover bytes.
 //  5. The other ULE methods use the default impl.
 //  6. RawBytesULE byte equality is semantic equality
 </span><span class="kw">unsafe impl</span>&lt;<span class="kw">const </span>N: usize&gt; ULE <span class="kw">for </span>RawBytesULE&lt;N&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>validate_byte_slice(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ZeroVecError&gt; {
+    </span><span class="kw">fn </span>validate_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), UleError&gt; {
         <span class="kw">if </span>bytes.len() % N == <span class="number">0 </span>{
             <span class="comment">// Safe because Self is transparent over [u8; N]
             </span><span class="prelude-val">Ok</span>(())
         } <span class="kw">else </span>{
-            <span class="prelude-val">Err</span>(ZeroVecError::length::&lt;<span class="self">Self</span>&gt;(bytes.len()))
+            <span class="prelude-val">Err</span>(UleError::length::&lt;<span class="self">Self</span>&gt;(bytes.len()))
         }
     }
 }
@@ -456,17 +489,17 @@
             /// parsing checks.
             ///
             /// This cannot be generic over T because of current limitations in `const`, but if
-            /// this method is needed in a non-const context, check out [`ZeroSlice::parse_byte_slice()`]
+            /// this method is needed in a non-const context, check out [`ZeroSlice::parse_bytes()`]
             /// instead.
             ///
             /// See [`ZeroSlice::cast()`] for an example.
-            </span><span class="kw">pub const fn </span>try_from_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="self">Self</span>, ZeroVecError&gt; {
+            </span><span class="kw">pub const fn </span>try_from_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="self">Self</span>, UleError&gt; {
                 <span class="kw">let </span>len = bytes.len();
                 <span class="attr">#[allow(clippy::modulo_one)]
                 </span><span class="kw">if </span>len % <span class="macro-nonterminal">$size </span>== <span class="number">0 </span>{
                     <span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ <span class="self">Self</span>::from_bytes_unchecked(bytes) })
                 } <span class="kw">else </span>{
-                    <span class="prelude-val">Err</span>(ZeroVecError::InvalidLength {
+                    <span class="prelude-val">Err</span>(UleError::InvalidLength {
                         ty: <span class="macro">concat!</span>(<span class="string">"&lt;const construct: "</span>, <span class="macro-nonterminal">$size</span>, <span class="string">"&gt;"</span>),
                         len,
                     })
@@ -548,13 +581,13 @@
 <span class="comment">// Safety (based on the safety checklist on the ULE trait):
 //  1. u8 does not include any uninitialized or padding bytes.
 //  2. u8 is aligned to 1 byte.
-//  3. The impl of validate_byte_slice() returns an error if any byte is not valid (never).
-//  4. The impl of validate_byte_slice() returns an error if there are leftover bytes (never).
+//  3. The impl of validate_bytes() returns an error if any byte is not valid (never).
+//  4. The impl of validate_bytes() returns an error if there are leftover bytes (never).
 //  5. The other ULE methods use the default impl.
 //  6. u8 byte equality is semantic equality
 </span><span class="kw">unsafe impl </span>ULE <span class="kw">for </span>u8 {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>validate_byte_slice(_bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ZeroVecError&gt; {
+    </span><span class="kw">fn </span>validate_bytes(_bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), UleError&gt; {
         <span class="prelude-val">Ok</span>(())
     }
 }
@@ -577,16 +610,16 @@
 <span class="comment">// Safety (based on the safety checklist on the ULE trait):
 //  1. NonZeroU8 does not include any uninitialized or padding bytes.
 //  2. NonZeroU8 is aligned to 1 byte.
-//  3. The impl of validate_byte_slice() returns an error if any byte is not valid (0x00).
-//  4. The impl of validate_byte_slice() returns an error if there are leftover bytes (never).
+//  3. The impl of validate_bytes() returns an error if any byte is not valid (0x00).
+//  4. The impl of validate_bytes() returns an error if there are leftover bytes (never).
 //  5. The other ULE methods use the default impl.
 //  6. NonZeroU8 byte equality is semantic equality
 </span><span class="kw">unsafe impl </span>ULE <span class="kw">for </span>NonZeroU8 {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>validate_byte_slice(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ZeroVecError&gt; {
+    </span><span class="kw">fn </span>validate_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), UleError&gt; {
         bytes.iter().try_for_each(|b| {
             <span class="kw">if </span><span class="kw-2">*</span>b == <span class="number">0x00 </span>{
-                <span class="prelude-val">Err</span>(ZeroVecError::parse::&lt;<span class="self">Self</span>&gt;())
+                <span class="prelude-val">Err</span>(UleError::parse::&lt;<span class="self">Self</span>&gt;())
             } <span class="kw">else </span>{
                 <span class="prelude-val">Ok</span>(())
             }
@@ -615,13 +648,13 @@
 <span class="comment">// Safety (based on the safety checklist on the ULE trait):
 //  1. i8 does not include any uninitialized or padding bytes.
 //  2. i8 is aligned to 1 byte.
-//  3. The impl of validate_byte_slice() returns an error if any byte is not valid (never).
-//  4. The impl of validate_byte_slice() returns an error if there are leftover bytes (never).
+//  3. The impl of validate_bytes() returns an error if any byte is not valid (never).
+//  4. The impl of validate_bytes() returns an error if there are leftover bytes (never).
 //  5. The other ULE methods use the default impl.
 //  6. i8 byte equality is semantic equality
 </span><span class="kw">unsafe impl </span>ULE <span class="kw">for </span>i8 {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>validate_byte_slice(_bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ZeroVecError&gt; {
+    </span><span class="kw">fn </span>validate_bytes(_bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), UleError&gt; {
         <span class="prelude-val">Ok</span>(())
     }
 }
@@ -698,18 +731,18 @@
 // Safety (based on the safety checklist on the ULE trait):
 //  1. bool does not include any uninitialized or padding bytes (the remaining 7 bytes in bool are by definition zero)
 //  2. bool is aligned to 1 byte.
-//  3. The impl of validate_byte_slice() returns an error if any byte is not valid (bytes that are not 0 or 1).
-//  4. The impl of validate_byte_slice() returns an error if there are leftover bytes (never).
+//  3. The impl of validate_bytes() returns an error if any byte is not valid (bytes that are not 0 or 1).
+//  4. The impl of validate_bytes() returns an error if there are leftover bytes (never).
 //  5. The other ULE methods use the default impl.
 //  6. bool byte equality is semantic equality
 </span><span class="kw">unsafe impl </span>ULE <span class="kw">for </span>bool {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>validate_byte_slice(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), ZeroVecError&gt; {
+    </span><span class="kw">fn </span>validate_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), UleError&gt; {
         <span class="kw">for </span>byte <span class="kw">in </span>bytes {
             <span class="comment">// https://doc.rust-lang.org/reference/types/boolean.html
             // Rust booleans are always size 1, align 1 values with valid bit patterns 0x0 or 0x1
             </span><span class="kw">if </span><span class="kw-2">*</span>byte &gt; <span class="number">1 </span>{
-                <span class="kw">return </span><span class="prelude-val">Err</span>(ZeroVecError::parse::&lt;<span class="self">Self</span>&gt;());
+                <span class="kw">return </span><span class="prelude-val">Err</span>(UleError::parse::&lt;<span class="self">Self</span>&gt;());
             }
         }
         <span class="prelude-val">Ok</span>(())
@@ -730,4 +763,37 @@
 
 <span class="comment">// EqULE is true because bool is its own ULE.
 </span><span class="kw">unsafe impl </span>EqULE <span class="kw">for </span>bool {}
+
+<span class="comment">// Safety (based on the safety checklist on the ULE trait):
+//  1. () does not include any uninitialized or padding bytes (it has no bytes)
+//  2. () is a ZST that is safe to construct
+//  3. The impl of validate_bytes() returns an error if any byte is not valid (any byte).
+//  4. The impl of validate_bytes() returns an error if there are leftover bytes (always).
+//  5. The other ULE methods use the default impl.
+//  6. () byte equality is semantic equality
+</span><span class="kw">unsafe impl </span>ULE <span class="kw">for </span>() {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>validate_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), UleError&gt; {
+        <span class="kw">if </span>bytes.is_empty() {
+            <span class="prelude-val">Ok</span>(())
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Err</span>(UleError::length::&lt;<span class="self">Self</span>&gt;(bytes.len()))
+        }
+    }
+}
+
+<span class="kw">impl </span>AsULE <span class="kw">for </span>() {
+    <span class="kw">type </span>ULE = <span class="self">Self</span>;
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>to_unaligned(<span class="self">self</span>) -&gt; <span class="self">Self</span>::ULE {
+        <span class="self">self
+    </span>}
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>from_unaligned(unaligned: <span class="self">Self</span>::ULE) -&gt; <span class="self">Self </span>{
+        unaligned
+    }
+}
+
+<span class="comment">// EqULE is true because () is its own ULE.
+</span><span class="kw">unsafe impl </span>EqULE <span class="kw">for </span>() {}
 </code></pre></div></section></main></body></html>

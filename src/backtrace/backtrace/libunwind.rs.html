@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/backtrace-0.3.71/src/backtrace/libunwind.rs`."><title>libunwind.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="backtrace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">backtrace/backtrace/</div>libunwind.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/backtrace-0.3.75/src/backtrace/libunwind.rs`."><title>libunwind.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="backtrace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">backtrace/backtrace/</div>libunwind.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -280,7 +280,26 @@
 <a href="#279" id="279">279</a>
 <a href="#280" id="280">280</a>
 <a href="#281" id="281">281</a>
-<a href="#282" id="282">282</a></pre></div><pre class="rust"><code><span class="doccomment">//! Backtrace support using libunwind/gcc_s/etc APIs.
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a></pre></div><pre class="rust"><code><span class="doccomment">//! Backtrace support using libunwind/gcc_s/etc APIs.
 //!
 //! This module contains the ability to unwind the stack using libunwind-style
 //! APIs. Note that there's a whole bunch of implementations of the
@@ -297,8 +316,7 @@
 //!
 //! This is the default unwinding API for all non-Windows platforms currently.
 
-</span><span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::Bomb;
-<span class="kw">use </span>core::ffi::c_void;
+</span><span class="kw">use </span>core::ffi::c_void;
 <span class="kw">use </span>core::ptr::addr_of_mut;
 
 <span class="kw">pub enum </span>Frame {
@@ -382,9 +400,23 @@
     }
 }
 
+<span class="kw">struct </span>Bomb {
+    enabled: bool,
+}
+
+<span class="kw">impl </span>Drop <span class="kw">for </span>Bomb {
+    <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">if </span><span class="self">self</span>.enabled {
+            <span class="macro">panic!</span>(<span class="string">"cannot panic during the backtrace function"</span>);
+        }
+    }
+}
+
 <span class="attr">#[inline(always)]
 </span><span class="kw">pub unsafe fn </span>trace(<span class="kw-2">mut </span>cb: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>FnMut(<span class="kw-2">&amp;</span><span class="kw">super</span>::Frame) -&gt; bool) {
-    uw::_Unwind_Backtrace(trace_fn, <span class="macro">addr_of_mut!</span>(cb).cast());
+    <span class="kw">unsafe </span>{
+        uw::_Unwind_Backtrace(trace_fn, <span class="macro">addr_of_mut!</span>(cb).cast());
+    }
 
     <span class="kw">extern </span><span class="string">"C" </span><span class="kw">fn </span>trace_fn(
         ctx: <span class="kw-2">*mut </span>uw::_Unwind_Context,
@@ -439,7 +471,7 @@
     <span class="kw">pub type </span>_Unwind_Trace_Fn =
         <span class="kw">extern </span><span class="string">"C" </span><span class="kw">fn</span>(ctx: <span class="kw-2">*mut </span>_Unwind_Context, arg: <span class="kw-2">*mut </span>c_void) -&gt; _Unwind_Reason_Code;
 
-    <span class="kw">extern </span><span class="string">"C" </span>{
+    <span class="kw">unsafe extern </span><span class="string">"C" </span>{
         <span class="kw">pub fn </span>_Unwind_Backtrace(
             trace: _Unwind_Trace_Fn,
             trace_argument: <span class="kw-2">*mut </span>c_void,
@@ -453,9 +485,11 @@
             not(all(target_os = <span class="string">"freebsd"</span>, target_arch = <span class="string">"arm"</span>)),
             not(all(target_os = <span class="string">"linux"</span>, target_arch = <span class="string">"arm"</span>)),
             not(all(target_os = <span class="string">"horizon"</span>, target_arch = <span class="string">"arm"</span>)),
+            not(all(target_os = <span class="string">"rtems"</span>, target_arch = <span class="string">"arm"</span>)),
             not(all(target_os = <span class="string">"vita"</span>, target_arch = <span class="string">"arm"</span>)),
+            not(all(target_os = <span class="string">"nuttx"</span>, target_arch = <span class="string">"arm"</span>)),
         ))] </span>{
-            <span class="kw">extern </span><span class="string">"C" </span>{
+            <span class="kw">unsafe extern </span><span class="string">"C" </span>{
                 <span class="kw">pub fn </span>_Unwind_GetIP(ctx: <span class="kw-2">*mut </span>_Unwind_Context) -&gt; libc::uintptr_t;
                 <span class="kw">pub fn </span>_Unwind_FindEnclosingFunction(pc: <span class="kw-2">*mut </span>c_void) -&gt; <span class="kw-2">*mut </span>c_void;
 
@@ -475,10 +509,10 @@
             // instead of relying on _Unwind_GetCFA.
             </span><span class="attr">#[cfg(all(target_os = <span class="string">"linux"</span>, target_arch = <span class="string">"s390x"</span>))]
             </span><span class="kw">pub unsafe fn </span>get_sp(ctx: <span class="kw-2">*mut </span>_Unwind_Context) -&gt; libc::uintptr_t {
-                <span class="kw">extern </span><span class="string">"C" </span>{
+                <span class="kw">unsafe extern </span><span class="string">"C" </span>{
                     <span class="kw">pub fn </span>_Unwind_GetGR(ctx: <span class="kw-2">*mut </span>_Unwind_Context, index: libc::c_int) -&gt; libc::uintptr_t;
                 }
-                _Unwind_GetGR(ctx, <span class="number">15</span>)
+                <span class="kw">unsafe </span>{ _Unwind_GetGR(ctx, <span class="number">15</span>) }
             }
         } <span class="kw">else </span>{
             <span class="kw">use </span>core::ptr::addr_of_mut;
@@ -515,7 +549,7 @@
             }
 
             <span class="kw">type </span>_Unwind_Word = libc::c_uint;
-            <span class="kw">extern </span><span class="string">"C" </span>{
+            <span class="kw">unsafe extern </span><span class="string">"C" </span>{
                 <span class="kw">fn </span>_Unwind_VRS_Get(
                     ctx: <span class="kw-2">*mut </span>_Unwind_Context,
                     klass: _Unwind_VRS_RegClass,
@@ -528,13 +562,15 @@
             <span class="kw">pub unsafe fn </span>_Unwind_GetIP(ctx: <span class="kw-2">*mut </span>_Unwind_Context) -&gt; libc::uintptr_t {
                 <span class="kw">let </span><span class="kw-2">mut </span>val: _Unwind_Word = <span class="number">0</span>;
                 <span class="kw">let </span>ptr = <span class="macro">addr_of_mut!</span>(val);
-                <span class="kw">let _ </span>= _Unwind_VRS_Get(
-                    ctx,
-                    _Unwind_VRS_RegClass::_UVRSC_CORE,
-                    <span class="number">15</span>,
-                    _Unwind_VRS_DataRepresentation::_UVRSD_UINT32,
-                    ptr.cast::&lt;c_void&gt;(),
-                );
+                <span class="kw">unsafe </span>{
+                    <span class="kw">let _ </span>= _Unwind_VRS_Get(
+                        ctx,
+                        _Unwind_VRS_RegClass::_UVRSC_CORE,
+                        <span class="number">15</span>,
+                        _Unwind_VRS_DataRepresentation::_UVRSD_UINT32,
+                        ptr.cast::&lt;c_void&gt;(),
+                    );
+                }
                 (val &amp; !<span class="number">1</span>) <span class="kw">as </span>libc::uintptr_t
             }
 
@@ -544,13 +580,15 @@
             <span class="kw">pub unsafe fn </span>get_sp(ctx: <span class="kw-2">*mut </span>_Unwind_Context) -&gt; libc::uintptr_t {
                 <span class="kw">let </span><span class="kw-2">mut </span>val: _Unwind_Word = <span class="number">0</span>;
                 <span class="kw">let </span>ptr = <span class="macro">addr_of_mut!</span>(val);
-                <span class="kw">let _ </span>= _Unwind_VRS_Get(
-                    ctx,
-                    _Unwind_VRS_RegClass::_UVRSC_CORE,
-                    SP,
-                    _Unwind_VRS_DataRepresentation::_UVRSD_UINT32,
-                    ptr.cast::&lt;c_void&gt;(),
-                );
+                <span class="kw">unsafe </span>{
+                    <span class="kw">let _ </span>= _Unwind_VRS_Get(
+                        ctx,
+                        _Unwind_VRS_RegClass::_UVRSC_CORE,
+                        SP,
+                        _Unwind_VRS_DataRepresentation::_UVRSD_UINT32,
+                        ptr.cast::&lt;c_void&gt;(),
+                    );
+                }
                 val <span class="kw">as </span>libc::uintptr_t
             }
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.10.4/src/map/borrowed.rs`."><title>borrowed.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/map/</div>borrowed.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.11.2/src/map/borrowed.rs`."><title>borrowed.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/map/</div>borrowed.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -316,11 +316,7 @@
 <a href="#315" id="315">315</a>
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
-<a href="#320" id="320">320</a>
-<a href="#321" id="321">321</a>
-<a href="#322" id="322">322</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#318" id="318">318</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
@@ -345,9 +341,9 @@
 /// use zerovec::maps::ZeroMapBorrowed;
 ///
 /// // Example byte buffer representing the map { 1: "one" }
-/// let BINCODE_BYTES: &amp;[u8; 29] = &amp;[
-///     4, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-///     0, 0, 111, 110, 101,
+/// let BINCODE_BYTES: &amp;[u8; 25] = &amp;[
+///     4, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1, 0, 111,
+///     110, 101,
 /// ];
 ///
 /// // Deserializing to ZeroMap requires no heap allocations.
@@ -449,12 +445,12 @@
     }
 
     <span class="doccomment">/// The number of elements in the [`ZeroMapBorrowed`]
-    </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+    </span><span class="kw">pub fn </span>len(<span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.values.zvl_len()
     }
 
     <span class="doccomment">/// Whether the [`ZeroMapBorrowed`] is empty
-    </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    </span><span class="kw">pub fn </span>is_empty(<span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.values.zvl_len() == <span class="number">0
     </span>}
 }
@@ -482,7 +478,7 @@
     /// assert_eq!(borrowed.get(&amp;1), Some("one"));
     /// assert_eq!(borrowed.get(&amp;3), None);
     /// ```
-    </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>K) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>V::GetType&gt; {
+    </span><span class="kw">pub fn </span>get(<span class="self">self</span>, key: <span class="kw-2">&amp;</span>K) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>V::GetType&gt; {
         <span class="kw">let </span>index = <span class="self">self</span>.keys.zvl_binary_search(key).ok()<span class="question-mark">?</span>;
         <span class="self">self</span>.values.zvl_get(index)
     }
@@ -503,7 +499,7 @@
     /// assert_eq!(borrowed.get_by(|probe| probe.cmp(&amp;1)), Some("one"));
     /// assert_eq!(borrowed.get_by(|probe| probe.cmp(&amp;3)), None);
     /// ```
-    </span><span class="kw">pub fn </span>get_by(<span class="kw-2">&amp;</span><span class="self">self</span>, predicate: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>K) -&gt; Ordering) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>V::GetType&gt; {
+    </span><span class="kw">pub fn </span>get_by(<span class="self">self</span>, predicate: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>K) -&gt; Ordering) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>V::GetType&gt; {
         <span class="kw">let </span>index = <span class="self">self</span>.keys.zvl_binary_search_by(predicate).ok()<span class="question-mark">?</span>;
         <span class="self">self</span>.values.zvl_get(index)
     }
@@ -520,7 +516,7 @@
     /// assert!(borrowed.contains_key(&amp;1));
     /// assert!(!borrowed.contains_key(&amp;3));
     /// ```
-    </span><span class="kw">pub fn </span>contains_key(<span class="kw-2">&amp;</span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>K) -&gt; bool {
+    </span><span class="kw">pub fn </span>contains_key(<span class="self">self</span>, key: <span class="kw-2">&amp;</span>K) -&gt; bool {
         <span class="self">self</span>.keys.zvl_binary_search(key).is_ok()
     }
 }
@@ -531,27 +527,25 @@
     V: ZeroMapKV&lt;<span class="lifetime">'a</span>&gt; + <span class="question-mark">?</span>Sized,
 {
     <span class="doccomment">/// Produce an ordered iterator over key-value pairs
-    </span><span class="kw">pub fn </span>iter&lt;<span class="lifetime">'b</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="self">self</span>,
+    </span><span class="kw">pub fn </span>iter(
+        <span class="self">self</span>,
     ) -&gt; <span class="kw">impl </span>Iterator&lt;
         Item = (
             <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;K <span class="kw">as </span>ZeroMapKV&lt;<span class="lifetime">'a</span>&gt;&gt;::GetType,
             <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;V <span class="kw">as </span>ZeroMapKV&lt;<span class="lifetime">'a</span>&gt;&gt;::GetType,
         ),
-    &gt; + <span class="lifetime">'b </span>{
+    &gt; {
         <span class="self">self</span>.iter_keys().zip(<span class="self">self</span>.iter_values())
     }
 
     <span class="doccomment">/// Produce an ordered iterator over keys
-    </span><span class="kw">pub fn </span>iter_keys&lt;<span class="lifetime">'b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;K <span class="kw">as </span>ZeroMapKV&lt;<span class="lifetime">'a</span>&gt;&gt;::GetType&gt; + <span class="lifetime">'b </span>{
+    </span><span class="kw">pub fn </span>iter_keys(<span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;K <span class="kw">as </span>ZeroMapKV&lt;<span class="lifetime">'a</span>&gt;&gt;::GetType&gt; {
         <span class="attr">#[allow(clippy::unwrap_used)] </span><span class="comment">// idx in 0..keys.zvl_len()
         </span>(<span class="number">0</span>..<span class="self">self</span>.keys.zvl_len()).map(<span class="kw">move </span>|idx| <span class="self">self</span>.keys.zvl_get(idx).unwrap())
     }
 
     <span class="doccomment">/// Produce an iterator over values, ordered by keys
-    </span><span class="kw">pub fn </span>iter_values&lt;<span class="lifetime">'b</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="self">self</span>,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;V <span class="kw">as </span>ZeroMapKV&lt;<span class="lifetime">'a</span>&gt;&gt;::GetType&gt; + <span class="lifetime">'b </span>{
+    </span><span class="kw">pub fn </span>iter_values(<span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;V <span class="kw">as </span>ZeroMapKV&lt;<span class="lifetime">'a</span>&gt;&gt;::GetType&gt; {
         <span class="attr">#[allow(clippy::unwrap_used)] </span><span class="comment">// idx in 0..keys.zvl_len() == values.zvl_len()
         </span>(<span class="number">0</span>..<span class="self">self</span>.values.zvl_len()).map(<span class="kw">move </span>|idx| <span class="self">self</span>.values.zvl_get(idx).unwrap())
     }
@@ -563,22 +557,22 @@
     V: ZeroMapKV&lt;<span class="lifetime">'a</span>, Slice = ZeroSlice&lt;V&gt;&gt; + AsULE + Copy + <span class="lifetime">'static</span>,
 {
     <span class="doccomment">/// For cases when `V` is fixed-size, obtain a direct copy of `V` instead of `V::ULE`
-    </span><span class="kw">pub fn </span>get_copied(<span class="kw-2">&amp;</span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>K) -&gt; <span class="prelude-ty">Option</span>&lt;V&gt; {
+    </span><span class="kw">pub fn </span>get_copied(<span class="self">self</span>, key: <span class="kw-2">&amp;</span>K) -&gt; <span class="prelude-ty">Option</span>&lt;V&gt; {
         <span class="kw">let </span>index = <span class="self">self</span>.keys.zvl_binary_search(key).ok()<span class="question-mark">?</span>;
         <span class="self">self</span>.values.get(index)
     }
 
     <span class="doccomment">/// For cases when `V` is fixed-size, obtain a direct copy of `V` instead of `V::ULE`
-    </span><span class="kw">pub fn </span>get_copied_by(<span class="kw-2">&amp;</span><span class="self">self</span>, predicate: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>K) -&gt; Ordering) -&gt; <span class="prelude-ty">Option</span>&lt;V&gt; {
+    </span><span class="kw">pub fn </span>get_copied_by(<span class="self">self</span>, predicate: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>K) -&gt; Ordering) -&gt; <span class="prelude-ty">Option</span>&lt;V&gt; {
         <span class="kw">let </span>index = <span class="self">self</span>.keys.zvl_binary_search_by(predicate).ok()<span class="question-mark">?</span>;
         <span class="self">self</span>.values.get(index)
     }
 
     <span class="doccomment">/// Similar to [`Self::iter()`] except it returns a direct copy of the values instead of references
     /// to `V::ULE`, in cases when `V` is fixed-size
-    </span><span class="kw">pub fn </span>iter_copied_values&lt;<span class="lifetime">'b</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="self">self</span>,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (<span class="kw-2">&amp;</span><span class="lifetime">'b </span>&lt;K <span class="kw">as </span>ZeroMapKV&lt;<span class="lifetime">'a</span>&gt;&gt;::GetType, V)&gt; {
+    </span><span class="kw">pub fn </span>iter_copied_values(
+        <span class="self">self</span>,
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>&lt;K <span class="kw">as </span>ZeroMapKV&lt;<span class="lifetime">'a</span>&gt;&gt;::GetType, V)&gt; {
         (<span class="number">0</span>..<span class="self">self</span>.keys.zvl_len()).map(<span class="kw">move </span>|idx| {
             (
                 <span class="attr">#[allow(clippy::unwrap_used)] </span><span class="comment">// idx in 0..keys.zvl_len()
@@ -598,16 +592,14 @@
     <span class="doccomment">/// Similar to [`Self::iter()`] except it returns a direct copy of the keys values instead of references
     /// to `K::ULE` and `V::ULE`, in cases when `K` and `V` are fixed-size
     </span><span class="attr">#[allow(clippy::needless_lifetimes)] </span><span class="comment">// Lifetime is necessary in impl Trait
-    </span><span class="kw">pub fn </span>iter_copied&lt;<span class="lifetime">'b</span>: <span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (K, V)&gt; + <span class="lifetime">'b </span>{
-        <span class="kw">let </span>keys = <span class="kw-2">&amp;</span><span class="self">self</span>.keys;
-        <span class="kw">let </span>values = <span class="kw-2">&amp;</span><span class="self">self</span>.values;
+    </span><span class="kw">pub fn </span>iter_copied(<span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (K, V)&gt; + <span class="lifetime">'a </span>{
         <span class="kw">let </span>len = <span class="self">self</span>.keys.zvl_len();
         (<span class="number">0</span>..len).map(<span class="kw">move </span>|idx| {
             (
                 <span class="attr">#[allow(clippy::unwrap_used)] </span><span class="comment">// idx in 0..keys.zvl_len()
-                </span>ZeroSlice::get(keys, idx).unwrap(),
+                </span>ZeroSlice::get(<span class="self">self</span>.keys, idx).unwrap(),
                 <span class="attr">#[allow(clippy::unwrap_used)] </span><span class="comment">// idx in 0..keys.zvl_len() = values.zvl_len()
-                </span>ZeroSlice::get(values, idx).unwrap(),
+                </span>ZeroSlice::get(<span class="self">self</span>.values, idx).unwrap(),
             )
         })
     }

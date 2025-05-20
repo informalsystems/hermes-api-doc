@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hashbrown-0.15.2/src/map.rs`."><title>map.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="hashbrown" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">hashbrown/</div>map.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hashbrown-0.15.3/src/map.rs`."><title>map.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="hashbrown" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">hashbrown/</div>map.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -6510,7 +6510,11 @@
 <a href="#6509" id="6509">6509</a>
 <a href="#6510" id="6510">6510</a>
 <a href="#6511" id="6511">6511</a>
-<a href="#6512" id="6512">6512</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::raw::{
+<a href="#6512" id="6512">6512</a>
+<a href="#6513" id="6513">6513</a>
+<a href="#6514" id="6514">6514</a>
+<a href="#6515" id="6515">6515</a>
+<a href="#6516" id="6516">6516</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::raw::{
     Allocator, Bucket, Global, RawDrain, RawExtractIf, RawIntoIter, RawIter, RawTable,
 };
 <span class="kw">use crate</span>::{DefaultHashBuilder, Equivalent, TryReserveError};
@@ -9108,10 +9112,7 @@
 /// assert_eq!(map.len(), 1);
 /// ```
 </span><span class="attr">#[must_use = <span class="string">"Iterators are lazy unless consumed"</span>]
-</span><span class="kw">pub struct </span>ExtractIf&lt;<span class="lifetime">'a</span>, K, V, F, A: Allocator = Global&gt;
-<span class="kw">where
-    </span>F: FnMut(<span class="kw-2">&amp;</span>K, <span class="kw-2">&amp;mut </span>V) -&gt; bool,
-{
+</span><span class="kw">pub struct </span>ExtractIf&lt;<span class="lifetime">'a</span>, K, V, F, A: Allocator = Global&gt; {
     f: F,
     inner: RawExtractIf&lt;<span class="lifetime">'a</span>, (K, V), A&gt;,
 }
@@ -10643,7 +10644,8 @@
     </span><span class="attr">#[cfg_attr(feature = <span class="string">"inline-more"</span>, inline)]
     </span><span class="kw">pub fn </span>insert(<span class="self">self</span>, value: V) -&gt; OccupiedEntry&lt;<span class="lifetime">'a</span>, K, V, S, A&gt;
     <span class="kw">where
-        </span>K: Hash + From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q&gt;,
+        </span>K: Hash,
+        <span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q: Into&lt;K&gt;,
         S: BuildHasher,
     {
         <span class="kw">match </span><span class="self">self </span>{
@@ -10676,7 +10678,8 @@
     </span><span class="attr">#[cfg_attr(feature = <span class="string">"inline-more"</span>, inline)]
     </span><span class="kw">pub fn </span>or_insert(<span class="self">self</span>, default: V) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>V
     <span class="kw">where
-        </span>K: Hash + From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q&gt;,
+        </span>K: Hash,
+        <span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q: Into&lt;K&gt;,
         S: BuildHasher,
     {
         <span class="kw">match </span><span class="self">self </span>{
@@ -10706,7 +10709,8 @@
     </span><span class="attr">#[cfg_attr(feature = <span class="string">"inline-more"</span>, inline)]
     </span><span class="kw">pub fn </span>or_insert_with&lt;F: FnOnce() -&gt; V&gt;(<span class="self">self</span>, default: F) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>V
     <span class="kw">where
-        </span>K: Hash + From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q&gt;,
+        </span>K: Hash,
+        <span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q: Into&lt;K&gt;,
         S: BuildHasher,
     {
         <span class="kw">match </span><span class="self">self </span>{
@@ -10737,7 +10741,8 @@
     </span><span class="attr">#[cfg_attr(feature = <span class="string">"inline-more"</span>, inline)]
     </span><span class="kw">pub fn </span>or_insert_with_key&lt;F: FnOnce(<span class="kw-2">&amp;</span>Q) -&gt; V&gt;(<span class="self">self</span>, default: F) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>V
     <span class="kw">where
-        </span>K: Hash + Borrow&lt;Q&gt; + From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q&gt;,
+        </span>K: Hash + Borrow&lt;Q&gt;,
+        <span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q: Into&lt;K&gt;,
         S: BuildHasher,
     {
         <span class="kw">match </span><span class="self">self </span>{
@@ -10832,7 +10837,8 @@
     </span><span class="attr">#[cfg_attr(feature = <span class="string">"inline-more"</span>, inline)]
     </span><span class="kw">pub fn </span>or_default(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>V
     <span class="kw">where
-        </span>K: Hash + From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q&gt;,
+        </span>K: Hash,
+        <span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q: Into&lt;K&gt;,
         S: BuildHasher,
     {
         <span class="kw">match </span><span class="self">self </span>{
@@ -10880,7 +10886,8 @@
     </span><span class="attr">#[cfg_attr(feature = <span class="string">"inline-more"</span>, inline)]
     </span><span class="kw">pub fn </span>insert(<span class="self">self</span>, value: V) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>V
     <span class="kw">where
-        </span>K: Hash + From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q&gt;,
+        </span>K: Hash,
+        <span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q: Into&lt;K&gt;,
         S: BuildHasher,
     {
         <span class="kw">let </span>table = <span class="kw-2">&amp;mut </span><span class="self">self</span>.table.table;
@@ -10911,7 +10918,8 @@
     </span><span class="attr">#[cfg_attr(feature = <span class="string">"inline-more"</span>, inline)]
     </span><span class="kw">pub fn </span>insert_entry(<span class="self">self</span>, value: V) -&gt; OccupiedEntry&lt;<span class="lifetime">'a</span>, K, V, S, A&gt;
     <span class="kw">where
-        </span>K: Hash + From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q&gt;,
+        </span>K: Hash,
+        <span class="kw-2">&amp;</span><span class="lifetime">'b </span>Q: Into&lt;K&gt;,
         S: BuildHasher,
     {
         <span class="kw">let </span>elem = <span class="self">self</span>.table.table.insert(
@@ -11202,9 +11210,9 @@
     <span class="kw">use </span><span class="kw">super</span>::Entry::{Occupied, Vacant};
     <span class="kw">use </span><span class="kw">super</span>::EntryRef;
     <span class="kw">use </span><span class="kw">super</span>::HashMap;
+    <span class="kw">use </span><span class="kw">crate</span>::raw::{AllocError, Allocator, Global};
     <span class="kw">use </span>alloc::string::{String, ToString};
     <span class="kw">use </span>alloc::sync::Arc;
-    <span class="kw">use </span>allocator_api2::alloc::{AllocError, Allocator, Global};
     <span class="kw">use </span>core::alloc::Layout;
     <span class="kw">use </span>core::ptr::NonNull;
     <span class="kw">use </span>core::sync::atomic::{AtomicI8, Ordering};

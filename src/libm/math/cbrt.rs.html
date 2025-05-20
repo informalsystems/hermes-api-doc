@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libm-0.2.11/src/math/cbrt.rs`."><title>cbrt.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="libm" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">libm/math/</div>cbrt.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/libm-0.2.15/src/math/cbrt.rs`."><title>cbrt.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="libm" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">libm/math/</div>cbrt.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -111,117 +111,329 @@
 <a href="#110" id="110">110</a>
 <a href="#111" id="111">111</a>
 <a href="#112" id="112">112</a>
-<a href="#113" id="113">113</a></pre></div><pre class="rust"><code><span class="comment">/* origin: FreeBSD /usr/src/lib/msun/src/s_cbrt.c */
-/*
- * ====================================================
- * Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
- *
- * Developed at SunPro, a Sun Microsystems, Inc. business.
- * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice
- * is preserved.
- * ====================================================
- *
- * Optimized by Bruce D. Evans.
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
+<a href="#129" id="129">129</a>
+<a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
+<a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
+<a href="#156" id="156">156</a>
+<a href="#157" id="157">157</a>
+<a href="#158" id="158">158</a>
+<a href="#159" id="159">159</a>
+<a href="#160" id="160">160</a>
+<a href="#161" id="161">161</a>
+<a href="#162" id="162">162</a>
+<a href="#163" id="163">163</a>
+<a href="#164" id="164">164</a>
+<a href="#165" id="165">165</a>
+<a href="#166" id="166">166</a>
+<a href="#167" id="167">167</a>
+<a href="#168" id="168">168</a>
+<a href="#169" id="169">169</a>
+<a href="#170" id="170">170</a>
+<a href="#171" id="171">171</a>
+<a href="#172" id="172">172</a>
+<a href="#173" id="173">173</a>
+<a href="#174" id="174">174</a>
+<a href="#175" id="175">175</a>
+<a href="#176" id="176">176</a>
+<a href="#177" id="177">177</a>
+<a href="#178" id="178">178</a>
+<a href="#179" id="179">179</a>
+<a href="#180" id="180">180</a>
+<a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
+<a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
+<a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a></pre></div><pre class="rust"><code><span class="comment">/* SPDX-License-Identifier: MIT */
+/* origin: core-math/src/binary64/cbrt/cbrt.c
+ * Copyright (c) 2021-2022 Alexei Sibidanov.
+ * Ported to Rust in 2025 by Trevor Gross.
  */
-/* cbrt(x)
- * Return cube root of x
- */
 
-</span><span class="kw">use </span>core::f64;
+</span><span class="kw">use </span><span class="kw">super</span>::Float;
+<span class="kw">use </span><span class="kw">super</span>::support::{FpResult, Round, cold_path};
 
-<span class="kw">const </span>B1: u32 = <span class="number">715094163</span>; <span class="comment">/* B1 = (1023-1023/3-0.03306235651)*2**20 */
-</span><span class="kw">const </span>B2: u32 = <span class="number">696219795</span>; <span class="comment">/* B2 = (1023-1023/3-54/3-0.03306235651)*2**20 */
-
-/* |1/cbrt(x) - p(x)| &lt; 2**-23.5 (~[-7.93e-8, 7.929e-8]). */
-</span><span class="kw">const </span>P0: f64 = <span class="number">1.87595182427177009643</span>; <span class="comment">/* 0x3ffe03e6, 0x0f61e692 */
-</span><span class="kw">const </span>P1: f64 = -<span class="number">1.88497979543377169875</span>; <span class="comment">/* 0xbffe28e0, 0x92f02420 */
-</span><span class="kw">const </span>P2: f64 = <span class="number">1.621429720105354466140</span>; <span class="comment">/* 0x3ff9f160, 0x4a49d6c2 */
-</span><span class="kw">const </span>P3: f64 = -<span class="number">0.758397934778766047437</span>; <span class="comment">/* 0xbfe844cb, 0xbee751d9 */
-</span><span class="kw">const </span>P4: f64 = <span class="number">0.145996192886612446982</span>; <span class="comment">/* 0x3fc2b000, 0xd4e4edd7 */
-
-// Cube root (f64)
-</span><span class="doccomment">///
-/// Computes the cube root of the argument.
+<span class="doccomment">/// Compute the cube root of the argument.
 </span><span class="attr">#[cfg_attr(all(test, assert_no_panic), no_panic::no_panic)]
 </span><span class="kw">pub fn </span>cbrt(x: f64) -&gt; f64 {
-    <span class="kw">let </span>x1p54 = f64::from_bits(<span class="number">0x4350000000000000</span>); <span class="comment">// 0x1p54 === 2 ^ 54
+    cbrt_round(x, Round::Nearest).val
+}
 
-    </span><span class="kw">let </span><span class="kw-2">mut </span>ui: u64 = x.to_bits();
-    <span class="kw">let </span><span class="kw-2">mut </span>r: f64;
-    <span class="kw">let </span>s: f64;
-    <span class="kw">let </span><span class="kw-2">mut </span>t: f64;
-    <span class="kw">let </span>w: f64;
-    <span class="kw">let </span><span class="kw-2">mut </span>hx: u32 = (ui &gt;&gt; <span class="number">32</span>) <span class="kw">as </span>u32 &amp; <span class="number">0x7fffffff</span>;
+<span class="kw">pub fn </span>cbrt_round(x: f64, round: Round) -&gt; FpResult&lt;f64&gt; {
+    <span class="kw">const </span>ESCALE: [f64; <span class="number">3</span>] = [
+        <span class="number">1.0</span>,
+        <span class="macro">hf64!</span>(<span class="string">"0x1.428a2f98d728bp+0"</span>), <span class="comment">/* 2^(1/3) */
+        </span><span class="macro">hf64!</span>(<span class="string">"0x1.965fea53d6e3dp+0"</span>), <span class="comment">/* 2^(2/3) */
+    </span>];
 
-    <span class="kw">if </span>hx &gt;= <span class="number">0x7ff00000 </span>{
-        <span class="comment">/* cbrt(NaN,INF) is itself */
-        </span><span class="kw">return </span>x + x;
+    <span class="comment">/* the polynomial c0+c1*x+c2*x^2+c3*x^3 approximates x^(1/3) on [1,2]
+    with maximal error &lt; 9.2e-5 (attained at x=2) */
+    </span><span class="kw">const </span>C: [f64; <span class="number">4</span>] = [
+        <span class="macro">hf64!</span>(<span class="string">"0x1.1b0babccfef9cp-1"</span>),
+        <span class="macro">hf64!</span>(<span class="string">"0x1.2c9a3e94d1da5p-1"</span>),
+        <span class="macro">hf64!</span>(<span class="string">"-0x1.4dc30b1a1ddbap-3"</span>),
+        <span class="macro">hf64!</span>(<span class="string">"0x1.7a8d3e4ec9b07p-6"</span>),
+    ];
+
+    <span class="kw">let </span>u0: f64 = <span class="macro">hf64!</span>(<span class="string">"0x1.5555555555555p-2"</span>);
+    <span class="kw">let </span>u1: f64 = <span class="macro">hf64!</span>(<span class="string">"0x1.c71c71c71c71cp-3"</span>);
+
+    <span class="kw">let </span>rsc = [<span class="number">1.0</span>, -<span class="number">1.0</span>, <span class="number">0.5</span>, -<span class="number">0.5</span>, <span class="number">0.25</span>, -<span class="number">0.25</span>];
+
+    <span class="kw">let </span>off = [<span class="macro">hf64!</span>(<span class="string">"0x1p-53"</span>), <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>];
+
+    <span class="comment">/* rm=0 for rounding to nearest, and other values for directed roundings */
+    </span><span class="kw">let </span>hx: u64 = x.to_bits();
+    <span class="kw">let </span><span class="kw-2">mut </span>mant: u64 = hx &amp; f64::SIG_MASK;
+    <span class="kw">let </span>sign: u64 = hx &gt;&gt; <span class="number">63</span>;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>e: u32 = (hx &gt;&gt; f64::SIG_BITS) <span class="kw">as </span>u32 &amp; f64::EXP_SAT;
+
+    <span class="kw">if </span>((e + <span class="number">1</span>) &amp; f64::EXP_SAT) &lt; <span class="number">2 </span>{
+        cold_path();
+
+        <span class="kw">let </span>ix: u64 = hx &amp; !f64::SIGN_MASK;
+
+        <span class="comment">/* 0, inf, nan: we return x + x instead of simply x,
+        to that for x a signaling NaN, it correctly triggers
+        the invalid exception. */
+        </span><span class="kw">if </span>e == f64::EXP_SAT || ix == <span class="number">0 </span>{
+            <span class="kw">return </span>FpResult::ok(x + x);
+        }
+
+        <span class="kw">let </span>nz = ix.leading_zeros() - <span class="number">11</span>; <span class="comment">/* subnormal */
+        </span>mant &lt;&lt;= nz;
+        mant &amp;= f64::SIG_MASK;
+        e = e.wrapping_sub(nz - <span class="number">1</span>);
     }
 
-    <span class="comment">/*
-     * Rough cbrt to 5 bits:
-     *    cbrt(2**e*(1+m) ~= 2**(e/3)*(1+(e%3+m)/3)
-     * where e is integral and &gt;= 0, m is real and in [0, 1), and "/" and
-     * "%" are integer division and modulus with rounding towards minus
-     * infinity.  The RHS is always &gt;= the LHS and has a maximum relative
-     * error of about 1 in 16.  Adding a bias of -0.03306235651 to the
-     * (e%3+m)/3 term reduces the error to about 1 in 32. With the IEEE
-     * floating point representation, for finite positive normal values,
-     * ordinary integer divison of the value in bits magically gives
-     * almost exactly the RHS of the above provided we first subtract the
-     * exponent bias (1023 for doubles) and later add it back.  We do the
-     * subtraction virtually to keep e &gt;= 0 so that ordinary integer
-     * division rounds towards minus infinity; this is also efficient.
-     */
-    </span><span class="kw">if </span>hx &lt; <span class="number">0x00100000 </span>{
-        <span class="comment">/* zero or subnormal? */
-        </span>ui = (x * x1p54).to_bits();
-        hx = (ui &gt;&gt; <span class="number">32</span>) <span class="kw">as </span>u32 &amp; <span class="number">0x7fffffff</span>;
-        <span class="kw">if </span>hx == <span class="number">0 </span>{
-            <span class="kw">return </span>x; <span class="comment">/* cbrt(0) is itself */
-        </span>}
-        hx = hx / <span class="number">3 </span>+ B2;
-    } <span class="kw">else </span>{
-        hx = hx / <span class="number">3 </span>+ B1;
+    e = e.wrapping_add(<span class="number">3072</span>);
+    <span class="kw">let </span>cvt1: u64 = mant | (<span class="number">0x3ffu64 </span>&lt;&lt; <span class="number">52</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>cvt5: u64 = cvt1;
+
+    <span class="kw">let </span>et: u32 = e / <span class="number">3</span>;
+    <span class="kw">let </span>it: u32 = e % <span class="number">3</span>;
+
+    <span class="comment">/* 2^(3k+it) &lt;= x &lt; 2^(3k+it+1), with 0 &lt;= it &lt;= 3 */
+    </span>cvt5 += u64::from(it) &lt;&lt; f64::SIG_BITS;
+    cvt5 |= sign &lt;&lt; <span class="number">63</span>;
+    <span class="kw">let </span>zz: f64 = f64::from_bits(cvt5);
+
+    <span class="comment">/* cbrt(x) = cbrt(zz)*2^(et-1365) where 1 &lt;= zz &lt; 8 */
+    </span><span class="kw">let </span><span class="kw-2">mut </span>isc: u64 = ESCALE[it <span class="kw">as </span>usize].to_bits(); <span class="comment">// todo: index
+    </span>isc |= sign &lt;&lt; <span class="number">63</span>;
+    <span class="kw">let </span>cvt2: u64 = isc;
+    <span class="kw">let </span>z: f64 = f64::from_bits(cvt1);
+
+    <span class="comment">/* cbrt(zz) = cbrt(z)*isc, where isc encodes 1, 2^(1/3) or 2^(2/3),
+    and 1 &lt;= z &lt; 2 */
+    </span><span class="kw">let </span>r: f64 = <span class="number">1.0 </span>/ z;
+    <span class="kw">let </span>rr: f64 = r * rsc[((it <span class="kw">as </span>usize) &lt;&lt; <span class="number">1</span>) | sign <span class="kw">as </span>usize];
+    <span class="kw">let </span>z2: f64 = z * z;
+    <span class="kw">let </span>c0: f64 = C[<span class="number">0</span>] + z * C[<span class="number">1</span>];
+    <span class="kw">let </span>c2: f64 = C[<span class="number">2</span>] + z * C[<span class="number">3</span>];
+    <span class="kw">let </span><span class="kw-2">mut </span>y: f64 = c0 + z2 * c2;
+    <span class="kw">let </span><span class="kw-2">mut </span>y2: f64 = y * y;
+
+    <span class="comment">/* y is an approximation of z^(1/3) */
+    </span><span class="kw">let </span><span class="kw-2">mut </span>h: f64 = y2 * (y * r) - <span class="number">1.0</span>;
+
+    <span class="comment">/* h determines the error between y and z^(1/3) */
+    </span>y -= (h * y) * (u0 - u1 * h);
+
+    <span class="comment">/* The correction y -= (h*y)*(u0 - u1*h) corresponds to a cubic variant
+    of Newton's method, with the function f(y) = 1-z/y^3. */
+    </span>y <span class="kw-2">*</span>= f64::from_bits(cvt2);
+
+    <span class="comment">/* Now y is an approximation of zz^(1/3),
+     * and rr an approximation of 1/zz. We now perform another iteration of
+     * Newton-Raphson, this time with a linear approximation only. */
+    </span>y2 = y * y;
+    <span class="kw">let </span><span class="kw-2">mut </span>y2l: f64 = y.fma(y, -y2);
+
+    <span class="comment">/* y2 + y2l = y^2 exactly */
+    </span><span class="kw">let </span><span class="kw-2">mut </span>y3: f64 = y2 * y;
+    <span class="kw">let </span><span class="kw-2">mut </span>y3l: f64 = y.fma(y2, -y3) + y * y2l;
+
+    <span class="comment">/* y3 + y3l approximates y^3 with about 106 bits of accuracy */
+    </span>h = ((y3 - zz) + y3l) * rr;
+    <span class="kw">let </span><span class="kw-2">mut </span>dy: f64 = h * (y * u0);
+
+    <span class="comment">/* the approximation of zz^(1/3) is y - dy */
+    </span><span class="kw">let </span><span class="kw-2">mut </span>y1: f64 = y - dy;
+    dy = (y - y1) - dy;
+
+    <span class="comment">/* the approximation of zz^(1/3) is now y1 + dy, where |dy| &lt; 1/2 ulp(y)
+     * (for rounding to nearest) */
+    </span><span class="kw">let </span><span class="kw-2">mut </span>ady: f64 = dy.abs();
+
+    <span class="comment">/* For directed roundings, ady0 is tiny when dy is tiny, or ady0 is near
+     * from ulp(1);
+     * for rounding to nearest, ady0 is tiny when dy is near from 1/2 ulp(1),
+     * or from 3/2 ulp(1). */
+    </span><span class="kw">let </span><span class="kw-2">mut </span>ady0: f64 = (ady - off[round <span class="kw">as </span>usize]).abs();
+    <span class="kw">let </span><span class="kw-2">mut </span>ady1: f64 = (ady - (<span class="macro">hf64!</span>(<span class="string">"0x1p-52"</span>) + off[round <span class="kw">as </span>usize])).abs();
+
+    <span class="kw">if </span>ady0 &lt; <span class="macro">hf64!</span>(<span class="string">"0x1p-75"</span>) || ady1 &lt; <span class="macro">hf64!</span>(<span class="string">"0x1p-75"</span>) {
+        cold_path();
+
+        y2 = y1 * y1;
+        y2l = y1.fma(y1, -y2);
+        y3 = y2 * y1;
+        y3l = y1.fma(y2, -y3) + y1 * y2l;
+        h = ((y3 - zz) + y3l) * rr;
+        dy = h * (y1 * u0);
+        y = y1 - dy;
+        dy = (y1 - y) - dy;
+        y1 = y;
+        ady = dy.abs();
+        ady0 = (ady - off[round <span class="kw">as </span>usize]).abs();
+        ady1 = (ady - (<span class="macro">hf64!</span>(<span class="string">"0x1p-52"</span>) + off[round <span class="kw">as </span>usize])).abs();
+
+        <span class="kw">if </span>ady0 &lt; <span class="macro">hf64!</span>(<span class="string">"0x1p-98"</span>) || ady1 &lt; <span class="macro">hf64!</span>(<span class="string">"0x1p-98"</span>) {
+            cold_path();
+            <span class="kw">let </span>azz: f64 = zz.abs();
+
+            <span class="comment">// ~ 0x1.79d15d0e8d59b80000000000000ffc3dp+0
+            </span><span class="kw">if </span>azz == <span class="macro">hf64!</span>(<span class="string">"0x1.9b78223aa307cp+1"</span>) {
+                y1 = <span class="macro">hf64!</span>(<span class="string">"0x1.79d15d0e8d59cp+0"</span>).copysign(zz);
+            }
+
+            <span class="comment">// ~ 0x1.de87aa837820e80000000000001c0f08p+0
+            </span><span class="kw">if </span>azz == <span class="macro">hf64!</span>(<span class="string">"0x1.a202bfc89ddffp+2"</span>) {
+                y1 = <span class="macro">hf64!</span>(<span class="string">"0x1.de87aa837820fp+0"</span>).copysign(zz);
+            }
+
+            <span class="kw">if </span>round != Round::Nearest {
+                <span class="kw">let </span>wlist = [
+                    (<span class="macro">hf64!</span>(<span class="string">"0x1.3a9ccd7f022dbp+0"</span>), <span class="macro">hf64!</span>(<span class="string">"0x1.1236160ba9b93p+0"</span>)), <span class="comment">// ~ 0x1.1236160ba9b930000000000001e7e8fap+0
+                    </span>(<span class="macro">hf64!</span>(<span class="string">"0x1.7845d2faac6fep+0"</span>), <span class="macro">hf64!</span>(<span class="string">"0x1.23115e657e49cp+0"</span>)), <span class="comment">// ~ 0x1.23115e657e49c0000000000001d7a799p+0
+                    </span>(<span class="macro">hf64!</span>(<span class="string">"0x1.d1ef81cbbbe71p+0"</span>), <span class="macro">hf64!</span>(<span class="string">"0x1.388fb44cdcf5ap+0"</span>)), <span class="comment">// ~ 0x1.388fb44cdcf5a0000000000002202c55p+0
+                    </span>(<span class="macro">hf64!</span>(<span class="string">"0x1.0a2014f62987cp+1"</span>), <span class="macro">hf64!</span>(<span class="string">"0x1.46bcbf47dc1e8p+0"</span>)), <span class="comment">// ~ 0x1.46bcbf47dc1e8000000000000303aa2dp+0
+                    </span>(<span class="macro">hf64!</span>(<span class="string">"0x1.fe18a044a5501p+1"</span>), <span class="macro">hf64!</span>(<span class="string">"0x1.95decfec9c904p+0"</span>)), <span class="comment">// ~ 0x1.95decfec9c9040000000000000159e8ep+0
+                    </span>(<span class="macro">hf64!</span>(<span class="string">"0x1.a6bb8c803147bp+2"</span>), <span class="macro">hf64!</span>(<span class="string">"0x1.e05335a6401dep+0"</span>)), <span class="comment">// ~ 0x1.e05335a6401de00000000000027ca017p+0
+                    </span>(<span class="macro">hf64!</span>(<span class="string">"0x1.ac8538a031cbdp+2"</span>), <span class="macro">hf64!</span>(<span class="string">"0x1.e281d87098de8p+0"</span>)), <span class="comment">// ~ 0x1.e281d87098de80000000000000ee9314p+0
+                </span>];
+
+                <span class="kw">for </span>(a, b) <span class="kw">in </span>wlist {
+                    <span class="kw">if </span>azz == a {
+                        <span class="kw">let </span>tmp = <span class="kw">if </span>round <span class="kw">as </span>u64 + sign == <span class="number">2 </span>{
+                            <span class="macro">hf64!</span>(<span class="string">"0x1p-52"</span>)
+                        } <span class="kw">else </span>{
+                            <span class="number">0.0
+                        </span>};
+                        y1 = (b + tmp).copysign(zz);
+                    }
+                }
+            }
+        }
     }
-    ui &amp;= <span class="number">1 </span>&lt;&lt; <span class="number">63</span>;
-    ui |= (hx <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>;
-    t = f64::from_bits(ui);
 
-    <span class="comment">/*
-     * New cbrt to 23 bits:
-     *    cbrt(x) = t*cbrt(x/t**3) ~= t*P(t**3/x)
-     * where P(r) is a polynomial of degree 4 that approximates 1/cbrt(r)
-     * to within 2**-23.5 when |r - 1| &lt; 1/10.  The rough approximation
-     * has produced t such than |t/cbrt(x) - 1| ~&lt; 1/32, and cubing this
-     * gives us bounds for r = t**3/x.
-     *
-     * Try to optimize for parallel evaluation as in __tanf.c.
-     */
-    </span>r = (t * t) * (t / x);
-    t = t * ((P0 + r * (P1 + r * P2)) + ((r * r) * r) * (P3 + r * P4));
+    <span class="kw">let </span><span class="kw-2">mut </span>cvt3: u64 = y1.to_bits();
+    cvt3 = cvt3.wrapping_add(((et.wrapping_sub(<span class="number">342</span>).wrapping_sub(<span class="number">1023</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">52</span>);
+    <span class="kw">let </span>m0: u64 = cvt3 &lt;&lt; <span class="number">30</span>;
+    <span class="kw">let </span>m1 = m0 &gt;&gt; <span class="number">63</span>;
 
-    <span class="comment">/*
-     * Round t away from zero to 23 bits (sloppily except for ensuring that
-     * the result is larger in magnitude than cbrt(x) but not much more than
-     * 2 23-bit ulps larger).  With rounding towards zero, the error bound
-     * would be ~5/6 instead of ~4/6.  With a maximum error of 2 23-bit ulps
-     * in the rounded t, the infinite-precision error in the Newton
-     * approximation barely affects third digit in the final error
-     * 0.667; the error in the rounded t can be up to about 3 23-bit ulps
-     * before the final error is larger than 0.667 ulps.
-     */
-    </span>ui = t.to_bits();
-    ui = (ui + <span class="number">0x80000000</span>) &amp; <span class="number">0xffffffffc0000000</span>;
-    t = f64::from_bits(ui);
+    <span class="kw">if </span>(m0 ^ m1) &lt;= (<span class="number">1u64 </span>&lt;&lt; <span class="number">30</span>) {
+        cold_path();
 
-    <span class="comment">/* one step Newton iteration to 53 bits with error &lt; 0.667 ulps */
-    </span>s = t * t; <span class="comment">/* t*t is exact */
-    </span>r = x / s; <span class="comment">/* error &lt;= 0.5 ulps; |r| &lt; |t| */
-    </span>w = t + t; <span class="comment">/* t+t is exact */
-    </span>r = (r - t) / (w + r); <span class="comment">/* r-t is exact; w+r ~= 3*t */
-    </span>t = t + t * r; <span class="comment">/* error &lt;= 0.5 + 0.5/3 + epsilon */
-    </span>t
+        <span class="kw">let </span><span class="kw-2">mut </span>cvt4: u64 = y1.to_bits();
+        cvt4 = (cvt4 + (<span class="number">164 </span>&lt;&lt; <span class="number">15</span>)) &amp; <span class="number">0xffffffffffff0000u64</span>;
+
+        <span class="kw">if </span>((f64::from_bits(cvt4) - y1) - dy).abs() &lt; <span class="macro">hf64!</span>(<span class="string">"0x1p-60"</span>) || (zz).abs() == <span class="number">1.0 </span>{
+            cvt3 = (cvt3 + (<span class="number">1u64 </span>&lt;&lt; <span class="number">15</span>)) &amp; <span class="number">0xffffffffffff0000u64</span>;
+        }
+    }
+
+    FpResult::ok(f64::from_bits(cvt3))
+}
+
+<span class="attr">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>spot_checks() {
+        <span class="kw">if </span>!<span class="macro">cfg!</span>(x86_no_sse) {
+            <span class="comment">// Exposes a rounding mode problem. Ignored on i586 because of inaccurate FMA.
+            </span><span class="macro">assert_biteq!</span>(
+                cbrt(f64::from_bits(<span class="number">0xf7f792b28f600000</span>)),
+                f64::from_bits(<span class="number">0xd29ce68655d962f3</span>)
+            );
+        }
+    }
 }
 </code></pre></div></section></main></body></html>

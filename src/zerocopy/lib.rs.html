@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerocopy-0.8.24/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerocopy-0.8.25/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -6640,7 +6640,98 @@
 <a href="#6639" id="6639">6639</a>
 <a href="#6640" id="6640">6640</a>
 <a href="#6641" id="6641">6641</a>
-<a href="#6642" id="6642">6642</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2018 The Fuchsia Authors
+<a href="#6642" id="6642">6642</a>
+<a href="#6643" id="6643">6643</a>
+<a href="#6644" id="6644">6644</a>
+<a href="#6645" id="6645">6645</a>
+<a href="#6646" id="6646">6646</a>
+<a href="#6647" id="6647">6647</a>
+<a href="#6648" id="6648">6648</a>
+<a href="#6649" id="6649">6649</a>
+<a href="#6650" id="6650">6650</a>
+<a href="#6651" id="6651">6651</a>
+<a href="#6652" id="6652">6652</a>
+<a href="#6653" id="6653">6653</a>
+<a href="#6654" id="6654">6654</a>
+<a href="#6655" id="6655">6655</a>
+<a href="#6656" id="6656">6656</a>
+<a href="#6657" id="6657">6657</a>
+<a href="#6658" id="6658">6658</a>
+<a href="#6659" id="6659">6659</a>
+<a href="#6660" id="6660">6660</a>
+<a href="#6661" id="6661">6661</a>
+<a href="#6662" id="6662">6662</a>
+<a href="#6663" id="6663">6663</a>
+<a href="#6664" id="6664">6664</a>
+<a href="#6665" id="6665">6665</a>
+<a href="#6666" id="6666">6666</a>
+<a href="#6667" id="6667">6667</a>
+<a href="#6668" id="6668">6668</a>
+<a href="#6669" id="6669">6669</a>
+<a href="#6670" id="6670">6670</a>
+<a href="#6671" id="6671">6671</a>
+<a href="#6672" id="6672">6672</a>
+<a href="#6673" id="6673">6673</a>
+<a href="#6674" id="6674">6674</a>
+<a href="#6675" id="6675">6675</a>
+<a href="#6676" id="6676">6676</a>
+<a href="#6677" id="6677">6677</a>
+<a href="#6678" id="6678">6678</a>
+<a href="#6679" id="6679">6679</a>
+<a href="#6680" id="6680">6680</a>
+<a href="#6681" id="6681">6681</a>
+<a href="#6682" id="6682">6682</a>
+<a href="#6683" id="6683">6683</a>
+<a href="#6684" id="6684">6684</a>
+<a href="#6685" id="6685">6685</a>
+<a href="#6686" id="6686">6686</a>
+<a href="#6687" id="6687">6687</a>
+<a href="#6688" id="6688">6688</a>
+<a href="#6689" id="6689">6689</a>
+<a href="#6690" id="6690">6690</a>
+<a href="#6691" id="6691">6691</a>
+<a href="#6692" id="6692">6692</a>
+<a href="#6693" id="6693">6693</a>
+<a href="#6694" id="6694">6694</a>
+<a href="#6695" id="6695">6695</a>
+<a href="#6696" id="6696">6696</a>
+<a href="#6697" id="6697">6697</a>
+<a href="#6698" id="6698">6698</a>
+<a href="#6699" id="6699">6699</a>
+<a href="#6700" id="6700">6700</a>
+<a href="#6701" id="6701">6701</a>
+<a href="#6702" id="6702">6702</a>
+<a href="#6703" id="6703">6703</a>
+<a href="#6704" id="6704">6704</a>
+<a href="#6705" id="6705">6705</a>
+<a href="#6706" id="6706">6706</a>
+<a href="#6707" id="6707">6707</a>
+<a href="#6708" id="6708">6708</a>
+<a href="#6709" id="6709">6709</a>
+<a href="#6710" id="6710">6710</a>
+<a href="#6711" id="6711">6711</a>
+<a href="#6712" id="6712">6712</a>
+<a href="#6713" id="6713">6713</a>
+<a href="#6714" id="6714">6714</a>
+<a href="#6715" id="6715">6715</a>
+<a href="#6716" id="6716">6716</a>
+<a href="#6717" id="6717">6717</a>
+<a href="#6718" id="6718">6718</a>
+<a href="#6719" id="6719">6719</a>
+<a href="#6720" id="6720">6720</a>
+<a href="#6721" id="6721">6721</a>
+<a href="#6722" id="6722">6722</a>
+<a href="#6723" id="6723">6723</a>
+<a href="#6724" id="6724">6724</a>
+<a href="#6725" id="6725">6725</a>
+<a href="#6726" id="6726">6726</a>
+<a href="#6727" id="6727">6727</a>
+<a href="#6728" id="6728">6728</a>
+<a href="#6729" id="6729">6729</a>
+<a href="#6730" id="6730">6730</a>
+<a href="#6731" id="6731">6731</a>
+<a href="#6732" id="6732">6732</a>
+<a href="#6733" id="6733">6733</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2018 The Fuchsia Authors
 //
 // Licensed under the 2-Clause BSD License &lt;LICENSE-BSD or
 // https://opensource.org/license/bsd-2-clause&gt;, Apache License, Version 2.0
@@ -6920,7 +7011,10 @@
     clippy::unwrap_used,
     clippy::use_debug
 )]
-#![allow(clippy::type_complexity)]
+</span><span class="comment">// `clippy::incompatible_msrv` (implied by `clippy::suspicious`): This sometimes
+// has false positives, and we test on our MSRV in CI, so it doesn't help us
+// anyway.
+</span><span class="attr">#![allow(clippy::needless_lifetimes, clippy::type_complexity, clippy::incompatible_msrv)]
 #![deny(
     rustdoc::bare_urls,
     rustdoc::broken_intra_doc_links,
@@ -6989,13 +7083,15 @@
 <span class="attr">#[doc(hidden)]
 </span><span class="kw">pub mod </span>pointer;
 <span class="kw">mod </span>r#ref;
-<span class="comment">// TODO(#252): If we make this pub, come up with a better name.
+<span class="kw">mod </span>split_at;
+<span class="comment">// FIXME(#252): If we make this pub, come up with a better name.
 </span><span class="kw">mod </span>wrappers;
 
 <span class="kw">pub use </span><span class="kw">crate</span>::byte_slice::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="kw">crate</span>::byteorder::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><span class="kw">crate</span>::error::<span class="kw-2">*</span>;
 <span class="kw">pub use crate</span>::r#ref::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="kw">crate</span>::split_at::{Split, SplitAt};
 <span class="kw">pub use </span><span class="kw">crate</span>::wrappers::<span class="kw-2">*</span>;
 
 <span class="kw">use </span>core::{
@@ -7023,6 +7119,7 @@
 </span><span class="kw">extern crate </span>alloc;
 <span class="attr">#[cfg(any(feature = <span class="string">"alloc"</span>, test))]
 </span><span class="kw">use </span>alloc::{boxed::Box, vec::Vec};
+<span class="kw">use </span>util::MetadataOf;
 
 <span class="attr">#[cfg(any(feature = <span class="string">"alloc"</span>, test))]
 </span><span class="kw">use </span>core::alloc::Layout;
@@ -7449,6 +7546,29 @@
     }
 }
 
+<span class="doccomment">/// Efficiently produces the [`TrailingSliceLayout`] of `T`.
+</span><span class="attr">#[inline(always)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>trailing_slice_layout&lt;T&gt;() -&gt; TrailingSliceLayout
+<span class="kw">where
+    </span>T: <span class="question-mark">?</span>Sized + KnownLayout&lt;PointerMetadata = usize&gt;,
+{
+    <span class="kw">trait </span>LayoutFacts {
+        <span class="kw">const </span>SIZE_INFO: TrailingSliceLayout;
+    }
+
+    <span class="kw">impl</span>&lt;T: <span class="question-mark">?</span>Sized&gt; LayoutFacts <span class="kw">for </span>T
+    <span class="kw">where
+        </span>T: KnownLayout&lt;PointerMetadata = usize&gt;,
+    {
+        <span class="kw">const </span>SIZE_INFO: TrailingSliceLayout = <span class="kw">match </span>T::LAYOUT.size_info {
+            <span class="kw">crate</span>::SizeInfo::Sized { .. } =&gt; <span class="macro">const_panic!</span>(<span class="string">"unreachable"</span>),
+            <span class="kw">crate</span>::SizeInfo::SliceDst(info) =&gt; info,
+        };
+    }
+
+    T::SIZE_INFO
+}
+
 <span class="doccomment">/// The metadata associated with a [`KnownLayout`] type.
 </span><span class="attr">#[doc(hidden)]
 </span><span class="kw">pub trait </span>PointerMetadata: Copy + Eq + Debug {
@@ -7561,7 +7681,7 @@
     // refers to an object with `elems` elements by construction.
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>raw_from_ptr_len(data: NonNull&lt;u8&gt;, elems: usize) -&gt; NonNull&lt;<span class="self">Self</span>&gt; {
-        <span class="comment">// TODO(#67): Remove this allow. See NonNullExt for more details.
+        <span class="comment">// FIXME(#67): Remove this allow. See NonNullExt for more details.
         </span><span class="attr">#[allow(unstable_name_collisions)]
         </span>NonNull::slice_from_raw_parts(data.cast::&lt;T&gt;(), elems)
     }
@@ -7623,45 +7743,45 @@
 );
 <span class="macro">impl_known_layout!</span>(<span class="kw">const </span>N: usize, T =&gt; [T; N]);
 
-<span class="macro">safety_comment!</span> {
-    <span class="doccomment">/// SAFETY:
-    /// `str` has the same representation as `[u8]`. `ManuallyDrop&lt;T&gt;` [1],
-    /// `UnsafeCell&lt;T&gt;` [2], and `Cell&lt;T&gt;` [3] have the same representation as
-    /// `T`.
-    ///
-    /// [1] Per https://doc.rust-lang.org/1.85.0/std/mem/struct.ManuallyDrop.html:
-    ///
-    ///   `ManuallyDrop&lt;T&gt;` is guaranteed to have the same layout and bit
-    ///   validity as `T`
-    ///
-    /// [2] Per https://doc.rust-lang.org/1.85.0/core/cell/struct.UnsafeCell.html#memory-layout:
-    ///
-    ///   `UnsafeCell&lt;T&gt;` has the same in-memory representation as its inner
-    ///   type `T`.
-    ///
-    /// [3] Per https://doc.rust-lang.org/1.85.0/core/cell/struct.Cell.html#memory-layout:
-    ///
-    ///   `Cell&lt;T&gt;` has the same in-memory representation as `T`.
-    </span><span class="macro">unsafe_impl_known_layout!</span>(<span class="attr">#[repr([u8]</span>)] str);
+<span class="comment">// SAFETY: `str` has the same representation as `[u8]`. `ManuallyDrop&lt;T&gt;` [1],
+// `UnsafeCell&lt;T&gt;` [2], and `Cell&lt;T&gt;` [3] have the same representation as `T`.
+//
+// [1] Per https://doc.rust-lang.org/1.85.0/std/mem/struct.ManuallyDrop.html:
+//
+//   `ManuallyDrop&lt;T&gt;` is guaranteed to have the same layout and bit validity as
+//   `T`
+//
+// [2] Per https://doc.rust-lang.org/1.85.0/core/cell/struct.UnsafeCell.html#memory-layout:
+//
+//   `UnsafeCell&lt;T&gt;` has the same in-memory representation as its inner type
+//   `T`.
+//
+// [3] Per https://doc.rust-lang.org/1.85.0/core/cell/struct.Cell.html#memory-layout:
+//
+//   `Cell&lt;T&gt;` has the same in-memory representation as `T`.
+</span><span class="kw">const _</span>: () = <span class="kw">unsafe </span>{
+    <span class="macro">unsafe_impl_known_layout!</span>(
+        <span class="attr">#[repr([u8]</span>)]
+        str
+    );
     <span class="macro">unsafe_impl_known_layout!</span>(T: <span class="question-mark">?</span>Sized + KnownLayout =&gt; <span class="attr">#[repr(T)] </span>ManuallyDrop&lt;T&gt;);
     <span class="macro">unsafe_impl_known_layout!</span>(T: <span class="question-mark">?</span>Sized + KnownLayout =&gt; <span class="attr">#[repr(T)] </span>UnsafeCell&lt;T&gt;);
     <span class="macro">unsafe_impl_known_layout!</span>(T: <span class="question-mark">?</span>Sized + KnownLayout =&gt; <span class="attr">#[repr(T)] </span>Cell&lt;T&gt;);
-}
+};
 
-<span class="macro">safety_comment!</span> {
-    <span class="doccomment">/// SAFETY:
-    /// - By consequence of the invariant on `T::MaybeUninit` that `T::LAYOUT`
-    ///   and `T::MaybeUninit::LAYOUT` are equal, `T` and `T::MaybeUninit`
-    ///   have the same:
-    ///   - Fixed prefix size
-    ///   - Alignment
-    ///   - (For DSTs) trailing slice element size
-    /// - By consequence of the above, referents `T::MaybeUninit` and `T` have
-    ///   the require the same kind of pointer metadata, and thus it is valid to
-    ///   perform an `as` cast from `*mut T` and `*mut T::MaybeUninit`, and this
-    ///   operation preserves referent size (ie, `size_of_val_raw`).
-    </span><span class="macro">unsafe_impl_known_layout!</span>(T: <span class="question-mark">?</span>Sized + KnownLayout =&gt; <span class="attr">#[repr(T::MaybeUninit)] </span>MaybeUninit&lt;T&gt;);
-}
+<span class="comment">// SAFETY:
+// - By consequence of the invariant on `T::MaybeUninit` that `T::LAYOUT` and
+//   `T::MaybeUninit::LAYOUT` are equal, `T` and `T::MaybeUninit` have the same:
+//   - Fixed prefix size
+//   - Alignment
+//   - (For DSTs) trailing slice element size
+// - By consequence of the above, referents `T::MaybeUninit` and `T` have the
+//   require the same kind of pointer metadata, and thus it is valid to perform
+//   an `as` cast from `*mut T` and `*mut T::MaybeUninit`, and this operation
+//   preserves referent size (ie, `size_of_val_raw`).
+</span><span class="kw">const _</span>: () = <span class="kw">unsafe </span>{
+    <span class="macro">unsafe_impl_known_layout!</span>(T: <span class="question-mark">?</span>Sized + KnownLayout =&gt; <span class="attr">#[repr(T::MaybeUninit)] </span>MaybeUninit&lt;T&gt;)
+};
 
 <span class="doccomment">/// Analyzes whether a type is [`FromZeros`].
 ///
@@ -7751,7 +7871,7 @@
 ///
 /// Whether a struct is soundly `FromZeros` therefore solely depends on whether
 /// its fields are `FromZeros`.
-</span><span class="comment">// TODO(#146): Document why we don't require an enum to have an explicit `repr`
+</span><span class="comment">// FIXME(#146): Document why we don't require an enum to have an explicit `repr`
 // attribute.
 </span><span class="attr">#[cfg(any(feature = <span class="string">"derive"</span>, test))]
 #[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"derive"</span>)))]
@@ -9523,8 +9643,7 @@
     </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ candidate.assume_init() })
 }
 
-<span class="doccomment">/// Types for which a sequence of bytes all set to zero represents a valid
-/// instance of the type.
+<span class="doccomment">/// Types for which a sequence of `0` bytes is a valid instance.
 ///
 /// Any memory region of the appropriate length which is guaranteed to contain
 /// only zero bytes can be viewed as any `FromZeros` type with no runtime
@@ -9659,7 +9778,7 @@
         // - Since `Self: FromZeros`, the all-zeros instance is a valid instance
         //   of `Self.`
         //
-        // TODO(#429): Add references to docs and quotes.
+        // FIXME(#429): Add references to docs and quotes.
         </span><span class="kw">unsafe </span>{ ptr::write_bytes(slf.cast::&lt;u8&gt;(), <span class="number">0</span>, len) };
     }
 
@@ -9746,13 +9865,13 @@
             </span><span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ Box::from_raw(NonNull::dangling().as_ptr()) });
         }
 
-        <span class="comment">// TODO(#429): Add a "SAFETY" comment and remove this `allow`.
+        <span class="comment">// FIXME(#429): Add a "SAFETY" comment and remove this `allow`.
         </span><span class="attr">#[allow(clippy::undocumented_unsafe_blocks)]
         </span><span class="kw">let </span>ptr = <span class="kw">unsafe </span>{ alloc::alloc::alloc_zeroed(layout).cast::&lt;<span class="self">Self</span>&gt;() };
         <span class="kw">if </span>ptr.is_null() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(AllocError);
         }
-        <span class="comment">// TODO(#429): Add a "SAFETY" comment and remove this `allow`.
+        <span class="comment">// FIXME(#429): Add a "SAFETY" comment and remove this `allow`.
         </span><span class="attr">#[allow(clippy::undocumented_unsafe_blocks)]
         </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ Box::from_raw(ptr) })
     }
@@ -9873,7 +9992,6 @@
         <span class="macro">assert!</span>(position &lt;= v.len());
         <span class="comment">// We only conditionally compile on versions on which `try_reserve` is
         // stable; the Clippy lint is a false positive.
-        </span><span class="attr">#[allow(clippy::incompatible_msrv)]
         </span>v.try_reserve(additional).map_err(|<span class="kw">_</span>| AllocError)<span class="question-mark">?</span>;
         <span class="comment">// SAFETY: The `try_reserve` call guarantees that these cannot overflow:
         // * `ptr.add(position)`
@@ -10001,7 +10119,7 @@
 ///
 /// Whether a struct is soundly `FromBytes` therefore solely depends on whether
 /// its fields are `FromBytes`.
-</span><span class="comment">// TODO(#146): Document why we don't require an enum to have an explicit `repr`
+</span><span class="comment">// FIXME(#146): Document why we don't require an enum to have an explicit `repr`
 // attribute.
 </span><span class="attr">#[cfg(any(feature = <span class="string">"derive"</span>, test))]
 #[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"derive"</span>)))]
@@ -11647,7 +11765,7 @@
         //   `isize::MAX` because no allocation produced by safe code can be
         //   larger than `isize::MAX`.
         //
-        // TODO(#429): Add references to docs and quotes.
+        // FIXME(#429): Add references to docs and quotes.
         </span><span class="kw">unsafe </span>{ slice::from_raw_parts(slf.cast::&lt;u8&gt;(), len) }
     }
 
@@ -11719,7 +11837,7 @@
         //   `isize::MAX` because no allocation produced by safe code can be
         //   larger than `isize::MAX`.
         //
-        // TODO(#429): Add references to docs and quotes.
+        // FIXME(#429): Add references to docs and quotes.
         </span><span class="kw">unsafe </span>{ slice::from_raw_parts_mut(slf.cast::&lt;u8&gt;(), len) }
     }
 
@@ -12143,14 +12261,37 @@
         </span><span class="self">Self</span>: Sized;
 }
 
-<span class="doccomment">/// Derives an optimized implementation of [`Hash`] for types that implement
-/// [`IntoBytes`] and [`Immutable`].
+<span class="doccomment">/// Derives an optimized [`Hash`] implementation.
 ///
-/// The standard library's derive for `Hash` generates a recursive descent
-/// into the fields of the type it is applied to. Instead, the implementation
-/// derived by this macro makes a single call to [`Hasher::write()`] for both
-/// [`Hash::hash()`] and [`Hash::hash_slice()`], feeding the hasher the bytes
-/// of the type or slice all at once.
+/// This derive can be applied to structs and enums implementing both
+/// [`Immutable`] and [`IntoBytes`]; e.g.:
+///
+/// ```
+/// # use zerocopy_derive::{ByteHash, Immutable, IntoBytes};
+/// #[derive(ByteHash, Immutable, IntoBytes)]
+/// #[repr(C)]
+/// struct MyStruct {
+/// # /*
+///     ...
+/// # */
+/// }
+///
+/// #[derive(ByteHash, Immutable, IntoBytes)]
+/// #[repr(u8)]
+/// enum MyEnum {
+/// #   Variant,
+/// # /*
+///     ...
+/// # */
+/// }
+/// ```
+///
+/// The standard library's [`derive(Hash)`][derive@Hash] produces hashes by
+/// individually hashing each field and combining the results. Instead, the
+/// implementations of [`Hash::hash()`] and [`Hash::hash_slice()`] generated by
+/// `derive(ByteHash)` convert the entirey of `self` to a byte slice and hashes
+/// it in a single call to [`Hasher::write()`]. This may have performance
+/// advantages.
 ///
 /// [`Hash`]: core::hash::Hash
 /// [`Hash::hash()`]: core::hash::Hash::hash()
@@ -12159,16 +12300,57 @@
 #[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"derive"</span>)))]
 </span><span class="kw">pub use </span>zerocopy_derive::ByteHash;
 
-<span class="doccomment">/// Derives an optimized implementation of [`PartialEq`] and [`Eq`] for types
-/// that implement [`IntoBytes`] and [`Immutable`].
+<span class="doccomment">/// Derives optimized [`PartialEq`] and [`Eq`] implementations.
 ///
-/// The standard library's derive for [`PartialEq`] generates a recursive
-/// descent into the fields of the type it is applied to. Instead, the
-/// implementation derived by this macro performs a single slice comparison of
-/// the bytes of the two values being compared.
+/// This derive can be applied to structs and enums implementing both
+/// [`Immutable`] and [`IntoBytes`]; e.g.:
+///
+/// ```
+/// # use zerocopy_derive::{ByteEq, Immutable, IntoBytes};
+/// #[derive(ByteEq, Immutable, IntoBytes)]
+/// #[repr(C)]
+/// struct MyStruct {
+/// # /*
+///     ...
+/// # */
+/// }
+///
+/// #[derive(ByteEq, Immutable, IntoBytes)]
+/// #[repr(u8)]
+/// enum MyEnum {
+/// #   Variant,
+/// # /*
+///     ...
+/// # */
+/// }
+/// ```
+///
+/// The standard library's [`derive(Eq, PartialEq)`][derive@PartialEq] computes
+/// equality by individually comparing each field. Instead, the implementation
+/// of [`PartialEq::eq`] emitted by `derive(ByteHash)` converts the entirey of
+/// `self` and `other` to byte slices and compares those slices for equality.
+/// This may have performance advantages.
 </span><span class="attr">#[cfg(any(feature = <span class="string">"derive"</span>, test))]
 #[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"derive"</span>)))]
 </span><span class="kw">pub use </span>zerocopy_derive::ByteEq;
+
+<span class="doccomment">/// Implements [`SplitAt`].
+///
+/// This derive can be applied to structs; e.g.:
+///
+/// ```
+/// # use zerocopy_derive::{ByteEq, Immutable, IntoBytes};
+/// #[derive(ByteEq, Immutable, IntoBytes)]
+/// #[repr(C)]
+/// struct MyStruct {
+/// # /*
+///     ...
+/// # */
+/// }
+/// ```
+</span><span class="attr">#[cfg(any(feature = <span class="string">"derive"</span>, test))]
+#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"derive"</span>)))]
+</span><span class="kw">pub use </span>zerocopy_derive::SplitAt;
 
 <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
 #[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"alloc"</span>)))]

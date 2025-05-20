@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.26/src/client/hs.rs`."><title>hs.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>hs.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/client/hs.rs`."><title>hs.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>hs.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1291,7 +1291,20 @@
 <a href="#1290" id="1290">1290</a>
 <a href="#1291" id="1291">1291</a>
 <a href="#1292" id="1292">1292</a>
-<a href="#1293" id="1293">1293</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::borrow::ToOwned;
+<a href="#1293" id="1293">1293</a>
+<a href="#1294" id="1294">1294</a>
+<a href="#1295" id="1295">1295</a>
+<a href="#1296" id="1296">1296</a>
+<a href="#1297" id="1297">1297</a>
+<a href="#1298" id="1298">1298</a>
+<a href="#1299" id="1299">1299</a>
+<a href="#1300" id="1300">1300</a>
+<a href="#1301" id="1301">1301</a>
+<a href="#1302" id="1302">1302</a>
+<a href="#1303" id="1303">1303</a>
+<a href="#1304" id="1304">1304</a>
+<a href="#1305" id="1305">1305</a>
+<a href="#1306" id="1306">1306</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::borrow::ToOwned;
 <span class="kw">use </span>alloc::boxed::Box;
 <span class="kw">use </span>alloc::vec;
 <span class="kw">use </span>alloc::vec::Vec;
@@ -1320,12 +1333,14 @@
 <span class="kw">use </span><span class="kw">crate</span>::log::{debug, trace};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::base::Payload;
 <span class="kw">use </span><span class="kw">crate</span>::msgs::enums::{
-    CertificateType, Compression, ECPointFormat, ExtensionType, PSKKeyExchangeMode,
+    CertificateType, Compression, ECPointFormat, ExtensionType, PskKeyExchangeMode,
 };
+<span class="kw">use </span><span class="kw">crate</span>::msgs::handshake::ProtocolName;
+<span class="kw">use </span><span class="kw">crate</span>::msgs::handshake::SupportedProtocolVersions;
 <span class="kw">use </span><span class="kw">crate</span>::msgs::handshake::{
     CertificateStatusRequest, ClientExtension, ClientHelloPayload, ClientSessionTicket,
-    ConvertProtocolNameList, HandshakeMessagePayload, HandshakePayload, HasServerExtensions,
-    HelloRetryRequest, KeyShareEntry, Random, SessionId,
+    HandshakeMessagePayload, HandshakePayload, HasServerExtensions, HelloRetryRequest,
+    KeyShareEntry, Random, SessionId,
 };
 <span class="kw">use </span><span class="kw">crate</span>::msgs::message::{Message, MessagePayload};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::persist;
@@ -1393,6 +1408,7 @@
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>start_handshake(
     server_name: ServerName&lt;<span class="lifetime">'static</span>&gt;,
+    alpn_protocols: Vec&lt;Vec&lt;u8&gt;&gt;,
     extra_exts: Vec&lt;ClientExtension&gt;,
     config: Arc&lt;ClientConfig&gt;,
     cx: <span class="kw-2">&amp;mut </span>ClientContext&lt;<span class="lifetime">'_</span>&gt;,
@@ -1478,7 +1494,7 @@
             <span class="attr">#[cfg(feature = <span class="string">"tls12"</span>)]
             </span>using_ems: <span class="bool-val">false</span>,
             sent_tls13_fake_ccs: <span class="bool-val">false</span>,
-            hello: ClientHelloDetails::new(extension_order_seed),
+            hello: ClientHelloDetails::new(alpn_protocols, extension_order_seed),
             session_id,
             server_name,
             prev_ech_ext: <span class="prelude-val">None</span>,
@@ -1491,7 +1507,14 @@
 <span class="kw">struct </span>ExpectServerHello {
     input: ClientHelloInput,
     transcript_buffer: HandshakeHashBuffer,
-    early_key_schedule: <span class="prelude-ty">Option</span>&lt;KeyScheduleEarly&gt;,
+    <span class="comment">// The key schedule for sending early data.
+    //
+    // If the server accepts the PSK used for early data then
+    // this is used to compute the rest of the key schedule.
+    // Otherwise, it is thrown away.
+    //
+    // If this is `None` then we do not support early data.
+    </span>early_data_key_schedule: <span class="prelude-ty">Option</span>&lt;KeyScheduleEarly&gt;,
     offered_key_share: <span class="prelude-ty">Option</span>&lt;Box&lt;<span class="kw">dyn </span>ActiveKeyExchange&gt;&gt;,
     suite: <span class="prelude-ty">Option</span>&lt;SupportedCipherSuite&gt;,
     ech_state: <span class="prelude-ty">Option</span>&lt;EchState&gt;,
@@ -1515,7 +1538,12 @@
     prev_ech_ext: <span class="prelude-ty">Option</span>&lt;ClientExtension&gt;,
 }
 
-<span class="kw">fn </span>emit_client_hello_for_retry(
+<span class="doccomment">/// Emits the initial ClientHello or a ClientHello in response to
+/// a HelloRetryRequest.
+///
+/// `retryreq` and `suite` are `None` if this is the initial
+/// ClientHello.
+</span><span class="kw">fn </span>emit_client_hello_for_retry(
     <span class="kw-2">mut </span>transcript_buffer: HandshakeHashBuffer,
     retryreq: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HelloRetryRequest&gt;,
     key_share: <span class="prelude-ty">Option</span>&lt;Box&lt;<span class="kw">dyn </span>ActiveKeyExchange&gt;&gt;,
@@ -1529,31 +1557,21 @@
     <span class="comment">// Defense in depth: the ECH state should be None if ECH is disabled based on config
     // builder semantics.
     </span><span class="kw">let </span>forbids_tls12 = cx.common.is_quic() || ech_state.is_some();
-    <span class="kw">let </span>support_tls12 = config.supports_version(ProtocolVersion::TLSv1_2) &amp;&amp; !forbids_tls12;
-    <span class="kw">let </span>support_tls13 = config.supports_version(ProtocolVersion::TLSv1_3);
 
-    <span class="kw">let </span><span class="kw-2">mut </span>supported_versions = Vec::new();
-    <span class="kw">if </span>support_tls13 {
-        supported_versions.push(ProtocolVersion::TLSv1_3);
-    }
-
-    <span class="kw">if </span>support_tls12 {
-        supported_versions.push(ProtocolVersion::TLSv1_2);
-    }
+    <span class="kw">let </span>supported_versions = SupportedProtocolVersions {
+        tls12: config.supports_version(ProtocolVersion::TLSv1_2) &amp;&amp; !forbids_tls12,
+        tls13: config.supports_version(ProtocolVersion::TLSv1_3),
+    };
 
     <span class="comment">// should be unreachable thanks to config builder
-    </span><span class="macro">assert!</span>(!supported_versions.is_empty());
+    </span><span class="macro">assert!</span>(supported_versions.any(|<span class="kw">_</span>| <span class="bool-val">true</span>));
 
     <span class="comment">// offer groups which are usable for any offered version
     </span><span class="kw">let </span>offered_groups = config
         .provider
         .kx_groups
         .iter()
-        .filter(|skxg| {
-            supported_versions
-                .iter()
-                .any(|v| skxg.usable_for_version(<span class="kw-2">*</span>v))
-        })
+        .filter(|skxg| supported_versions.any(|v| skxg.usable_for_version(v)))
         .map(|skxg| skxg.name())
         .collect();
 
@@ -1569,7 +1587,7 @@
         ClientExtension::CertificateStatusRequest(CertificateStatusRequest::build_ocsp()),
     ];
 
-    <span class="kw">if </span>support_tls13 {
+    <span class="kw">if </span>supported_versions.tls13 {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(cas_extension) = config.verifier.root_hint_subjects() {
             exts.push(ClientExtension::AuthorityNames(cas_extension.to_owned()));
         }
@@ -1592,13 +1610,15 @@
         // as the SNI domain name. This happens unconditionally so we ignore the
         // `enable_sni` value. That will be used later to decide what to do for
         // the protected inner hello's SNI.
-        </span>(<span class="prelude-val">Some</span>(ech_state), <span class="kw">_</span>) =&gt; exts.push(ClientExtension::make_sni(<span class="kw-2">&amp;</span>ech_state.outer_name)),
+        </span>(<span class="prelude-val">Some</span>(ech_state), <span class="kw">_</span>) =&gt; {
+            exts.push(ClientExtension::ServerName((<span class="kw-2">&amp;</span>ech_state.outer_name).into()))
+        }
 
         <span class="comment">// If we have no ECH state, and SNI is enabled, try to use the input server_name
         // for the SNI domain name.
         </span>(<span class="prelude-val">None</span>, <span class="bool-val">true</span>) =&gt; {
             <span class="kw">if let </span>ServerName::DnsName(dns_name) = <span class="kw-2">&amp;</span>input.server_name {
-                exts.push(ClientExtension::make_sni(dns_name))
+                exts.push(ClientExtension::ServerName(dns_name.into()));
             }
         }
 
@@ -1607,7 +1627,7 @@
     };
 
     <span class="kw">if let </span><span class="prelude-val">Some</span>(key_share) = <span class="kw-2">&amp;</span>key_share {
-        <span class="macro">debug_assert!</span>(support_tls13);
+        <span class="macro">debug_assert!</span>(supported_versions.tls13);
         <span class="kw">let </span><span class="kw-2">mut </span>shares = <span class="macro">vec!</span>[KeyShareEntry::new(key_share.group(), key_share.pub_key())];
 
         <span class="kw">if </span>!retryreq
@@ -1638,36 +1658,38 @@
         exts.push(ClientExtension::Cookie(cookie.clone()));
     }
 
-    <span class="kw">if </span>support_tls13 {
+    <span class="kw">if </span>supported_versions.tls13 {
         <span class="comment">// We could support PSK_KE here too. Such connections don't
         // have forward secrecy, and are similar to TLS1.2 resumption.
-        </span><span class="kw">let </span>psk_modes = <span class="macro">vec!</span>[PSKKeyExchangeMode::PSK_DHE_KE];
+        </span><span class="kw">let </span>psk_modes = <span class="macro">vec!</span>[PskKeyExchangeMode::PSK_DHE_KE];
         exts.push(ClientExtension::PresharedKeyModes(psk_modes));
     }
 
-    <span class="kw">if </span>!config.alpn_protocols.is_empty() {
-        exts.push(ClientExtension::Protocols(Vec::from_slices(
-            <span class="kw-2">&amp;</span>config
+    <span class="comment">// Add ALPN extension if we have any protocols
+    </span><span class="kw">if </span>!input.hello.alpn_protocols.is_empty() {
+        exts.push(ClientExtension::Protocols(
+            input
+                .hello
                 .alpn_protocols
                 .iter()
-                .map(|proto| <span class="kw-2">&amp;</span>proto[..])
+                .map(|proto| ProtocolName::from(proto.clone()))
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;(),
-        )));
+        ));
     }
 
-    input.hello.offered_cert_compression = <span class="kw">if </span>support_tls13 &amp;&amp; !config.cert_decompressors.is_empty()
-    {
-        exts.push(ClientExtension::CertificateCompressionAlgorithms(
-            config
-                .cert_decompressors
-                .iter()
-                .map(|dec| dec.algorithm())
-                .collect(),
-        ));
-        <span class="bool-val">true
-    </span>} <span class="kw">else </span>{
-        <span class="bool-val">false
-    </span>};
+    input.hello.offered_cert_compression =
+        <span class="kw">if </span>supported_versions.tls13 &amp;&amp; !config.cert_decompressors.is_empty() {
+            exts.push(ClientExtension::CertificateCompressionAlgorithms(
+                config
+                    .cert_decompressors
+                    .iter()
+                    .map(|dec| dec.algorithm())
+                    .collect(),
+            ));
+            <span class="bool-val">true
+        </span>} <span class="kw">else </span>{
+            <span class="bool-val">false
+        </span>};
 
     <span class="kw">if </span>config
         .client_auth_cert_resolver
@@ -1796,7 +1818,7 @@
         payload: HandshakePayload::ClientHello(chp_payload),
     };
 
-    <span class="kw">let </span>early_key_schedule = <span class="kw">match </span>(ech_state.as_mut(), tls13_session) {
+    <span class="kw">let </span>tls13_early_data_key_schedule = <span class="kw">match </span>(ech_state.as_mut(), tls13_session) {
         <span class="comment">// If we're performing ECH and resuming, then the PSK binder will have been dealt with
         // separately, and we need to take the early_data_key_schedule computed for the inner hello.
         </span>(<span class="prelude-val">Some</span>(ech_state), <span class="prelude-val">Some</span>(tls13_session)) =&gt; ech_state
@@ -1843,50 +1865,56 @@
     cx.common.send_msg(ch, <span class="bool-val">false</span>);
 
     <span class="comment">// Calculate the hash of ClientHello and use it to derive EarlyTrafficSecret
-    </span><span class="kw">let </span>early_key_schedule = early_key_schedule.map(|(resuming_suite, schedule)| {
-        <span class="kw">if </span>!cx.data.early_data.is_enabled() {
-            <span class="kw">return </span>schedule;
-        }
+    </span><span class="kw">let </span>early_data_key_schedule =
+        tls13_early_data_key_schedule.map(|(resuming_suite, schedule)| {
+            <span class="kw">if </span>!cx.data.early_data.is_enabled() {
+                <span class="kw">return </span>schedule;
+            }
 
-        <span class="kw">let </span>(transcript_buffer, random) = <span class="kw">match </span><span class="kw-2">&amp;</span>ech_state {
-            <span class="comment">// When using ECH the early data key schedule is derived based on the inner
-            // hello transcript and random.
-            </span><span class="prelude-val">Some</span>(ech_state) =&gt; (
-                <span class="kw-2">&amp;</span>ech_state.inner_hello_transcript,
-                <span class="kw-2">&amp;</span>ech_state.inner_hello_random.<span class="number">0</span>,
-            ),
-            <span class="prelude-val">None </span>=&gt; (<span class="kw-2">&amp;</span>transcript_buffer, <span class="kw-2">&amp;</span>input.random.<span class="number">0</span>),
-        };
+            <span class="kw">let </span>(transcript_buffer, random) = <span class="kw">match </span><span class="kw-2">&amp;</span>ech_state {
+                <span class="comment">// When using ECH the early data key schedule is derived based on the inner
+                // hello transcript and random.
+                </span><span class="prelude-val">Some</span>(ech_state) =&gt; (
+                    <span class="kw-2">&amp;</span>ech_state.inner_hello_transcript,
+                    <span class="kw-2">&amp;</span>ech_state.inner_hello_random.<span class="number">0</span>,
+                ),
+                <span class="prelude-val">None </span>=&gt; (<span class="kw-2">&amp;</span>transcript_buffer, <span class="kw-2">&amp;</span>input.random.<span class="number">0</span>),
+            };
 
-        tls13::derive_early_traffic_secret(
-            <span class="kw-2">&amp;*</span>config.key_log,
-            cx,
-            resuming_suite,
-            <span class="kw-2">&amp;</span>schedule,
-            <span class="kw-2">&amp;mut </span>input.sent_tls13_fake_ccs,
-            transcript_buffer,
-            random,
-        );
-        schedule
-    });
+            tls13::derive_early_traffic_secret(
+                <span class="kw-2">&amp;*</span>config.key_log,
+                cx,
+                resuming_suite,
+                <span class="kw-2">&amp;</span>schedule,
+                <span class="kw-2">&amp;mut </span>input.sent_tls13_fake_ccs,
+                transcript_buffer,
+                random,
+            );
+            schedule
+        });
 
     <span class="kw">let </span>next = ExpectServerHello {
         input,
         transcript_buffer,
-        early_key_schedule,
+        early_data_key_schedule,
         offered_key_share: key_share,
         suite,
         ech_state,
     };
 
-    <span class="prelude-val">Ok</span>(<span class="kw">if </span>support_tls13 &amp;&amp; retryreq.is_none() {
+    <span class="prelude-val">Ok</span>(<span class="kw">if </span>supported_versions.tls13 &amp;&amp; retryreq.is_none() {
         Box::new(ExpectServerHelloOrHelloRetryRequest { next, extra_exts })
     } <span class="kw">else </span>{
         Box::new(next)
     })
 }
 
-<span class="doccomment">/// Prepare resumption with the session state retrieved from storage.
+<span class="doccomment">/// Prepares `exts` and `cx` with TLS 1.2 or TLS 1.3 session
+/// resumption.
+///
+/// - `suite` is `None` if this is the initial ClientHello, or
+///   `Some` if we're retrying in response to
+///   a HelloRetryRequest.
 ///
 /// This function will push onto `exts` to
 ///
@@ -1895,10 +1923,7 @@
 /// (c) send a request for 1.3 early data if allowed and
 /// (d) send a 1.3 preshared key if we have one.
 ///
-/// For resumption to work, the currently negotiated cipher suite (if available) must be
-/// able to resume from the resuming session's cipher suite.
-///
-/// If 1.3 resumption can continue, returns the 1.3 session value for further processing.
+/// It returns the TLS 1.3 PSKs, if any, for further processing.
 </span><span class="kw">fn </span>prepare_resumption&lt;<span class="lifetime">'a</span>&gt;(
     resuming: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="prelude-ty">Option</span>&lt;persist::Retrieved&lt;ClientSessionValue&gt;&gt;,
     exts: <span class="kw-2">&amp;mut </span>Vec&lt;ClientExtension&gt;,
@@ -1955,16 +1980,13 @@
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>process_alpn_protocol(
     common: <span class="kw-2">&amp;mut </span>CommonState,
-    config: <span class="kw-2">&amp;</span>ClientConfig,
+    offered_protocols: <span class="kw-2">&amp;</span>[Vec&lt;u8&gt;],
     proto: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt;,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
     common.alpn_protocol = proto.map(ToOwned::to_owned);
 
     <span class="kw">if let </span><span class="prelude-val">Some</span>(alpn_protocol) = <span class="kw-2">&amp;</span>common.alpn_protocol {
-        <span class="kw">if </span>!config
-            .alpn_protocols
-            .contains(alpn_protocol)
-        {
+        <span class="kw">if </span>!offered_protocols.contains(alpn_protocol) {
             <span class="kw">return </span><span class="prelude-val">Err</span>(common.send_fatal_alert(
                 AlertDescription::IllegalParameter,
                 PeerMisbehaved::SelectedUnofferedApplicationProtocol,
@@ -1978,7 +2000,7 @@
     // mechanism) if and only if any ALPN protocols were configured. This defends against badly-behaved
     // servers which accept a connection that requires an application-layer protocol they do not
     // understand.
-    </span><span class="kw">if </span>common.is_quic() &amp;&amp; common.alpn_protocol.is_none() &amp;&amp; !config.alpn_protocols.is_empty() {
+    </span><span class="kw">if </span>common.is_quic() &amp;&amp; common.alpn_protocol.is_none() &amp;&amp; !offered_protocols.is_empty() {
         <span class="kw">return </span><span class="prelude-val">Err</span>(common.send_fatal_alert(
             AlertDescription::NoApplicationProtocol,
             Error::NoApplicationProtocol,
@@ -2116,7 +2138,11 @@
 
         <span class="comment">// Extract ALPN protocol
         </span><span class="kw">if </span>!cx.common.is_tls13() {
-            process_alpn_protocol(cx.common, config, server_hello.alpn_protocol())<span class="question-mark">?</span>;
+            process_alpn_protocol(
+                cx.common,
+                <span class="kw-2">&amp;</span><span class="self">self</span>.input.hello.alpn_protocols,
+                server_hello.alpn_protocol(),
+            )<span class="question-mark">?</span>;
         }
 
         <span class="comment">// If ECPointFormats extension is supplied by the server, it must contain
@@ -2194,7 +2220,7 @@
                     randoms,
                     suite,
                     transcript,
-                    <span class="self">self</span>.early_key_schedule,
+                    <span class="self">self</span>.early_data_key_schedule,
                     <span class="self">self</span>.input.hello,
                     <span class="comment">// We always send a key share when TLS 1.3 is enabled.
                     </span><span class="self">self</span>.offered_key_share.unwrap(),

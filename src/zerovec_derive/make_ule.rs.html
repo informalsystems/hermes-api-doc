@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-derive-0.10.3/src/make_ule.rs`."><title>make_ule.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="zerovec_derive" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec_derive/</div>make_ule.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-derive-0.11.1/src/make_ule.rs`."><title>make_ule.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="zerovec_derive" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec_derive/</div>make_ule.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -344,7 +344,34 @@
 <a href="#343" id="343">343</a>
 <a href="#344" id="344">344</a>
 <a href="#345" id="345">345</a>
-<a href="#346" id="346">346</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
@@ -376,8 +403,8 @@
     <span class="kw">let </span>name = <span class="kw-2">&amp;</span>input.ident;
 
     <span class="kw">let </span>ule_stuff = <span class="kw">match </span>input.data {
-        Data::Struct(<span class="kw-2">ref </span>s) =&gt; make_ule_struct_impl(name, <span class="kw-2">&amp;</span>ule_name, <span class="kw-2">&amp;</span>input, s, attrs),
-        Data::Enum(<span class="kw-2">ref </span>e) =&gt; make_ule_enum_impl(name, <span class="kw-2">&amp;</span>ule_name, <span class="kw-2">&amp;</span>input, e, attrs),
+        Data::Struct(<span class="kw-2">ref </span>s) =&gt; make_ule_struct_impl(name, <span class="kw-2">&amp;</span>ule_name, <span class="kw-2">&amp;</span>input, s, <span class="kw-2">&amp;</span>attrs),
+        Data::Enum(<span class="kw-2">ref </span>e) =&gt; make_ule_enum_impl(name, <span class="kw-2">&amp;</span>ule_name, <span class="kw-2">&amp;</span>input, e, <span class="kw-2">&amp;</span>attrs),
         <span class="kw">_ </span>=&gt; {
             <span class="kw">return </span>Error::new(input.span(), <span class="string">"#[make_ule] must be applied to a struct"</span>)
                 .to_compile_error();
@@ -426,7 +453,7 @@
     ule_name: <span class="kw-2">&amp;</span>Ident,
     input: <span class="kw-2">&amp;</span>DeriveInput,
     enu: <span class="kw-2">&amp;</span>DataEnum,
-    attrs: ZeroVecAttrs,
+    attrs: <span class="kw-2">&amp;</span>ZeroVecAttrs,
 ) -&gt; TokenStream2 {
     <span class="comment">// We could support more int reprs in the future if needed
     </span><span class="kw">if </span>!utils::ReprInfo::compute(<span class="kw-2">&amp;</span>input.attrs).u8 {
@@ -437,8 +464,15 @@
         .to_compile_error();
     }
 
-    <span class="comment">// the next discriminant expected
-    </span><span class="kw">let </span><span class="kw-2">mut </span>next = <span class="number">0</span>;
+    <span class="kw">if </span>enu.variants.is_empty() {
+        <span class="kw">return </span>Error::new(input.span(), <span class="string">"#[make_ule] cannot be applied to empty enums"</span>)
+            .to_compile_error();
+    }
+
+    <span class="comment">// the smallest discriminant seen
+    </span><span class="kw">let </span><span class="kw-2">mut </span>min = <span class="prelude-val">None</span>;
+    <span class="comment">// the largest discriminant seen
+    </span><span class="kw">let </span><span class="kw-2">mut </span>max = <span class="prelude-val">None</span>;
     <span class="comment">// Discriminants that have not been found in series (we might find them later)
     </span><span class="kw">let </span><span class="kw-2">mut </span>not_found = HashSet::new();
 
@@ -454,11 +488,31 @@
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="kw-2">ref </span>discr)) = variant.discriminant {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(n) = get_expr_int(discr) {
-                <span class="kw">if </span>n &gt;= next {
-                    <span class="kw">for </span>missing <span class="kw">in </span>next..n {
-                        not_found.insert(missing);
+                <span class="kw">let </span>n = <span class="kw">match </span>u8::try_from(n) {
+                    <span class="prelude-val">Ok</span>(n) =&gt; n,
+                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; {
+                        <span class="kw">return </span>Error::new(
+                            variant.span(),
+                            <span class="string">"#[make_ule] only supports discriminants from 0 to 255"</span>,
+                        )
+                        .to_compile_error();
                     }
-                    next = n + <span class="number">1</span>;
+                };
+                <span class="kw">match </span>min {
+                    <span class="prelude-val">Some</span>(x) <span class="kw">if </span>x &lt; n =&gt; {}
+                    <span class="kw">_ </span>=&gt; {
+                        min = <span class="prelude-val">Some</span>(n);
+                    }
+                }
+                <span class="kw">match </span>max {
+                    <span class="prelude-val">Some</span>(x) <span class="kw">if </span>x &gt;= n =&gt; {}
+                    <span class="kw">_ </span>=&gt; {
+                        <span class="kw">let </span>old_max = max.unwrap_or(<span class="number">0u8</span>);
+                        <span class="kw">for </span>missing <span class="kw">in </span>(old_max + <span class="number">1</span>)..n {
+                            not_found.insert(missing);
+                        }
+                        max = <span class="prelude-val">Some</span>(n);
+                    }
                 }
 
                 not_found.remove(<span class="kw-2">&amp;</span>n);
@@ -468,7 +522,7 @@
                 // platform-specific C ABI choices do not matter.
                 // We could potentially add in explicit discriminants on the user's behalf in the future, or support
                 // more complicated sets of explicit discriminant values.
-                </span><span class="kw">if </span>n != i <span class="kw">as </span>u64 {}
+                </span><span class="kw">if </span>n <span class="kw">as </span>usize != i {}
             } <span class="kw">else </span>{
                 <span class="kw">return </span>Error::new(
                     discr.span(),
@@ -486,14 +540,14 @@
     }
 
     <span class="kw">let </span>not_found = not_found.iter().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+    <span class="kw">let </span>min = min.unwrap();
+    <span class="kw">let </span>max = max.unwrap();
 
-    <span class="kw">if </span>!not_found.is_empty() {
+    <span class="kw">if </span>not_found.len() &gt; min <span class="kw">as </span>usize {
         <span class="kw">return </span>Error::new(input.span(), <span class="macro">format!</span>(<span class="string">"#[make_ule] must be applied to enums with discriminants \
-                                                  filling the range from 0 to a maximum; could not find {not_found:?}"</span>))
+                                                  filling the range from a minimum to a maximum; could not find {not_found:?}"</span>))
             .to_compile_error();
     }
-
-    <span class="kw">let </span>max = next <span class="kw">as </span>u8;
 
     <span class="kw">let </span>maybe_ord_derives = <span class="kw">if </span>attrs.skip_ord {
         <span class="macro">quote!</span>()
@@ -510,9 +564,9 @@
     //     (achieved by `#[repr(transparent)]` on a type that satisfies this invariant
     //  2. ULE type is aligned to 1 byte.
     //     (achieved by `#[repr(transparent)]` on a type that satisfies this invariant)
-    //  3. The impl of validate_byte_slice() returns an error if any byte is not valid.
+    //  3. The impl of validate_bytes() returns an error if any byte is not valid.
     //     (Guarantees that the byte is in range of the corresponding enum.)
-    //  4. The impl of validate_byte_slice() returns an error if there are extra bytes.
+    //  4. The impl of validate_bytes() returns an error if there are extra bytes.
     //     (This does not happen since we are backed by 1 byte.)
     //  5. The other ULE methods use the default impl.
     //  6. ULE type byte equality is semantic equality
@@ -525,10 +579,10 @@
 
         <span class="kw">unsafe impl </span>zerovec::ule::ULE <span class="kw">for </span>#ule_name {
             <span class="attr">#[inline]
-            </span><span class="kw">fn </span>validate_byte_slice(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), zerovec::ZeroVecError&gt; {
+            </span><span class="kw">fn </span>validate_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), zerovec::ule::UleError&gt; {
                 <span class="kw">for </span>byte <span class="kw">in </span>bytes {
-                    <span class="kw">if </span><span class="kw-2">*</span>byte &gt;= #max {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(zerovec::ZeroVecError::parse::&lt;<span class="self">Self</span>&gt;())
+                    <span class="kw">if </span><span class="kw-2">*</span>byte &lt; #min || <span class="kw-2">*</span>byte &gt; #max {
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(zerovec::ule::UleError::parse::&lt;<span class="self">Self</span>&gt;())
                     }
                 }
                 <span class="prelude-val">Ok</span>(())
@@ -583,7 +637,7 @@
     ule_name: <span class="kw-2">&amp;</span>Ident,
     input: <span class="kw-2">&amp;</span>DeriveInput,
     struc: <span class="kw-2">&amp;</span>DataStruct,
-    attrs: ZeroVecAttrs,
+    attrs: <span class="kw-2">&amp;</span>ZeroVecAttrs,
 ) -&gt; TokenStream2 {
     <span class="kw">if </span>struc.fields.iter().next().is_none() {
         <span class="kw">return </span>Error::new(
@@ -670,7 +724,7 @@
             <span class="attr">#[allow(clippy::derive_hash_xor_eq)]
             </span><span class="kw">impl </span>core::hash::Hash <span class="kw">for </span>#ule_name {
                 <span class="kw">fn </span>hash&lt;H&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H) <span class="kw">where </span>H: core::hash::Hasher {
-                    state.write(&lt;#ule_name <span class="kw">as </span>zerovec::ule::ULE&gt;::as_byte_slice(<span class="kw-2">&amp;</span>[<span class="kw-2">*</span><span class="self">self</span>]));
+                    state.write(&lt;#ule_name <span class="kw">as </span>zerovec::ule::ULE&gt;::slice_as_bytes(<span class="kw-2">&amp;</span>[<span class="kw-2">*</span><span class="self">self</span>]));
                 }
             }
         )

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.10.4/src/ule/niche.rs`."><title>niche.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/ule/</div>niche.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.11.2/src/ule/niche.rs`."><title>niche.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/ule/</div>niche.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -178,11 +178,42 @@
 <a href="#177" id="177">177</a>
 <a href="#178" id="178">178</a>
 <a href="#179" id="179">179</a>
-<a href="#180" id="180">180</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#180" id="180">180</a>
+<a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
+<a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
+<a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
 </span><span class="kw">use </span>core::{marker::Copy, mem::size_of};
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::map::ZeroMapKV;
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">use crate</span>::{ZeroSlice, ZeroVec};
 
 <span class="kw">use super</span>::{AsULE, ULE};
 
@@ -215,8 +246,7 @@
 ///
 /// let bytes = &amp;[0x00, 0x01, 0x02, 0x00];
 /// let zv_no: ZeroVec&lt;NichedOption&lt;NonZeroI8, 1&gt;&gt; =
-///     ZeroVec::parse_byte_slice(bytes)
-///         .expect("Unable to parse as NichedOption.");
+///     ZeroVec::parse_bytes(bytes).expect("Unable to parse as NichedOption.");
 ///
 /// assert_eq!(zv_no.get(0).map(|e| e.0), Some(None));
 /// assert_eq!(zv_no.get(1).map(|e| e.0), Some(NonZeroI8::new(1)));
@@ -265,6 +295,18 @@
             }
         }
     }
+
+    <span class="doccomment">/// Borrows as an `Option&lt;&amp;U&gt;`.
+    </span><span class="kw">pub fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>U&gt; {
+        <span class="comment">// Safety: The union stores NICHE_BIT_PATTERN when None otherwise a valid U
+        </span><span class="kw">unsafe </span>{
+            <span class="kw">if </span><span class="self">self</span>.niche == &lt;U <span class="kw">as </span>NicheBytes&lt;N&gt;&gt;::NICHE_BIT_PATTERN {
+                <span class="prelude-val">None
+            </span>} <span class="kw">else </span>{
+                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.valid)
+            }
+        }
+    }
 }
 
 <span class="kw">impl</span>&lt;U: NicheBytes&lt;N&gt; + ULE, <span class="kw">const </span>N: usize&gt; Copy <span class="kw">for </span>NichedOptionULE&lt;U, N&gt; {}
@@ -290,13 +332,13 @@
 ///    In both cases the data is initialized.
 /// 2. NichedOptionULE is aligned to 1 byte due to `#[repr(C, packed)]` on a struct containing only
 ///    ULE fields.
-/// 3. validate_byte_slice impl returns an error if invalid bytes are encountered.
-/// 4. validate_byte_slice impl returns an error there are extra bytes.
+/// 3. validate_bytes impl returns an error if invalid bytes are encountered.
+/// 4. validate_bytes impl returns an error there are extra bytes.
 /// 5. The other ULE methods are left to their default impl.
 /// 6. NichedOptionULE equality is based on ULE equality of the subfield, assuming that NicheBytes
 ///    has been implemented correctly (this is a correctness but not a safety guarantee).
 </span><span class="kw">unsafe impl</span>&lt;U: NicheBytes&lt;N&gt; + ULE, <span class="kw">const </span>N: usize&gt; ULE <span class="kw">for </span>NichedOptionULE&lt;U, N&gt; {
-    <span class="kw">fn </span>validate_byte_slice(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::ZeroVecError&gt; {
+    <span class="kw">fn </span>validate_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw">crate</span>::ule::UleError&gt; {
         <span class="kw">let </span>size = size_of::&lt;<span class="self">Self</span>&gt;();
         <span class="comment">// The implemention is only correct if NICHE_BIT_PATTERN has same number of bytes as the
         // type.
@@ -304,7 +346,7 @@
 
         <span class="comment">// The bytes should fully transmute to a collection of Self
         </span><span class="kw">if </span>bytes.len() % size != <span class="number">0 </span>{
-            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::ZeroVecError::length::&lt;<span class="self">Self</span>&gt;(bytes.len()));
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::ule::UleError::length::&lt;<span class="self">Self</span>&gt;(bytes.len()));
         }
         bytes.chunks(size).try_for_each(|chunk| {
             <span class="comment">// Associated const cannot be referenced in a pattern
@@ -312,35 +354,25 @@
             </span><span class="kw">if </span>chunk == &lt;U <span class="kw">as </span>NicheBytes&lt;N&gt;&gt;::NICHE_BIT_PATTERN {
                 <span class="prelude-val">Ok</span>(())
             } <span class="kw">else </span>{
-                U::validate_byte_slice(chunk)
+                U::validate_bytes(chunk)
             }
         })
     }
 }
 
 <span class="doccomment">/// Optional type which uses [`NichedOptionULE&lt;U,N&gt;`] as ULE type.
-/// The implementors guarantee that `N == core::mem::sizeo_of::&lt;Self&gt;()`
+///
+/// The implementors guarantee that `N == core::mem::size_of::&lt;Self&gt;()`
 /// [`repr(transparent)`] guarantees that the layout is same as [`Option&lt;U&gt;`]
 </span><span class="attr">#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 #[repr(transparent)]
-#[non_exhaustive]
+#[allow(clippy::exhaustive_structs)] </span><span class="comment">// newtype
+</span><span class="attr">#[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Serialize, serde::Deserialize))]
 </span><span class="kw">pub struct </span>NichedOption&lt;U, <span class="kw">const </span>N: usize&gt;(<span class="kw">pub </span><span class="prelude-ty">Option</span>&lt;U&gt;);
-
-<span class="kw">impl</span>&lt;U, <span class="kw">const </span>N: usize&gt; NichedOption&lt;U, N&gt; {
-    <span class="kw">pub const fn </span>new(o: <span class="prelude-ty">Option</span>&lt;U&gt;) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>(o)
-    }
-}
 
 <span class="kw">impl</span>&lt;U, <span class="kw">const </span>N: usize&gt; Default <span class="kw">for </span>NichedOption&lt;U, N&gt; {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(<span class="prelude-val">None</span>)
-    }
-}
-
-<span class="kw">impl</span>&lt;U, <span class="kw">const </span>N: usize&gt; From&lt;<span class="prelude-ty">Option</span>&lt;U&gt;&gt; <span class="kw">for </span>NichedOption&lt;U, N&gt; {
-    <span class="kw">fn </span>from(o: <span class="prelude-ty">Option</span>&lt;U&gt;) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>(o)
     }
 }
 
@@ -356,6 +388,26 @@
 
     <span class="kw">fn </span>from_unaligned(unaligned: <span class="self">Self</span>::ULE) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(unaligned.get().map(U::from_unaligned))
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: AsULE + <span class="lifetime">'static</span>, <span class="kw">const </span>N: usize&gt; ZeroMapKV&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>NichedOption&lt;T, N&gt;
+<span class="kw">where
+    </span>T::ULE: NicheBytes&lt;N&gt;,
+{
+    <span class="kw">type </span>Container = ZeroVec&lt;<span class="lifetime">'a</span>, NichedOption&lt;T, N&gt;&gt;;
+    <span class="kw">type </span>Slice = ZeroSlice&lt;NichedOption&lt;T, N&gt;&gt;;
+    <span class="kw">type </span>GetType = &lt;NichedOption&lt;T, N&gt; <span class="kw">as </span>AsULE&gt;::ULE;
+    <span class="kw">type </span>OwnedType = <span class="self">Self</span>;
+}
+
+<span class="kw">impl</span>&lt;T, <span class="kw">const </span>N: usize&gt; IntoIterator <span class="kw">for </span>NichedOption&lt;T, N&gt; {
+    <span class="kw">type </span>IntoIter = &lt;<span class="prelude-ty">Option</span>&lt;T&gt; <span class="kw">as </span>IntoIterator&gt;::IntoIter;
+    <span class="kw">type </span>Item = T;
+
+    <span class="kw">fn </span>into_iter(<span class="self">self</span>) -&gt; <span class="self">Self</span>::IntoIter {
+        <span class="self">self</span>.<span class="number">0</span>.into_iter()
     }
 }
 </code></pre></div></section></main></body></html>

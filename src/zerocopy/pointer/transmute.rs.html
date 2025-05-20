@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerocopy-0.8.24/src/pointer/transmute.rs`."><title>transmute.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/pointer/</div>transmute.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerocopy-0.8.25/src/pointer/transmute.rs`."><title>transmute.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/pointer/</div>transmute.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -459,10 +459,7 @@
 <a href="#458" id="458">458</a>
 <a href="#459" id="459">459</a>
 <a href="#460" id="460">460</a>
-<a href="#461" id="461">461</a>
-<a href="#462" id="462">462</a>
-<a href="#463" id="463">463</a>
-<a href="#464" id="464">464</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2025 The Fuchsia Authors
+<a href="#461" id="461">461</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2025 The Fuchsia Authors
 //
 // Licensed under a BSD-style license &lt;LICENSE-BSD&gt;, Apache License, Version 2.0
 // &lt;LICENSE-APACHE or https://www.apache.org/licenses/LICENSE-2.0&gt;, or the MIT
@@ -681,10 +678,13 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>BecauseInvariantsEq {}
 
 <span class="macro">macro_rules!</span> unsafe_impl_invariants_eq {
-    (<span class="macro-nonterminal">$tyvar</span>:ident =&gt; <span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$u</span>:ty) =&gt; {
-        <span class="kw">unsafe impl</span>&lt;<span class="macro-nonterminal">$tyvar</span>&gt; InvariantsEq&lt;<span class="macro-nonterminal">$t</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$u </span>{}
-        <span class="kw">unsafe impl</span>&lt;<span class="macro-nonterminal">$tyvar</span>&gt; InvariantsEq&lt;<span class="macro-nonterminal">$u</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$t </span>{}
-    };
+    (<span class="macro-nonterminal">$tyvar</span>:ident =&gt; <span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$u</span>:ty) =&gt; {{
+        <span class="kw">crate</span>::util::macros::__unsafe();
+        <span class="comment">// SAFETY: The caller promises that this is sound.
+        </span><span class="kw">unsafe impl</span>&lt;<span class="macro-nonterminal">$tyvar</span>&gt; InvariantsEq&lt;<span class="macro-nonterminal">$t</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$u </span>{}
+        <span class="comment">// SAFETY: The caller promises that this is sound.
+        </span><span class="kw">unsafe impl</span>&lt;<span class="macro-nonterminal">$tyvar</span>&gt; InvariantsEq&lt;<span class="macro-nonterminal">$u</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$t </span>{}
+    }};
 }
 
 <span class="macro">impl_transitive_transmute_from!</span>(T =&gt; MaybeUninit&lt;T&gt; =&gt; T =&gt; Wrapping&lt;T&gt;);
@@ -779,7 +779,7 @@
 {
 }
 
-<span class="comment">// TODO(#2354): This seems like a smell - the soundness of this bound has
+<span class="comment">// FIXME(#2354): This seems like a smell - the soundness of this bound has
 // nothing to do with `Src` or `Dst` - we're basically just saying `[u8; N]` is
 // transmutable into `[u8; N]`.
 
@@ -792,7 +792,7 @@
 {
 }
 
-<span class="comment">// TODO(#2354): This seems like a smell - the soundness of this bound has
+<span class="comment">// FIXME(#2354): This seems like a smell - the soundness of this bound has
 // nothing to do with `Dst` - we're basically just saying that any type is
 // transmutable into `MaybeUninit&lt;[u8; N]&gt;`.
 
@@ -806,98 +806,92 @@
 {
 }
 
-<span class="macro">safety_comment!</span> {
-    <span class="doccomment">/// SAFETY:
-    /// - `ManuallyDrop&lt;T&gt;` has the same size as `T` [1]
-    /// - `ManuallyDrop&lt;T&gt;` has the same validity as `T` [1]
-    ///
-    /// [1] Per https://doc.rust-lang.org/1.81.0/std/mem/struct.ManuallyDrop.html:
-    ///
-    ///   `ManuallyDrop&lt;T&gt;` is guaranteed to have the same layout and bit
-    ///   validity as `T`
-    </span><span class="macro">unsafe_impl_for_transparent_wrapper!</span>(T: <span class="question-mark">?</span>Sized =&gt; ManuallyDrop&lt;T&gt;);
+<span class="comment">// SAFETY:
+// - `ManuallyDrop&lt;T&gt;` has the same size as `T` [1]
+// - `ManuallyDrop&lt;T&gt;` has the same validity as `T` [1]
+//
+// [1] Per https://doc.rust-lang.org/1.81.0/std/mem/struct.ManuallyDrop.html:
+//
+//   `ManuallyDrop&lt;T&gt;` is guaranteed to have the same layout and bit validity as
+//   `T`
+</span><span class="kw">const _</span>: () = <span class="kw">unsafe </span>{ <span class="macro">unsafe_impl_for_transparent_wrapper!</span>(T: <span class="question-mark">?</span>Sized =&gt; ManuallyDrop&lt;T&gt;) };
 
-    <span class="doccomment">/// SAFETY:
-    /// - `Unalign&lt;T&gt;` promises to have the same size as `T`.
-    /// - `Unalign&lt;T&gt;` promises to have the same validity as `T`.
-    </span><span class="macro">unsafe_impl_for_transparent_wrapper!</span>(T =&gt; Unalign&lt;T&gt;);
-    <span class="doccomment">/// SAFETY:
-    /// `Unalign&lt;T&gt;` promises to have the same size and validity as `T`. Given
-    /// `u: &amp;Unalign&lt;T&gt;`, it is already possible to obtain `let t =
-    /// u.try_deref().unwrap()`. Because `Unalign&lt;T&gt;` has the same size as `T`,
-    /// the returned `&amp;T` must point to the same referent as `u`, and thus it
-    /// must be sound for these two references to exist at the same time since
-    /// it's already possible for safe code to get into this state.
-    </span><span class="macro">unsafe_impl_invariants_eq!</span>(T =&gt; T, Unalign&lt;T&gt;);
+<span class="comment">// SAFETY:
+// - `Unalign&lt;T&gt;` promises to have the same size as `T`.
+// - `Unalign&lt;T&gt;` promises to have the same validity as `T`.
+</span><span class="kw">const _</span>: () = <span class="kw">unsafe </span>{ <span class="macro">unsafe_impl_for_transparent_wrapper!</span>(T =&gt; Unalign&lt;T&gt;) };
+<span class="comment">// SAFETY: `Unalign&lt;T&gt;` promises to have the same size and validity as `T`.
+// Given `u: &amp;Unalign&lt;T&gt;`, it is already possible to obtain `let t =
+// u.try_deref().unwrap()`. Because `Unalign&lt;T&gt;` has the same size as `T`, the
+// returned `&amp;T` must point to the same referent as `u`, and thus it must be
+// sound for these two references to exist at the same time since it's already
+// possible for safe code to get into this state.
+</span><span class="kw">const _</span>: () = <span class="kw">unsafe </span>{ <span class="macro">unsafe_impl_invariants_eq!</span>(T =&gt; T, Unalign&lt;T&gt;) };
 
-    <span class="doccomment">/// SAFETY:
-    /// - `Wrapping&lt;T&gt;` has the same size as `T` [1].
-    /// - `Wrapping&lt;T&gt;` has only one field, which is `pub` [2]. We are also
-    ///   guaranteed per that `Wrapping&lt;T&gt;` has the same layout as `T` [1]. The
-    ///   only way for both of these to be true simultaneously is for
-    ///   `Wrapping&lt;T&gt;` to have the same bit validity as `T`. In particular, in
-    ///   order to change the bit validity, one of the following would need to
-    ///   happen:
-    ///   - `Wrapping` could change its `repr`, but this would violate the
-    ///     layout guarantee.
-    ///   - `Wrapping` could add or change its fields, but this would be a
-    ///     stability-breaking change.
-    ///
-    /// [1] Per https://doc.rust-lang.org/1.85.0/core/num/struct.Wrapping.html#layout-1:
-    ///
-    ///   `Wrapping&lt;T&gt;` is guaranteed to have the same layout and ABI as `T`.
-    ///
-    /// [2] Definition from https://doc.rust-lang.org/1.85.0/core/num/struct.Wrapping.html:
-    ///
-    ///   ```
-    ///   #[repr(transparent)]
-    ///   pub struct Wrapping&lt;T&gt;(pub T);
-    ///   ```
-    </span><span class="macro">unsafe_impl_for_transparent_wrapper!</span>(T =&gt; Wrapping&lt;T&gt;);
-    <span class="doccomment">/// SAFETY:
-    /// By the preceding safety proof, `Wrapping&lt;T&gt;` and `T` have the same
-    /// layout and bit validity. Since a `Wrapping&lt;T&gt;`'s `T` field is `pub`,
-    /// given `w: &amp;Wrapping&lt;T&gt;`, it's possible to do `let t = &amp;w.t`, which means
-    /// that it's already possible for safe code to obtain a `&amp;Wrapping&lt;T&gt;` and
-    /// a `&amp;T` pointing to the same referent at the same time. Thus, this must
-    /// be sound.
-    </span><span class="macro">unsafe_impl_invariants_eq!</span>(T =&gt; T, Wrapping&lt;T&gt;);
+<span class="comment">// SAFETY:
+// - `Wrapping&lt;T&gt;` has the same size as `T` [1].
+// - `Wrapping&lt;T&gt;` has only one field, which is `pub` [2]. We are also
+//   guaranteed per that `Wrapping&lt;T&gt;` has the same layout as `T` [1]. The only
+//   way for both of these to be true simultaneously is for `Wrapping&lt;T&gt;` to
+//   have the same bit validity as `T`. In particular, in order to change the
+//   bit validity, one of the following would need to happen:
+//   - `Wrapping` could change its `repr`, but this would violate the layout
+//     guarantee.
+//   - `Wrapping` could add or change its fields, but this would be a
+//     stability-breaking change.
+//
+// [1] Per https://doc.rust-lang.org/1.85.0/core/num/struct.Wrapping.html#layout-1:
+//
+//   `Wrapping&lt;T&gt;` is guaranteed to have the same layout and ABI as `T`.
+//
+// [2] Definition from https://doc.rust-lang.org/1.85.0/core/num/struct.Wrapping.html:
+//
+//   ```
+//   #[repr(transparent)]
+//   pub struct Wrapping&lt;T&gt;(pub T);
+//   ```
+</span><span class="kw">const _</span>: () = <span class="kw">unsafe </span>{ <span class="macro">unsafe_impl_for_transparent_wrapper!</span>(T =&gt; Wrapping&lt;T&gt;) };
 
-    <span class="doccomment">/// SAFETY:
-    /// - `UnsafeCell&lt;T&gt;` has the same size as `T` [1].
-    /// - Per [1], `UnsafeCell&lt;T&gt;` has the same bit validity as `T`. Technically
-    ///   the term "representation" doesn't guarantee this, but the subsequent
-    ///   sentence in the documentation makes it clear that this is the
-    ///   intention.
-    ///
-    /// [1] Per https://doc.rust-lang.org/1.81.0/core/cell/struct.UnsafeCell.html#memory-layout:
-    ///
-    ///   `UnsafeCell&lt;T&gt;` has the same in-memory representation as its inner
-    ///   type `T`. A consequence of this guarantee is that it is possible to
-    ///   convert between `T` and `UnsafeCell&lt;T&gt;`.
-    </span><span class="macro">unsafe_impl_for_transparent_wrapper!</span>(T: <span class="question-mark">?</span>Sized =&gt; UnsafeCell&lt;T&gt;);
+<span class="comment">// SAFETY: By the preceding safety proof, `Wrapping&lt;T&gt;` and `T` have the same
+// layout and bit validity. Since a `Wrapping&lt;T&gt;`'s `T` field is `pub`, given
+// `w: &amp;Wrapping&lt;T&gt;`, it's possible to do `let t = &amp;w.t`, which means that it's
+// already possible for safe code to obtain a `&amp;Wrapping&lt;T&gt;` and a `&amp;T` pointing
+// to the same referent at the same time. Thus, this must be sound.
+</span><span class="kw">const _</span>: () = <span class="kw">unsafe </span>{ <span class="macro">unsafe_impl_invariants_eq!</span>(T =&gt; T, Wrapping&lt;T&gt;) };
 
-    <span class="doccomment">/// SAFETY:
-    /// - `Cell&lt;T&gt;` has the same size as `T` [1].
-    /// - Per [1], `Cell&lt;T&gt;` has the same bit validity as `T`. Technically the
-    ///   term "representation" doesn't guarantee this, but it does promise to
-    ///   have the "same memory layout and caveats as `UnsafeCell&lt;T&gt;`." The
-    ///   `UnsafeCell` docs [2] make it clear that bit validity is the intention
-    ///   even if that phrase isn't used.
-    ///
-    /// [1] Per https://doc.rust-lang.org/1.85.0/std/cell/struct.Cell.html#memory-layout:
-    ///
-    ///   `Cell&lt;T&gt;` has the same memory layout and caveats as `UnsafeCell&lt;T&gt;`.
-    ///   In particular, this means that `Cell&lt;T&gt;` has the same in-memory
-    ///   representation as its inner type `T`.
-    ///
-    /// [2] Per https://doc.rust-lang.org/1.81.0/core/cell/struct.UnsafeCell.html#memory-layout:
-    ///
-    ///   `UnsafeCell&lt;T&gt;` has the same in-memory representation as its inner
-    ///   type `T`. A consequence of this guarantee is that it is possible to
-    ///   convert between `T` and `UnsafeCell&lt;T&gt;`.
-    </span><span class="macro">unsafe_impl_for_transparent_wrapper!</span>(T: <span class="question-mark">?</span>Sized =&gt; Cell&lt;T&gt;);
-}
+<span class="comment">// SAFETY:
+// - `UnsafeCell&lt;T&gt;` has the same size as `T` [1].
+// - Per [1], `UnsafeCell&lt;T&gt;` has the same bit validity as `T`. Technically the
+//   term "representation" doesn't guarantee this, but the subsequent sentence
+//   in the documentation makes it clear that this is the intention.
+//
+// [1] Per https://doc.rust-lang.org/1.81.0/core/cell/struct.UnsafeCell.html#memory-layout:
+//
+//   `UnsafeCell&lt;T&gt;` has the same in-memory representation as its inner type
+//   `T`. A consequence of this guarantee is that it is possible to convert
+//   between `T` and `UnsafeCell&lt;T&gt;`.
+</span><span class="kw">const _</span>: () = <span class="kw">unsafe </span>{ <span class="macro">unsafe_impl_for_transparent_wrapper!</span>(T: <span class="question-mark">?</span>Sized =&gt; UnsafeCell&lt;T&gt;) };
+
+<span class="comment">// SAFETY:
+// - `Cell&lt;T&gt;` has the same size as `T` [1].
+// - Per [1], `Cell&lt;T&gt;` has the same bit validity as `T`. Technically the term
+//   "representation" doesn't guarantee this, but it does promise to have the
+//   "same memory layout and caveats as `UnsafeCell&lt;T&gt;`." The `UnsafeCell` docs
+//   [2] make it clear that bit validity is the intention even if that phrase
+//   isn't used.
+//
+// [1] Per https://doc.rust-lang.org/1.85.0/std/cell/struct.Cell.html#memory-layout:
+//
+//   `Cell&lt;T&gt;` has the same memory layout and caveats as `UnsafeCell&lt;T&gt;`. In
+//   particular, this means that `Cell&lt;T&gt;` has the same in-memory representation
+//   as its inner type `T`.
+//
+// [2] Per https://doc.rust-lang.org/1.81.0/core/cell/struct.UnsafeCell.html#memory-layout:
+//
+//   `UnsafeCell&lt;T&gt;` has the same in-memory representation as its inner type
+//   `T`. A consequence of this guarantee is that it is possible to convert
+//   between `T` and `UnsafeCell&lt;T&gt;`.
+</span><span class="kw">const _</span>: () = <span class="kw">unsafe </span>{ <span class="macro">unsafe_impl_for_transparent_wrapper!</span>(T: <span class="question-mark">?</span>Sized =&gt; Cell&lt;T&gt;) };
 
 <span class="macro">impl_transitive_transmute_from!</span>(T: <span class="question-mark">?</span>Sized =&gt; Cell&lt;T&gt; =&gt; T =&gt; UnsafeCell&lt;T&gt;);
 <span class="macro">impl_transitive_transmute_from!</span>(T: <span class="question-mark">?</span>Sized =&gt; UnsafeCell&lt;T&gt; =&gt; T =&gt; Cell&lt;T&gt;);

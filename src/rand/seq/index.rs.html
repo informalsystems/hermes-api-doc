@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand-0.9.0/src/seq/index.rs`."><title>index.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rand" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://www.rust-lang.org/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rand/seq/</div>index.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand-0.9.1/src/seq/index.rs`."><title>index.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rand" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="icon" href="https://www.rust-lang.org/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rand/seq/</div>index.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -978,10 +978,11 @@
     }
 }
 
-<span class="doccomment">/// Randomly sample exactly `amount` distinct indices from `0..length`
+<span class="doccomment">/// Randomly sample `amount` distinct indices from `0..length`
 ///
-/// Results are in arbitrary order (there is no guarantee of shuffling or
-/// ordering).
+/// The result may contain less than `amount` indices if insufficient non-zero
+/// weights are available. Results are returned in an arbitrary order (there is
+/// no guarantee of shuffling or ordering).
 ///
 /// Function `weight` is called once for each index to provide weights.
 ///
@@ -991,7 +992,6 @@
 ///
 /// Error cases:
 /// -   [`WeightError::InvalidWeight`] when a weight is not-a-number or negative.
-/// -   [`WeightError::InsufficientNonZero`] when fewer than `amount` weights are positive.
 ///
 /// This implementation uses `O(length + amount)` space and `O(length)` time.
 </span><span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
@@ -1024,10 +1024,13 @@
     }
 }
 
-<span class="doccomment">/// Randomly sample exactly `amount` distinct indices from `0..length`, and
-/// return them in an arbitrary order (there is no guarantee of shuffling or
-/// ordering). The weights are to be provided by the input function `weights`,
-/// which will be called once for each index.
+<span class="doccomment">/// Randomly sample `amount` distinct indices from `0..length`
+///
+/// The result may contain less than `amount` indices if insufficient non-zero
+/// weights are available. Results are returned in an arbitrary order (there is
+/// no guarantee of shuffling or ordering).
+///
+/// Function `weight` is called once for each index to provide weights.
 ///
 /// This implementation is based on the algorithm A-ExpJ as found in
 /// [Efraimidis and Spirakis, 2005](https://doi.org/10.1016/j.ipl.2005.11.003).
@@ -1035,7 +1038,6 @@
 ///
 /// Error cases:
 /// -   [`WeightError::InvalidWeight`] when a weight is not-a-number or negative.
-/// -   [`WeightError::InsufficientNonZero`] when fewer than `amount` weights are positive.
 </span><span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">fn </span>sample_efraimidis_spirakis&lt;R, F, X, N&gt;(
     rng: <span class="kw-2">&amp;mut </span>R,
@@ -1099,28 +1101,26 @@
         index += N::one();
     }
 
-    <span class="kw">if </span>candidates.len() &lt; amount.as_usize() {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(WeightError::InsufficientNonZero);
-    }
+    <span class="kw">if </span>index &lt; length {
+        <span class="kw">let </span><span class="kw-2">mut </span>x = rng.random::&lt;f64&gt;().ln() / candidates.peek().unwrap().key;
+        <span class="kw">while </span>index &lt; length {
+            <span class="kw">let </span>weight = weight(index.as_usize()).into();
+            <span class="kw">if </span>weight &gt; <span class="number">0.0 </span>{
+                x -= weight;
+                <span class="kw">if </span>x &lt;= <span class="number">0.0 </span>{
+                    <span class="kw">let </span>min_candidate = candidates.pop().unwrap();
+                    <span class="kw">let </span>t = (min_candidate.key * weight).exp();
+                    <span class="kw">let </span>key = rng.random_range(t..<span class="number">1.0</span>).ln() / weight;
+                    candidates.push(Element { index, key });
 
-    <span class="kw">let </span><span class="kw-2">mut </span>x = rng.random::&lt;f64&gt;().ln() / candidates.peek().unwrap().key;
-    <span class="kw">while </span>index &lt; length {
-        <span class="kw">let </span>weight = weight(index.as_usize()).into();
-        <span class="kw">if </span>weight &gt; <span class="number">0.0 </span>{
-            x -= weight;
-            <span class="kw">if </span>x &lt;= <span class="number">0.0 </span>{
-                <span class="kw">let </span>min_candidate = candidates.pop().unwrap();
-                <span class="kw">let </span>t = (min_candidate.key * weight).exp();
-                <span class="kw">let </span>key = rng.random_range(t..<span class="number">1.0</span>).ln() / weight;
-                candidates.push(Element { index, key });
-
-                x = rng.random::&lt;f64&gt;().ln() / candidates.peek().unwrap().key;
+                    x = rng.random::&lt;f64&gt;().ln() / candidates.peek().unwrap().key;
+                }
+            } <span class="kw">else if </span>!(weight &gt;= <span class="number">0.0</span>) {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(WeightError::InvalidWeight);
             }
-        } <span class="kw">else if </span>!(weight &gt;= <span class="number">0.0</span>) {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(WeightError::InvalidWeight);
-        }
 
-        index += N::one();
+            index += N::one();
+        }
     }
 
     <span class="prelude-val">Ok</span>(IndexVec::from(
@@ -1349,7 +1349,7 @@
         }
 
         <span class="kw">let </span>r = sample_weighted(<span class="kw-2">&amp;mut </span>seed_rng(<span class="number">423</span>), <span class="number">10</span>, |i| i <span class="kw">as </span>f64, <span class="number">10</span>);
-        <span class="macro">assert_eq!</span>(r.unwrap_err(), WeightError::InsufficientNonZero);
+        <span class="macro">assert_eq!</span>(r.unwrap().len(), <span class="number">9</span>);
     }
 
     <span class="attr">#[test]

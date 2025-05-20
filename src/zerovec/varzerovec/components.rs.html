@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.10.4/src/varzerovec/components.rs`."><title>components.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/varzerovec/</div>components.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerovec-0.11.2/src/varzerovec/components.rs`."><title>components.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerovec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerovec/varzerovec/</div>components.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -572,58 +572,326 @@
 <a href="#571" id="571">571</a>
 <a href="#572" id="572">572</a>
 <a href="#573" id="573">573</a>
-<a href="#574" id="574">574</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
+<a href="#641" id="641">641</a>
+<a href="#642" id="642">642</a>
+<a href="#643" id="643">643</a>
+<a href="#644" id="644">644</a>
+<a href="#645" id="645">645</a>
+<a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
+<a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
+<a href="#725" id="725">725</a>
+<a href="#726" id="726">726</a>
+<a href="#727" id="727">727</a>
+<a href="#728" id="728">728</a>
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
+<a href="#732" id="732">732</a>
+<a href="#733" id="733">733</a>
+<a href="#734" id="734">734</a>
+<a href="#735" id="735">735</a>
+<a href="#736" id="736">736</a>
+<a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
+<a href="#739" id="739">739</a>
+<a href="#740" id="740">740</a>
+<a href="#741" id="741">741</a>
+<a href="#742" id="742">742</a>
+<a href="#743" id="743">743</a>
+<a href="#744" id="744">744</a>
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a>
+<a href="#747" id="747">747</a>
+<a href="#748" id="748">748</a>
+<a href="#749" id="749">749</a>
+<a href="#750" id="750">750</a>
+<a href="#751" id="751">751</a>
+<a href="#752" id="752">752</a>
+<a href="#753" id="753">753</a>
+<a href="#754" id="754">754</a>
+<a href="#755" id="755">755</a>
+<a href="#756" id="756">756</a>
+<a href="#757" id="757">757</a>
+<a href="#758" id="758">758</a>
+<a href="#759" id="759">759</a>
+<a href="#760" id="760">760</a>
+<a href="#761" id="761">761</a>
+<a href="#762" id="762">762</a>
+<a href="#763" id="763">763</a>
+<a href="#764" id="764">764</a>
+<a href="#765" id="765">765</a>
+<a href="#766" id="766">766</a>
+<a href="#767" id="767">767</a>
+<a href="#768" id="768">768</a>
+<a href="#769" id="769">769</a>
+<a href="#770" id="770">770</a>
+<a href="#771" id="771">771</a>
+<a href="#772" id="772">772</a>
+<a href="#773" id="773">773</a>
+<a href="#774" id="774">774</a>
+<a href="#775" id="775">775</a>
+<a href="#776" id="776">776</a>
+<a href="#777" id="777">777</a>
+<a href="#778" id="778">778</a>
+<a href="#779" id="779">779</a>
+<a href="#780" id="780">780</a>
+<a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
+<a href="#786" id="786">786</a>
+<a href="#787" id="787">787</a>
+<a href="#788" id="788">788</a>
+<a href="#789" id="789">789</a>
+<a href="#790" id="790">790</a>
+<a href="#791" id="791">791</a>
+<a href="#792" id="792">792</a>
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
+<a href="#795" id="795">795</a>
+<a href="#796" id="796">796</a>
+<a href="#797" id="797">797</a>
+<a href="#798" id="798">798</a>
+<a href="#799" id="799">799</a>
+<a href="#800" id="800">800</a>
+<a href="#801" id="801">801</a>
+<a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
+<a href="#809" id="809">809</a>
+<a href="#810" id="810">810</a>
+<a href="#811" id="811">811</a>
+<a href="#812" id="812">812</a>
+<a href="#813" id="813">813</a>
+<a href="#814" id="814">814</a>
+<a href="#815" id="815">815</a>
+<a href="#816" id="816">816</a></pre></div><pre class="rust"><code><span class="comment">// This file is part of ICU4X. For terms of use, please see the file
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
-</span><span class="kw">use </span><span class="kw">crate</span>::ule::<span class="kw-2">*</span>;
-<span class="kw">use </span>alloc::boxed::Box;
-<span class="kw">use </span>alloc::format;
-<span class="kw">use </span>alloc::string::String;
-<span class="kw">use </span>alloc::vec::Vec;
+</span><span class="kw">use </span><span class="kw">super</span>::VarZeroVecFormatError;
+<span class="kw">use </span><span class="kw">crate</span>::ule::<span class="kw-2">*</span>;
 <span class="kw">use </span>core::cmp::Ordering;
 <span class="kw">use </span>core::convert::TryFrom;
 <span class="kw">use </span>core::marker::PhantomData;
+<span class="kw">use </span>core::mem;
 <span class="kw">use </span>core::ops::Range;
-
-<span class="comment">// Also used by owned.rs
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const </span>LENGTH_WIDTH: usize = <span class="number">4</span>;
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const </span>METADATA_WIDTH: usize = <span class="number">0</span>;
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const </span>MAX_LENGTH: usize = u32::MAX <span class="kw">as </span>usize;
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const </span>MAX_INDEX: usize = u32::MAX <span class="kw">as </span>usize;
 
 <span class="doccomment">/// This trait allows switching between different possible internal
 /// representations of VarZeroVec.
 ///
-/// Currently this crate supports two formats: [`Index16`] and [`Index32`],
+/// Currently this crate supports three formats: [`Index8`], [`Index16`] and [`Index32`],
 /// with [`Index16`] being the default for all [`VarZeroVec`](super::VarZeroVec)
 /// types unless explicitly specified otherwise.
 ///
 /// Do not implement this trait, its internals may be changed in the future,
 /// and all of its associated items are hidden from the docs.
-</span><span class="attr">#[allow(clippy::missing_safety_doc)] </span><span class="comment">// no safety section for you, don't implement this trait period
-</span><span class="kw">pub unsafe trait </span>VarZeroVecFormat: <span class="lifetime">'static </span>+ Sized {
-    <span class="attr">#[doc(hidden)]
-    </span><span class="kw">const </span>INDEX_WIDTH: usize;
-    <span class="attr">#[doc(hidden)]
-    </span><span class="kw">const </span>MAX_VALUE: u32;
-    <span class="doccomment">/// This is always `RawBytesULE&lt;Self::INDEX_WIDTH&gt;` however
-    /// Rust does not currently support using associated constants in const
-    /// generics
+</span><span class="kw">pub trait </span>VarZeroVecFormat: <span class="lifetime">'static </span>+ Sized {
+    <span class="doccomment">/// The type to use for the indexing array
+    ///
+    /// Safety: must be a ULE for which all byte sequences are allowed
     </span><span class="attr">#[doc(hidden)]
-    </span><span class="kw">type </span>RawBytes: ULE;
-
-    <span class="comment">// various conversions because RawBytes is an associated constant now
+    </span><span class="kw">type </span>Index: IntegerULE;
+    <span class="doccomment">/// The type to use for the length segment
+    ///
+    /// Safety: must be a ULE for which all byte sequences are allowed
     </span><span class="attr">#[doc(hidden)]
-    </span><span class="kw">fn </span>rawbytes_to_usize(raw: <span class="self">Self</span>::RawBytes) -&gt; usize;
-    <span class="attr">#[doc(hidden)]
-    </span><span class="kw">fn </span>usize_to_rawbytes(u: usize) -&gt; <span class="self">Self</span>::RawBytes;
-
-    <span class="attr">#[doc(hidden)]
-    </span><span class="kw">fn </span>rawbytes_from_byte_slice_unchecked_mut(bytes: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="kw-2">&amp;mut </span>[<span class="self">Self</span>::RawBytes];
+    </span><span class="kw">type </span>Len: IntegerULE;
 }
 
-<span class="doccomment">/// This is a [`VarZeroVecFormat`] that stores u16s in the index array.
+<span class="doccomment">/// This trait represents various ULE types that can be used to represent an integer
+///
+/// Do not implement this trait, its internals may be changed in the future,
+/// and all of its associated items are hidden from the docs.
+</span><span class="attr">#[allow(clippy::missing_safety_doc)] </span><span class="comment">// no safety section for you, don't implement this trait period
+</span><span class="attr">#[doc(hidden)]
+</span><span class="kw">pub unsafe trait </span>IntegerULE: ULE {
+    <span class="doccomment">/// The error to show when unable to construct a vec
+    </span><span class="attr">#[doc(hidden)]
+    </span><span class="kw">const </span>TOO_LARGE_ERROR: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str;
+
+    <span class="doccomment">/// Safety: must be sizeof(self)
+    </span><span class="attr">#[doc(hidden)]
+    </span><span class="kw">const </span>SIZE: usize;
+
+    <span class="doccomment">/// Safety: must be maximum integral value represented here
+    </span><span class="attr">#[doc(hidden)]
+    </span><span class="kw">const </span>MAX_VALUE: u32;
+
+    <span class="doccomment">/// Safety: Must roundtrip with from_usize and represent the correct
+    /// integral value
+    </span><span class="attr">#[doc(hidden)]
+    </span><span class="kw">fn </span>iule_to_usize(<span class="self">self</span>) -&gt; usize;
+
+    <span class="attr">#[doc(hidden)]
+    </span><span class="kw">fn </span>iule_from_usize(x: usize) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;;
+
+    <span class="doccomment">/// Safety: Should always convert a buffer into an array of Self with the correct length
+    </span><span class="attr">#[doc(hidden)]
+    #[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">fn </span>iule_from_bytes_unchecked_mut(bytes: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="kw-2">&amp;mut </span>[<span class="self">Self</span>];
+}
+
+<span class="doccomment">/// This is a [`VarZeroVecFormat`] that stores u8s in the index array, and a u8 for a length.
+///
+/// Will have a smaller data size, but it's *extremely* likely for larger arrays
+/// to be unrepresentable (and error on construction). Should probably be used
+/// for known-small arrays, where all but the last field are known-small.
+</span><span class="attr">#[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[allow(clippy::exhaustive_structs)] </span><span class="comment">// marker
+</span><span class="kw">pub struct </span>Index8;
+
+<span class="doccomment">/// This is a [`VarZeroVecFormat`] that stores u16s in the index array, and a u16 for a length.
+///
 /// Will have a smaller data size, but it's more likely for larger arrays
 /// to be unrepresentable (and error on construction)
 ///
@@ -632,46 +900,85 @@
 #[allow(clippy::exhaustive_structs)] </span><span class="comment">// marker
 </span><span class="kw">pub struct </span>Index16;
 
-<span class="doccomment">/// This is a [`VarZeroVecFormat`] that stores u32s in the index array.
+<span class="doccomment">/// This is a [`VarZeroVecFormat`] that stores u32s in the index array, and a u32 for a length.
 /// Will have a larger data size, but will support large arrays without
 /// problems.
 </span><span class="attr">#[derive(Copy, Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 #[allow(clippy::exhaustive_structs)] </span><span class="comment">// marker
 </span><span class="kw">pub struct </span>Index32;
 
-<span class="kw">unsafe impl </span>VarZeroVecFormat <span class="kw">for </span>Index16 {
-    <span class="kw">const </span>INDEX_WIDTH: usize = <span class="number">2</span>;
-    <span class="kw">const </span>MAX_VALUE: u32 = u16::MAX <span class="kw">as </span>u32;
-    <span class="kw">type </span>RawBytes = RawBytesULE&lt;<span class="number">2</span>&gt;;
+<span class="kw">impl </span>VarZeroVecFormat <span class="kw">for </span>Index8 {
+    <span class="kw">type </span>Index = u8;
+    <span class="kw">type </span>Len = u8;
+}
+
+<span class="kw">impl </span>VarZeroVecFormat <span class="kw">for </span>Index16 {
+    <span class="kw">type </span>Index = RawBytesULE&lt;<span class="number">2</span>&gt;;
+    <span class="kw">type </span>Len = RawBytesULE&lt;<span class="number">2</span>&gt;;
+}
+
+<span class="kw">impl </span>VarZeroVecFormat <span class="kw">for </span>Index32 {
+    <span class="kw">type </span>Index = RawBytesULE&lt;<span class="number">4</span>&gt;;
+    <span class="kw">type </span>Len = RawBytesULE&lt;<span class="number">4</span>&gt;;
+}
+
+<span class="kw">unsafe impl </span>IntegerULE <span class="kw">for </span>u8 {
+    <span class="kw">const </span>TOO_LARGE_ERROR: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"Attempted to build VarZeroVec out of elements that \
+                                     cumulatively are larger than a u8 in size"</span>;
+    <span class="kw">const </span>SIZE: usize = mem::size_of::&lt;<span class="self">Self</span>&gt;();
+    <span class="kw">const </span>MAX_VALUE: u32 = u8::MAX <span class="kw">as </span>u32;
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>rawbytes_to_usize(raw: <span class="self">Self</span>::RawBytes) -&gt; usize {
-        raw.as_unsigned_int() <span class="kw">as </span>usize
+    </span><span class="kw">fn </span>iule_to_usize(<span class="self">self</span>) -&gt; usize {
+        <span class="self">self </span><span class="kw">as </span>usize
     }
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>usize_to_rawbytes(u: usize) -&gt; <span class="self">Self</span>::RawBytes {
-        (u <span class="kw">as </span>u16).to_unaligned()
+    </span><span class="kw">fn </span>iule_from_usize(u: usize) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+        u8::try_from(u).ok()
     }
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>rawbytes_from_byte_slice_unchecked_mut(bytes: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="kw-2">&amp;mut </span>[<span class="self">Self</span>::RawBytes] {
-        <span class="self">Self</span>::RawBytes::from_byte_slice_unchecked_mut(bytes)
+    #[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">fn </span>iule_from_bytes_unchecked_mut(bytes: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="kw-2">&amp;mut </span>[<span class="self">Self</span>] {
+        bytes
     }
 }
 
-<span class="kw">unsafe impl </span>VarZeroVecFormat <span class="kw">for </span>Index32 {
-    <span class="kw">const </span>INDEX_WIDTH: usize = <span class="number">4</span>;
+<span class="kw">unsafe impl </span>IntegerULE <span class="kw">for </span>RawBytesULE&lt;<span class="number">2</span>&gt; {
+    <span class="kw">const </span>TOO_LARGE_ERROR: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"Attempted to build VarZeroVec out of elements that \
+                                     cumulatively are larger than a u16 in size"</span>;
+    <span class="kw">const </span>SIZE: usize = mem::size_of::&lt;<span class="self">Self</span>&gt;();
+    <span class="kw">const </span>MAX_VALUE: u32 = u16::MAX <span class="kw">as </span>u32;
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>iule_to_usize(<span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.as_unsigned_int() <span class="kw">as </span>usize
+    }
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>iule_from_usize(u: usize) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+        u16::try_from(u).ok().map(u16::to_unaligned)
+    }
+    <span class="attr">#[inline]
+    #[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">fn </span>iule_from_bytes_unchecked_mut(bytes: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="kw-2">&amp;mut </span>[<span class="self">Self</span>] {
+        <span class="self">Self</span>::from_bytes_unchecked_mut(bytes)
+    }
+}
+
+<span class="kw">unsafe impl </span>IntegerULE <span class="kw">for </span>RawBytesULE&lt;<span class="number">4</span>&gt; {
+    <span class="kw">const </span>TOO_LARGE_ERROR: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"Attempted to build VarZeroVec out of elements that \
+                                     cumulatively are larger than a u32 in size"</span>;
+    <span class="kw">const </span>SIZE: usize = mem::size_of::&lt;<span class="self">Self</span>&gt;();
     <span class="kw">const </span>MAX_VALUE: u32 = u32::MAX;
-    <span class="kw">type </span>RawBytes = RawBytesULE&lt;<span class="number">4</span>&gt;;
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>rawbytes_to_usize(raw: <span class="self">Self</span>::RawBytes) -&gt; usize {
-        raw.as_unsigned_int() <span class="kw">as </span>usize
+    </span><span class="kw">fn </span>iule_to_usize(<span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.as_unsigned_int() <span class="kw">as </span>usize
     }
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>usize_to_rawbytes(u: usize) -&gt; <span class="self">Self</span>::RawBytes {
-        (u <span class="kw">as </span>u32).to_unaligned()
+    </span><span class="kw">fn </span>iule_from_usize(u: usize) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
+        u32::try_from(u).ok().map(u32::to_unaligned)
     }
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>rawbytes_from_byte_slice_unchecked_mut(bytes: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="kw-2">&amp;mut </span>[<span class="self">Self</span>::RawBytes] {
-        <span class="self">Self</span>::RawBytes::from_byte_slice_unchecked_mut(bytes)
+    #[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">fn </span>iule_from_bytes_unchecked_mut(bytes: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="kw-2">&amp;mut </span>[<span class="self">Self</span>] {
+        <span class="self">Self</span>::from_bytes_unchecked_mut(bytes)
     }
 }
 
@@ -683,17 +990,16 @@
 /// a `&amp;'a [T::VarULE]`, but since `T::VarULE` is unsized that type does not actually
 /// exist.
 ///
-/// See [`VarZeroVecComponents::parse_byte_slice()`] for information on the internal invariants involved
+/// See [`VarZeroVecComponents::parse_bytes()`] for information on the internal invariants involved
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>VarZeroVecComponents&lt;<span class="lifetime">'a</span>, T: <span class="question-mark">?</span>Sized, F&gt; {
     <span class="doccomment">/// The number of elements
     </span>len: u32,
     <span class="doccomment">/// The list of indices into the `things` slice
+    /// Since the first element is always at things[0], the first element of the indices array is for the *second* element
     </span>indices: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8],
     <span class="doccomment">/// The contiguous list of `T::VarULE`s
     </span>things: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8],
-    <span class="doccomment">/// The original slice this was constructed from
-    </span>entire_slice: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8],
     marker: PhantomData&lt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>T, F)&gt;,
 }
 
@@ -720,7 +1026,6 @@
             len: <span class="number">0</span>,
             indices: <span class="kw-2">&amp;</span>[],
             things: <span class="kw-2">&amp;</span>[],
-            entire_slice: <span class="kw-2">&amp;</span>[],
             marker: PhantomData,
         }
     }
@@ -729,48 +1034,78 @@
     <span class="doccomment">/// Construct a new VarZeroVecComponents, checking invariants about the overall buffer size:
     ///
     /// - There must be either zero or at least four bytes (if four, this is the "length" parsed as a usize)
-    /// - There must be at least `4*length + 4` bytes total, to form the array `indices` of indices
-    /// - `indices[i]..indices[i+1]` must index into a valid section of
-    ///   `things`, such that it parses to a `T::VarULE`
-    /// - `indices[len - 1]..things.len()` must index into a valid section of
+    /// - There must be at least `4*(length - 1) + 4` bytes total, to form the array `indices` of indices
+    /// - `0..indices[0]` must index into a valid section of
+    ///   `things` (the data after `indices`), such that it parses to a `T::VarULE`
+    /// - `indices[i - 1]..indices[i]` must index into a valid section of
+    ///   `things` (the data after `indices`), such that it parses to a `T::VarULE`
+    /// - `indices[len - 2]..things.len()` must index into a valid section of
     ///   `things`, such that it parses to a `T::VarULE`
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>parse_byte_slice(slice: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ZeroVecError&gt; {
+    </span><span class="kw">pub fn </span>parse_bytes(slice: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, VarZeroVecFormatError&gt; {
         <span class="comment">// The empty VZV is special-cased to the empty slice
         </span><span class="kw">if </span>slice.is_empty() {
             <span class="kw">return </span><span class="prelude-val">Ok</span>(VarZeroVecComponents {
                 len: <span class="number">0</span>,
                 indices: <span class="kw-2">&amp;</span>[],
                 things: <span class="kw-2">&amp;</span>[],
-                entire_slice: slice,
                 marker: PhantomData,
             });
         }
         <span class="kw">let </span>len_bytes = slice
-            .get(<span class="number">0</span>..LENGTH_WIDTH)
-            .ok_or(ZeroVecError::VarZeroVecFormatError)<span class="question-mark">?</span>;
-        <span class="kw">let </span>len_ule = RawBytesULE::&lt;LENGTH_WIDTH&gt;::parse_byte_slice(len_bytes)
-            .map_err(|<span class="kw">_</span>| ZeroVecError::VarZeroVecFormatError)<span class="question-mark">?</span>;
+            .get(<span class="number">0</span>..F::Len::SIZE)
+            .ok_or(VarZeroVecFormatError::Metadata)<span class="question-mark">?</span>;
+        <span class="kw">let </span>len_ule =
+            F::Len::parse_bytes_to_slice(len_bytes).map_err(|<span class="kw">_</span>| VarZeroVecFormatError::Metadata)<span class="question-mark">?</span>;
 
         <span class="kw">let </span>len = len_ule
             .first()
-            .ok_or(ZeroVecError::VarZeroVecFormatError)<span class="question-mark">?
-            </span>.as_unsigned_int();
-        <span class="kw">let </span>indices_bytes = slice
-            .get(
-                LENGTH_WIDTH + METADATA_WIDTH
-                    ..LENGTH_WIDTH + METADATA_WIDTH + F::INDEX_WIDTH * (len <span class="kw">as </span>usize),
-            )
-            .ok_or(ZeroVecError::VarZeroVecFormatError)<span class="question-mark">?</span>;
+            .ok_or(VarZeroVecFormatError::Metadata)<span class="question-mark">?
+            </span>.iule_to_usize();
+
+        <span class="kw">let </span>rest = slice
+            .get(F::Len::SIZE..)
+            .ok_or(VarZeroVecFormatError::Metadata)<span class="question-mark">?</span>;
+        <span class="kw">let </span>len_u32 = u32::try_from(len).map_err(|<span class="kw">_</span>| VarZeroVecFormatError::Metadata);
+        <span class="comment">// We pass down the rest of the invariants
+        </span><span class="self">Self</span>::parse_bytes_with_length(len_u32<span class="question-mark">?</span>, rest)
+    }
+
+    <span class="doccomment">/// Construct a new VarZeroVecComponents, checking invariants about the overall buffer size:
+    ///
+    /// - There must be at least `4*len` bytes total, to form the array `indices` of indices.
+    /// - `indices[i]..indices[i+1]` must index into a valid section of
+    ///   `things` (the data after `indices`), such that it parses to a `T::VarULE`
+    /// - `indices[len - 1]..things.len()` must index into a valid section of
+    ///   `things`, such that it parses to a `T::VarULE`
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>parse_bytes_with_length(
+        len: u32,
+        slice: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8],
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, VarZeroVecFormatError&gt; {
+        <span class="kw">let </span>len_minus_one = len.checked_sub(<span class="number">1</span>);
+        <span class="comment">// The empty VZV is special-cased to the empty slice
+        </span><span class="kw">let </span><span class="prelude-val">Some</span>(len_minus_one) = len_minus_one <span class="kw">else </span>{
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(VarZeroVecComponents {
+                len: <span class="number">0</span>,
+                indices: <span class="kw-2">&amp;</span>[],
+                things: <span class="kw-2">&amp;</span>[],
+                marker: PhantomData,
+            });
+        };
+        <span class="comment">// The indices array is one element shorter since the first index is always 0,
+        // so we use len_minus_one
+        </span><span class="kw">let </span>indices_bytes = slice
+            .get(..F::Index::SIZE * (len_minus_one <span class="kw">as </span>usize))
+            .ok_or(VarZeroVecFormatError::Metadata)<span class="question-mark">?</span>;
         <span class="kw">let </span>things = slice
-            .get(F::INDEX_WIDTH * (len <span class="kw">as </span>usize) + LENGTH_WIDTH + METADATA_WIDTH..)
-            .ok_or(ZeroVecError::VarZeroVecFormatError)<span class="question-mark">?</span>;
+            .get(F::Index::SIZE * (len_minus_one <span class="kw">as </span>usize)..)
+            .ok_or(VarZeroVecFormatError::Metadata)<span class="question-mark">?</span>;
 
         <span class="kw">let </span>borrowed = VarZeroVecComponents {
             len,
             indices: indices_bytes,
             things,
-            entire_slice: slice,
             marker: PhantomData,
         };
 
@@ -781,12 +1116,12 @@
 
     <span class="doccomment">/// Construct a [`VarZeroVecComponents`] from a byte slice that has previously
     /// successfully returned a [`VarZeroVecComponents`] when passed to
-    /// [`VarZeroVecComponents::parse_byte_slice()`]. Will return the same
-    /// object as one would get from calling [`VarZeroVecComponents::parse_byte_slice()`].
+    /// [`VarZeroVecComponents::parse_bytes()`]. Will return the same
+    /// object as one would get from calling [`VarZeroVecComponents::parse_bytes()`].
     ///
     /// # Safety
     /// The bytes must have previously successfully run through
-    /// [`VarZeroVecComponents::parse_byte_slice()`]
+    /// [`VarZeroVecComponents::parse_bytes()`]
     </span><span class="kw">pub unsafe fn </span>from_bytes_unchecked(slice: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]) -&gt; <span class="self">Self </span>{
         <span class="comment">// The empty VZV is special-cased to the empty slice
         </span><span class="kw">if </span>slice.is_empty() {
@@ -794,26 +1129,51 @@
                 len: <span class="number">0</span>,
                 indices: <span class="kw-2">&amp;</span>[],
                 things: <span class="kw-2">&amp;</span>[],
-                entire_slice: slice,
                 marker: PhantomData,
             };
         }
-        <span class="kw">let </span>len_bytes = slice.get_unchecked(<span class="number">0</span>..LENGTH_WIDTH);
-        <span class="kw">let </span>len_ule = RawBytesULE::&lt;LENGTH_WIDTH&gt;::from_byte_slice_unchecked(len_bytes);
+        <span class="kw">let </span>(len_bytes, data_bytes) = <span class="kw">unsafe </span>{ slice.split_at_unchecked(F::Len::SIZE) };
+        <span class="comment">// Safety: F::Len allows all byte sequences
+        </span><span class="kw">let </span>len_ule = F::Len::slice_from_bytes_unchecked(len_bytes);
 
-        <span class="kw">let </span>len = len_ule.get_unchecked(<span class="number">0</span>).as_unsigned_int();
-        <span class="kw">let </span>indices_bytes = slice.get_unchecked(
-            LENGTH_WIDTH + METADATA_WIDTH
-                ..LENGTH_WIDTH + METADATA_WIDTH + F::INDEX_WIDTH * (len <span class="kw">as </span>usize),
-        );
-        <span class="kw">let </span>things =
-            slice.get_unchecked(LENGTH_WIDTH + METADATA_WIDTH + F::INDEX_WIDTH * (len <span class="kw">as </span>usize)..);
+        <span class="kw">let </span>len = len_ule.get_unchecked(<span class="number">0</span>).iule_to_usize();
+        <span class="kw">let </span>len_u32 = len <span class="kw">as </span>u32;
+
+        <span class="comment">// Safety: This method requires the bytes to have passed through `parse_bytes()`
+        // whereas we're calling something that asks for `parse_bytes_with_length()`.
+        // The two methods perform similar validation, with parse_bytes() validating an additional
+        // 4-byte `length` header.
+        </span><span class="self">Self</span>::from_bytes_unchecked_with_length(len_u32, data_bytes)
+    }
+
+    <span class="doccomment">/// Construct a [`VarZeroVecComponents`] from a byte slice that has previously
+    /// successfully returned a [`VarZeroVecComponents`] when passed to
+    /// [`VarZeroVecComponents::parse_bytes()`]. Will return the same
+    /// object as one would get from calling [`VarZeroVecComponents::parse_bytes()`].
+    ///
+    /// # Safety
+    /// The len,bytes must have previously successfully run through
+    /// [`VarZeroVecComponents::parse_bytes_with_length()`]
+    </span><span class="kw">pub unsafe fn </span>from_bytes_unchecked_with_length(len: u32, slice: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>len_minus_one = len.checked_sub(<span class="number">1</span>);
+        <span class="comment">// The empty VZV is special-cased to the empty slice
+        </span><span class="kw">let </span><span class="prelude-val">Some</span>(len_minus_one) = len_minus_one <span class="kw">else </span>{
+            <span class="kw">return </span>VarZeroVecComponents {
+                len: <span class="number">0</span>,
+                indices: <span class="kw-2">&amp;</span>[],
+                things: <span class="kw-2">&amp;</span>[],
+                marker: PhantomData,
+            };
+        };
+        <span class="comment">// The indices array is one element shorter since the first index is always 0,
+        // so we use len_minus_one
+        </span><span class="kw">let </span>indices_bytes = slice.get_unchecked(..F::Index::SIZE * (len_minus_one <span class="kw">as </span>usize));
+        <span class="kw">let </span>things = slice.get_unchecked(F::Index::SIZE * (len_minus_one <span class="kw">as </span>usize)..);
 
         VarZeroVecComponents {
             len,
             indices: indices_bytes,
             things,
-            entire_slice: slice,
             marker: PhantomData,
         }
     }
@@ -827,8 +1187,8 @@
     <span class="doccomment">/// Returns `true` if the vector contains no elements.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>is_empty(<span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.indices.is_empty()
-    }
+        <span class="self">self</span>.len == <span class="number">0
+    </span>}
 
     <span class="doccomment">/// Get the idx'th element out of this slice. Returns `None` if out of bounds.
     </span><span class="attr">#[inline]
@@ -847,7 +1207,7 @@
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>get_unchecked(<span class="self">self</span>, idx: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>T {
         <span class="kw">let </span>range = <span class="self">self</span>.get_things_range(idx);
         <span class="kw">let </span>things_slice = <span class="self">self</span>.things.get_unchecked(range);
-        T::from_byte_slice_unchecked(things_slice)
+        T::from_bytes_unchecked(things_slice)
     }
 
     <span class="doccomment">/// Get the range in `things` for the element at `idx`. Does not bounds check.
@@ -855,28 +1215,26 @@
     /// Safety:
     /// - `idx` must be in bounds (`idx &lt; self.len()`)
     </span><span class="attr">#[inline]
-    </span><span class="kw">unsafe fn </span>get_things_range(<span class="self">self</span>, idx: usize) -&gt; Range&lt;usize&gt; {
-        <span class="kw">let </span>start = F::rawbytes_to_usize(<span class="kw-2">*</span><span class="self">self</span>.indices_slice().get_unchecked(idx));
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>get_things_range(<span class="self">self</span>, idx: usize) -&gt; Range&lt;usize&gt; {
+        <span class="kw">let </span>start = <span class="kw">if let </span><span class="prelude-val">Some</span>(idx_minus_one) = idx.checked_sub(<span class="number">1</span>) {
+            <span class="self">self</span>.indices_slice()
+                .get_unchecked(idx_minus_one)
+                .iule_to_usize()
+        } <span class="kw">else </span>{
+            <span class="number">0
+        </span>};
         <span class="kw">let </span>end = <span class="kw">if </span>idx + <span class="number">1 </span>== <span class="self">self</span>.len() {
             <span class="self">self</span>.things.len()
         } <span class="kw">else </span>{
-            F::rawbytes_to_usize(<span class="kw-2">*</span><span class="self">self</span>.indices_slice().get_unchecked(idx + <span class="number">1</span>))
+            <span class="self">self</span>.indices_slice().get_unchecked(idx).iule_to_usize()
         };
         <span class="macro">debug_assert!</span>(start &lt;= end);
         start..end
     }
 
-    <span class="doccomment">/// Get the range in `entire_slice` for the element at `idx`. Does not bounds check.
-    ///
-    /// Safety:
-    /// - `idx` must be in bounds (`idx &lt; self.len()`)
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>get_range(<span class="self">self</span>, idx: usize) -&gt; Range&lt;usize&gt; {
-        <span class="kw">let </span>range = <span class="self">self</span>.get_things_range(idx);
-        <span class="kw">let </span>offset = (<span class="self">self</span>.things <span class="kw">as </span><span class="kw-2">*const </span>[u8] <span class="kw">as </span><span class="kw-2">*const </span>u8)
-            .offset_from(<span class="self">self</span>.entire_slice <span class="kw">as </span><span class="kw-2">*const </span>[u8] <span class="kw">as </span><span class="kw-2">*const </span>u8)
-            <span class="kw">as </span>usize;
-        range.start + offset..range.end + offset
+    <span class="doccomment">/// Get the size, in bytes, of the indices array
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>get_indices_size(<span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.indices.len()
     }
 
     <span class="doccomment">/// Check the internal invariants of VarZeroVecComponents:
@@ -891,36 +1249,40 @@
     /// assume that the slice has been passed through check_indices_and_things
     </span><span class="attr">#[inline]
     #[allow(clippy::len_zero)] </span><span class="comment">// more explicit to enforce safety invariants
-    </span><span class="kw">fn </span>check_indices_and_things(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), ZeroVecError&gt; {
-        <span class="macro">assert_eq!</span>(<span class="self">self</span>.len(), <span class="self">self</span>.indices_slice().len());
+    </span><span class="kw">fn </span>check_indices_and_things(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), VarZeroVecFormatError&gt; {
         <span class="kw">if </span><span class="self">self</span>.len() == <span class="number">0 </span>{
             <span class="kw">if </span><span class="self">self</span>.things.len() &gt; <span class="number">0 </span>{
-                <span class="kw">return </span><span class="prelude-val">Err</span>(ZeroVecError::VarZeroVecFormatError);
+                <span class="kw">return </span><span class="prelude-val">Err</span>(VarZeroVecFormatError::Metadata);
             } <span class="kw">else </span>{
                 <span class="kw">return </span><span class="prelude-val">Ok</span>(());
             }
         }
+        <span class="kw">let </span>indices_slice = <span class="self">self</span>.indices_slice();
+        <span class="macro">assert_eq!</span>(<span class="self">self</span>.len(), indices_slice.len() + <span class="number">1</span>);
         <span class="comment">// Safety: i is in bounds (assertion above)
-        </span><span class="kw">let </span><span class="kw-2">mut </span>start = F::rawbytes_to_usize(<span class="kw">unsafe </span>{ <span class="kw-2">*</span><span class="self">self</span>.indices_slice().get_unchecked(<span class="number">0</span>) });
-        <span class="kw">if </span>start != <span class="number">0 </span>{
-            <span class="kw">return </span><span class="prelude-val">Err</span>(ZeroVecError::VarZeroVecFormatError);
-        }
+        </span><span class="kw">let </span><span class="kw-2">mut </span>start = <span class="number">0</span>;
         <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="self">self</span>.len() {
-            <span class="kw">let </span>end = <span class="kw">if </span>i == <span class="self">self</span>.len() - <span class="number">1 </span>{
-                <span class="self">self</span>.things.len()
+            <span class="comment">// The indices array is offset by 1: indices[0] is the end of the first
+            // element and the start of the next, since the start of the first element
+            // is always things[0]. So to get the end we get element `i`.
+            </span><span class="kw">let </span>end = <span class="kw">if let </span><span class="prelude-val">Some</span>(end) = indices_slice.get(i) {
+                end.iule_to_usize()
             } <span class="kw">else </span>{
-                <span class="comment">// Safety: i+1 is in bounds (assertion above)
-                </span>F::rawbytes_to_usize(<span class="kw">unsafe </span>{ <span class="kw-2">*</span><span class="self">self</span>.indices_slice().get_unchecked(i + <span class="number">1</span>) })
+                <span class="comment">// This only happens at i = self.len() - 1 = indices_slice.len() + 1 - 1
+                // = indices_slice.len(). This is the last `end`, which is always the size of
+                // `things` and thus never stored in the array
+                </span><span class="self">self</span>.things.len()
             };
+
             <span class="kw">if </span>start &gt; end {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(ZeroVecError::VarZeroVecFormatError);
+                <span class="kw">return </span><span class="prelude-val">Err</span>(VarZeroVecFormatError::Metadata);
             }
             <span class="kw">if </span>end &gt; <span class="self">self</span>.things.len() {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(ZeroVecError::VarZeroVecFormatError);
+                <span class="kw">return </span><span class="prelude-val">Err</span>(VarZeroVecFormatError::Metadata);
             }
             <span class="comment">// Safety: start..end is a valid range in self.things
             </span><span class="kw">let </span>bytes = <span class="kw">unsafe </span>{ <span class="self">self</span>.things.get_unchecked(start..end) };
-            T::parse_byte_slice(bytes)<span class="question-mark">?</span>;
+            T::parse_bytes(bytes).map_err(VarZeroVecFormatError::Values)<span class="question-mark">?</span>;
             start = end;
         }
         <span class="prelude-val">Ok</span>(())
@@ -928,42 +1290,105 @@
 
     <span class="doccomment">/// Create an iterator over the Ts contained in VarZeroVecComponents
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>iter(<span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>T&gt; {
-        <span class="self">self</span>.indices_slice()
-            .iter()
-            .copied()
-            .map(F::rawbytes_to_usize)
-            .zip(
-                <span class="self">self</span>.indices_slice()
-                    .iter()
-                    .copied()
-                    .map(F::rawbytes_to_usize)
-                    .skip(<span class="number">1</span>)
-                    .chain([<span class="self">self</span>.things.len()]),
-            )
-            .map(<span class="kw">move </span>|(start, end)| <span class="kw">unsafe </span>{ <span class="self">self</span>.things.get_unchecked(start..end) })
-            .map(|bytes| <span class="kw">unsafe </span>{ T::from_byte_slice_unchecked(bytes) })
+    </span><span class="kw">pub fn </span>iter(<span class="self">self</span>) -&gt; VarZeroSliceIter&lt;<span class="lifetime">'a</span>, T, F&gt; {
+        VarZeroSliceIter::new(<span class="self">self</span>)
     }
 
-    <span class="kw">pub fn </span>to_vec(<span class="self">self</span>) -&gt; Vec&lt;Box&lt;T&gt;&gt; {
+    <span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">pub fn </span>to_vec(<span class="self">self</span>) -&gt; alloc::vec::Vec&lt;alloc::boxed::Box&lt;T&gt;&gt; {
         <span class="self">self</span>.iter().map(T::to_boxed).collect()
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>indices_slice(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[F::RawBytes] {
-        <span class="kw">unsafe </span>{ F::RawBytes::from_byte_slice_unchecked(<span class="self">self</span>.indices) }
+    </span><span class="kw">fn </span>indices_slice(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[F::Index] {
+        <span class="kw">unsafe </span>{ F::Index::slice_from_bytes_unchecked(<span class="self">self</span>.indices) }
     }
 
     <span class="comment">// Dump a debuggable representation of this type
     </span><span class="attr">#[allow(unused)] </span><span class="comment">// useful for debugging
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>dump(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
+    </span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>dump(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; alloc::string::String {
         <span class="kw">let </span>indices = <span class="self">self
             </span>.indices_slice()
             .iter()
             .copied()
-            .map(F::rawbytes_to_usize)
-            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-        <span class="macro">format!</span>(<span class="string">"VarZeroVecComponents {{ indices: {indices:?} }}"</span>)
+            .map(IntegerULE::iule_to_usize)
+            .collect::&lt;alloc::vec::Vec&lt;<span class="kw">_</span>&gt;&gt;();
+        <span class="macro">alloc::format!</span>(<span class="string">"VarZeroVecComponents {{ indices: {indices:?} }}"</span>)
+    }
+}
+
+<span class="doccomment">/// An iterator over VarZeroSlice
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>VarZeroSliceIter&lt;<span class="lifetime">'a</span>, T: <span class="question-mark">?</span>Sized, F = Index16&gt; {
+    components: VarZeroVecComponents&lt;<span class="lifetime">'a</span>, T, F&gt;,
+    index: usize,
+    <span class="comment">// Safety invariant: must be a valid index into the data segment of `components`, or an index at the end
+    // i.e. start_index &lt;= components.things.len()
+    //
+    // It must be a valid index into the `things` array of components, coming from `components.indices_slice()`
+    </span>start_index: usize,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: VarULE + <span class="question-mark">?</span>Sized, F: VarZeroVecFormat&gt; VarZeroSliceIter&lt;<span class="lifetime">'a</span>, T, F&gt; {
+    <span class="kw">fn </span>new(c: VarZeroVecComponents&lt;<span class="lifetime">'a</span>, T, F&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            components: c,
+            index: <span class="number">0</span>,
+            <span class="comment">// Invariant upheld, 0 is always a valid index-or-end
+            </span>start_index: <span class="number">0</span>,
+        }
+    }
+}
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: VarULE + <span class="question-mark">?</span>Sized, F: VarZeroVecFormat&gt; Iterator <span class="kw">for </span>VarZeroSliceIter&lt;<span class="lifetime">'a</span>, T, F&gt; {
+    <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>T;
+
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+        <span class="comment">// Note: the indices array doesn't contain 0 or len, we need to specially handle those edges. The 0 is handled
+        // by start_index, and the len is handled by the code for `end`.
+
+        </span><span class="kw">if </span><span class="self">self</span>.index &gt;= <span class="self">self</span>.components.len() {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+
+        <span class="comment">// Invariant established: self.index is in bounds for self.components.len(),
+        // which means it is in bounds for self.components.indices_slice() since that has the same length
+
+        </span><span class="kw">let </span>end = <span class="kw">if </span><span class="self">self</span>.index + <span class="number">1 </span>== <span class="self">self</span>.components.len() {
+            <span class="comment">// We don't store the end index since it is computable, so the last element should use self.components.things.len()
+            </span><span class="self">self</span>.components.things.len()
+        } <span class="kw">else </span>{
+            <span class="comment">// Safety: self.index was known to be in bounds from the bounds check above.
+            </span><span class="kw">unsafe </span>{
+                <span class="self">self</span>.components
+                    .indices_slice()
+                    .get_unchecked(<span class="self">self</span>.index)
+                    .iule_to_usize()
+            }
+        };
+        <span class="comment">// Invariant established: end has the same invariant as self.start_index since it comes from indices_slice, which is guaranteed
+        // to only contain valid indexes
+
+        </span><span class="kw">let </span>item = <span class="kw">unsafe </span>{
+            <span class="comment">// Safety: self.start_index and end both have in-range invariants, plus they are valid indices from indices_slice
+            // which means we can treat this data as a T
+            </span>T::from_bytes_unchecked(<span class="self">self</span>.components.things.get_unchecked(<span class="self">self</span>.start_index..end))
+        };
+        <span class="self">self</span>.index += <span class="number">1</span>;
+        <span class="comment">// Invariant upheld: end has the same invariant as self.start_index
+        </span><span class="self">self</span>.start_index = end;
+        <span class="prelude-val">Some</span>(item)
+    }
+
+    <span class="kw">fn </span>size_hint(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="kw">let </span>remainder = <span class="self">self</span>.components.len() - <span class="self">self</span>.index;
+        (remainder, <span class="prelude-val">Some</span>(remainder))
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: VarULE + <span class="question-mark">?</span>Sized, F: VarZeroVecFormat&gt; ExactSizeIterator <span class="kw">for </span>VarZeroSliceIter&lt;<span class="lifetime">'a</span>, T, F&gt; {
+    <span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.components.len() - <span class="self">self</span>.index
     }
 }
 
@@ -977,7 +1402,7 @@
     <span class="doccomment">/// Binary searches a sorted `VarZeroVecComponents&lt;T&gt;` for the given element. For more information, see
     /// the primitive function [`binary_search`](slice::binary_search).
     </span><span class="kw">pub fn </span>binary_search(<span class="kw-2">&amp;</span><span class="self">self</span>, needle: <span class="kw-2">&amp;</span>T) -&gt; <span class="prelude-ty">Result</span>&lt;usize, usize&gt; {
-        <span class="self">self</span>.binary_search_impl(|probe| probe.cmp(needle), <span class="self">self</span>.indices_slice())
+        <span class="self">self</span>.binary_search_by(|probe| probe.cmp(needle))
     }
 
     <span class="kw">pub fn </span>binary_search_in_range(
@@ -985,8 +1410,7 @@
         needle: <span class="kw-2">&amp;</span>T,
         range: Range&lt;usize&gt;,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;usize, usize&gt;&gt; {
-        <span class="kw">let </span>indices_slice = <span class="self">self</span>.indices_slice().get(range)<span class="question-mark">?</span>;
-        <span class="prelude-val">Some</span>(<span class="self">self</span>.binary_search_impl(|probe| probe.cmp(needle), indices_slice))
+        <span class="self">self</span>.binary_search_in_range_by(|probe| probe.cmp(needle), range)
     }
 }
 
@@ -999,63 +1423,80 @@
     <span class="doccomment">/// Binary searches a sorted `VarZeroVecComponents&lt;T&gt;` for the given predicate. For more information, see
     /// the primitive function [`binary_search_by`](slice::binary_search_by).
     </span><span class="kw">pub fn </span>binary_search_by(<span class="kw-2">&amp;</span><span class="self">self</span>, predicate: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>T) -&gt; Ordering) -&gt; <span class="prelude-ty">Result</span>&lt;usize, usize&gt; {
-        <span class="self">self</span>.binary_search_impl(predicate, <span class="self">self</span>.indices_slice())
+        <span class="comment">// Safety: 0 and len are in range
+        </span><span class="kw">unsafe </span>{ <span class="self">self</span>.binary_search_in_range_unchecked(predicate, <span class="number">0</span>..<span class="self">self</span>.len()) }
     }
 
-    <span class="kw">pub fn </span>binary_search_in_range_by(
+    <span class="comment">// Binary search within a range.
+    // Values returned are relative to the range start!
+    </span><span class="kw">pub fn </span>binary_search_in_range_by(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         predicate: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>T) -&gt; Ordering,
         range: Range&lt;usize&gt;,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;usize, usize&gt;&gt; {
-        <span class="kw">let </span>indices_slice = <span class="self">self</span>.indices_slice().get(range)<span class="question-mark">?</span>;
-        <span class="prelude-val">Some</span>(<span class="self">self</span>.binary_search_impl(predicate, indices_slice))
+        <span class="kw">if </span>range.end &gt; <span class="self">self</span>.len() {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+        <span class="kw">if </span>range.end &lt; range.start {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+        <span class="comment">// Safety: We bounds checked above: end is in-bounds or len, and start is &lt;= end
+        </span><span class="kw">let </span>range_absolute =
+            <span class="kw">unsafe </span>{ <span class="self">self</span>.binary_search_in_range_unchecked(predicate, range.clone()) };
+        <span class="comment">// The values returned are relative to the range start
+        </span><span class="prelude-val">Some</span>(
+            range_absolute
+                .map(|o| o - range.start)
+                .map_err(|e| e - range.start),
+        )
     }
 
-    <span class="doccomment">/// Binary searches a sorted `VarZeroVecComponents&lt;T&gt;` with the given predicate. For more information, see
-    /// the primitive function [`binary_search`](slice::binary_search).
-    </span><span class="kw">fn </span>binary_search_impl(
+    <span class="doccomment">/// Safety: range must be in range for the slice (start &lt;= len, end &lt;= len, start &lt;= end)
+    </span><span class="kw">unsafe fn </span>binary_search_in_range_unchecked(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="kw-2">mut </span>predicate: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>T) -&gt; Ordering,
-        indices_slice: <span class="kw-2">&amp;</span>[F::RawBytes],
+        range: Range&lt;usize&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;usize, usize&gt; {
-        <span class="comment">// This code is an absolute atrocity. This code is not a place of honor. This
-        // code is known to the State of California to cause cancer.
-        //
-        // Unfortunately, the stdlib's `binary_search*` functions can only operate on slices.
-        // We do not have a slice. We have something we can .get() and index on, but that is not
-        // a slice.
-        //
-        // The `binary_search*` functions also do not have a variant where they give you the element's
-        // index, which we could otherwise use to directly index `self`.
-        // We do have `self.indices`, but these are indices into a byte buffer, which cannot in
-        // isolation be used to recoup the logical index of the element they refer to.
-        //
-        // However, `binary_search_by()` provides references to the elements of the slice being iterated.
-        // Since the layout of Rust slices is well-defined, we can do pointer arithmetic on these references
-        // to obtain the index being used by the search.
-        //
-        // It's worth noting that the slice we choose to search is irrelevant, as long as it has the appropriate
-        // length. `self.indices` is defined to have length `self.len()`, so it is convenient to use
-        // here and does not require additional allocations.
-        //
-        // The alternative to doing this is to implement our own binary search. This is significantly less fun.
+        <span class="comment">// Function invariant: size is always end - start
+        </span><span class="kw">let </span><span class="kw-2">mut </span>start = range.start;
+        <span class="kw">let </span><span class="kw-2">mut </span>end = range.end;
+        <span class="kw">let </span><span class="kw-2">mut </span>size;
 
-        // Note: We always use zero_index relative to the whole indices array, even if we are
-        // only searching a subslice of it.
-        </span><span class="kw">let </span>zero_index = <span class="self">self</span>.indices.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span>usize;
-        indices_slice.binary_search_by(|probe: <span class="kw-2">&amp;</span><span class="kw">_</span>| {
-            <span class="comment">// `self.indices` is a vec of unaligned F::INDEX_WIDTH values, so we divide by F::INDEX_WIDTH
-            // to get the actual index
-            </span><span class="kw">let </span>index = (probe <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span>usize - zero_index) / F::INDEX_WIDTH;
-            <span class="comment">// safety: we know this is in bounds
-            </span><span class="kw">let </span>actual_probe = <span class="kw">unsafe </span>{ <span class="self">self</span>.get_unchecked(index) };
-            predicate(actual_probe)
-        })
+        <span class="comment">// Loop invariant: 0 &lt;= start &lt; end &lt;= len
+        // This invariant is initialized by the function safety invariants and the loop condition
+        </span><span class="kw">while </span>start &lt; end {
+            size = end - start;
+            <span class="comment">// This establishes mid &lt; end (which implies mid &lt; len)
+            // size is end - start. start + size is end (which is &lt;= len).
+            // mid = start + size/2 will be less than end
+            </span><span class="kw">let </span>mid = start + size / <span class="number">2</span>;
+
+            <span class="comment">// Safety: mid is &lt; end &lt;= len, so in-range
+            </span><span class="kw">let </span>cmp = predicate(<span class="self">self</span>.get_unchecked(mid));
+
+            <span class="kw">match </span>cmp {
+                Ordering::Less =&gt; {
+                    <span class="comment">// This retains the loop invariant since it
+                    // increments start, and we already have 0 &lt;= start
+                    // start &lt; end is enforced by the loop condition
+                    </span>start = mid + <span class="number">1</span>;
+                }
+                Ordering::Greater =&gt; {
+                    <span class="comment">// mid &lt; end, so this decreases end.
+                    // This means end &lt;= len is still true, and
+                    // end &gt; start is enforced by the loop condition
+                    </span>end = mid;
+                }
+                Ordering::Equal =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(mid),
+            }
+        }
+        <span class="prelude-val">Err</span>(start)
     }
 }
 
 <span class="doccomment">/// Collects the bytes for a VarZeroSlice into a Vec.
-</span><span class="kw">pub fn </span>get_serializable_bytes_non_empty&lt;T, A, F&gt;(elements: <span class="kw-2">&amp;</span>[A]) -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;u8&gt;&gt;
+</span><span class="attr">#[cfg(feature = <span class="string">"alloc"</span>)]
+</span><span class="kw">pub fn </span>get_serializable_bytes_non_empty&lt;T, A, F&gt;(elements: <span class="kw-2">&amp;</span>[A]) -&gt; <span class="prelude-ty">Option</span>&lt;alloc::vec::Vec&lt;u8&gt;&gt;
 <span class="kw">where
     </span>T: VarULE + <span class="question-mark">?</span>Sized,
     A: EncodeAsVarULE&lt;T&gt;,
@@ -1063,10 +1504,69 @@
 {
     <span class="macro">debug_assert!</span>(!elements.is_empty());
     <span class="kw">let </span>len = compute_serializable_len::&lt;T, A, F&gt;(elements)<span class="question-mark">?</span>;
-    <span class="macro">debug_assert!</span>(len &gt;= LENGTH_WIDTH <span class="kw">as </span>u32);
-    <span class="kw">let </span><span class="kw-2">mut </span>output: Vec&lt;u8&gt; = <span class="macro">alloc::vec!</span>[<span class="number">0</span>; len <span class="kw">as </span>usize];
+    <span class="macro">debug_assert!</span>(
+        len &gt;= F::Len::SIZE <span class="kw">as </span>u32,
+        <span class="string">"Must have at least F::Len::SIZE bytes to hold the length of the vector"
+    </span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>output = <span class="macro">alloc::vec!</span>[<span class="number">0u8</span>; len <span class="kw">as </span>usize];
     write_serializable_bytes::&lt;T, A, F&gt;(elements, <span class="kw-2">&amp;mut </span>output);
     <span class="prelude-val">Some</span>(output)
+}
+
+<span class="doccomment">/// Writes the bytes for a VarZeroLengthlessSlice into an output buffer.
+/// Usable for a VarZeroSlice if you first write the length bytes.
+///
+/// Every byte in the buffer will be initialized after calling this function.
+///
+/// # Panics
+///
+/// Panics if the buffer is not exactly the correct length.
+</span><span class="kw">pub fn </span>write_serializable_bytes_without_length&lt;T, A, F&gt;(elements: <span class="kw-2">&amp;</span>[A], output: <span class="kw-2">&amp;mut </span>[u8])
+<span class="kw">where
+    </span>T: VarULE + <span class="question-mark">?</span>Sized,
+    A: EncodeAsVarULE&lt;T&gt;,
+    F: VarZeroVecFormat,
+{
+    <span class="macro">assert!</span>(elements.len() &lt;= F::Len::MAX_VALUE <span class="kw">as </span>usize);
+    <span class="kw">if </span>elements.is_empty() {
+        <span class="kw">return</span>;
+    }
+
+    <span class="comment">// idx_offset = offset from the start of the buffer for the next index
+    </span><span class="kw">let </span><span class="kw-2">mut </span>idx_offset: usize = <span class="number">0</span>;
+    <span class="comment">// first_dat_offset = offset from the start of the buffer of the first data block
+    </span><span class="kw">let </span>first_dat_offset: usize = idx_offset + (elements.len() - <span class="number">1</span>) * F::Index::SIZE;
+    <span class="comment">// dat_offset = offset from the start of the buffer of the next data block
+    </span><span class="kw">let </span><span class="kw-2">mut </span>dat_offset: usize = first_dat_offset;
+
+    <span class="kw">for </span>(i, element) <span class="kw">in </span>elements.iter().enumerate() {
+        <span class="kw">let </span>element_len = element.encode_var_ule_len();
+
+        <span class="comment">// The first index is always 0. We don't write it, or update the idx offset.
+        </span><span class="kw">if </span>i != <span class="number">0 </span>{
+            <span class="kw">let </span>idx_limit = idx_offset + F::Index::SIZE;
+            <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// Function contract allows panicky behavior
+            </span><span class="kw">let </span>idx_slice = <span class="kw-2">&amp;mut </span>output[idx_offset..idx_limit];
+            <span class="comment">// VZV expects data offsets to be stored relative to the first data block
+            </span><span class="kw">let </span>idx = dat_offset - first_dat_offset;
+            <span class="macro">assert!</span>(idx &lt;= F::Index::MAX_VALUE <span class="kw">as </span>usize);
+            <span class="attr">#[allow(clippy::expect_used)] </span><span class="comment">// this function is explicitly panicky
+            </span><span class="kw">let </span>bytes_to_write = F::Index::iule_from_usize(idx).expect(F::Index::TOO_LARGE_ERROR);
+            idx_slice.copy_from_slice(ULE::slice_as_bytes(<span class="kw-2">&amp;</span>[bytes_to_write]));
+
+            idx_offset = idx_limit;
+        }
+
+        <span class="kw">let </span>dat_limit = dat_offset + element_len;
+        <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// Function contract allows panicky behavior
+        </span><span class="kw">let </span>dat_slice = <span class="kw-2">&amp;mut </span>output[dat_offset..dat_limit];
+        element.encode_var_ule_write(dat_slice);
+        <span class="macro">debug_assert_eq!</span>(T::validate_bytes(dat_slice), <span class="prelude-val">Ok</span>(()));
+        dat_offset = dat_limit;
+    }
+
+    <span class="macro">debug_assert_eq!</span>(idx_offset, F::Index::SIZE * (elements.len() - <span class="number">1</span>));
+    <span class="macro">assert_eq!</span>(dat_offset, output.len());
 }
 
 <span class="doccomment">/// Writes the bytes for a VarZeroSlice into an output buffer.
@@ -1082,45 +1582,44 @@
     A: EncodeAsVarULE&lt;T&gt;,
     F: VarZeroVecFormat,
 {
-    <span class="macro">assert!</span>(elements.len() &lt;= MAX_LENGTH);
-    <span class="kw">let </span>num_elements_bytes = elements.len().to_le_bytes();
-    <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// Function contract allows panicky behavior
-    </span>output[<span class="number">0</span>..LENGTH_WIDTH].copy_from_slice(<span class="kw-2">&amp;</span>num_elements_bytes[<span class="number">0</span>..LENGTH_WIDTH]);
-
-    <span class="comment">// idx_offset = offset from the start of the buffer for the next index
-    </span><span class="kw">let </span><span class="kw-2">mut </span>idx_offset: usize = LENGTH_WIDTH + METADATA_WIDTH;
-    <span class="comment">// first_dat_offset = offset from the start of the buffer of the first data block
-    </span><span class="kw">let </span>first_dat_offset: usize = idx_offset + elements.len() * F::INDEX_WIDTH;
-    <span class="comment">// dat_offset = offset from the start of the buffer of the next data block
-    </span><span class="kw">let </span><span class="kw-2">mut </span>dat_offset: usize = first_dat_offset;
-
-    <span class="kw">for </span>element <span class="kw">in </span>elements.iter() {
-        <span class="kw">let </span>element_len = element.encode_var_ule_len();
-
-        <span class="kw">let </span>idx_limit = idx_offset + F::INDEX_WIDTH;
-        <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// Function contract allows panicky behavior
-        </span><span class="kw">let </span>idx_slice = <span class="kw-2">&amp;mut </span>output[idx_offset..idx_limit];
-        <span class="comment">// VZV expects data offsets to be stored relative to the first data block
-        </span><span class="kw">let </span>idx = dat_offset - first_dat_offset;
-        <span class="macro">assert!</span>(idx &lt;= MAX_INDEX);
-        <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// this function is explicitly panicky
-        </span>idx_slice.copy_from_slice(<span class="kw-2">&amp;</span>idx.to_le_bytes()[..F::INDEX_WIDTH]);
-
-        <span class="kw">let </span>dat_limit = dat_offset + element_len;
-        <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// Function contract allows panicky behavior
-        </span><span class="kw">let </span>dat_slice = <span class="kw-2">&amp;mut </span>output[dat_offset..dat_limit];
-        element.encode_var_ule_write(dat_slice);
-        <span class="macro">debug_assert_eq!</span>(T::validate_byte_slice(dat_slice), <span class="prelude-val">Ok</span>(()));
-
-        idx_offset = idx_limit;
-        dat_offset = dat_limit;
+    <span class="kw">if </span>elements.is_empty() {
+        <span class="kw">return</span>;
     }
+    <span class="macro">assert!</span>(elements.len() &lt;= F::Len::MAX_VALUE <span class="kw">as </span>usize);
+    <span class="attr">#[allow(clippy::expect_used)] </span><span class="comment">// This function is explicitly panicky
+    </span><span class="kw">let </span>num_elements_ule = F::Len::iule_from_usize(elements.len()).expect(F::Len::TOO_LARGE_ERROR);
+    <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// Function contract allows panicky behavior
+    </span>output[<span class="number">0</span>..F::Len::SIZE].copy_from_slice(ULE::slice_as_bytes(<span class="kw-2">&amp;</span>[num_elements_ule]));
 
-    <span class="macro">debug_assert_eq!</span>(
-        idx_offset,
-        LENGTH_WIDTH + METADATA_WIDTH + F::INDEX_WIDTH * elements.len()
-    );
-    <span class="macro">assert_eq!</span>(dat_offset, output.len());
+    <span class="attr">#[allow(clippy::indexing_slicing)] </span><span class="comment">// Function contract allows panicky behavior
+    </span>write_serializable_bytes_without_length::&lt;T, A, F&gt;(elements, <span class="kw-2">&amp;mut </span>output[F::Len::SIZE..]);
+}
+
+<span class="kw">pub fn </span>compute_serializable_len_without_length&lt;T, A, F&gt;(elements: <span class="kw-2">&amp;</span>[A]) -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt;
+<span class="kw">where
+    </span>T: VarULE + <span class="question-mark">?</span>Sized,
+    A: EncodeAsVarULE&lt;T&gt;,
+    F: VarZeroVecFormat,
+{
+    <span class="kw">let </span>elements_len = elements.len();
+    <span class="kw">let </span><span class="prelude-val">Some</span>(elements_len_minus_one) = elements_len.checked_sub(<span class="number">1</span>) <span class="kw">else </span>{
+        <span class="comment">// Empty vec is optimized to an empty byte representation
+        </span><span class="kw">return </span><span class="prelude-val">Some</span>(<span class="number">0</span>);
+    };
+    <span class="kw">let </span>idx_len: u32 = u32::try_from(elements_len_minus_one)
+        .ok()<span class="question-mark">?
+        </span>.checked_mul(F::Index::SIZE <span class="kw">as </span>u32)<span class="question-mark">?</span>;
+    <span class="kw">let </span>data_len: u32 = elements
+        .iter()
+        .map(|v| u32::try_from(v.encode_var_ule_len()).ok())
+        .try_fold(<span class="number">0u32</span>, |s, v| s.checked_add(v<span class="question-mark">?</span>))<span class="question-mark">?</span>;
+    <span class="kw">let </span>ret = idx_len.checked_add(data_len);
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(r) = ret {
+        <span class="kw">if </span>r &gt;= F::Index::MAX_VALUE {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+    }
+    ret
 }
 
 <span class="kw">pub fn </span>compute_serializable_len&lt;T, A, F&gt;(elements: <span class="kw-2">&amp;</span>[A]) -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt;
@@ -1129,21 +1628,6 @@
     A: EncodeAsVarULE&lt;T&gt;,
     F: VarZeroVecFormat,
 {
-    <span class="kw">let </span>idx_len: u32 = u32::try_from(elements.len())
-        .ok()<span class="question-mark">?
-        </span>.checked_mul(F::INDEX_WIDTH <span class="kw">as </span>u32)<span class="question-mark">?
-        </span>.checked_add(LENGTH_WIDTH <span class="kw">as </span>u32)<span class="question-mark">?
-        </span>.checked_add(METADATA_WIDTH <span class="kw">as </span>u32)<span class="question-mark">?</span>;
-    <span class="kw">let </span>data_len: u32 = elements
-        .iter()
-        .map(|v| u32::try_from(v.encode_var_ule_len()).ok())
-        .try_fold(<span class="number">0u32</span>, |s, v| s.checked_add(v<span class="question-mark">?</span>))<span class="question-mark">?</span>;
-    <span class="kw">let </span>ret = idx_len.checked_add(data_len);
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(r) = ret {
-        <span class="kw">if </span>r &gt;= F::MAX_VALUE {
-            <span class="kw">return </span><span class="prelude-val">None</span>;
-        }
-    }
-    ret
+    compute_serializable_len_without_length::&lt;T, A, F&gt;(elements).map(|x| x + F::Len::SIZE <span class="kw">as </span>u32)
 }
 </code></pre></div></section></main></body></html>

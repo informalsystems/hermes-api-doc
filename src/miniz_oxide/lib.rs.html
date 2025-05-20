@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/miniz_oxide-0.7.4/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="miniz_oxide" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">miniz_oxide/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/miniz_oxide-0.8.8/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="miniz_oxide" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">miniz_oxide/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -209,7 +209,18 @@
 <a href="#208" id="208">208</a>
 <a href="#209" id="209">209</a>
 <a href="#210" id="210">210</a>
-<a href="#211" id="211">211</a></pre></div><pre class="rust"><code><span class="doccomment">//! A pure rust replacement for the [miniz](https://github.com/richgel999/miniz)
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a></pre></div><pre class="rust"><code><span class="doccomment">//! A pure rust replacement for the [miniz](https://github.com/richgel999/miniz)
 //! DEFLATE/zlib encoder/decoder.
 //! Used a rust back-end for the
 //! [flate2](https://github.com/alexcrichton/flate2-rs) crate.
@@ -234,7 +245,7 @@ fn roundtrip(data: &amp;[u8]) {
 "##
 </span>)]
 #![forbid(unsafe_code)]
-#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
+#![cfg_attr(all(not(feature = <span class="string">"std"</span>), not(feature = <span class="string">"serde"</span>)), no_std)]
 
 #[cfg(feature = <span class="string">"with-alloc"</span>)]
 </span><span class="kw">extern crate </span>alloc;
@@ -242,6 +253,8 @@ fn roundtrip(data: &amp;[u8]) {
 <span class="attr">#[cfg(feature = <span class="string">"with-alloc"</span>)]
 </span><span class="kw">pub mod </span>deflate;
 <span class="kw">pub mod </span>inflate;
+<span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
+</span><span class="kw">pub mod </span>serde;
 <span class="kw">mod </span>shared;
 
 <span class="kw">pub use </span><span class="kw">crate</span>::shared::update_adler32 <span class="kw">as </span>mz_adler32_oxide;
@@ -251,7 +264,8 @@ fn roundtrip(data: &amp;[u8]) {
 ///
 /// See &lt;http://www.bolet.org/~pornin/deflate-flush.html&gt; for more in-depth info.
 </span><span class="attr">#[repr(i32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+#[cfg_attr(not(feature = <span class="string">"rustc-dep-of-std"</span>), derive(Hash, Debug))]
 </span><span class="kw">pub enum </span>MZFlush {
     <span class="doccomment">/// Don't force any flushing.
     /// Used when more input data is expected.
@@ -293,7 +307,8 @@ fn roundtrip(data: &amp;[u8]) {
 /// These are emitted as the [`Ok`] side of a [`MZResult`] in the [`StreamResult`] returned from
 /// [`deflate::stream::deflate()`] or [`inflate::stream::inflate()`].
 </span><span class="attr">#[repr(i32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq)]
+#[cfg_attr(not(feature = <span class="string">"rustc-dep-of-std"</span>), derive(Hash, Debug))]
 </span><span class="kw">pub enum </span>MZStatus {
     <span class="doccomment">/// Operation succeeded.
     ///
@@ -317,7 +332,8 @@ fn roundtrip(data: &amp;[u8]) {
 /// These are emitted as the [`Err`] side of a [`MZResult`] in the [`StreamResult`] returned from
 /// [`deflate::stream::deflate()`] or [`inflate::stream::inflate()`].
 </span><span class="attr">#[repr(i32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[cfg_attr(not(feature = <span class="string">"rustc-dep-of-std"</span>), derive(Hash, Debug))]
+#[derive(Copy, Clone, PartialEq, Eq)]
 </span><span class="kw">pub enum </span>MZError {
     <span class="doccomment">/// Unused
     </span>ErrNo = -<span class="number">1</span>,
@@ -355,7 +371,8 @@ fn roundtrip(data: &amp;[u8]) {
 }
 
 <span class="doccomment">/// How compressed data is wrapped.
-</span><span class="attr">#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+</span><span class="attr">#[derive(Copy, Clone, PartialEq, Eq)]
+#[cfg_attr(not(feature = <span class="string">"rustc-dep-of-std"</span>), derive(Hash, Debug))]
 #[non_exhaustive]
 </span><span class="kw">pub enum </span>DataFormat {
     <span class="doccomment">/// Wrapped using the [zlib](http://www.zlib.org/rfc-zlib.html) format.
@@ -367,7 +384,8 @@ fn roundtrip(data: &amp;[u8]) {
     </span>Raw,
 }
 
-<span class="kw">impl </span>DataFormat {
+<span class="attr">#[cfg(not(feature = <span class="string">"rustc-dep-of-std"</span>))]
+</span><span class="kw">impl </span>DataFormat {
     <span class="kw">pub fn </span>from_window_bits(window_bits: i32) -&gt; DataFormat {
         <span class="kw">if </span>window_bits &gt; <span class="number">0 </span>{
             DataFormat::Zlib
@@ -388,7 +406,8 @@ fn roundtrip(data: &amp;[u8]) {
 </span><span class="kw">pub type </span>MZResult = <span class="prelude-ty">Result</span>&lt;MZStatus, MZError&gt;;
 
 <span class="doccomment">/// A structure containing the result of a call to the inflate or deflate streaming functions.
-</span><span class="attr">#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+</span><span class="attr">#[cfg(not(feature = <span class="string">"rustc-dep-of-std"</span>))]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 </span><span class="kw">pub struct </span>StreamResult {
     <span class="doccomment">/// The number of bytes consumed from the input slice.
     </span><span class="kw">pub </span>bytes_consumed: usize,
@@ -398,7 +417,8 @@ fn roundtrip(data: &amp;[u8]) {
     </span><span class="kw">pub </span>status: MZResult,
 }
 
-<span class="kw">impl </span>StreamResult {
+<span class="attr">#[cfg(not(feature = <span class="string">"rustc-dep-of-std"</span>))]
+</span><span class="kw">impl </span>StreamResult {
     <span class="attr">#[inline]
     </span><span class="kw">pub const fn </span>error(error: MZError) -&gt; StreamResult {
         StreamResult {
@@ -409,13 +429,15 @@ fn roundtrip(data: &amp;[u8]) {
     }
 }
 
-<span class="kw">impl </span>core::convert::From&lt;StreamResult&gt; <span class="kw">for </span>MZResult {
+<span class="attr">#[cfg(not(feature = <span class="string">"rustc-dep-of-std"</span>))]
+</span><span class="kw">impl </span>core::convert::From&lt;StreamResult&gt; <span class="kw">for </span>MZResult {
     <span class="kw">fn </span>from(res: StreamResult) -&gt; <span class="self">Self </span>{
         res.status
     }
 }
 
-<span class="kw">impl </span>core::convert::From&lt;<span class="kw-2">&amp;</span>StreamResult&gt; <span class="kw">for </span>MZResult {
+<span class="attr">#[cfg(not(feature = <span class="string">"rustc-dep-of-std"</span>))]
+</span><span class="kw">impl </span>core::convert::From&lt;<span class="kw-2">&amp;</span>StreamResult&gt; <span class="kw">for </span>MZResult {
     <span class="kw">fn </span>from(res: <span class="kw-2">&amp;</span>StreamResult) -&gt; <span class="self">Self </span>{
         res.status
     }
