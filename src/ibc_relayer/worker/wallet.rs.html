@@ -72,7 +72,10 @@
 <a href="#71" id="71">71</a>
 <a href="#72" id="72">72</a>
 <a href="#73" id="73">73</a>
-<a href="#74" id="74">74</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::time::Duration;
+<a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::time::Duration;
 
 <span class="kw">use </span>tracing::{error_span, trace, warn};
 
@@ -88,21 +91,24 @@
     spawn_background_task(span, <span class="prelude-val">Some</span>(Duration::from_secs(<span class="number">5</span>)), <span class="kw">move </span>|| {
         <span class="kw">let </span>chain_config = chain
             .config()
-            .map_err(|e| TaskError::Fatal(<span class="macro">format!</span>(<span class="string">"failed to get chain config: {e}"</span>)))<span class="question-mark">?</span>;
+            .map_err(|e| TaskError::Fatal(<span class="macro">format!</span>(<span class="string">"failed to get chain config: {e}"</span>).into()))<span class="question-mark">?</span>;
 
         <span class="kw">if </span>!chain_config.keyring_support() {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(TaskError::Ignore(<span class="macro">format!</span>(
-                <span class="string">"chain {} does not support keyring"</span>,
-                chain.id()
-            )));
+            <span class="kw">return </span><span class="prelude-val">Err</span>(TaskError::Ignore(
+                <span class="macro">format!</span>(<span class="string">"chain {} does not support keyring"</span>, chain.id()).into(),
+            ));
         }
 
         <span class="kw">let </span>key = chain.get_key().map_err(|e| {
-            TaskError::Fatal(<span class="macro">format!</span>(<span class="string">"failed to get key in use by the relayer: {e}"</span>))
+            TaskError::Fatal(Box::new(<span class="macro">format!</span>(
+                <span class="string">"failed to get key in use by the relayer: {e}"
+            </span>)))
         })<span class="question-mark">?</span>;
 
         <span class="kw">let </span>balance = chain.query_balance(<span class="prelude-val">None</span>, <span class="prelude-val">None</span>).map_err(|e| {
-            TaskError::Ignore(<span class="macro">format!</span>(<span class="string">"failed to query balance for the account: {e}"</span>))
+            TaskError::Ignore(Box::new(<span class="macro">format!</span>(
+                <span class="string">"failed to query balance for the account: {e}"
+            </span>)))
         })<span class="question-mark">?</span>;
 
         <span class="kw">match </span>balance.amount.parse::&lt;f64&gt;() {

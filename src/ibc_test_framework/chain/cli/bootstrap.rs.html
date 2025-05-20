@@ -234,7 +234,12 @@
 <a href="#233" id="233">233</a>
 <a href="#234" id="234">234</a>
 <a href="#235" id="235">235</a>
-<a href="#236" id="236">236</a></pre></div><pre class="rust"><code><span class="kw">use </span>core::time::Duration;
+<a href="#236" id="236">236</a>
+<a href="#237" id="237">237</a>
+<a href="#238" id="238">238</a>
+<a href="#239" id="239">239</a>
+<a href="#240" id="240">240</a>
+<a href="#241" id="241">241</a></pre></div><pre class="rust"><code><span class="kw">use </span>core::time::Duration;
 <span class="kw">use </span>eyre::eyre;
 <span class="kw">use </span>std::fs;
 <span class="kw">use </span>std::process::{Command, Stdio};
@@ -340,6 +345,7 @@
     home_path: <span class="kw-2">&amp;</span>str,
     wallet_id: <span class="kw-2">&amp;</span>str,
     amount: <span class="kw-2">&amp;</span>str,
+    native_token: <span class="kw-2">&amp;</span>str,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
     <span class="comment">// Cosmos SDK v0.47.0 introduced the `genesis` subcommand, this match is required to
     // support pre and post SDK v0.47.0. https://github.com/cosmos/cosmos-sdk/pull/14149
@@ -357,6 +363,8 @@
             <span class="string">"--chain-id"</span>,
             chain_id,
             amount,
+            <span class="string">"--fees"</span>,
+            <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"1{native_token}"</span>),
         ],
     ) {
         <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(()),
@@ -374,6 +382,8 @@
                     <span class="string">"--chain-id"</span>,
                     chain_id,
                     amount,
+                    <span class="string">"--fees"</span>,
+                    <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"1{native_token}"</span>),
                 ],
             )<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(())

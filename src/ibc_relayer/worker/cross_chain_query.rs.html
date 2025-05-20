@@ -262,7 +262,7 @@
                         },
                         IncludeProof::No,
                     )
-                    .map_err(|e| TaskError::Fatal(RunError::relayer(e)))<span class="question-mark">?
+                    .map_err(|e| TaskError::Fatal(RunError::relayer(e).into()))<span class="question-mark">?
                     </span>.<span class="number">0</span>;
 
                 <span class="comment">// Retrieve client based on client id
@@ -271,19 +271,19 @@
                     chain_a_handle.clone(),
                     connection_end.client_id(),
                 )
-                .map_err(|e| TaskError::Fatal(RunError::foreign_client(e)))<span class="question-mark">?</span>;
+                .map_err(|e| TaskError::Fatal(RunError::foreign_client(e).into()))<span class="question-mark">?</span>;
 
                 <span class="kw">let </span>target_height = Height::new(
                     chain_b_handle.id().version(),
                     cross_chain_query_responses.first().unwrap().height <span class="kw">as </span>u64,
                 )
-                .map_err(|e| TaskError::Fatal(RunError::ics02(e)))<span class="question-mark">?
+                .map_err(|e| TaskError::Fatal(RunError::ics02(e).into()))<span class="question-mark">?
                 </span>.increment();
 
                 <span class="comment">// Push update client msg
                 </span><span class="kw">let </span><span class="kw-2">mut </span>chain_a_msgs = client_a
                     .wait_and_build_update_client(target_height)
-                    .map_err(|e| TaskError::Fatal(RunError::foreign_client(e)))<span class="question-mark">?</span>;
+                    .map_err(|e| TaskError::Fatal(RunError::foreign_client(e).into()))<span class="question-mark">?</span>;
 
                 <span class="kw">let </span>num_cross_chain_query_responses = cross_chain_query_responses.len();
 
@@ -295,9 +295,9 @@
                             .try_to_any(
                                 chain_a_handle
                                     .get_signer()
-                                    .map_err(|e| TaskError::Fatal(RunError::relayer(e)))<span class="question-mark">?</span>,
+                                    .map_err(|e| TaskError::Fatal(RunError::relayer(e).into()))<span class="question-mark">?</span>,
                             )
-                            .map_err(|e| TaskError::Fatal(RunError::ics31(e)))<span class="question-mark">?</span>,
+                            .map_err(|e| TaskError::Fatal(RunError::ics31(e).into()))<span class="question-mark">?</span>,
                     );
                 }
 
@@ -317,7 +317,7 @@
                             failed_codes
                         );
 
-                        TaskError::Ignore(RunError::relayer(e))
+                        TaskError::Ignore(RunError::relayer(e).into())
                     })<span class="question-mark">?</span>;
 
                 <span class="macro">telemetry!</span>(

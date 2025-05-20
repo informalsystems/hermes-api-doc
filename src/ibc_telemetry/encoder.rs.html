@@ -231,8 +231,7 @@
 <a href="#230" id="230">230</a>
 <a href="#231" id="231">231</a>
 <a href="#232" id="232">232</a>
-<a href="#233" id="233">233</a>
-<a href="#234" id="234">234</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2019 TiKV Project Authors. Licensed under Apache-2.0.
+<a href="#233" id="233">233</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2019 TiKV Project Authors. Licensed under Apache-2.0.
 
 </span><span class="kw">use </span>std::collections::BTreeMap;
 <span class="kw">use </span>std::io::{<span class="self">self</span>, Write};
@@ -410,8 +409,7 @@
     <span class="kw">fn </span>encode&lt;W: Write&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, metric_families: <span class="kw-2">&amp;</span>[MetricFamily], writer: <span class="kw-2">&amp;mut </span>W) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
         <span class="kw">let </span>json = <span class="self">self</span>.encode_json(metric_families)<span class="question-mark">?</span>;
 
-        serde_json::to_writer(writer, <span class="kw-2">&amp;</span>json)
-            .map_err(|e| Error::Io(io::Error::new(io::ErrorKind::Other, e)))
+        serde_json::to_writer(writer, <span class="kw-2">&amp;</span>json).map_err(|e| Error::Io(io::Error::other(e)))
     }
 
     <span class="kw">fn </span>format_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {

@@ -227,7 +227,7 @@
                                         <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; RetryResult::Retry(index),
                                     },
                                 )
-                                .map_err(|e| TaskError::Fatal(RunError::retry(e))),
+                                .map_err(|e| TaskError::Fatal(Box::new(RunError::retry(e)))),
 
                                 IbcEventType::UpgradeErrorChannel =&gt; retry_with_index(
                                     channel_handshake_retry::default_strategy(max_block_times),
@@ -251,7 +251,7 @@
                                         <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; RetryResult::Retry(index),
                                     },
                                 )
-                                .map_err(|e| TaskError::Fatal(RunError::retry(e))),
+                                .map_err(|e| TaskError::Fatal(RunError::retry(e).into())),
 
                                 <span class="kw">_ </span>=&gt; retry_with_index(
                                     channel_handshake_retry::default_strategy(max_block_times),
@@ -265,7 +265,7 @@
                                         <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; RetryResult::Retry(index),
                                     },
                                 )
-                                .map_err(|e| TaskError::Fatal(RunError::retry(e))),
+                                .map_err(|e| TaskError::Fatal(RunError::retry(e).into())),
                             }
                         } <span class="kw">else </span>{
                             <span class="prelude-val">Ok</span>(Next::Continue)
@@ -294,7 +294,7 @@
                                 <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; RetryResult::Retry(index),
                             },
                         )
-                        .map_err(|e| TaskError::Fatal(RunError::retry(e)))
+                        .map_err(|e| TaskError::Fatal(RunError::retry(e).into()))
                     }
 
                     <span class="comment">// nothing to do

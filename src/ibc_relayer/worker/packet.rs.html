@@ -718,9 +718,9 @@
     <span class="kw">if </span>e.is_expired_or_frozen_error() {
         <span class="comment">// If the client is expired or frozen, terminate the packet worker
         // as there is no point of relaying further packets.
-        </span>TaskError::Fatal(RunError::link(e))
+        </span>TaskError::Fatal(RunError::link(e).into())
     } <span class="kw">else </span>{
-        TaskError::Ignore(RunError::link(e))
+        TaskError::Ignore(RunError::link(e).into())
     }
 }
 
@@ -1202,10 +1202,10 @@
 
     link.a_to_b.execute_schedule().map_err(|e| {
         <span class="kw">if </span>e.is_expired_or_frozen_error() {
-            TaskError::Fatal(RunError::link(e))
+            TaskError::Fatal(RunError::link(e).into())
         } <span class="kw">else </span>{
             <span class="macro">error!</span>(<span class="string">"will retry: schedule execution encountered error: {}"</span>, e,);
-            TaskError::Ignore(RunError::link(e))
+            TaskError::Ignore(RunError::link(e).into())
         }
     })<span class="question-mark">?</span>;
 

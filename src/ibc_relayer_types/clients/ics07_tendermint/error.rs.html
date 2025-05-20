@@ -288,14 +288,7 @@
 <a href="#287" id="287">287</a>
 <a href="#288" id="288">288</a>
 <a href="#289" id="289">289</a>
-<a href="#290" id="290">290</a>
-<a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a></pre></div><pre class="rust"><code><span class="kw">use </span>flex_error::{define_error, TraceError};
+<a href="#290" id="290">290</a></pre></div><pre class="rust"><code><span class="kw">use </span>flex_error::{define_error, TraceError};
 
 <span class="kw">use </span><span class="kw">crate</span>::core::ics02_client::error::Error <span class="kw">as </span>Ics02Error;
 <span class="kw">use </span><span class="kw">crate</span>::core::ics24_host::error::ValidationError;
@@ -306,7 +299,6 @@
 <span class="kw">use </span>tendermint::account::Id;
 <span class="kw">use </span>tendermint::hash::Hash;
 <span class="kw">use </span>tendermint::Error <span class="kw">as </span>TendermintError;
-<span class="kw">use </span>tendermint_light_client_verifier::errors::VerificationErrorDetail <span class="kw">as </span>LightClientErrorDetail;
 
 <span class="macro">define_error!</span> {
     <span class="attr">#[derive(Debug, PartialEq, Eq)]
@@ -517,12 +509,6 @@
             { reason: String }
             | e | {
                 <span class="macro">format_args!</span>(<span class="string">"not enough trust because insufficient validators overlap: {}"</span>, e.reason)
-            },
-
-        VerificationError
-            { detail: LightClientErrorDetail }
-            | e | {
-                <span class="macro">format_args!</span>(<span class="string">"verification failed: {}"</span>, e.detail)
             },
 
         ProcessedTimeNotFound
