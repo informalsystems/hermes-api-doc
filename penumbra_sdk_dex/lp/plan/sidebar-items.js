@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["PositionWithdrawPlan"]};
+window.SIDEBAR_ITEMS = {"struct":["PositionOpenPlan","PositionWithdrawPlan"]};

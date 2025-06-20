@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["action","plan","position"],"struct":["BareTradingFunction","BuyOrder","LpNft","Reserves","SellOrder","TradingFunction"]};
+window.SIDEBAR_ITEMS = {"mod":["action","metadata","plan","position","view"],"struct":["BareTradingFunction","BuyOrder","LpNft","Reserves","SellOrder","TradingFunction"]};

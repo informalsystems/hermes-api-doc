@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["anchor","commitment","epoch_root"],"struct":["EventBlockRoot"]};
+window.SIDEBAR_ITEMS = {"fn":["anchor","commitment"],"struct":["EventBlockRoot","EventEpochRoot"]};

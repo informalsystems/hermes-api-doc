@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/penumbra-sdk-keys-1.5.1/src/symmetric.rs`."><title>symmetric.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="penumbra_sdk_keys" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">penumbra_sdk_keys/</div>symmetric.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/penumbra-sdk-keys-2.0.0/src/symmetric.rs`."><title>symmetric.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="penumbra_sdk_keys" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">penumbra_sdk_keys/</div>symmetric.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -360,11 +360,98 @@
 <a href="#359" id="359">359</a>
 <a href="#360" id="360">360</a>
 <a href="#361" id="361">361</a>
-<a href="#362" id="362">362</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::keys::{IncomingViewingKey, OutgoingViewingKey};
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
+<a href="#431" id="431">431</a>
+<a href="#432" id="432">432</a>
+<a href="#433" id="433">433</a>
+<a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
+<a href="#445" id="445">445</a>
+<a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
+<a href="#449" id="449">449</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::keys::{IncomingViewingKey, OutgoingViewingKey};
 <span class="kw">use </span>anyhow::{anyhow, <span class="prelude-ty">Result</span>};
 <span class="kw">use </span>chacha20poly1305::{
     aead::{Aead, NewAead},
-    ChaCha20Poly1305, Key, Nonce,
+    ChaCha20Poly1305, Key, Nonce, XChaCha20Poly1305, XNonce,
 };
 <span class="kw">use </span>decaf377_ka <span class="kw">as </span>ka;
 <span class="kw">use </span>penumbra_sdk_asset::balance;
@@ -720,6 +807,93 @@
 
         <span class="kw">let </span>key = kdf.finalize();
         <span class="self">Self</span>(<span class="kw-2">*</span>Key::from_slice(key.as_bytes()))
+    }
+}
+
+<span class="kw">pub const </span>POSITION_METADATA_SIZE_BYTES: usize = <span class="number">10</span>;
+<span class="kw">pub const </span>POSITION_METADATA_NONCE_SIZE_BYTES: usize = <span class="number">24</span>;
+<span class="kw">pub const </span>POSITION_METADATA_AUTH_TAG_SIZE_BYTES: usize = <span class="number">16</span>;
+<span class="kw">pub const </span>ENCRYPTED_POSITION_METADATA_SIZE_BYTES: usize = POSITION_METADATA_SIZE_BYTES
+    + POSITION_METADATA_NONCE_SIZE_BYTES
+    + POSITION_METADATA_AUTH_TAG_SIZE_BYTES;
+
+<span class="doccomment">/// Represents a symmetric `XChaCha20Poly1305` key used for Position metadata encryption.
+</span><span class="attr">#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>PositionMetadataKey(<span class="kw">pub </span>Key);
+
+<span class="kw">impl </span>PositionMetadataKey {
+    <span class="doccomment">/// Derives a PositionMetadataKey from an OutgoingViewingKey.
+    ///
+    /// See [UIP-9](https://uips.penumbra.zone/uip-9.html) for more details.
+    </span><span class="kw">pub fn </span>derive(ovk: <span class="kw-2">&amp;</span>OutgoingViewingKey) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>kdf_params = blake2b_simd::Params::new();
+        kdf_params.personal(<span class="string">b"Penumbra_PosMeta"</span>);
+        kdf_params.hash_length(<span class="number">32</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>kdf = kdf_params.to_state();
+        kdf.update(<span class="kw-2">&amp;</span>ovk.to_bytes());
+
+        <span class="kw">let </span>key = kdf.finalize();
+        <span class="self">Self</span>(<span class="kw-2">*</span>Key::from_slice(key.as_bytes()))
+    }
+
+    <span class="doccomment">/// Encrypts position metadata using the PositionMetadataKey.
+    </span><span class="kw">pub fn </span>encrypt(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        plaintext: <span class="kw-2">&amp;</span>[u8; POSITION_METADATA_SIZE_BYTES],
+        nonce: <span class="kw-2">&amp;</span>[u8; POSITION_METADATA_NONCE_SIZE_BYTES],
+    ) -&gt; Vec&lt;u8&gt; {
+        <span class="kw">let </span>cipher = XChaCha20Poly1305::new(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>);
+        <span class="kw">let </span>nonce = XNonce::from_slice(nonce.as_ref());
+
+        <span class="comment">// Get the encrypted data with authentication tag
+        // The auth tag adds 16 bytes.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>ciphertext = cipher
+            .encrypt(nonce, plaintext.as_ref())
+            .expect(<span class="string">"encryption succeeded"</span>);
+
+        <span class="comment">// Prepend the nonce to the ciphertext
+        </span><span class="kw">let </span><span class="kw-2">mut </span>result = Vec::with_capacity(ENCRYPTED_POSITION_METADATA_SIZE_BYTES);
+        result.extend_from_slice(nonce.as_slice());
+        result.append(<span class="kw-2">&amp;mut </span>ciphertext);
+
+        result
+    }
+
+    <span class="kw">pub fn </span>decrypt(<span class="kw-2">&amp;</span><span class="self">self</span>, ciphertext: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;u8&gt;&gt; {
+        <span class="kw">if </span>ciphertext.len() != ENCRYPTED_POSITION_METADATA_SIZE_BYTES {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+
+        <span class="comment">// Extract the nonce (first 24 bytes)
+        </span><span class="kw">let </span>nonce = XNonce::from_slice(<span class="kw-2">&amp;</span>ciphertext[..POSITION_METADATA_NONCE_SIZE_BYTES]);
+
+        <span class="comment">// Extract the ciphertext (everything after the nonce)
+        </span><span class="kw">let </span>encrypted_data = <span class="kw-2">&amp;</span>ciphertext[POSITION_METADATA_NONCE_SIZE_BYTES..];
+
+        <span class="comment">// Create cipher with our key
+        </span><span class="kw">let </span>cipher = XChaCha20Poly1305::new(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>);
+
+        <span class="comment">// Decrypt the data returning none if decryption fails
+        </span>cipher.decrypt(nonce, encrypted_data).ok()
+    }
+}
+
+<span class="kw">impl </span>TryFrom&lt;pb::PositionMetadataKey&gt; <span class="kw">for </span>PositionMetadataKey {
+    <span class="kw">type </span>Error = anyhow::Error;
+    <span class="kw">fn </span>try_from(msg: pb::PositionMetadataKey) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
+        <span class="kw">let </span>key_bytes: [u8; <span class="number">32</span>] = msg
+            .inner
+            .try_into()
+            .map_err(|<span class="kw">_</span>| <span class="macro">anyhow!</span>(<span class="string">"position metadata key must be 32 bytes"</span>))<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="self">Self</span>(<span class="kw-2">*</span>Key::from_slice(<span class="kw-2">&amp;</span>key_bytes)))
+    }
+}
+
+<span class="kw">impl </span>From&lt;PositionMetadataKey&gt; <span class="kw">for </span>pb::PositionMetadataKey {
+    <span class="kw">fn </span>from(msg: PositionMetadataKey) -&gt; <span class="self">Self </span>{
+        pb::PositionMetadataKey {
+            inner: msg.<span class="number">0</span>.to_vec(),
+        }
     }
 }
 </code></pre></div></section></main></body></html>

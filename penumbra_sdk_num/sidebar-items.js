@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["fixpoint"],"struct":["Amount","AmountVar"]};
+window.SIDEBAR_ITEMS = {"mod":["fixpoint"],"struct":["Amount","AmountVar","Percentage"]};

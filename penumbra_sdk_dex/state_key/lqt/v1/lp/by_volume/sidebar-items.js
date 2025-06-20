@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["prefix","prefix_with_asset"]};

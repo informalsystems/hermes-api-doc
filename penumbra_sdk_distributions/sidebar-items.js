@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["genesis","params"]};
+window.SIDEBAR_ITEMS = {"mod":["event","genesis","params"]};

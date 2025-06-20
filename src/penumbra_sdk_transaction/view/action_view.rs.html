@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/penumbra-sdk-transaction-1.5.1/src/view/action_view.rs`."><title>action_view.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="penumbra_sdk_transaction" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">penumbra_sdk_transaction/view/</div>action_view.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/penumbra-sdk-transaction-2.0.0/src/view/action_view.rs`."><title>action_view.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="penumbra_sdk_transaction" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">penumbra_sdk_transaction/view/</div>action_view.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -179,16 +179,37 @@
 <a href="#178" id="178">178</a>
 <a href="#179" id="179">179</a>
 <a href="#180" id="180">180</a>
-<a href="#181" id="181">181</a></pre></div><pre class="rust"><code><span class="kw">use </span>penumbra_sdk_auction::auction::dutch::{
+<a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
+<a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
+<a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a></pre></div><pre class="rust"><code><span class="kw">use </span>penumbra_sdk_auction::auction::dutch::{
     actions::view::{ActionDutchAuctionScheduleView, ActionDutchAuctionWithdrawView},
     ActionDutchAuctionEnd,
 };
 <span class="kw">use </span>penumbra_sdk_community_pool::{CommunityPoolDeposit, CommunityPoolOutput, CommunityPoolSpend};
 <span class="kw">use </span>penumbra_sdk_dex::{
-    lp::action::{PositionClose, PositionOpen, PositionWithdraw},
+    lp::{
+        action::{PositionClose, PositionWithdraw},
+        view::PositionOpenView,
+    },
     swap::SwapView,
     swap_claim::SwapClaimView,
 };
+<span class="kw">use </span>penumbra_sdk_funding::liquidity_tournament::ActionLiquidityTournamentVoteView;
 <span class="kw">use </span>penumbra_sdk_governance::{
     ProposalDepositClaim, ProposalSubmit, ProposalWithdraw, ValidatorVote,
 };
@@ -221,7 +242,7 @@
     ProposalWithdraw(ProposalWithdraw),
     ValidatorVote(ValidatorVote),
     ProposalDepositClaim(ProposalDepositClaim),
-    PositionOpen(PositionOpen),
+    PositionOpen(PositionOpenView),
     PositionClose(PositionClose),
     PositionWithdraw(PositionWithdraw),
     Delegate(Delegate),
@@ -234,6 +255,7 @@
     ActionDutchAuctionSchedule(ActionDutchAuctionScheduleView),
     ActionDutchAuctionEnd(ActionDutchAuctionEnd),
     ActionDutchAuctionWithdraw(ActionDutchAuctionWithdrawView),
+    ActionLiquidityTournamentVote(ActionLiquidityTournamentVoteView),
 }
 
 <span class="kw">impl </span>DomainType <span class="kw">for </span>ActionView {
@@ -264,7 +286,9 @@
                 AV::ProposalDepositClaim(x) =&gt; ActionView::ProposalDepositClaim(x.try_into()<span class="question-mark">?</span>),
                 AV::ValidatorVote(x) =&gt; ActionView::ValidatorVote(x.try_into()<span class="question-mark">?</span>),
                 AV::DelegatorVote(x) =&gt; ActionView::DelegatorVote(x.try_into()<span class="question-mark">?</span>),
-                AV::PositionOpen(x) =&gt; ActionView::PositionOpen(x.try_into()<span class="question-mark">?</span>),
+                AV::PositionOpen(x) =&gt; ActionView::PositionOpen(PositionOpenView::Opaque {
+                    action: x.try_into()<span class="question-mark">?</span>,
+                }),
                 AV::PositionClose(x) =&gt; ActionView::PositionClose(x.try_into()<span class="question-mark">?</span>),
                 AV::PositionWithdraw(x) =&gt; ActionView::PositionWithdraw(x.try_into()<span class="question-mark">?</span>),
                 AV::PositionRewardClaim(<span class="kw">_</span>) =&gt; {
@@ -283,6 +307,10 @@
                 AV::ActionDutchAuctionWithdraw(x) =&gt; {
                     ActionView::ActionDutchAuctionWithdraw(x.try_into()<span class="question-mark">?</span>)
                 }
+                AV::ActionLiquidityTournamentVote(x) =&gt; {
+                    ActionView::ActionLiquidityTournamentVote(x.try_into()<span class="question-mark">?</span>)
+                }
+                AV::PositionOpenView(x) =&gt; ActionView::PositionOpen(x.try_into()<span class="question-mark">?</span>),
             },
         )
     }
@@ -307,7 +335,7 @@
                 ActionView::ValidatorVote(x) =&gt; AV::ValidatorVote(x.into()),
                 ActionView::DelegatorVote(x) =&gt; AV::DelegatorVote(x.into()),
                 ActionView::ProposalDepositClaim(x) =&gt; AV::ProposalDepositClaim(x.into()),
-                ActionView::PositionOpen(x) =&gt; AV::PositionOpen(x.into()),
+                ActionView::PositionOpen(x) =&gt; AV::PositionOpenView(x.into()),
                 ActionView::PositionClose(x) =&gt; AV::PositionClose(x.into()),
                 ActionView::PositionWithdraw(x) =&gt; AV::PositionWithdraw(x.into()),
                 ActionView::Ics20Withdrawal(x) =&gt; AV::Ics20Withdrawal(x.into()),
@@ -320,6 +348,9 @@
                 ActionView::ActionDutchAuctionEnd(x) =&gt; AV::ActionDutchAuctionEnd(x.into()),
                 ActionView::ActionDutchAuctionWithdraw(x) =&gt; {
                     AV::ActionDutchAuctionWithdraw(x.into())
+                }
+                ActionView::ActionLiquidityTournamentVote(x) =&gt; {
+                    AV::ActionLiquidityTournamentVote(x.into())
                 }
             }),
         }
@@ -343,7 +374,7 @@
             ActionView::ValidatorVote(x) =&gt; Action::ValidatorVote(x),
             ActionView::DelegatorVote(x) =&gt; Action::DelegatorVote(x.into()),
             ActionView::ProposalDepositClaim(x) =&gt; Action::ProposalDepositClaim(x),
-            ActionView::PositionOpen(x) =&gt; Action::PositionOpen(x),
+            ActionView::PositionOpen(x) =&gt; Action::PositionOpen(x.into()),
             ActionView::PositionClose(x) =&gt; Action::PositionClose(x),
             ActionView::PositionWithdraw(x) =&gt; Action::PositionWithdraw(x),
             ActionView::Ics20Withdrawal(x) =&gt; Action::Ics20Withdrawal(x),
@@ -356,6 +387,9 @@
             ActionView::ActionDutchAuctionEnd(x) =&gt; Action::ActionDutchAuctionEnd(x),
             ActionView::ActionDutchAuctionWithdraw(x) =&gt; {
                 Action::ActionDutchAuctionWithdraw(x.into())
+            }
+            ActionView::ActionLiquidityTournamentVote(x) =&gt; {
+                Action::ActionLiquidityTournamentVote(x.into())
             }
         }
     }

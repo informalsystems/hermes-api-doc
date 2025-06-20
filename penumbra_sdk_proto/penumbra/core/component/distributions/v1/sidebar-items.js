@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["DistributionsParameters","GenesisContent"]};
+window.SIDEBAR_ITEMS = {"mod":["distributions_service_client","distributions_service_server"],"struct":["CurrentLqtPoolSizeRequest","CurrentLqtPoolSizeResponse","DistributionsParameters","EventLqtPoolSizeIncrease","GenesisContent","LqtPoolSizeByEpochRequest","LqtPoolSizeByEpochResponse"]};

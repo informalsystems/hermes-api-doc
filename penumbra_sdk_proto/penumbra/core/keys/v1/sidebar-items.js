@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["address_view"],"struct":["Address","AddressIndex","AddressView","ConsensusKey","Diversifier","FullViewingKey","GovernanceKey","IdentityKey","PayloadKey","SpendKey","WalletId"]};
+window.SIDEBAR_ITEMS = {"mod":["address_view"],"struct":["Address","AddressIndex","AddressView","ConsensusKey","Diversifier","FullViewingKey","GovernanceKey","IdentityKey","PayloadKey","PositionMetadataKey","SpendKey","WalletId"]};

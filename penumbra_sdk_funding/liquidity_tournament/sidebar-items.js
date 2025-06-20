@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["LIQUIDITY_TOURNAMENT_VOTE_DENOM_MAX_BYTES"],"enum":["ActionLiquidityTournamentVoteView"],"mod":["proof"],"struct":["ActionLiquidityTournamentVote","ActionLiquidityTournamentVotePlan","LiquidityTournamentVoteBody"]};

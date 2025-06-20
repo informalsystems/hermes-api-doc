@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":["MAX_FEE_BPS","MAX_RESERVE_AMOUNT"],"enum":["State"],"struct":["Id","Position"]};
+window.SIDEBAR_ITEMS = {"constant":["MAX_FEE_BPS","MAX_RESERVE_AMOUNT"],"enum":["State"],"struct":["Flows","Id","Position"]};

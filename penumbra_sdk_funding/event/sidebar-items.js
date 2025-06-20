@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["EventFundingStreamReward"]};
+window.SIDEBAR_ITEMS = {"struct":["EventFundingStreamReward","EventLqtDelegatorReward","EventLqtPositionReward","EventLqtVote"]};

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["FundingParameters"]};
+window.SIDEBAR_ITEMS = {"struct":["FundingParameters","LiquidityTournamentParameters"]};
