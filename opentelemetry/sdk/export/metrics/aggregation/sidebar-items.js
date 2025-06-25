@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["Temporality"],"fn":["constant_temporality_selector","cumulative_temporality_selector","delta_temporality_selector","stateless_temporality_selector"],"struct":["AggregationKind","Buckets"],"trait":["Aggregation","Count","Histogram","LastValue","Max","Min","Sum","TemporalitySelector"]};

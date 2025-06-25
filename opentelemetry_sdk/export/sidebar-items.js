@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["metrics","trace"],"trait":["ExportError"]};
+window.SIDEBAR_ITEMS = {"mod":["trace"],"trait":["ExportError"]};

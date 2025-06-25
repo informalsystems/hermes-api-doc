@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry_api-0.19.0/src/metrics/meter.rs`."><title>meter.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="opentelemetry_api" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_api/metrics/</div>meter.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry_api-0.20.0/src/metrics/meter.rs`."><title>meter.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="opentelemetry_api" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_api/metrics/</div>meter.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -163,20 +163,91 @@
 <a href="#162" id="162">162</a>
 <a href="#163" id="163">163</a>
 <a href="#164" id="164">164</a>
-<a href="#165" id="165">165</a></pre></div><pre class="rust"><code><span class="kw">use </span>core::fmt;
+<a href="#165" id="165">165</a>
+<a href="#166" id="166">166</a>
+<a href="#167" id="167">167</a>
+<a href="#168" id="168">168</a>
+<a href="#169" id="169">169</a>
+<a href="#170" id="170">170</a>
+<a href="#171" id="171">171</a>
+<a href="#172" id="172">172</a>
+<a href="#173" id="173">173</a>
+<a href="#174" id="174">174</a>
+<a href="#175" id="175">175</a>
+<a href="#176" id="176">176</a>
+<a href="#177" id="177">177</a>
+<a href="#178" id="178">178</a>
+<a href="#179" id="179">179</a>
+<a href="#180" id="180">180</a>
+<a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
+<a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
+<a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
+<a href="#218" id="218">218</a>
+<a href="#219" id="219">219</a></pre></div><pre class="rust"><code><span class="kw">use </span>core::fmt;
+<span class="kw">use </span>std::any::Any;
+<span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::sync::Arc;
 
 <span class="kw">use </span><span class="kw">crate</span>::metrics::{
-    Counter, Histogram, InstrumentBuilder, InstrumentProvider, MetricsError, ObservableCounter,
-    ObservableGauge, ObservableUpDownCounter, UpDownCounter,
+    AsyncInstrumentBuilder, Counter, Histogram, InstrumentBuilder, InstrumentProvider,
+    ObservableCounter, ObservableGauge, ObservableUpDownCounter, <span class="prelude-ty">Result</span>, UpDownCounter,
 };
-<span class="kw">use crate</span>::{Context, InstrumentationLibrary};
+<span class="kw">use </span><span class="kw">crate</span>::KeyValue;
 
-<span class="doccomment">/// Returns named meter instances
+<span class="kw">use </span><span class="kw">super</span>::AsyncInstrument;
+
+<span class="doccomment">/// Provides access to named [Meter] instances, for instrumenting an application
+/// or crate.
 </span><span class="kw">pub trait </span>MeterProvider {
-    <span class="doccomment">/// Creates a named [`Meter`] instance.
-    </span><span class="kw">fn </span>meter(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; Meter {
-        <span class="self">self</span>.versioned_meter(name, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>)
+    <span class="doccomment">/// Returns a new [Meter] with the provided name and default configuration.
+    ///
+    /// A [Meter] should be scoped at most to a single application or crate. The
+    /// name needs to be unique so it does not collide with other names used by
+    /// an application, nor other applications.
+    ///
+    /// If the name is empty, then an implementation defined default name will
+    /// be used instead.
+    </span><span class="kw">fn </span>meter(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;) -&gt; Meter {
+        <span class="self">self</span>.versioned_meter(
+            name,
+            <span class="prelude-val">None</span>::&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+            <span class="prelude-val">None</span>::&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+            <span class="prelude-val">None</span>,
+        )
     }
 
     <span class="doccomment">/// Creates an implementation of the [`Meter`] interface.
@@ -187,61 +258,64 @@
     /// default name will be used instead.
     </span><span class="kw">fn </span>versioned_meter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
-        version: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;,
-        schema_url: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;,
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+        version: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;&gt;,
+        schema_url: <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;&gt;,
+        attributes: <span class="prelude-ty">Option</span>&lt;Vec&lt;KeyValue&gt;&gt;,
     ) -&gt; Meter;
 }
 
 <span class="doccomment">/// Provides access to instrument instances for recording metrics.
 </span><span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>Meter {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) instrumentation_library: InstrumentationLibrary,
     <span class="kw">pub</span>(<span class="kw">crate</span>) instrument_provider: Arc&lt;<span class="kw">dyn </span>InstrumentProvider + Send + Sync&gt;,
 }
 
 <span class="kw">impl </span>Meter {
     <span class="doccomment">/// Create a new named meter from an instrumentation provider
-    </span><span class="kw">pub fn </span>new(
-        instrumentation_library: InstrumentationLibrary,
-        instrument_provider: Arc&lt;<span class="kw">dyn </span>InstrumentProvider + Send + Sync&gt;,
-    ) -&gt; <span class="self">Self </span>{
+    </span><span class="attr">#[doc(hidden)]
+    </span><span class="kw">pub fn </span>new(instrument_provider: Arc&lt;<span class="kw">dyn </span>InstrumentProvider + Send + Sync&gt;) -&gt; <span class="self">Self </span>{
         Meter {
-            instrumentation_library,
             instrument_provider,
         }
     }
 
     <span class="doccomment">/// creates an instrument builder for recording increasing values.
-    </span><span class="kw">pub fn </span>u64_counter(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw">impl </span>Into&lt;String&gt;) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, Counter&lt;u64&gt;&gt; {
+    </span><span class="kw">pub fn </span>u64_counter(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, Counter&lt;u64&gt;&gt; {
         InstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
 
     <span class="doccomment">/// creates an instrument builder for recording increasing values.
-    </span><span class="kw">pub fn </span>f64_counter(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw">impl </span>Into&lt;String&gt;) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, Counter&lt;f64&gt;&gt; {
+    </span><span class="kw">pub fn </span>f64_counter(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, Counter&lt;f64&gt;&gt; {
         InstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
 
     <span class="doccomment">/// creates an instrument builder for recording increasing values via callback.
     </span><span class="kw">pub fn </span>u64_observable_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: <span class="kw">impl </span>Into&lt;String&gt;,
-    ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableCounter&lt;u64&gt;&gt; {
-        InstrumentBuilder::new(<span class="self">self</span>, name.into())
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    ) -&gt; AsyncInstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableCounter&lt;u64&gt;, u64&gt; {
+        AsyncInstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
 
     <span class="doccomment">/// creates an instrument builder for recording increasing values via callback.
     </span><span class="kw">pub fn </span>f64_observable_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: <span class="kw">impl </span>Into&lt;String&gt;,
-    ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableCounter&lt;f64&gt;&gt; {
-        InstrumentBuilder::new(<span class="self">self</span>, name.into())
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    ) -&gt; AsyncInstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableCounter&lt;f64&gt;, f64&gt; {
+        AsyncInstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
 
     <span class="doccomment">/// creates an instrument builder for recording changes of a value.
     </span><span class="kw">pub fn </span>i64_up_down_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: <span class="kw">impl </span>Into&lt;String&gt;,
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
     ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, UpDownCounter&lt;i64&gt;&gt; {
         InstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
@@ -249,7 +323,7 @@
     <span class="doccomment">/// creates an instrument builder for recording changes of a value.
     </span><span class="kw">pub fn </span>f64_up_down_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: <span class="kw">impl </span>Into&lt;String&gt;,
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
     ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, UpDownCounter&lt;f64&gt;&gt; {
         InstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
@@ -257,75 +331,109 @@
     <span class="doccomment">/// creates an instrument builder for recording changes of a value via callback.
     </span><span class="kw">pub fn </span>i64_observable_up_down_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: <span class="kw">impl </span>Into&lt;String&gt;,
-    ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableUpDownCounter&lt;i64&gt;&gt; {
-        InstrumentBuilder::new(<span class="self">self</span>, name.into())
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    ) -&gt; AsyncInstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableUpDownCounter&lt;i64&gt;, i64&gt; {
+        AsyncInstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
 
     <span class="doccomment">/// creates an instrument builder for recording changes of a value via callback.
     </span><span class="kw">pub fn </span>f64_observable_up_down_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: <span class="kw">impl </span>Into&lt;String&gt;,
-    ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableUpDownCounter&lt;f64&gt;&gt; {
-        InstrumentBuilder::new(<span class="self">self</span>, name.into())
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    ) -&gt; AsyncInstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableUpDownCounter&lt;f64&gt;, f64&gt; {
+        AsyncInstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
 
     <span class="doccomment">/// creates an instrument builder for recording the current value via callback.
     </span><span class="kw">pub fn </span>u64_observable_gauge(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: <span class="kw">impl </span>Into&lt;String&gt;,
-    ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableGauge&lt;u64&gt;&gt; {
-        InstrumentBuilder::new(<span class="self">self</span>, name.into())
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    ) -&gt; AsyncInstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableGauge&lt;u64&gt;, u64&gt; {
+        AsyncInstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
 
     <span class="doccomment">/// creates an instrument builder for recording the current value via callback.
     </span><span class="kw">pub fn </span>i64_observable_gauge(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: <span class="kw">impl </span>Into&lt;String&gt;,
-    ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableGauge&lt;i64&gt;&gt; {
-        InstrumentBuilder::new(<span class="self">self</span>, name.into())
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    ) -&gt; AsyncInstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableGauge&lt;i64&gt;, i64&gt; {
+        AsyncInstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
 
     <span class="doccomment">/// creates an instrument builder for recording the current value via callback.
     </span><span class="kw">pub fn </span>f64_observable_gauge(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: <span class="kw">impl </span>Into&lt;String&gt;,
-    ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableGauge&lt;f64&gt;&gt; {
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    ) -&gt; AsyncInstrumentBuilder&lt;<span class="lifetime">'_</span>, ObservableGauge&lt;f64&gt;, f64&gt; {
+        AsyncInstrumentBuilder::new(<span class="self">self</span>, name.into())
+    }
+
+    <span class="doccomment">/// creates an instrument builder for recording a distribution of values.
+    </span><span class="kw">pub fn </span>f64_histogram(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, Histogram&lt;f64&gt;&gt; {
         InstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
 
     <span class="doccomment">/// creates an instrument builder for recording a distribution of values.
-    </span><span class="kw">pub fn </span>f64_histogram(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw">impl </span>Into&lt;String&gt;) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, Histogram&lt;f64&gt;&gt; {
+    </span><span class="kw">pub fn </span>u64_histogram(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, Histogram&lt;u64&gt;&gt; {
         InstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
 
     <span class="doccomment">/// creates an instrument builder for recording a distribution of values.
-    </span><span class="kw">pub fn </span>u64_histogram(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw">impl </span>Into&lt;String&gt;) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, Histogram&lt;u64&gt;&gt; {
+    </span><span class="kw">pub fn </span>i64_histogram(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    ) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, Histogram&lt;i64&gt;&gt; {
         InstrumentBuilder::new(<span class="self">self</span>, name.into())
     }
 
-    <span class="doccomment">/// creates an instrument builder for recording a distribution of values.
-    </span><span class="kw">pub fn </span>i64_histogram(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw">impl </span>Into&lt;String&gt;) -&gt; InstrumentBuilder&lt;<span class="lifetime">'_</span>, Histogram&lt;i64&gt;&gt; {
-        InstrumentBuilder::new(<span class="self">self</span>, name.into())
-    }
-
-    <span class="doccomment">/// Captures the function that will be called during data collection.
+    <span class="doccomment">/// Registers a callback to be called during the collection of a measurement
+    /// cycle.
     ///
-    /// It is only valid to call `observe` within the scope of the passed function.
-    </span><span class="kw">pub fn </span>register_callback&lt;F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, callback: F) -&gt; <span class="prelude-ty">Result</span>&lt;(), MetricsError&gt;
+    /// The instruments passed as arguments to be registered are the only
+    /// instruments that may observe values.
+    ///
+    /// If no instruments are passed, the callback will not be registered.
+    </span><span class="kw">pub fn </span>register_callback&lt;F&gt;(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        instruments: <span class="kw-2">&amp;</span>[Arc&lt;<span class="kw">dyn </span>Any&gt;],
+        callback: F,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Box&lt;<span class="kw">dyn </span>CallbackRegistration&gt;&gt;
     <span class="kw">where
-        </span>F: Fn(<span class="kw-2">&amp;</span>Context) + Send + Sync + <span class="lifetime">'static</span>,
+        </span>F: Fn(<span class="kw-2">&amp;</span><span class="kw">dyn </span>Observer) + Send + Sync + <span class="lifetime">'static</span>,
     {
         <span class="self">self</span>.instrument_provider
-            .register_callback(Box::new(callback))
+            .register_callback(instruments, Box::new(callback))
     }
+}
+
+<span class="doccomment">/// A token representing the unique registration of a callback for a set of
+/// instruments with a [Meter].
+</span><span class="kw">pub trait </span>CallbackRegistration: Send + Sync {
+    <span class="doccomment">/// Removes the callback registration from its associated [Meter].
+    </span><span class="kw">fn </span>unregister(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;;
+}
+
+<span class="doccomment">/// Records measurements for multiple instruments in a callback.
+</span><span class="kw">pub trait </span>Observer {
+    <span class="doccomment">/// Records the f64 value with attributes for the observable.
+    </span><span class="kw">fn </span>observe_f64(<span class="kw-2">&amp;</span><span class="self">self</span>, inst: <span class="kw-2">&amp;</span><span class="kw">dyn </span>AsyncInstrument&lt;f64&gt;, measurement: f64, attrs: <span class="kw-2">&amp;</span>[KeyValue]);
+
+    <span class="doccomment">/// Records the u64 value with attributes for the observable.
+    </span><span class="kw">fn </span>observe_u64(<span class="kw-2">&amp;</span><span class="self">self</span>, inst: <span class="kw-2">&amp;</span><span class="kw">dyn </span>AsyncInstrument&lt;u64&gt;, measurement: u64, attrs: <span class="kw-2">&amp;</span>[KeyValue]);
+
+    <span class="doccomment">/// Records the i64 value with attributes for the observable.
+    </span><span class="kw">fn </span>observe_i64(<span class="kw-2">&amp;</span><span class="self">self</span>, inst: <span class="kw-2">&amp;</span><span class="kw">dyn </span>AsyncInstrument&lt;i64&gt;, measurement: i64, attrs: <span class="kw-2">&amp;</span>[KeyValue]);
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Meter {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">"Meter"</span>)
-            .field(<span class="string">"instrumentation_library"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.instrumentation_library)
-            .finish()
+        f.write_str(<span class="string">"Meter"</span>)
     }
 }
 </code></pre></div></section></main></body></html>

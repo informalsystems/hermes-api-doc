@@ -1105,7 +1105,10 @@
 <a href="#1104" id="1104">1104</a>
 <a href="#1105" id="1105">1105</a>
 <a href="#1106" id="1106">1106</a>
-<a href="#1107" id="1107">1107</a></pre></div><pre class="rust"><code><span class="doccomment">//! Relayer configuration
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a></pre></div><pre class="rust"><code><span class="doccomment">//! Relayer configuration
 
 </span><span class="kw">pub mod </span>compat_mode;
 <span class="kw">pub mod </span>dynamic_gas;
@@ -1605,6 +1608,8 @@
     <span class="kw">pub </span>port: u16,
     <span class="attr">#[serde(default = <span class="string">"HistogramBuckets::default"</span>)]
     </span><span class="kw">pub </span>buckets: HistogramBuckets,
+    <span class="attr">#[serde(default)]
+    </span><span class="kw">pub </span>prefix: String,
 }
 
 <span class="attr">#[derive(Clone, Debug, Deserialize, Serialize)]
@@ -1669,6 +1674,7 @@
             host: <span class="string">"127.0.0.1"</span>.to_string(),
             port: <span class="number">3001</span>,
             buckets: HistogramBuckets::default(),
+            prefix: Default::default(),
         }
     }
 }

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["stdout"],"struct":["SpanData"],"trait":["SpanExporter"],"type":["ExportResult"]};
+window.SIDEBAR_ITEMS = {"struct":["SpanData"],"trait":["SpanExporter"],"type":["ExportResult"]};

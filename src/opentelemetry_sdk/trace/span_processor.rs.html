@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry_sdk-0.19.0/src/trace/span_processor.rs`."><title>span_processor.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="opentelemetry_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_sdk/trace/</div>span_processor.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry_sdk-0.20.0/src/trace/span_processor.rs`."><title>span_processor.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="opentelemetry_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_sdk/trace/</div>span_processor.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -936,7 +936,24 @@
 <a href="#935" id="935">935</a>
 <a href="#936" id="936">936</a>
 <a href="#937" id="937">937</a>
-<a href="#938" id="938">938</a></pre></div><pre class="rust"><code><span class="doccomment">//! # OpenTelemetry Span Processor Interface
+<a href="#938" id="938">938</a>
+<a href="#939" id="939">939</a>
+<a href="#940" id="940">940</a>
+<a href="#941" id="941">941</a>
+<a href="#942" id="942">942</a>
+<a href="#943" id="943">943</a>
+<a href="#944" id="944">944</a>
+<a href="#945" id="945">945</a>
+<a href="#946" id="946">946</a>
+<a href="#947" id="947">947</a>
+<a href="#948" id="948">948</a>
+<a href="#949" id="949">949</a>
+<a href="#950" id="950">950</a>
+<a href="#951" id="951">951</a>
+<a href="#952" id="952">952</a>
+<a href="#953" id="953">953</a>
+<a href="#954" id="954">954</a>
+<a href="#955" id="955">955</a></pre></div><pre class="rust"><code><span class="doccomment">//! # OpenTelemetry Span Processor Interface
 //!
 //! Span processor is an interface which allows hooks for span start and end method
 //! invocations. The span processors are invoked only when
@@ -973,7 +990,7 @@
 //! [`TracerProvider`]: opentelemetry_api::trace::TracerProvider
 
 </span><span class="kw">use </span><span class="kw">crate</span>::export::trace::{ExportResult, SpanData, SpanExporter};
-<span class="kw">use </span><span class="kw">crate</span>::trace::runtime::{TraceRuntime, TrySend};
+<span class="kw">use </span><span class="kw">crate</span>::runtime::{RuntimeChannel, TrySend};
 <span class="kw">use </span><span class="kw">crate</span>::trace::Span;
 <span class="kw">use </span>futures_channel::oneshot;
 <span class="kw">use </span>futures_util::{
@@ -1030,45 +1047,65 @@
     </span><span class="kw">fn </span>shutdown(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; TraceResult&lt;()&gt;;
 }
 
-<span class="doccomment">/// A [`SpanProcessor`] that exports synchronously when spans are finished.
-///
-/// # Examples
-///
-/// Note that the simple processor exports synchronously every time a span is
-/// ended. If you find this limiting, consider the batch processor instead.
+<span class="doccomment">/// A [SpanProcessor] that passes finished spans to the configured `SpanExporter`, as
+/// soon as they are finished, without any batching.
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>SimpleSpanProcessor {
-    sender: crossbeam_channel::Sender&lt;<span class="prelude-ty">Option</span>&lt;SpanData&gt;&gt;,
-    shutdown: crossbeam_channel::Receiver&lt;()&gt;,
+    message_sender: crossbeam_channel::Sender&lt;Message&gt;,
 }
 
 <span class="kw">impl </span>SimpleSpanProcessor {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(<span class="kw-2">mut </span>exporter: Box&lt;<span class="kw">dyn </span>SpanExporter&gt;) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>(span_tx, span_rx) = crossbeam_channel::unbounded();
-        <span class="kw">let </span>(shutdown_tx, shutdown_rx) = crossbeam_channel::bounded(<span class="number">0</span>);
+        <span class="kw">let </span>(message_sender, rx) = crossbeam_channel::unbounded();
 
         <span class="kw">let _ </span>= thread::Builder::new()
             .name(<span class="string">"opentelemetry-exporter"</span>.to_string())
             .spawn(<span class="kw">move </span>|| {
-                <span class="kw">while let </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(span)) = span_rx.recv() {
-                    <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = futures_executor::block_on(exporter.export(<span class="macro">vec!</span>[span])) {
-                        global::handle_error(err);
+                <span class="kw">while let </span><span class="prelude-val">Ok</span>(msg) = rx.recv() {
+                    <span class="kw">match </span>msg {
+                        Message::ExportSpan(span) =&gt; {
+                            <span class="kw">if let </span><span class="prelude-val">Err</span>(err) =
+                                futures_executor::block_on(exporter.export(<span class="macro">vec!</span>[span]))
+                            {
+                                global::handle_error(err);
+                            }
+                        }
+                        Message::Flush(sender) =&gt; {
+                            <span class="self">Self</span>::respond(<span class="kw-2">&amp;</span>sender, <span class="string">"sync"</span>);
+                        }
+                        Message::Shutdown(sender) =&gt; {
+                            exporter.shutdown();
+
+                            <span class="self">Self</span>::respond(<span class="kw-2">&amp;</span>sender, <span class="string">"shutdown"</span>);
+
+                            <span class="kw">return</span>;
+                        }
                     }
                 }
 
                 exporter.shutdown();
-
-                <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = shutdown_tx.send(()) {
-                    global::handle_error(TraceError::from(<span class="macro">format!</span>(
-                        <span class="string">"could not send shutdown: {:?}"</span>,
-                        err
-                    )));
-                }
             });
 
-        SimpleSpanProcessor {
-            sender: span_tx,
-            shutdown: shutdown_rx,
+        <span class="self">Self </span>{ message_sender }
+    }
+
+    <span class="kw">fn </span>signal(<span class="kw-2">&amp;</span><span class="self">self</span>, msg: <span class="kw">fn</span>(crossbeam_channel::Sender&lt;()&gt;) -&gt; Message, description: <span class="kw-2">&amp;</span>str) {
+        <span class="kw">let </span>(tx, rx) = crossbeam_channel::bounded(<span class="number">0</span>);
+
+        <span class="kw">if </span><span class="self">self</span>.message_sender.send(msg(tx)).is_ok() {
+            <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = rx.recv() {
+                global::handle_error(TraceError::from(<span class="macro">format!</span>(
+                    <span class="string">"error {description} span processor: {err:?}"
+                </span>)));
+            }
+        }
+    }
+
+    <span class="kw">fn </span>respond(sender: <span class="kw-2">&amp;</span>crossbeam_channel::Sender&lt;()&gt;, description: <span class="kw-2">&amp;</span>str) {
+        <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = sender.send(()) {
+            global::handle_error(TraceError::from(<span class="macro">format!</span>(
+                <span class="string">"could not send {description}: {err:?}"
+            </span>)));
         }
     }
 }
@@ -1083,28 +1120,29 @@
             <span class="kw">return</span>;
         }
 
-        <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = <span class="self">self</span>.sender.send(<span class="prelude-val">Some</span>(span)) {
+        <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = <span class="self">self</span>.message_sender.send(Message::ExportSpan(span)) {
             global::handle_error(TraceError::from(<span class="macro">format!</span>(<span class="string">"error processing span {:?}"</span>, err)));
         }
     }
 
     <span class="kw">fn </span>force_flush(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TraceResult&lt;()&gt; {
-        <span class="comment">// Ignored since all spans in Simple Processor will be exported as they ended.
-        </span><span class="prelude-val">Ok</span>(())
-    }
-
-    <span class="kw">fn </span>shutdown(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; TraceResult&lt;()&gt; {
-        <span class="kw">if </span><span class="self">self</span>.sender.send(<span class="prelude-val">None</span>).is_ok() {
-            <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = <span class="self">self</span>.shutdown.recv() {
-                global::handle_error(TraceError::from(<span class="macro">format!</span>(
-                    <span class="string">"error shutting down span processor: {:?}"</span>,
-                    err
-                )))
-            }
-        }
+        <span class="self">self</span>.signal(Message::Flush, <span class="string">"flushing"</span>);
 
         <span class="prelude-val">Ok</span>(())
     }
+
+    <span class="kw">fn </span>shutdown(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; TraceResult&lt;()&gt; {
+        <span class="self">self</span>.signal(Message::Shutdown, <span class="string">"shutting down"</span>);
+
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="attr">#[derive(Debug)]
+</span><span class="kw">enum </span>Message {
+    ExportSpan(SpanData),
+    Flush(crossbeam_channel::Sender&lt;()&gt;),
+    Shutdown(crossbeam_channel::Sender&lt;()&gt;),
 }
 
 <span class="doccomment">/// A [`SpanProcessor`] that asynchronously buffers finished spans and reports
@@ -1166,11 +1204,11 @@
 /// [`executor`]: https://docs.rs/futures/0.3/futures/executor/index.html
 /// [`tokio`]: https://tokio.rs
 /// [`async-std`]: https://async.rs
-</span><span class="kw">pub struct </span>BatchSpanProcessor&lt;R: TraceRuntime&gt; {
+</span><span class="kw">pub struct </span>BatchSpanProcessor&lt;R: RuntimeChannel&lt;BatchMessage&gt;&gt; {
     message_sender: R::Sender,
 }
 
-<span class="kw">impl</span>&lt;R: TraceRuntime&gt; fmt::Debug <span class="kw">for </span>BatchSpanProcessor&lt;R&gt; {
+<span class="kw">impl</span>&lt;R: RuntimeChannel&lt;BatchMessage&gt;&gt; fmt::Debug <span class="kw">for </span>BatchSpanProcessor&lt;R&gt; {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         f.debug_struct(<span class="string">"BatchSpanProcessor"</span>)
             .field(<span class="string">"message_sender"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.message_sender)
@@ -1178,7 +1216,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;R: TraceRuntime&gt; SpanProcessor <span class="kw">for </span>BatchSpanProcessor&lt;R&gt; {
+<span class="kw">impl</span>&lt;R: RuntimeChannel&lt;BatchMessage&gt;&gt; SpanProcessor <span class="kw">for </span>BatchSpanProcessor&lt;R&gt; {
     <span class="kw">fn </span>on_start(<span class="kw-2">&amp;</span><span class="self">self</span>, _span: <span class="kw-2">&amp;mut </span>Span, _cx: <span class="kw-2">&amp;</span>Context) {
         <span class="comment">// Ignored
     </span>}
@@ -1191,14 +1229,15 @@
         <span class="kw">let </span>result = <span class="self">self</span>.message_sender.try_send(BatchMessage::ExportSpan(span));
 
         <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = result {
-            global::handle_error(err);
+            global::handle_error(TraceError::Other(err.into()));
         }
     }
 
     <span class="kw">fn </span>force_flush(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TraceResult&lt;()&gt; {
         <span class="kw">let </span>(res_sender, res_receiver) = oneshot::channel();
         <span class="self">self</span>.message_sender
-            .try_send(BatchMessage::Flush(<span class="prelude-val">Some</span>(res_sender)))<span class="question-mark">?</span>;
+            .try_send(BatchMessage::Flush(<span class="prelude-val">Some</span>(res_sender)))
+            .map_err(|err| TraceError::Other(err.into()))<span class="question-mark">?</span>;
 
         futures_executor::block_on(res_receiver)
             .map_err(|err| TraceError::Other(err.into()))
@@ -1208,7 +1247,8 @@
     <span class="kw">fn </span>shutdown(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; TraceResult&lt;()&gt; {
         <span class="kw">let </span>(res_sender, res_receiver) = oneshot::channel();
         <span class="self">self</span>.message_sender
-            .try_send(BatchMessage::Shutdown(res_sender))<span class="question-mark">?</span>;
+            .try_send(BatchMessage::Shutdown(res_sender))
+            .map_err(|err| TraceError::Other(err.into()))<span class="question-mark">?</span>;
 
         futures_executor::block_on(res_receiver)
             .map_err(|err| TraceError::Other(err.into()))
@@ -1240,7 +1280,7 @@
     config: BatchConfig,
 }
 
-<span class="kw">impl</span>&lt;R: TraceRuntime&gt; BatchSpanProcessorInternal&lt;R&gt; {
+<span class="kw">impl</span>&lt;R: RuntimeChannel&lt;BatchMessage&gt;&gt; BatchSpanProcessorInternal&lt;R&gt; {
     <span class="kw">async fn </span>flush(<span class="kw-2">&amp;mut </span><span class="self">self</span>, res_channel: <span class="prelude-ty">Option</span>&lt;oneshot::Sender&lt;ExportResult&gt;&gt;) {
         <span class="kw">let </span>export_task = <span class="self">self</span>.export();
         <span class="kw">let </span>task = Box::pin(<span class="kw">async move </span>{
@@ -1377,7 +1417,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;R: TraceRuntime&gt; BatchSpanProcessor&lt;R&gt; {
+<span class="kw">impl</span>&lt;R: RuntimeChannel&lt;BatchMessage&gt;&gt; BatchSpanProcessor&lt;R&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(exporter: Box&lt;<span class="kw">dyn </span>SpanExporter&gt;, config: BatchConfig, runtime: R) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>(message_sender, message_receiver) =
             runtime.batch_message_channel(config.max_queue_size);
@@ -1560,7 +1600,7 @@
 <span class="kw">impl</span>&lt;E, R&gt; BatchSpanProcessorBuilder&lt;E, R&gt;
 <span class="kw">where
     </span>E: SpanExporter + <span class="lifetime">'static</span>,
-    R: TraceRuntime,
+    R: RuntimeChannel&lt;BatchMessage&gt;,
 {
     <span class="doccomment">/// Set max queue size for batches
     </span><span class="kw">pub fn </span>with_max_queue_size(<span class="self">self</span>, size: usize) -&gt; <span class="self">Self </span>{
@@ -1628,7 +1668,7 @@
         OTEL_BSP_MAX_EXPORT_BATCH_SIZE, OTEL_BSP_MAX_QUEUE_SIZE, OTEL_BSP_MAX_QUEUE_SIZE_DEFAULT,
         OTEL_BSP_SCHEDULE_DELAY, OTEL_BSP_SCHEDULE_DELAY_DEFAULT,
     };
-    <span class="kw">use </span><span class="kw">crate</span>::export::trace::{stdout, ExportResult, SpanData, SpanExporter};
+    <span class="kw">use </span><span class="kw">crate</span>::export::trace::{ExportResult, SpanData, SpanExporter};
     <span class="kw">use </span><span class="kw">crate</span>::runtime;
     <span class="kw">use </span><span class="kw">crate</span>::testing::trace::{
         new_test_export_span_data, new_test_exporter, new_tokio_test_exporter,
@@ -1700,10 +1740,7 @@
         std::env::set_var(OTEL_BSP_EXPORT_TIMEOUT, <span class="string">"2046"</span>);
         std::env::set_var(OTEL_BSP_SCHEDULE_DELAY, <span class="string">"I am not number"</span>);
 
-        <span class="kw">let </span><span class="kw-2">mut </span>builder = BatchSpanProcessor::builder(
-            stdout::Exporter::new(std::io::stdout(), <span class="bool-val">true</span>),
-            runtime::Tokio,
-        );
+        <span class="kw">let </span><span class="kw-2">mut </span>builder = BatchSpanProcessor::builder(new_test_exporter().<span class="number">0</span>, runtime::Tokio);
         <span class="comment">// export batch size cannot exceed max queue size
         </span><span class="macro">assert_eq!</span>(builder.config.max_export_batch_size, <span class="number">500</span>);
         <span class="macro">assert_eq!</span>(
@@ -1720,10 +1757,7 @@
         );
 
         std::env::set_var(OTEL_BSP_MAX_QUEUE_SIZE, <span class="string">"120"</span>);
-        builder = BatchSpanProcessor::builder(
-            stdout::Exporter::new(std::io::stdout(), <span class="bool-val">true</span>),
-            runtime::Tokio,
-        );
+        builder = BatchSpanProcessor::builder(new_test_exporter().<span class="number">0</span>, runtime::Tokio);
 
         <span class="macro">assert_eq!</span>(builder.config.max_export_batch_size, <span class="number">120</span>);
         <span class="macro">assert_eq!</span>(builder.config.max_queue_size, <span class="number">120</span>);

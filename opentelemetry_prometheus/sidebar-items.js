@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["exporter"],"struct":["ExporterBuilder","ExporterConfig","PrometheusExporter"]};
+window.SIDEBAR_ITEMS = {"fn":["exporter"],"struct":["ExporterBuilder","PrometheusExporter"]};

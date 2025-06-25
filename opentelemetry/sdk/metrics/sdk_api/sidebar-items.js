@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["InstrumentKind","NumberKind"],"fn":["wrap_meter_core"],"struct":["AtomicNumber","Descriptor","Number"],"trait":["AsDynInstrumentCore","AsyncInstrumentCore","InstrumentCore","MeterCore","SyncInstrumentCore"]};

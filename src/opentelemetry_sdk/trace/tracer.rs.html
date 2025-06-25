@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry_sdk-0.19.0/src/trace/tracer.rs`."><title>tracer.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="opentelemetry_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_sdk/trace/</div>tracer.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry_sdk-0.20.0/src/trace/tracer.rs`."><title>tracer.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="opentelemetry_sdk" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_sdk/trace/</div>tracer.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -382,7 +382,8 @@
 <a href="#381" id="381">381</a>
 <a href="#382" id="382">382</a>
 <a href="#383" id="383">383</a>
-<a href="#384" id="384">384</a></pre></div><pre class="rust"><code><span class="doccomment">//! # Tracer
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a></pre></div><pre class="rust"><code><span class="doccomment">//! # Tracer
 //!
 //! The OpenTelemetry library achieves in-process context propagation of
 //! `Span`s by way of the `Tracer`.
@@ -391,27 +392,29 @@
 //! and exposes methods for creating and activating new `Spans`.
 //!
 //! Docs: &lt;https://github.com/open-telemetry/opentelemetry-specification/blob/v1.3.0/specification/trace/api.md#tracer&gt;
-</span><span class="kw">use </span><span class="kw">crate</span>::trace::SpanLimits;
-<span class="kw">use crate</span>::{
+</span><span class="kw">use crate</span>::{
     trace::{
         provider::{TracerProvider, TracerProviderInner},
         span::{Span, SpanData},
-        Config, EvictedHashMap, EvictedQueue,
+        Config, EvictedHashMap, EvictedQueue, SpanLimits,
     },
     InstrumentationLibrary,
 };
-<span class="kw">use </span>opentelemetry_api::trace::{
-    Link, OrderMap, SamplingDecision, SamplingResult, SpanBuilder, SpanContext, SpanId, SpanKind,
-    TraceContextExt, TraceFlags, TraceId, TraceState,
+<span class="kw">use </span>once_cell::sync::Lazy;
+<span class="kw">use </span>opentelemetry_api::{
+    trace::{
+        Link, SamplingDecision, SamplingResult, SpanBuilder, SpanContext, SpanId, SpanKind,
+        TraceContextExt, TraceFlags, TraceId, TraceState,
+    },
+    Context, Key, KeyValue, OrderMap, Value,
 };
-<span class="kw">use </span>opentelemetry_api::{Context, Key, KeyValue, Value};
 <span class="kw">use </span>std::fmt;
-<span class="kw">use </span>std::sync::Weak;
+<span class="kw">use </span>std::sync::{Arc, Weak};
 
 <span class="doccomment">/// `Tracer` implementation to create and manage spans
 </span><span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>Tracer {
-    instrumentation_lib: InstrumentationLibrary,
+    instrumentation_lib: Arc&lt;InstrumentationLibrary&gt;,
     provider: Weak&lt;TracerProviderInner&gt;,
 }
 
@@ -429,7 +432,7 @@
 <span class="kw">impl </span>Tracer {
     <span class="doccomment">/// Create a new tracer (used internally by `TracerProvider`s).
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(
-        instrumentation_lib: InstrumentationLibrary,
+        instrumentation_lib: Arc&lt;InstrumentationLibrary&gt;,
         provider: Weak&lt;TracerProviderInner&gt;,
     ) -&gt; <span class="self">Self </span>{
         Tracer {
@@ -459,7 +462,6 @@
         attributes: <span class="kw-2">&amp;</span>OrderMap&lt;Key, Value&gt;,
         links: <span class="kw-2">&amp;</span>[Link],
         config: <span class="kw-2">&amp;</span>Config,
-        instrumentation_library: <span class="kw-2">&amp;</span>InstrumentationLibrary,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;(TraceFlags, Vec&lt;KeyValue&gt;, TraceState)&gt; {
         <span class="kw">let </span>sampling_result = config.sampler.should_sample(
             <span class="prelude-val">Some</span>(parent_cx),
@@ -468,7 +470,6 @@
             span_kind,
             attributes,
             links,
-            instrumentation_library,
         );
 
         <span class="self">self</span>.process_sampling_result(sampling_result, parent_cx)
@@ -504,6 +505,8 @@
     }
 }
 
+<span class="kw">static </span>EMPTY_ATTRIBUTES: Lazy&lt;OrderMap&lt;Key, Value&gt;&gt; = Lazy::new(Default::default);
+
 <span class="kw">impl </span>opentelemetry_api::trace::Tracer <span class="kw">for </span>Tracer {
     <span class="doccomment">/// This implementation of `Tracer` produces `sdk::Span` instances.
     </span><span class="kw">type </span>Span = Span;
@@ -534,8 +537,6 @@
             .take()
             .unwrap_or_else(|| config.id_generator.new_span_id());
         <span class="kw">let </span>span_kind = builder.span_kind.take().unwrap_or(SpanKind::Internal);
-        <span class="kw">let </span><span class="kw-2">mut </span>attribute_options = builder.attributes.take().unwrap_or_default();
-        <span class="kw">let </span><span class="kw-2">mut </span>link_options = builder.links.take();
         <span class="kw">let </span><span class="kw-2">mut </span>parent_span_id = SpanId::INVALID;
         <span class="kw">let </span>trace_id;
 
@@ -565,10 +566,9 @@
                 trace_id,
                 <span class="kw-2">&amp;</span>builder.name,
                 <span class="kw-2">&amp;</span>span_kind,
-                <span class="kw-2">&amp;</span>attribute_options,
-                link_options.as_deref().unwrap_or(<span class="kw-2">&amp;</span>[]),
+                builder.attributes.as_ref().unwrap_or(<span class="kw-2">&amp;</span>EMPTY_ATTRIBUTES),
+                builder.links.as_deref().unwrap_or(<span class="kw-2">&amp;</span>[]),
                 provider.config(),
-                <span class="kw-2">&amp;</span><span class="self">self</span>.instrumentation_lib,
             )
         };
 
@@ -583,6 +583,7 @@
 
         <span class="comment">// Build optional inner context, `None` if not recording.
         </span><span class="kw">let </span><span class="kw-2">mut </span>span = <span class="kw">if let </span><span class="prelude-val">Some</span>((flags, extra_attrs, trace_state)) = sampling_decision {
+            <span class="kw">let </span><span class="kw-2">mut </span>attribute_options = builder.attributes.take().unwrap_or_default();
             <span class="kw">for </span>extra_attr <span class="kw">in </span>extra_attrs {
                 attribute_options.insert(extra_attr.key, extra_attr.value);
             }
@@ -591,6 +592,8 @@
             <span class="kw">for </span>(key, value) <span class="kw">in </span>attribute_options {
                 attributes.insert(KeyValue::new(key, value));
             }
+
+            <span class="kw">let </span><span class="kw-2">mut </span>link_options = builder.links.take();
             <span class="kw">let </span><span class="kw-2">mut </span>links = EvictedQueue::new(span_limits.max_links_per_span);
             <span class="kw">if let </span><span class="prelude-val">Some</span>(link_options) = <span class="kw-2">&amp;mut </span>link_options {
                 <span class="kw">let </span>link_attributes_limit = span_limits.max_attributes_per_link <span class="kw">as </span>usize;
@@ -660,14 +663,13 @@
     <span class="kw">use crate</span>::{
         testing::trace::TestSpan,
         trace::{Config, Sampler, ShouldSample},
-        InstrumentationLibrary,
     };
     <span class="kw">use </span>opentelemetry_api::{
         trace::{
-            Link, OrderMap, SamplingDecision, SamplingResult, Span, SpanContext, SpanId, SpanKind,
+            Link, SamplingDecision, SamplingResult, Span, SpanContext, SpanId, SpanKind,
             TraceContextExt, TraceFlags, TraceId, TraceState, Tracer, TracerProvider,
         },
-        Context, Key, Value,
+        Context, Key, OrderMap, Value,
     };
 
     <span class="attr">#[derive(Clone, Debug)]
@@ -682,7 +684,6 @@
             _span_kind: <span class="kw-2">&amp;</span>SpanKind,
             _attributes: <span class="kw-2">&amp;</span>OrderMap&lt;Key, Value&gt;,
             _links: <span class="kw-2">&amp;</span>[Link],
-            _instrumentation_library: <span class="kw-2">&amp;</span>InstrumentationLibrary,
         ) -&gt; SamplingResult {
             <span class="kw">let </span>trace_state = parent_context
                 .unwrap()
@@ -752,15 +753,16 @@
         <span class="kw">let </span>span = tracer.span_builder(<span class="string">"must_not_be_sampled"</span>).start(<span class="kw-2">&amp;</span>tracer);
         <span class="macro">assert!</span>(!span.span_context().is_sampled());
 
-        <span class="kw">let </span>_attached = Context::current()
-            .with_remote_span_context(SpanContext::new(
+        <span class="kw">let </span>context = Context::map_current(|cx| {
+            cx.with_remote_span_context(SpanContext::new(
                 TraceId::from_u128(<span class="number">1</span>),
                 SpanId::from_u64(<span class="number">1</span>),
                 TraceFlags::default(),
                 <span class="bool-val">true</span>,
                 Default::default(),
             ))
-            .attach();
+        });
+        <span class="kw">let </span>_attached = context.attach();
         <span class="kw">let </span>span = tracer.span_builder(<span class="string">"must_not_be_sampled"</span>).start(<span class="kw-2">&amp;</span>tracer);
 
         <span class="macro">assert!</span>(!span.span_context().is_sampled());

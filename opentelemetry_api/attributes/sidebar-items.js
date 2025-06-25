@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["default_encoder","hash_attributes","merge_iters","new_encoder_id"],"struct":["AttributeSet","DefaultAttributeEncoder","EncoderId","Iter","MergeIter"],"trait":["Encoder"]};

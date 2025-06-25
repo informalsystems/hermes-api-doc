@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry_api-0.19.0/src/global/trace.rs`."><title>trace.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="opentelemetry_api" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_api/global/</div>trace.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry_api-0.20.0/src/global/trace.rs`."><title>trace.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="opentelemetry_api" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_api/global/</div>trace.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -414,9 +414,8 @@
 <a href="#413" id="413">413</a>
 <a href="#414" id="414">414</a>
 <a href="#415" id="415">415</a>
-<a href="#416" id="416">416</a>
-<a href="#417" id="417">417</a>
-<a href="#418" id="418">418</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::trace::{noop::NoopTracerProvider, SpanContext, Status};
+<a href="#416" id="416">416</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::trace::{noop::NoopTracerProvider, SpanContext, Status};
+<span class="kw">use </span><span class="kw">crate</span>::InstrumentationLibrary;
 <span class="kw">use crate</span>::{trace, trace::TracerProvider, Context, KeyValue};
 <span class="kw">use </span>once_cell::sync::Lazy;
 <span class="kw">use </span>std::borrow::Cow;
@@ -425,7 +424,9 @@
 <span class="kw">use </span>std::sync::{Arc, RwLock};
 <span class="kw">use </span>std::time::SystemTime;
 
-<span class="kw">pub trait </span>ObjectSafeSpan {
+<span class="doccomment">/// Allows a specific [`crate::trace::Span`] to be used generically by [`BoxedSpan`]
+/// instances by mirroring the interface and boxing the return types.
+</span><span class="kw">pub trait </span>ObjectSafeSpan {
     <span class="doccomment">/// An API to record events at a specific time in the context of a given `Span`.
     ///
     /// Events SHOULD preserve the order in which they're set. This will typically match
@@ -519,7 +520,7 @@
     ///
     /// For more details, refer to [`Span::end`]
     ///
-    /// [`Span::end`]: Span::end()
+    /// [`Span::end`]: trace::Span::end
     </span><span class="kw">fn </span>end_with_timestamp(<span class="kw-2">&amp;mut </span><span class="self">self</span>, timestamp: SystemTime);
 }
 
@@ -644,6 +645,13 @@
 /// [`GlobalTracerProvider`]: crate::global::GlobalTracerProvider
 </span><span class="kw">pub struct </span>BoxedTracer(Box&lt;<span class="kw">dyn </span>ObjectSafeTracer + Send + Sync&gt;);
 
+<span class="kw">impl </span>BoxedTracer {
+    <span class="doccomment">/// Create a `BoxedTracer` from an object-safe tracer.
+    </span><span class="kw">pub fn </span>new(tracer: Box&lt;<span class="kw">dyn </span>ObjectSafeTracer + Send + Sync&gt;) -&gt; <span class="self">Self </span>{
+        BoxedTracer(tracer)
+    }
+}
+
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>BoxedTracer {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         f.write_str(<span class="string">"BoxedTracer"</span>)
@@ -699,11 +707,9 @@
 </span><span class="kw">pub trait </span>ObjectSafeTracerProvider {
     <span class="doccomment">/// Creates a versioned named tracer instance that is a trait object through the underlying
     /// `TracerProvider`.
-    </span><span class="kw">fn </span>versioned_tracer_boxed(
+    </span><span class="kw">fn </span>boxed_tracer(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
-        version: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;,
-        schema_url: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;,
+        library: Arc&lt;InstrumentationLibrary&gt;,
     ) -&gt; Box&lt;<span class="kw">dyn </span>ObjectSafeTracer + Send + Sync&gt;;
 }
 
@@ -714,13 +720,11 @@
     P: trace::TracerProvider&lt;Tracer = T&gt;,
 {
     <span class="doccomment">/// Return a versioned boxed tracer
-    </span><span class="kw">fn </span>versioned_tracer_boxed(
+    </span><span class="kw">fn </span>boxed_tracer(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
-        version: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;,
-        schema_url: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;,
+        library: Arc&lt;InstrumentationLibrary&gt;,
     ) -&gt; Box&lt;<span class="kw">dyn </span>ObjectSafeTracer + Send + Sync&gt; {
-        Box::new(<span class="self">self</span>.versioned_tracer(name, version, schema_url))
+        Box::new(<span class="self">self</span>.library_tracer(library))
     }
 }
 
@@ -757,17 +761,9 @@
 <span class="kw">impl </span>trace::TracerProvider <span class="kw">for </span>GlobalTracerProvider {
     <span class="kw">type </span>Tracer = BoxedTracer;
 
-    <span class="doccomment">/// Create a versioned tracer using the global provider.
-    </span><span class="kw">fn </span>versioned_tracer(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        name: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
-        version: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;,
-        schema_url: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;,
-    ) -&gt; <span class="self">Self</span>::Tracer {
-        BoxedTracer(
-            <span class="self">self</span>.provider
-                .versioned_tracer_boxed(name.into(), version, schema_url),
-        )
+    <span class="doccomment">/// Create a tracer using the global provider.
+    </span><span class="kw">fn </span>library_tracer(<span class="kw-2">&amp;</span><span class="self">self</span>, library: Arc&lt;InstrumentationLibrary&gt;) -&gt; <span class="self">Self</span>::Tracer {
+        BoxedTracer(<span class="self">self</span>.provider.boxed_tracer(library))
     }
 }
 

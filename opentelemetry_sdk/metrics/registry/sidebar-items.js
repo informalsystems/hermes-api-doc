@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["unique_instrument_meter_core"],"struct":["UniqueInstrumentMeterCore"],"trait":["AnyMeterCore"]};

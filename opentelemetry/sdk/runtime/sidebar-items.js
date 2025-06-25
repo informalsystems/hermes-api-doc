@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"trait":["Runtime"]};
+window.SIDEBAR_ITEMS = {"enum":["TrySendError"],"trait":["Runtime","RuntimeChannel","TrySend"]};

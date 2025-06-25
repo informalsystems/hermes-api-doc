@@ -1,59 +1,70 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="OpenTelemetry Prometheus Exporter"><title>opentelemetry_prometheus - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="opentelemetry_prometheus" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button><a class="logo-container" href="../opentelemetry_prometheus/index.html"><img src="https://raw.githubusercontent.com/open-telemetry/opentelemetry-rust/main/assets/logo.svg" alt=""></a></nav><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="../opentelemetry_prometheus/index.html"><img src="https://raw.githubusercontent.com/open-telemetry/opentelemetry-rust/main/assets/logo.svg" alt="logo"></a><h2><a href="../opentelemetry_prometheus/index.html">opentelemetry_<wbr>prometheus</a><span class="version">0.12.0</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#opentelemetry-prometheus-exporter" title="OpenTelemetry Prometheus Exporter">OpenTelemetry Prometheus Exporter</a><ul><li><a href="#prometheus-exporter-example" title="Prometheus Exporter Example">Prometheus Exporter Example</a></li></ul></li></ul><h3><a href="#structs">Crate Items</a></h3><ul class="block"><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#functions" title="Functions">Functions</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>opentelemetry_prometheus</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/opentelemetry_prometheus/lib.rs.html#1-526">source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="opentelemetry-prometheus-exporter"><a class="doc-anchor" href="#opentelemetry-prometheus-exporter">§</a>OpenTelemetry Prometheus Exporter</h2><h4 id="prometheus-exporter-example"><a class="doc-anchor" href="#prometheus-exporter-example">§</a>Prometheus Exporter Example</h4>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>opentelemetry::{global, Context, KeyValue, sdk::Resource};
-<span class="kw">use </span>opentelemetry::sdk::export::metrics::aggregation;
-<span class="kw">use </span>opentelemetry::sdk::metrics::{controllers, processors, selectors};
-<span class="kw">use </span>opentelemetry_prometheus::PrometheusExporter;
-<span class="kw">use </span>prometheus::{TextEncoder, Encoder};
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="An OpenTelemetry exporter for Prometheus metrics."><title>opentelemetry_prometheus - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="opentelemetry_prometheus" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button><a class="logo-container" href="../opentelemetry_prometheus/index.html"><img src="https://raw.githubusercontent.com/open-telemetry/opentelemetry-rust/main/assets/logo.svg" alt=""></a></nav><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="../opentelemetry_prometheus/index.html"><img src="https://raw.githubusercontent.com/open-telemetry/opentelemetry-rust/main/assets/logo.svg" alt="logo"></a><h2><a href="../opentelemetry_prometheus/index.html">opentelemetry_<wbr>prometheus</a><span class="version">0.13.0</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#structs">Crate Items</a></h3><ul class="block"><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#functions" title="Functions">Functions</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>opentelemetry_prometheus</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/opentelemetry_prometheus/lib.rs.html#1-614">source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>An OpenTelemetry exporter for <a href="https://prometheus.io">Prometheus</a> metrics.</p>
 
-<span class="kw">fn </span>init_meter() -&gt; PrometheusExporter {
-    <span class="kw">let </span>controller = controllers::basic(
-        processors::factory(
-            selectors::simple::histogram([<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">5.0</span>, <span class="number">10.0</span>, <span class="number">20.0</span>, <span class="number">50.0</span>]),
-            aggregation::cumulative_temporality_selector(),
-        )
-    )
-    .build();
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>opentelemetry_api::{metrics::MeterProvider <span class="kw">as _</span>, KeyValue};
+<span class="kw">use </span>opentelemetry_sdk::metrics::MeterProvider;
+<span class="kw">use </span>prometheus::{Encoder, TextEncoder};
 
-    opentelemetry_prometheus::exporter(controller).init()
-}
 
-<span class="kw">let </span>cx = Context::current();
-<span class="kw">let </span>exporter = init_meter();
-<span class="kw">let </span>meter = global::meter(<span class="string">"my-app"</span>);
+<span class="comment">// create a new prometheus registry
+</span><span class="kw">let </span>registry = prometheus::Registry::new();
+
+<span class="comment">// configure OpenTelemetry to use this registry
+</span><span class="kw">let </span>exporter = opentelemetry_prometheus::exporter()
+    .with_registry(registry.clone())
+    .build()<span class="question-mark">?</span>;
+
+<span class="comment">// set up a meter meter to create instruments
+</span><span class="kw">let </span>provider = MeterProvider::builder().with_reader(exporter).build();
+<span class="kw">let </span>meter = provider.meter(<span class="string">"my-app"</span>);
 
 <span class="comment">// Use two instruments
 </span><span class="kw">let </span>counter = meter
     .u64_counter(<span class="string">"a.counter"</span>)
     .with_description(<span class="string">"Counts things"</span>)
     .init();
-<span class="kw">let </span>recorder = meter
+<span class="kw">let </span>histogram = meter
     .i64_histogram(<span class="string">"a.histogram"</span>)
     .with_description(<span class="string">"Records values"</span>)
     .init();
 
-counter.add(<span class="kw-2">&amp;</span>cx, <span class="number">100</span>, <span class="kw-2">&amp;</span>[KeyValue::new(<span class="string">"key"</span>, <span class="string">"value"</span>)]);
-recorder.record(<span class="kw-2">&amp;</span>cx, <span class="number">100</span>, <span class="kw-2">&amp;</span>[KeyValue::new(<span class="string">"key"</span>, <span class="string">"value"</span>)]);
+counter.add(<span class="number">100</span>, <span class="kw-2">&amp;</span>[KeyValue::new(<span class="string">"key"</span>, <span class="string">"value"</span>)]);
+histogram.record(<span class="number">100</span>, <span class="kw-2">&amp;</span>[KeyValue::new(<span class="string">"key"</span>, <span class="string">"value"</span>)]);
 
 <span class="comment">// Encode data as text or protobuf
 </span><span class="kw">let </span>encoder = TextEncoder::new();
-<span class="kw">let </span>metric_families = exporter.registry().gather();
+<span class="kw">let </span>metric_families = registry.gather();
 <span class="kw">let </span><span class="kw-2">mut </span>result = Vec::new();
-encoder.encode(<span class="kw-2">&amp;</span>metric_families, <span class="kw-2">&amp;mut </span>result);
+encoder.encode(<span class="kw-2">&amp;</span>metric_families, <span class="kw-2">&amp;mut </span>result)<span class="question-mark">?</span>;
 
 <span class="comment">// result now contains encoded metrics:
 //
-// # HELP a_counter Counts things
-// # TYPE a_counter counter
-// a_counter{R="V",key="value",otel_scope_name="my-app",otel_scope_version=""} 100
+// # HELP a_counter_total Counts things
+// # TYPE a_counter_total counter
+// a_counter_total{key="value",otel_scope_name="my-app"} 100
 // # HELP a_histogram Records values
 // # TYPE a_histogram histogram
-// a_histogram_bucket{R="V",key="value",le="0.5",otel_scope_name="my-app",otel_scope_version=""} 0
-// a_histogram_bucket{R="V",key="value",le="0.9",otel_scope_name="my-app",otel_scope_version=""} 0
-// a_histogram_bucket{R="V",key="value",le="0.99",otel_scope_name="my-app",otel_scope_version=""} 0
-// a_histogram_bucket{R="V",key="value",le="+Inf",otel_scope_name="my-app",otel_scope_version=""} 1
-// a_histogram_sum{R="V",key="value",otel_scope_name="my-app",otel_scope_version=""} 100
-// a_histogram_count{R="V",key="value",otel_scope_name="my-app",otel_scope_version=""} 1
-// HELP otel_scope_info Instrumentation Scope metadata
-// TYPE otel_scope_info gauge
-// otel_scope_info{otel_scope_name="ex.com/B",otel_scope_version=""} 1</span></code></pre></div>
-</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.ExporterBuilder.html" title="struct opentelemetry_prometheus::ExporterBuilder">Exporter<wbr>Builder</a></div><div class="desc docblock-short">Configuration for the prometheus exporter.</div></li><li><div class="item-name"><a class="struct" href="struct.ExporterConfig.html" title="struct opentelemetry_prometheus::ExporterConfig">Exporter<wbr>Config</a></div><div class="desc docblock-short">Config for prometheus exporter</div></li><li><div class="item-name"><a class="struct" href="struct.PrometheusExporter.html" title="struct opentelemetry_prometheus::PrometheusExporter">Prometheus<wbr>Exporter</a></div><div class="desc docblock-short">An implementation of <code>metrics::Exporter</code> that sends metrics to Prometheus.</div></li></ul><h2 id="functions" class="section-header">Functions<a href="#functions" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="fn" href="fn.exporter.html" title="fn opentelemetry_prometheus::exporter">exporter</a></div><div class="desc docblock-short">Create a new prometheus exporter builder.</div></li></ul></section></div></main></body></html>
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="0"} 0
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="5"} 0
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="10"} 0
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="25"} 0
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="50"} 0
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="75"} 0
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="100"} 1
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="250"} 1
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="500"} 1
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="750"} 1
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="1000"} 1
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="2500"} 1
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="5000"} 1
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="7500"} 1
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="10000"} 1
+// a_histogram_bucket{key="value",otel_scope_name="my-app",le="+Inf"} 1
+// a_histogram_sum{key="value",otel_scope_name="my-app"} 100
+// a_histogram_count{key="value",otel_scope_name="my-app"} 1
+// # HELP otel_scope_info Instrumentation Scope metadata
+// # TYPE otel_scope_info gauge
+// otel_scope_info{otel_scope_name="my-app"} 1
+// # HELP target_info Target metadata
+// # TYPE target_info gauge
+// target_info{service_name="unknown_service"} 1</span></code></pre></div>
+</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.ExporterBuilder.html" title="struct opentelemetry_prometheus::ExporterBuilder">Exporter<wbr>Builder</a></div><div class="desc docblock-short"><a href="struct.PrometheusExporter.html" title="struct opentelemetry_prometheus::PrometheusExporter">PrometheusExporter</a> configuration options</div></li><li><div class="item-name"><a class="struct" href="struct.PrometheusExporter.html" title="struct opentelemetry_prometheus::PrometheusExporter">Prometheus<wbr>Exporter</a></div><div class="desc docblock-short">Prometheus metrics exporter</div></li></ul><h2 id="functions" class="section-header">Functions<a href="#functions" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="fn" href="fn.exporter.html" title="fn opentelemetry_prometheus::exporter">exporter</a></div><div class="desc docblock-short">Creates a builder to configure a <a href="struct.PrometheusExporter.html" title="struct opentelemetry_prometheus::PrometheusExporter">PrometheusExporter</a></div></li></ul></section></div></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.12.0/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="opentelemetry_prometheus" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_prometheus/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry-prometheus-0.13.0/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="opentelemetry_prometheus" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_prometheus/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -524,68 +524,169 @@
 <a href="#523" id="523">523</a>
 <a href="#524" id="524">524</a>
 <a href="#525" id="525">525</a>
-<a href="#526" id="526">526</a></pre></div><pre class="rust"><code><span class="doccomment">//! # OpenTelemetry Prometheus Exporter
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a></pre></div><pre class="rust"><code><span class="doccomment">//! An OpenTelemetry exporter for [Prometheus] metrics.
 //!
-//! ### Prometheus Exporter Example
+//! [Prometheus]: https://prometheus.io
 //!
-//! ```rust
-//! use opentelemetry::{global, Context, KeyValue, sdk::Resource};
-//! use opentelemetry::sdk::export::metrics::aggregation;
-//! use opentelemetry::sdk::metrics::{controllers, processors, selectors};
-//! use opentelemetry_prometheus::PrometheusExporter;
-//! use prometheus::{TextEncoder, Encoder};
+//! ```
+//! use opentelemetry_api::{metrics::MeterProvider as _, KeyValue};
+//! use opentelemetry_sdk::metrics::MeterProvider;
+//! use prometheus::{Encoder, TextEncoder};
 //!
-//! fn init_meter() -&gt; PrometheusExporter {
-//!     let controller = controllers::basic(
-//!         processors::factory(
-//!             selectors::simple::histogram([1.0, 2.0, 5.0, 10.0, 20.0, 50.0]),
-//!             aggregation::cumulative_temporality_selector(),
-//!         )
-//!     )
-//!     .build();
+//! # fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
 //!
-//!     opentelemetry_prometheus::exporter(controller).init()
-//! }
+//! // create a new prometheus registry
+//! let registry = prometheus::Registry::new();
 //!
-//! let cx = Context::current();
-//! let exporter = init_meter();
-//! let meter = global::meter("my-app");
+//! // configure OpenTelemetry to use this registry
+//! let exporter = opentelemetry_prometheus::exporter()
+//!     .with_registry(registry.clone())
+//!     .build()?;
+//!
+//! // set up a meter meter to create instruments
+//! let provider = MeterProvider::builder().with_reader(exporter).build();
+//! let meter = provider.meter("my-app");
 //!
 //! // Use two instruments
 //! let counter = meter
 //!     .u64_counter("a.counter")
 //!     .with_description("Counts things")
 //!     .init();
-//! let recorder = meter
+//! let histogram = meter
 //!     .i64_histogram("a.histogram")
 //!     .with_description("Records values")
 //!     .init();
 //!
-//! counter.add(&amp;cx, 100, &amp;[KeyValue::new("key", "value")]);
-//! recorder.record(&amp;cx, 100, &amp;[KeyValue::new("key", "value")]);
+//! counter.add(100, &amp;[KeyValue::new("key", "value")]);
+//! histogram.record(100, &amp;[KeyValue::new("key", "value")]);
 //!
 //! // Encode data as text or protobuf
 //! let encoder = TextEncoder::new();
-//! let metric_families = exporter.registry().gather();
+//! let metric_families = registry.gather();
 //! let mut result = Vec::new();
-//! encoder.encode(&amp;metric_families, &amp;mut result);
+//! encoder.encode(&amp;metric_families, &amp;mut result)?;
 //!
 //! // result now contains encoded metrics:
 //! //
-//! // # HELP a_counter Counts things
-//! // # TYPE a_counter counter
-//! // a_counter{R="V",key="value",otel_scope_name="my-app",otel_scope_version=""} 100
+//! // # HELP a_counter_total Counts things
+//! // # TYPE a_counter_total counter
+//! // a_counter_total{key="value",otel_scope_name="my-app"} 100
 //! // # HELP a_histogram Records values
 //! // # TYPE a_histogram histogram
-//! // a_histogram_bucket{R="V",key="value",le="0.5",otel_scope_name="my-app",otel_scope_version=""} 0
-//! // a_histogram_bucket{R="V",key="value",le="0.9",otel_scope_name="my-app",otel_scope_version=""} 0
-//! // a_histogram_bucket{R="V",key="value",le="0.99",otel_scope_name="my-app",otel_scope_version=""} 0
-//! // a_histogram_bucket{R="V",key="value",le="+Inf",otel_scope_name="my-app",otel_scope_version=""} 1
-//! // a_histogram_sum{R="V",key="value",otel_scope_name="my-app",otel_scope_version=""} 100
-//! // a_histogram_count{R="V",key="value",otel_scope_name="my-app",otel_scope_version=""} 1
-//! // HELP otel_scope_info Instrumentation Scope metadata
-//! // TYPE otel_scope_info gauge
-//! // otel_scope_info{otel_scope_name="ex.com/B",otel_scope_version=""} 1
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="0"} 0
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="5"} 0
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="10"} 0
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="25"} 0
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="50"} 0
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="75"} 0
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="100"} 1
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="250"} 1
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="500"} 1
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="750"} 1
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="1000"} 1
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="2500"} 1
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="5000"} 1
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="7500"} 1
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="10000"} 1
+//! // a_histogram_bucket{key="value",otel_scope_name="my-app",le="+Inf"} 1
+//! // a_histogram_sum{key="value",otel_scope_name="my-app"} 100
+//! // a_histogram_count{key="value",otel_scope_name="my-app"} 1
+//! // # HELP otel_scope_info Instrumentation Scope metadata
+//! // # TYPE otel_scope_info gauge
+//! // otel_scope_info{otel_scope_name="my-app"} 1
+//! // # HELP target_info Target metadata
+//! // # TYPE target_info gauge
+//! // target_info{service_name="unknown_service"} 1
+//! # Ok(())
+//! # }
 //! ```
 </span><span class="attr">#![warn(
     future_incompatible,
@@ -606,448 +707,523 @@
 </span>)]
 #![cfg_attr(test, deny(warnings))]
 
-</span><span class="kw">use </span>opentelemetry::metrics::MeterProvider;
-<span class="kw">use </span>opentelemetry::sdk::export::metrics::aggregation::{
-    <span class="self">self</span>, AggregationKind, Temporality, TemporalitySelector,
+</span><span class="kw">use </span>once_cell::sync::{Lazy, OnceCell};
+<span class="kw">use </span>opentelemetry_api::{
+    global,
+    metrics::{MetricsError, <span class="prelude-ty">Result</span>},
+    Context, Key, Value,
 };
-<span class="kw">use </span>opentelemetry::sdk::export::metrics::InstrumentationLibraryReader;
-<span class="kw">use </span>opentelemetry::sdk::metrics::sdk_api::Descriptor;
-<span class="attr">#[cfg(feature = <span class="string">"prometheus-encoding"</span>)]
-</span><span class="kw">pub use </span>prometheus::{Encoder, TextEncoder};
-
-<span class="kw">use </span>opentelemetry::sdk::{
-    export::metrics::{
-        aggregation::{Histogram, LastValue, Sum},
-        Record,
-    },
+<span class="kw">use </span>opentelemetry_sdk::{
     metrics::{
-        aggregators::{HistogramAggregator, LastValueAggregator, SumAggregator},
-        controllers::BasicController,
-        sdk_api::NumberKind,
+        data::{<span class="self">self</span>, ResourceMetrics, Temporality},
+        reader::{AggregationSelector, MetricProducer, MetricReader, TemporalitySelector},
+        Aggregation, InstrumentKind, ManualReader, Pipeline,
     },
-    Resource,
+    Resource, Scope,
 };
-<span class="kw">use </span>opentelemetry::{attributes, metrics::MetricsError, Context, Key, Value};
-<span class="kw">use </span>opentelemetry::{global, InstrumentationLibrary, StringValue};
-<span class="kw">use </span>std::sync::{Arc, Mutex};
+<span class="kw">use </span>prometheus::{
+    core::Desc,
+    proto::{LabelPair, MetricFamily, MetricType},
+};
+<span class="kw">use </span>std::{
+    any::TypeId,
+    borrow::Cow,
+    collections::{BTreeMap, HashMap},
+    sync::{Arc, Mutex},
+};
+<span class="kw">use </span>std::{fmt, sync::Weak};
 
-<span class="kw">mod </span>sanitize;
+<span class="kw">const </span>TARGET_INFO_NAME: <span class="kw-2">&amp;</span>str = <span class="string">"target_info"</span>;
+<span class="kw">const </span>TARGET_INFO_DESCRIPTION: <span class="kw-2">&amp;</span>str = <span class="string">"Target metadata"</span>;
 
-<span class="kw">use </span>sanitize::sanitize;
+<span class="kw">const </span>SCOPE_INFO_METRIC_NAME: <span class="kw-2">&amp;</span>str = <span class="string">"otel_scope_info"</span>;
+<span class="kw">const </span>SCOPE_INFO_DESCRIPTION: <span class="kw-2">&amp;</span>str = <span class="string">"Instrumentation Scope metadata"</span>;
 
-<span class="doccomment">/// Monotonic Sum metric points MUST have _total added as a suffix to the metric name
-/// https://github.com/open-telemetry/opentelemetry-specification/blob/v1.14.0/specification/metrics/data-model.md#sums-1
-</span><span class="kw">const </span>MONOTONIC_COUNTER_SUFFIX: <span class="kw-2">&amp;</span>str = <span class="string">"_total"</span>;
+<span class="kw">const </span>SCOPE_INFO_KEYS: [<span class="kw-2">&amp;</span>str; <span class="number">2</span>] = [<span class="string">"otel_scope_name"</span>, <span class="string">"otel_scope_version"</span>];
 
-<span class="doccomment">/// Instrumentation Scope name MUST added as otel_scope_name label.
-</span><span class="kw">const </span>OTEL_SCOPE_NAME: <span class="kw-2">&amp;</span>str = <span class="string">"otel_scope_name"</span>;
+<span class="comment">// prometheus counters MUST have a _total suffix by default:
+// https://github.com/open-telemetry/opentelemetry-specification/blob/v1.20.0/specification/compatibility/prometheus_and_openmetrics.md
+</span><span class="kw">const </span>COUNTER_SUFFIX: <span class="kw-2">&amp;</span>str = <span class="string">"_total"</span>;
 
-<span class="doccomment">/// Instrumentation Scope version MUST added as otel_scope_name label.
-</span><span class="kw">const </span>OTEL_SCOPE_VERSION: <span class="kw-2">&amp;</span>str = <span class="string">"otel_scope_version"</span>;
+<span class="kw">mod </span>config;
+<span class="kw">mod </span>utils;
 
-<span class="doccomment">/// otel_scope_name metric name.
-</span><span class="kw">const </span>SCOPE_INFO_METRIC_NAME: <span class="kw-2">&amp;</span>str = <span class="string">"otel_scope_info"</span>;
+<span class="kw">pub use </span>config::ExporterBuilder;
 
-<span class="doccomment">/// otel_scope_name metric help.
-</span><span class="kw">const </span>SCOPE_INFO_DESCRIPTION: <span class="kw-2">&amp;</span>str = <span class="string">"Instrumentation Scope metadata"</span>;
-<span class="doccomment">/// Create a new prometheus exporter builder.
-</span><span class="kw">pub fn </span>exporter(controller: BasicController) -&gt; ExporterBuilder {
-    ExporterBuilder::new(controller)
+<span class="doccomment">/// Creates a builder to configure a [PrometheusExporter]
+</span><span class="kw">pub fn </span>exporter() -&gt; ExporterBuilder {
+    ExporterBuilder::default()
 }
 
-<span class="doccomment">/// Configuration for the prometheus exporter.
+<span class="doccomment">/// Prometheus metrics exporter
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>ExporterBuilder {
-    <span class="doccomment">/// The prometheus registry that will be used to register instruments.
-    ///
-    /// If not set a new empty `Registry` is created.
-    </span>registry: <span class="prelude-ty">Option</span>&lt;prometheus::Registry&gt;,
-
-    <span class="doccomment">/// The metrics controller
-    </span>controller: BasicController,
-
-    <span class="doccomment">/// config for exporter
-    </span>config: <span class="prelude-ty">Option</span>&lt;ExporterConfig&gt;,
-}
-
-<span class="kw">impl </span>ExporterBuilder {
-    <span class="doccomment">/// Create a new exporter builder with a given controller
-    </span><span class="kw">pub fn </span>new(controller: BasicController) -&gt; <span class="self">Self </span>{
-        ExporterBuilder {
-            registry: <span class="prelude-val">None</span>,
-            controller,
-            config: <span class="prelude-val">Some</span>(Default::default()),
-        }
-    }
-
-    <span class="doccomment">/// Set the prometheus registry to be used by this exporter
-    </span><span class="kw">pub fn </span>with_registry(<span class="self">self</span>, registry: prometheus::Registry) -&gt; <span class="self">Self </span>{
-        ExporterBuilder {
-            registry: <span class="prelude-val">Some</span>(registry),
-            ..<span class="self">self
-        </span>}
-    }
-
-    <span class="doccomment">/// Set config to be used by this exporter
-    </span><span class="kw">pub fn </span>with_config(<span class="self">self</span>, config: ExporterConfig) -&gt; <span class="self">Self </span>{
-        ExporterBuilder {
-            config: <span class="prelude-val">Some</span>(config),
-            ..<span class="self">self
-        </span>}
-    }
-
-    <span class="doccomment">/// Sets up a complete export pipeline with the recommended setup, using the
-    /// recommended selector and standard processor.
-    </span><span class="kw">pub fn </span>try_init(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;PrometheusExporter, MetricsError&gt; {
-        <span class="kw">let </span>config = <span class="self">self</span>.config.unwrap_or_default();
-
-        <span class="kw">let </span>registry = <span class="self">self</span>.registry.unwrap_or_else(prometheus::Registry::new);
-
-        <span class="kw">let </span>controller = Arc::new(Mutex::new(<span class="self">self</span>.controller));
-        <span class="kw">let </span>collector =
-            Collector::with_controller(controller.clone()).with_scope_info(config.with_scope_info);
-        registry
-            .register(Box::new(collector))
-            .map_err(|e| MetricsError::Other(e.to_string()))<span class="question-mark">?</span>;
-
-        <span class="kw">let </span>exporter = PrometheusExporter {
-            registry,
-            controller,
-        };
-        global::set_meter_provider(exporter.meter_provider()<span class="question-mark">?</span>);
-
-        <span class="prelude-val">Ok</span>(exporter)
-    }
-
-    <span class="doccomment">/// Sets up a complete export pipeline with the recommended setup, using the
-    /// recommended selector and standard processor.
-    ///
-    /// # Panics
-    ///
-    /// This panics if the exporter cannot be registered in the prometheus registry.
-    </span><span class="kw">pub fn </span>init(<span class="self">self</span>) -&gt; PrometheusExporter {
-        <span class="self">self</span>.try_init().unwrap()
-    }
-}
-
-<span class="doccomment">/// Config for prometheus exporter
-</span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>ExporterConfig {
-    <span class="doccomment">/// Add the otel_scope_info metric and otel_scope_ labels when with_scope_info is true, and the default value is true.
-    </span>with_scope_info: bool,
-}
-
-<span class="kw">impl </span>Default <span class="kw">for </span>ExporterConfig {
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-        ExporterConfig {
-            with_scope_info: <span class="bool-val">true</span>,
-        }
-    }
-}
-
-<span class="kw">impl </span>ExporterConfig {
-    <span class="doccomment">/// Set with_scope_info for [`ExporterConfig`].
-    /// It's the flag to add the otel_scope_info metric and otel_scope_ labels.
-    </span><span class="kw">pub fn </span>with_scope_info(<span class="kw-2">mut </span><span class="self">self</span>, enabled: bool) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.with_scope_info = enabled;
-        <span class="self">self
-    </span>}
-}
-
-<span class="doccomment">/// An implementation of `metrics::Exporter` that sends metrics to Prometheus.
-///
-/// This exporter supports Prometheus pulls, as such it does not
-/// implement the export.Exporter interface.
-</span><span class="attr">#[derive(Clone, Debug)]
 </span><span class="kw">pub struct </span>PrometheusExporter {
-    registry: prometheus::Registry,
-    controller: Arc&lt;Mutex&lt;BasicController&gt;&gt;,
+    reader: Arc&lt;ManualReader&gt;,
 }
 
-<span class="kw">impl </span>PrometheusExporter {
-    <span class="doccomment">/// Returns a reference to the current prometheus registry.
-    </span><span class="kw">pub fn </span>registry(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>prometheus::Registry {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.registry
-    }
-
-    <span class="doccomment">/// Get this exporter's provider.
-    </span><span class="kw">pub fn </span>meter_provider(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw">impl </span>MeterProvider, MetricsError&gt; {
-        <span class="self">self</span>.controller
-            .lock()
-            .map_err(Into::into)
-            .map(|locked| locked.clone())
+<span class="kw">impl </span>TemporalitySelector <span class="kw">for </span>PrometheusExporter {
+    <span class="doccomment">/// Note: Prometheus only supports cumulative temporality so this will always be
+    /// [Temporality::Cumulative].
+    </span><span class="kw">fn </span>temporality(<span class="kw-2">&amp;</span><span class="self">self</span>, kind: InstrumentKind) -&gt; Temporality {
+        <span class="self">self</span>.reader.temporality(kind)
     }
 }
 
-<span class="attr">#[derive(Debug)]
-</span><span class="kw">struct </span>Collector {
-    controller: Arc&lt;Mutex&lt;BasicController&gt;&gt;,
-    with_scope_info: bool,
-}
-
-<span class="kw">impl </span>TemporalitySelector <span class="kw">for </span>Collector {
-    <span class="kw">fn </span>temporality_for(<span class="kw-2">&amp;</span><span class="self">self</span>, descriptor: <span class="kw-2">&amp;</span>Descriptor, kind: <span class="kw-2">&amp;</span>AggregationKind) -&gt; Temporality {
-        aggregation::cumulative_temporality_selector().temporality_for(descriptor, kind)
+<span class="kw">impl </span>AggregationSelector <span class="kw">for </span>PrometheusExporter {
+    <span class="kw">fn </span>aggregation(<span class="kw-2">&amp;</span><span class="self">self</span>, kind: InstrumentKind) -&gt; Aggregation {
+        <span class="self">self</span>.reader.aggregation(kind)
     }
 }
+
+<span class="kw">impl </span>MetricReader <span class="kw">for </span>PrometheusExporter {
+    <span class="kw">fn </span>register_pipeline(<span class="kw-2">&amp;</span><span class="self">self</span>, pipeline: Weak&lt;Pipeline&gt;) {
+        <span class="self">self</span>.reader.register_pipeline(pipeline)
+    }
+
+    <span class="kw">fn </span>register_producer(<span class="kw-2">&amp;</span><span class="self">self</span>, producer: Box&lt;<span class="kw">dyn </span>MetricProducer&gt;) {
+        <span class="self">self</span>.reader.register_producer(producer)
+    }
+
+    <span class="kw">fn </span>collect(<span class="kw-2">&amp;</span><span class="self">self</span>, rm: <span class="kw-2">&amp;mut </span>ResourceMetrics) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="self">self</span>.reader.collect(rm)
+    }
+
+    <span class="kw">fn </span>force_flush(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>Context) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="self">self</span>.reader.force_flush(cx)
+    }
+
+    <span class="kw">fn </span>shutdown(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="self">self</span>.reader.shutdown()
+    }
+}
+
+<span class="kw">struct </span>Collector {
+    reader: Arc&lt;ManualReader&gt;,
+    disable_target_info: bool,
+    without_units: bool,
+    without_counter_suffixes: bool,
+    disable_scope_info: bool,
+    create_target_info_once: OnceCell&lt;MetricFamily&gt;,
+    namespace: <span class="prelude-ty">Option</span>&lt;String&gt;,
+    inner: Mutex&lt;CollectorInner&gt;,
+}
+
+<span class="attr">#[derive(Default)]
+</span><span class="kw">struct </span>CollectorInner {
+    scope_infos: HashMap&lt;Scope, MetricFamily&gt;,
+    metric_families: HashMap&lt;String, MetricFamily&gt;,
+}
+
+<span class="comment">// TODO: Remove lazy and switch to pattern matching once `TypeId` is stable in
+// const context: https://github.com/rust-lang/rust/issues/77125
+</span><span class="kw">static </span>HISTOGRAM_TYPES: Lazy&lt;[TypeId; <span class="number">3</span>]&gt; = Lazy::new(|| {
+    [
+        TypeId::of::&lt;data::Histogram&lt;i64&gt;&gt;(),
+        TypeId::of::&lt;data::Histogram&lt;u64&gt;&gt;(),
+        TypeId::of::&lt;data::Histogram&lt;f64&gt;&gt;(),
+    ]
+});
+<span class="kw">static </span>SUM_TYPES: Lazy&lt;[TypeId; <span class="number">3</span>]&gt; = Lazy::new(|| {
+    [
+        TypeId::of::&lt;data::Sum&lt;i64&gt;&gt;(),
+        TypeId::of::&lt;data::Sum&lt;u64&gt;&gt;(),
+        TypeId::of::&lt;data::Sum&lt;f64&gt;&gt;(),
+    ]
+});
+<span class="kw">static </span>GAUGE_TYPES: Lazy&lt;[TypeId; <span class="number">3</span>]&gt; = Lazy::new(|| {
+    [
+        TypeId::of::&lt;data::Gauge&lt;i64&gt;&gt;(),
+        TypeId::of::&lt;data::Gauge&lt;u64&gt;&gt;(),
+        TypeId::of::&lt;data::Gauge&lt;f64&gt;&gt;(),
+    ]
+});
 
 <span class="kw">impl </span>Collector {
-    <span class="kw">fn </span>with_controller(controller: Arc&lt;Mutex&lt;BasicController&gt;&gt;) -&gt; <span class="self">Self </span>{
-        Collector {
-            controller,
-            with_scope_info: <span class="bool-val">true</span>,
+    <span class="kw">fn </span>metric_type_and_name(<span class="kw-2">&amp;</span><span class="self">self</span>, m: <span class="kw-2">&amp;</span>data::Metric) -&gt; <span class="prelude-ty">Option</span>&lt;(MetricType, Cow&lt;<span class="lifetime">'static</span>, str&gt;)&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>name = <span class="self">self</span>.get_name(m);
+
+        <span class="kw">let </span>data = m.data.as_any();
+        <span class="kw">let </span>type_id = data.type_id();
+
+        <span class="kw">if </span>HISTOGRAM_TYPES.contains(<span class="kw-2">&amp;</span>type_id) {
+            <span class="prelude-val">Some</span>((MetricType::HISTOGRAM, name))
+        } <span class="kw">else if </span>GAUGE_TYPES.contains(<span class="kw-2">&amp;</span>type_id) {
+            <span class="prelude-val">Some</span>((MetricType::GAUGE, name))
+        } <span class="kw">else if </span>SUM_TYPES.contains(<span class="kw-2">&amp;</span>type_id) {
+            <span class="kw">let </span>is_monotonic = <span class="kw">if let </span><span class="prelude-val">Some</span>(v) = data.downcast_ref::&lt;data::Sum&lt;i64&gt;&gt;() {
+                v.is_monotonic
+            } <span class="kw">else if let </span><span class="prelude-val">Some</span>(v) = data.downcast_ref::&lt;data::Sum&lt;u64&gt;&gt;() {
+                v.is_monotonic
+            } <span class="kw">else if let </span><span class="prelude-val">Some</span>(v) = data.downcast_ref::&lt;data::Sum&lt;f64&gt;&gt;() {
+                v.is_monotonic
+            } <span class="kw">else </span>{
+                <span class="bool-val">false
+            </span>};
+
+            <span class="kw">if </span>is_monotonic {
+                <span class="kw">if </span>!<span class="self">self</span>.without_counter_suffixes {
+                    name = <span class="macro">format!</span>(<span class="string">"{name}{COUNTER_SUFFIX}"</span>).into();
+                }
+                <span class="prelude-val">Some</span>((MetricType::COUNTER, name))
+            } <span class="kw">else </span>{
+                <span class="prelude-val">Some</span>((MetricType::GAUGE, name))
+            }
+        } <span class="kw">else </span>{
+            <span class="prelude-val">None
+        </span>}
+    }
+
+    <span class="kw">fn </span>get_name(<span class="kw-2">&amp;</span><span class="self">self</span>, m: <span class="kw-2">&amp;</span>data::Metric) -&gt; Cow&lt;<span class="lifetime">'static</span>, str&gt; {
+        <span class="kw">let </span>name = utils::sanitize_name(<span class="kw-2">&amp;</span>m.name);
+        <span class="kw">let </span>unit_suffixes = <span class="kw">if </span><span class="self">self</span>.without_units {
+            <span class="prelude-val">None
+        </span>} <span class="kw">else </span>{
+            utils::get_unit_suffixes(<span class="kw-2">&amp;</span>m.unit)
+        };
+        <span class="kw">match </span>(<span class="kw-2">&amp;</span><span class="self">self</span>.namespace, unit_suffixes) {
+            (<span class="prelude-val">Some</span>(namespace), <span class="prelude-val">Some</span>(suffix)) =&gt; Cow::Owned(<span class="macro">format!</span>(<span class="string">"{namespace}{name}_{suffix}"</span>)),
+            (<span class="prelude-val">Some</span>(namespace), <span class="prelude-val">None</span>) =&gt; Cow::Owned(<span class="macro">format!</span>(<span class="string">"{namespace}{name}"</span>)),
+            (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(suffix)) =&gt; Cow::Owned(<span class="macro">format!</span>(<span class="string">"{name}_{suffix}"</span>)),
+            (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; name,
         }
     }
-    <span class="kw">fn </span>with_scope_info(<span class="kw-2">mut </span><span class="self">self</span>, with_scope_info: bool) -&gt; <span class="self">Self </span>{
-        <span class="self">self</span>.with_scope_info = with_scope_info;
-        <span class="self">self
-    </span>}
 }
 
 <span class="kw">impl </span>prometheus::core::Collector <span class="kw">for </span>Collector {
-    <span class="doccomment">/// Unused as descriptors are dynamically registered.
-    </span><span class="kw">fn </span>desc(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;<span class="kw-2">&amp;</span>prometheus::core::Desc&gt; {
+    <span class="kw">fn </span>desc(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;<span class="kw-2">&amp;</span>Desc&gt; {
         Vec::new()
     }
 
-    <span class="doccomment">/// Collect all otel metrics and convert to prometheus metrics.
-    </span><span class="kw">fn </span>collect(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;prometheus::proto::MetricFamily&gt; {
-        <span class="kw">if let </span><span class="prelude-val">Ok</span>(controller) = <span class="self">self</span>.controller.lock() {
-            <span class="kw">let </span><span class="kw-2">mut </span>metrics = Vec::new();
-
-            <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = controller.collect(<span class="kw-2">&amp;</span>Context::current()) {
+    <span class="kw">fn </span>collect(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;MetricFamily&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>inner = <span class="kw">match </span><span class="self">self</span>.inner.lock() {
+            <span class="prelude-val">Ok</span>(guard) =&gt; guard,
+            <span class="prelude-val">Err</span>(err) =&gt; {
                 global::handle_error(err);
-                <span class="kw">return </span>metrics;
+                <span class="kw">return </span>Vec::new();
             }
+        };
 
-            <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = controller.try_for_each(<span class="kw-2">&amp;mut </span>|library, reader| {
-                <span class="kw">let </span><span class="kw-2">mut </span>scope_labels: Vec&lt;prometheus::proto::LabelPair&gt; = Vec::new();
-                <span class="kw">if </span><span class="self">self</span>.with_scope_info {
-                    scope_labels = get_scope_labels(library);
-                    metrics.push(build_scope_metric(scope_labels.clone()));
-                }
-                reader.try_for_each(<span class="self">self</span>, <span class="kw-2">&amp;mut </span>|record| {
-                    <span class="kw">let </span>agg = record.aggregator().ok_or(MetricsError::NoDataCollected)<span class="question-mark">?</span>;
-                    <span class="kw">let </span>number_kind = record.descriptor().number_kind();
-                    <span class="kw">let </span>instrument_kind = record.descriptor().instrument_kind();
-
-                    <span class="kw">let </span>desc = get_metric_desc(record);
-                    <span class="kw">let </span>labels =
-                        get_metric_labels(record, controller.resource(), <span class="kw-2">&amp;mut </span>scope_labels.clone());
-
-                    <span class="kw">if let </span><span class="prelude-val">Some</span>(hist) = agg.as_any().downcast_ref::&lt;HistogramAggregator&gt;() {
-                        metrics.push(build_histogram(hist, number_kind, desc, labels)<span class="question-mark">?</span>);
-                    } <span class="kw">else if let </span><span class="prelude-val">Some</span>(sum) = agg.as_any().downcast_ref::&lt;SumAggregator&gt;() {
-                        <span class="kw">let </span>counter = <span class="kw">if </span>instrument_kind.monotonic() {
-                            build_monotonic_counter(sum, number_kind, desc, labels)<span class="question-mark">?
-                        </span>} <span class="kw">else </span>{
-                            build_non_monotonic_counter(sum, number_kind, desc, labels)<span class="question-mark">?
-                        </span>};
-
-                        metrics.push(counter);
-                    } <span class="kw">else if let </span><span class="prelude-val">Some</span>(last) = agg.as_any().downcast_ref::&lt;LastValueAggregator&gt;() {
-                        metrics.push(build_last_value(last, number_kind, desc, labels)<span class="question-mark">?</span>);
-                    }
-
-                    <span class="prelude-val">Ok</span>(())
-                })
-            }) {
-                global::handle_error(err);
-            }
-
-            metrics
-        } <span class="kw">else </span>{
-            Vec::new()
+        <span class="kw">let </span><span class="kw-2">mut </span>metrics = ResourceMetrics {
+            resource: Resource::empty(),
+            scope_metrics: <span class="macro">vec!</span>[],
+        };
+        <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = <span class="self">self</span>.reader.collect(<span class="kw-2">&amp;mut </span>metrics) {
+            global::handle_error(err);
+            <span class="kw">return </span><span class="macro">vec!</span>[];
         }
+        <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::with_capacity(metrics.scope_metrics.len() + <span class="number">1</span>);
+
+        <span class="kw">let </span>target_info = <span class="self">self</span>.create_target_info_once.get_or_init(|| {
+            <span class="comment">// Resource should be immutable, we don't need to compute again
+            </span>create_info_metric(TARGET_INFO_NAME, TARGET_INFO_DESCRIPTION, <span class="kw-2">&amp;</span>metrics.resource)
+        });
+        <span class="kw">if </span>!<span class="self">self</span>.disable_target_info {
+            res.push(target_info.clone())
+        }
+
+        <span class="kw">for </span>scope_metrics <span class="kw">in </span>metrics.scope_metrics {
+            <span class="kw">let </span>scope_labels = <span class="kw">if </span>!<span class="self">self</span>.disable_scope_info {
+                <span class="kw">let </span>scope_info = inner
+                    .scope_infos
+                    .entry(scope_metrics.scope.clone())
+                    .or_insert_with_key(create_scope_info_metric);
+                res.push(scope_info.clone());
+
+                <span class="kw">let </span><span class="kw-2">mut </span>labels =
+                    Vec::with_capacity(<span class="number">1 </span>+ scope_metrics.scope.version.is_some() <span class="kw">as </span>usize);
+                <span class="kw">let </span><span class="kw-2">mut </span>name = LabelPair::new();
+                name.set_name(SCOPE_INFO_KEYS[<span class="number">0</span>].into());
+                name.set_value(scope_metrics.scope.name.to_string());
+                labels.push(name);
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(version) = <span class="kw-2">&amp;</span>scope_metrics.scope.version {
+                    <span class="kw">let </span><span class="kw-2">mut </span>l_version = LabelPair::new();
+                    l_version.set_name(SCOPE_INFO_KEYS[<span class="number">1</span>].into());
+                    l_version.set_value(version.to_string());
+                    labels.push(l_version);
+                }
+
+                labels
+            } <span class="kw">else </span>{
+                Vec::new()
+            };
+
+            <span class="kw">for </span>metrics <span class="kw">in </span>scope_metrics.metrics {
+                <span class="kw">let </span>(metric_type, name) = <span class="kw">match </span><span class="self">self</span>.metric_type_and_name(<span class="kw-2">&amp;</span>metrics) {
+                    <span class="prelude-val">Some</span>((metric_type, name)) =&gt; (metric_type, name),
+                    <span class="kw">_ </span>=&gt; <span class="kw">continue</span>,
+                };
+
+                <span class="kw">let </span>mfs = <span class="kw-2">&amp;mut </span>inner.metric_families;
+                <span class="kw">let </span>(drop, help) = validate_metrics(<span class="kw-2">&amp;</span>name, <span class="kw-2">&amp;</span>metrics.description, metric_type, mfs);
+                <span class="kw">if </span>drop {
+                    <span class="kw">continue</span>;
+                }
+
+                <span class="kw">let </span>description = help.unwrap_or_else(|| metrics.description.into());
+                <span class="kw">let </span>data = metrics.data.as_any();
+
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(hist) = data.downcast_ref::&lt;data::Histogram&lt;i64&gt;&gt;() {
+                    add_histogram_metric(<span class="kw-2">&amp;mut </span>res, hist, description, <span class="kw-2">&amp;</span>scope_labels, name);
+                } <span class="kw">else if let </span><span class="prelude-val">Some</span>(hist) = data.downcast_ref::&lt;data::Histogram&lt;u64&gt;&gt;() {
+                    add_histogram_metric(<span class="kw-2">&amp;mut </span>res, hist, description, <span class="kw-2">&amp;</span>scope_labels, name);
+                } <span class="kw">else if let </span><span class="prelude-val">Some</span>(hist) = data.downcast_ref::&lt;data::Histogram&lt;f64&gt;&gt;() {
+                    add_histogram_metric(<span class="kw-2">&amp;mut </span>res, hist, description, <span class="kw-2">&amp;</span>scope_labels, name);
+                } <span class="kw">else if let </span><span class="prelude-val">Some</span>(sum) = data.downcast_ref::&lt;data::Sum&lt;u64&gt;&gt;() {
+                    add_sum_metric(<span class="kw-2">&amp;mut </span>res, sum, description, <span class="kw-2">&amp;</span>scope_labels, name);
+                } <span class="kw">else if let </span><span class="prelude-val">Some</span>(sum) = data.downcast_ref::&lt;data::Sum&lt;i64&gt;&gt;() {
+                    add_sum_metric(<span class="kw-2">&amp;mut </span>res, sum, description, <span class="kw-2">&amp;</span>scope_labels, name);
+                } <span class="kw">else if let </span><span class="prelude-val">Some</span>(sum) = data.downcast_ref::&lt;data::Sum&lt;f64&gt;&gt;() {
+                    add_sum_metric(<span class="kw-2">&amp;mut </span>res, sum, description, <span class="kw-2">&amp;</span>scope_labels, name);
+                } <span class="kw">else if let </span><span class="prelude-val">Some</span>(g) = data.downcast_ref::&lt;data::Gauge&lt;u64&gt;&gt;() {
+                    add_gauge_metric(<span class="kw-2">&amp;mut </span>res, g, description, <span class="kw-2">&amp;</span>scope_labels, name);
+                } <span class="kw">else if let </span><span class="prelude-val">Some</span>(g) = data.downcast_ref::&lt;data::Gauge&lt;i64&gt;&gt;() {
+                    add_gauge_metric(<span class="kw-2">&amp;mut </span>res, g, description, <span class="kw-2">&amp;</span>scope_labels, name);
+                } <span class="kw">else if let </span><span class="prelude-val">Some</span>(g) = data.downcast_ref::&lt;data::Gauge&lt;f64&gt;&gt;() {
+                    add_gauge_metric(<span class="kw-2">&amp;mut </span>res, g, description, <span class="kw-2">&amp;</span>scope_labels, name);
+                }
+            }
+        }
+
+        res
     }
 }
 
-<span class="kw">fn </span>build_last_value(
-    lv: <span class="kw-2">&amp;</span>LastValueAggregator,
-    kind: <span class="kw-2">&amp;</span>NumberKind,
-    desc: PrometheusMetricDesc,
-    labels: Vec&lt;prometheus::proto::LabelPair&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;prometheus::proto::MetricFamily, MetricsError&gt; {
-    <span class="kw">let </span>(last_value, <span class="kw">_</span>) = lv.last_value()<span class="question-mark">?</span>;
-
-    <span class="kw">let </span><span class="kw-2">mut </span>g = prometheus::proto::Gauge::default();
-    g.set_value(last_value.to_f64(kind));
-
-    <span class="kw">let </span><span class="kw-2">mut </span>m = prometheus::proto::Metric::default();
-    m.set_label(protobuf::RepeatedField::from_vec(labels));
-    m.set_gauge(g);
-
-    <span class="kw">let </span><span class="kw-2">mut </span>mf = prometheus::proto::MetricFamily::default();
-    mf.set_name(desc.name);
-    mf.set_help(desc.help);
-    mf.set_field_type(prometheus::proto::MetricType::GAUGE);
-    mf.set_metric(protobuf::RepeatedField::from_vec(<span class="macro">vec!</span>[m]));
-
-    <span class="prelude-val">Ok</span>(mf)
-}
-
-<span class="kw">fn </span>build_non_monotonic_counter(
-    sum: <span class="kw-2">&amp;</span>SumAggregator,
-    kind: <span class="kw-2">&amp;</span>NumberKind,
-    desc: PrometheusMetricDesc,
-    labels: Vec&lt;prometheus::proto::LabelPair&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;prometheus::proto::MetricFamily, MetricsError&gt; {
-    <span class="kw">let </span>sum = sum.sum()<span class="question-mark">?</span>;
-
-    <span class="kw">let </span><span class="kw-2">mut </span>g = prometheus::proto::Gauge::default();
-    g.set_value(sum.to_f64(kind));
-
-    <span class="kw">let </span><span class="kw-2">mut </span>m = prometheus::proto::Metric::default();
-    m.set_label(protobuf::RepeatedField::from_vec(labels));
-    m.set_gauge(g);
-
-    <span class="kw">let </span><span class="kw-2">mut </span>mf = prometheus::proto::MetricFamily::default();
-    mf.set_name(desc.name);
-    mf.set_help(desc.help);
-    mf.set_field_type(prometheus::proto::MetricType::GAUGE);
-    mf.set_metric(protobuf::RepeatedField::from_vec(<span class="macro">vec!</span>[m]));
-
-    <span class="prelude-val">Ok</span>(mf)
-}
-
-<span class="kw">fn </span>build_monotonic_counter(
-    sum: <span class="kw-2">&amp;</span>SumAggregator,
-    kind: <span class="kw-2">&amp;</span>NumberKind,
-    desc: PrometheusMetricDesc,
-    labels: Vec&lt;prometheus::proto::LabelPair&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;prometheus::proto::MetricFamily, MetricsError&gt; {
-    <span class="kw">let </span>sum = sum.sum()<span class="question-mark">?</span>;
-
-    <span class="kw">let </span><span class="kw-2">mut </span>c = prometheus::proto::Counter::default();
-    c.set_value(sum.to_f64(kind));
-
-    <span class="kw">let </span><span class="kw-2">mut </span>m = prometheus::proto::Metric::default();
-    m.set_label(protobuf::RepeatedField::from_vec(labels));
-    m.set_counter(c);
-
-    <span class="kw">let </span><span class="kw-2">mut </span>mf = prometheus::proto::MetricFamily::default();
-    mf.set_name(desc.name + MONOTONIC_COUNTER_SUFFIX);
-    mf.set_help(desc.help);
-    mf.set_field_type(prometheus::proto::MetricType::COUNTER);
-    mf.set_metric(protobuf::RepeatedField::from_vec(<span class="macro">vec!</span>[m]));
-
-    <span class="prelude-val">Ok</span>(mf)
-}
-
-<span class="kw">fn </span>build_histogram(
-    hist: <span class="kw-2">&amp;</span>HistogramAggregator,
-    kind: <span class="kw-2">&amp;</span>NumberKind,
-    desc: PrometheusMetricDesc,
-    labels: Vec&lt;prometheus::proto::LabelPair&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;prometheus::proto::MetricFamily, MetricsError&gt; {
-    <span class="kw">let </span>raw_buckets = hist.histogram()<span class="question-mark">?</span>;
-    <span class="kw">let </span>sum = hist.sum()<span class="question-mark">?</span>;
-
-    <span class="kw">let </span><span class="kw-2">mut </span>h = prometheus::proto::Histogram::default();
-    h.set_sample_sum(sum.to_f64(kind));
-
-    <span class="kw">let </span><span class="kw-2">mut </span>count = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>buckets = Vec::with_capacity(raw_buckets.boundaries().len());
-    <span class="kw">for </span>(i, upper_bound) <span class="kw">in </span>raw_buckets.boundaries().iter().enumerate() {
-        count += raw_buckets.counts()[i] <span class="kw">as </span>u64;
-        <span class="kw">let </span><span class="kw-2">mut </span>b = prometheus::proto::Bucket::default();
-        b.set_cumulative_count(count);
-        b.set_upper_bound(<span class="kw-2">*</span>upper_bound);
-        buckets.push(b);
+<span class="doccomment">/// Maps attributes into Prometheus-style label pairs.
+///
+/// It sanitizes invalid characters and handles duplicate keys (due to
+/// sanitization) by sorting and concatenating the values following the spec.
+</span><span class="kw">fn </span>get_attrs(kvs: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>Iterator&lt;Item = (<span class="kw-2">&amp;</span>Key, <span class="kw-2">&amp;</span>Value)&gt;, extra: <span class="kw-2">&amp;</span>[LabelPair]) -&gt; Vec&lt;LabelPair&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>keys_map = BTreeMap::&lt;String, Vec&lt;String&gt;&gt;::new();
+    <span class="kw">for </span>(key, value) <span class="kw">in </span>kvs {
+        <span class="kw">let </span>key = utils::sanitize_prom_kv(key.as_str());
+        keys_map
+            .entry(key)
+            .and_modify(|v| v.push(value.to_string()))
+            .or_insert_with(|| <span class="macro">vec!</span>[value.to_string()]);
     }
-    <span class="comment">// Include the +inf bucket in the total count.
-    </span>count += raw_buckets.counts()[raw_buckets.counts().len() - <span class="number">1</span>] <span class="kw">as </span>u64;
-    h.set_bucket(protobuf::RepeatedField::from_vec(buckets));
-    h.set_sample_count(count);
 
-    <span class="kw">let </span><span class="kw-2">mut </span>m = prometheus::proto::Metric::default();
-    m.set_label(protobuf::RepeatedField::from_vec(labels));
-    m.set_histogram(h);
+    <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::with_capacity(keys_map.len() + extra.len());
 
-    <span class="kw">let </span><span class="kw-2">mut </span>mf = prometheus::proto::MetricFamily::default();
-    mf.set_name(desc.name);
-    mf.set_help(desc.help);
-    mf.set_field_type(prometheus::proto::MetricType::HISTOGRAM);
-    mf.set_metric(protobuf::RepeatedField::from_vec(<span class="macro">vec!</span>[m]));
+    <span class="kw">for </span>(key, <span class="kw-2">mut </span>values) <span class="kw">in </span>keys_map.into_iter() {
+        values.sort_unstable();
 
-    <span class="prelude-val">Ok</span>(mf)
+        <span class="kw">let </span><span class="kw-2">mut </span>lp = LabelPair::new();
+        lp.set_name(key);
+        lp.set_value(values.join(<span class="string">";"</span>));
+        res.push(lp);
+    }
+
+    <span class="kw">if </span>!extra.is_empty() {
+        res.extend(<span class="kw-2">&amp;mut </span>extra.iter().cloned());
+    }
+
+    res
 }
 
-<span class="kw">fn </span>build_scope_metric(
-    labels: Vec&lt;prometheus::proto::LabelPair&gt;,
-) -&gt; prometheus::proto::MetricFamily {
-    <span class="kw">let </span><span class="kw-2">mut </span>g = prometheus::proto::Gauge::new();
+<span class="kw">fn </span>validate_metrics(
+    name: <span class="kw-2">&amp;</span>str,
+    description: <span class="kw-2">&amp;</span>str,
+    metric_type: MetricType,
+    mfs: <span class="kw-2">&amp;mut </span>HashMap&lt;String, MetricFamily&gt;,
+) -&gt; (bool, <span class="prelude-ty">Option</span>&lt;String&gt;) {
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(existing) = mfs.get(name) {
+        <span class="kw">if </span>existing.get_field_type() != metric_type {
+            global::handle_error(MetricsError::Other(<span class="macro">format!</span>(<span class="string">"Instrument type conflict, using existing type definition. Instrument {name}, Existing: {:?}, dropped: {:?}"</span>, existing.get_field_type(), metric_type)));
+            <span class="kw">return </span>(<span class="bool-val">true</span>, <span class="prelude-val">None</span>);
+        }
+        <span class="kw">if </span>existing.get_help() != description {
+            global::handle_error(MetricsError::Other(<span class="macro">format!</span>(<span class="string">"Instrument description conflict, using existing. Instrument {name}, Existing: {:?}, dropped: {:?}"</span>, existing.get_help(), description)));
+            <span class="kw">return </span>(<span class="bool-val">false</span>, <span class="prelude-val">Some</span>(existing.get_help().to_string()));
+        }
+        (<span class="bool-val">false</span>, <span class="prelude-val">None</span>)
+    } <span class="kw">else </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>mf = MetricFamily::default();
+        mf.set_name(name.into());
+        mf.set_help(description.to_string());
+        mf.set_field_type(metric_type);
+        mfs.insert(name.to_string(), mf);
+
+        (<span class="bool-val">false</span>, <span class="prelude-val">None</span>)
+    }
+}
+
+<span class="kw">fn </span>add_histogram_metric&lt;T: Numeric&gt;(
+    res: <span class="kw-2">&amp;mut </span>Vec&lt;MetricFamily&gt;,
+    histogram: <span class="kw-2">&amp;</span>data::Histogram&lt;T&gt;,
+    description: String,
+    extra: <span class="kw-2">&amp;</span>[LabelPair],
+    name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+) {
+    <span class="comment">// Consider supporting exemplars when `prometheus` crate has the feature
+    // See: https://github.com/tikv/rust-prometheus/issues/393
+
+    </span><span class="kw">for </span>dp <span class="kw">in </span><span class="kw-2">&amp;</span>histogram.data_points {
+        <span class="kw">let </span>kvs = get_attrs(<span class="kw-2">&amp;mut </span>dp.attributes.iter(), extra);
+        <span class="kw">let </span>bounds_len = dp.bounds.len();
+        <span class="kw">let </span>(bucket, <span class="kw">_</span>) = dp.bounds.iter().enumerate().fold(
+            (Vec::with_capacity(bounds_len), <span class="number">0</span>),
+            |(<span class="kw-2">mut </span>acc, <span class="kw-2">mut </span>count), (i, bound)| {
+                count += dp.bucket_counts[i];
+
+                <span class="kw">let </span><span class="kw-2">mut </span>b = prometheus::proto::Bucket::default();
+                b.set_upper_bound(<span class="kw-2">*</span>bound);
+                b.set_cumulative_count(count);
+                acc.push(b);
+                (acc, count)
+            },
+        );
+
+        <span class="kw">let </span><span class="kw-2">mut </span>h = prometheus::proto::Histogram::default();
+        h.set_sample_sum(dp.sum.as_f64());
+        h.set_sample_count(dp.count);
+        h.set_bucket(protobuf::RepeatedField::from_vec(bucket));
+        <span class="kw">let </span><span class="kw-2">mut </span>pm = prometheus::proto::Metric::default();
+        pm.set_label(protobuf::RepeatedField::from_vec(kvs));
+        pm.set_histogram(h);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>mf = prometheus::proto::MetricFamily::default();
+        mf.set_name(name.to_string());
+        mf.set_help(description.clone());
+        mf.set_field_type(prometheus::proto::MetricType::HISTOGRAM);
+        mf.set_metric(protobuf::RepeatedField::from_vec(<span class="macro">vec!</span>[pm]));
+        res.push(mf);
+    }
+}
+
+<span class="kw">fn </span>add_sum_metric&lt;T: Numeric&gt;(
+    res: <span class="kw-2">&amp;mut </span>Vec&lt;MetricFamily&gt;,
+    sum: <span class="kw-2">&amp;</span>data::Sum&lt;T&gt;,
+    description: String,
+    extra: <span class="kw-2">&amp;</span>[LabelPair],
+    name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+) {
+    <span class="kw">let </span>metric_type = <span class="kw">if </span>sum.is_monotonic {
+        MetricType::COUNTER
+    } <span class="kw">else </span>{
+        MetricType::GAUGE
+    };
+
+    <span class="kw">for </span>dp <span class="kw">in </span><span class="kw-2">&amp;</span>sum.data_points {
+        <span class="kw">let </span>kvs = get_attrs(<span class="kw-2">&amp;mut </span>dp.attributes.iter(), extra);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>pm = prometheus::proto::Metric::default();
+        pm.set_label(protobuf::RepeatedField::from_vec(kvs));
+
+        <span class="kw">if </span>sum.is_monotonic {
+            <span class="kw">let </span><span class="kw-2">mut </span>c = prometheus::proto::Counter::default();
+            c.set_value(dp.value.as_f64());
+            pm.set_counter(c);
+        } <span class="kw">else </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>g = prometheus::proto::Gauge::default();
+            g.set_value(dp.value.as_f64());
+            pm.set_gauge(g);
+        }
+
+        <span class="kw">let </span><span class="kw-2">mut </span>mf = prometheus::proto::MetricFamily::default();
+        mf.set_name(name.to_string());
+        mf.set_help(description.clone());
+        mf.set_field_type(metric_type);
+        mf.set_metric(protobuf::RepeatedField::from_vec(<span class="macro">vec!</span>[pm]));
+        res.push(mf);
+    }
+}
+
+<span class="kw">fn </span>add_gauge_metric&lt;T: Numeric&gt;(
+    res: <span class="kw-2">&amp;mut </span>Vec&lt;MetricFamily&gt;,
+    gauge: <span class="kw-2">&amp;</span>data::Gauge&lt;T&gt;,
+    description: String,
+    extra: <span class="kw-2">&amp;</span>[LabelPair],
+    name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+) {
+    <span class="kw">for </span>dp <span class="kw">in </span><span class="kw-2">&amp;</span>gauge.data_points {
+        <span class="kw">let </span>kvs = get_attrs(<span class="kw-2">&amp;mut </span>dp.attributes.iter(), extra);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>g = prometheus::proto::Gauge::default();
+        g.set_value(dp.value.as_f64());
+        <span class="kw">let </span><span class="kw-2">mut </span>pm = prometheus::proto::Metric::default();
+        pm.set_label(protobuf::RepeatedField::from_vec(kvs));
+        pm.set_gauge(g);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>mf = prometheus::proto::MetricFamily::default();
+        mf.set_name(name.to_string());
+        mf.set_help(description.to_string());
+        mf.set_field_type(MetricType::GAUGE);
+        mf.set_metric(protobuf::RepeatedField::from_vec(<span class="macro">vec!</span>[pm]));
+        res.push(mf);
+    }
+}
+
+<span class="kw">fn </span>create_info_metric(
+    target_info_name: <span class="kw-2">&amp;</span>str,
+    target_info_description: <span class="kw-2">&amp;</span>str,
+    resource: <span class="kw-2">&amp;</span>Resource,
+) -&gt; MetricFamily {
+    <span class="kw">let </span><span class="kw-2">mut </span>g = prometheus::proto::Gauge::default();
     g.set_value(<span class="number">1.0</span>);
 
     <span class="kw">let </span><span class="kw-2">mut </span>m = prometheus::proto::Metric::default();
-    m.set_label(protobuf::RepeatedField::from_vec(labels));
+    m.set_label(protobuf::RepeatedField::from_vec(get_attrs(
+        <span class="kw-2">&amp;mut </span>resource.iter(),
+        <span class="kw-2">&amp;</span>[],
+    )));
     m.set_gauge(g);
 
-    <span class="kw">let </span><span class="kw-2">mut </span>mf = prometheus::proto::MetricFamily::default();
-    mf.set_name(String::from(SCOPE_INFO_METRIC_NAME));
-    mf.set_help(String::from(SCOPE_INFO_DESCRIPTION));
-    mf.set_field_type(prometheus::proto::MetricType::GAUGE);
+    <span class="kw">let </span><span class="kw-2">mut </span>mf = MetricFamily::default();
+    mf.set_name(target_info_name.into());
+    mf.set_help(target_info_description.into());
+    mf.set_field_type(MetricType::GAUGE);
     mf.set_metric(protobuf::RepeatedField::from_vec(<span class="macro">vec!</span>[m]));
-
     mf
 }
 
-<span class="kw">fn </span>get_scope_labels(library: <span class="kw-2">&amp;</span>InstrumentationLibrary) -&gt; Vec&lt;prometheus::proto::LabelPair&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>labels = Vec::new();
-    labels.push(build_label_pair(
-        <span class="kw-2">&amp;</span>Key::new(OTEL_SCOPE_NAME),
-        <span class="kw-2">&amp;</span>Value::String(StringValue::from(library.name.clone().to_string())),
-    ));
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(version) = library.version.to_owned() {
-        labels.push(build_label_pair(
-            <span class="kw-2">&amp;</span>Key::new(OTEL_SCOPE_VERSION),
-            <span class="kw-2">&amp;</span>Value::String(StringValue::from(version.to_string())),
-        ));
-    } <span class="kw">else </span>{
-        labels.push(build_label_pair(
-            <span class="kw-2">&amp;</span>Key::new(OTEL_SCOPE_VERSION),
-            <span class="kw-2">&amp;</span>Value::String(StringValue::from(<span class="string">""</span>)),
-        ));
+<span class="kw">fn </span>create_scope_info_metric(scope: <span class="kw-2">&amp;</span>Scope) -&gt; MetricFamily {
+    <span class="kw">let </span><span class="kw-2">mut </span>g = prometheus::proto::Gauge::default();
+    g.set_value(<span class="number">1.0</span>);
+
+    <span class="kw">let </span><span class="kw-2">mut </span>labels = Vec::with_capacity(<span class="number">1 </span>+ scope.version.is_some() <span class="kw">as </span>usize);
+    <span class="kw">let </span><span class="kw-2">mut </span>name = LabelPair::new();
+    name.set_name(SCOPE_INFO_KEYS[<span class="number">0</span>].into());
+    name.set_value(scope.name.to_string());
+    labels.push(name);
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(version) = <span class="kw-2">&amp;</span>scope.version {
+        <span class="kw">let </span><span class="kw-2">mut </span>v_label = LabelPair::new();
+        v_label.set_name(SCOPE_INFO_KEYS[<span class="number">1</span>].into());
+        v_label.set_value(version.to_string());
+        labels.push(v_label);
     }
-    labels
+
+    <span class="kw">let </span><span class="kw-2">mut </span>m = prometheus::proto::Metric::default();
+    m.set_label(protobuf::RepeatedField::from_vec(labels));
+    m.set_gauge(g);
+
+    <span class="kw">let </span><span class="kw-2">mut </span>mf = MetricFamily::default();
+    mf.set_name(SCOPE_INFO_METRIC_NAME.into());
+    mf.set_help(SCOPE_INFO_DESCRIPTION.into());
+    mf.set_field_type(MetricType::GAUGE);
+    mf.set_metric(protobuf::RepeatedField::from_vec(<span class="macro">vec!</span>[m]));
+    mf
 }
 
-<span class="kw">fn </span>build_label_pair(key: <span class="kw-2">&amp;</span>Key, value: <span class="kw-2">&amp;</span>Value) -&gt; prometheus::proto::LabelPair {
-    <span class="kw">let </span><span class="kw-2">mut </span>lp = prometheus::proto::LabelPair::new();
-    lp.set_name(sanitize(key.as_str()));
-    lp.set_value(value.to_string());
-
-    lp
+<span class="kw">trait </span>Numeric: fmt::Debug {
+    <span class="comment">// lossy at large values for u64 and i64 but prometheus only handles floats
+    </span><span class="kw">fn </span>as_f64(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f64;
 }
 
-<span class="kw">fn </span>get_metric_labels(
-    record: <span class="kw-2">&amp;</span>Record&lt;<span class="lifetime">'_</span>&gt;,
-    resource: <span class="kw-2">&amp;</span>Resource,
-    scope_labels: <span class="kw-2">&amp;mut </span>Vec&lt;prometheus::proto::LabelPair&gt;,
-) -&gt; Vec&lt;prometheus::proto::LabelPair&gt; {
-    <span class="comment">// Duplicate keys are resolved by taking the record label value over
-    // the resource value.
-    </span><span class="kw">let </span>iter = attributes::merge_iters(record.attributes().iter(), resource.iter());
-    <span class="kw">let </span><span class="kw-2">mut </span>labels: Vec&lt;prometheus::proto::LabelPair&gt; = iter
-        .map(|(key, value)| build_label_pair(key, value))
-        .collect();
-
-    labels.append(scope_labels);
-    labels
+<span class="kw">impl </span>Numeric <span class="kw">for </span>u64 {
+    <span class="kw">fn </span>as_f64(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f64 {
+        <span class="kw-2">*</span><span class="self">self </span><span class="kw">as </span>f64
+    }
 }
 
-<span class="kw">struct </span>PrometheusMetricDesc {
-    name: String,
-    help: String,
+<span class="kw">impl </span>Numeric <span class="kw">for </span>i64 {
+    <span class="kw">fn </span>as_f64(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f64 {
+        <span class="kw-2">*</span><span class="self">self </span><span class="kw">as </span>f64
+    }
 }
 
-<span class="kw">fn </span>get_metric_desc(record: <span class="kw-2">&amp;</span>Record&lt;<span class="lifetime">'_</span>&gt;) -&gt; PrometheusMetricDesc {
-    <span class="kw">let </span>desc = record.descriptor();
-    <span class="kw">let </span>name = sanitize(desc.name());
-    <span class="kw">let </span>help = desc
-        .description()
-        .cloned()
-        .unwrap_or_else(|| desc.name().to_string());
-    PrometheusMetricDesc { name, help }
+<span class="kw">impl </span>Numeric <span class="kw">for </span>f64 {
+    <span class="kw">fn </span>as_f64(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f64 {
+        <span class="kw-2">*</span><span class="self">self
+    </span>}
 }
 </code></pre></div></section></main></body></html>

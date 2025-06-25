@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["histogram","last_value","range_test","sum"],"struct":["HistogramAggregator","LastValueAggregator","SumAggregator"],"trait":["Aggregator"]};

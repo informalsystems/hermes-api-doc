@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry_api-0.19.0/src/context.rs`."><title>context.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="opentelemetry_api" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_api/</div>context.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry_api-0.20.0/src/context.rs`."><title>context.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="opentelemetry_api" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_api/</div>context.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -381,7 +381,20 @@
 <a href="#380" id="380">380</a>
 <a href="#381" id="381">381</a>
 <a href="#382" id="382">382</a>
-<a href="#383" id="383">383</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::any::{Any, TypeId};
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::any::{Any, TypeId};
 <span class="kw">use </span>std::cell::RefCell;
 <span class="kw">use </span>std::collections::HashMap;
 <span class="kw">use </span>std::fmt;
@@ -391,7 +404,6 @@
 
 <span class="macro">thread_local!</span> {
     <span class="kw">static </span>CURRENT_CONTEXT: RefCell&lt;Context&gt; = RefCell::new(Context::default());
-    <span class="kw">static </span>DEFAULT_CONTEXT: Context = Context::default();
 }
 
 <span class="doccomment">/// An execution-scoped collection of values.
@@ -490,7 +502,19 @@
     /// do_work()
     /// ```
     </span><span class="kw">pub fn </span>current() -&gt; <span class="self">Self </span>{
-        get_current(|cx| cx.clone())
+        Context::map_current(|cx| cx.clone())
+    }
+
+    <span class="doccomment">/// Applys a function to the current context returning its value.
+    ///
+    /// This can be used to build higher performing algebraic expressions for
+    /// optionally creating a new context without the overhead of cloning the
+    /// current one and dropping it.
+    ///
+    /// Note: This function will panic if you attempt to attach another context
+    /// while the current one is still borrowed.
+    </span><span class="kw">pub fn </span>map_current&lt;T&gt;(f: <span class="kw">impl </span>FnOnce(<span class="kw-2">&amp;</span>Context) -&gt; T) -&gt; T {
+        CURRENT_CONTEXT.with(|cx| f(<span class="kw-2">&amp;</span>cx.borrow()))
     }
 
     <span class="doccomment">/// Returns a clone of the current thread's context with the given value.
@@ -701,16 +725,6 @@
     }
 }
 
-<span class="doccomment">/// Executes a closure with a reference to this thread's current context.
-///
-/// Note: This function will panic if you attempt to attach another context
-/// while the context is still borrowed.
-</span><span class="kw">fn </span>get_current&lt;F: FnMut(<span class="kw-2">&amp;</span>Context) -&gt; T, T&gt;(<span class="kw-2">mut </span>f: F) -&gt; T {
-    CURRENT_CONTEXT
-        .try_with(|cx| f(<span class="kw-2">&amp;</span>cx.borrow()))
-        .unwrap_or_else(|<span class="kw">_</span>| DEFAULT_CONTEXT.with(|cx| f(cx)))
-}
-
 <span class="doccomment">/// With TypeIds as keys, there's no need to hash them. They are already hashes
 /// themselves, coming from the compiler. The IdHasher holds the u64 of
 /// the TypeId, and then returns it, instead of doing any bit fiddling.
@@ -756,12 +770,24 @@
             </span><span class="kw">let </span>current = Context::current();
             <span class="macro">assert_eq!</span>(current.get(), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ValueA(<span class="string">"a"</span>)));
             <span class="macro">assert_eq!</span>(current.get(), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ValueB(<span class="number">42</span>)));
+
+            <span class="macro">assert!</span>(Context::map_current(|cx| {
+                <span class="macro">assert_eq!</span>(cx.get(), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ValueA(<span class="string">"a"</span>)));
+                <span class="macro">assert_eq!</span>(cx.get(), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ValueB(<span class="number">42</span>)));
+                <span class="bool-val">true
+            </span>}));
         }
 
         <span class="comment">// Resets to only value `a` when inner guard is dropped
         </span><span class="kw">let </span>current = Context::current();
         <span class="macro">assert_eq!</span>(current.get(), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ValueA(<span class="string">"a"</span>)));
         <span class="macro">assert_eq!</span>(current.get::&lt;ValueB&gt;(), <span class="prelude-val">None</span>);
+
+        <span class="macro">assert!</span>(Context::map_current(|cx| {
+            <span class="macro">assert_eq!</span>(cx.get(), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>ValueA(<span class="string">"a"</span>)));
+            <span class="macro">assert_eq!</span>(cx.get::&lt;ValueB&gt;(), <span class="prelude-val">None</span>);
+            <span class="bool-val">true
+        </span>}));
     }
 }
 </code></pre></div></section></main></body></html>

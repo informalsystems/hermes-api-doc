@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry_api-0.19.0/src/metrics/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="opentelemetry_api" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_api/metrics/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/opentelemetry_api-0.20.0/src/metrics/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="opentelemetry_api" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">opentelemetry_api/metrics/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -259,18 +259,10 @@
 <a href="#258" id="258">258</a>
 <a href="#259" id="259">259</a>
 <a href="#260" id="260">260</a>
-<a href="#261" id="261">261</a>
-<a href="#262" id="262">262</a>
-<a href="#263" id="263">263</a>
-<a href="#264" id="264">264</a>
-<a href="#265" id="265">265</a>
-<a href="#266" id="266">266</a>
-<a href="#267" id="267">267</a>
-<a href="#268" id="268">268</a>
-<a href="#269" id="269">269</a>
-<a href="#270" id="270">270</a></pre></div><pre class="rust"><code><span class="doccomment">//! # OpenTelemetry Metrics API
+<a href="#261" id="261">261</a></pre></div><pre class="rust"><code><span class="doccomment">//! # OpenTelemetry Metrics API
 
-</span><span class="kw">use </span>std::result;
+</span><span class="kw">use </span>std::any::Any;
+<span class="kw">use </span>std::result;
 <span class="kw">use </span>std::sync::PoisonError;
 <span class="kw">use </span>std::{borrow::Cow, sync::Arc};
 <span class="kw">use </span>thiserror::Error;
@@ -279,17 +271,15 @@
 <span class="kw">mod </span>meter;
 <span class="kw">pub mod </span>noop;
 
-<span class="kw">use crate</span>::{Context, ExportError};
+<span class="kw">use </span><span class="kw">crate</span>::ExportError;
 <span class="kw">pub use </span>instruments::{
-    counter::{AsyncCounter, Counter, ObservableCounter, SyncCounter},
-    gauge::{AsyncGauge, ObservableGauge},
+    counter::{Counter, ObservableCounter, SyncCounter},
+    gauge::ObservableGauge,
     histogram::{Histogram, SyncHistogram},
-    up_down_counter::{
-        AsyncUpDownCounter, ObservableUpDownCounter, SyncUpDownCounter, UpDownCounter,
-    },
-    InstrumentBuilder,
+    up_down_counter::{ObservableUpDownCounter, SyncUpDownCounter, UpDownCounter},
+    AsyncInstrument, AsyncInstrumentBuilder, Callback, InstrumentBuilder,
 };
-<span class="kw">pub use </span>meter::{Meter, MeterProvider};
+<span class="kw">pub use </span>meter::{CallbackRegistration, Meter, MeterProvider, Observer};
 
 <span class="doccomment">/// A specialized `Result` type for metric operations.
 </span><span class="kw">pub type </span><span class="prelude-ty">Result</span>&lt;T&gt; = result::Result&lt;T, MetricsError&gt;;
@@ -301,30 +291,9 @@
     <span class="doccomment">/// Other errors not covered by specific cases.
     </span><span class="attr">#[error(<span class="string">"Metrics error: {0}"</span>)]
     </span>Other(String),
-    <span class="doccomment">/// Errors when requesting quantiles out of the 0-1 range.
-    </span><span class="attr">#[error(<span class="string">"The requested quantile is out of range"</span>)]
-    </span>InvalidQuantile,
-    <span class="doccomment">/// Errors when recording nan values.
-    </span><span class="attr">#[error(<span class="string">"NaN value is an invalid input"</span>)]
-    </span>NaNInput,
-    <span class="doccomment">/// Errors when recording negative values in monotonic sums.
-    </span><span class="attr">#[error(<span class="string">"Negative value is out of range for this instrument"</span>)]
-    </span>NegativeInput,
-    <span class="doccomment">/// Errors when merging aggregators of incompatible types.
-    </span><span class="attr">#[error(<span class="string">"Inconsistent aggregator types: {0}"</span>)]
-    </span>InconsistentAggregator(String),
-    <span class="doccomment">/// Errors when requesting data when no data has been collected
-    </span><span class="attr">#[error(<span class="string">"No data collected by this aggregator"</span>)]
-    </span>NoDataCollected,
-    <span class="doccomment">/// Errors when registering to instruments with the same name and kind
-    </span><span class="attr">#[error(<span class="string">"A metric was already registered by this name with another kind or number type: {0}"</span>)]
-    </span>MetricKindMismatch(String),
-    <span class="doccomment">/// Errors when processor logic is incorrect
-    </span><span class="attr">#[error(<span class="string">"Inconsistent processor state"</span>)]
-    </span>InconsistentState,
-    <span class="doccomment">/// Errors when aggregator cannot subtract
-    </span><span class="attr">#[error(<span class="string">"Aggregator does not subtract"</span>)]
-    </span>NoSubtraction,
+    <span class="doccomment">/// Invalid configuration
+    </span><span class="attr">#[error(<span class="string">"Config error {0}"</span>)]
+    </span>Config(String),
     <span class="doccomment">/// Fail to export metrics
     </span><span class="attr">#[error(<span class="string">"Metrics exporter {} failed with {0}"</span>, .<span class="number">0</span>.exporter_name())]
     </span>ExportErr(Box&lt;<span class="kw">dyn </span>ExportError&gt;),
@@ -378,8 +347,8 @@
     <span class="doccomment">/// creates an instrument for recording increasing values.
     </span><span class="kw">fn </span>u64_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;Counter&lt;u64&gt;&gt; {
         <span class="prelude-val">Ok</span>(Counter::new(Arc::new(noop::NoopSyncInstrument::new())))
@@ -388,8 +357,8 @@
     <span class="doccomment">/// creates an instrument for recording increasing values.
     </span><span class="kw">fn </span>f64_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;Counter&lt;f64&gt;&gt; {
         <span class="prelude-val">Ok</span>(Counter::new(Arc::new(noop::NoopSyncInstrument::new())))
@@ -398,9 +367,10 @@
     <span class="doccomment">/// creates an instrument for recording increasing values via callback.
     </span><span class="kw">fn </span>u64_observable_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
+        _callback: Vec&lt;Callback&lt;u64&gt;&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;ObservableCounter&lt;u64&gt;&gt; {
         <span class="prelude-val">Ok</span>(ObservableCounter::new(Arc::new(
             noop::NoopAsyncInstrument::new(),
@@ -410,9 +380,10 @@
     <span class="doccomment">/// creates an instrument for recording increasing values via callback.
     </span><span class="kw">fn </span>f64_observable_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
+        _callback: Vec&lt;Callback&lt;f64&gt;&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;ObservableCounter&lt;f64&gt;&gt; {
         <span class="prelude-val">Ok</span>(ObservableCounter::new(Arc::new(
             noop::NoopAsyncInstrument::new(),
@@ -422,8 +393,8 @@
     <span class="doccomment">/// creates an instrument for recording changes of a value.
     </span><span class="kw">fn </span>i64_up_down_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;UpDownCounter&lt;i64&gt;&gt; {
         <span class="prelude-val">Ok</span>(UpDownCounter::new(
@@ -434,8 +405,8 @@
     <span class="doccomment">/// creates an instrument for recording changes of a value.
     </span><span class="kw">fn </span>f64_up_down_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;UpDownCounter&lt;f64&gt;&gt; {
         <span class="prelude-val">Ok</span>(UpDownCounter::new(
@@ -446,9 +417,10 @@
     <span class="doccomment">/// creates an instrument for recording changes of a value.
     </span><span class="kw">fn </span>i64_observable_up_down_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
+        _callback: Vec&lt;Callback&lt;i64&gt;&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;ObservableUpDownCounter&lt;i64&gt;&gt; {
         <span class="prelude-val">Ok</span>(ObservableUpDownCounter::new(Arc::new(
             noop::NoopAsyncInstrument::new(),
@@ -458,9 +430,10 @@
     <span class="doccomment">/// creates an instrument for recording changes of a value via callback.
     </span><span class="kw">fn </span>f64_observable_up_down_counter(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
+        _callback: Vec&lt;Callback&lt;f64&gt;&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;ObservableUpDownCounter&lt;f64&gt;&gt; {
         <span class="prelude-val">Ok</span>(ObservableUpDownCounter::new(Arc::new(
             noop::NoopAsyncInstrument::new(),
@@ -470,9 +443,10 @@
     <span class="doccomment">/// creates an instrument for recording the current value via callback.
     </span><span class="kw">fn </span>u64_observable_gauge(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
+        _callback: Vec&lt;Callback&lt;u64&gt;&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;ObservableGauge&lt;u64&gt;&gt; {
         <span class="prelude-val">Ok</span>(ObservableGauge::new(Arc::new(
             noop::NoopAsyncInstrument::new(),
@@ -482,9 +456,10 @@
     <span class="doccomment">/// creates an instrument for recording the current value via callback.
     </span><span class="kw">fn </span>i64_observable_gauge(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
+        _callback: Vec&lt;Callback&lt;i64&gt;&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;ObservableGauge&lt;i64&gt;&gt; {
         <span class="prelude-val">Ok</span>(ObservableGauge::new(Arc::new(
             noop::NoopAsyncInstrument::new(),
@@ -494,9 +469,10 @@
     <span class="doccomment">/// creates an instrument for recording the current value via callback.
     </span><span class="kw">fn </span>f64_observable_gauge(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
+        _callback: Vec&lt;Callback&lt;f64&gt;&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;ObservableGauge&lt;f64&gt;&gt; {
         <span class="prelude-val">Ok</span>(ObservableGauge::new(Arc::new(
             noop::NoopAsyncInstrument::new(),
@@ -506,8 +482,8 @@
     <span class="doccomment">/// creates an instrument for recording a distribution of values.
     </span><span class="kw">fn </span>f64_histogram(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;Histogram&lt;f64&gt;&gt; {
         <span class="prelude-val">Ok</span>(Histogram::new(Arc::new(noop::NoopSyncInstrument::new())))
@@ -516,8 +492,8 @@
     <span class="doccomment">/// creates an instrument for recording a distribution of values.
     </span><span class="kw">fn </span>u64_histogram(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;Histogram&lt;u64&gt;&gt; {
         <span class="prelude-val">Ok</span>(Histogram::new(Arc::new(noop::NoopSyncInstrument::new())))
@@ -526,8 +502,8 @@
     <span class="doccomment">/// creates an instrument for recording a distribution of values.
     </span><span class="kw">fn </span>i64_histogram(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        _name: String,
-        _description: <span class="prelude-ty">Option</span>&lt;String&gt;,
+        _name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+        _description: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
         _unit: <span class="prelude-ty">Option</span>&lt;Unit&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;Histogram&lt;i64&gt;&gt; {
         <span class="prelude-val">Ok</span>(Histogram::new(Arc::new(noop::NoopSyncInstrument::new())))
@@ -536,6 +512,12 @@
     <span class="doccomment">/// Captures the function that will be called during data collection.
     ///
     /// It is only valid to call `observe` within the scope of the passed function.
-    </span><span class="kw">fn </span>register_callback(<span class="kw-2">&amp;</span><span class="self">self</span>, callback: Box&lt;<span class="kw">dyn </span>Fn(<span class="kw-2">&amp;</span>Context) + Send + Sync&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;;
+    </span><span class="kw">fn </span>register_callback(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        instruments: <span class="kw-2">&amp;</span>[Arc&lt;<span class="kw">dyn </span>Any&gt;],
+        callbacks: Box&lt;MultiInstrumentCallback&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Box&lt;<span class="kw">dyn </span>CallbackRegistration&gt;&gt;;
 }
+
+<span class="kw">type </span>MultiInstrumentCallback = <span class="kw">dyn </span>Fn(<span class="kw-2">&amp;</span><span class="kw">dyn </span>Observer) + Send + Sync;
 </code></pre></div></section></main></body></html>
