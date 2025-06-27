@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parity-scale-codec-derive-3.7.4/src/utils.rs`."><title>utils.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="parity_scale_codec_derive" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">parity_scale_codec_derive/</div>utils.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/parity-scale-codec-derive-3.7.5/src/utils.rs`."><title>utils.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="parity_scale_codec_derive" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">parity_scale_codec_derive/</div>utils.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -528,7 +528,32 @@
 <a href="#527" id="527">527</a>
 <a href="#528" id="528">528</a>
 <a href="#529" id="529">529</a>
-<a href="#530" id="530">530</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2018-2020 Parity Technologies
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2018-2020 Parity Technologies
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -575,10 +600,10 @@
 	<span class="kw">let </span><span class="kw-2">mut </span>recurse_indices = <span class="macro">vec!</span>[];
 	<span class="kw">for </span>(ident, index) <span class="kw">in </span>recurse_variant_indices {
 		<span class="kw">let </span>ident_str = ident.to_string();
-		<span class="comment">// We convert to u8 same as in the generated code.
+		<span class="comment">// We convert to usize, index should fit in usize.
 		</span>recurse_indices.push(<span class="macro">quote_spanned!</span> { ident.span() =&gt;
 			(
-				(#index) <span class="kw">as </span>::core::primitive::u8,
+				(#index) <span class="kw">as </span>::core::primitive::usize,
 				#ident_str
 			)
 		});
@@ -590,14 +615,42 @@
 	}
 
 	<span class="macro">quote!</span> {
-		<span class="kw">const _</span>: () = {
+		<span class="attr">#[automatically_derived]
+		</span><span class="kw">const _</span>: () = {
 			<span class="attr">#[allow(clippy::unnecessary_cast)]
-			</span><span class="kw">const </span>indices: [(u8, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str); #len] = [#( #recurse_indices ,)<span class="kw-2">*</span>];
+			#[allow(clippy::cast_possible_truncation)]
+			</span><span class="kw">const </span>indices: [(usize, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str); #len] = [#( #recurse_indices ,)<span class="kw-2">*</span>];
+
+			<span class="kw">const fn </span>search_for_invalid_index(array: <span class="kw-2">&amp;</span>[(usize, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str); #len]) -&gt; (bool, usize) {
+				<span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+				<span class="kw">while </span>i &lt; #len {
+					<span class="kw">if </span>array[i].<span class="number">0 </span>&gt; <span class="number">255 </span>{
+						<span class="kw">return </span>(<span class="bool-val">true</span>, i);
+					}
+
+					i += <span class="number">1</span>;
+				}
+
+				(<span class="bool-val">false</span>, <span class="number">0</span>)
+			}
+
+			<span class="kw">const </span>INVALID_INDEX: (bool, usize) = search_for_invalid_index(<span class="kw-2">&amp;</span>indices);
+
+			<span class="kw">if </span>INVALID_INDEX.<span class="number">0 </span>{
+				<span class="kw">let </span>msg = #<span class="macro">crate_path::__private::concatcp!</span>(
+					<span class="string">"Found variant `"</span>,
+					indices[INVALID_INDEX.<span class="number">1</span>].<span class="number">1</span>,
+					<span class="string">"` with invalid index: `"</span>,
+					indices[INVALID_INDEX.<span class="number">1</span>].<span class="number">0</span>,
+					<span class="string">"`. Max supported index is 255."</span>,
+				);
+				<span class="macro">::core::panic!</span>(<span class="string">"{}"</span>, msg);
+			}
 
 			<span class="comment">// Returns if there is duplicate, and if there is some the duplicate indexes.
-			</span><span class="kw">const fn </span>duplicate_info(array: <span class="kw-2">&amp;</span>[(u8, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str); #len]) -&gt; (bool, usize, usize) {
+			</span><span class="kw">const fn </span>duplicate_info(array: <span class="kw-2">&amp;</span>[(usize, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str); #len]) -&gt; (bool, usize, usize) {
 				<span class="kw">let </span>len = #len;
-				<span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+				<span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0usize</span>;
 				<span class="kw">while </span>i &lt; len {
 						<span class="kw">let </span><span class="kw-2">mut </span>j = i + <span class="number">1</span>;
 						<span class="kw">while </span>j &lt; len {
@@ -988,12 +1041,9 @@
 
 			Meta::NameValue(MetaNameValue {
 				path,
-				value: Expr::Lit(ExprLit { lit: Lit::Int(lit_int), .. }),
+				value: Expr::Lit(ExprLit { lit: Lit::Int(<span class="kw">_</span>), .. }),
 				..
-			}) <span class="kw">if </span>path.get_ident().map_or(<span class="bool-val">false</span>, |i| i == <span class="string">"index"</span>) =&gt; lit_int
-				.base10_parse::&lt;u8&gt;()
-				.map(|<span class="kw">_</span>| ())
-				.map_err(|<span class="kw">_</span>| syn::Error::new(lit_int.span(), <span class="string">"Index must be in 0..255"</span>)),
+			}) <span class="kw">if </span>path.get_ident().map_or(<span class="bool-val">false</span>, |i| i == <span class="string">"index"</span>) =&gt; <span class="prelude-val">Ok</span>(()),
 
 			elt =&gt; <span class="prelude-val">Err</span>(syn::Error::new(elt.span(), variant_error)),
 		}
@@ -1007,7 +1057,7 @@
 	<span class="kw">let </span>top_error = <span class="string">"Invalid attribute: only `#[codec(dumb_trait_bound)]`, \
 		`#[codec(crate = path::to::crate)]`, `#[codec(encode_bound(T: Encode))]`, \
 		`#[codec(decode_bound(T: Decode))]`, \
-		`#[codec(decode_bound_with_mem_tracking_bound(T: DecodeWithMemTracking))]` or \
+		`#[codec(decode_with_mem_tracking_bound(T: DecodeWithMemTracking))]` or \
 		`#[codec(mel_bound(T: MaxEncodedLen))]` are accepted as top attribute"</span>;
 	<span class="kw">if </span>attr.path().is_ident(<span class="string">"codec"</span>) &amp;&amp;
 		attr.parse_args::&lt;CustomTraitBound&lt;encode_bound&gt;&gt;().is_err() &amp;&amp;

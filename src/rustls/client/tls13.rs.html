@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/client/tls13.rs`."><title>tls13.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>tls13.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustls-0.23.28/src/client/tls13.rs`."><title>tls13.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>tls13.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1662,45 +1662,7 @@
 <a href="#1661" id="1661">1661</a>
 <a href="#1662" id="1662">1662</a>
 <a href="#1663" id="1663">1663</a>
-<a href="#1664" id="1664">1664</a>
-<a href="#1665" id="1665">1665</a>
-<a href="#1666" id="1666">1666</a>
-<a href="#1667" id="1667">1667</a>
-<a href="#1668" id="1668">1668</a>
-<a href="#1669" id="1669">1669</a>
-<a href="#1670" id="1670">1670</a>
-<a href="#1671" id="1671">1671</a>
-<a href="#1672" id="1672">1672</a>
-<a href="#1673" id="1673">1673</a>
-<a href="#1674" id="1674">1674</a>
-<a href="#1675" id="1675">1675</a>
-<a href="#1676" id="1676">1676</a>
-<a href="#1677" id="1677">1677</a>
-<a href="#1678" id="1678">1678</a>
-<a href="#1679" id="1679">1679</a>
-<a href="#1680" id="1680">1680</a>
-<a href="#1681" id="1681">1681</a>
-<a href="#1682" id="1682">1682</a>
-<a href="#1683" id="1683">1683</a>
-<a href="#1684" id="1684">1684</a>
-<a href="#1685" id="1685">1685</a>
-<a href="#1686" id="1686">1686</a>
-<a href="#1687" id="1687">1687</a>
-<a href="#1688" id="1688">1688</a>
-<a href="#1689" id="1689">1689</a>
-<a href="#1690" id="1690">1690</a>
-<a href="#1691" id="1691">1691</a>
-<a href="#1692" id="1692">1692</a>
-<a href="#1693" id="1693">1693</a>
-<a href="#1694" id="1694">1694</a>
-<a href="#1695" id="1695">1695</a>
-<a href="#1696" id="1696">1696</a>
-<a href="#1697" id="1697">1697</a>
-<a href="#1698" id="1698">1698</a>
-<a href="#1699" id="1699">1699</a>
-<a href="#1700" id="1700">1700</a>
-<a href="#1701" id="1701">1701</a>
-<a href="#1702" id="1702">1702</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::boxed::Box;
+<a href="#1664" id="1664">1664</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::boxed::Box;
 <span class="kw">use </span>alloc::vec;
 <span class="kw">use </span>alloc::vec::Vec;
 
@@ -2028,7 +1990,7 @@
     </span><span class="kw">let </span>key_schedule = KeyScheduleEarly::new(suite, resuming.secret());
     <span class="kw">let </span>real_binder = key_schedule.resumption_psk_binder_key_and_sign_verify_data(<span class="kw-2">&amp;</span>handshake_hash);
 
-    <span class="kw">if let </span>HandshakePayload::ClientHello(ch) = <span class="kw-2">&amp;mut </span>hmp.payload {
+    <span class="kw">if let </span>HandshakePayload::ClientHello(ch) = <span class="kw-2">&amp;mut </span>hmp.<span class="number">0 </span>{
         ch.set_psk_binder(real_binder.as_ref());
     };
 
@@ -2172,7 +2134,7 @@
             HandshakeType::EncryptedExtensions,
             HandshakePayload::EncryptedExtensions
         )<span class="question-mark">?</span>;
-        <span class="macro">debug!</span>(<span class="string">"TLS1.3 encrypted extensions: {:?}"</span>, exts);
+        <span class="macro">debug!</span>(<span class="string">"TLS1.3 encrypted extensions: {exts:?}"</span>);
         <span class="self">self</span>.transcript.add_message(<span class="kw-2">&amp;</span>m);
 
         validate_encrypted_extensions(cx.common, <span class="kw-2">&amp;</span><span class="self">self</span>.hello, exts)<span class="question-mark">?</span>;
@@ -2309,11 +2271,7 @@
     {
         <span class="kw">match </span>m.payload {
             MessagePayload::Handshake {
-                parsed:
-                    HandshakeMessagePayload {
-                        payload: HandshakePayload::CertificateTls13(..),
-                        ..
-                    },
+                parsed: HandshakeMessagePayload(HandshakePayload::CertificateTls13(..)),
                 ..
             } =&gt; Box::new(ExpectCertificate {
                 config: <span class="self">self</span>.config,
@@ -2328,11 +2286,7 @@
             })
             .handle(cx, m),
             MessagePayload::Handshake {
-                parsed:
-                    HandshakeMessagePayload {
-                        payload: HandshakePayload::CompressedCertificate(..),
-                        ..
-                    },
+                parsed: HandshakeMessagePayload(HandshakePayload::CompressedCertificate(..)),
                 ..
             } =&gt; Box::new(ExpectCompressedCertificate {
                 config: <span class="self">self</span>.config,
@@ -2346,11 +2300,7 @@
             })
             .handle(cx, m),
             MessagePayload::Handshake {
-                parsed:
-                    HandshakeMessagePayload {
-                        payload: HandshakePayload::CertificateRequestTls13(..),
-                        ..
-                    },
+                parsed: HandshakeMessagePayload(HandshakePayload::CertificateRequestTls13(..)),
                 ..
             } =&gt; Box::new(ExpectCertificateRequest {
                 config: <span class="self">self</span>.config,
@@ -2402,11 +2352,7 @@
     {
         <span class="kw">match </span>m.payload {
             MessagePayload::Handshake {
-                parsed:
-                    HandshakeMessagePayload {
-                        payload: HandshakePayload::CertificateTls13(..),
-                        ..
-                    },
+                parsed: HandshakeMessagePayload(HandshakePayload::CertificateTls13(..)),
                 ..
             } =&gt; Box::new(ExpectCertificate {
                 config: <span class="self">self</span>.config,
@@ -2421,11 +2367,7 @@
             })
             .handle(cx, m),
             MessagePayload::Handshake {
-                parsed:
-                    HandshakeMessagePayload {
-                        payload: HandshakePayload::CompressedCertificate(..),
-                        ..
-                    },
+                parsed: HandshakeMessagePayload(HandshakePayload::CompressedCertificate(..)),
                 ..
             } =&gt; Box::new(ExpectCompressedCertificate {
                 config: <span class="self">self</span>.config,
@@ -2475,11 +2417,7 @@
     {
         <span class="kw">match </span>m.payload {
             MessagePayload::Handshake {
-                parsed:
-                    HandshakeMessagePayload {
-                        payload: HandshakePayload::CertificateTls13(..),
-                        ..
-                    },
+                parsed: HandshakeMessagePayload(HandshakePayload::CertificateTls13(..)),
                 ..
             } =&gt; Box::new(ExpectCertificate {
                 config: <span class="self">self</span>.config,
@@ -2494,11 +2432,7 @@
             })
             .handle(cx, m),
             MessagePayload::Handshake {
-                parsed:
-                    HandshakeMessagePayload {
-                        payload: HandshakePayload::CertificateRequestTls13(..),
-                        ..
-                    },
+                parsed: HandshakeMessagePayload(HandshakePayload::CertificateRequestTls13(..)),
                 ..
             } =&gt; Box::new(ExpectCertificateRequest {
                 config: <span class="self">self</span>.config,
@@ -2556,7 +2490,7 @@
             HandshakePayload::CertificateRequestTls13
         )<span class="question-mark">?</span>;
         <span class="self">self</span>.transcript.add_message(<span class="kw-2">&amp;</span>m);
-        <span class="macro">debug!</span>(<span class="string">"Got CertificateRequest {:?}"</span>, certreq);
+        <span class="macro">debug!</span>(<span class="string">"Got CertificateRequest {certreq:?}"</span>);
 
         <span class="comment">// Fortunately the problems here in TLS1.2 and prior are corrected in
         // TLS1.3.
@@ -2716,10 +2650,9 @@
 
         <span class="kw">let </span>m = Message {
             version: ProtocolVersion::TLSv1_3,
-            payload: MessagePayload::handshake(HandshakeMessagePayload {
-                typ: HandshakeType::Certificate,
-                payload: HandshakePayload::CertificateTls13(cert_payload.into_owned()),
-            }),
+            payload: MessagePayload::handshake(HandshakeMessagePayload(
+                HandshakePayload::CertificateTls13(cert_payload.into_owned()),
+            )),
         };
 
         Box::new(ExpectCertificate {
@@ -2931,10 +2864,9 @@
         <span class="kw">return </span>emit_certificate_tls13(flight, <span class="prelude-val">Some</span>(certkey), auth_context);
     };
 
-    flight.add(HandshakeMessagePayload {
-        typ: HandshakeType::CompressedCertificate,
-        payload: HandshakePayload::CompressedCertificate(compressed.compressed_cert_payload()),
-    });
+    flight.add(HandshakeMessagePayload(
+        HandshakePayload::CompressedCertificate(compressed.compressed_cert_payload()),
+    ));
 }
 
 <span class="kw">fn </span>emit_certificate_tls13(
@@ -2948,10 +2880,9 @@
     <span class="kw">let </span><span class="kw-2">mut </span>cert_payload = CertificatePayloadTls13::new(certs.iter(), <span class="prelude-val">None</span>);
     cert_payload.context = PayloadU8::new(auth_context.unwrap_or_default());
 
-    flight.add(HandshakeMessagePayload {
-        typ: HandshakeType::Certificate,
-        payload: HandshakePayload::CertificateTls13(cert_payload),
-    });
+    flight.add(HandshakeMessagePayload(HandshakePayload::CertificateTls13(
+        cert_payload,
+    )));
 }
 
 <span class="kw">fn </span>emit_certverify_tls13(
@@ -2964,20 +2895,18 @@
     <span class="kw">let </span>sig = signer.sign(message.as_ref())<span class="question-mark">?</span>;
     <span class="kw">let </span>dss = DigitallySignedStruct::new(scheme, sig);
 
-    flight.add(HandshakeMessagePayload {
-        typ: HandshakeType::CertificateVerify,
-        payload: HandshakePayload::CertificateVerify(dss),
-    });
+    flight.add(HandshakeMessagePayload(
+        HandshakePayload::CertificateVerify(dss),
+    ));
     <span class="prelude-val">Ok</span>(())
 }
 
 <span class="kw">fn </span>emit_finished_tls13(flight: <span class="kw-2">&amp;mut </span>HandshakeFlightTls13&lt;<span class="lifetime">'_</span>&gt;, verify_data: <span class="kw-2">&amp;</span>crypto::hmac::Tag) {
     <span class="kw">let </span>verify_data_payload = Payload::new(verify_data.as_ref());
 
-    flight.add(HandshakeMessagePayload {
-        typ: HandshakeType::Finished,
-        payload: HandshakePayload::Finished(verify_data_payload),
-    });
+    flight.add(HandshakeMessagePayload(HandshakePayload::Finished(
+        verify_data_payload,
+    )));
 }
 
 <span class="kw">fn </span>emit_end_of_early_data_tls13(transcript: <span class="kw-2">&amp;mut </span>HandshakeHash, common: <span class="kw-2">&amp;mut </span>CommonState) {
@@ -2987,10 +2916,9 @@
 
     <span class="kw">let </span>m = Message {
         version: ProtocolVersion::TLSv1_3,
-        payload: MessagePayload::handshake(HandshakeMessagePayload {
-            typ: HandshakeType::EndOfEarlyData,
-            payload: HandshakePayload::EndOfEarlyData,
-        }),
+        payload: MessagePayload::handshake(HandshakeMessagePayload(
+            HandshakePayload::EndOfEarlyData,
+        )),
     };
 
     transcript.add_message(<span class="kw-2">&amp;</span>m);
@@ -3125,8 +3053,8 @@
         }
 
         <span class="kw">let </span>st = ExpectTraffic {
-            config: Arc::clone(<span class="kw-2">&amp;</span>st.config),
-            session_storage: Arc::clone(<span class="kw-2">&amp;</span>st.config.resumption.store),
+            config: st.config.clone(),
+            session_storage: st.config.resumption.store.clone(),
             server_name: st.server_name,
             suite: st.suite,
             transcript: st.transcript,
@@ -3181,7 +3109,7 @@
         <span class="attr">#[allow(unused_mut)]
         </span><span class="kw">let </span><span class="kw-2">mut </span>value = persist::Tls13ClientSessionValue::new(
             <span class="self">self</span>.suite,
-            Arc::clone(<span class="kw-2">&amp;</span>nst.ticket),
+            nst.ticket.clone(),
             secret.as_ref(),
             cx.peer_certificates
                 .cloned()
@@ -3229,6 +3157,10 @@
             protocol: cx.common.protocol,
             quic: <span class="kw-2">&amp;</span>cx.common.quic,
         };
+        cx.common.tls13_tickets_received = cx
+            .common
+            .tls13_tickets_received
+            .saturating_add(<span class="number">1</span>);
         <span class="self">self</span>.handle_new_ticket_impl(<span class="kw-2">&amp;mut </span>kcx, nst)
     }
 
@@ -3273,19 +3205,11 @@
                 .common
                 .take_received_plaintext(payload),
             MessagePayload::Handshake {
-                parsed:
-                    HandshakeMessagePayload {
-                        payload: HandshakePayload::NewSessionTicketTls13(new_ticket),
-                        ..
-                    },
+                parsed: HandshakeMessagePayload(HandshakePayload::NewSessionTicketTls13(new_ticket)),
                 ..
             } =&gt; <span class="self">self</span>.handle_new_ticket_tls13(cx, <span class="kw-2">&amp;</span>new_ticket)<span class="question-mark">?</span>,
             MessagePayload::Handshake {
-                parsed:
-                    HandshakeMessagePayload {
-                        payload: HandshakePayload::KeyUpdate(key_update),
-                        ..
-                    },
+                parsed: HandshakeMessagePayload(HandshakePayload::KeyUpdate(key_update)),
                 ..
             } =&gt; <span class="self">self</span>.handle_key_update(cx.common, <span class="kw-2">&amp;</span>key_update)<span class="question-mark">?</span>,
             payload =&gt; {

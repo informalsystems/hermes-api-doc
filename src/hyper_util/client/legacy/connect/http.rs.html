@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/hyper-util-0.1.12/src/client/legacy/connect/http.rs`."><title>http.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="hyper_util" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">hyper_util/client/legacy/connect/</div>http.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/hyper-util-0.1.14/src/client/legacy/connect/http.rs`."><title>http.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="hyper_util" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../../../../static.files/storage-59e33391.js"></script><script defer src="../../../../../static.files/src-script-56102188.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">hyper_util/client/legacy/connect/</div>http.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1457,7 +1457,16 @@
 <a href="#1456" id="1456">1456</a>
 <a href="#1457" id="1457">1457</a>
 <a href="#1458" id="1458">1458</a>
-<a href="#1459" id="1459">1459</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::error::Error <span class="kw">as </span>StdError;
+<a href="#1459" id="1459">1459</a>
+<a href="#1460" id="1460">1460</a>
+<a href="#1461" id="1461">1461</a>
+<a href="#1462" id="1462">1462</a>
+<a href="#1463" id="1463">1463</a>
+<a href="#1464" id="1464">1464</a>
+<a href="#1465" id="1465">1465</a>
+<a href="#1466" id="1466">1466</a>
+<a href="#1467" id="1467">1467</a>
+<a href="#1468" id="1468">1468</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::error::Error <span class="kw">as </span>StdError;
 <span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::future::Future;
 <span class="kw">use </span>std::io;
@@ -1468,6 +1477,7 @@
 <span class="kw">use </span>std::task::{<span class="self">self</span>, Poll};
 <span class="kw">use </span>std::time::Duration;
 
+<span class="kw">use </span>futures_core::ready;
 <span class="kw">use </span>futures_util::future::Either;
 <span class="kw">use </span>http::uri::{Scheme, Uri};
 <span class="kw">use </span>pin_project_lite::pin_project;
@@ -1923,7 +1933,7 @@
     <span class="kw">type </span>Future = HttpConnecting&lt;R&gt;;
 
     <span class="kw">fn </span>poll_ready(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>task::Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
-        <span class="macro">futures_util::ready!</span>(<span class="self">self</span>.resolver.poll_ready(cx)).map_err(ConnectError::dns)<span class="question-mark">?</span>;
+        <span class="macro">ready!</span>(<span class="self">self</span>.resolver.poll_ready(cx)).map_err(ConnectError::dns)<span class="question-mark">?</span>;
         Poll::Ready(<span class="prelude-val">Ok</span>(()))
     }
 
@@ -1947,13 +1957,15 @@
     <span class="kw">if </span>config.enforce_http {
         <span class="kw">if </span>dst.scheme() != <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Scheme::HTTP) {
             <span class="kw">return </span><span class="prelude-val">Err</span>(ConnectError {
-                msg: INVALID_NOT_HTTP.into(),
+                msg: INVALID_NOT_HTTP,
+                addr: <span class="prelude-val">None</span>,
                 cause: <span class="prelude-val">None</span>,
             });
         }
     } <span class="kw">else if </span>dst.scheme().is_none() {
         <span class="kw">return </span><span class="prelude-val">Err</span>(ConnectError {
-            msg: INVALID_MISSING_SCHEME.into(),
+            msg: INVALID_MISSING_SCHEME,
+            addr: <span class="prelude-val">None</span>,
             cause: <span class="prelude-val">None</span>,
         });
     }
@@ -1962,7 +1974,8 @@
         <span class="prelude-val">Some</span>(s) =&gt; s,
         <span class="prelude-val">None </span>=&gt; {
             <span class="kw">return </span><span class="prelude-val">Err</span>(ConnectError {
-                msg: INVALID_MISSING_HOST.into(),
+                msg: INVALID_MISSING_HOST,
+                addr: <span class="prelude-val">None</span>,
                 cause: <span class="prelude-val">None</span>,
             })
         }
@@ -2100,18 +2113,19 @@
 
 <span class="comment">// Not publicly exported (so missing_docs doesn't trigger).
 </span><span class="kw">pub struct </span>ConnectError {
-    msg: Box&lt;str&gt;,
+    msg: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+    addr: <span class="prelude-ty">Option</span>&lt;SocketAddr&gt;,
     cause: <span class="prelude-ty">Option</span>&lt;Box&lt;<span class="kw">dyn </span>StdError + Send + Sync&gt;&gt;,
 }
 
 <span class="kw">impl </span>ConnectError {
-    <span class="kw">fn </span>new&lt;S, E&gt;(msg: S, cause: E) -&gt; ConnectError
+    <span class="kw">fn </span>new&lt;E&gt;(msg: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, cause: E) -&gt; ConnectError
     <span class="kw">where
-        </span>S: Into&lt;Box&lt;str&gt;&gt;,
-        E: Into&lt;Box&lt;<span class="kw">dyn </span>StdError + Send + Sync&gt;&gt;,
+        </span>E: Into&lt;Box&lt;<span class="kw">dyn </span>StdError + Send + Sync&gt;&gt;,
     {
         ConnectError {
-            msg: msg.into(),
+            msg,
+            addr: <span class="prelude-val">None</span>,
             cause: <span class="prelude-val">Some</span>(cause.into()),
         }
     }
@@ -2123,10 +2137,9 @@
         ConnectError::new(<span class="string">"dns error"</span>, cause)
     }
 
-    <span class="kw">fn </span>m&lt;S, E&gt;(msg: S) -&gt; <span class="kw">impl </span>FnOnce(E) -&gt; ConnectError
+    <span class="kw">fn </span>m&lt;E&gt;(msg: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; <span class="kw">impl </span>FnOnce(E) -&gt; ConnectError
     <span class="kw">where
-        </span>S: Into&lt;Box&lt;str&gt;&gt;,
-        E: Into&lt;Box&lt;<span class="kw">dyn </span>StdError + Send + Sync&gt;&gt;,
+        </span>E: Into&lt;Box&lt;<span class="kw">dyn </span>StdError + Send + Sync&gt;&gt;,
     {
         <span class="kw">move </span>|cause| ConnectError::new(msg, cause)
     }
@@ -2134,26 +2147,21 @@
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>ConnectError {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>cause) = <span class="self">self</span>.cause {
-            f.debug_tuple(<span class="string">"ConnectError"</span>)
-                .field(<span class="kw-2">&amp;</span><span class="self">self</span>.msg)
-                .field(cause)
-                .finish()
-        } <span class="kw">else </span>{
-            <span class="self">self</span>.msg.fmt(f)
+        <span class="kw">let </span><span class="kw-2">mut </span>b = f.debug_tuple(<span class="string">"ConnectError"</span>);
+        b.field(<span class="kw-2">&amp;</span><span class="self">self</span>.msg);
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>addr) = <span class="self">self</span>.addr {
+            b.field(addr);
         }
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>cause) = <span class="self">self</span>.cause {
+            b.field(cause);
+        }
+        b.finish()
     }
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>ConnectError {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
-        f.write_str(<span class="kw-2">&amp;</span><span class="self">self</span>.msg)<span class="question-mark">?</span>;
-
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>cause) = <span class="self">self</span>.cause {
-            <span class="macro">write!</span>(f, <span class="string">": {}"</span>, cause)<span class="question-mark">?</span>;
-        }
-
-        <span class="prelude-val">Ok</span>(())
+        f.write_str(<span class="self">self</span>.msg)
     }
 }
 
@@ -2231,9 +2239,13 @@
                     <span class="macro">debug!</span>(<span class="string">"connected to {}"</span>, addr);
                     <span class="kw">return </span><span class="prelude-val">Ok</span>(tcp);
                 }
-                <span class="prelude-val">Err</span>(e) =&gt; {
+                <span class="prelude-val">Err</span>(<span class="kw-2">mut </span>e) =&gt; {
                     <span class="macro">trace!</span>(<span class="string">"connect error for {}: {:?}"</span>, addr, e);
-                    err = <span class="prelude-val">Some</span>(e);
+                    e.addr = <span class="prelude-val">Some</span>(addr);
+                    <span class="comment">// only return the first error, we assume it's the most relevant
+                    </span><span class="kw">if </span>err.is_none() {
+                        err = <span class="prelude-val">Some</span>(e);
+                    }
                 }
             }
         }
@@ -2558,7 +2570,7 @@
         <span class="kw">let </span>(bind_ip_v4, bind_ip_v6) = get_local_ips();
         <span class="kw">let </span>server4 = TcpListener::bind(<span class="string">"127.0.0.1:0"</span>).unwrap();
         <span class="kw">let </span>port = server4.local_addr().unwrap().port();
-        <span class="kw">let </span>server6 = TcpListener::bind(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"[::1]:{}"</span>, port)).unwrap();
+        <span class="kw">let </span>server6 = TcpListener::bind(<span class="macro">format!</span>(<span class="string">"[::1]:{port}"</span>)).unwrap();
 
         <span class="kw">let </span>assert_client_ip = |dst: String, server: TcpListener, expected_ip: IpAddr| <span class="kw">async move </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>connector = HttpConnector::new();
@@ -2578,11 +2590,11 @@
         };
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(ip) = bind_ip_v4 {
-            assert_client_ip(<span class="macro">format!</span>(<span class="string">"http://127.0.0.1:{}"</span>, port), server4, ip.into()).<span class="kw">await</span>;
+            assert_client_ip(<span class="macro">format!</span>(<span class="string">"http://127.0.0.1:{port}"</span>), server4, ip.into()).<span class="kw">await</span>;
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(ip) = bind_ip_v6 {
-            assert_client_ip(<span class="macro">format!</span>(<span class="string">"http://[::1]:{}"</span>, port), server6, ip.into()).<span class="kw">await</span>;
+            assert_client_ip(<span class="macro">format!</span>(<span class="string">"http://[::1]:{port}"</span>), server6, ip.into()).<span class="kw">await</span>;
         }
     }
 
@@ -2599,7 +2611,7 @@
         <span class="kw">let </span>server4 = TcpListener::bind(<span class="string">"127.0.0.1:0"</span>).unwrap();
         <span class="kw">let </span>port = server4.local_addr().unwrap().port();
 
-        <span class="kw">let </span>server6 = TcpListener::bind(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"[::1]:{}"</span>, port)).unwrap();
+        <span class="kw">let </span>server6 = TcpListener::bind(<span class="macro">format!</span>(<span class="string">"[::1]:{port}"</span>)).unwrap();
 
         <span class="kw">let </span>assert_interface_name =
             |dst: String,
@@ -2622,14 +2634,14 @@
             };
 
         assert_interface_name(
-            <span class="macro">format!</span>(<span class="string">"http://127.0.0.1:{}"</span>, port),
+            <span class="macro">format!</span>(<span class="string">"http://127.0.0.1:{port}"</span>),
             server4,
             interface.clone(),
             interface.clone(),
         )
         .<span class="kw">await</span>;
         assert_interface_name(
-            <span class="macro">format!</span>(<span class="string">"http://[::1]:{}"</span>, port),
+            <span class="macro">format!</span>(<span class="string">"http://[::1]:{port}"</span>),
             server6,
             interface.clone(),
             interface.clone(),
@@ -2649,7 +2661,7 @@
 
         <span class="kw">let </span>server4 = TcpListener::bind(<span class="string">"127.0.0.1:0"</span>).unwrap();
         <span class="kw">let </span>addr = server4.local_addr().unwrap();
-        <span class="kw">let </span>_server6 = TcpListener::bind(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"[::1]:{}"</span>, addr.port())).unwrap();
+        <span class="kw">let </span>_server6 = TcpListener::bind(<span class="macro">format!</span>(<span class="string">"[::1]:{}"</span>, addr.port())).unwrap();
         <span class="kw">let </span>rt = tokio::runtime::Builder::new_current_thread()
             .enable_all()
             .build()
@@ -2753,7 +2765,7 @@
                 .block_on(<span class="kw">async move </span>{
                     <span class="kw">let </span>addrs = hosts
                         .iter()
-                        .map(|host| (host.clone(), addr.port()).into())
+                        .map(|host| (<span class="kw-2">*</span>host, addr.port()).into())
                         .collect();
                     <span class="kw">let </span>cfg = Config {
                         local_address_ipv4: <span class="prelude-val">None</span>,
@@ -2860,8 +2872,10 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>tcp_keepalive_time_config() {
-        <span class="kw">let </span><span class="kw-2">mut </span>kac = TcpKeepaliveConfig::default();
-        kac.time = <span class="prelude-val">Some</span>(Duration::from_secs(<span class="number">60</span>));
+        <span class="kw">let </span>kac = TcpKeepaliveConfig {
+            time: <span class="prelude-val">Some</span>(Duration::from_secs(<span class="number">60</span>)),
+            ..Default::default()
+        };
         <span class="kw">if let </span><span class="prelude-val">Some</span>(tcp_keepalive) = kac.into_tcpkeepalive() {
             <span class="macro">assert!</span>(<span class="macro">format!</span>(<span class="string">"{tcp_keepalive:?}"</span>).contains(<span class="string">"time: Some(60s)"</span>));
         } <span class="kw">else </span>{
@@ -2872,8 +2886,10 @@
     <span class="attr">#[cfg(not(any(target_os = <span class="string">"openbsd"</span>, target_os = <span class="string">"redox"</span>, target_os = <span class="string">"solaris"</span>)))]
     #[test]
     </span><span class="kw">fn </span>tcp_keepalive_interval_config() {
-        <span class="kw">let </span><span class="kw-2">mut </span>kac = TcpKeepaliveConfig::default();
-        kac.interval = <span class="prelude-val">Some</span>(Duration::from_secs(<span class="number">1</span>));
+        <span class="kw">let </span>kac = TcpKeepaliveConfig {
+            interval: <span class="prelude-val">Some</span>(Duration::from_secs(<span class="number">1</span>)),
+            ..Default::default()
+        };
         <span class="kw">if let </span><span class="prelude-val">Some</span>(tcp_keepalive) = kac.into_tcpkeepalive() {
             <span class="macro">assert!</span>(<span class="macro">format!</span>(<span class="string">"{tcp_keepalive:?}"</span>).contains(<span class="string">"interval: Some(1s)"</span>));
         } <span class="kw">else </span>{
@@ -2889,8 +2905,10 @@
     </span>)))]
     #[test]
     </span><span class="kw">fn </span>tcp_keepalive_retries_config() {
-        <span class="kw">let </span><span class="kw-2">mut </span>kac = TcpKeepaliveConfig::default();
-        kac.retries = <span class="prelude-val">Some</span>(<span class="number">3</span>);
+        <span class="kw">let </span>kac = TcpKeepaliveConfig {
+            retries: <span class="prelude-val">Some</span>(<span class="number">3</span>),
+            ..Default::default()
+        };
         <span class="kw">if let </span><span class="prelude-val">Some</span>(tcp_keepalive) = kac.into_tcpkeepalive() {
             <span class="macro">assert!</span>(<span class="macro">format!</span>(<span class="string">"{tcp_keepalive:?}"</span>).contains(<span class="string">"retries: Some(3)"</span>));
         } <span class="kw">else </span>{

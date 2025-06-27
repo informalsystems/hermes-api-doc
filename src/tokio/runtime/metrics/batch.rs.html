@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tokio-1.45.0/src/runtime/metrics/batch.rs`."><title>batch.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tokio/runtime/metrics/</div>batch.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.45.1/src/runtime/metrics/batch.rs`."><title>batch.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="tokio" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../../../static.files/storage-59e33391.js"></script><script defer src="../../../../static.files/src-script-56102188.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tokio/runtime/metrics/</div>batch.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -279,7 +279,29 @@
 <a href="#278" id="278">278</a>
 <a href="#279" id="279">279</a>
 <a href="#280" id="280">280</a>
-<a href="#281" id="281">281</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::runtime::metrics::WorkerMetrics;
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::runtime::metrics::WorkerMetrics;
 
 <span class="macro">cfg_unstable_metrics!</span> {
     <span class="kw">use </span><span class="kw">crate</span>::runtime::metrics::HistogramBatch;
@@ -293,7 +315,7 @@
     </span>busy_duration_total: u64,
 
     <span class="doccomment">/// Instant at which work last resumed (continued after park).
-    </span>processing_scheduled_tasks_started_at: Instant,
+    </span>processing_scheduled_tasks_started_at: <span class="prelude-ty">Option</span>&lt;Instant&gt;,
 
     <span class="doccomment">/// Number of times the worker parked.
     </span>park_count: u64,
@@ -348,17 +370,17 @@
 
 <span class="kw">impl </span>MetricsBatch {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(worker_metrics: <span class="kw-2">&amp;</span>WorkerMetrics) -&gt; MetricsBatch {
-        <span class="kw">let </span>now = Instant::now();
-        <span class="self">Self</span>::new_unstable(worker_metrics, now)
+        <span class="kw">let </span>maybe_now = now();
+        <span class="self">Self</span>::new_unstable(worker_metrics, maybe_now)
     }
 
     <span class="macro">cfg_metrics_variant!</span> {
         stable: {
             <span class="attr">#[inline(always)]
-            </span><span class="kw">fn </span>new_unstable(_worker_metrics: <span class="kw-2">&amp;</span>WorkerMetrics, now: Instant) -&gt; MetricsBatch {
+            </span><span class="kw">fn </span>new_unstable(_worker_metrics: <span class="kw-2">&amp;</span>WorkerMetrics, maybe_now: <span class="prelude-ty">Option</span>&lt;Instant&gt;) -&gt; MetricsBatch {
                 MetricsBatch {
                     busy_duration_total: <span class="number">0</span>,
-                    processing_scheduled_tasks_started_at: now,
+                    processing_scheduled_tasks_started_at: maybe_now,
                     park_count: <span class="number">0</span>,
                     park_unpark_count: <span class="number">0</span>,
                 }
@@ -366,7 +388,16 @@
         },
         unstable: {
             <span class="attr">#[inline(always)]
-            </span><span class="kw">fn </span>new_unstable(worker_metrics: <span class="kw-2">&amp;</span>WorkerMetrics, now: Instant) -&gt; MetricsBatch {
+            </span><span class="kw">fn </span>new_unstable(worker_metrics: <span class="kw-2">&amp;</span>WorkerMetrics, maybe_now: <span class="prelude-ty">Option</span>&lt;Instant&gt;) -&gt; MetricsBatch {
+                <span class="kw">let </span>poll_timer = maybe_now.and_then(|now| {
+                    worker_metrics
+                        .poll_count_histogram
+                        .as_ref()
+                        .map(|worker_poll_counts| PollTimer {
+                            poll_counts: HistogramBatch::from_histogram(worker_poll_counts),
+                            poll_started_at: now,
+                        })
+                });
                 MetricsBatch {
                     park_count: <span class="number">0</span>,
                     park_unpark_count: <span class="number">0</span>,
@@ -378,13 +409,8 @@
                     local_schedule_count: <span class="number">0</span>,
                     overflow_count: <span class="number">0</span>,
                     busy_duration_total: <span class="number">0</span>,
-                    processing_scheduled_tasks_started_at: now,
-                    poll_timer: worker_metrics.poll_count_histogram.as_ref().map(
-                        |worker_poll_counts| PollTimer {
-                            poll_counts: HistogramBatch::from_histogram(worker_poll_counts),
-                            poll_started_at: now,
-                        },
-                    ),
+                    processing_scheduled_tasks_started_at: maybe_now,
+                    poll_timer,
                 }
             }
         }
@@ -467,13 +493,17 @@
 
     <span class="doccomment">/// Start processing a batch of tasks
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>start_processing_scheduled_tasks(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="self">self</span>.processing_scheduled_tasks_started_at = Instant::now();
+        <span class="self">self</span>.processing_scheduled_tasks_started_at = now();
     }
 
     <span class="doccomment">/// Stop processing a batch of tasks
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>end_processing_scheduled_tasks(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="kw">let </span>busy_duration = <span class="self">self</span>.processing_scheduled_tasks_started_at.elapsed();
-        <span class="self">self</span>.busy_duration_total += duration_as_u64(busy_duration);
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(processing_scheduled_tasks_started_at) =
+            <span class="self">self</span>.processing_scheduled_tasks_started_at
+        {
+            <span class="kw">let </span>busy_duration = processing_scheduled_tasks_started_at.elapsed();
+            <span class="self">self</span>.busy_duration_total += duration_as_u64(busy_duration);
+        }
     }
 
     <span class="macro">cfg_metrics_variant!</span> {
@@ -559,5 +589,19 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>duration_as_u64(dur: Duration) -&gt; u64 {
     u64::try_from(dur.as_nanos()).unwrap_or(u64::MAX)
+}
+
+<span class="doccomment">/// Gate unsupported time metrics for `wasm32-unknown-unknown`
+/// &lt;https://github.com/tokio-rs/tokio/issues/7319&gt;
+</span><span class="kw">fn </span>now() -&gt; <span class="prelude-ty">Option</span>&lt;Instant&gt; {
+    <span class="kw">if </span><span class="macro">cfg!</span>(all(
+        target_arch = <span class="string">"wasm32"</span>,
+        target_os = <span class="string">"unknown"</span>,
+        target_vendor = <span class="string">"unknown"
+    </span>)) {
+        <span class="prelude-val">None
+    </span>} <span class="kw">else </span>{
+        <span class="prelude-val">Some</span>(Instant::now())
+    }
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/fiat-crypto-0.2.9/src/curve25519_solinas_64.rs`."><title>curve25519_solinas_64.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fiat_crypto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">fiat_crypto/</div>curve25519_solinas_64.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/fiat-crypto-0.3.0/src/curve25519_solinas_64.rs`."><title>curve25519_solinas_64.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fiat_crypto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">fiat_crypto/</div>curve25519_solinas_64.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -484,7 +484,27 @@
 <a href="#483" id="483">483</a>
 <a href="#484" id="484">484</a>
 <a href="#485" id="485">485</a>
-<a href="#486" id="486">486</a></pre></div><pre class="rust"><code><span class="doccomment">//! Autogenerated: 'src/ExtractionOCaml/solinas_reduction' --lang Rust --inline curve25519_solinas 64 '2^255 - 19' mul square
+<a href="#486" id="486">486</a>
+<a href="#487" id="487">487</a>
+<a href="#488" id="488">488</a>
+<a href="#489" id="489">489</a>
+<a href="#490" id="490">490</a>
+<a href="#491" id="491">491</a>
+<a href="#492" id="492">492</a>
+<a href="#493" id="493">493</a>
+<a href="#494" id="494">494</a>
+<a href="#495" id="495">495</a>
+<a href="#496" id="496">496</a>
+<a href="#497" id="497">497</a>
+<a href="#498" id="498">498</a>
+<a href="#499" id="499">499</a>
+<a href="#500" id="500">500</a>
+<a href="#501" id="501">501</a>
+<a href="#502" id="502">502</a>
+<a href="#503" id="503">503</a>
+<a href="#504" id="504">504</a>
+<a href="#505" id="505">505</a>
+<a href="#506" id="506">506</a></pre></div><pre class="rust"><code><span class="doccomment">//! Autogenerated: 'src/ExtractionOCaml/solinas_reduction' --lang Rust --inline curve25519_solinas 64 '2^255 - 19' mul square
 //! curve description: curve25519_solinas
 //! machine_wordsize = 64 (from "64")
 //! requested operations: mul, square
@@ -496,7 +516,27 @@
 </span><span class="attr">#![allow(unused_parens)]
 #![allow(non_camel_case_types)]
 
-</span><span class="doccomment">/** fiat_curve25519_solinas_u1 represents values of 1 bits, stored in one byte. */
+</span><span class="doccomment">/// Since `Index` and `IndexMut` aren't callable in `const` contexts yet, this helper type helps unify
+/// arrays and user-defined array-wrapper types into a single type which can be indexed in `const`
+/// contexts. Once `const trait`s are stabilized this type can go away
+</span><span class="kw">struct </span>IndexConst&lt;T: <span class="question-mark">?</span>Sized&gt;(T);
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T, <span class="kw">const </span>N: usize&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[T; N]&gt; {
+    <span class="attr">#[inline(always)]
+    #[allow(unused)]
+    </span><span class="kw">const fn </span>index(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>T {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>[i]
+    }
+}
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, T, <span class="kw">const </span>N: usize&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut &amp;</span><span class="lifetime">'b </span><span class="kw-2">mut </span>[T; N]&gt; {
+    <span class="attr">#[inline(always)]
+    #[allow(unused)]
+    </span><span class="kw">const fn </span>index_mut(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>T {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0</span>[i]
+    }
+}
+
+<span class="doccomment">/** fiat_curve25519_solinas_u1 represents values of 1 bits, stored in one byte. */
 </span><span class="kw">pub type </span>fiat_curve25519_solinas_u1 = u8;
 <span class="doccomment">/** fiat_curve25519_solinas_i1 represents values of 1 bits, stored in one byte. */
 </span><span class="kw">pub type </span>fiat_curve25519_solinas_i1 = i8;
@@ -520,7 +560,7 @@
 ///   out1: [0x0 ~&gt; 0xffffffffffffffff]
 ///   out2: [0x0 ~&gt; 0x1]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_curve25519_solinas_addcarryx_u64(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>fiat_curve25519_solinas_u1, arg1: fiat_curve25519_solinas_u1, arg2: u64, arg3: u64) {
+</span><span class="kw">pub const fn </span>fiat_curve25519_solinas_addcarryx_u64(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>fiat_curve25519_solinas_u1, arg1: fiat_curve25519_solinas_u1, arg2: u64, arg3: u64) {
   <span class="kw">let </span>x1: u128 = (((arg1 <span class="kw">as </span>u128) + (arg2 <span class="kw">as </span>u128)) + (arg3 <span class="kw">as </span>u128));
   <span class="kw">let </span>x2: u64 = ((x1 &amp; (<span class="number">0xffffffffffffffff </span><span class="kw">as </span>u128)) <span class="kw">as </span>u64);
   <span class="kw">let </span>x3: fiat_curve25519_solinas_u1 = ((x1 &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>fiat_curve25519_solinas_u1);
@@ -542,7 +582,7 @@
 ///   out1: [0x0 ~&gt; 0xffffffffffffffff]
 ///   out2: [0x0 ~&gt; 0x1]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_curve25519_solinas_subborrowx_u64(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>fiat_curve25519_solinas_u1, arg1: fiat_curve25519_solinas_u1, arg2: u64, arg3: u64) {
+</span><span class="kw">pub const fn </span>fiat_curve25519_solinas_subborrowx_u64(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>fiat_curve25519_solinas_u1, arg1: fiat_curve25519_solinas_u1, arg2: u64, arg3: u64) {
   <span class="kw">let </span>x1: i128 = (((arg2 <span class="kw">as </span>i128) - (arg1 <span class="kw">as </span>i128)) - (arg3 <span class="kw">as </span>i128));
   <span class="kw">let </span>x2: fiat_curve25519_solinas_i1 = ((x1 &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>fiat_curve25519_solinas_i1);
   <span class="kw">let </span>x3: u64 = ((x1 &amp; (<span class="number">0xffffffffffffffff </span><span class="kw">as </span>i128)) <span class="kw">as </span>u64);
@@ -563,7 +603,7 @@
 ///   out1: [0x0 ~&gt; 0xffffffffffffffff]
 ///   out2: [0x0 ~&gt; 0xffffffffffffffff]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_curve25519_solinas_mulx_u64(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>u64, arg1: u64, arg2: u64) {
+</span><span class="kw">pub const fn </span>fiat_curve25519_solinas_mulx_u64(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>u64, arg1: u64, arg2: u64) {
   <span class="kw">let </span>x1: u128 = ((arg1 <span class="kw">as </span>u128) * (arg2 <span class="kw">as </span>u128));
   <span class="kw">let </span>x2: u64 = ((x1 &amp; (<span class="number">0xffffffffffffffff </span><span class="kw">as </span>u128)) <span class="kw">as </span>u64);
   <span class="kw">let </span>x3: u64 = ((x1 &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>u64);
@@ -583,7 +623,7 @@
 /// Output Bounds:
 ///   out1: [0x0 ~&gt; 0xffffffffffffffff]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_curve25519_solinas_cmovznz_u64(out1: <span class="kw-2">&amp;mut </span>u64, arg1: fiat_curve25519_solinas_u1, arg2: u64, arg3: u64) {
+</span><span class="kw">pub const fn </span>fiat_curve25519_solinas_cmovznz_u64(out1: <span class="kw-2">&amp;mut </span>u64, arg1: fiat_curve25519_solinas_u1, arg2: u64, arg3: u64) {
   <span class="kw">let </span>x1: fiat_curve25519_solinas_u1 = (!(!arg1));
   <span class="kw">let </span>x2: u64 = ((((((<span class="number">0x0 </span><span class="kw">as </span>fiat_curve25519_solinas_i2) - (x1 <span class="kw">as </span>fiat_curve25519_solinas_i2)) <span class="kw">as </span>fiat_curve25519_solinas_i1) <span class="kw">as </span>i128) &amp; (<span class="number">0xffffffffffffffff </span><span class="kw">as </span>i128)) <span class="kw">as </span>u64);
   <span class="kw">let </span>x3: u64 = ((x2 &amp; arg3) | ((!x2) &amp; arg2));
@@ -601,55 +641,55 @@
 /// Output Bounds:
 ///   out1: [[0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff]]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_curve25519_solinas_mul(out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>], arg1: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>], arg2: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>]) {
+</span><span class="kw">pub const fn </span>fiat_curve25519_solinas_mul(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>], arg1: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>], arg2: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>]) {
   <span class="kw">let </span><span class="kw-2">mut </span>x1: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x2: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, (arg1[<span class="number">3</span>]), (arg2[<span class="number">3</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x3: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x4: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x3, <span class="kw-2">&amp;mut </span>x4, (arg1[<span class="number">3</span>]), (arg2[<span class="number">2</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x3, <span class="kw-2">&amp;mut </span>x4, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x5: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x6: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, (arg1[<span class="number">3</span>]), (arg2[<span class="number">1</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x7: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x8: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, (arg1[<span class="number">3</span>]), (arg2[<span class="number">0</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x9: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x10: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x9, <span class="kw-2">&amp;mut </span>x10, (arg1[<span class="number">2</span>]), (arg2[<span class="number">3</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x9, <span class="kw-2">&amp;mut </span>x10, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x11: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x12: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x11, <span class="kw-2">&amp;mut </span>x12, (arg1[<span class="number">2</span>]), (arg2[<span class="number">2</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x11, <span class="kw-2">&amp;mut </span>x12, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x13: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x14: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x13, <span class="kw-2">&amp;mut </span>x14, (arg1[<span class="number">2</span>]), (arg2[<span class="number">1</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x13, <span class="kw-2">&amp;mut </span>x14, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x15: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x16: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x15, <span class="kw-2">&amp;mut </span>x16, (arg1[<span class="number">2</span>]), (arg2[<span class="number">0</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x15, <span class="kw-2">&amp;mut </span>x16, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x17: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x18: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x17, <span class="kw-2">&amp;mut </span>x18, (arg1[<span class="number">1</span>]), (arg2[<span class="number">3</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x17, <span class="kw-2">&amp;mut </span>x18, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x19: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x20: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x19, <span class="kw-2">&amp;mut </span>x20, (arg1[<span class="number">1</span>]), (arg2[<span class="number">2</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x19, <span class="kw-2">&amp;mut </span>x20, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x21: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x22: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x21, <span class="kw-2">&amp;mut </span>x22, (arg1[<span class="number">1</span>]), (arg2[<span class="number">1</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x21, <span class="kw-2">&amp;mut </span>x22, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x23: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x24: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x23, <span class="kw-2">&amp;mut </span>x24, (arg1[<span class="number">1</span>]), (arg2[<span class="number">0</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x23, <span class="kw-2">&amp;mut </span>x24, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x25: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x26: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x25, <span class="kw-2">&amp;mut </span>x26, (arg1[<span class="number">0</span>]), (arg2[<span class="number">3</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x25, <span class="kw-2">&amp;mut </span>x26, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x27: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x28: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x27, <span class="kw-2">&amp;mut </span>x28, (arg1[<span class="number">0</span>]), (arg2[<span class="number">2</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x27, <span class="kw-2">&amp;mut </span>x28, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x29: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x30: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x29, <span class="kw-2">&amp;mut </span>x30, (arg1[<span class="number">0</span>]), (arg2[<span class="number">1</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x29, <span class="kw-2">&amp;mut </span>x30, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x31: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x32: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x31, <span class="kw-2">&amp;mut </span>x32, (arg1[<span class="number">0</span>]), (arg2[<span class="number">0</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x31, <span class="kw-2">&amp;mut </span>x32, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x33: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x34: fiat_curve25519_solinas_u1 = <span class="number">0</span>;
   fiat_curve25519_solinas_addcarryx_u64(<span class="kw-2">&amp;mut </span>x33, <span class="kw-2">&amp;mut </span>x34, <span class="number">0x0</span>, x28, x7);
@@ -798,10 +838,10 @@
   <span class="kw">let </span><span class="kw-2">mut </span>x131: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x132: fiat_curve25519_solinas_u1 = <span class="number">0</span>;
   fiat_curve25519_solinas_addcarryx_u64(<span class="kw-2">&amp;mut </span>x131, <span class="kw-2">&amp;mut </span>x132, <span class="number">0x0</span>, x130, x122);
-  out1[<span class="number">0</span>] = x131;
-  out1[<span class="number">1</span>] = x124;
-  out1[<span class="number">2</span>] = x126;
-  out1[<span class="number">3</span>] = x128;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x131;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x124;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x126;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x128;
 }
 
 <span class="doccomment">/// The function fiat_curve25519_solinas_square squares a field element.
@@ -814,22 +854,22 @@
 /// Output Bounds:
 ///   out1: [[0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff]]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_curve25519_solinas_square(out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>], arg1: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>]) {
+</span><span class="kw">pub const fn </span>fiat_curve25519_solinas_square(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>], arg1: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>]) {
   <span class="kw">let </span><span class="kw-2">mut </span>x1: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x2: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, (arg1[<span class="number">0</span>]), (arg1[<span class="number">3</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x3: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x4: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x3, <span class="kw-2">&amp;mut </span>x4, (arg1[<span class="number">0</span>]), (arg1[<span class="number">2</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x3, <span class="kw-2">&amp;mut </span>x4, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x5: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x6: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, (arg1[<span class="number">0</span>]), (arg1[<span class="number">1</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x7: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x8: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, (arg1[<span class="number">3</span>]), (arg1[<span class="number">2</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x9: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x10: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x9, <span class="kw-2">&amp;mut </span>x10, (arg1[<span class="number">3</span>]), (arg1[<span class="number">1</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x9, <span class="kw-2">&amp;mut </span>x10, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x11: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x12: fiat_curve25519_solinas_u1 = <span class="number">0</span>;
   fiat_curve25519_solinas_addcarryx_u64(<span class="kw-2">&amp;mut </span>x11, <span class="kw-2">&amp;mut </span>x12, <span class="number">0x0</span>, x6, x3);
@@ -845,7 +885,7 @@
   <span class="kw">let </span>x19: u64 = ((x18 <span class="kw">as </span>u64) + x8);
   <span class="kw">let </span><span class="kw-2">mut </span>x20: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x21: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x20, <span class="kw-2">&amp;mut </span>x21, (arg1[<span class="number">1</span>]), (arg1[<span class="number">2</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x20, <span class="kw-2">&amp;mut </span>x21, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x22: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x23: fiat_curve25519_solinas_u1 = <span class="number">0</span>;
   fiat_curve25519_solinas_addcarryx_u64(<span class="kw-2">&amp;mut </span>x22, <span class="kw-2">&amp;mut </span>x23, <span class="number">0x0</span>, x13, x20);
@@ -879,16 +919,16 @@
   <span class="kw">let </span>x42: u64 = (((x41 <span class="kw">as </span>u64) + (x29 <span class="kw">as </span>u64)) + (x29 <span class="kw">as </span>u64));
   <span class="kw">let </span><span class="kw-2">mut </span>x43: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x44: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x43, <span class="kw-2">&amp;mut </span>x44, (arg1[<span class="number">3</span>]), (arg1[<span class="number">3</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x43, <span class="kw-2">&amp;mut </span>x44, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x45: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x46: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x45, <span class="kw-2">&amp;mut </span>x46, (arg1[<span class="number">2</span>]), (arg1[<span class="number">2</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x45, <span class="kw-2">&amp;mut </span>x46, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x47: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x48: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x47, <span class="kw-2">&amp;mut </span>x48, (arg1[<span class="number">1</span>]), (arg1[<span class="number">1</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x47, <span class="kw-2">&amp;mut </span>x48, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x49: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x50: u64 = <span class="number">0</span>;
-  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x49, <span class="kw-2">&amp;mut </span>x50, (arg1[<span class="number">0</span>]), (arg1[<span class="number">0</span>]));
+  fiat_curve25519_solinas_mulx_u64(<span class="kw-2">&amp;mut </span>x49, <span class="kw-2">&amp;mut </span>x50, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x51: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x52: fiat_curve25519_solinas_u1 = <span class="number">0</span>;
   fiat_curve25519_solinas_addcarryx_u64(<span class="kw-2">&amp;mut </span>x51, <span class="kw-2">&amp;mut </span>x52, <span class="number">0x0</span>, x30, x50);
@@ -965,9 +1005,9 @@
   <span class="kw">let </span><span class="kw-2">mut </span>x100: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x101: fiat_curve25519_solinas_u1 = <span class="number">0</span>;
   fiat_curve25519_solinas_addcarryx_u64(<span class="kw-2">&amp;mut </span>x100, <span class="kw-2">&amp;mut </span>x101, <span class="number">0x0</span>, x99, x91);
-  out1[<span class="number">0</span>] = x100;
-  out1[<span class="number">1</span>] = x93;
-  out1[<span class="number">2</span>] = x95;
-  out1[<span class="number">3</span>] = x97;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x100;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x93;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x95;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x97;
 }
 </code></pre></div></section></main></body></html>

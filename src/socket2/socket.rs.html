@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.5.9/src/socket.rs`."><title>socket.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="socket2" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">socket2/</div>socket.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/socket2-0.5.10/src/socket.rs`."><title>socket.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="socket2" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">socket2/</div>socket.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -2410,7 +2410,31 @@
 <a href="#2409" id="2409">2409</a>
 <a href="#2410" id="2410">2410</a>
 <a href="#2411" id="2411">2411</a>
-<a href="#2412" id="2412">2412</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2015 The Rust Project Developers.
+<a href="#2412" id="2412">2412</a>
+<a href="#2413" id="2413">2413</a>
+<a href="#2414" id="2414">2414</a>
+<a href="#2415" id="2415">2415</a>
+<a href="#2416" id="2416">2416</a>
+<a href="#2417" id="2417">2417</a>
+<a href="#2418" id="2418">2418</a>
+<a href="#2419" id="2419">2419</a>
+<a href="#2420" id="2420">2420</a>
+<a href="#2421" id="2421">2421</a>
+<a href="#2422" id="2422">2422</a>
+<a href="#2423" id="2423">2423</a>
+<a href="#2424" id="2424">2424</a>
+<a href="#2425" id="2425">2425</a>
+<a href="#2426" id="2426">2426</a>
+<a href="#2427" id="2427">2427</a>
+<a href="#2428" id="2428">2428</a>
+<a href="#2429" id="2429">2429</a>
+<a href="#2430" id="2430">2430</a>
+<a href="#2431" id="2431">2431</a>
+<a href="#2432" id="2432">2432</a>
+<a href="#2433" id="2433">2433</a>
+<a href="#2434" id="2434">2434</a>
+<a href="#2435" id="2435">2435</a>
+<a href="#2436" id="2436">2436</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2015 The Rust Project Developers.
 //
 // Licensed under the Apache License, Version 2.0 &lt;LICENSE-APACHE or
 // https://www.apache.org/licenses/LICENSE-2.0&gt; or the MIT license
@@ -2614,6 +2638,11 @@
     /// non-blocking mode before calling this function), socket option can't be
     /// set *while connecting*. This will cause errors on Windows. Socket
     /// options can be safely set before and after connecting the socket.
+    ///
+    /// On Cygwin, a Unix domain socket connect blocks until the server accepts
+    /// it. If the behavior is not expected, try [`Socket::set_no_peercred`]
+    /// (Cygwin only).
+    </span><span class="attr">#[allow(rustdoc::broken_intra_doc_links)] </span><span class="comment">// Socket::set_no_peercred
     </span><span class="kw">pub fn </span>connect(<span class="kw-2">&amp;</span><span class="self">self</span>, address: <span class="kw-2">&amp;</span>SockAddr) -&gt; io::Result&lt;()&gt; {
         sys::connect(<span class="self">self</span>.as_raw(), address)
     }
@@ -2674,6 +2703,13 @@
     /// This function sets the same flags as in done for [`Socket::new`],
     /// [`Socket::accept_raw`] can be used if you don't want to set those flags.
     </span><span class="attr">#[doc = <span class="macro">man_links!</span>(accept(<span class="number">2</span>))]
+    </span><span class="doccomment">///
+    /// # Notes
+    ///
+    /// On Cygwin, a Unix domain socket connect blocks until the server accepts
+    /// it. If the behavior is not expected, try [`Socket::set_no_peercred`]
+    /// (Cygwin only).
+    </span><span class="attr">#[allow(rustdoc::broken_intra_doc_links)] </span><span class="comment">// Socket::set_no_peercred
     </span><span class="kw">pub fn </span>accept(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;(Socket, SockAddr)&gt; {
         <span class="comment">// Use `accept4` on platforms that support it.
         </span><span class="attr">#[cfg(any(
@@ -2685,6 +2721,7 @@
             target_os = <span class="string">"linux"</span>,
             target_os = <span class="string">"netbsd"</span>,
             target_os = <span class="string">"openbsd"</span>,
+            target_os = <span class="string">"cygwin"</span>,
         ))]
         </span><span class="kw">return </span><span class="self">self</span>._accept4(libc::SOCK_CLOEXEC);
 
@@ -2698,6 +2735,7 @@
             target_os = <span class="string">"linux"</span>,
             target_os = <span class="string">"netbsd"</span>,
             target_os = <span class="string">"openbsd"</span>,
+            target_os = <span class="string">"cygwin"</span>,
         )))]
         </span>{
             <span class="kw">let </span>(socket, addr) = <span class="self">self</span>.accept_raw()<span class="question-mark">?</span>;
@@ -3177,6 +3215,7 @@
         target_os = <span class="string">"linux"</span>,
         target_os = <span class="string">"netbsd"</span>,
         target_os = <span class="string">"openbsd"</span>,
+        target_os = <span class="string">"cygwin"</span>,
     ))]
     </span><span class="kw">let </span>ty = ty._cloexec();
 
@@ -3206,6 +3245,7 @@
             target_os = <span class="string">"openbsd"</span>,
             target_os = <span class="string">"espidf"</span>,
             target_os = <span class="string">"vita"</span>,
+            target_os = <span class="string">"cygwin"</span>,
         ))
     ))]
     </span>socket._set_cloexec(<span class="bool-val">true</span>)<span class="question-mark">?</span>;
@@ -3383,8 +3423,8 @@
     /// For more information about this option, see [`set_passcred`].
     ///
     /// [`set_passcred`]: Socket::set_passcred
-    </span><span class="attr">#[cfg(all(unix, target_os = <span class="string">"linux"</span>))]
-    #[cfg_attr(docsrs, doc(cfg(all(unix, target_os = <span class="string">"linux"</span>))))]
+    </span><span class="attr">#[cfg(any(target_os = <span class="string">"linux"</span>, target_os = <span class="string">"cygwin"</span>))]
+    #[cfg_attr(docsrs, doc(cfg(any(target_os = <span class="string">"linux"</span>, target_os = <span class="string">"cygwin"</span>))))]
     </span><span class="kw">pub fn </span>passcred(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;bool&gt; {
         <span class="kw">unsafe </span>{
             getsockopt::&lt;c_int&gt;(<span class="self">self</span>.as_raw(), sys::SOL_SOCKET, sys::SO_PASSCRED)
@@ -3396,8 +3436,8 @@
     ///
     /// If this option is enabled, enables the receiving of the `SCM_CREDENTIALS`
     /// control messages.
-    </span><span class="attr">#[cfg(all(unix, target_os = <span class="string">"linux"</span>))]
-    #[cfg_attr(docsrs, doc(cfg(all(unix, target_os = <span class="string">"linux"</span>))))]
+    </span><span class="attr">#[cfg(any(target_os = <span class="string">"linux"</span>, target_os = <span class="string">"cygwin"</span>))]
+    #[cfg_attr(docsrs, doc(cfg(any(target_os = <span class="string">"linux"</span>, target_os = <span class="string">"cygwin"</span>))))]
     </span><span class="kw">pub fn </span>set_passcred(<span class="kw-2">&amp;</span><span class="self">self</span>, passcred: bool) -&gt; io::Result&lt;()&gt; {
         <span class="kw">unsafe </span>{
             setsockopt(
@@ -3718,6 +3758,7 @@
         target_os = <span class="string">"nto"</span>,
         target_os = <span class="string">"espidf"</span>,
         target_os = <span class="string">"vita"</span>,
+        target_os = <span class="string">"cygwin"</span>,
     )))]
     </span><span class="kw">pub fn </span>join_multicast_v4_n(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -3751,6 +3792,7 @@
         target_os = <span class="string">"nto"</span>,
         target_os = <span class="string">"espidf"</span>,
         target_os = <span class="string">"vita"</span>,
+        target_os = <span class="string">"cygwin"</span>,
     )))]
     </span><span class="kw">pub fn </span>leave_multicast_v4_n(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -4043,6 +4085,7 @@
         target_os = <span class="string">"nto"</span>,
         target_os = <span class="string">"espidf"</span>,
         target_os = <span class="string">"vita"</span>,
+        target_os = <span class="string">"cygwin"</span>,
     )))]
     </span><span class="kw">pub fn </span>set_recv_tos(<span class="kw-2">&amp;</span><span class="self">self</span>, recv_tos: bool) -&gt; io::Result&lt;()&gt; {
         <span class="kw">unsafe </span>{
@@ -4074,6 +4117,7 @@
         target_os = <span class="string">"nto"</span>,
         target_os = <span class="string">"espidf"</span>,
         target_os = <span class="string">"vita"</span>,
+        target_os = <span class="string">"cygwin"</span>,
     )))]
     </span><span class="kw">pub fn </span>recv_tos(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;bool&gt; {
         <span class="kw">unsafe </span>{
@@ -4451,6 +4495,7 @@
             target_os = <span class="string">"hurd"</span>,
             target_os = <span class="string">"espidf"</span>,
             target_os = <span class="string">"vita"</span>,
+            target_os = <span class="string">"cygwin"</span>,
         ))
     ))]
     </span><span class="kw">pub fn </span>recv_hoplimit_v6(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;bool&gt; {
@@ -4479,6 +4524,7 @@
             target_os = <span class="string">"hurd"</span>,
             target_os = <span class="string">"espidf"</span>,
             target_os = <span class="string">"vita"</span>,
+            target_os = <span class="string">"cygwin"</span>,
         ))
     ))]
     </span><span class="kw">pub fn </span>set_recv_hoplimit_v6(<span class="kw-2">&amp;</span><span class="self">self</span>, recv_hoplimit: bool) -&gt; io::Result&lt;()&gt; {
@@ -4548,6 +4594,7 @@
             target_os = <span class="string">"netbsd"</span>,
             target_os = <span class="string">"tvos"</span>,
             target_os = <span class="string">"watchos"</span>,
+            target_os = <span class="string">"cygwin"</span>,
         )
     ))]
     #[cfg_attr(
@@ -4597,6 +4644,7 @@
             target_os = <span class="string">"netbsd"</span>,
             target_os = <span class="string">"tvos"</span>,
             target_os = <span class="string">"watchos"</span>,
+            target_os = <span class="string">"cygwin"</span>,
         )
     ))]
     #[cfg_attr(

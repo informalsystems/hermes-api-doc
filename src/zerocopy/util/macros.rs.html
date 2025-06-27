@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerocopy-0.8.25/src/util/macros.rs`."><title>macros.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/util/</div>macros.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerocopy-0.8.26/src/util/macros.rs`."><title>macros.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/util/</div>macros.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -787,7 +787,147 @@
 <a href="#786" id="786">786</a>
 <a href="#787" id="787">787</a>
 <a href="#788" id="788">788</a>
-<a href="#789" id="789">789</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2023 The Fuchsia Authors
+<a href="#789" id="789">789</a>
+<a href="#790" id="790">790</a>
+<a href="#791" id="791">791</a>
+<a href="#792" id="792">792</a>
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
+<a href="#795" id="795">795</a>
+<a href="#796" id="796">796</a>
+<a href="#797" id="797">797</a>
+<a href="#798" id="798">798</a>
+<a href="#799" id="799">799</a>
+<a href="#800" id="800">800</a>
+<a href="#801" id="801">801</a>
+<a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
+<a href="#809" id="809">809</a>
+<a href="#810" id="810">810</a>
+<a href="#811" id="811">811</a>
+<a href="#812" id="812">812</a>
+<a href="#813" id="813">813</a>
+<a href="#814" id="814">814</a>
+<a href="#815" id="815">815</a>
+<a href="#816" id="816">816</a>
+<a href="#817" id="817">817</a>
+<a href="#818" id="818">818</a>
+<a href="#819" id="819">819</a>
+<a href="#820" id="820">820</a>
+<a href="#821" id="821">821</a>
+<a href="#822" id="822">822</a>
+<a href="#823" id="823">823</a>
+<a href="#824" id="824">824</a>
+<a href="#825" id="825">825</a>
+<a href="#826" id="826">826</a>
+<a href="#827" id="827">827</a>
+<a href="#828" id="828">828</a>
+<a href="#829" id="829">829</a>
+<a href="#830" id="830">830</a>
+<a href="#831" id="831">831</a>
+<a href="#832" id="832">832</a>
+<a href="#833" id="833">833</a>
+<a href="#834" id="834">834</a>
+<a href="#835" id="835">835</a>
+<a href="#836" id="836">836</a>
+<a href="#837" id="837">837</a>
+<a href="#838" id="838">838</a>
+<a href="#839" id="839">839</a>
+<a href="#840" id="840">840</a>
+<a href="#841" id="841">841</a>
+<a href="#842" id="842">842</a>
+<a href="#843" id="843">843</a>
+<a href="#844" id="844">844</a>
+<a href="#845" id="845">845</a>
+<a href="#846" id="846">846</a>
+<a href="#847" id="847">847</a>
+<a href="#848" id="848">848</a>
+<a href="#849" id="849">849</a>
+<a href="#850" id="850">850</a>
+<a href="#851" id="851">851</a>
+<a href="#852" id="852">852</a>
+<a href="#853" id="853">853</a>
+<a href="#854" id="854">854</a>
+<a href="#855" id="855">855</a>
+<a href="#856" id="856">856</a>
+<a href="#857" id="857">857</a>
+<a href="#858" id="858">858</a>
+<a href="#859" id="859">859</a>
+<a href="#860" id="860">860</a>
+<a href="#861" id="861">861</a>
+<a href="#862" id="862">862</a>
+<a href="#863" id="863">863</a>
+<a href="#864" id="864">864</a>
+<a href="#865" id="865">865</a>
+<a href="#866" id="866">866</a>
+<a href="#867" id="867">867</a>
+<a href="#868" id="868">868</a>
+<a href="#869" id="869">869</a>
+<a href="#870" id="870">870</a>
+<a href="#871" id="871">871</a>
+<a href="#872" id="872">872</a>
+<a href="#873" id="873">873</a>
+<a href="#874" id="874">874</a>
+<a href="#875" id="875">875</a>
+<a href="#876" id="876">876</a>
+<a href="#877" id="877">877</a>
+<a href="#878" id="878">878</a>
+<a href="#879" id="879">879</a>
+<a href="#880" id="880">880</a>
+<a href="#881" id="881">881</a>
+<a href="#882" id="882">882</a>
+<a href="#883" id="883">883</a>
+<a href="#884" id="884">884</a>
+<a href="#885" id="885">885</a>
+<a href="#886" id="886">886</a>
+<a href="#887" id="887">887</a>
+<a href="#888" id="888">888</a>
+<a href="#889" id="889">889</a>
+<a href="#890" id="890">890</a>
+<a href="#891" id="891">891</a>
+<a href="#892" id="892">892</a>
+<a href="#893" id="893">893</a>
+<a href="#894" id="894">894</a>
+<a href="#895" id="895">895</a>
+<a href="#896" id="896">896</a>
+<a href="#897" id="897">897</a>
+<a href="#898" id="898">898</a>
+<a href="#899" id="899">899</a>
+<a href="#900" id="900">900</a>
+<a href="#901" id="901">901</a>
+<a href="#902" id="902">902</a>
+<a href="#903" id="903">903</a>
+<a href="#904" id="904">904</a>
+<a href="#905" id="905">905</a>
+<a href="#906" id="906">906</a>
+<a href="#907" id="907">907</a>
+<a href="#908" id="908">908</a>
+<a href="#909" id="909">909</a>
+<a href="#910" id="910">910</a>
+<a href="#911" id="911">911</a>
+<a href="#912" id="912">912</a>
+<a href="#913" id="913">913</a>
+<a href="#914" id="914">914</a>
+<a href="#915" id="915">915</a>
+<a href="#916" id="916">916</a>
+<a href="#917" id="917">917</a>
+<a href="#918" id="918">918</a>
+<a href="#919" id="919">919</a>
+<a href="#920" id="920">920</a>
+<a href="#921" id="921">921</a>
+<a href="#922" id="922">922</a>
+<a href="#923" id="923">923</a>
+<a href="#924" id="924">924</a>
+<a href="#925" id="925">925</a>
+<a href="#926" id="926">926</a>
+<a href="#927" id="927">927</a>
+<a href="#928" id="928">928</a>
+<a href="#929" id="929">929</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2023 The Fuchsia Authors
 //
 // Licensed under a BSD-style license &lt;LICENSE-BSD&gt;, Apache License, Version 2.0
 // &lt;LICENSE-APACHE or https://www.apache.org/licenses/LICENSE-2.0&gt;, or the MIT
@@ -1022,7 +1162,7 @@
         </span>TryFromBytes <span class="kw">for </span><span class="macro-nonterminal">$ty</span>:ty [&lt;<span class="macro-nonterminal">$repr</span>:ty&gt;]
     ) =&gt; {
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>is_bit_valid&lt;A: <span class="kw">crate</span>::pointer::invariant::Reference&gt;(candidate: Maybe&lt;<span class="lifetime">'_</span>, <span class="self">Self</span>, A&gt;) -&gt; bool {
+        </span><span class="kw">fn </span>is_bit_valid&lt;A: <span class="kw">crate</span>::pointer::invariant::Reference&gt;(candidate: <span class="macro-nonterminal">$crate::Maybe</span>&lt;<span class="lifetime">'_</span>, <span class="self">Self</span>, A&gt;) -&gt; bool {
             <span class="comment">// SAFETY: This macro ensures that `$repr` and `Self` have the same
             // size and bit validity. Thus, a bit-valid instance of `$repr` is
             // also a bit-valid instance of `Self`.
@@ -1038,7 +1178,7 @@
     </span>};
 }
 
-<span class="doccomment">/// Implements a trait for a type, bounding on each memeber of the power set of
+<span class="doccomment">/// Implements a trait for a type, bounding on each member of the power set of
 /// a set of type variables. This is useful for implementing traits for tuples
 /// or `fn` types.
 ///
@@ -1186,7 +1326,10 @@
     (@verify <span class="macro-nonterminal">$</span><span class="kw">trait</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$impl_block</span>:tt) =&gt; {
         <span class="attr">#[cfg(any(feature = <span class="string">"derive"</span>, test))]
         </span>{
-            <span class="kw">trait </span>Subtrait: <span class="macro-nonterminal">$</span><span class="kw">trait </span>{}
+            <span class="comment">// On some toolchains, `Subtrait` triggers the `dead_code` lint
+            // because it is implemented but never used.
+            </span><span class="attr">#[allow(dead_code)]
+            </span><span class="kw">trait </span>Subtrait: <span class="macro-nonterminal">$</span><span class="kw">trait </span>{}
             <span class="macro-nonterminal">$impl_block
         </span>};
     };
@@ -1437,14 +1580,15 @@
             <span class="kw">const </span>ASSERT: bool;
         }
 
-        <span class="kw">impl</span>&lt;$(<span class="macro-nonterminal">$tyvar </span>$(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound </span>+)* $(<span class="macro-nonterminal">$bound </span>+)<span class="kw-2">*</span>)<span class="question-mark">?</span>,)<span class="kw-2">*</span>&gt; StaticAssert <span class="kw">for </span>($(<span class="macro-nonterminal">$tyvar</span>,)<span class="kw-2">*</span>) {
+        <span class="comment">// NOTE: We use `PhantomData` so we can support unsized types.
+        </span><span class="kw">impl</span>&lt;$(<span class="macro-nonterminal">$tyvar </span>$(: $(<span class="question-mark">? </span><span class="macro-nonterminal">$optbound </span>+)* $(<span class="macro-nonterminal">$bound </span>+)<span class="kw-2">*</span>)<span class="question-mark">?</span>,)<span class="kw-2">*</span>&gt; StaticAssert <span class="kw">for </span>($(core::marker::PhantomData&lt;<span class="macro-nonterminal">$tyvar</span>&gt;,)<span class="kw-2">*</span>) {
             <span class="kw">const </span>ASSERT: bool = {
                 <span class="macro">const_assert!</span>(<span class="macro-nonterminal">$condition </span>$(, <span class="macro-nonterminal">$args</span>)<span class="kw-2">*</span>);
                 <span class="macro-nonterminal">$condition
             </span>};
         }
 
-        <span class="macro">const_assert!</span>(&lt;($(<span class="macro-nonterminal">$tyvar</span>,)<span class="kw-2">*</span>) <span class="kw">as </span>StaticAssert&gt;::ASSERT);
+        <span class="macro">const_assert!</span>(&lt;($(core::marker::PhantomData&lt;<span class="macro-nonterminal">$tyvar</span>&gt;,)<span class="kw-2">*</span>) <span class="kw">as </span>StaticAssert&gt;::ASSERT);
     }};
 }
 
@@ -1465,21 +1609,29 @@
     }}
 }
 
-<span class="macro">macro_rules!</span> cast {
-    () =&gt; {
-        |p| {
-            <span class="comment">// SAFETY: `NonNull::as_ptr` returns a non-null pointer, so the
-            // argument to `NonNull::new_unchecked` is also non-null.
-            </span><span class="attr">#[allow(clippy::as_conversions, unused_unsafe)]
-            #[allow(clippy::undocumented_unsafe_blocks)] </span><span class="comment">// Clippy false positive
-            </span><span class="kw">return unsafe </span>{
-                core::ptr::NonNull::new_unchecked(core::ptr::NonNull::as_ptr(p) <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>)
-            };
-        }
-    };
-    (<span class="macro-nonterminal">$p</span>:ident) =&gt; {
-        <span class="macro">cast!</span>()(<span class="macro-nonterminal">$p</span>)
-    };
+<span class="doccomment">/// # Safety
+///
+/// The caller must ensure that the cast does not grow the size of the referent.
+/// Preserving or shrinking the size of the referent are both acceptable.
+</span><span class="macro">macro_rules!</span> cast {
+    (<span class="macro-nonterminal">$p</span>:expr) =&gt; {{
+        <span class="kw">let </span>ptr: <span class="kw">crate</span>::pointer::PtrInner&lt;<span class="lifetime">'_</span>, <span class="kw">_</span>&gt; = <span class="macro-nonterminal">$p</span>;
+        <span class="kw">let </span>ptr = ptr.as_non_null();
+        <span class="kw">let </span>ptr = ptr.as_ptr();
+        <span class="attr">#[allow(clippy::as_conversions)]
+        </span><span class="kw">let </span>ptr = ptr <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>;
+        <span class="attr">#[allow(unused_unsafe)]
+        </span><span class="comment">// SAFETY: `NonNull::as_ptr` returns a non-null pointer, so the argument
+        // to `NonNull::new_unchecked` is also non-null.
+        </span><span class="kw">let </span>ptr = <span class="kw">unsafe </span>{ core::ptr::NonNull::new_unchecked(ptr) };
+        <span class="comment">// SAFETY: The caller promises that the cast preserves or shrinks
+        // referent size. By invariant on `$p: PtrInner` (guaranteed by type
+        // annotation above), `$p` refers to a byte range entirely contained
+        // inside of a single allocation, has provenance for that whole byte
+        // range, and will not outlive the allocation. All of these conditions
+        // are preserved when preserving or shrinking referent size.
+        </span><span class="kw">crate</span>::pointer::PtrInner::new(ptr)
+    }};
 }
 
 <span class="doccomment">/// Implements `TransmuteFrom` and `SizeEq` for `T` and `$wrapper&lt;T&gt;`.
@@ -1490,27 +1642,30 @@
 /// same size in the sense of `SizeEq`.
 </span><span class="macro">macro_rules!</span> unsafe_impl_for_transparent_wrapper {
     (T $(: <span class="question-mark">?</span><span class="macro-nonterminal">$optbound</span>:ident)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$wrapper</span>:ident&lt;T&gt;) =&gt; {{
-        <span class="kw">use </span>core::ptr::NonNull;
-        <span class="kw">use </span><span class="kw">crate</span>::pointer::{TransmuteFrom, SizeEq, invariant::Valid};
-
         <span class="kw">crate</span>::util::macros::__unsafe();
 
-        <span class="comment">// SAFETY: The caller promises that `T` and `$wrapper&lt;T&gt;` have the
-        // same bit validity.
+        <span class="kw">use </span><span class="kw">crate</span>::pointer::{TransmuteFrom, PtrInner, SizeEq, invariant::Valid};
+
+        <span class="comment">// SAFETY: The caller promises that `T` and `$wrapper&lt;T&gt;` have the same
+        // bit validity.
         </span><span class="kw">unsafe impl</span>&lt;T $(: <span class="question-mark">?</span><span class="macro-nonterminal">$optbound</span>)<span class="question-mark">?</span>&gt; TransmuteFrom&lt;T, Valid, Valid&gt; <span class="kw">for </span><span class="macro-nonterminal">$wrapper</span>&lt;T&gt; {}
         <span class="comment">// SAFETY: See previous safety comment.
         </span><span class="kw">unsafe impl</span>&lt;T $(: <span class="question-mark">?</span><span class="macro-nonterminal">$optbound</span>)<span class="question-mark">?</span>&gt; TransmuteFrom&lt;<span class="macro-nonterminal">$wrapper</span>&lt;T&gt;, Valid, Valid&gt; <span class="kw">for </span>T {}
         <span class="comment">// SAFETY: The caller promises that `T` and `$wrapper&lt;T&gt;` satisfy
         // `SizeEq`.
         </span><span class="kw">unsafe impl</span>&lt;T $(: <span class="question-mark">?</span><span class="macro-nonterminal">$optbound</span>)<span class="question-mark">?</span>&gt; SizeEq&lt;T&gt; <span class="kw">for </span><span class="macro-nonterminal">$wrapper</span>&lt;T&gt; {
-            <span class="kw">fn </span>cast_from_raw(t: NonNull&lt;T&gt;) -&gt; NonNull&lt;<span class="macro-nonterminal">$wrapper</span>&lt;T&gt;&gt; {
-                <span class="macro">cast!</span>(t)
+            <span class="attr">#[inline(always)]
+            </span><span class="kw">fn </span>cast_from_raw(t: PtrInner&lt;<span class="lifetime">'_</span>, T&gt;) -&gt; PtrInner&lt;<span class="lifetime">'_</span>, <span class="macro-nonterminal">$wrapper</span>&lt;T&gt;&gt; {
+                <span class="comment">// SAFETY: See previous safety comment.
+                </span><span class="kw">unsafe </span>{ <span class="macro">cast!</span>(t) }
             }
         }
         <span class="comment">// SAFETY: See previous safety comment.
         </span><span class="kw">unsafe impl</span>&lt;T $(: <span class="question-mark">?</span><span class="macro-nonterminal">$optbound</span>)<span class="question-mark">?</span>&gt; SizeEq&lt;<span class="macro-nonterminal">$wrapper</span>&lt;T&gt;&gt; <span class="kw">for </span>T {
-            <span class="kw">fn </span>cast_from_raw(t: NonNull&lt;<span class="macro-nonterminal">$wrapper</span>&lt;T&gt;&gt;) -&gt; NonNull&lt;T&gt; {
-                <span class="macro">cast!</span>(t)
+            <span class="attr">#[inline(always)]
+            </span><span class="kw">fn </span>cast_from_raw(t: PtrInner&lt;<span class="lifetime">'_</span>, <span class="macro-nonterminal">$wrapper</span>&lt;T&gt;&gt;) -&gt; PtrInner&lt;<span class="lifetime">'_</span>, T&gt; {
+                <span class="comment">// SAFETY: See previous safety comment.
+                </span><span class="kw">unsafe </span>{ <span class="macro">cast!</span>(t) }
             }
         }
     }};
@@ -1519,8 +1674,7 @@
 <span class="macro">macro_rules!</span> impl_transitive_transmute_from {
     ($(<span class="macro-nonterminal">$tyvar</span>:ident $(: <span class="question-mark">?</span><span class="macro-nonterminal">$optbound</span>:ident)<span class="question-mark">?</span>)<span class="question-mark">? </span>=&gt; <span class="macro-nonterminal">$t</span>:ty =&gt; <span class="macro-nonterminal">$u</span>:ty =&gt; <span class="macro-nonterminal">$v</span>:ty) =&gt; {
         <span class="kw">const _</span>: () = {
-            <span class="kw">use </span>core::ptr::NonNull;
-            <span class="kw">use </span><span class="kw">crate</span>::pointer::{TransmuteFrom, SizeEq, invariant::Valid};
+            <span class="kw">use </span><span class="kw">crate</span>::pointer::{TransmuteFrom, PtrInner, SizeEq, invariant::Valid};
 
             <span class="comment">// SAFETY: Since `$u: SizeEq&lt;$t&gt;` and `$v: SizeEq&lt;U&gt;`, this impl is
             // transitively sound.
@@ -1529,8 +1683,10 @@
                 </span><span class="macro-nonterminal">$u</span>: SizeEq&lt;<span class="macro-nonterminal">$t</span>&gt;,
                 <span class="macro-nonterminal">$v</span>: SizeEq&lt;<span class="macro-nonterminal">$u</span>&gt;,
             {
-                <span class="kw">fn </span>cast_from_raw(t: NonNull&lt;<span class="macro-nonterminal">$t</span>&gt;) -&gt; NonNull&lt;<span class="macro-nonterminal">$v</span>&gt; {
-                    <span class="macro">cast!</span>(t)
+                <span class="attr">#[inline(always)]
+                </span><span class="kw">fn </span>cast_from_raw(t: PtrInner&lt;<span class="lifetime">'_</span>, <span class="macro-nonterminal">$t</span>&gt;) -&gt; PtrInner&lt;<span class="lifetime">'_</span>, <span class="macro-nonterminal">$v</span>&gt; {
+                    <span class="kw">let </span>u = &lt;<span class="macro-nonterminal">$u </span><span class="kw">as </span>SizeEq&lt;<span class="kw">_</span>&gt;&gt;::cast_from_raw(t);
+                    &lt;<span class="macro-nonterminal">$v </span><span class="kw">as </span>SizeEq&lt;<span class="kw">_</span>&gt;&gt;::cast_from_raw(u)
                 }
             }
 
@@ -1547,28 +1703,152 @@
     };
 }
 
-<span class="macro">macro_rules!</span> impl_size_eq {
+<span class="attr">#[rustfmt::skip]
+</span><span class="macro">macro_rules!</span> impl_size_eq {
     (<span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$u</span>:ty) =&gt; {
         <span class="kw">const _</span>: () = {
-            <span class="kw">use </span><span class="kw">crate</span>::pointer::SizeEq;
-            <span class="kw">use </span>core::ptr::NonNull;
+            <span class="kw">use crate</span>::{KnownLayout, pointer::{PtrInner, SizeEq}};
 
-    <span class="macro">static_assert!</span>(=&gt; mem::size_of::&lt;<span class="macro-nonterminal">$t</span>&gt;() == mem::size_of::&lt;<span class="macro-nonterminal">$u</span>&gt;());
+            <span class="macro">static_assert!</span>(=&gt; {
+                <span class="kw">let </span>t = &lt;<span class="macro-nonterminal">$t </span><span class="kw">as </span>KnownLayout&gt;::LAYOUT;
+                <span class="kw">let </span>u = &lt;<span class="macro-nonterminal">$u </span><span class="kw">as </span>KnownLayout&gt;::LAYOUT;
+                t.align.get() &gt;= u.align.get() &amp;&amp; <span class="kw">match </span>(t.size_info, u.size_info) {
+                    (SizeInfo::Sized { size: t }, SizeInfo::Sized { size: u }) =&gt; t == u,
+                    (
+                        SizeInfo::SliceDst(TrailingSliceLayout { offset: t_offset, elem_size: t_elem_size }),
+                        SizeInfo::SliceDst(TrailingSliceLayout { offset: u_offset, elem_size: u_elem_size })
+                    ) =&gt; t_offset == u_offset &amp;&amp; t_elem_size == u_elem_size,
+                    <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
+                }
+            });
 
-            <span class="comment">// SAFETY: We've asserted that their sizes are equal.
+            <span class="comment">// SAFETY: See inline.
             </span><span class="kw">unsafe impl </span>SizeEq&lt;<span class="macro-nonterminal">$t</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$u </span>{
-                <span class="kw">fn </span>cast_from_raw(t: NonNull&lt;<span class="macro-nonterminal">$t</span>&gt;) -&gt; NonNull&lt;<span class="macro-nonterminal">$u</span>&gt; {
-                    <span class="macro">cast!</span>(t)
+                <span class="attr">#[inline(always)]
+                </span><span class="kw">fn </span>cast_from_raw(t: PtrInner&lt;<span class="lifetime">'_</span>, <span class="macro-nonterminal">$t</span>&gt;) -&gt; PtrInner&lt;<span class="lifetime">'_</span>, <span class="macro-nonterminal">$u</span>&gt; {
+                    <span class="comment">// SAFETY: We've asserted that their
+                    // `KnownLayout::LAYOUT.size_info`s are equal, and so this
+                    // cast is guaranteed to preserve address and referent size.
+                    // It trivially preserves provenance.
+                    </span><span class="kw">unsafe </span>{ <span class="macro">cast!</span>(t) }
                 }
             }
-            <span class="comment">// SAFETY: We've asserted that their sizes are equal.
+            <span class="comment">// SAFETY: See previous safety comment.
             </span><span class="kw">unsafe impl </span>SizeEq&lt;<span class="macro-nonterminal">$u</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$t </span>{
-                <span class="kw">fn </span>cast_from_raw(u: NonNull&lt;<span class="macro-nonterminal">$u</span>&gt;) -&gt; NonNull&lt;<span class="macro-nonterminal">$t</span>&gt; {
-                    <span class="macro">cast!</span>(u)
+                <span class="attr">#[inline(always)]
+                </span><span class="kw">fn </span>cast_from_raw(u: PtrInner&lt;<span class="lifetime">'_</span>, <span class="macro-nonterminal">$u</span>&gt;) -&gt; PtrInner&lt;<span class="lifetime">'_</span>, <span class="macro-nonterminal">$t</span>&gt; {
+                    <span class="comment">// SAFETY: See previous safety comment.
+                    </span><span class="kw">unsafe </span>{ <span class="macro">cast!</span>(u) }
                 }
             }
         };
     };
+}
+
+<span class="doccomment">/// Invokes `$blk` in a context in which `$src&lt;$t&gt;` and `$dst&lt;$u&gt;` implement
+/// `SizeEq`.
+///
+/// This macro emits code which implements `SizeEq`, and ensures that the impl
+/// is sound via PME.
+///
+/// # Safety
+///
+/// Inside of `$blk`, the caller must only use `$src` and `$dst` as `$src&lt;$t&gt;`
+/// and `$dst&lt;$u&gt;`. The caller must not use `$src` or `$dst` to wrap any other
+/// types.
+</span><span class="macro">macro_rules!</span> unsafe_with_size_eq {
+    (&lt;<span class="macro-nonterminal">$src</span>:ident&lt;<span class="macro-nonterminal">$t</span>:ident&gt;, <span class="macro-nonterminal">$dst</span>:ident&lt;<span class="macro-nonterminal">$u</span>:ident&gt;&gt; <span class="macro-nonterminal">$blk</span>:expr) =&gt; {{
+        <span class="kw">crate</span>::util::macros::__unsafe();
+
+        <span class="kw">use crate</span>::{KnownLayout, pointer::PtrInner};
+
+        <span class="attr">#[repr(transparent)]
+        </span><span class="kw">struct </span><span class="macro-nonterminal">$src</span>&lt;T: <span class="question-mark">?</span>Sized&gt;(T);
+
+        <span class="attr">#[repr(transparent)]
+        </span><span class="kw">struct </span><span class="macro-nonterminal">$dst</span>&lt;U: <span class="question-mark">?</span>Sized&gt;(U);
+
+        <span class="comment">// SAFETY: Since `$src&lt;T&gt;` is a `#[repr(transparent)]` wrapper around
+        // `T`, it has the same bit validity and size as `T`.
+        </span><span class="macro">unsafe_impl_for_transparent_wrapper!</span>(T: <span class="question-mark">?</span>Sized =&gt; <span class="macro-nonterminal">$src</span>&lt;T&gt;);
+
+        <span class="comment">// SAFETY: Since `$dst&lt;T&gt;` is a `#[repr(transparent)]` wrapper around
+        // `T`, it has the same bit validity and size as `T`.
+        </span><span class="macro">unsafe_impl_for_transparent_wrapper!</span>(T: <span class="question-mark">?</span>Sized =&gt; <span class="macro-nonterminal">$dst</span>&lt;T&gt;);
+
+        <span class="comment">// SAFETY: `$src&lt;T&gt;` is a `#[repr(transparent)]` wrapper around `T` with
+        // no added semantics.
+        </span><span class="kw">unsafe impl</span>&lt;T: <span class="question-mark">?</span>Sized&gt; InvariantsEq&lt;<span class="macro-nonterminal">$src</span>&lt;T&gt;&gt; <span class="kw">for </span>T {}
+
+        <span class="comment">// SAFETY: `$dst&lt;T&gt;` is a `#[repr(transparent)]` wrapper around `T` with
+        // no added semantics.
+        </span><span class="kw">unsafe impl</span>&lt;T: <span class="question-mark">?</span>Sized&gt; InvariantsEq&lt;<span class="macro-nonterminal">$dst</span>&lt;T&gt;&gt; <span class="kw">for </span>T {}
+
+        <span class="comment">// SAFETY: See inline for the soundness of this impl when
+        // `cast_from_raw` is actually instantiated (otherwise, PMEs may not be
+        // triggered).
+        //
+        // We manually instantiate `cast_from_raw` below to ensure that this PME
+        // can be triggered, and the caller promises not to use `$src` and
+        // `$dst` with any wrapped types other than `$t` and `$u` respectively.
+        </span><span class="kw">unsafe impl</span>&lt;T: <span class="question-mark">?</span>Sized, U: <span class="question-mark">?</span>Sized&gt; SizeEq&lt;<span class="macro-nonterminal">$src</span>&lt;T&gt;&gt; <span class="kw">for </span><span class="macro-nonterminal">$dst</span>&lt;U&gt;
+        <span class="kw">where
+            </span>T: KnownLayout&lt;PointerMetadata = usize&gt;,
+            U: KnownLayout&lt;PointerMetadata = usize&gt;,
+        {
+            <span class="kw">fn </span>cast_from_raw(src: PtrInner&lt;<span class="lifetime">'_</span>, <span class="macro-nonterminal">$src</span>&lt;T&gt;&gt;) -&gt; PtrInner&lt;<span class="lifetime">'_</span>, <span class="self">Self</span>&gt; {
+                <span class="comment">// SAFETY: `crate::layout::cast_from_raw` promises to satisfy
+                // the safety invariants of `SizeEq::cast_from_raw`, or to
+                // generate a PME. Since `$src&lt;T&gt;` and `$dst&lt;U&gt;` are
+                // `#[repr(transparent)]` wrappers around `T` and `U`
+                // respectively, a `cast_from_raw` impl which satisfies the
+                // conditions for casting from `NonNull&lt;T&gt;` to `NonNull&lt;U&gt;` also
+                // satisfies the conditions for casting from `NonNull&lt;$src&lt;T&gt;&gt;`
+                // to `NonNull&lt;$dst&lt;U&gt;&gt;`.
+
+                // SAFETY: By the preceding safety comment, this cast preserves
+                // referent size.
+                </span><span class="kw">let </span>src: PtrInner&lt;<span class="lifetime">'_</span>, T&gt; = <span class="kw">unsafe </span>{ <span class="macro">cast!</span>(src) };
+                <span class="kw">let </span>dst: PtrInner&lt;<span class="lifetime">'_</span>, U&gt; = <span class="kw">crate</span>::layout::cast_from_raw(src);
+                <span class="comment">// SAFETY: By the preceding safety comment, this cast preserves
+                // referent size.
+                </span><span class="kw">unsafe </span>{ <span class="macro">cast!</span>(dst) }
+            }
+        }
+
+        <span class="comment">// See safety comment on the preceding `unsafe impl` block for an
+        // explanation of why we need this block.
+        </span><span class="kw">if </span><span class="number">1 </span>== <span class="number">0 </span>{
+            <span class="kw">let </span>ptr = &lt;<span class="macro-nonterminal">$t </span><span class="kw">as </span>KnownLayout&gt;::raw_dangling();
+            <span class="attr">#[allow(unused_unsafe)]
+            </span><span class="comment">// SAFETY: This call is never executed.
+            </span><span class="kw">let </span>ptr = <span class="kw">unsafe </span>{ <span class="kw">crate</span>::pointer::PtrInner::new(ptr) };
+            <span class="attr">#[allow(unused_unsafe)]
+            </span><span class="comment">// SAFETY: This call is never executed.
+            </span><span class="kw">let </span>ptr = <span class="kw">unsafe </span>{ <span class="macro">cast!</span>(ptr) };
+            <span class="kw">let _ </span>= &lt;<span class="macro-nonterminal">$dst</span>&lt;<span class="macro-nonterminal">$u</span>&gt; <span class="kw">as </span>SizeEq&lt;<span class="macro-nonterminal">$src</span>&lt;<span class="macro-nonterminal">$t</span>&gt;&gt;&gt;::cast_from_raw(ptr);
+        }
+
+        <span class="macro">impl_for_transmute_from!</span>(T: <span class="question-mark">?</span>Sized + TryFromBytes =&gt; TryFromBytes <span class="kw">for </span><span class="macro-nonterminal">$src</span>&lt;T&gt;[&lt;T&gt;]);
+        <span class="macro">impl_for_transmute_from!</span>(T: <span class="question-mark">?</span>Sized + FromBytes =&gt; FromBytes <span class="kw">for </span><span class="macro-nonterminal">$src</span>&lt;T&gt;[&lt;T&gt;]);
+        <span class="macro">impl_for_transmute_from!</span>(T: <span class="question-mark">?</span>Sized + FromZeros =&gt; FromZeros <span class="kw">for </span><span class="macro-nonterminal">$src</span>&lt;T&gt;[&lt;T&gt;]);
+        <span class="macro">impl_for_transmute_from!</span>(T: <span class="question-mark">?</span>Sized + IntoBytes =&gt; IntoBytes <span class="kw">for </span><span class="macro-nonterminal">$src</span>&lt;T&gt;[&lt;T&gt;]);
+
+        <span class="macro">impl_for_transmute_from!</span>(U: <span class="question-mark">?</span>Sized + TryFromBytes =&gt; TryFromBytes <span class="kw">for </span><span class="macro-nonterminal">$dst</span>&lt;U&gt;[&lt;U&gt;]);
+        <span class="macro">impl_for_transmute_from!</span>(U: <span class="question-mark">?</span>Sized + FromBytes =&gt; FromBytes <span class="kw">for </span><span class="macro-nonterminal">$dst</span>&lt;U&gt;[&lt;U&gt;]);
+        <span class="macro">impl_for_transmute_from!</span>(U: <span class="question-mark">?</span>Sized + FromZeros =&gt; FromZeros <span class="kw">for </span><span class="macro-nonterminal">$dst</span>&lt;U&gt;[&lt;U&gt;]);
+        <span class="macro">impl_for_transmute_from!</span>(U: <span class="question-mark">?</span>Sized + IntoBytes =&gt; IntoBytes <span class="kw">for </span><span class="macro-nonterminal">$dst</span>&lt;U&gt;[&lt;U&gt;]);
+
+        <span class="comment">// SAFETY: `$src&lt;T&gt;` is a `#[repr(transparent)]` wrapper around `T`, and
+        // so permits interior mutation exactly when `T` does.
+        </span><span class="macro">unsafe_impl!</span>(T: <span class="question-mark">?</span>Sized + Immutable =&gt; Immutable <span class="kw">for </span><span class="macro-nonterminal">$src</span>&lt;T&gt;);
+
+        <span class="comment">// SAFETY: `$dst&lt;T&gt;` is a `#[repr(transparent)]` wrapper around `T`, and
+        // so permits interior mutation exactly when `T` does.
+        </span><span class="macro">unsafe_impl!</span>(T: <span class="question-mark">?</span>Sized + Immutable =&gt; Immutable <span class="kw">for </span><span class="macro-nonterminal">$dst</span>&lt;T&gt;);
+
+        <span class="macro-nonterminal">$blk
+    </span>}};
 }
 
 <span class="doccomment">/// A no-op `unsafe fn` for use in macro expansions.

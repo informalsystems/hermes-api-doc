@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/fiat-crypto-0.2.9/src/secp256k1_montgomery_64.rs`."><title>secp256k1_montgomery_64.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fiat_crypto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">fiat_crypto/</div>secp256k1_montgomery_64.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/fiat-crypto-0.3.0/src/secp256k1_montgomery_64.rs`."><title>secp256k1_montgomery_64.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fiat_crypto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">fiat_crypto/</div>secp256k1_montgomery_64.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1991,7 +1991,59 @@
 <a href="#1990" id="1990">1990</a>
 <a href="#1991" id="1991">1991</a>
 <a href="#1992" id="1992">1992</a>
-<a href="#1993" id="1993">1993</a></pre></div><pre class="rust"><code><span class="doccomment">//! Autogenerated: 'src/ExtractionOCaml/word_by_word_montgomery' --lang Rust --inline secp256k1_montgomery 64 '2^256 - 2^32 - 977' mul square add sub opp from_montgomery to_montgomery nonzero selectznz to_bytes from_bytes one msat divstep divstep_precomp
+<a href="#1993" id="1993">1993</a>
+<a href="#1994" id="1994">1994</a>
+<a href="#1995" id="1995">1995</a>
+<a href="#1996" id="1996">1996</a>
+<a href="#1997" id="1997">1997</a>
+<a href="#1998" id="1998">1998</a>
+<a href="#1999" id="1999">1999</a>
+<a href="#2000" id="2000">2000</a>
+<a href="#2001" id="2001">2001</a>
+<a href="#2002" id="2002">2002</a>
+<a href="#2003" id="2003">2003</a>
+<a href="#2004" id="2004">2004</a>
+<a href="#2005" id="2005">2005</a>
+<a href="#2006" id="2006">2006</a>
+<a href="#2007" id="2007">2007</a>
+<a href="#2008" id="2008">2008</a>
+<a href="#2009" id="2009">2009</a>
+<a href="#2010" id="2010">2010</a>
+<a href="#2011" id="2011">2011</a>
+<a href="#2012" id="2012">2012</a>
+<a href="#2013" id="2013">2013</a>
+<a href="#2014" id="2014">2014</a>
+<a href="#2015" id="2015">2015</a>
+<a href="#2016" id="2016">2016</a>
+<a href="#2017" id="2017">2017</a>
+<a href="#2018" id="2018">2018</a>
+<a href="#2019" id="2019">2019</a>
+<a href="#2020" id="2020">2020</a>
+<a href="#2021" id="2021">2021</a>
+<a href="#2022" id="2022">2022</a>
+<a href="#2023" id="2023">2023</a>
+<a href="#2024" id="2024">2024</a>
+<a href="#2025" id="2025">2025</a>
+<a href="#2026" id="2026">2026</a>
+<a href="#2027" id="2027">2027</a>
+<a href="#2028" id="2028">2028</a>
+<a href="#2029" id="2029">2029</a>
+<a href="#2030" id="2030">2030</a>
+<a href="#2031" id="2031">2031</a>
+<a href="#2032" id="2032">2032</a>
+<a href="#2033" id="2033">2033</a>
+<a href="#2034" id="2034">2034</a>
+<a href="#2035" id="2035">2035</a>
+<a href="#2036" id="2036">2036</a>
+<a href="#2037" id="2037">2037</a>
+<a href="#2038" id="2038">2038</a>
+<a href="#2039" id="2039">2039</a>
+<a href="#2040" id="2040">2040</a>
+<a href="#2041" id="2041">2041</a>
+<a href="#2042" id="2042">2042</a>
+<a href="#2043" id="2043">2043</a>
+<a href="#2044" id="2044">2044</a>
+<a href="#2045" id="2045">2045</a></pre></div><pre class="rust"><code><span class="doccomment">//! Autogenerated: 'src/ExtractionOCaml/word_by_word_montgomery' --lang Rust --inline secp256k1_montgomery 64 '2^256 - 2^32 - 977' mul square add sub opp from_montgomery to_montgomery nonzero selectznz to_bytes from_bytes one msat divstep divstep_precomp
 //! curve description: secp256k1_montgomery
 //! machine_wordsize = 64 (from "64")
 //! requested operations: mul, square, add, sub, opp, from_montgomery, to_montgomery, nonzero, selectznz, to_bytes, from_bytes, one, msat, divstep, divstep_precomp
@@ -2013,7 +2065,27 @@
 </span><span class="attr">#![allow(unused_parens)]
 #![allow(non_camel_case_types)]
 
-</span><span class="doccomment">/** fiat_secp256k1_montgomery_u1 represents values of 1 bits, stored in one byte. */
+</span><span class="doccomment">/// Since `Index` and `IndexMut` aren't callable in `const` contexts yet, this helper type helps unify
+/// arrays and user-defined array-wrapper types into a single type which can be indexed in `const`
+/// contexts. Once `const trait`s are stabilized this type can go away
+</span><span class="kw">struct </span>IndexConst&lt;T: <span class="question-mark">?</span>Sized&gt;(T);
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T, <span class="kw">const </span>N: usize&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[T; N]&gt; {
+    <span class="attr">#[inline(always)]
+    #[allow(unused)]
+    </span><span class="kw">const fn </span>index(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>T {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>[i]
+    }
+}
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, T, <span class="kw">const </span>N: usize&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut &amp;</span><span class="lifetime">'b </span><span class="kw-2">mut </span>[T; N]&gt; {
+    <span class="attr">#[inline(always)]
+    #[allow(unused)]
+    </span><span class="kw">const fn </span>index_mut(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>T {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0</span>[i]
+    }
+}
+
+<span class="doccomment">/** fiat_secp256k1_montgomery_u1 represents values of 1 bits, stored in one byte. */
 </span><span class="kw">pub type </span>fiat_secp256k1_montgomery_u1 = u8;
 <span class="doccomment">/** fiat_secp256k1_montgomery_i1 represents values of 1 bits, stored in one byte. */
 </span><span class="kw">pub type </span>fiat_secp256k1_montgomery_i1 = i8;
@@ -2042,6 +2114,22 @@
     }
 }
 
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>fiat_secp256k1_montgomery_montgomery_domain_field_element&gt; {
+    <span class="attr">#[allow(unused)]
+    #[inline(always)]
+    </span><span class="kw">const fn </span>index(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>u64 {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0.0</span>[i]
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut &amp;</span><span class="lifetime">'b </span><span class="kw-2">mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element&gt; {
+    <span class="attr">#[allow(unused)]
+    #[inline(always)]
+    </span><span class="kw">const fn </span>index_mut(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>u64 {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0.0</span>[i]
+    }
+}
+
 <span class="doccomment">/** The type fiat_secp256k1_montgomery_non_montgomery_domain_field_element is a field element NOT in the Montgomery domain. */
 /** Bounds: [[0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff]] */
 </span><span class="attr">#[derive(Clone, Copy)]
@@ -2062,6 +2150,22 @@
     }
 }
 
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>fiat_secp256k1_montgomery_non_montgomery_domain_field_element&gt; {
+    <span class="attr">#[allow(unused)]
+    #[inline(always)]
+    </span><span class="kw">const fn </span>index(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>u64 {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0.0</span>[i]
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut &amp;</span><span class="lifetime">'b </span><span class="kw-2">mut </span>fiat_secp256k1_montgomery_non_montgomery_domain_field_element&gt; {
+    <span class="attr">#[allow(unused)]
+    #[inline(always)]
+    </span><span class="kw">const fn </span>index_mut(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>u64 {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0.0</span>[i]
+    }
+}
+
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_addcarryx_u64 is an addition with carry.
 ///
@@ -2077,7 +2181,7 @@
 ///   out1: [0x0 ~&gt; 0xffffffffffffffff]
 ///   out2: [0x0 ~&gt; 0x1]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_addcarryx_u64(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_u1, arg1: fiat_secp256k1_montgomery_u1, arg2: u64, arg3: u64) {
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_addcarryx_u64(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_u1, arg1: fiat_secp256k1_montgomery_u1, arg2: u64, arg3: u64) {
   <span class="kw">let </span>x1: u128 = (((arg1 <span class="kw">as </span>u128) + (arg2 <span class="kw">as </span>u128)) + (arg3 <span class="kw">as </span>u128));
   <span class="kw">let </span>x2: u64 = ((x1 &amp; (<span class="number">0xffffffffffffffff </span><span class="kw">as </span>u128)) <span class="kw">as </span>u64);
   <span class="kw">let </span>x3: fiat_secp256k1_montgomery_u1 = ((x1 &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>fiat_secp256k1_montgomery_u1);
@@ -2099,7 +2203,7 @@
 ///   out1: [0x0 ~&gt; 0xffffffffffffffff]
 ///   out2: [0x0 ~&gt; 0x1]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_subborrowx_u64(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_u1, arg1: fiat_secp256k1_montgomery_u1, arg2: u64, arg3: u64) {
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_subborrowx_u64(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_u1, arg1: fiat_secp256k1_montgomery_u1, arg2: u64, arg3: u64) {
   <span class="kw">let </span>x1: i128 = (((arg2 <span class="kw">as </span>i128) - (arg1 <span class="kw">as </span>i128)) - (arg3 <span class="kw">as </span>i128));
   <span class="kw">let </span>x2: fiat_secp256k1_montgomery_i1 = ((x1 &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>fiat_secp256k1_montgomery_i1);
   <span class="kw">let </span>x3: u64 = ((x1 &amp; (<span class="number">0xffffffffffffffff </span><span class="kw">as </span>i128)) <span class="kw">as </span>u64);
@@ -2120,7 +2224,7 @@
 ///   out1: [0x0 ~&gt; 0xffffffffffffffff]
 ///   out2: [0x0 ~&gt; 0xffffffffffffffff]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_mulx_u64(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>u64, arg1: u64, arg2: u64) {
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_mulx_u64(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>u64, arg1: u64, arg2: u64) {
   <span class="kw">let </span>x1: u128 = ((arg1 <span class="kw">as </span>u128) * (arg2 <span class="kw">as </span>u128));
   <span class="kw">let </span>x2: u64 = ((x1 &amp; (<span class="number">0xffffffffffffffff </span><span class="kw">as </span>u128)) <span class="kw">as </span>u64);
   <span class="kw">let </span>x3: u64 = ((x1 &gt;&gt; <span class="number">64</span>) <span class="kw">as </span>u64);
@@ -2140,7 +2244,7 @@
 /// Output Bounds:
 ///   out1: [0x0 ~&gt; 0xffffffffffffffff]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_cmovznz_u64(out1: <span class="kw-2">&amp;mut </span>u64, arg1: fiat_secp256k1_montgomery_u1, arg2: u64, arg3: u64) {
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_cmovznz_u64(out1: <span class="kw-2">&amp;mut </span>u64, arg1: fiat_secp256k1_montgomery_u1, arg2: u64, arg3: u64) {
   <span class="kw">let </span>x1: fiat_secp256k1_montgomery_u1 = (!(!arg1));
   <span class="kw">let </span>x2: u64 = ((((((<span class="number">0x0 </span><span class="kw">as </span>fiat_secp256k1_montgomery_i2) - (x1 <span class="kw">as </span>fiat_secp256k1_montgomery_i2)) <span class="kw">as </span>fiat_secp256k1_montgomery_i1) <span class="kw">as </span>i128) &amp; (<span class="number">0xffffffffffffffff </span><span class="kw">as </span>i128)) <span class="kw">as </span>u64);
   <span class="kw">let </span>x3: u64 = ((x2 &amp; arg3) | ((!x2) &amp; arg2));
@@ -2157,23 +2261,23 @@
 ///   0 ≤ eval out1 &lt; m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_mul(out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg2: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
-  <span class="kw">let </span>x1: u64 = (arg1[<span class="number">1</span>]);
-  <span class="kw">let </span>x2: u64 = (arg1[<span class="number">2</span>]);
-  <span class="kw">let </span>x3: u64 = (arg1[<span class="number">3</span>]);
-  <span class="kw">let </span>x4: u64 = (arg1[<span class="number">0</span>]);
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_mul(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg2: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
+  <span class="kw">let </span>x1: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>));
+  <span class="kw">let </span>x2: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>));
+  <span class="kw">let </span>x3: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>));
+  <span class="kw">let </span>x4: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>));
   <span class="kw">let </span><span class="kw-2">mut </span>x5: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x6: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, (arg2[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x7: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x8: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, x4, (arg2[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, x4, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x9: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x10: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x9, <span class="kw-2">&amp;mut </span>x10, x4, (arg2[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x9, <span class="kw-2">&amp;mut </span>x10, x4, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x11: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x12: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x11, <span class="kw-2">&amp;mut </span>x12, x4, (arg2[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x11, <span class="kw-2">&amp;mut </span>x12, x4, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x13: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x14: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x13, <span class="kw-2">&amp;mut </span>x14, <span class="number">0x0</span>, x12, x9);
@@ -2226,16 +2330,16 @@
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x45, <span class="kw-2">&amp;mut </span>x46, x44, x19, x36);
   <span class="kw">let </span><span class="kw-2">mut </span>x47: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x48: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x47, <span class="kw-2">&amp;mut </span>x48, x1, (arg2[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x47, <span class="kw-2">&amp;mut </span>x48, x1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x49: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x50: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x49, <span class="kw-2">&amp;mut </span>x50, x1, (arg2[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x49, <span class="kw-2">&amp;mut </span>x50, x1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x51: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x52: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x51, <span class="kw-2">&amp;mut </span>x52, x1, (arg2[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x51, <span class="kw-2">&amp;mut </span>x52, x1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x53: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x54: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x53, <span class="kw-2">&amp;mut </span>x54, x1, (arg2[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x53, <span class="kw-2">&amp;mut </span>x54, x1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x55: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x56: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x55, <span class="kw-2">&amp;mut </span>x56, <span class="number">0x0</span>, x54, x51);
@@ -2304,16 +2408,16 @@
   <span class="kw">let </span>x99: u64 = ((x98 <span class="kw">as </span>u64) + (x71 <span class="kw">as </span>u64));
   <span class="kw">let </span><span class="kw-2">mut </span>x100: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x101: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x100, <span class="kw-2">&amp;mut </span>x101, x2, (arg2[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x100, <span class="kw-2">&amp;mut </span>x101, x2, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x102: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x103: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x102, <span class="kw-2">&amp;mut </span>x103, x2, (arg2[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x102, <span class="kw-2">&amp;mut </span>x103, x2, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x104: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x105: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x104, <span class="kw-2">&amp;mut </span>x105, x2, (arg2[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x104, <span class="kw-2">&amp;mut </span>x105, x2, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x106: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x107: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x106, <span class="kw-2">&amp;mut </span>x107, x2, (arg2[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x106, <span class="kw-2">&amp;mut </span>x107, x2, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x108: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x109: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x108, <span class="kw-2">&amp;mut </span>x109, <span class="number">0x0</span>, x107, x104);
@@ -2382,16 +2486,16 @@
   <span class="kw">let </span>x152: u64 = ((x151 <span class="kw">as </span>u64) + (x124 <span class="kw">as </span>u64));
   <span class="kw">let </span><span class="kw-2">mut </span>x153: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x154: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x153, <span class="kw-2">&amp;mut </span>x154, x3, (arg2[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x153, <span class="kw-2">&amp;mut </span>x154, x3, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x155: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x156: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x155, <span class="kw-2">&amp;mut </span>x156, x3, (arg2[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x155, <span class="kw-2">&amp;mut </span>x156, x3, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x157: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x158: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x157, <span class="kw-2">&amp;mut </span>x158, x3, (arg2[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x157, <span class="kw-2">&amp;mut </span>x158, x3, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x159: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x160: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x159, <span class="kw-2">&amp;mut </span>x160, x3, (arg2[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x159, <span class="kw-2">&amp;mut </span>x160, x3, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x161: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x162: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x161, <span class="kw-2">&amp;mut </span>x162, <span class="number">0x0</span>, x160, x157);
@@ -2481,10 +2585,10 @@
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x218, x215, x210, x201);
   <span class="kw">let </span><span class="kw-2">mut </span>x219: u64 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x219, x215, x212, x203);
-  out1[<span class="number">0</span>] = x216;
-  out1[<span class="number">1</span>] = x217;
-  out1[<span class="number">2</span>] = x218;
-  out1[<span class="number">3</span>] = x219;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x216;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x217;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x218;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x219;
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_square squares a field element in the Montgomery domain.
@@ -2496,23 +2600,23 @@
 ///   0 ≤ eval out1 &lt; m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_square(out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
-  <span class="kw">let </span>x1: u64 = (arg1[<span class="number">1</span>]);
-  <span class="kw">let </span>x2: u64 = (arg1[<span class="number">2</span>]);
-  <span class="kw">let </span>x3: u64 = (arg1[<span class="number">3</span>]);
-  <span class="kw">let </span>x4: u64 = (arg1[<span class="number">0</span>]);
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_square(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
+  <span class="kw">let </span>x1: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>));
+  <span class="kw">let </span>x2: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>));
+  <span class="kw">let </span>x3: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>));
+  <span class="kw">let </span>x4: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>));
   <span class="kw">let </span><span class="kw-2">mut </span>x5: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x6: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, (arg1[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x7: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x8: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, x4, (arg1[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, x4, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x9: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x10: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x9, <span class="kw-2">&amp;mut </span>x10, x4, (arg1[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x9, <span class="kw-2">&amp;mut </span>x10, x4, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x11: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x12: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x11, <span class="kw-2">&amp;mut </span>x12, x4, (arg1[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x11, <span class="kw-2">&amp;mut </span>x12, x4, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x13: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x14: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x13, <span class="kw-2">&amp;mut </span>x14, <span class="number">0x0</span>, x12, x9);
@@ -2565,16 +2669,16 @@
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x45, <span class="kw-2">&amp;mut </span>x46, x44, x19, x36);
   <span class="kw">let </span><span class="kw-2">mut </span>x47: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x48: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x47, <span class="kw-2">&amp;mut </span>x48, x1, (arg1[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x47, <span class="kw-2">&amp;mut </span>x48, x1, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x49: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x50: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x49, <span class="kw-2">&amp;mut </span>x50, x1, (arg1[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x49, <span class="kw-2">&amp;mut </span>x50, x1, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x51: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x52: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x51, <span class="kw-2">&amp;mut </span>x52, x1, (arg1[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x51, <span class="kw-2">&amp;mut </span>x52, x1, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x53: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x54: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x53, <span class="kw-2">&amp;mut </span>x54, x1, (arg1[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x53, <span class="kw-2">&amp;mut </span>x54, x1, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x55: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x56: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x55, <span class="kw-2">&amp;mut </span>x56, <span class="number">0x0</span>, x54, x51);
@@ -2643,16 +2747,16 @@
   <span class="kw">let </span>x99: u64 = ((x98 <span class="kw">as </span>u64) + (x71 <span class="kw">as </span>u64));
   <span class="kw">let </span><span class="kw-2">mut </span>x100: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x101: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x100, <span class="kw-2">&amp;mut </span>x101, x2, (arg1[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x100, <span class="kw-2">&amp;mut </span>x101, x2, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x102: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x103: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x102, <span class="kw-2">&amp;mut </span>x103, x2, (arg1[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x102, <span class="kw-2">&amp;mut </span>x103, x2, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x104: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x105: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x104, <span class="kw-2">&amp;mut </span>x105, x2, (arg1[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x104, <span class="kw-2">&amp;mut </span>x105, x2, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x106: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x107: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x106, <span class="kw-2">&amp;mut </span>x107, x2, (arg1[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x106, <span class="kw-2">&amp;mut </span>x107, x2, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x108: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x109: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x108, <span class="kw-2">&amp;mut </span>x109, <span class="number">0x0</span>, x107, x104);
@@ -2721,16 +2825,16 @@
   <span class="kw">let </span>x152: u64 = ((x151 <span class="kw">as </span>u64) + (x124 <span class="kw">as </span>u64));
   <span class="kw">let </span><span class="kw-2">mut </span>x153: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x154: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x153, <span class="kw-2">&amp;mut </span>x154, x3, (arg1[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x153, <span class="kw-2">&amp;mut </span>x154, x3, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x155: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x156: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x155, <span class="kw-2">&amp;mut </span>x156, x3, (arg1[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x155, <span class="kw-2">&amp;mut </span>x156, x3, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x157: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x158: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x157, <span class="kw-2">&amp;mut </span>x158, x3, (arg1[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x157, <span class="kw-2">&amp;mut </span>x158, x3, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x159: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x160: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x159, <span class="kw-2">&amp;mut </span>x160, x3, (arg1[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x159, <span class="kw-2">&amp;mut </span>x160, x3, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x161: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x162: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x161, <span class="kw-2">&amp;mut </span>x162, <span class="number">0x0</span>, x160, x157);
@@ -2820,10 +2924,10 @@
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x218, x215, x210, x201);
   <span class="kw">let </span><span class="kw-2">mut </span>x219: u64 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x219, x215, x212, x203);
-  out1[<span class="number">0</span>] = x216;
-  out1[<span class="number">1</span>] = x217;
-  out1[<span class="number">2</span>] = x218;
-  out1[<span class="number">3</span>] = x219;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x216;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x217;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x218;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x219;
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_add adds two field elements in the Montgomery domain.
@@ -2836,19 +2940,19 @@
 ///   0 ≤ eval out1 &lt; m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_add(out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg2: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_add(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg2: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
   <span class="kw">let </span><span class="kw-2">mut </span>x1: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x2: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, <span class="number">0x0</span>, (arg1[<span class="number">0</span>]), (arg2[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, <span class="number">0x0</span>, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x3: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x4: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x3, <span class="kw-2">&amp;mut </span>x4, x2, (arg1[<span class="number">1</span>]), (arg2[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x3, <span class="kw-2">&amp;mut </span>x4, x2, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x5: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x6: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, (arg1[<span class="number">2</span>]), (arg2[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x7: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x8: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, x6, (arg1[<span class="number">3</span>]), (arg2[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, x6, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x9: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x10: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x9, <span class="kw-2">&amp;mut </span>x10, <span class="number">0x0</span>, x1, <span class="number">0xfffffffefffffc2f</span>);
@@ -2872,10 +2976,10 @@
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x21, x18, x13, x5);
   <span class="kw">let </span><span class="kw-2">mut </span>x22: u64 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x22, x18, x15, x7);
-  out1[<span class="number">0</span>] = x19;
-  out1[<span class="number">1</span>] = x20;
-  out1[<span class="number">2</span>] = x21;
-  out1[<span class="number">3</span>] = x22;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x19;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x20;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x21;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x22;
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_sub subtracts two field elements in the Montgomery domain.
@@ -2888,19 +2992,19 @@
 ///   0 ≤ eval out1 &lt; m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_sub(out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg2: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_sub(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg2: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
   <span class="kw">let </span><span class="kw-2">mut </span>x1: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x2: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, <span class="number">0x0</span>, (arg1[<span class="number">0</span>]), (arg2[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, <span class="number">0x0</span>, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x3: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x4: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x3, <span class="kw-2">&amp;mut </span>x4, x2, (arg1[<span class="number">1</span>]), (arg2[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x3, <span class="kw-2">&amp;mut </span>x4, x2, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x5: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x6: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, (arg1[<span class="number">2</span>]), (arg2[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x7: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x8: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, x6, (arg1[<span class="number">3</span>]), (arg2[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, x6, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x9: u64 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x9, x8, (<span class="number">0x0 </span><span class="kw">as </span>u64), <span class="number">0xffffffffffffffff</span>);
   <span class="kw">let </span><span class="kw-2">mut </span>x10: u64 = <span class="number">0</span>;
@@ -2915,10 +3019,10 @@
   <span class="kw">let </span><span class="kw-2">mut </span>x16: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x17: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x16, <span class="kw-2">&amp;mut </span>x17, x15, x7, x9);
-  out1[<span class="number">0</span>] = x10;
-  out1[<span class="number">1</span>] = x12;
-  out1[<span class="number">2</span>] = x14;
-  out1[<span class="number">3</span>] = x16;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x10;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x12;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x14;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x16;
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_opp negates a field element in the Montgomery domain.
@@ -2930,19 +3034,19 @@
 ///   0 ≤ eval out1 &lt; m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_opp(out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_opp(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
   <span class="kw">let </span><span class="kw-2">mut </span>x1: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x2: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, <span class="number">0x0</span>, (<span class="number">0x0 </span><span class="kw">as </span>u64), (arg1[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, <span class="number">0x0</span>, (<span class="number">0x0 </span><span class="kw">as </span>u64), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x3: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x4: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x3, <span class="kw-2">&amp;mut </span>x4, x2, (<span class="number">0x0 </span><span class="kw">as </span>u64), (arg1[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x3, <span class="kw-2">&amp;mut </span>x4, x2, (<span class="number">0x0 </span><span class="kw">as </span>u64), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x5: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x6: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, (<span class="number">0x0 </span><span class="kw">as </span>u64), (arg1[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, (<span class="number">0x0 </span><span class="kw">as </span>u64), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x7: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x8: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, x6, (<span class="number">0x0 </span><span class="kw">as </span>u64), (arg1[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, x6, (<span class="number">0x0 </span><span class="kw">as </span>u64), (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x9: u64 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x9, x8, (<span class="number">0x0 </span><span class="kw">as </span>u64), <span class="number">0xffffffffffffffff</span>);
   <span class="kw">let </span><span class="kw-2">mut </span>x10: u64 = <span class="number">0</span>;
@@ -2957,10 +3061,10 @@
   <span class="kw">let </span><span class="kw-2">mut </span>x16: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x17: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x16, <span class="kw-2">&amp;mut </span>x17, x15, x7, x9);
-  out1[<span class="number">0</span>] = x10;
-  out1[<span class="number">1</span>] = x12;
-  out1[<span class="number">2</span>] = x14;
-  out1[<span class="number">3</span>] = x16;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x10;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x12;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x14;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x16;
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_from_montgomery translates a field element out of the Montgomery domain.
@@ -2972,8 +3076,8 @@
 ///   0 ≤ eval out1 &lt; m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_from_montgomery(out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_non_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
-  <span class="kw">let </span>x1: u64 = (arg1[<span class="number">0</span>]);
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_from_montgomery(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_non_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
+  <span class="kw">let </span>x1: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>));
   <span class="kw">let </span><span class="kw-2">mut </span>x2: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x3: u64 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x2, <span class="kw-2">&amp;mut </span>x3, x1, <span class="number">0xd838091dd2253531</span>);
@@ -3015,7 +3119,7 @@
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x26, <span class="kw-2">&amp;mut </span>x27, x25, (<span class="number">0x0 </span><span class="kw">as </span>u64), ((x17 <span class="kw">as </span>u64) + x5));
   <span class="kw">let </span><span class="kw-2">mut </span>x28: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x29: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x28, <span class="kw-2">&amp;mut </span>x29, <span class="number">0x0</span>, x20, (arg1[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x28, <span class="kw-2">&amp;mut </span>x29, <span class="number">0x0</span>, x20, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x30: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x31: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x30, <span class="kw-2">&amp;mut </span>x31, x29, x22, (<span class="number">0x0 </span><span class="kw">as </span>u64));
@@ -3066,7 +3170,7 @@
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x60, <span class="kw-2">&amp;mut </span>x61, x59, ((x35 <span class="kw">as </span>u64) + (x27 <span class="kw">as </span>u64)), ((x51 <span class="kw">as </span>u64) + x39));
   <span class="kw">let </span><span class="kw-2">mut </span>x62: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x63: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x62, <span class="kw-2">&amp;mut </span>x63, <span class="number">0x0</span>, x54, (arg1[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x62, <span class="kw-2">&amp;mut </span>x63, <span class="number">0x0</span>, x54, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x64: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x65: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x64, <span class="kw-2">&amp;mut </span>x65, x63, x56, (<span class="number">0x0 </span><span class="kw">as </span>u64));
@@ -3117,7 +3221,7 @@
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x94, <span class="kw-2">&amp;mut </span>x95, x93, ((x69 <span class="kw">as </span>u64) + (x61 <span class="kw">as </span>u64)), ((x85 <span class="kw">as </span>u64) + x73));
   <span class="kw">let </span><span class="kw-2">mut </span>x96: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x97: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x96, <span class="kw-2">&amp;mut </span>x97, <span class="number">0x0</span>, x88, (arg1[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x96, <span class="kw-2">&amp;mut </span>x97, <span class="number">0x0</span>, x88, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x98: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x99: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x98, <span class="kw-2">&amp;mut </span>x99, x97, x90, (<span class="number">0x0 </span><span class="kw">as </span>u64));
@@ -3189,10 +3293,10 @@
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x142, x139, x134, x126);
   <span class="kw">let </span><span class="kw-2">mut </span>x143: u64 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x143, x139, x136, x128);
-  out1[<span class="number">0</span>] = x140;
-  out1[<span class="number">1</span>] = x141;
-  out1[<span class="number">2</span>] = x142;
-  out1[<span class="number">3</span>] = x143;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x140;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x141;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x142;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x143;
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_to_montgomery translates a field element into the Montgomery domain.
@@ -3204,11 +3308,11 @@
 ///   0 ≤ eval out1 &lt; m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_to_montgomery(out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_non_montgomery_domain_field_element) {
-  <span class="kw">let </span>x1: u64 = (arg1[<span class="number">1</span>]);
-  <span class="kw">let </span>x2: u64 = (arg1[<span class="number">2</span>]);
-  <span class="kw">let </span>x3: u64 = (arg1[<span class="number">3</span>]);
-  <span class="kw">let </span>x4: u64 = (arg1[<span class="number">0</span>]);
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_to_montgomery(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element, arg1: <span class="kw-2">&amp;</span>fiat_secp256k1_montgomery_non_montgomery_domain_field_element) {
+  <span class="kw">let </span>x1: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>));
+  <span class="kw">let </span>x2: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>));
+  <span class="kw">let </span>x3: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>));
+  <span class="kw">let </span>x4: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>));
   <span class="kw">let </span><span class="kw-2">mut </span>x5: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x6: u64 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_mulx_u64(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, <span class="number">0x7a2000e90a1</span>);
@@ -3448,10 +3552,10 @@
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x161, x158, x153, x145);
   <span class="kw">let </span><span class="kw-2">mut </span>x162: u64 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x162, x158, x155, x147);
-  out1[<span class="number">0</span>] = x159;
-  out1[<span class="number">1</span>] = x160;
-  out1[<span class="number">2</span>] = x161;
-  out1[<span class="number">3</span>] = x162;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x159;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x160;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x161;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x162;
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_nonzero outputs a single non-zero word if the input is non-zero and zero otherwise.
@@ -3466,8 +3570,8 @@
 /// Output Bounds:
 ///   out1: [0x0 ~&gt; 0xffffffffffffffff]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_nonzero(out1: <span class="kw-2">&amp;mut </span>u64, arg1: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>]) {
-  <span class="kw">let </span>x1: u64 = ((arg1[<span class="number">0</span>]) | ((arg1[<span class="number">1</span>]) | ((arg1[<span class="number">2</span>]) | (arg1[<span class="number">3</span>]))));
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_nonzero(out1: <span class="kw-2">&amp;mut </span>u64, arg1: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>]) {
+  <span class="kw">let </span>x1: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) | ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) | ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) | (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)))));
   <span class="kw-2">*</span>out1 = x1;
 }
 
@@ -3483,19 +3587,19 @@
 /// Output Bounds:
 ///   out1: [[0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff]]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_selectznz(out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>], arg1: fiat_secp256k1_montgomery_u1, arg2: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>], arg3: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>]) {
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_selectznz(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>], arg1: fiat_secp256k1_montgomery_u1, arg2: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>], arg3: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>]) {
   <span class="kw">let </span><span class="kw-2">mut </span>x1: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x1, arg1, (arg2[<span class="number">0</span>]), (arg3[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x1, arg1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x2: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x2, arg1, (arg2[<span class="number">1</span>]), (arg3[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x2, arg1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x3: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x3, arg1, (arg2[<span class="number">2</span>]), (arg3[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x3, arg1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x4: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x4, arg1, (arg2[<span class="number">3</span>]), (arg3[<span class="number">3</span>]));
-  out1[<span class="number">0</span>] = x1;
-  out1[<span class="number">1</span>] = x2;
-  out1[<span class="number">2</span>] = x3;
-  out1[<span class="number">3</span>] = x4;
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x4, arg1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">3</span>)));
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x1;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x2;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x3;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x4;
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_to_bytes serializes a field element NOT in the Montgomery domain to bytes in little-endian order.
@@ -3510,11 +3614,11 @@
 /// Output Bounds:
 ///   out1: [[0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff]]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_to_bytes(out1: <span class="kw-2">&amp;mut </span>[u8; <span class="number">32</span>], arg1: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>]) {
-  <span class="kw">let </span>x1: u64 = (arg1[<span class="number">3</span>]);
-  <span class="kw">let </span>x2: u64 = (arg1[<span class="number">2</span>]);
-  <span class="kw">let </span>x3: u64 = (arg1[<span class="number">1</span>]);
-  <span class="kw">let </span>x4: u64 = (arg1[<span class="number">0</span>]);
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_to_bytes(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>[u8; <span class="number">32</span>], arg1: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>]) {
+  <span class="kw">let </span>x1: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>));
+  <span class="kw">let </span>x2: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>));
+  <span class="kw">let </span>x3: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>));
+  <span class="kw">let </span>x4: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>));
   <span class="kw">let </span>x5: u8 = ((x4 &amp; (<span class="number">0xff </span><span class="kw">as </span>u64)) <span class="kw">as </span>u8);
   <span class="kw">let </span>x6: u64 = (x4 &gt;&gt; <span class="number">8</span>);
   <span class="kw">let </span>x7: u8 = ((x6 &amp; (<span class="number">0xff </span><span class="kw">as </span>u64)) <span class="kw">as </span>u8);
@@ -3571,38 +3675,38 @@
   <span class="kw">let </span>x58: u64 = (x56 &gt;&gt; <span class="number">8</span>);
   <span class="kw">let </span>x59: u8 = ((x58 &amp; (<span class="number">0xff </span><span class="kw">as </span>u64)) <span class="kw">as </span>u8);
   <span class="kw">let </span>x60: u8 = ((x58 &gt;&gt; <span class="number">8</span>) <span class="kw">as </span>u8);
-  out1[<span class="number">0</span>] = x5;
-  out1[<span class="number">1</span>] = x7;
-  out1[<span class="number">2</span>] = x9;
-  out1[<span class="number">3</span>] = x11;
-  out1[<span class="number">4</span>] = x13;
-  out1[<span class="number">5</span>] = x15;
-  out1[<span class="number">6</span>] = x17;
-  out1[<span class="number">7</span>] = x18;
-  out1[<span class="number">8</span>] = x19;
-  out1[<span class="number">9</span>] = x21;
-  out1[<span class="number">10</span>] = x23;
-  out1[<span class="number">11</span>] = x25;
-  out1[<span class="number">12</span>] = x27;
-  out1[<span class="number">13</span>] = x29;
-  out1[<span class="number">14</span>] = x31;
-  out1[<span class="number">15</span>] = x32;
-  out1[<span class="number">16</span>] = x33;
-  out1[<span class="number">17</span>] = x35;
-  out1[<span class="number">18</span>] = x37;
-  out1[<span class="number">19</span>] = x39;
-  out1[<span class="number">20</span>] = x41;
-  out1[<span class="number">21</span>] = x43;
-  out1[<span class="number">22</span>] = x45;
-  out1[<span class="number">23</span>] = x46;
-  out1[<span class="number">24</span>] = x47;
-  out1[<span class="number">25</span>] = x49;
-  out1[<span class="number">26</span>] = x51;
-  out1[<span class="number">27</span>] = x53;
-  out1[<span class="number">28</span>] = x55;
-  out1[<span class="number">29</span>] = x57;
-  out1[<span class="number">30</span>] = x59;
-  out1[<span class="number">31</span>] = x60;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x5;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x7;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x9;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x11;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">4</span>) = x13;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">5</span>) = x15;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">6</span>) = x17;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">7</span>) = x18;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">8</span>) = x19;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">9</span>) = x21;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">10</span>) = x23;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">11</span>) = x25;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">12</span>) = x27;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">13</span>) = x29;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">14</span>) = x31;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">15</span>) = x32;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">16</span>) = x33;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">17</span>) = x35;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">18</span>) = x37;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">19</span>) = x39;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">20</span>) = x41;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">21</span>) = x43;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">22</span>) = x45;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">23</span>) = x46;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">24</span>) = x47;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">25</span>) = x49;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">26</span>) = x51;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">27</span>) = x53;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">28</span>) = x55;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">29</span>) = x57;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">30</span>) = x59;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">31</span>) = x60;
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_from_bytes deserializes a field element NOT in the Montgomery domain from bytes in little-endian order.
@@ -3618,39 +3722,39 @@
 /// Output Bounds:
 ///   out1: [[0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff]]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_from_bytes(out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>], arg1: <span class="kw-2">&amp;</span>[u8; <span class="number">32</span>]) {
-  <span class="kw">let </span>x1: u64 = (((arg1[<span class="number">31</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">56</span>);
-  <span class="kw">let </span>x2: u64 = (((arg1[<span class="number">30</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
-  <span class="kw">let </span>x3: u64 = (((arg1[<span class="number">29</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
-  <span class="kw">let </span>x4: u64 = (((arg1[<span class="number">28</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
-  <span class="kw">let </span>x5: u64 = (((arg1[<span class="number">27</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
-  <span class="kw">let </span>x6: u64 = (((arg1[<span class="number">26</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
-  <span class="kw">let </span>x7: u64 = (((arg1[<span class="number">25</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
-  <span class="kw">let </span>x8: u8 = (arg1[<span class="number">24</span>]);
-  <span class="kw">let </span>x9: u64 = (((arg1[<span class="number">23</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">56</span>);
-  <span class="kw">let </span>x10: u64 = (((arg1[<span class="number">22</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
-  <span class="kw">let </span>x11: u64 = (((arg1[<span class="number">21</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
-  <span class="kw">let </span>x12: u64 = (((arg1[<span class="number">20</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
-  <span class="kw">let </span>x13: u64 = (((arg1[<span class="number">19</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
-  <span class="kw">let </span>x14: u64 = (((arg1[<span class="number">18</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
-  <span class="kw">let </span>x15: u64 = (((arg1[<span class="number">17</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
-  <span class="kw">let </span>x16: u8 = (arg1[<span class="number">16</span>]);
-  <span class="kw">let </span>x17: u64 = (((arg1[<span class="number">15</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">56</span>);
-  <span class="kw">let </span>x18: u64 = (((arg1[<span class="number">14</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
-  <span class="kw">let </span>x19: u64 = (((arg1[<span class="number">13</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
-  <span class="kw">let </span>x20: u64 = (((arg1[<span class="number">12</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
-  <span class="kw">let </span>x21: u64 = (((arg1[<span class="number">11</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
-  <span class="kw">let </span>x22: u64 = (((arg1[<span class="number">10</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
-  <span class="kw">let </span>x23: u64 = (((arg1[<span class="number">9</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
-  <span class="kw">let </span>x24: u8 = (arg1[<span class="number">8</span>]);
-  <span class="kw">let </span>x25: u64 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">56</span>);
-  <span class="kw">let </span>x26: u64 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
-  <span class="kw">let </span>x27: u64 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
-  <span class="kw">let </span>x28: u64 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
-  <span class="kw">let </span>x29: u64 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
-  <span class="kw">let </span>x30: u64 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
-  <span class="kw">let </span>x31: u64 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
-  <span class="kw">let </span>x32: u8 = (arg1[<span class="number">0</span>]);
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_from_bytes(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>], arg1: <span class="kw-2">&amp;</span>[u8; <span class="number">32</span>]) {
+  <span class="kw">let </span>x1: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">31</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">56</span>);
+  <span class="kw">let </span>x2: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">30</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
+  <span class="kw">let </span>x3: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">29</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
+  <span class="kw">let </span>x4: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">28</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
+  <span class="kw">let </span>x5: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">27</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
+  <span class="kw">let </span>x6: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">26</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
+  <span class="kw">let </span>x7: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">25</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
+  <span class="kw">let </span>x8: u8 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">24</span>));
+  <span class="kw">let </span>x9: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">23</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">56</span>);
+  <span class="kw">let </span>x10: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">22</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
+  <span class="kw">let </span>x11: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">21</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
+  <span class="kw">let </span>x12: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">20</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
+  <span class="kw">let </span>x13: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">19</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
+  <span class="kw">let </span>x14: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">18</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
+  <span class="kw">let </span>x15: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">17</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
+  <span class="kw">let </span>x16: u8 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">16</span>));
+  <span class="kw">let </span>x17: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">15</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">56</span>);
+  <span class="kw">let </span>x18: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">14</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
+  <span class="kw">let </span>x19: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">13</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
+  <span class="kw">let </span>x20: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">12</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
+  <span class="kw">let </span>x21: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">11</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
+  <span class="kw">let </span>x22: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">10</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
+  <span class="kw">let </span>x23: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">9</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
+  <span class="kw">let </span>x24: u8 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">8</span>));
+  <span class="kw">let </span>x25: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">56</span>);
+  <span class="kw">let </span>x26: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
+  <span class="kw">let </span>x27: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
+  <span class="kw">let </span>x28: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
+  <span class="kw">let </span>x29: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
+  <span class="kw">let </span>x30: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
+  <span class="kw">let </span>x31: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
+  <span class="kw">let </span>x32: u8 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>));
   <span class="kw">let </span>x33: u64 = (x31 + (x32 <span class="kw">as </span>u64));
   <span class="kw">let </span>x34: u64 = (x30 + x33);
   <span class="kw">let </span>x35: u64 = (x29 + x34);
@@ -3679,10 +3783,10 @@
   <span class="kw">let </span>x58: u64 = (x3 + x57);
   <span class="kw">let </span>x59: u64 = (x2 + x58);
   <span class="kw">let </span>x60: u64 = (x1 + x59);
-  out1[<span class="number">0</span>] = x39;
-  out1[<span class="number">1</span>] = x46;
-  out1[<span class="number">2</span>] = x53;
-  out1[<span class="number">3</span>] = x60;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x39;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x46;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x53;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x60;
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_set_one returns the field element one in the Montgomery domain.
@@ -3692,11 +3796,11 @@
 ///   0 ≤ eval out1 &lt; m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_set_one(out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
-  out1[<span class="number">0</span>] = <span class="number">0x1000003d1</span>;
-  out1[<span class="number">1</span>] = (<span class="number">0x0 </span><span class="kw">as </span>u64);
-  out1[<span class="number">2</span>] = (<span class="number">0x0 </span><span class="kw">as </span>u64);
-  out1[<span class="number">3</span>] = (<span class="number">0x0 </span><span class="kw">as </span>u64);
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_set_one(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_secp256k1_montgomery_montgomery_domain_field_element) {
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = <span class="number">0x1000003d1</span>;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = (<span class="number">0x0 </span><span class="kw">as </span>u64);
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = (<span class="number">0x0 </span><span class="kw">as </span>u64);
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = (<span class="number">0x0 </span><span class="kw">as </span>u64);
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_msat returns the saturated representation of the prime modulus.
@@ -3708,12 +3812,12 @@
 /// Output Bounds:
 ///   out1: [[0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff]]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_msat(out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">5</span>]) {
-  out1[<span class="number">0</span>] = <span class="number">0xfffffffefffffc2f</span>;
-  out1[<span class="number">1</span>] = <span class="number">0xffffffffffffffff</span>;
-  out1[<span class="number">2</span>] = <span class="number">0xffffffffffffffff</span>;
-  out1[<span class="number">3</span>] = <span class="number">0xffffffffffffffff</span>;
-  out1[<span class="number">4</span>] = (<span class="number">0x0 </span><span class="kw">as </span>u64);
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_msat(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">5</span>]) {
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = <span class="number">0xfffffffefffffc2f</span>;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = <span class="number">0xffffffffffffffff</span>;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = <span class="number">0xffffffffffffffff</span>;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = <span class="number">0xffffffffffffffff</span>;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">4</span>) = (<span class="number">0x0 </span><span class="kw">as </span>u64);
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_divstep computes a divstep.
@@ -3745,59 +3849,59 @@
 ///   out4: [[0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff]]
 ///   out5: [[0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff]]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_divstep(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>[u64; <span class="number">5</span>], out3: <span class="kw-2">&amp;mut </span>[u64; <span class="number">5</span>], out4: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>], out5: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>], arg1: u64, arg2: <span class="kw-2">&amp;</span>[u64; <span class="number">5</span>], arg3: <span class="kw-2">&amp;</span>[u64; <span class="number">5</span>], arg4: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>], arg5: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>]) {
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_divstep(out1: <span class="kw-2">&amp;mut </span>u64, <span class="kw-2">mut </span>out2: <span class="kw-2">&amp;mut </span>[u64; <span class="number">5</span>], <span class="kw-2">mut </span>out3: <span class="kw-2">&amp;mut </span>[u64; <span class="number">5</span>], <span class="kw-2">mut </span>out4: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>], <span class="kw-2">mut </span>out5: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>], arg1: u64, arg2: <span class="kw-2">&amp;</span>[u64; <span class="number">5</span>], arg3: <span class="kw-2">&amp;</span>[u64; <span class="number">5</span>], arg4: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>], arg5: <span class="kw-2">&amp;</span>[u64; <span class="number">4</span>]) {
   <span class="kw">let </span><span class="kw-2">mut </span>x1: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x2: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, <span class="number">0x0</span>, (!arg1), (<span class="number">0x1 </span><span class="kw">as </span>u64));
-  <span class="kw">let </span>x3: fiat_secp256k1_montgomery_u1 = (((x1 &gt;&gt; <span class="number">63</span>) <span class="kw">as </span>fiat_secp256k1_montgomery_u1) &amp; (((arg3[<span class="number">0</span>]) &amp; (<span class="number">0x1 </span><span class="kw">as </span>u64)) <span class="kw">as </span>fiat_secp256k1_montgomery_u1));
+  <span class="kw">let </span>x3: fiat_secp256k1_montgomery_u1 = (((x1 &gt;&gt; <span class="number">63</span>) <span class="kw">as </span>fiat_secp256k1_montgomery_u1) &amp; (((<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">0</span>)) &amp; (<span class="number">0x1 </span><span class="kw">as </span>u64)) <span class="kw">as </span>fiat_secp256k1_montgomery_u1));
   <span class="kw">let </span><span class="kw-2">mut </span>x4: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x5: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x4, <span class="kw-2">&amp;mut </span>x5, <span class="number">0x0</span>, (!arg1), (<span class="number">0x1 </span><span class="kw">as </span>u64));
   <span class="kw">let </span><span class="kw-2">mut </span>x6: u64 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x6, x3, arg1, x4);
   <span class="kw">let </span><span class="kw-2">mut </span>x7: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x7, x3, (arg2[<span class="number">0</span>]), (arg3[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x7, x3, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x8: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x8, x3, (arg2[<span class="number">1</span>]), (arg3[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x8, x3, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x9: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x9, x3, (arg2[<span class="number">2</span>]), (arg3[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x9, x3, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x10: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x10, x3, (arg2[<span class="number">3</span>]), (arg3[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x10, x3, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x11: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x11, x3, (arg2[<span class="number">4</span>]), (arg3[<span class="number">4</span>]));
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x11, x3, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">4</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x12: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x13: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x12, <span class="kw-2">&amp;mut </span>x13, <span class="number">0x0</span>, (<span class="number">0x1 </span><span class="kw">as </span>u64), (!(arg2[<span class="number">0</span>])));
+  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x12, <span class="kw-2">&amp;mut </span>x13, <span class="number">0x0</span>, (<span class="number">0x1 </span><span class="kw">as </span>u64), (!(<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>))));
   <span class="kw">let </span><span class="kw-2">mut </span>x14: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x15: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x14, <span class="kw-2">&amp;mut </span>x15, x13, (<span class="number">0x0 </span><span class="kw">as </span>u64), (!(arg2[<span class="number">1</span>])));
+  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x14, <span class="kw-2">&amp;mut </span>x15, x13, (<span class="number">0x0 </span><span class="kw">as </span>u64), (!(<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>))));
   <span class="kw">let </span><span class="kw-2">mut </span>x16: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x17: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x16, <span class="kw-2">&amp;mut </span>x17, x15, (<span class="number">0x0 </span><span class="kw">as </span>u64), (!(arg2[<span class="number">2</span>])));
+  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x16, <span class="kw-2">&amp;mut </span>x17, x15, (<span class="number">0x0 </span><span class="kw">as </span>u64), (!(<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>))));
   <span class="kw">let </span><span class="kw-2">mut </span>x18: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x19: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x18, <span class="kw-2">&amp;mut </span>x19, x17, (<span class="number">0x0 </span><span class="kw">as </span>u64), (!(arg2[<span class="number">3</span>])));
+  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x18, <span class="kw-2">&amp;mut </span>x19, x17, (<span class="number">0x0 </span><span class="kw">as </span>u64), (!(<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>))));
   <span class="kw">let </span><span class="kw-2">mut </span>x20: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x21: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x20, <span class="kw-2">&amp;mut </span>x21, x19, (<span class="number">0x0 </span><span class="kw">as </span>u64), (!(arg2[<span class="number">4</span>])));
+  fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x20, <span class="kw-2">&amp;mut </span>x21, x19, (<span class="number">0x0 </span><span class="kw">as </span>u64), (!(<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>))));
   <span class="kw">let </span><span class="kw-2">mut </span>x22: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x22, x3, (arg3[<span class="number">0</span>]), x12);
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x22, x3, (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">0</span>)), x12);
   <span class="kw">let </span><span class="kw-2">mut </span>x23: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x23, x3, (arg3[<span class="number">1</span>]), x14);
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x23, x3, (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">1</span>)), x14);
   <span class="kw">let </span><span class="kw-2">mut </span>x24: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x24, x3, (arg3[<span class="number">2</span>]), x16);
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x24, x3, (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">2</span>)), x16);
   <span class="kw">let </span><span class="kw-2">mut </span>x25: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x25, x3, (arg3[<span class="number">3</span>]), x18);
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x25, x3, (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">3</span>)), x18);
   <span class="kw">let </span><span class="kw-2">mut </span>x26: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x26, x3, (arg3[<span class="number">4</span>]), x20);
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x26, x3, (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">4</span>)), x20);
   <span class="kw">let </span><span class="kw-2">mut </span>x27: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x27, x3, (arg4[<span class="number">0</span>]), (arg5[<span class="number">0</span>]));
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x27, x3, (<span class="kw-2">*</span>IndexConst(arg4).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg5).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x28: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x28, x3, (arg4[<span class="number">1</span>]), (arg5[<span class="number">1</span>]));
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x28, x3, (<span class="kw-2">*</span>IndexConst(arg4).index(<span class="number">1</span>)), (<span class="kw-2">*</span>IndexConst(arg5).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x29: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x29, x3, (arg4[<span class="number">2</span>]), (arg5[<span class="number">2</span>]));
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x29, x3, (<span class="kw-2">*</span>IndexConst(arg4).index(<span class="number">2</span>)), (<span class="kw-2">*</span>IndexConst(arg5).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x30: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x30, x3, (arg4[<span class="number">3</span>]), (arg5[<span class="number">3</span>]));
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x30, x3, (<span class="kw-2">*</span>IndexConst(arg4).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg5).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x31: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x32: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x31, <span class="kw-2">&amp;mut </span>x32, <span class="number">0x0</span>, x27, x27);
@@ -3825,10 +3929,10 @@
   <span class="kw">let </span><span class="kw-2">mut </span>x47: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x48: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x47, <span class="kw-2">&amp;mut </span>x48, x46, (x38 <span class="kw">as </span>u64), (<span class="number">0x0 </span><span class="kw">as </span>u64));
-  <span class="kw">let </span>x49: u64 = (arg4[<span class="number">3</span>]);
-  <span class="kw">let </span>x50: u64 = (arg4[<span class="number">2</span>]);
-  <span class="kw">let </span>x51: u64 = (arg4[<span class="number">1</span>]);
-  <span class="kw">let </span>x52: u64 = (arg4[<span class="number">0</span>]);
+  <span class="kw">let </span>x49: u64 = (<span class="kw-2">*</span>IndexConst(arg4).index(<span class="number">3</span>));
+  <span class="kw">let </span>x50: u64 = (<span class="kw-2">*</span>IndexConst(arg4).index(<span class="number">2</span>));
+  <span class="kw">let </span>x51: u64 = (<span class="kw-2">*</span>IndexConst(arg4).index(<span class="number">1</span>));
+  <span class="kw">let </span>x52: u64 = (<span class="kw-2">*</span>IndexConst(arg4).index(<span class="number">0</span>));
   <span class="kw">let </span><span class="kw-2">mut </span>x53: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x54: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_subborrowx_u64(<span class="kw-2">&amp;mut </span>x53, <span class="kw-2">&amp;mut </span>x54, <span class="number">0x0</span>, (<span class="number">0x0 </span><span class="kw">as </span>u64), x52);
@@ -3856,13 +3960,13 @@
   <span class="kw">let </span><span class="kw-2">mut </span>x69: fiat_secp256k1_montgomery_u1 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_addcarryx_u64(<span class="kw-2">&amp;mut </span>x68, <span class="kw-2">&amp;mut </span>x69, x67, x59, x61);
   <span class="kw">let </span><span class="kw-2">mut </span>x70: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x70, x3, (arg5[<span class="number">0</span>]), x62);
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x70, x3, (<span class="kw-2">*</span>IndexConst(arg5).index(<span class="number">0</span>)), x62);
   <span class="kw">let </span><span class="kw-2">mut </span>x71: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x71, x3, (arg5[<span class="number">1</span>]), x64);
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x71, x3, (<span class="kw-2">*</span>IndexConst(arg5).index(<span class="number">1</span>)), x64);
   <span class="kw">let </span><span class="kw-2">mut </span>x72: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x72, x3, (arg5[<span class="number">2</span>]), x66);
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x72, x3, (<span class="kw-2">*</span>IndexConst(arg5).index(<span class="number">2</span>)), x66);
   <span class="kw">let </span><span class="kw-2">mut </span>x73: u64 = <span class="number">0</span>;
-  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x73, x3, (arg5[<span class="number">3</span>]), x68);
+  fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x73, x3, (<span class="kw-2">*</span>IndexConst(arg5).index(<span class="number">3</span>)), x68);
   <span class="kw">let </span>x74: fiat_secp256k1_montgomery_u1 = ((x22 &amp; (<span class="number">0x1 </span><span class="kw">as </span>u64)) <span class="kw">as </span>fiat_secp256k1_montgomery_u1);
   <span class="kw">let </span><span class="kw-2">mut </span>x75: u64 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x75, x74, (<span class="number">0x0 </span><span class="kw">as </span>u64), x7);
@@ -3949,24 +4053,24 @@
   <span class="kw">let </span><span class="kw-2">mut </span>x126: u64 = <span class="number">0</span>;
   fiat_secp256k1_montgomery_cmovznz_u64(<span class="kw-2">&amp;mut </span>x126, x111, x108, x100);
   <span class="kw-2">*</span>out1 = x112;
-  out2[<span class="number">0</span>] = x7;
-  out2[<span class="number">1</span>] = x8;
-  out2[<span class="number">2</span>] = x9;
-  out2[<span class="number">3</span>] = x10;
-  out2[<span class="number">4</span>] = x11;
-  out3[<span class="number">0</span>] = x114;
-  out3[<span class="number">1</span>] = x115;
-  out3[<span class="number">2</span>] = x116;
-  out3[<span class="number">3</span>] = x117;
-  out3[<span class="number">4</span>] = x118;
-  out4[<span class="number">0</span>] = x119;
-  out4[<span class="number">1</span>] = x120;
-  out4[<span class="number">2</span>] = x121;
-  out4[<span class="number">3</span>] = x122;
-  out5[<span class="number">0</span>] = x123;
-  out5[<span class="number">1</span>] = x124;
-  out5[<span class="number">2</span>] = x125;
-  out5[<span class="number">3</span>] = x126;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out2).index_mut(<span class="number">0</span>) = x7;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out2).index_mut(<span class="number">1</span>) = x8;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out2).index_mut(<span class="number">2</span>) = x9;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out2).index_mut(<span class="number">3</span>) = x10;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out2).index_mut(<span class="number">4</span>) = x11;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out3).index_mut(<span class="number">0</span>) = x114;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out3).index_mut(<span class="number">1</span>) = x115;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out3).index_mut(<span class="number">2</span>) = x116;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out3).index_mut(<span class="number">3</span>) = x117;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out3).index_mut(<span class="number">4</span>) = x118;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out4).index_mut(<span class="number">0</span>) = x119;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out4).index_mut(<span class="number">1</span>) = x120;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out4).index_mut(<span class="number">2</span>) = x121;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out4).index_mut(<span class="number">3</span>) = x122;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out5).index_mut(<span class="number">0</span>) = x123;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out5).index_mut(<span class="number">1</span>) = x124;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out5).index_mut(<span class="number">2</span>) = x125;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out5).index_mut(<span class="number">3</span>) = x126;
 }
 
 <span class="doccomment">/// The function fiat_secp256k1_montgomery_divstep_precomp returns the precomputed value for Bernstein-Yang-inversion (in montgomery form).
@@ -3978,10 +4082,10 @@
 /// Output Bounds:
 ///   out1: [[0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff]]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_secp256k1_montgomery_divstep_precomp(out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>]) {
-  out1[<span class="number">0</span>] = <span class="number">0xf201a41831525e0a</span>;
-  out1[<span class="number">1</span>] = <span class="number">0x9953f9ddcd648d85</span>;
-  out1[<span class="number">2</span>] = <span class="number">0xe86029463db210a9</span>;
-  out1[<span class="number">3</span>] = <span class="number">0x24fb8a3104b03709</span>;
+</span><span class="kw">pub const fn </span>fiat_secp256k1_montgomery_divstep_precomp(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">4</span>]) {
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = <span class="number">0xf201a41831525e0a</span>;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = <span class="number">0x9953f9ddcd648d85</span>;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = <span class="number">0xe86029463db210a9</span>;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = <span class="number">0x24fb8a3104b03709</span>;
 }
 </code></pre></div></section></main></body></html>

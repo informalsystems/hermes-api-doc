@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustls-0.23.28/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -711,7 +711,9 @@
 <a href="#710" id="710">710</a>
 <a href="#711" id="711">711</a>
 <a href="#712" id="712">712</a>
-<a href="#713" id="713">713</a></pre></div><pre class="rust"><code><span class="doccomment">//! # Rustls - a modern TLS library
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a></pre></div><pre class="rust"><code><span class="doccomment">//! # Rustls - a modern TLS library
 //!
 //! Rustls is a TLS library that aims to provide a good level of cryptographic security,
 //! requires no configuration to achieve that security, and provides no unsafe features or
@@ -769,15 +771,18 @@
 //!
 //! The community has also started developing third-party providers for Rustls:
 //!
-//!   * [`rustls-mbedtls-provider`] - a provider that uses [`mbedtls`] for cryptography.
-//!   * [`rustls-openssl`] - a provider that uses [OpenSSL] for cryptography.
 //!   * [`boring-rustls-provider`] - a work-in-progress provider that uses [`boringssl`] for
 //!     cryptography.
+//!   * [`rustls-graviola`] - a provider that uses [`graviola`] for cryptography.
+//!   * [`rustls-mbedtls-provider`] - a provider that uses [`mbedtls`] for cryptography.
+//!   * [`rustls-openssl`] - a provider that uses [OpenSSL] for cryptography.
 //!   * [`rustls-rustcrypto`] - an experimental provider that uses the crypto primitives
 //!     from [`RustCrypto`] for cryptography.
 //!   * [`rustls-symcrypt`] - a provider that uses Microsoft's [SymCrypt] library.
 //!   * [`rustls-wolfcrypt-provider`] - a work-in-progress provider that uses [`wolfCrypt`] for cryptography.
 //!
+//! [`rustls-graviola`]: https://crates.io/crates/rustls-graviola
+//! [`graviola`]: https://github.com/ctz/graviola
 //! [`rustls-mbedtls-provider`]: https://github.com/fortanix/rustls-mbedtls-provider
 //! [`mbedtls`]: https://github.com/Mbed-TLS/mbedtls
 //! [`rustls-openssl`]: https://github.com/tofay/rustls-openssl
@@ -1043,7 +1048,6 @@
 #![cfg_attr(not(any(read_buf, bench, coverage_nightly)), forbid(unstable_features))]
 #![warn(
     clippy::alloc_instead_of_core,
-    clippy::clone_on_ref_ptr,
     clippy::manual_let_else,
     clippy::std_instead_of_core,
     clippy::use_self,
@@ -1188,8 +1192,7 @@
         }
         <span class="kw">pub mod </span>enums {
             <span class="kw">pub use </span><span class="kw">crate</span>::msgs::enums::{
-                AlertLevel, CertificateType, Compression, EchVersion, ExtensionType, HpkeAead,
-                HpkeKdf, HpkeKem, NamedGroup,
+                AlertLevel, EchVersion, ExtensionType, HpkeAead, HpkeKdf, HpkeKem,
             };
         }
         <span class="kw">pub mod </span>fragmenter {
@@ -1197,10 +1200,7 @@
         }
         <span class="kw">pub mod </span>handshake {
             <span class="kw">pub use </span><span class="kw">crate</span>::msgs::handshake::{
-                CertificateChain, ClientExtension, ClientHelloPayload, DistinguishedName,
-                EchConfigContents, EchConfigPayload, HandshakeMessagePayload, HandshakePayload,
-                HpkeKeyConfig, HpkeSymmetricCipherSuite, KeyShareEntry, Random, ServerExtension,
-                SessionId,
+                EchConfigContents, EchConfigPayload, HpkeKeyConfig, HpkeSymmetricCipherSuite,
             };
         }
         <span class="kw">pub mod </span>message {
@@ -1258,10 +1258,9 @@
 <span class="comment">// The public interface is:
 </span><span class="kw">pub use </span><span class="kw">crate</span>::builder::{ConfigBuilder, ConfigSide, WantsVerifier, WantsVersions};
 <span class="kw">pub use </span><span class="kw">crate</span>::common_state::{CommonState, HandshakeKind, IoState, Side};
-<span class="kw">pub use </span><span class="kw">crate</span>::conn::kernel;
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::conn::{Connection, Reader, Writer};
-<span class="kw">pub use </span><span class="kw">crate</span>::conn::{ConnectionCommon, SideData};
+<span class="kw">pub use </span><span class="kw">crate</span>::conn::{ConnectionCommon, SideData, kernel};
 <span class="kw">pub use </span><span class="kw">crate</span>::enums::{
     AlertDescription, CertificateCompressionAlgorithm, CipherSuite, ContentType, HandshakeType,
     ProtocolVersion, SignatureAlgorithm, SignatureScheme,
@@ -1301,6 +1300,8 @@
     <span class="kw">mod </span>ech;
     <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">mod </span>handy;
     <span class="kw">mod </span>hs;
+    <span class="attr">#[cfg(test)]
+    </span><span class="kw">mod </span>test;
     <span class="attr">#[cfg(feature = <span class="string">"tls12"</span>)]
     </span><span class="kw">mod </span>tls12;
     <span class="kw">mod </span>tls13;
@@ -1342,6 +1343,8 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>handy;
     <span class="kw">mod </span>hs;
     <span class="kw">mod </span>server_conn;
+    <span class="attr">#[cfg(test)]
+    </span><span class="kw">mod </span>test;
     <span class="attr">#[cfg(feature = <span class="string">"tls12"</span>)]
     </span><span class="kw">mod </span>tls12;
     <span class="kw">mod </span>tls13;
@@ -1359,6 +1362,7 @@
     <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
     </span><span class="kw">pub use </span>server_conn::{AcceptedAlert, Acceptor, ReadEarlyData, ServerConnection};
 
+    <span class="kw">pub use </span><span class="kw">crate</span>::enums::CertificateType;
     <span class="kw">pub use </span><span class="kw">crate</span>::verify::NoClientAuth;
     <span class="kw">pub use </span><span class="kw">crate</span>::webpki::{
         ClientCertVerifierBuilder, ParsedCertificate, VerifierBuilderError, WebPkiClientVerifier,

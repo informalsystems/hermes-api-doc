@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/indexmap-2.9.0/src/map.rs`."><title>map.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="indexmap" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">indexmap/</div>map.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/indexmap-2.10.0/src/map.rs`."><title>map.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="indexmap" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">indexmap/</div>map.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1649,7 +1649,53 @@
 <a href="#1648" id="1648">1648</a>
 <a href="#1649" id="1649">1649</a>
 <a href="#1650" id="1650">1650</a>
-<a href="#1651" id="1651">1651</a></pre></div><pre class="rust"><code><span class="doccomment">//! [`IndexMap`] is a hash table where the iteration order of the key-value
+<a href="#1651" id="1651">1651</a>
+<a href="#1652" id="1652">1652</a>
+<a href="#1653" id="1653">1653</a>
+<a href="#1654" id="1654">1654</a>
+<a href="#1655" id="1655">1655</a>
+<a href="#1656" id="1656">1656</a>
+<a href="#1657" id="1657">1657</a>
+<a href="#1658" id="1658">1658</a>
+<a href="#1659" id="1659">1659</a>
+<a href="#1660" id="1660">1660</a>
+<a href="#1661" id="1661">1661</a>
+<a href="#1662" id="1662">1662</a>
+<a href="#1663" id="1663">1663</a>
+<a href="#1664" id="1664">1664</a>
+<a href="#1665" id="1665">1665</a>
+<a href="#1666" id="1666">1666</a>
+<a href="#1667" id="1667">1667</a>
+<a href="#1668" id="1668">1668</a>
+<a href="#1669" id="1669">1669</a>
+<a href="#1670" id="1670">1670</a>
+<a href="#1671" id="1671">1671</a>
+<a href="#1672" id="1672">1672</a>
+<a href="#1673" id="1673">1673</a>
+<a href="#1674" id="1674">1674</a>
+<a href="#1675" id="1675">1675</a>
+<a href="#1676" id="1676">1676</a>
+<a href="#1677" id="1677">1677</a>
+<a href="#1678" id="1678">1678</a>
+<a href="#1679" id="1679">1679</a>
+<a href="#1680" id="1680">1680</a>
+<a href="#1681" id="1681">1681</a>
+<a href="#1682" id="1682">1682</a>
+<a href="#1683" id="1683">1683</a>
+<a href="#1684" id="1684">1684</a>
+<a href="#1685" id="1685">1685</a>
+<a href="#1686" id="1686">1686</a>
+<a href="#1687" id="1687">1687</a>
+<a href="#1688" id="1688">1688</a>
+<a href="#1689" id="1689">1689</a>
+<a href="#1690" id="1690">1690</a>
+<a href="#1691" id="1691">1691</a>
+<a href="#1692" id="1692">1692</a>
+<a href="#1693" id="1693">1693</a>
+<a href="#1694" id="1694">1694</a>
+<a href="#1695" id="1695">1695</a>
+<a href="#1696" id="1696">1696</a>
+<a href="#1697" id="1697">1697</a></pre></div><pre class="rust"><code><span class="doccomment">//! [`IndexMap`] is a hash table where the iteration order of the key-value
 //! pairs is independent of the hash values of the keys.
 
 </span><span class="kw">mod </span>core;
@@ -1667,7 +1713,8 @@
 <span class="kw">pub use </span><span class="self">self</span>::core::raw_entry_v1::{<span class="self">self</span>, RawEntryApiV1};
 <span class="kw">pub use </span><span class="self">self</span>::core::{Entry, IndexedEntry, OccupiedEntry, VacantEntry};
 <span class="kw">pub use </span><span class="self">self</span>::iter::{
-    Drain, IntoIter, IntoKeys, IntoValues, Iter, IterMut, IterMut2, Keys, Splice, Values, ValuesMut,
+    Drain, ExtractIf, IntoIter, IntoKeys, IntoValues, Iter, IterMut, IterMut2, Keys, Splice,
+    Values, ValuesMut,
 };
 <span class="kw">pub use </span><span class="self">self</span>::mutable::MutableEntryKey;
 <span class="kw">pub use </span><span class="self">self</span>::mutable::MutableKeys;
@@ -1687,9 +1734,9 @@
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">use </span>std::collections::hash_map::RandomState;
 
-<span class="kw">use </span><span class="self">self</span>::core::IndexMapCore;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::core::{ExtractCore, IndexMapCore};
 <span class="kw">use </span><span class="kw">crate</span>::util::{third, try_simplify_range};
-<span class="kw">use crate</span>::{Bucket, Entries, Equivalent, GetDisjointMutError, HashValue, TryReserveError};
+<span class="kw">use crate</span>::{Bucket, Equivalent, GetDisjointMutError, HashValue, TryReserveError};
 
 <span class="doccomment">/// A hash table where the iteration order of the key-value pairs is independent
 /// of the hash values of the keys.
@@ -1764,32 +1811,6 @@
     }
 }
 
-<span class="kw">impl</span>&lt;K, V, S&gt; Entries <span class="kw">for </span>IndexMap&lt;K, V, S&gt; {
-    <span class="kw">type </span>Entry = Bucket&lt;K, V&gt;;
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>into_entries(<span class="self">self</span>) -&gt; Vec&lt;<span class="self">Self</span>::Entry&gt; {
-        <span class="self">self</span>.core.into_entries()
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_entries(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="self">Self</span>::Entry] {
-        <span class="self">self</span>.core.as_entries()
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_entries_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[<span class="self">Self</span>::Entry] {
-        <span class="self">self</span>.core.as_entries_mut()
-    }
-
-    <span class="kw">fn </span>with_entries&lt;F&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, f: F)
-    <span class="kw">where
-        </span>F: FnOnce(<span class="kw-2">&amp;mut </span>[<span class="self">Self</span>::Entry]),
-    {
-        <span class="self">self</span>.core.with_entries(f);
-    }
-}
-
 <span class="kw">impl</span>&lt;K, V, S&gt; fmt::Debug <span class="kw">for </span>IndexMap&lt;K, V, S&gt;
 <span class="kw">where
     </span>K: fmt::Debug,
@@ -1854,6 +1875,28 @@
             core: IndexMapCore::new(),
             hash_builder,
         }
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>into_entries(<span class="self">self</span>) -&gt; Vec&lt;Bucket&lt;K, V&gt;&gt; {
+        <span class="self">self</span>.core.into_entries()
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>as_entries(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Bucket&lt;K, V&gt;] {
+        <span class="self">self</span>.core.as_entries()
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>as_entries_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[Bucket&lt;K, V&gt;] {
+        <span class="self">self</span>.core.as_entries_mut()
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>with_entries&lt;F&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, f: F)
+    <span class="kw">where
+        </span>F: FnOnce(<span class="kw-2">&amp;mut </span>[Bucket&lt;K, V&gt;]),
+    {
+        <span class="self">self</span>.core.with_entries(f);
     }
 
     <span class="doccomment">/// Return the number of elements the map can hold without reallocating.
@@ -1956,6 +1999,55 @@
         </span>R: RangeBounds&lt;usize&gt;,
     {
         Drain::new(<span class="self">self</span>.core.drain(range))
+    }
+
+    <span class="doccomment">/// Creates an iterator which uses a closure to determine if an element should be removed,
+    /// for all elements in the given range.
+    ///
+    /// If the closure returns true, the element is removed from the map and yielded.
+    /// If the closure returns false, or panics, the element remains in the map and will not be
+    /// yielded.
+    ///
+    /// Note that `extract_if` lets you mutate every value in the filter closure, regardless of
+    /// whether you choose to keep or remove it.
+    ///
+    /// The range may be any type that implements [`RangeBounds&lt;usize&gt;`],
+    /// including all of the `std::ops::Range*` types, or even a tuple pair of
+    /// `Bound` start and end values. To check the entire map, use `RangeFull`
+    /// like `map.extract_if(.., predicate)`.
+    ///
+    /// If the returned `ExtractIf` is not exhausted, e.g. because it is dropped without iterating
+    /// or the iteration short-circuits, then the remaining elements will be retained.
+    /// Use [`retain`] with a negated predicate if you do not need the returned iterator.
+    ///
+    /// [`retain`]: IndexMap::retain
+    ///
+    /// ***Panics*** if the starting point is greater than the end point or if
+    /// the end point is greater than the length of the map.
+    ///
+    /// # Examples
+    ///
+    /// Splitting a map into even and odd keys, reusing the original map:
+    ///
+    /// ```
+    /// use indexmap::IndexMap;
+    ///
+    /// let mut map: IndexMap&lt;i32, i32&gt; = (0..8).map(|x| (x, x)).collect();
+    /// let extracted: IndexMap&lt;i32, i32&gt; = map.extract_if(.., |k, _v| k % 2 == 0).collect();
+    ///
+    /// let evens = extracted.keys().copied().collect::&lt;Vec&lt;_&gt;&gt;();
+    /// let odds = map.keys().copied().collect::&lt;Vec&lt;_&gt;&gt;();
+    ///
+    /// assert_eq!(evens, vec![0, 2, 4, 6]);
+    /// assert_eq!(odds, vec![1, 3, 5, 7]);
+    /// ```
+    </span><span class="attr">#[track_caller]
+    </span><span class="kw">pub fn </span>extract_if&lt;F, R&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, range: R, pred: F) -&gt; ExtractIf&lt;<span class="lifetime">'_</span>, K, V, F&gt;
+    <span class="kw">where
+        </span>F: FnMut(<span class="kw-2">&amp;</span>K, <span class="kw-2">&amp;mut </span>V) -&gt; bool,
+        R: RangeBounds&lt;usize&gt;,
+    {
+        ExtractIf::new(<span class="kw-2">&amp;mut </span><span class="self">self</span>.core, range, pred)
     }
 
     <span class="doccomment">/// Splits the collection into two at the given index.
@@ -3125,15 +3217,15 @@
     ///
     /// ***Panics*** if `index` is out of bounds.
     </span><span class="kw">fn </span>index(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="kw-2">&amp;</span>V {
-        <span class="self">self</span>.get_index(index)
-            .unwrap_or_else(|| {
-                <span class="macro">panic!</span>(
-                    <span class="string">"index out of bounds: the len is {len} but the index is {index}"</span>,
-                    len = <span class="self">self</span>.len()
-                );
-            })
-            .<span class="number">1
-    </span>}
+        <span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="kw">_</span>, value)) = <span class="self">self</span>.get_index(index) {
+            value
+        } <span class="kw">else </span>{
+            <span class="macro">panic!</span>(
+                <span class="string">"index out of bounds: the len is {len} but the index is {index}"</span>,
+                len = <span class="self">self</span>.len()
+            );
+        }
+    }
 }
 
 <span class="doccomment">/// Access [`IndexMap`] values at indexed positions.
@@ -3172,12 +3264,12 @@
     </span><span class="kw">fn </span>index_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, index: usize) -&gt; <span class="kw-2">&amp;mut </span>V {
         <span class="kw">let </span>len: usize = <span class="self">self</span>.len();
 
-        <span class="self">self</span>.get_index_mut(index)
-            .unwrap_or_else(|| {
-                <span class="macro">panic!</span>(<span class="string">"index out of bounds: the len is {len} but the index is {index}"</span>);
-            })
-            .<span class="number">1
-    </span>}
+        <span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="kw">_</span>, value)) = <span class="self">self</span>.get_index_mut(index) {
+            value
+        } <span class="kw">else </span>{
+            <span class="macro">panic!</span>(<span class="string">"index out of bounds: the len is {len} but the index is {index}"</span>);
+        }
+    }
 }
 
 <span class="kw">impl</span>&lt;K, V, S&gt; FromIterator&lt;(K, V)&gt; <span class="kw">for </span>IndexMap&lt;K, V, S&gt;

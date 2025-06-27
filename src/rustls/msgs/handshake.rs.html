@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/msgs/handshake.rs`."><title>handshake.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/msgs/</div>handshake.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustls-0.23.28/src/msgs/handshake.rs`."><title>handshake.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/msgs/</div>handshake.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -3368,7 +3368,45 @@
 <a href="#3367" id="3367">3367</a>
 <a href="#3368" id="3368">3368</a>
 <a href="#3369" id="3369">3369</a>
-<a href="#3370" id="3370">3370</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::collections::BTreeSet;
+<a href="#3370" id="3370">3370</a>
+<a href="#3371" id="3371">3371</a>
+<a href="#3372" id="3372">3372</a>
+<a href="#3373" id="3373">3373</a>
+<a href="#3374" id="3374">3374</a>
+<a href="#3375" id="3375">3375</a>
+<a href="#3376" id="3376">3376</a>
+<a href="#3377" id="3377">3377</a>
+<a href="#3378" id="3378">3378</a>
+<a href="#3379" id="3379">3379</a>
+<a href="#3380" id="3380">3380</a>
+<a href="#3381" id="3381">3381</a>
+<a href="#3382" id="3382">3382</a>
+<a href="#3383" id="3383">3383</a>
+<a href="#3384" id="3384">3384</a>
+<a href="#3385" id="3385">3385</a>
+<a href="#3386" id="3386">3386</a>
+<a href="#3387" id="3387">3387</a>
+<a href="#3388" id="3388">3388</a>
+<a href="#3389" id="3389">3389</a>
+<a href="#3390" id="3390">3390</a>
+<a href="#3391" id="3391">3391</a>
+<a href="#3392" id="3392">3392</a>
+<a href="#3393" id="3393">3393</a>
+<a href="#3394" id="3394">3394</a>
+<a href="#3395" id="3395">3395</a>
+<a href="#3396" id="3396">3396</a>
+<a href="#3397" id="3397">3397</a>
+<a href="#3398" id="3398">3398</a>
+<a href="#3399" id="3399">3399</a>
+<a href="#3400" id="3400">3400</a>
+<a href="#3401" id="3401">3401</a>
+<a href="#3402" id="3402">3402</a>
+<a href="#3403" id="3403">3403</a>
+<a href="#3404" id="3404">3404</a>
+<a href="#3405" id="3405">3405</a>
+<a href="#3406" id="3406">3406</a>
+<a href="#3407" id="3407">3407</a>
+<a href="#3408" id="3408">3408</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::collections::BTreeSet;
 <span class="attr">#[cfg(feature = <span class="string">"logging"</span>)]
 </span><span class="kw">use </span>alloc::string::String;
 <span class="kw">use </span>alloc::vec;
@@ -3382,8 +3420,8 @@
 </span><span class="kw">use </span><span class="kw">crate</span>::crypto::ActiveKeyExchange;
 <span class="kw">use </span><span class="kw">crate</span>::crypto::SecureRandom;
 <span class="kw">use </span><span class="kw">crate</span>::enums::{
-    CertificateCompressionAlgorithm, CipherSuite, EchClientHelloType, HandshakeType,
-    ProtocolVersion, SignatureScheme,
+    CertificateCompressionAlgorithm, CertificateType, CipherSuite, EchClientHelloType,
+    HandshakeType, ProtocolVersion, SignatureScheme,
 };
 <span class="kw">use </span><span class="kw">crate</span>::error::InvalidMessage;
 <span class="attr">#[cfg(feature = <span class="string">"tls12"</span>)]
@@ -3392,9 +3430,9 @@
 <span class="kw">use </span><span class="kw">crate</span>::msgs::base::{MaybeEmpty, NonEmpty, Payload, PayloadU8, PayloadU16, PayloadU24};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::codec::{<span class="self">self</span>, Codec, LengthPrefixedBuffer, ListLength, Reader, TlsListElement};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::enums::{
-    CertificateStatusType, CertificateType, ClientCertificateType, Compression, ECCurveType,
-    ECPointFormat, EchVersion, ExtensionType, HpkeAead, HpkeKdf, HpkeKem, KeyUpdateRequest,
-    NamedGroup, PskKeyExchangeMode, ServerNameType,
+    CertificateStatusType, ClientCertificateType, Compression, ECCurveType, ECPointFormat,
+    EchVersion, ExtensionType, HpkeAead, HpkeKdf, HpkeKem, KeyUpdateRequest, NamedGroup,
+    PskKeyExchangeMode, ServerNameType,
 };
 <span class="kw">use </span><span class="kw">crate</span>::rand;
 <span class="kw">use </span><span class="kw">crate</span>::sync::Arc;
@@ -3437,7 +3475,7 @@
 );
 
 <span class="attr">#[derive(Clone, Copy, Eq, PartialEq)]
-</span><span class="kw">pub struct </span>Random(<span class="kw">pub</span>(<span class="kw">crate</span>) [u8; <span class="number">32</span>]);
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Random(<span class="kw">pub</span>(<span class="kw">crate</span>) [u8; <span class="number">32</span>]);
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Random {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
@@ -3484,7 +3522,7 @@
 }
 
 <span class="attr">#[derive(Copy, Clone)]
-</span><span class="kw">pub struct </span>SessionId {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>SessionId {
     len: usize,
     data: [u8; <span class="number">32</span>],
 }
@@ -3534,7 +3572,7 @@
 }
 
 <span class="kw">impl </span>SessionId {
-    <span class="kw">pub fn </span>random(secure_random: <span class="kw-2">&amp;</span><span class="kw">dyn </span>SecureRandom) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, rand::GetRandomFailed&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>random(secure_random: <span class="kw-2">&amp;</span><span class="kw">dyn </span>SecureRandom) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, rand::GetRandomFailed&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>data = [<span class="number">0u8</span>; <span class="number">32</span>];
         secure_random.fill(<span class="kw-2">&amp;mut </span>data)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="self">Self </span>{ data, len: <span class="number">32 </span>})
@@ -3598,7 +3636,7 @@
 }
 
 <span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub enum </span>ServerNamePayload&lt;<span class="lifetime">'a</span>&gt; {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>ServerNamePayload&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// A successfully decoded value:
     </span>SingleDnsName(DnsName&lt;<span class="lifetime">'a</span>&gt;),
 
@@ -3680,9 +3718,8 @@
 
                 HostNamePayload::IpAddress(_invalid) =&gt; {
                     <span class="macro">warn!</span>(
-                        <span class="string">"Illegal SNI extension: ignoring IP address presented as hostname ({:?})"</span>,
-                        _invalid
-                    );
+                        <span class="string">"Illegal SNI extension: ignoring IP address presented as hostname ({_invalid:?})"
+                    </span>);
                     <span class="prelude-val">Some</span>(<span class="self">Self</span>::IpAddress)
                 }
 
@@ -3728,8 +3765,22 @@
 
 <span class="macro">wrapped_payload!</span>(
     <span class="doccomment">/// RFC7301: `opaque ProtocolName&lt;1..2^8-1&gt;;`
-    </span><span class="kw">pub struct </span>ProtocolName, PayloadU8&lt;NonEmpty&gt;,
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ProtocolName, PayloadU8&lt;NonEmpty&gt;,
 );
+
+<span class="kw">impl </span>PartialEq <span class="kw">for </span>ProtocolName {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+        <span class="self">self</span>.<span class="number">0 </span>== other.<span class="number">0
+    </span>}
+}
+
+<span class="kw">impl </span>Deref <span class="kw">for </span>ProtocolName {
+    <span class="kw">type </span>Target = [u8];
+
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
+        <span class="self">self</span>.as_ref()
+    }
+}
 
 <span class="doccomment">/// RFC7301: `ProtocolName protocol_name_list&lt;2..2^16-1&gt;`
 </span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>ProtocolName {
@@ -3740,11 +3791,11 @@
 
 <span class="doccomment">/// RFC7301 encodes a single protocol name as `Vec&lt;ProtocolName&gt;`
 </span><span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>SingleProtocolName(ProtocolName);
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>SingleProtocolName(ProtocolName);
 
 <span class="kw">impl </span>SingleProtocolName {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(bytes: Vec&lt;u8&gt;) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>(ProtocolName::from(bytes))
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(single: ProtocolName) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>(single)
     }
 
     <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU16 {
@@ -3780,22 +3831,18 @@
 
 <span class="comment">// --- TLS 1.3 Key shares ---
 </span><span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>KeyShareEntry {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>KeyShareEntry {
     <span class="kw">pub</span>(<span class="kw">crate</span>) group: NamedGroup,
     <span class="doccomment">/// RFC8446: `opaque key_exchange&lt;1..2^16-1&gt;;`
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) payload: PayloadU16&lt;NonEmpty&gt;,
 }
 
 <span class="kw">impl </span>KeyShareEntry {
-    <span class="kw">pub fn </span>new(group: NamedGroup, payload: <span class="kw">impl </span>Into&lt;Vec&lt;u8&gt;&gt;) -&gt; <span class="self">Self </span>{
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(group: NamedGroup, payload: <span class="kw">impl </span>Into&lt;Vec&lt;u8&gt;&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             group,
             payload: PayloadU16::new(payload.into()),
         }
-    }
-
-    <span class="kw">pub fn </span>group(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; NamedGroup {
-        <span class="self">self</span>.group
     }
 }
 
@@ -3864,7 +3911,7 @@
 }
 
 <span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>PresharedKeyOffer {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>PresharedKeyOffer {
     <span class="kw">pub</span>(<span class="kw">crate</span>) identities: Vec&lt;PresharedKeyIdentity&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) binders: Vec&lt;PresharedKeyBinder&gt;,
 }
@@ -3902,7 +3949,7 @@
 }
 
 <span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>OcspCertificateStatusRequest {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>OcspCertificateStatusRequest {
     <span class="kw">pub</span>(<span class="kw">crate</span>) responder_ids: Vec&lt;ResponderId&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) extensions: PayloadU16,
 }
@@ -3923,7 +3970,7 @@
 }
 
 <span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub enum </span>CertificateStatusRequest {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>CertificateStatusRequest {
     Ocsp(OcspCertificateStatusRequest),
     Unknown((CertificateStatusType, Payload&lt;<span class="lifetime">'static</span>&gt;)),
 }
@@ -3987,7 +4034,7 @@
 ///
 /// RFC8446: `ProtocolVersion versions&lt;2..254&gt;;`
 </span><span class="attr">#[derive(Clone, Copy, Debug, Default)]
-</span><span class="kw">pub struct </span>SupportedProtocolVersions {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>SupportedProtocolVersions {
     <span class="kw">pub</span>(<span class="kw">crate</span>) tls13: bool,
     <span class="kw">pub</span>(<span class="kw">crate</span>) tls12: bool,
 }
@@ -4062,7 +4109,7 @@
 }
 
 <span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub enum </span>ClientExtension {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>ClientExtension {
     EcPointFormats(Vec&lt;ECPointFormat&gt;),
     NamedGroups(Vec&lt;NamedGroup&gt;),
     SignatureAlgorithms(Vec&lt;SignatureScheme&gt;),
@@ -4130,10 +4177,8 @@
             <span class="self">Self</span>::NamedGroups(r) =&gt; r.encode(nested.buf),
             <span class="self">Self</span>::SignatureAlgorithms(r) =&gt; r.encode(nested.buf),
             <span class="self">Self</span>::ServerName(r) =&gt; r.encode(nested.buf),
-            <span class="self">Self</span>::SessionTicket(ClientSessionTicket::Request)
-            | <span class="self">Self</span>::ExtendedMasterSecretRequest
-            | <span class="self">Self</span>::EarlyData =&gt; {}
-            <span class="self">Self</span>::SessionTicket(ClientSessionTicket::Offer(r)) =&gt; r.encode(nested.buf),
+            <span class="self">Self</span>::SessionTicket(r) =&gt; r.encode(nested.buf),
+            <span class="self">Self</span>::ExtendedMasterSecretRequest | <span class="self">Self</span>::EarlyData =&gt; {}
             <span class="self">Self</span>::Protocols(r) =&gt; r.encode(nested.buf),
             <span class="self">Self</span>::SupportedVersions(r) =&gt; r.encode(nested.buf),
             <span class="self">Self</span>::KeyShare(r) =&gt; r.encode(nested.buf),
@@ -4167,12 +4212,7 @@
                 <span class="self">Self</span>::ServerName(ServerNamePayload::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>.into_owned())
             }
             ExtensionType::SessionTicket =&gt; {
-                <span class="kw">if </span>sub.any_left() {
-                    <span class="kw">let </span>contents = Payload::read(<span class="kw-2">&amp;mut </span>sub).into_owned();
-                    <span class="self">Self</span>::SessionTicket(ClientSessionTicket::Offer(contents))
-                } <span class="kw">else </span>{
-                    <span class="self">Self</span>::SessionTicket(ClientSessionTicket::Request)
-                }
+                <span class="self">Self</span>::SessionTicket(ClientSessionTicket::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>)
             }
             ExtensionType::ALProtocolNegotiation =&gt; <span class="self">Self</span>::Protocols(Vec::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>),
             ExtensionType::SupportedVersions =&gt; {
@@ -4233,13 +4273,29 @@
 }
 
 <span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub enum </span>ClientSessionTicket {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>ClientSessionTicket {
     Request,
     Offer(Payload&lt;<span class="lifetime">'static</span>&gt;),
 }
 
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Codec&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>ClientSessionTicket {
+    <span class="kw">fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>, bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::Request =&gt; (),
+            <span class="self">Self</span>::Offer(p) =&gt; p.encode(bytes),
+        }
+    }
+
+    <span class="kw">fn </span>read(r: <span class="kw-2">&amp;mut </span>Reader&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidMessage&gt; {
+        <span class="prelude-val">Ok</span>(<span class="kw">match </span>r.left() {
+            <span class="number">0 </span>=&gt; <span class="self">Self</span>::Request,
+            <span class="kw">_ </span>=&gt; <span class="self">Self</span>::Offer(Payload::read(r).into_owned()),
+        })
+    }
+}
+
 <span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub enum </span>ServerExtension {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>ServerExtension {
     EcPointFormats(Vec&lt;ECPointFormat&gt;),
     ServerNameAck,
     SessionTicketAck,
@@ -4361,65 +4417,13 @@
 }
 
 <span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>ClientHelloPayload {
-    <span class="kw">pub </span>client_version: ProtocolVersion,
-    <span class="kw">pub </span>random: Random,
-    <span class="kw">pub </span>session_id: SessionId,
-    <span class="kw">pub </span>cipher_suites: Vec&lt;CipherSuite&gt;,
-    <span class="kw">pub </span>compression_methods: Vec&lt;Compression&gt;,
-    <span class="kw">pub </span>extensions: Vec&lt;ClientExtension&gt;,
-}
-
-<span class="kw">impl </span>Codec&lt;<span class="lifetime">'_</span>&gt; <span class="kw">for </span>ClientHelloPayload {
-    <span class="kw">fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>, bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
-        <span class="self">self</span>.payload_encode(bytes, Encoding::Standard)
-    }
-
-    <span class="kw">fn </span>read(r: <span class="kw-2">&amp;mut </span>Reader&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidMessage&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>ret = <span class="self">Self </span>{
-            client_version: ProtocolVersion::read(r)<span class="question-mark">?</span>,
-            random: Random::read(r)<span class="question-mark">?</span>,
-            session_id: SessionId::read(r)<span class="question-mark">?</span>,
-            cipher_suites: Vec::read(r)<span class="question-mark">?</span>,
-            compression_methods: Vec::read(r)<span class="question-mark">?</span>,
-            extensions: Vec::new(),
-        };
-
-        <span class="kw">if </span>r.any_left() {
-            ret.extensions = Vec::read(r)<span class="question-mark">?</span>;
-        }
-
-        <span class="kw">match </span>(r.any_left(), ret.extensions.is_empty()) {
-            (<span class="bool-val">true</span>, <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(InvalidMessage::TrailingData(<span class="string">"ClientHelloPayload"</span>)),
-            (<span class="kw">_</span>, <span class="bool-val">true</span>) =&gt; <span class="prelude-val">Err</span>(InvalidMessage::MissingData(<span class="string">"ClientHelloPayload"</span>)),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(ret),
-        }
-    }
-}
-
-<span class="doccomment">/// RFC8446: `CipherSuite cipher_suites&lt;2..2^16-2&gt;;`
-</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>CipherSuite {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU16 {
-        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"CipherSuites"</span>),
-    };
-}
-
-<span class="doccomment">/// RFC5246: `CompressionMethod compression_methods&lt;1..2^8-1&gt;;`
-</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>Compression {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU8 {
-        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"Compressions"</span>),
-    };
-}
-
-<span class="kw">impl </span>TlsListElement <span class="kw">for </span>ClientExtension {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
-}
-
-<span class="doccomment">/// draft-ietf-tls-esni-17: `ExtensionType OuterExtensions&lt;2..254&gt;;`
-</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>ExtensionType {
-    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU8 {
-        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"ExtensionTypes"</span>),
-    };
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ClientHelloPayload {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) client_version: ProtocolVersion,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) random: Random,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) session_id: SessionId,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) cipher_suites: Vec&lt;CipherSuite&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) compression_methods: Vec&lt;Compression&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) extensions: Vec&lt;ClientExtension&gt;,
 }
 
 <span class="kw">impl </span>ClientHelloPayload {
@@ -4509,7 +4513,7 @@
         }
     }
 
-    <span class="kw">pub fn </span>sigalgs_extension(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[SignatureScheme]&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>sigalgs_extension(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[SignatureScheme]&gt; {
         <span class="kw">let </span>ext = <span class="self">self</span>.find_extension(ExtensionType::SignatureAlgorithms)<span class="question-mark">?</span>;
         <span class="kw">match </span>ext {
             ClientExtension::SignatureAlgorithms(req) =&gt; <span class="prelude-val">Some</span>(req),
@@ -4582,7 +4586,7 @@
         }
     }
 
-    <span class="kw">pub fn </span>keyshare_extension(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[KeyShareEntry]&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>keyshare_extension(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[KeyShareEntry]&gt; {
         <span class="kw">let </span>ext = <span class="self">self</span>.find_extension(ExtensionType::KeyShare)<span class="question-mark">?</span>;
         <span class="kw">match </span>ext {
             ClientExtension::KeyShare(shares) =&gt; <span class="prelude-val">Some</span>(shares),
@@ -4674,6 +4678,58 @@
     }
 }
 
+<span class="kw">impl </span>Codec&lt;<span class="lifetime">'_</span>&gt; <span class="kw">for </span>ClientHelloPayload {
+    <span class="kw">fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>, bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
+        <span class="self">self</span>.payload_encode(bytes, Encoding::Standard)
+    }
+
+    <span class="kw">fn </span>read(r: <span class="kw-2">&amp;mut </span>Reader&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidMessage&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>ret = <span class="self">Self </span>{
+            client_version: ProtocolVersion::read(r)<span class="question-mark">?</span>,
+            random: Random::read(r)<span class="question-mark">?</span>,
+            session_id: SessionId::read(r)<span class="question-mark">?</span>,
+            cipher_suites: Vec::read(r)<span class="question-mark">?</span>,
+            compression_methods: Vec::read(r)<span class="question-mark">?</span>,
+            extensions: Vec::new(),
+        };
+
+        <span class="kw">if </span>r.any_left() {
+            ret.extensions = Vec::read(r)<span class="question-mark">?</span>;
+        }
+
+        <span class="kw">match </span>(r.any_left(), ret.extensions.is_empty()) {
+            (<span class="bool-val">true</span>, <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(InvalidMessage::TrailingData(<span class="string">"ClientHelloPayload"</span>)),
+            (<span class="kw">_</span>, <span class="bool-val">true</span>) =&gt; <span class="prelude-val">Err</span>(InvalidMessage::MissingData(<span class="string">"ClientHelloPayload"</span>)),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(ret),
+        }
+    }
+}
+
+<span class="doccomment">/// RFC8446: `CipherSuite cipher_suites&lt;2..2^16-2&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>CipherSuite {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU16 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"CipherSuites"</span>),
+    };
+}
+
+<span class="doccomment">/// RFC5246: `CompressionMethod compression_methods&lt;1..2^8-1&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>Compression {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU8 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"Compressions"</span>),
+    };
+}
+
+<span class="kw">impl </span>TlsListElement <span class="kw">for </span>ClientExtension {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::U16;
+}
+
+<span class="doccomment">/// draft-ietf-tls-esni-17: `ExtensionType OuterExtensions&lt;2..254&gt;;`
+</span><span class="kw">impl </span>TlsListElement <span class="kw">for </span>ExtensionType {
+    <span class="kw">const </span>SIZE_LEN: ListLength = ListLength::NonZeroU8 {
+        empty_error: InvalidMessage::IllegalEmptyList(<span class="string">"ExtensionTypes"</span>),
+    };
+}
+
 <span class="attr">#[derive(Clone, Debug)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>HelloRetryExtension {
     KeyShare(NamedGroup),
@@ -4736,9 +4792,9 @@
 }
 
 <span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>HelloRetryRequest {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>HelloRetryRequest {
     <span class="kw">pub</span>(<span class="kw">crate</span>) legacy_version: ProtocolVersion,
-    <span class="kw">pub </span>session_id: SessionId,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) session_id: SessionId,
     <span class="kw">pub</span>(<span class="kw">crate</span>) cipher_suite: CipherSuite,
     <span class="kw">pub</span>(<span class="kw">crate</span>) extensions: Vec&lt;HelloRetryExtension&gt;,
 }
@@ -4792,7 +4848,7 @@
             .find(|x| x.ext_type() == ext)
     }
 
-    <span class="kw">pub fn </span>requested_key_share_group(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;NamedGroup&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>requested_key_share_group(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;NamedGroup&gt; {
         <span class="kw">let </span>ext = <span class="self">self</span>.find_extension(ExtensionType::KeyShare)<span class="question-mark">?</span>;
         <span class="kw">match </span>ext {
             HelloRetryExtension::KeyShare(grp) =&gt; <span class="prelude-val">Some</span>(<span class="kw-2">*</span>grp),
@@ -4859,13 +4915,13 @@
 }
 
 <span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>ServerHelloPayload {
-    <span class="kw">pub </span>extensions: Vec&lt;ServerExtension&gt;,
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ServerHelloPayload {
     <span class="kw">pub</span>(<span class="kw">crate</span>) legacy_version: ProtocolVersion,
     <span class="kw">pub</span>(<span class="kw">crate</span>) random: Random,
     <span class="kw">pub</span>(<span class="kw">crate</span>) session_id: SessionId,
     <span class="kw">pub</span>(<span class="kw">crate</span>) cipher_suite: CipherSuite,
     <span class="kw">pub</span>(<span class="kw">crate</span>) compression_method: Compression,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) extensions: Vec&lt;ServerExtension&gt;,
 }
 
 <span class="kw">impl </span>Codec&lt;<span class="lifetime">'_</span>&gt; <span class="kw">for </span>ServerHelloPayload {
@@ -4970,7 +5026,7 @@
 }
 
 <span class="attr">#[derive(Clone, Default, Debug)]
-</span><span class="kw">pub struct </span>CertificateChain&lt;<span class="lifetime">'a</span>&gt;(<span class="kw">pub </span>Vec&lt;CertificateDer&lt;<span class="lifetime">'a</span>&gt;&gt;);
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>CertificateChain&lt;<span class="lifetime">'a</span>&gt;(<span class="kw">pub</span>(<span class="kw">crate</span>) Vec&lt;CertificateDer&lt;<span class="lifetime">'a</span>&gt;&gt;);
 
 <span class="kw">impl </span>CertificateChain&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>into_owned(<span class="self">self</span>) -&gt; CertificateChain&lt;<span class="lifetime">'static</span>&gt; {
@@ -5146,7 +5202,7 @@
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>CertificatePayloadTls13&lt;<span class="lifetime">'a</span>&gt; {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>CertificatePayloadTls13&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) context: PayloadU8,
     <span class="kw">pub</span>(<span class="kw">crate</span>) entries: Vec&lt;CertificateEntry&lt;<span class="lifetime">'a</span>&gt;&gt;,
 }
@@ -5506,20 +5562,20 @@
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>ServerKeyExchange {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ServerKeyExchange {
     <span class="kw">pub</span>(<span class="kw">crate</span>) params: ServerKeyExchangeParams,
     <span class="kw">pub</span>(<span class="kw">crate</span>) dss: DigitallySignedStruct,
 }
 
 <span class="kw">impl </span>ServerKeyExchange {
-    <span class="kw">pub fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
         <span class="self">self</span>.params.encode(buf);
         <span class="self">self</span>.dss.encode(buf);
     }
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub enum </span>ServerKeyExchangePayload {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>ServerKeyExchangePayload {
     Known(ServerKeyExchange),
     Unknown(Payload&lt;<span class="lifetime">'static</span>&gt;),
 }
@@ -5590,10 +5646,10 @@
             .find(|x| x.ext_type() == ext)
     }
 
-    <span class="kw">fn </span>alpn_protocol(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt; {
+    <span class="kw">fn </span>alpn_protocol(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>ProtocolName&gt; {
         <span class="kw">let </span>ext = <span class="self">self</span>.find_extension(ExtensionType::ALProtocolNegotiation)<span class="question-mark">?</span>;
         <span class="kw">match </span>ext {
-            ServerExtension::Protocols(protos) =&gt; <span class="prelude-val">Some</span>(protos.as_ref()),
+            ServerExtension::Protocols(protos) =&gt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>protos.<span class="number">0</span>),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
@@ -5692,7 +5748,7 @@
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>CertificateRequestPayload {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>CertificateRequestPayload {
     <span class="kw">pub</span>(<span class="kw">crate</span>) certtypes: Vec&lt;ClientCertificateType&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) sigschemes: Vec&lt;SignatureScheme&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) canames: Vec&lt;DistinguishedName&gt;,
@@ -5791,7 +5847,7 @@
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>CertificateRequestPayloadTls13 {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>CertificateRequestPayloadTls13 {
     <span class="kw">pub</span>(<span class="kw">crate</span>) context: PayloadU8,
     <span class="kw">pub</span>(<span class="kw">crate</span>) extensions: Vec&lt;CertReqExtension&gt;,
 }
@@ -5849,7 +5905,7 @@
 
 <span class="comment">// -- NewSessionTicket --
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>NewSessionTicketPayload {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>NewSessionTicketPayload {
     <span class="kw">pub</span>(<span class="kw">crate</span>) lifetime_hint: u32,
     <span class="comment">// Tickets can be large (KB), so we deserialise this straight
     // into an Arc, so it can be passed directly into the client's
@@ -5931,7 +5987,7 @@
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>NewSessionTicketPayloadTls13 {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>NewSessionTicketPayloadTls13 {
     <span class="kw">pub</span>(<span class="kw">crate</span>) lifetime: u32,
     <span class="kw">pub</span>(<span class="kw">crate</span>) age_add: u32,
     <span class="kw">pub</span>(<span class="kw">crate</span>) nonce: PayloadU8,
@@ -6008,7 +6064,7 @@
 
 </span><span class="doccomment">/// Only supports OCSP
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>CertificateStatus&lt;<span class="lifetime">'a</span>&gt; {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>CertificateStatus&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) ocsp_response: PayloadU24&lt;<span class="lifetime">'a</span>&gt;,
 }
 
@@ -6052,7 +6108,7 @@
 <span class="comment">// -- RFC8879 compressed certificates
 
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>CompressedCertificatePayload&lt;<span class="lifetime">'a</span>&gt; {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>CompressedCertificatePayload&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) alg: CertificateCompressionAlgorithm,
     <span class="kw">pub</span>(<span class="kw">crate</span>) uncompressed_len: u32,
     <span class="kw">pub</span>(<span class="kw">crate</span>) compressed: PayloadU24&lt;<span class="lifetime">'a</span>&gt;,
@@ -6092,7 +6148,7 @@
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub enum </span>HandshakePayload&lt;<span class="lifetime">'a</span>&gt; {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>HandshakePayload&lt;<span class="lifetime">'a</span>&gt; {
     HelloRequest,
     ClientHello(ClientHelloPayload),
     ServerHello(ServerHelloPayload),
@@ -6114,7 +6170,7 @@
     Finished(Payload&lt;<span class="lifetime">'a</span>&gt;),
     CertificateStatus(CertificateStatus&lt;<span class="lifetime">'a</span>&gt;),
     MessageHash(Payload&lt;<span class="lifetime">'a</span>&gt;),
-    Unknown(Payload&lt;<span class="lifetime">'a</span>&gt;),
+    Unknown((HandshakeType, Payload&lt;<span class="lifetime">'a</span>&gt;)),
 }
 
 <span class="kw">impl </span>HandshakePayload&lt;<span class="lifetime">'_</span>&gt; {
@@ -6140,7 +6196,40 @@
             Finished(x) =&gt; x.encode(bytes),
             CertificateStatus(x) =&gt; x.encode(bytes),
             MessageHash(x) =&gt; x.encode(bytes),
-            Unknown(x) =&gt; x.encode(bytes),
+            Unknown((<span class="kw">_</span>, x)) =&gt; x.encode(bytes),
+        }
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>handshake_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; HandshakeType {
+        <span class="kw">use </span><span class="self">self</span>::HandshakePayload::<span class="kw-2">*</span>;
+        <span class="kw">match </span><span class="self">self </span>{
+            HelloRequest =&gt; HandshakeType::HelloRequest,
+            ClientHello(<span class="kw">_</span>) =&gt; HandshakeType::ClientHello,
+            ServerHello(<span class="kw">_</span>) =&gt; HandshakeType::ServerHello,
+            HelloRetryRequest(<span class="kw">_</span>) =&gt; HandshakeType::HelloRetryRequest,
+            Certificate(<span class="kw">_</span>) | CertificateTls13(<span class="kw">_</span>) =&gt; HandshakeType::Certificate,
+            CompressedCertificate(<span class="kw">_</span>) =&gt; HandshakeType::CompressedCertificate,
+            ServerKeyExchange(<span class="kw">_</span>) =&gt; HandshakeType::ServerKeyExchange,
+            CertificateRequest(<span class="kw">_</span>) | CertificateRequestTls13(<span class="kw">_</span>) =&gt; HandshakeType::CertificateRequest,
+            CertificateVerify(<span class="kw">_</span>) =&gt; HandshakeType::CertificateVerify,
+            ServerHelloDone =&gt; HandshakeType::ServerHelloDone,
+            EndOfEarlyData =&gt; HandshakeType::EndOfEarlyData,
+            ClientKeyExchange(<span class="kw">_</span>) =&gt; HandshakeType::ClientKeyExchange,
+            NewSessionTicket(<span class="kw">_</span>) | NewSessionTicketTls13(<span class="kw">_</span>) =&gt; HandshakeType::NewSessionTicket,
+            EncryptedExtensions(<span class="kw">_</span>) =&gt; HandshakeType::EncryptedExtensions,
+            KeyUpdate(<span class="kw">_</span>) =&gt; HandshakeType::KeyUpdate,
+            Finished(<span class="kw">_</span>) =&gt; HandshakeType::Finished,
+            CertificateStatus(<span class="kw">_</span>) =&gt; HandshakeType::CertificateStatus,
+            MessageHash(<span class="kw">_</span>) =&gt; HandshakeType::MessageHash,
+            Unknown((t, <span class="kw">_</span>)) =&gt; <span class="kw-2">*</span>t,
+        }
+    }
+
+    <span class="kw">fn </span>wire_handshake_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; HandshakeType {
+        <span class="kw">match </span><span class="self">self</span>.handshake_type() {
+            <span class="comment">// A `HelloRetryRequest` appears on the wire as a `ServerHello` with a magic `random` value.
+            </span>HandshakeType::HelloRetryRequest =&gt; HandshakeType::ServerHello,
+            other =&gt; other,
         }
     }
 
@@ -6169,16 +6258,13 @@
             Finished(x) =&gt; Finished(x.into_owned()),
             CertificateStatus(x) =&gt; CertificateStatus(x.into_owned()),
             MessageHash(x) =&gt; MessageHash(x.into_owned()),
-            Unknown(x) =&gt; Unknown(x.into_owned()),
+            Unknown((t, x)) =&gt; Unknown((t, x.into_owned())),
         }
     }
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>HandshakeMessagePayload&lt;<span class="lifetime">'a</span>&gt; {
-    <span class="kw">pub </span>typ: HandshakeType,
-    <span class="kw">pub </span>payload: HandshakePayload&lt;<span class="lifetime">'a</span>&gt;,
-}
+</span><span class="kw">pub struct </span>HandshakeMessagePayload&lt;<span class="lifetime">'a</span>&gt;(<span class="kw">pub</span>(<span class="kw">crate</span>) HandshakePayload&lt;<span class="lifetime">'a</span>&gt;);
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Codec&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>HandshakeMessagePayload&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">fn </span>encode(<span class="kw-2">&amp;</span><span class="self">self</span>, bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
@@ -6195,7 +6281,7 @@
         r: <span class="kw-2">&amp;mut </span>Reader&lt;<span class="lifetime">'a</span>&gt;,
         vers: ProtocolVersion,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidMessage&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>typ = HandshakeType::read(r)<span class="question-mark">?</span>;
+        <span class="kw">let </span>typ = HandshakeType::read(r)<span class="question-mark">?</span>;
         <span class="kw">let </span>len = codec::u24::read(r)<span class="question-mark">?</span>.<span class="number">0 </span><span class="kw">as </span>usize;
         <span class="kw">let </span><span class="kw-2">mut </span>sub = r.sub(len)<span class="question-mark">?</span>;
 
@@ -6211,7 +6297,6 @@
                 <span class="kw">if </span>random == HELLO_RETRY_REQUEST_RANDOM {
                     <span class="kw">let </span><span class="kw-2">mut </span>hrr = HelloRetryRequest::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>;
                     hrr.legacy_version = version;
-                    typ = HandshakeType::HelloRetryRequest;
                     HandshakePayload::HelloRetryRequest(hrr)
                 } <span class="kw">else </span>{
                     <span class="kw">let </span><span class="kw-2">mut </span>shp = ServerHelloPayload::read(<span class="kw-2">&amp;mut </span>sub)<span class="question-mark">?</span>;
@@ -6282,11 +6367,11 @@
                 <span class="comment">// not legal on wire
                 </span><span class="kw">return </span><span class="prelude-val">Err</span>(InvalidMessage::UnexpectedMessage(<span class="string">"HelloRetryRequest"</span>));
             }
-            <span class="kw">_ </span>=&gt; HandshakePayload::Unknown(Payload::read(<span class="kw-2">&amp;mut </span>sub)),
+            <span class="kw">_ </span>=&gt; HandshakePayload::Unknown((typ, Payload::read(<span class="kw-2">&amp;mut </span>sub))),
         };
 
         sub.expect_empty(<span class="string">"HandshakeMessagePayload"</span>)
-            .map(|<span class="kw">_</span>| <span class="self">Self </span>{ typ, payload })
+            .map(|<span class="kw">_</span>| <span class="self">Self</span>(payload))
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>encoding_for_binder_signing(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;u8&gt; {
@@ -6297,7 +6382,7 @@
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>total_binder_length(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.payload {
+        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span>{
             HandshakePayload::ClientHello(ch) =&gt; <span class="kw">match </span>ch.extensions.last() {
                 <span class="prelude-val">Some</span>(ClientExtension::PresharedKey(offer)) =&gt; {
                     <span class="kw">let </span><span class="kw-2">mut </span>binders_encoding = Vec::new();
@@ -6314,11 +6399,9 @@
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>payload_encode(<span class="kw-2">&amp;</span><span class="self">self</span>, bytes: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;, encoding: Encoding) {
         <span class="comment">// output type, length, and encoded payload
-        </span><span class="kw">match </span><span class="self">self</span>.typ {
-            HandshakeType::HelloRetryRequest =&gt; HandshakeType::ServerHello,
-            <span class="kw">_ </span>=&gt; <span class="self">self</span>.typ,
-        }
-        .encode(bytes);
+        </span><span class="self">self</span>.<span class="number">0
+            </span>.wire_handshake_type()
+            .encode(bytes);
 
         <span class="kw">let </span>nested = LengthPrefixedBuffer::new(
             ListLength::U24 {
@@ -6328,7 +6411,7 @@
             bytes,
         );
 
-        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.payload {
+        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span>{
             <span class="comment">// for Server Hello and HelloRetryRequest payloads we need to encode the payload
             // differently based on the purpose of the encoding.
             </span>HandshakePayload::ServerHello(payload) =&gt; payload.payload_encode(nested.buf, encoding),
@@ -6337,23 +6420,16 @@
             }
 
             <span class="comment">// All other payload types are encoded the same regardless of purpose.
-            </span><span class="kw">_ </span>=&gt; <span class="self">self</span>.payload.encode(nested.buf),
+            </span><span class="kw">_ </span>=&gt; <span class="self">self</span>.<span class="number">0</span>.encode(nested.buf),
         }
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>build_handshake_hash(hash: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            typ: HandshakeType::MessageHash,
-            payload: HandshakePayload::MessageHash(Payload::new(hash.to_vec())),
-        }
+        <span class="self">Self</span>(HandshakePayload::MessageHash(Payload::new(hash.to_vec())))
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>into_owned(<span class="self">self</span>) -&gt; HandshakeMessagePayload&lt;<span class="lifetime">'static</span>&gt; {
-        <span class="kw">let </span><span class="self">Self </span>{ typ, payload } = <span class="self">self</span>;
-        HandshakeMessagePayload {
-            typ,
-            payload: payload.into_owned(),
-        }
+        HandshakeMessagePayload(<span class="self">self</span>.<span class="number">0</span>.into_owned())
     }
 }
 
@@ -6569,7 +6645,7 @@
 ///
 /// [draft-ietf-tls-esni Section 5]: &lt;https://www.ietf.org/archive/id/draft-ietf-tls-esni-18.html#section-5&gt;
 </span><span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub enum </span>EncryptedClientHello {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>EncryptedClientHello {
     <span class="doccomment">/// A `ECHClientHello` with type [EchClientHelloType::ClientHelloOuter].
     </span>Outer(EncryptedClientHelloOuter),
     <span class="doccomment">/// An empty `ECHClientHello` with type [EchClientHelloType::ClientHelloInner].
@@ -6608,7 +6684,7 @@
 ///
 /// [draft-ietf-tls-esni Section 5]: &lt;https://www.ietf.org/archive/id/draft-ietf-tls-esni-18.html#section-5&gt;
 </span><span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>EncryptedClientHelloOuter {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>EncryptedClientHelloOuter {
     <span class="doccomment">/// The cipher suite used to encrypt ClientHelloInner. Must match a value from
     /// ECHConfigContents.cipher_suites list.
     </span><span class="kw">pub </span>cipher_suite: HpkeSymmetricCipherSuite,
@@ -6644,7 +6720,7 @@
 ///
 /// [draft-ietf-tls-esni Section 5]: &lt;https://www.ietf.org/archive/id/draft-ietf-tls-esni-18.html#section-5&gt;
 </span><span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>ServerEncryptedClientHello {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ServerEncryptedClientHello {
     <span class="kw">pub</span>(<span class="kw">crate</span>) retry_configs: Vec&lt;EchConfigPayload&gt;,
 }
 

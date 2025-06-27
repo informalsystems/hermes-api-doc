@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parity-scale-codec-3.7.4/src/codec.rs`."><title>codec.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="parity_scale_codec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">parity_scale_codec/</div>codec.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/parity-scale-codec-3.7.5/src/codec.rs`."><title>codec.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="parity_scale_codec" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">parity_scale_codec/</div>codec.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -2197,7 +2197,10 @@
 <a href="#2196" id="2196">2196</a>
 <a href="#2197" id="2197">2197</a>
 <a href="#2198" id="2198">2198</a>
-<a href="#2199" id="2199">2199</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2017-2018 Parity Technologies
+<a href="#2199" id="2199">2199</a>
+<a href="#2200" id="2200">2200</a>
+<a href="#2201" id="2201">2201</a>
+<a href="#2202" id="2202">2202</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2017-2018 Parity Technologies
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -2247,7 +2250,7 @@
 	DecodeFinished, Error,
 };
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>MAX_PREALLOCATION: usize = <span class="number">16 </span>* <span class="number">1024</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>INITIAL_PREALLOCATION: usize = <span class="number">16 </span>* <span class="number">1024</span>;
 <span class="kw">const </span>A_BILLION: u32 = <span class="number">1_000_000_000</span>;
 
 <span class="doccomment">/// Trait that allows reading of data into a slice.
@@ -3258,8 +3261,10 @@
 	}
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: ToOwned + DecodeWithMemTracking&gt; DecodeWithMemTracking <span class="kw">for </span>Cow&lt;<span class="lifetime">'a</span>, T&gt; <span class="kw">where
-	</span>Cow&lt;<span class="lifetime">'a</span>, T&gt;: Decode
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: ToOwned + <span class="question-mark">?</span>Sized&gt; DecodeWithMemTracking <span class="kw">for </span>Cow&lt;<span class="lifetime">'a</span>, T&gt;
+<span class="kw">where
+	</span>Cow&lt;<span class="lifetime">'a</span>, T&gt;: Decode,
+	T::Owned: DecodeWithMemTracking,
 {
 }
 
@@ -3318,21 +3323,22 @@
 <span class="kw">where
 	</span>F: FnMut(<span class="kw-2">&amp;mut </span>I, <span class="kw-2">&amp;mut </span>Vec&lt;T&gt;, usize) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt;,
 {
-	<span class="kw">const </span>{ <span class="macro">assert!</span>(MAX_PREALLOCATION &gt;= mem::size_of::&lt;T&gt;()) }
+	<span class="kw">const </span>{ <span class="macro">assert!</span>(INITIAL_PREALLOCATION &gt;= mem::size_of::&lt;T&gt;()) }
 	<span class="comment">// we have to account for the fact that `mem::size_of::&lt;T&gt;` can be 0 for types like `()`
 	// for example.
-	</span><span class="kw">let </span>chunk_len = MAX_PREALLOCATION.checked_div(mem::size_of::&lt;T&gt;()).unwrap_or(usize::MAX);
+	</span><span class="kw">let </span><span class="kw-2">mut </span>chunk_len = INITIAL_PREALLOCATION.checked_div(mem::size_of::&lt;T&gt;()).unwrap_or(<span class="number">1</span>);
 
 	<span class="kw">let </span><span class="kw-2">mut </span>decoded_vec = <span class="macro">vec!</span>[];
 	<span class="kw">let </span><span class="kw-2">mut </span>num_undecoded_items = len;
 	<span class="kw">while </span>num_undecoded_items &gt; <span class="number">0 </span>{
-		<span class="kw">let </span>chunk_len = chunk_len.min(num_undecoded_items);
-		input.on_before_alloc_mem(chunk_len.saturating_mul(mem::size_of::&lt;T&gt;()))<span class="question-mark">?</span>;
-		decoded_vec.reserve_exact(chunk_len);
+		<span class="kw">let </span>bounded_chunk_len = chunk_len.min(num_undecoded_items);
+		input.on_before_alloc_mem(bounded_chunk_len.saturating_mul(mem::size_of::&lt;T&gt;()))<span class="question-mark">?</span>;
+		decoded_vec.reserve_exact(bounded_chunk_len);
 
-		decode_chunk(input, <span class="kw-2">&amp;mut </span>decoded_vec, chunk_len)<span class="question-mark">?</span>;
+		decode_chunk(input, <span class="kw-2">&amp;mut </span>decoded_vec, bounded_chunk_len)<span class="question-mark">?</span>;
 
-		num_undecoded_items -= chunk_len;
+		num_undecoded_items -= bounded_chunk_len;
+		chunk_len = decoded_vec.len();
 	}
 
 	<span class="prelude-val">Ok</span>(decoded_vec)
@@ -3341,7 +3347,7 @@
 <span class="doccomment">/// Create a `Vec&lt;T&gt;` by casting directly from a buffer of read `u8`s
 ///
 /// The encoding of `T` must be equal to its binary representation, and size of `T` must be less
-/// or equal to [`MAX_PREALLOCATION`].
+/// or equal to [`INITIAL_PREALLOCATION`].
 </span><span class="kw">fn </span>read_vec_from_u8s&lt;T, I&gt;(input: <span class="kw-2">&amp;mut </span>I, len: usize) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;T&gt;, Error&gt;
 <span class="kw">where
 	</span>T: ToMutByteSlice + Default + Clone,
@@ -4188,7 +4194,7 @@
 			}
 		}
 
-		<span class="kw">let </span>len = MAX_PREALLOCATION * <span class="number">2 </span>+ <span class="number">1</span>;
+		<span class="kw">let </span>len = INITIAL_PREALLOCATION * <span class="number">2 </span>+ <span class="number">1</span>;
 		<span class="kw">let </span><span class="kw-2">mut </span>i = Compact(len <span class="kw">as </span>u32).encode();
 		i.resize(i.len() + len, <span class="number">0</span>);
 		<span class="macro">assert_eq!</span>(&lt;Vec&lt;u8&gt;&gt;::decode(<span class="kw-2">&amp;mut </span>NoLimit(<span class="kw-2">&amp;</span>i[..])).unwrap(), <span class="macro">vec!</span>[<span class="number">0u8</span>; len]);

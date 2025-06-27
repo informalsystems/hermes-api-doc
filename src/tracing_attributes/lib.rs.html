@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-attributes-0.1.28/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tracing_attributes" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tracing_attributes/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tracing-attributes-0.1.30/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tracing_attributes" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tracing_attributes/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -694,7 +694,18 @@
 <a href="#693" id="693">693</a>
 <a href="#694" id="694">694</a>
 <a href="#695" id="695">695</a>
-<a href="#696" id="696">696</a></pre></div><pre class="rust"><code><span class="doccomment">//! A procedural macro attribute for instrumenting functions with [`tracing`].
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a></pre></div><pre class="rust"><code><span class="doccomment">//! A procedural macro attribute for instrumenting functions with [`tracing`].
 //!
 //! [`tracing`] is a framework for instrumenting Rust programs to collect
 //! structured, event-based diagnostic information. This crate provides the
@@ -702,7 +713,7 @@
 //!
 //! Note that this macro is also re-exported by the main `tracing` crate.
 //!
-//! *Compiler support: [requires `rustc` 1.63+][msrv]*
+//! *Compiler support: [requires `rustc` 1.65+][msrv]*
 //!
 //! [msrv]: #supported-rust-versions
 //!
@@ -737,7 +748,7 @@
 //! ## Supported Rust Versions
 //!
 //! Tracing is built against the latest stable release. The minimum supported
-//! version is 1.63. The current Tracing version is not guaranteed to build on
+//! version is 1.65. The current Tracing version is not guaranteed to build on
 //! Rust versions earlier than the minimum supported version.
 //!
 //! Tracing follows the same compiler support policies as the rest of the Tokio
@@ -749,7 +760,7 @@
 //! long as doing so complies with this policy.
 //!
 </span><span class="attr">#![doc(
-    html_logo_url = <span class="string">"https://raw.githubusercontent.com/tokio-rs/tracing/master/assets/logo-type.png"</span>,
+    html_logo_url = <span class="string">"https://raw.githubusercontent.com/tokio-rs/tracing/main/assets/logo-type.png"</span>,
     issue_tracker_base_url = <span class="string">"https://github.com/tokio-rs/tracing/issues/"
 </span>)]
 #![cfg_attr(docsrs, deny(rustdoc::broken_intra_doc_links))]
@@ -779,8 +790,10 @@
 </span><span class="kw">extern crate </span>proc_macro;
 
 <span class="kw">use </span>proc_macro2::TokenStream;
+<span class="kw">use </span>quote::TokenStreamExt;
 <span class="kw">use </span>quote::{quote, ToTokens};
 <span class="kw">use </span>syn::parse::{Parse, ParseStream};
+<span class="kw">use </span>syn::token::Brace;
 <span class="kw">use </span>syn::{Attribute, ItemFn, Signature, Visibility};
 
 <span class="kw">mod </span>attr;
@@ -1324,6 +1337,7 @@
     inner_attrs: Vec&lt;Attribute&gt;,
     vis: Visibility,
     sig: Signature,
+    brace_token: Brace,
     block: TokenStream,
 }
 
@@ -1334,6 +1348,7 @@
             inner_attrs: <span class="kw-2">&amp;</span><span class="self">self</span>.inner_attrs,
             vis: <span class="kw-2">&amp;</span><span class="self">self</span>.vis,
             sig: <span class="kw-2">&amp;</span><span class="self">self</span>.sig,
+            brace_token: <span class="kw-2">&amp;</span><span class="self">self</span>.brace_token,
             block: <span class="kw-2">&amp;</span><span class="self">self</span>.block,
         }
     }
@@ -1347,12 +1362,15 @@
         <span class="kw">let </span>vis: Visibility = input.parse()<span class="question-mark">?</span>;
         <span class="kw">let </span>sig: Signature = input.parse()<span class="question-mark">?</span>;
         <span class="kw">let </span>inner_attrs = input.call(Attribute::parse_inner)<span class="question-mark">?</span>;
-        <span class="kw">let </span>block: TokenStream = input.parse()<span class="question-mark">?</span>;
+        <span class="kw">let </span>block;
+        <span class="kw">let </span>brace_token = <span class="macro">syn::braced!</span>(block <span class="kw">in </span>input);
+        <span class="kw">let </span>block: TokenStream = block.call(|buffer| buffer.parse())<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="self">Self </span>{
             outer_attrs,
             inner_attrs,
             vis,
             sig,
+            brace_token,
             block,
         })
     }
@@ -1370,12 +1388,15 @@
         <span class="kw">let </span>(outer_attrs, inner_attrs) = attrs
             .into_iter()
             .partition(|attr| attr.style == syn::AttrStyle::Outer);
+        <span class="kw">let </span><span class="kw-2">mut </span>block_tokens = TokenStream::new();
+        block_tokens.append_all(block.stmts);
         <span class="self">Self </span>{
             outer_attrs,
             inner_attrs,
             vis,
             sig,
-            block: block.to_token_stream(),
+            brace_token: block.brace_token,
+            block: block_tokens,
         }
     }
 }
@@ -1388,6 +1409,7 @@
     inner_attrs: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Vec&lt;Attribute&gt;,
     vis: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Visibility,
     sig: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Signature,
+    brace_token: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Brace,
     block: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>B,
 }
 </code></pre></div></section></main></body></html>

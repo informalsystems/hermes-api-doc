@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde_with_macros-3.12.0/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="serde_with_macros" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">serde_with_macros/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_with_macros-3.13.0/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="serde_with_macros" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">serde_with_macros/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1369,7 +1369,88 @@
 <a href="#1368" id="1368">1368</a>
 <a href="#1369" id="1369">1369</a>
 <a href="#1370" id="1370">1370</a>
-<a href="#1371" id="1371">1371</a></pre></div><pre class="rust"><code><span class="comment">// Cleanup when workspace lints can be overridden
+<a href="#1371" id="1371">1371</a>
+<a href="#1372" id="1372">1372</a>
+<a href="#1373" id="1373">1373</a>
+<a href="#1374" id="1374">1374</a>
+<a href="#1375" id="1375">1375</a>
+<a href="#1376" id="1376">1376</a>
+<a href="#1377" id="1377">1377</a>
+<a href="#1378" id="1378">1378</a>
+<a href="#1379" id="1379">1379</a>
+<a href="#1380" id="1380">1380</a>
+<a href="#1381" id="1381">1381</a>
+<a href="#1382" id="1382">1382</a>
+<a href="#1383" id="1383">1383</a>
+<a href="#1384" id="1384">1384</a>
+<a href="#1385" id="1385">1385</a>
+<a href="#1386" id="1386">1386</a>
+<a href="#1387" id="1387">1387</a>
+<a href="#1388" id="1388">1388</a>
+<a href="#1389" id="1389">1389</a>
+<a href="#1390" id="1390">1390</a>
+<a href="#1391" id="1391">1391</a>
+<a href="#1392" id="1392">1392</a>
+<a href="#1393" id="1393">1393</a>
+<a href="#1394" id="1394">1394</a>
+<a href="#1395" id="1395">1395</a>
+<a href="#1396" id="1396">1396</a>
+<a href="#1397" id="1397">1397</a>
+<a href="#1398" id="1398">1398</a>
+<a href="#1399" id="1399">1399</a>
+<a href="#1400" id="1400">1400</a>
+<a href="#1401" id="1401">1401</a>
+<a href="#1402" id="1402">1402</a>
+<a href="#1403" id="1403">1403</a>
+<a href="#1404" id="1404">1404</a>
+<a href="#1405" id="1405">1405</a>
+<a href="#1406" id="1406">1406</a>
+<a href="#1407" id="1407">1407</a>
+<a href="#1408" id="1408">1408</a>
+<a href="#1409" id="1409">1409</a>
+<a href="#1410" id="1410">1410</a>
+<a href="#1411" id="1411">1411</a>
+<a href="#1412" id="1412">1412</a>
+<a href="#1413" id="1413">1413</a>
+<a href="#1414" id="1414">1414</a>
+<a href="#1415" id="1415">1415</a>
+<a href="#1416" id="1416">1416</a>
+<a href="#1417" id="1417">1417</a>
+<a href="#1418" id="1418">1418</a>
+<a href="#1419" id="1419">1419</a>
+<a href="#1420" id="1420">1420</a>
+<a href="#1421" id="1421">1421</a>
+<a href="#1422" id="1422">1422</a>
+<a href="#1423" id="1423">1423</a>
+<a href="#1424" id="1424">1424</a>
+<a href="#1425" id="1425">1425</a>
+<a href="#1426" id="1426">1426</a>
+<a href="#1427" id="1427">1427</a>
+<a href="#1428" id="1428">1428</a>
+<a href="#1429" id="1429">1429</a>
+<a href="#1430" id="1430">1430</a>
+<a href="#1431" id="1431">1431</a>
+<a href="#1432" id="1432">1432</a>
+<a href="#1433" id="1433">1433</a>
+<a href="#1434" id="1434">1434</a>
+<a href="#1435" id="1435">1435</a>
+<a href="#1436" id="1436">1436</a>
+<a href="#1437" id="1437">1437</a>
+<a href="#1438" id="1438">1438</a>
+<a href="#1439" id="1439">1439</a>
+<a href="#1440" id="1440">1440</a>
+<a href="#1441" id="1441">1441</a>
+<a href="#1442" id="1442">1442</a>
+<a href="#1443" id="1443">1443</a>
+<a href="#1444" id="1444">1444</a>
+<a href="#1445" id="1445">1445</a>
+<a href="#1446" id="1446">1446</a>
+<a href="#1447" id="1447">1447</a>
+<a href="#1448" id="1448">1448</a>
+<a href="#1449" id="1449">1449</a>
+<a href="#1450" id="1450">1450</a>
+<a href="#1451" id="1451">1451</a>
+<a href="#1452" id="1452">1452</a></pre></div><pre class="rust"><code><span class="comment">// Cleanup when workspace lints can be overridden
 // https://github.com/rust-lang/cargo/issues/13157
 </span><span class="attr">#![forbid(unsafe_code)]
 #![warn(missing_copy_implementations, missing_debug_implementations)]
@@ -1391,7 +1472,7 @@
 )))]
 </span><span class="comment">// Not needed for 2018 edition and conflicts with `rust_2018_idioms`
 </span><span class="attr">#![doc(test(no_crate_inject))]
-#![doc(html_root_url = <span class="string">"https://docs.rs/serde_with_macros/3.12.0/"</span>)]
+#![doc(html_root_url = <span class="string">"https://docs.rs/serde_with_macros/3.13.0/"</span>)]
 </span><span class="comment">// Tarpaulin does not work well with proc macros and marks most of the lines as uncovered.
 </span><span class="attr">#![cfg(not(tarpaulin_include))]
 
@@ -1444,12 +1525,12 @@
         <span class="kw">match </span>fields {
             <span class="comment">// simple, no fields, do nothing
             </span>Fields::Unit =&gt; <span class="prelude-val">Ok</span>(()),
-            Fields::Named(<span class="kw-2">ref mut </span>fields) =&gt; fields
+            Fields::Named(fields) =&gt; fields
                 .named
                 .iter_mut()
                 .map(|field| function(field).map_err(|err| Error::new(field.span(), err)))
                 .collect_error(),
-            Fields::Unnamed(<span class="kw-2">ref mut </span>fields) =&gt; fields
+            Fields::Unnamed(fields) =&gt; fields
                 .unnamed
                 .iter_mut()
                 .map(|field| function(field).map_err(|err| Error::new(field.span(), err)))
@@ -1501,10 +1582,7 @@
                     .iter_mut()
                     .map(|field| function(field).map_err(|err| err.with_span(<span class="kw-2">&amp;</span>field)))
                     <span class="comment">// turn the Err variant into the Some, such that we only collect errors
-                    </span>.filter_map(|res| <span class="kw">match </span>res {
-                        <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Some</span>(e),
-                        <span class="prelude-val">Ok</span>(()) =&gt; <span class="prelude-val">None</span>,
-                    })
+                    </span>.filter_map(std::result::Result::err)
                     .collect();
                 <span class="kw">if </span>errors.is_empty() {
                     <span class="prelude-val">Ok</span>(())
@@ -1512,16 +1590,13 @@
                     <span class="prelude-val">Err</span>(DarlingError::multiple(errors))
                 }
             }
-            Fields::Unnamed(<span class="kw-2">ref mut </span>fields) =&gt; {
+            Fields::Unnamed(fields) =&gt; {
                 <span class="kw">let </span>errors: Vec&lt;DarlingError&gt; = fields
                     .unnamed
                     .iter_mut()
                     .map(|field| function(field).map_err(|err| err.with_span(<span class="kw-2">&amp;</span>field)))
                     <span class="comment">// turn the Err variant into the Some, such that we only collect errors
-                    </span>.filter_map(|res| <span class="kw">match </span>res {
-                        <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Some</span>(e),
-                        <span class="prelude-val">Ok</span>(()) =&gt; <span class="prelude-val">None</span>,
-                    })
+                    </span>.filter_map(std::result::Result::err)
                     .collect();
                 <span class="kw">if </span>errors.is_empty() {
                     <span class="prelude-val">Ok</span>(())
@@ -1570,10 +1645,7 @@
                 .iter_mut()
                 .map(|variant| apply_on_fields(<span class="kw-2">&amp;mut </span>variant.fields, function))
                 <span class="comment">// turn the Err variant into the Some, such that we only collect errors
-                </span>.filter_map(|res| <span class="kw">match </span>res {
-                    <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Some</span>(e),
-                    <span class="prelude-val">Ok</span>(()) =&gt; <span class="prelude-val">None</span>,
-                }),
+                </span>.filter_map(std::result::Result::err),
         );
 
         <span class="kw">if </span>errors.is_empty() {
@@ -1888,53 +1960,53 @@
 /// ```
 ///
 /// 1. All the placeholder type `_` will be replaced with `::serde_with::Same`.
-///     The placeholder type `_` marks all the places where the type's `Serialize` implementation
-///     should be used. In the example, it means that the `u32` values will serialize with the
-///     `Serialize` implementation of `u32`. The `Same` type implements `SerializeAs` whenever the
-///     underlying type implements `Serialize` and is used to make the two traits compatible.
+///    The placeholder type `_` marks all the places where the type's `Serialize` implementation
+///    should be used. In the example, it means that the `u32` values will serialize with the
+///    `Serialize` implementation of `u32`. The `Same` type implements `SerializeAs` whenever the
+///    underlying type implements `Serialize` and is used to make the two traits compatible.
 ///
-///     If you specify a custom path for `serde_with` via the `crate` attribute, the path to the
-///     `Same` type will be altered accordingly.
+///    If you specify a custom path for `serde_with` via the `crate` attribute, the path to the
+///    `Same` type will be altered accordingly.
 ///
 /// 2. Wrap the type from the annotation inside a `::serde_with::As`.
-///     In the above example we now have something like `::serde_with::As::&lt;Vec&lt;::serde_with::Same&gt;&gt;`.
-///     The `As` type acts as the opposite of the `Same` type.
-///     It allows using a `SerializeAs` type whenever a `Serialize` is required.
+///    In the above example we now have something like `::serde_with::As::&lt;Vec&lt;::serde_with::Same&gt;&gt;`.
+///    The `As` type acts as the opposite of the `Same` type.
+///    It allows using a `SerializeAs` type whenever a `Serialize` is required.
 ///
 /// 3. Translate the `*as` attributes into the serde equivalent ones.
-///     `#[serde_as(as = ...)]` will become `#[serde(with = ...)]`.
-///     Similarly, `serialize_as` is translated to `serialize_with`.
+///    `#[serde_as(as = ...)]` will become `#[serde(with = ...)]`.
+///    Similarly, `serialize_as` is translated to `serialize_with`.
 ///
-///     The field attributes will be kept on the struct/enum such that other macros can use them
-///     too.
+///    The field attributes will be kept on the struct/enum such that other macros can use them
+///    too.
 ///
 /// 4. It searches `#[serde_as(as = ...)]` if there is a type named `BorrowCow` under any path.
-///     If `BorrowCow` is found, the attribute `#[serde(borrow)]` is added to the field.
-///     If `#[serde(borrow)]` or `#[serde(borrow = "...")]` is already present, this step will be
-///     skipped.
+///    If `BorrowCow` is found, the attribute `#[serde(borrow)]` is added to the field.
+///    If `#[serde(borrow)]` or `#[serde(borrow = "...")]` is already present, this step will be
+///    skipped.
 ///
 /// 5. Restore the ability of accepting missing fields if both the field and the transformation are `Option`.
 ///
-///     An `Option` is detected by an exact text match.
-///     Renaming an import or type aliases can cause confusion here.
-///     The following variants are supported.
-///     * `Option`
-///     * `std::option::Option`, with or without leading `::`
-///     * `core::option::Option`, with or without leading `::`
+///    An `Option` is detected by an exact text match.
+///    Renaming an import or type aliases can cause confusion here.
+///    The following variants are supported.
+///    * `Option`
+///    * `std::option::Option`, with or without leading `::`
+///    * `core::option::Option`, with or without leading `::`
 ///
-///     If the field is of type `Option&lt;T&gt;` and the attribute `#[serde_as(as = "Option&lt;S&gt;")]` (also
-///     `deserialize_as`; for any `T`/`S`) then `#[serde(default)]` is applied to the field.
+///    If the field is of type `Option&lt;T&gt;` and the attribute `#[serde_as(as = "Option&lt;S&gt;")]` (also
+///    `deserialize_as`; for any `T`/`S`) then `#[serde(default)]` is applied to the field.
 ///
-///     This restores the ability of accepting missing fields, which otherwise often leads to confusing [serde_with#185](https://github.com/jonasbb/serde_with/issues/185).
-///     `#[serde(default)]` is not applied, if it already exists.
-///     It only triggers if both field and transformation are `Option`s.
-///     For example, using `#[serde_as(as = "NoneAsEmptyString")]` on `Option&lt;String&gt;` will not see
-///     any change.
+///    This restores the ability of accepting missing fields, which otherwise often leads to confusing [serde_with#185](https://github.com/jonasbb/serde_with/issues/185).
+///    `#[serde(default)]` is not applied, if it already exists.
+///    It only triggers if both field and transformation are `Option`s.
+///    For example, using `#[serde_as(as = "NoneAsEmptyString")]` on `Option&lt;String&gt;` will not see
+///    any change.
 ///
-///     If the automatically applied attribute is undesired, the behavior can be suppressed by adding
-///     `#[serde_as(no_default)]`.
+///    If the automatically applied attribute is undesired, the behavior can be suppressed by adding
+///    `#[serde_as(no_default)]`.
 ///
-///      This can be combined like `#[serde_as(as = "Option&lt;S&gt;", no_default)]`.
+///     This can be combined like `#[serde_as(as = "Option&lt;S&gt;", no_default)]`.
 ///
 /// After all these steps, the code snippet will have transformed into roughly this.
 ///
@@ -1953,7 +2025,8 @@
 /// ```
 ///
 /// # A note on `schemars` integration
-/// When the `schemars_0_8` feature is enabled this macro will scan for
+/// When the `schemars_0_8` or `schemars_0_9` features are enabled this macro
+/// will scan for
 /// `#[derive(JsonSchema)]` attributes and, if found, will add
 /// `#[schemars(with = "Schema&lt;T, ...&gt;")]` annotations to any fields with a
 /// `#[serde_as(as = ...)]` annotation. If you wish to override the default
@@ -1968,8 +2041,8 @@
 /// It will also work if the relevant derive is behind a `#[cfg_attr]` attribute
 /// and propagate the `#[cfg_attr]` to the various `#[schemars]` field attributes.
 ///
-/// [`serde_as`]: https://docs.rs/serde_with/3.12.0/serde_with/guide/index.html
-/// [re-exporting `serde_as`]: https://docs.rs/serde_with/3.12.0/serde_with/guide/serde_as/index.html#re-exporting-serde_as
+/// [`serde_as`]: https://docs.rs/serde_with/3.13.0/serde_with/guide/index.html
+/// [re-exporting `serde_as`]: https://docs.rs/serde_with/3.13.0/serde_with/guide/serde_as/index.html#re-exporting-serde_as
 </span><span class="attr">#[proc_macro_attribute]
 </span><span class="kw">pub fn </span>serde_as(args: TokenStream, input: TokenStream) -&gt; TokenStream {
     <span class="attr">#[derive(FromMeta)]
@@ -1994,7 +2067,9 @@
                 .unwrap_or_else(|| <span class="macro">syn::parse_quote!</span>(::serde_with));
 
             <span class="kw">let </span>schemars_config = <span class="kw">match </span>container_options.enable_schemars_support {
-                <span class="kw">_ if </span><span class="macro">cfg!</span>(not(feature = <span class="string">"schemars_0_8"</span>)) =&gt; SchemaFieldConfig::False,
+                <span class="kw">_ if </span><span class="macro">cfg!</span>(not(any(feature = <span class="string">"schemars_0_8"</span>, feature = <span class="string">"schemars_0_9"</span>))) =&gt; {
+                    SchemaFieldConfig::False
+                }
                 <span class="prelude-val">Some</span>(condition) =&gt; condition.into(),
                 <span class="prelude-val">None </span>=&gt; utils::has_derive_jsonschema(input.clone()).unwrap_or_default(),
             };
@@ -2388,11 +2463,11 @@
 /// or enum. Currently, these arguments to the attribute are possible:
 ///
 /// * **`#[serde_with(crate = "...")]`**: This allows using `DeserializeFromStr` when `serde_with`
-///     is not available from the crate root. This happens while [renaming dependencies in
-///     Cargo.toml][cargo-toml-rename] or when re-exporting the macro from a different crate.
+///   is not available from the crate root. This happens while [renaming dependencies in
+///   Cargo.toml][cargo-toml-rename] or when re-exporting the macro from a different crate.
 ///
-///     This argument is analogue to [serde's crate argument][serde-crate] and the [crate argument
-///     to `serde_as`][serde-as-crate].
+///   This argument is analogue to [serde's crate argument][serde-crate] and the [crate argument
+///   to `serde_as`][serde-as-crate].
 ///
 /// # Example
 ///
@@ -2432,7 +2507,7 @@
 /// [`Display`]: std::fmt::Display
 /// [`FromStr`]: std::str::FromStr
 /// [cargo-toml-rename]: https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#renaming-dependencies-in-cargotoml
-/// [serde-as-crate]: https://docs.rs/serde_with/3.12.0/serde_with/guide/serde_as/index.html#re-exporting-serde_as
+/// [serde-as-crate]: https://docs.rs/serde_with/3.13.0/serde_with/guide/serde_as/index.html#re-exporting-serde_as
 /// [serde-crate]: https://serde.rs/container-attrs.html#crate
 </span><span class="attr">#[proc_macro_derive(DeserializeFromStr, attributes(serde_with))]
 </span><span class="kw">pub fn </span>derive_deserialize_fromstr(item: TokenStream) -&gt; TokenStream {
@@ -2522,11 +2597,11 @@
 /// or enum. Currently, these arguments to the attribute are possible:
 ///
 /// * **`#[serde_with(crate = "...")]`**: This allows using `SerializeDisplay` when `serde_with` is
-///     not available from the crate root. This happens while [renaming dependencies in
-///     Cargo.toml][cargo-toml-rename] or when re-exporting the macro from a different crate.
+///   not available from the crate root. This happens while [renaming dependencies in
+///   Cargo.toml][cargo-toml-rename] or when re-exporting the macro from a different crate.
 ///
-///     This argument is analogue to [serde's crate argument][serde-crate] and the [crate argument
-///     to `serde_as`][serde-as-crate].
+///   This argument is analogue to [serde's crate argument][serde-crate] and the [crate argument
+///   to `serde_as`][serde-as-crate].
 ///
 /// # Example
 ///
@@ -2552,7 +2627,7 @@
 /// [`Display`]: std::fmt::Display
 /// [`FromStr`]: std::str::FromStr
 /// [cargo-toml-rename]: https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#renaming-dependencies-in-cargotoml
-/// [serde-as-crate]: https://docs.rs/serde_with/3.12.0/serde_with/guide/serde_as/index.html#re-exporting-serde_as
+/// [serde-as-crate]: https://docs.rs/serde_with/3.13.0/serde_with/guide/serde_as/index.html#re-exporting-serde_as
 /// [serde-crate]: https://serde.rs/container-attrs.html#crate
 </span><span class="attr">#[proc_macro_derive(SerializeDisplay, attributes(serde_with))]
 </span><span class="kw">pub fn </span>derive_serialize_display(item: TokenStream) -&gt; TokenStream {
@@ -2565,11 +2640,91 @@
     };
     TokenStream::from(serialize_display(
         input,
+        <span class="bool-val">false</span>,
         derive_options.get_serde_with_path(),
     ))
 }
 
-<span class="kw">fn </span>serialize_display(<span class="kw-2">mut </span>input: DeriveInput, serde_with_crate_path: Path) -&gt; TokenStream2 {
+<span class="doccomment">/// Serialize value by using its [`Display`] implementation with the “alternate” (`#`) format flag
+///
+/// This derive implements `serde::Serialize` for any type that already implements
+/// [`std::fmt::Display`], emitting its string form using the alternate formatting specifier
+/// (`{:#}`) instead of the normal `{}`.  In other words, rather than calling
+/// `format!("{}", self)`, it calls `format!("{:#}", self)`.
+///
+/// Ensure that your type implements [`Display`], or you will get a compile‐error such as:
+/// ```text
+/// error[E0277]: `MyType` doesn't implement `std::fmt::Display`
+/// ```
+///
+/// Deserialization from strings via [`std::str::FromStr`] is handled by the companion
+/// [`DeserializeFromStr`] derive.
+///
+/// # Attributes
+///
+/// You may customize which `serde_with` crate is used (for renamed or re-exported crates)
+/// via the same attribute namespace:
+///
+/// * `#[serde_with(crate = "...")]`
+///   When your workspace renames or re-exports `serde_with`, use this to point at the correct path.
+///   For example:
+///   ```rust,ignore
+///   #[derive(SerializeDisplayAlt)]
+///   #[serde_with(crate = "my_forked_serde_with")]
+///   pub struct Foo(/* … */);
+///   ```
+///
+/// # Example
+///
+/// ```rust,ignore
+/// use std::fmt;
+/// use serde_with::{SerializeDisplayAlt, DeserializeFromStr};
+///
+/// #[derive(Debug, Clone, SerializeDisplayAlt, DeserializeFromStr)]
+/// #[serde(transparent)]
+/// pub struct MyType(u32);
+///
+/// impl fmt::Display for MyType {
+///     fn fmt(&amp;self, f: &amp;mut fmt::Formatter&lt;'_&gt;) -&gt; fmt::Result {
+///         if f.alternate() {
+///             // Alternate formatting: hex with 0x prefix
+///             write!(f, "0x{:X}", self.0)
+///         } else {
+///             // Standard formatting: decimal
+///             write!(f, "{}", self.0)
+///         }
+///     }
+/// }
+///
+/// let v = MyType(15);
+/// // SerializeDisplayAlt always uses `{:#}`, so this yields `"0xF"`
+/// assert_eq!(r#""0xF""#, serde_json::to_string(&amp;v).unwrap());
+/// ```
+///
+/// [`Display`]: std::fmt::Display
+/// [`FromStr`]: std::str::FromStr
+/// [`DeserializeFromStr`]: crate::DeserializeFromStr
+</span><span class="attr">#[proc_macro_derive(SerializeDisplayAlt, attributes(serde_with))]
+</span><span class="kw">pub fn </span>derive_serialize_display_alt(item: TokenStream) -&gt; TokenStream {
+    <span class="kw">let </span>input: DeriveInput = <span class="macro">parse_macro_input!</span>(item);
+    <span class="kw">let </span>derive_options = <span class="kw">match </span>DeriveOptions::from_derive_input(<span class="kw-2">&amp;</span>input) {
+        <span class="prelude-val">Ok</span>(opt) =&gt; opt,
+        <span class="prelude-val">Err</span>(err) =&gt; {
+            <span class="kw">return </span>err;
+        }
+    };
+    TokenStream::from(serialize_display(
+        input,
+        <span class="bool-val">true</span>,
+        derive_options.get_serde_with_path(),
+    ))
+}
+
+<span class="kw">fn </span>serialize_display(
+    <span class="kw-2">mut </span>input: DeriveInput,
+    alternate: bool,
+    serde_with_crate_path: Path,
+) -&gt; TokenStream2 {
     <span class="kw">let </span>ident = input.ident;
     input
         .generics
@@ -2577,6 +2732,13 @@
         .predicates
         .push(<span class="macro">parse_quote!</span>(<span class="self">Self</span>: #serde_with_crate_path::__private__::Display));
     <span class="kw">let </span>(impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
+
+    <span class="kw">let </span>collect_str_param = <span class="kw">if </span>alternate {
+        <span class="macro">quote!</span> { <span class="kw-2">&amp;</span><span class="macro">format_args!</span>(<span class="string">"{self:#}"</span>) }
+    } <span class="kw">else </span>{
+        <span class="macro">quote!</span> { <span class="kw-2">&amp;</span><span class="self">self </span>}
+    };
+
     <span class="macro">quote!</span> {
         <span class="attr">#[automatically_derived]
         </span><span class="kw">impl </span>#impl_generics #serde_with_crate_path::serde::Serialize <span class="kw">for </span>#ident #ty_generics #where_clause {
@@ -2587,7 +2749,7 @@
             <span class="kw">where
                 </span>__S: #serde_with_crate_path::serde::Serializer,
             {
-                serializer.collect_str(<span class="kw-2">&amp;</span><span class="self">self</span>)
+                serializer.collect_str(#collect_str_param)
             }
         }
     }

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tracing-attributes-0.1.28/src/expand.rs`."><title>expand.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tracing_attributes" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tracing_attributes/</div>expand.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tracing-attributes-0.1.30/src/expand.rs`."><title>expand.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="tracing_attributes" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">tracing_attributes/</div>expand.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -831,9 +831,31 @@
 <a href="#830" id="830">830</a>
 <a href="#831" id="831">831</a>
 <a href="#832" id="832">832</a>
-<a href="#833" id="833">833</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::iter;
+<a href="#833" id="833">833</a>
+<a href="#834" id="834">834</a>
+<a href="#835" id="835">835</a>
+<a href="#836" id="836">836</a>
+<a href="#837" id="837">837</a>
+<a href="#838" id="838">838</a>
+<a href="#839" id="839">839</a>
+<a href="#840" id="840">840</a>
+<a href="#841" id="841">841</a>
+<a href="#842" id="842">842</a>
+<a href="#843" id="843">843</a>
+<a href="#844" id="844">844</a>
+<a href="#845" id="845">845</a>
+<a href="#846" id="846">846</a>
+<a href="#847" id="847">847</a>
+<a href="#848" id="848">848</a>
+<a href="#849" id="849">849</a>
+<a href="#850" id="850">850</a>
+<a href="#851" id="851">851</a>
+<a href="#852" id="852">852</a>
+<a href="#853" id="853">853</a>
+<a href="#854" id="854">854</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::iter;
 
 <span class="kw">use </span>proc_macro2::TokenStream;
+<span class="kw">use </span>quote::TokenStreamExt;
 <span class="kw">use </span>quote::{quote, quote_spanned, ToTokens};
 <span class="kw">use </span>syn::visit_mut::VisitMut;
 <span class="kw">use </span>syn::{
@@ -862,6 +884,7 @@
         inner_attrs,
         vis,
         sig,
+        brace_token,
         block,
     } = input;
 
@@ -877,9 +900,12 @@
             syn::Generics {
                 params: gen_params,
                 where_clause,
-                ..
+                lt_token,
+                gt_token,
             },
-        ..
+        fn_token,
+        paren_token,
+        variadic,
     } = sig;
 
     <span class="kw">let </span>warnings = args.warnings();
@@ -898,9 +924,14 @@
     // exactly that way for it to do its magic.
     </span><span class="kw">let </span>fake_return_edge = <span class="macro">quote_spanned!</span> {return_span=&gt;
         <span class="attr">#[allow(
-            unknown_lints, unreachable_code, clippy::diverging_sub_expression,
-            clippy::let_unit_value, clippy::unreachable, clippy::let_with_type_underscore,
-            clippy::empty_loop
+            unknown_lints,
+            unreachable_code,
+            clippy::diverging_sub_expression,
+            clippy::empty_loop,
+            clippy::let_unit_value,
+            clippy::let_with_type_underscore,
+            clippy::needless_return,
+            clippy::unreachable
         )]
         </span><span class="kw">if </span><span class="bool-val">false </span>{
             <span class="kw">let </span>__tracing_attr_fake_return: #return_type = <span class="kw">loop </span>{};
@@ -910,7 +941,7 @@
     <span class="kw">let </span>block = <span class="macro">quote!</span> {
         {
             #fake_return_edge
-            #block
+            { #block }
         }
     };
 
@@ -923,16 +954,27 @@
         self_type,
     );
 
-    <span class="macro">quote!</span>(
+    <span class="kw">let </span><span class="kw-2">mut </span>result = <span class="macro">quote!</span>(
         #(#outer_attrs) *
-        #vis #constness #asyncness #unsafety #abi <span class="kw">fn </span>#ident&lt;#gen_params&gt;(#params) #output
-        #where_clause
-        {
-            #(#inner_attrs) *
-            #warnings
-            #body
-        }
-    )
+        #vis #constness #asyncness #unsafety #abi #fn_token #ident
+        #lt_token #gen_params #gt_token
+    );
+
+    paren_token.surround(<span class="kw-2">&amp;mut </span>result, |tokens| {
+        params.to_tokens(tokens);
+        variadic.to_tokens(tokens);
+    });
+
+    output.to_tokens(<span class="kw-2">&amp;mut </span>result);
+    where_clause.to_tokens(<span class="kw-2">&amp;mut </span>result);
+
+    brace_token.surround(<span class="kw-2">&amp;mut </span>result, |tokens| {
+        tokens.append_all(inner_attrs);
+        warnings.to_tokens(tokens);
+        body.to_tokens(tokens);
+    });
+
+    result
 }
 
 <span class="doccomment">/// Instrument a block
@@ -1032,7 +1074,7 @@
             })
             .map(|(user_name, (real_name, record_type))| <span class="kw">match </span>record_type {
                 RecordType::Value =&gt; <span class="macro">quote!</span>(#user_name = #real_name),
-                RecordType::Debug =&gt; <span class="macro">quote!</span>(#user_name = tracing::field::debug(<span class="kw-2">&amp;</span>#real_name)),
+                RecordType::Debug =&gt; <span class="macro">quote!</span>(#user_name = ::tracing::field::debug(<span class="kw-2">&amp;</span>#real_name)),
             })
             .collect();
 
@@ -1056,7 +1098,7 @@
 
         <span class="kw">let </span>custom_fields = <span class="kw-2">&amp;</span>args.fields;
 
-        <span class="macro">quote!</span>(<span class="macro">tracing::span!</span>(
+        <span class="macro">quote!</span>(<span class="macro">::tracing::span!</span>(
             target: #target,
             #(parent: #parent,)*
             #level,
@@ -1074,10 +1116,10 @@
             <span class="kw">let </span>level_tokens = event_args.level(Level::Error);
             <span class="kw">match </span>event_args.mode {
                 FormatMode::Default | FormatMode::Display =&gt; <span class="prelude-val">Some</span>(<span class="macro">quote!</span>(
-                    <span class="macro">tracing::event!</span>(target: #target, #level_tokens, error = %e)
+                    <span class="macro">::tracing::event!</span>(target: #target, #level_tokens, error = %e)
                 )),
                 FormatMode::Debug =&gt; <span class="prelude-val">Some</span>(<span class="macro">quote!</span>(
-                    <span class="macro">tracing::event!</span>(target: #target, #level_tokens, error = <span class="question-mark">?</span>e)
+                    <span class="macro">::tracing::event!</span>(target: #target, #level_tokens, error = <span class="question-mark">?</span>e)
                 )),
             }
         }
@@ -1089,10 +1131,10 @@
             <span class="kw">let </span>level_tokens = event_args.level(args_level);
             <span class="kw">match </span>event_args.mode {
                 FormatMode::Display =&gt; <span class="prelude-val">Some</span>(<span class="macro">quote!</span>(
-                    <span class="macro">tracing::event!</span>(target: #target, #level_tokens, <span class="kw">return </span>= %x)
+                    <span class="macro">::tracing::event!</span>(target: #target, #level_tokens, <span class="kw">return </span>= %x)
                 )),
                 FormatMode::Default | FormatMode::Debug =&gt; <span class="prelude-val">Some</span>(<span class="macro">quote!</span>(
-                    <span class="macro">tracing::event!</span>(target: #target, #level_tokens, <span class="kw">return </span>= <span class="question-mark">?</span>x)
+                    <span class="macro">::tracing::event!</span>(target: #target, #level_tokens, <span class="kw">return </span>= <span class="question-mark">?</span>x)
                 )),
             }
         }
@@ -1153,7 +1195,7 @@
             <span class="kw">let </span>__tracing_instrument_future = #mk_fut;
             <span class="kw">if </span>!__tracing_attr_span.is_disabled() {
                 #follows_from
-                tracing::Instrument::instrument(
+                ::tracing::Instrument::instrument(
                     __tracing_instrument_future,
                     __tracing_attr_span
                 )
@@ -1177,7 +1219,7 @@
         // regression in case the level is enabled.
         </span><span class="kw">let </span>__tracing_attr_span;
         <span class="kw">let </span>__tracing_attr_guard;
-        <span class="kw">if </span><span class="macro">tracing::level_enabled!</span>(#level) || <span class="macro">tracing::if_log_enabled!</span>(#level, {<span class="bool-val">true</span>} <span class="kw">else </span>{<span class="bool-val">false</span>}) {
+        <span class="kw">if </span><span class="macro">::tracing::level_enabled!</span>(#level) || <span class="macro">::tracing::if_log_enabled!</span>(#level, {<span class="bool-val">true</span>} <span class="kw">else </span>{<span class="bool-val">false</span>}) {
             __tracing_attr_span = #span;
             #follows_from
             __tracing_attr_guard = __tracing_attr_span.enter();
@@ -1286,7 +1328,7 @@
                 <span class="kw">if </span>path
                     .segments
                     .iter()
-                    .last()
+                    .next_back()
                     .map(|path_segment| {
                         <span class="kw">let </span>ident = path_segment.ident.to_string();
                         <span class="self">Self</span>::TYPES_FOR_VALUE.iter().any(|<span class="kw-2">&amp;</span>t| t == ident)
@@ -1557,7 +1599,7 @@
                     <span class="kw">let </span>async_attrs = <span class="kw-2">&amp;</span>async_expr.attrs;
                     <span class="kw">if </span>pinned_box {
                         <span class="macro">quote!</span> {
-                            Box::pin(#(#async_attrs) * <span class="kw">async move </span>{ #instrumented_block })
+                            ::std::boxed::Box::pin(#(#async_attrs) * <span class="kw">async move </span>{ #instrumented_block })
                         }
                     } <span class="kw">else </span>{
                         <span class="macro">quote!</span> {
@@ -1605,7 +1647,7 @@
     idents: Vec&lt;(Ident, Ident)&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; VisitMut <span class="kw">for </span>IdentAndTypesRenamer&lt;<span class="lifetime">'a</span>&gt; {
+<span class="kw">impl </span>VisitMut <span class="kw">for </span>IdentAndTypesRenamer&lt;<span class="lifetime">'_</span>&gt; {
     <span class="comment">// we deliberately compare strings because we want to ignore the spans
     // If we apply clippy's lint, the behavior changes
     </span><span class="attr">#[allow(clippy::cmp_owned)]
@@ -1634,7 +1676,7 @@
     patched_block: Block,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; VisitMut <span class="kw">for </span>AsyncTraitBlockReplacer&lt;<span class="lifetime">'a</span>&gt; {
+<span class="kw">impl </span>VisitMut <span class="kw">for </span>AsyncTraitBlockReplacer&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>visit_block_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, i: <span class="kw-2">&amp;mut </span>Block) {
         <span class="kw">if </span>i == <span class="self">self</span>.block {
             <span class="kw-2">*</span>i = <span class="self">self</span>.patched_block.clone();

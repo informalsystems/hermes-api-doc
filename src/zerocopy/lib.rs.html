@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerocopy-0.8.25/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerocopy-0.8.26/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -6731,7 +6731,24 @@
 <a href="#6730" id="6730">6730</a>
 <a href="#6731" id="6731">6731</a>
 <a href="#6732" id="6732">6732</a>
-<a href="#6733" id="6733">6733</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2018 The Fuchsia Authors
+<a href="#6733" id="6733">6733</a>
+<a href="#6734" id="6734">6734</a>
+<a href="#6735" id="6735">6735</a>
+<a href="#6736" id="6736">6736</a>
+<a href="#6737" id="6737">6737</a>
+<a href="#6738" id="6738">6738</a>
+<a href="#6739" id="6739">6739</a>
+<a href="#6740" id="6740">6740</a>
+<a href="#6741" id="6741">6741</a>
+<a href="#6742" id="6742">6742</a>
+<a href="#6743" id="6743">6743</a>
+<a href="#6744" id="6744">6744</a>
+<a href="#6745" id="6745">6745</a>
+<a href="#6746" id="6746">6746</a>
+<a href="#6747" id="6747">6747</a>
+<a href="#6748" id="6748">6748</a>
+<a href="#6749" id="6749">6749</a>
+<a href="#6750" id="6750">6750</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2018 The Fuchsia Authors
 //
 // Licensed under the 2-Clause BSD License &lt;LICENSE-BSD or
 // https://opensource.org/license/bsd-2-clause&gt;, Apache License, Version 2.0
@@ -6745,21 +6762,18 @@
 //
 //   cargo -q run --manifest-path tools/Cargo.toml -p generate-readme &gt; README.md
 
-</span><span class="doccomment">//! *&lt;span style="font-size: 100%; color:grey;"&gt;Need more out of zerocopy?
-//! Submit a [customer request issue][customer-request-issue]!&lt;/span&gt;*
-//!
-//! ***&lt;span style="font-size: 140%"&gt;Fast, safe, &lt;span
+</span><span class="doccomment">//! ***&lt;span style="font-size: 140%"&gt;Fast, safe, &lt;span
 //! style="color:red;"&gt;compile error&lt;/span&gt;. Pick two.&lt;/span&gt;***
 //!
 //! Zerocopy makes zero-cost memory manipulation effortless. We write `unsafe`
 //! so you don't have to.
 //!
-//! *Thanks for using zerocopy 0.8! For an overview of what changes from 0.7,
-//! check out our [release notes][release-notes], which include a step-by-step
-//! guide for upgrading from 0.7.*
+//! *For an overview of what's changed from zerocopy 0.7, check out our [release
+//! notes][release-notes], which include a step-by-step upgrading guide.*
 //!
-//! *Have questions? Need help? Ask the maintainers on [GitHub][github-q-a] or
-//! on [Discord][discord]!*
+//! *Have questions? Need more out of zerocopy? Submit a [customer request
+//! issue][customer-request-issue] or ask the maintainers on
+//! [GitHub][github-q-a] or [Discord][discord]!*
 //!
 //! [customer-request-issue]: https://github.com/google/zerocopy/issues/new/choose
 //! [release-notes]: https://github.com/google/zerocopy/discussions/1680
@@ -7039,7 +7053,20 @@
     clippy::indexing_slicing,
 ))]
 #![cfg_attr(not(any(test, kani, feature = <span class="string">"std"</span>)), no_std)]
-#![cfg_attr(
+</span><span class="comment">// NOTE: This attribute should have the effect of causing CI to fail if
+// `stdarch_x86_avx512` - which is currently stable in 1.89.0-nightly as of this
+// writing on 2025-06-10 - has its stabilization rolled back.
+//
+// FIXME(#2583): Remove once `stdarch_x86_avx512` is stabilized in 1.89.0, and
+// 1.89.0 has been released as stable.
+</span><span class="attr">#![cfg_attr(
+    all(feature = <span class="string">"simd-nightly"</span>, any(target_arch = <span class="string">"x86"</span>, target_arch = <span class="string">"x86_64"</span>)),
+    expect(stable_features)
+)]
+</span><span class="comment">// FIXME(#2583): Remove once `stdarch_x86_avx512` is stabilized in 1.89.0, and
+// 1.89.0 has been released as stable. Replace with version detection for 1.89.0
+// (see #2574 for a draft implementation).
+</span><span class="attr">#![cfg_attr(
     all(feature = <span class="string">"simd-nightly"</span>, any(target_arch = <span class="string">"x86"</span>, target_arch = <span class="string">"x86_64"</span>)),
     feature(stdarch_x86_avx512)
 )]
@@ -7071,6 +7098,10 @@
 <span class="kw">pub mod </span>byte_slice;
 <span class="kw">pub mod </span>byteorder;
 <span class="kw">mod </span>deprecated;
+
+<span class="attr">#[doc(hidden)]
+</span><span class="kw">pub mod </span>doctests;
+
 <span class="comment">// This module is `pub` so that zerocopy's error types and error handling
 // documentation is grouped together in a cohesive module. In practice, we
 // expect most users to use the re-export of `error`'s items to avoid identifier
@@ -7087,13 +7118,6 @@
 <span class="comment">// FIXME(#252): If we make this pub, come up with a better name.
 </span><span class="kw">mod </span>wrappers;
 
-<span class="kw">pub use </span><span class="kw">crate</span>::byte_slice::<span class="kw-2">*</span>;
-<span class="kw">pub use </span><span class="kw">crate</span>::byteorder::<span class="kw-2">*</span>;
-<span class="kw">pub use </span><span class="kw">crate</span>::error::<span class="kw-2">*</span>;
-<span class="kw">pub use crate</span>::r#ref::<span class="kw-2">*</span>;
-<span class="kw">pub use </span><span class="kw">crate</span>::split_at::{Split, SplitAt};
-<span class="kw">pub use </span><span class="kw">crate</span>::wrappers::<span class="kw-2">*</span>;
-
 <span class="kw">use </span>core::{
     cell::{Cell, UnsafeCell},
     cmp::Ordering,
@@ -7109,28 +7133,34 @@
     ptr::{<span class="self">self</span>, NonNull},
     slice,
 };
-
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">use </span>std::io;
 
 <span class="kw">use </span><span class="kw">crate</span>::pointer::invariant::{<span class="self">self</span>, BecauseExclusive};
+<span class="kw">pub use crate</span>::{
+    byte_slice::<span class="kw-2">*</span>,
+    byteorder::<span class="kw-2">*</span>,
+    error::<span class="kw-2">*</span>,
+    r#ref::<span class="kw-2">*</span>,
+    split_at::{Split, SplitAt},
+    wrappers::<span class="kw-2">*</span>,
+};
 
 <span class="attr">#[cfg(any(feature = <span class="string">"alloc"</span>, test, kani))]
 </span><span class="kw">extern crate </span>alloc;
 <span class="attr">#[cfg(any(feature = <span class="string">"alloc"</span>, test))]
 </span><span class="kw">use </span>alloc::{boxed::Box, vec::Vec};
-<span class="kw">use </span>util::MetadataOf;
-
 <span class="attr">#[cfg(any(feature = <span class="string">"alloc"</span>, test))]
 </span><span class="kw">use </span>core::alloc::Layout;
 
-<span class="comment">// Used by `TryFromBytes::is_bit_valid`.
-</span><span class="attr">#[doc(hidden)]
-</span><span class="kw">pub use </span><span class="kw">crate</span>::pointer::{invariant::BecauseImmutable, Maybe, Ptr};
+<span class="kw">use </span>util::MetadataOf;
+
 <span class="comment">// Used by `KnownLayout`.
 </span><span class="attr">#[doc(hidden)]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::layout::<span class="kw-2">*</span>;
-
+<span class="comment">// Used by `TryFromBytes::is_bit_valid`.
+</span><span class="attr">#[doc(hidden)]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::pointer::{invariant::BecauseImmutable, Maybe, Ptr};
 <span class="comment">// For each trait polyfill, as soon as the corresponding feature is stable, the
 // polyfill import will be unused because method/function resolution will prefer
 // the inherent method/function over a trait method/function. Thus, we suppress
@@ -7167,10 +7197,7 @@
 //
 // The "note" provides enough context to make it easy to figure out how to fix
 // the error.
-</span><span class="attr">#[allow(unused)]
-</span><span class="kw">use </span>{FromZeros <span class="kw">as </span>FromZeroes, IntoBytes <span class="kw">as </span>AsBytes, Ref <span class="kw">as </span>LayoutVerified};
-
-<span class="doccomment">/// Implements [`KnownLayout`].
+</span><span class="doccomment">/// Implements [`KnownLayout`].
 ///
 /// This derive analyzes various aspects of a type's layout that are needed for
 /// some of zerocopy's APIs. It can be applied to structs, enums, and unions;
@@ -7272,6 +7299,8 @@
 </span><span class="attr">#[cfg(any(feature = <span class="string">"derive"</span>, test))]
 #[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"derive"</span>)))]
 </span><span class="kw">pub use </span>zerocopy_derive::KnownLayout;
+<span class="attr">#[allow(unused)]
+</span><span class="kw">use </span>{FromZeros <span class="kw">as </span>FromZeroes, IntoBytes <span class="kw">as </span>AsBytes, Ref <span class="kw">as </span>LayoutVerified};
 
 <span class="doccomment">/// Indicates that zerocopy can reason about certain aspects of a type's layout.
 ///
@@ -7544,6 +7573,14 @@
         // resulting size would not fit in a `usize`.
         </span>meta.size_for_metadata(<span class="self">Self</span>::LAYOUT)
     }
+
+    <span class="attr">#[doc(hidden)]
+    #[must_use]
+    #[inline(always)]
+    </span><span class="kw">fn </span>raw_dangling() -&gt; NonNull&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>meta = <span class="self">Self</span>::PointerMetadata::from_elem_count(<span class="number">0</span>);
+        <span class="self">Self</span>::raw_from_ptr_len(NonNull::dangling(), meta)
+    }
 }
 
 <span class="doccomment">/// Efficiently produces the [`TrailingSliceLayout`] of `T`.
@@ -7591,7 +7628,7 @@
     ///
     /// `size_for_metadata` promises to only return `None` if the resulting size
     /// would not fit in a `usize`.
-    </span><span class="kw">fn </span>size_for_metadata(<span class="kw-2">&amp;</span><span class="self">self</span>, layout: DstLayout) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt;;
+    </span><span class="kw">fn </span>size_for_metadata(<span class="self">self</span>, layout: DstLayout) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt;;
 }
 
 <span class="kw">impl </span>PointerMetadata <span class="kw">for </span>() {
@@ -7600,7 +7637,7 @@
     </span><span class="kw">fn </span>from_elem_count(_elems: usize) -&gt; () {}
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>size_for_metadata(<span class="kw-2">&amp;</span><span class="self">self</span>, layout: DstLayout) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+    </span><span class="kw">fn </span>size_for_metadata(<span class="self">self</span>, layout: DstLayout) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
         <span class="kw">match </span>layout.size_info {
             SizeInfo::Sized { size } =&gt; <span class="prelude-val">Some</span>(size),
             <span class="comment">// NOTE: This branch is unreachable, but we return `None` rather
@@ -7617,10 +7654,10 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>size_for_metadata(<span class="kw-2">&amp;</span><span class="self">self</span>, layout: DstLayout) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+    </span><span class="kw">fn </span>size_for_metadata(<span class="self">self</span>, layout: DstLayout) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
         <span class="kw">match </span>layout.size_info {
             SizeInfo::SliceDst(TrailingSliceLayout { offset, elem_size }) =&gt; {
-                <span class="kw">let </span>slice_len = elem_size.checked_mul(<span class="kw-2">*</span><span class="self">self</span>)<span class="question-mark">?</span>;
+                <span class="kw">let </span>slice_len = elem_size.checked_mul(<span class="self">self</span>)<span class="question-mark">?</span>;
                 <span class="kw">let </span>without_padding = offset.checked_add(slice_len)<span class="question-mark">?</span>;
                 without_padding.checked_add(util::padding_needed_for(without_padding, layout.align))
             }
@@ -7876,7 +7913,6 @@
 </span><span class="attr">#[cfg(any(feature = <span class="string">"derive"</span>, test))]
 #[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"derive"</span>)))]
 </span><span class="kw">pub use </span>zerocopy_derive::FromZeros;
-
 <span class="doccomment">/// Analyzes whether a type is [`Immutable`].
 ///
 /// This derive analyzes, at compile time, whether the annotated type satisfies
@@ -10081,12 +10117,11 @@
 ///
 /// - If the type is a struct, all of its fields must be `FromBytes`.
 /// - If the type is an enum:
-///   - It must have a defined representation (`repr`s `C`, `u8`, `u16`, `u32`,
+///   - It must have a defined representation (`repr`s `u8`, `u16`, `u32`,
 ///     `u64`, `usize`, `i8`, `i16`, `i32`, `i64`, or `isize`).
 ///   - The maximum number of discriminants must be used (so that every possible
-///     bit pattern is a valid one). Be very careful when using the `C`,
-///     `usize`, or `isize` representations, as their size is
-///     platform-dependent.
+///     bit pattern is a valid one). Be very careful when using the `usize` or
+///     `isize` representations, as their size is platform-dependent.
 ///   - Its fields must be `FromBytes`.
 ///
 /// This analysis is subject to change. Unsafe code may *only* rely on the
@@ -10119,8 +10154,6 @@
 ///
 /// Whether a struct is soundly `FromBytes` therefore solely depends on whether
 /// its fields are `FromBytes`.
-</span><span class="comment">// FIXME(#146): Document why we don't require an enum to have an explicit `repr`
-// attribute.
 </span><span class="attr">#[cfg(any(feature = <span class="string">"derive"</span>, test))]
 #[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"derive"</span>)))]
 </span><span class="kw">pub use </span>zerocopy_derive::FromBytes;
@@ -10560,7 +10593,7 @@
     {
         <span class="macro">static_assert_dst_is_not_zst!</span>(<span class="self">Self</span>);
         <span class="kw">match </span>Ptr::from_mut(source).try_cast_into_no_leftover::&lt;<span class="kw">_</span>, BecauseExclusive&gt;(<span class="prelude-val">None</span>) {
-            <span class="prelude-val">Ok</span>(ptr) =&gt; <span class="prelude-val">Ok</span>(ptr.recall_validity().as_mut()),
+            <span class="prelude-val">Ok</span>(ptr) =&gt; <span class="prelude-val">Ok</span>(ptr.recall_validity::&lt;<span class="kw">_</span>, (<span class="kw">_</span>, (<span class="kw">_</span>, <span class="kw">_</span>))&gt;().as_mut()),
             <span class="prelude-val">Err</span>(err) =&gt; <span class="prelude-val">Err</span>(err.map_src(|src| src.as_mut())),
         }
     }
@@ -11510,7 +11543,7 @@
     <span class="kw">let </span>(slf, prefix_suffix) = Ptr::from_mut(source)
         .try_cast_into::&lt;<span class="kw">_</span>, BecauseExclusive&gt;(cast_type, meta)
         .map_err(|err| err.map_src(|s| s.as_mut()))<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>((slf.recall_validity().as_mut(), prefix_suffix.as_mut()))
+    <span class="prelude-val">Ok</span>((slf.recall_validity::&lt;<span class="kw">_</span>, (<span class="kw">_</span>, (<span class="kw">_</span>, <span class="kw">_</span>))&gt;().as_mut(), prefix_suffix.as_mut()))
 }
 
 <span class="doccomment">/// Analyzes whether a type is [`IntoBytes`].
@@ -11889,6 +11922,7 @@
     /// ```
     </span><span class="attr">#[must_use = <span class="string">"callers should check the return value to see if the operation succeeded"</span>]
     #[inline]
+    #[allow(clippy::mut_from_ref)] </span><span class="comment">// False positive: `&amp;self -&gt; &amp;mut [u8]`
     </span><span class="kw">fn </span>write_to(<span class="kw-2">&amp;</span><span class="self">self</span>, dst: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), SizeError&lt;<span class="kw-2">&amp;</span><span class="self">Self</span>, <span class="kw-2">&amp;mut </span>[u8]&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: Immutable,
@@ -11946,15 +11980,16 @@
     /// ```
     /// # use zerocopy::IntoBytes;
     /// # let header = u128::MAX;
-    /// let mut insufficent_bytes = &amp;mut [0, 0][..];
+    /// let mut insufficient_bytes = &amp;mut [0, 0][..];
     ///
-    /// let write_result = header.write_to_suffix(insufficent_bytes);
+    /// let write_result = header.write_to_suffix(insufficient_bytes);
     ///
     /// assert!(write_result.is_err());
-    /// assert_eq!(insufficent_bytes, [0, 0]);
+    /// assert_eq!(insufficient_bytes, [0, 0]);
     /// ```
     </span><span class="attr">#[must_use = <span class="string">"callers should check the return value to see if the operation succeeded"</span>]
     #[inline]
+    #[allow(clippy::mut_from_ref)] </span><span class="comment">// False positive: `&amp;self -&gt; &amp;mut [u8]`
     </span><span class="kw">fn </span>write_to_prefix(<span class="kw-2">&amp;</span><span class="self">self</span>, dst: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), SizeError&lt;<span class="kw-2">&amp;</span><span class="self">Self</span>, <span class="kw-2">&amp;mut </span>[u8]&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: Immutable,
@@ -12007,12 +12042,12 @@
     ///
     /// assert_eq!(bytes, [0, 0, 0, 1, 2, 3, 4, 5, 6, 7]);
     ///
-    /// let mut insufficent_bytes = &amp;mut [0, 0][..];
+    /// let mut insufficient_bytes = &amp;mut [0, 0][..];
     ///
-    /// let write_result = header.write_to_suffix(insufficent_bytes);
+    /// let write_result = header.write_to_suffix(insufficient_bytes);
     ///
     /// assert!(write_result.is_err());
-    /// assert_eq!(insufficent_bytes, [0, 0]);
+    /// assert_eq!(insufficient_bytes, [0, 0]);
     /// ```
     ///
     /// If insufficient target bytes are provided, `write_to_suffix` returns
@@ -12021,15 +12056,16 @@
     /// ```
     /// # use zerocopy::IntoBytes;
     /// # let header = u128::MAX;
-    /// let mut insufficent_bytes = &amp;mut [0, 0][..];
+    /// let mut insufficient_bytes = &amp;mut [0, 0][..];
     ///
-    /// let write_result = header.write_to_suffix(insufficent_bytes);
+    /// let write_result = header.write_to_suffix(insufficient_bytes);
     ///
     /// assert!(write_result.is_err());
-    /// assert_eq!(insufficent_bytes, [0, 0]);
+    /// assert_eq!(insufficient_bytes, [0, 0]);
     /// ```
     </span><span class="attr">#[must_use = <span class="string">"callers should check the return value to see if the operation succeeded"</span>]
     #[inline]
+    #[allow(clippy::mut_from_ref)] </span><span class="comment">// False positive: `&amp;self -&gt; &amp;mut [u8]`
     </span><span class="kw">fn </span>write_to_suffix(<span class="kw-2">&amp;</span><span class="self">self</span>, dst: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), SizeError&lt;<span class="kw-2">&amp;</span><span class="self">Self</span>, <span class="kw-2">&amp;mut </span>[u8]&gt;&gt;
     <span class="kw">where
         </span><span class="self">Self</span>: Immutable,
@@ -12085,7 +12121,7 @@
     /// ```
     ///
     /// If the write fails, `write_to_io` returns `Err` and a partial write may
-    /// have occured; e.g.:
+    /// have occurred; e.g.:
     ///
     /// ```
     /// # use zerocopy::IntoBytes;
@@ -12261,6 +12297,39 @@
         </span><span class="self">Self</span>: Sized;
 }
 
+<span class="doccomment">/// Derives optimized [`PartialEq`] and [`Eq`] implementations.
+///
+/// This derive can be applied to structs and enums implementing both
+/// [`Immutable`] and [`IntoBytes`]; e.g.:
+///
+/// ```
+/// # use zerocopy_derive::{ByteEq, Immutable, IntoBytes};
+/// #[derive(ByteEq, Immutable, IntoBytes)]
+/// #[repr(C)]
+/// struct MyStruct {
+/// # /*
+///     ...
+/// # */
+/// }
+///
+/// #[derive(ByteEq, Immutable, IntoBytes)]
+/// #[repr(u8)]
+/// enum MyEnum {
+/// #   Variant,
+/// # /*
+///     ...
+/// # */
+/// }
+/// ```
+///
+/// The standard library's [`derive(Eq, PartialEq)`][derive@PartialEq] computes
+/// equality by individually comparing each field. Instead, the implementation
+/// of [`PartialEq::eq`] emitted by `derive(ByteHash)` converts the entirety of
+/// `self` and `other` to byte slices and compares those slices for equality.
+/// This may have performance advantages.
+</span><span class="attr">#[cfg(any(feature = <span class="string">"derive"</span>, test))]
+#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"derive"</span>)))]
+</span><span class="kw">pub use </span>zerocopy_derive::ByteEq;
 <span class="doccomment">/// Derives an optimized [`Hash`] implementation.
 ///
 /// This derive can be applied to structs and enums implementing both
@@ -12289,7 +12358,7 @@
 /// The standard library's [`derive(Hash)`][derive@Hash] produces hashes by
 /// individually hashing each field and combining the results. Instead, the
 /// implementations of [`Hash::hash()`] and [`Hash::hash_slice()`] generated by
-/// `derive(ByteHash)` convert the entirey of `self` to a byte slice and hashes
+/// `derive(ByteHash)` convert the entirety of `self` to a byte slice and hashes
 /// it in a single call to [`Hasher::write()`]. This may have performance
 /// advantages.
 ///
@@ -12299,41 +12368,6 @@
 </span><span class="attr">#[cfg(any(feature = <span class="string">"derive"</span>, test))]
 #[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"derive"</span>)))]
 </span><span class="kw">pub use </span>zerocopy_derive::ByteHash;
-
-<span class="doccomment">/// Derives optimized [`PartialEq`] and [`Eq`] implementations.
-///
-/// This derive can be applied to structs and enums implementing both
-/// [`Immutable`] and [`IntoBytes`]; e.g.:
-///
-/// ```
-/// # use zerocopy_derive::{ByteEq, Immutable, IntoBytes};
-/// #[derive(ByteEq, Immutable, IntoBytes)]
-/// #[repr(C)]
-/// struct MyStruct {
-/// # /*
-///     ...
-/// # */
-/// }
-///
-/// #[derive(ByteEq, Immutable, IntoBytes)]
-/// #[repr(u8)]
-/// enum MyEnum {
-/// #   Variant,
-/// # /*
-///     ...
-/// # */
-/// }
-/// ```
-///
-/// The standard library's [`derive(Eq, PartialEq)`][derive@PartialEq] computes
-/// equality by individually comparing each field. Instead, the implementation
-/// of [`PartialEq::eq`] emitted by `derive(ByteHash)` converts the entirey of
-/// `self` and `other` to byte slices and compares those slices for equality.
-/// This may have performance advantages.
-</span><span class="attr">#[cfg(any(feature = <span class="string">"derive"</span>, test))]
-#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"derive"</span>)))]
-</span><span class="kw">pub use </span>zerocopy_derive::ByteEq;
-
 <span class="doccomment">/// Implements [`SplitAt`].
 ///
 /// This derive can be applied to structs; e.g.:

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/client/ech.rs`."><title>ech.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>ech.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustls-0.23.28/src/client/ech.rs`."><title>ech.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>ech.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -819,11 +819,7 @@
 <a href="#818" id="818">818</a>
 <a href="#819" id="819">819</a>
 <a href="#820" id="820">820</a>
-<a href="#821" id="821">821</a>
-<a href="#822" id="822">822</a>
-<a href="#823" id="823">823</a>
-<a href="#824" id="824">824</a>
-<a href="#825" id="825">825</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::boxed::Box;
+<a href="#821" id="821">821</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::boxed::Box;
 <span class="kw">use </span>alloc::vec;
 <span class="kw">use </span>alloc::vec::Vec;
 
@@ -853,8 +849,8 @@
     KeyScheduleEarly, KeyScheduleHandshakeStart, server_ech_hrr_confirmation_secret,
 };
 <span class="kw">use crate</span>::{
-    AlertDescription, CommonState, EncryptedClientHelloError, Error, HandshakeType,
-    PeerIncompatible, PeerMisbehaved, ProtocolVersion, Tls13CipherSuite,
+    AlertDescription, CommonState, EncryptedClientHelloError, Error, PeerIncompatible,
+    PeerMisbehaved, ProtocolVersion, Tls13CipherSuite,
 };
 
 <span class="doccomment">/// Controls how Encrypted Client Hello (ECH) is used in a client handshake.
@@ -932,7 +928,7 @@
 
         <span class="comment">// Note: we name the index var _i because if the log feature is disabled
         //       it is unused.
-        </span><span class="attr">#[cfg_attr(not(feature = <span class="string">"std"</span>), allow(clippy::unused_enumerate_index))]
+        </span><span class="attr">#[cfg_attr(not(feature = <span class="string">"logging"</span>), allow(clippy::unused_enumerate_index))]
         </span><span class="kw">for </span>(_i, config) <span class="kw">in </span>ech_configs.iter().enumerate() {
             <span class="kw">let </span>contents = <span class="kw">match </span>config {
                 EchConfigPayload::V18(contents) =&gt; contents,
@@ -1027,7 +1023,7 @@
         secure_random: <span class="kw-2">&amp;</span><span class="lifetime">'static </span><span class="kw">dyn </span>SecureRandom,
         inner_name: ServerName&lt;<span class="lifetime">'static</span>&gt;,
         outer_hello: <span class="kw-2">&amp;</span>ClientHelloPayload,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;ClientExtension, Error&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;EncryptedClientHello, Error&gt; {
         <span class="macro">trace!</span>(<span class="string">"Preparing GREASE ECH extension"</span>);
 
         <span class="comment">// Pick a random config id.
@@ -1076,14 +1072,12 @@
         secure_random.fill(<span class="kw-2">&amp;mut </span>payload)<span class="question-mark">?</span>;
 
         <span class="comment">// Return the GREASE extension.
-        </span><span class="prelude-val">Ok</span>(ClientExtension::EncryptedClientHello(
-            EncryptedClientHello::Outer(EncryptedClientHelloOuter {
-                cipher_suite: suite.sym,
-                config_id: config_id[<span class="number">0</span>],
-                enc: PayloadU16::new(grease_state.enc.<span class="number">0</span>),
-                payload: PayloadU16::new(payload),
-            }),
-        ))
+        </span><span class="prelude-val">Ok</span>(EncryptedClientHello::Outer(EncryptedClientHelloOuter {
+            cipher_suite: suite.sym,
+            config_id: config_id[<span class="number">0</span>],
+            enc: PayloadU16::new(grease_state.enc.<span class="number">0</span>),
+            payload: PayloadU16::new(payload),
+        }))
     }
 }
 
@@ -1223,15 +1217,13 @@
             <span class="bool-val">false </span>=&gt; <span class="self">self</span>.enc.<span class="number">0</span>.clone(),
         };
 
-        <span class="kw">fn </span>outer_hello_ext(ctx: <span class="kw-2">&amp;</span>EchState, enc: Vec&lt;u8&gt;, payload: Vec&lt;u8&gt;) -&gt; ClientExtension {
-            ClientExtension::EncryptedClientHello(EncryptedClientHello::Outer(
-                EncryptedClientHelloOuter {
-                    cipher_suite: ctx.cipher_suite,
-                    config_id: ctx.config_id,
-                    enc: PayloadU16::new(enc),
-                    payload: PayloadU16::new(payload),
-                },
-            ))
+        <span class="kw">fn </span>outer_hello_ext(ctx: <span class="kw-2">&amp;</span>EchState, enc: Vec&lt;u8&gt;, payload: Vec&lt;u8&gt;) -&gt; EncryptedClientHello {
+            EncryptedClientHello::Outer(EncryptedClientHelloOuter {
+                cipher_suite: ctx.cipher_suite,
+                config_id: ctx.config_id,
+                enc: PayloadU16::new(enc),
+                payload: PayloadU16::new(payload),
+            })
         }
 
         <span class="comment">// The outer handshake is not permitted to resume a session. If we're resuming in the
@@ -1245,7 +1237,11 @@
         <span class="comment">// To compute the encoded AAD we add a placeholder extension with an empty payload.
         </span>outer_hello
             .extensions
-            .push(outer_hello_ext(<span class="self">self</span>, enc.clone(), <span class="macro">vec!</span>[<span class="number">0</span>; payload_len]));
+            .push(ClientExtension::EncryptedClientHello(outer_hello_ext(
+                <span class="self">self</span>,
+                enc.clone(),
+                <span class="macro">vec!</span>[<span class="number">0</span>; payload_len],
+            )));
 
         <span class="comment">// Next we compute the proper extension payload.
         </span><span class="kw">let </span>payload = <span class="self">self
@@ -1256,7 +1252,9 @@
         </span>outer_hello.extensions.pop();
         outer_hello
             .extensions
-            .push(outer_hello_ext(<span class="self">self</span>, enc, payload));
+            .push(ClientExtension::EncryptedClientHello(outer_hello_ext(
+                <span class="self">self</span>, enc, payload,
+            )));
 
         <span class="prelude-val">Ok</span>(outer_hello)
     }
@@ -1489,10 +1487,7 @@
 
         <span class="comment">// If we're resuming, we need to update the PSK binder in the inner hello.
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(resuming) = resuming.as_ref() {
-            <span class="kw">let </span><span class="kw-2">mut </span>chp = HandshakeMessagePayload {
-                typ: HandshakeType::ClientHello,
-                payload: HandshakePayload::ClientHello(inner_hello),
-            };
+            <span class="kw">let </span><span class="kw-2">mut </span>chp = HandshakeMessagePayload(HandshakePayload::ClientHello(inner_hello));
 
             <span class="comment">// Retain the early key schedule we get from processing the binder.
             </span><span class="self">self</span>.early_data_key_schedule = <span class="prelude-val">Some</span>(tls13::fill_in_psk_binder(
@@ -1503,14 +1498,14 @@
 
             <span class="comment">// fill_in_psk_binder works on an owned HandshakeMessagePayload, so we need to
             // extract our inner hello back out of it to retain ownership.
-            </span>inner_hello = <span class="kw">match </span>chp.payload {
+            </span>inner_hello = <span class="kw">match </span>chp.<span class="number">0 </span>{
                 HandshakePayload::ClientHello(chp) =&gt; chp,
                 <span class="comment">// Safety: we construct the HMP above and know its type unconditionally.
                 </span><span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
             };
         }
 
-        <span class="macro">trace!</span>(<span class="string">"ECH Inner Hello: {:#?}"</span>, inner_hello);
+        <span class="macro">trace!</span>(<span class="string">"ECH Inner Hello: {inner_hello:#?}"</span>);
 
         <span class="comment">// Encode the inner hello according to the rules required for ECH. This differs
         // from the standard encoding in several ways. Notably this is where we will
@@ -1558,10 +1553,9 @@
                 // (retryreq == None means we're in the "initial ClientHello" case)
                 </span><span class="prelude-val">None </span>=&gt; ProtocolVersion::TLSv1_0,
             },
-            payload: MessagePayload::handshake(HandshakeMessagePayload {
-                typ: HandshakeType::ClientHello,
-                payload: HandshakePayload::ClientHello(inner_hello),
-            }),
+            payload: MessagePayload::handshake(HandshakeMessagePayload(
+                HandshakePayload::ClientHello(inner_hello),
+            )),
         };
 
         <span class="comment">// Update the inner transcript buffer with the inner hello message.
@@ -1604,17 +1598,15 @@
     }
 
     <span class="kw">fn </span>server_hello_conf(server_hello: <span class="kw-2">&amp;</span>ServerHelloPayload) -&gt; Message&lt;<span class="lifetime">'_</span>&gt; {
-        <span class="self">Self</span>::ech_conf_message(HandshakeMessagePayload {
-            typ: HandshakeType::ServerHello,
-            payload: HandshakePayload::ServerHello(server_hello.clone()),
-        })
+        <span class="self">Self</span>::ech_conf_message(HandshakeMessagePayload(HandshakePayload::ServerHello(
+            server_hello.clone(),
+        )))
     }
 
     <span class="kw">fn </span>hello_retry_request_conf(retry_req: <span class="kw-2">&amp;</span>HelloRetryRequest) -&gt; Message&lt;<span class="lifetime">'_</span>&gt; {
-        <span class="self">Self</span>::ech_conf_message(HandshakeMessagePayload {
-            typ: HandshakeType::HelloRetryRequest,
-            payload: HandshakePayload::HelloRetryRequest(retry_req.clone()),
-        })
+        <span class="self">Self</span>::ech_conf_message(HandshakeMessagePayload(
+            HandshakePayload::HelloRetryRequest(retry_req.clone()),
+        ))
     }
 
     <span class="kw">fn </span>ech_conf_message(hmp: HandshakeMessagePayload&lt;<span class="lifetime">'_</span>&gt;) -&gt; Message&lt;<span class="lifetime">'_</span>&gt; {

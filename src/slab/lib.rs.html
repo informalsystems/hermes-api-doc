@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/slab-0.4.9/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="slab" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">slab/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/slab-0.4.10/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="slab" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">slab/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1587,7 +1587,61 @@
 <a href="#1586" id="1586">1586</a>
 <a href="#1587" id="1587">1587</a>
 <a href="#1588" id="1588">1588</a>
-<a href="#1589" id="1589">1589</a></pre></div><pre class="rust"><code><span class="attr">#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
+<a href="#1589" id="1589">1589</a>
+<a href="#1590" id="1590">1590</a>
+<a href="#1591" id="1591">1591</a>
+<a href="#1592" id="1592">1592</a>
+<a href="#1593" id="1593">1593</a>
+<a href="#1594" id="1594">1594</a>
+<a href="#1595" id="1595">1595</a>
+<a href="#1596" id="1596">1596</a>
+<a href="#1597" id="1597">1597</a>
+<a href="#1598" id="1598">1598</a>
+<a href="#1599" id="1599">1599</a>
+<a href="#1600" id="1600">1600</a>
+<a href="#1601" id="1601">1601</a>
+<a href="#1602" id="1602">1602</a>
+<a href="#1603" id="1603">1603</a>
+<a href="#1604" id="1604">1604</a>
+<a href="#1605" id="1605">1605</a>
+<a href="#1606" id="1606">1606</a>
+<a href="#1607" id="1607">1607</a>
+<a href="#1608" id="1608">1608</a>
+<a href="#1609" id="1609">1609</a>
+<a href="#1610" id="1610">1610</a>
+<a href="#1611" id="1611">1611</a>
+<a href="#1612" id="1612">1612</a>
+<a href="#1613" id="1613">1613</a>
+<a href="#1614" id="1614">1614</a>
+<a href="#1615" id="1615">1615</a>
+<a href="#1616" id="1616">1616</a>
+<a href="#1617" id="1617">1617</a>
+<a href="#1618" id="1618">1618</a>
+<a href="#1619" id="1619">1619</a>
+<a href="#1620" id="1620">1620</a>
+<a href="#1621" id="1621">1621</a>
+<a href="#1622" id="1622">1622</a>
+<a href="#1623" id="1623">1623</a>
+<a href="#1624" id="1624">1624</a>
+<a href="#1625" id="1625">1625</a>
+<a href="#1626" id="1626">1626</a>
+<a href="#1627" id="1627">1627</a>
+<a href="#1628" id="1628">1628</a>
+<a href="#1629" id="1629">1629</a>
+<a href="#1630" id="1630">1630</a>
+<a href="#1631" id="1631">1631</a>
+<a href="#1632" id="1632">1632</a>
+<a href="#1633" id="1633">1633</a>
+<a href="#1634" id="1634">1634</a>
+<a href="#1635" id="1635">1635</a>
+<a href="#1636" id="1636">1636</a>
+<a href="#1637" id="1637">1637</a>
+<a href="#1638" id="1638">1638</a>
+<a href="#1639" id="1639">1639</a>
+<a href="#1640" id="1640">1640</a>
+<a href="#1641" id="1641">1641</a>
+<a href="#1642" id="1642">1642</a>
+<a href="#1643" id="1643">1643</a></pre></div><pre class="rust"><code><span class="attr">#![no_std]
 #![warn(
     missing_debug_implementations,
     missing_docs,
@@ -1598,6 +1652,7 @@
     no_crate_inject,
     attr(deny(warnings, rust_2018_idioms), allow(dead_code, unused_variables))
 ))]
+#![allow(clippy::incompatible_msrv)] </span><span class="comment">// false positive: https://github.com/rust-lang/rust-clippy/issues/12280
 
 </span><span class="doccomment">//! Pre-allocated storage for a uniform data type.
 //!
@@ -1702,6 +1757,8 @@
 </span><span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
 </span><span class="kw">extern crate </span>alloc;
 <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">extern crate </span>std;
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">extern crate </span>std <span class="kw">as </span>alloc;
 
 <span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
@@ -1711,6 +1768,7 @@
 
 <span class="kw">use </span>alloc::vec::{<span class="self">self</span>, Vec};
 <span class="kw">use </span>core::iter::{<span class="self">self</span>, FromIterator, FusedIterator};
+<span class="kw">use </span>core::mem::MaybeUninit;
 <span class="kw">use </span>core::{fmt, mem, ops, slice};
 
 <span class="doccomment">/// Pre-allocated storage for a uniform data type
@@ -1755,6 +1813,33 @@
     }
 }
 
+<span class="attr">#[derive(Debug, Clone, PartialEq, Eq)]
+</span><span class="doccomment">/// The error type returned by [`Slab::get_disjoint_mut`].
+</span><span class="kw">pub enum </span>GetDisjointMutError {
+    <span class="doccomment">/// An index provided was not associated with a value.
+    </span>IndexVacant,
+
+    <span class="doccomment">/// An index provided was out-of-bounds for the slab.
+    </span>IndexOutOfBounds,
+
+    <span class="doccomment">/// Two indices provided were overlapping.
+    </span>OverlappingIndices,
+}
+
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>GetDisjointMutError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">let </span>msg = <span class="kw">match </span><span class="self">self </span>{
+            GetDisjointMutError::IndexVacant =&gt; <span class="string">"an index is vacant"</span>,
+            GetDisjointMutError::IndexOutOfBounds =&gt; <span class="string">"an index is out of bounds"</span>,
+            GetDisjointMutError::OverlappingIndices =&gt; <span class="string">"there were overlapping indices"</span>,
+        };
+        fmt::Display::fmt(msg, f)
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">impl </span>std::error::Error <span class="kw">for </span>GetDisjointMutError {}
+
 <span class="doccomment">/// A handle to a vacant entry in a `Slab`.
 ///
 /// `VacantEntry` allows constructing values with the key that they will be
@@ -1795,7 +1880,7 @@
     len: usize,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T&gt; Clone <span class="kw">for </span>Iter&lt;<span class="lifetime">'a</span>, T&gt; {
+<span class="kw">impl</span>&lt;T&gt; Clone <span class="kw">for </span>Iter&lt;<span class="lifetime">'_</span>, T&gt; {
     <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             entries: <span class="self">self</span>.entries.clone(),
@@ -1828,30 +1913,13 @@
     /// The function does not allocate and the returned slab will have no
     /// capacity until `insert` is called or capacity is explicitly reserved.
     ///
-    /// This is `const fn` on Rust 1.39+.
-    ///
     /// # Examples
     ///
     /// ```
     /// # use slab::*;
     /// let slab: Slab&lt;i32&gt; = Slab::new();
     /// ```
-    </span><span class="attr">#[cfg(not(slab_no_const_vec_new))]
     </span><span class="kw">pub const fn </span>new() -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            entries: Vec::new(),
-            next: <span class="number">0</span>,
-            len: <span class="number">0</span>,
-        }
-    }
-    <span class="doccomment">/// Construct a new, empty `Slab`.
-    ///
-    /// The function does not allocate and the returned slab will have no
-    /// capacity until `insert` is called or capacity is explicitly reserved.
-    ///
-    /// This is `const fn` on Rust 1.39+.
-    </span><span class="attr">#[cfg(slab_no_const_vec_new)]
-    </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             entries: Vec::new(),
             next: <span class="number">0</span>,
@@ -2379,6 +2447,49 @@
         }
     }
 
+    <span class="doccomment">/// Returns mutable references to many indices at once.
+    ///
+    /// Returns [`GetDisjointMutError`] if the indices are out of bounds,
+    /// overlapping, or vacant.
+    </span><span class="kw">pub fn </span>get_disjoint_mut&lt;<span class="kw">const </span>N: usize&gt;(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        keys: [usize; N],
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;[<span class="kw-2">&amp;mut </span>T; N], GetDisjointMutError&gt; {
+        <span class="comment">// NB: The optimizer should inline the loops into a sequence
+        // of instructions without additional branching.
+        </span><span class="kw">for </span>(i, <span class="kw-2">&amp;</span>key) <span class="kw">in </span>keys.iter().enumerate() {
+            <span class="kw">for </span><span class="kw-2">&amp;</span>prev_key <span class="kw">in </span><span class="kw-2">&amp;</span>keys[..i] {
+                <span class="kw">if </span>key == prev_key {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(GetDisjointMutError::OverlappingIndices);
+                }
+            }
+        }
+
+        <span class="kw">let </span>entries_ptr = <span class="self">self</span>.entries.as_mut_ptr();
+        <span class="kw">let </span>entries_cap = <span class="self">self</span>.entries.capacity();
+
+        <span class="kw">let </span><span class="kw-2">mut </span>res = MaybeUninit::&lt;[<span class="kw-2">&amp;mut </span>T; N]&gt;::uninit();
+        <span class="kw">let </span>res_ptr = res.as_mut_ptr() <span class="kw">as </span><span class="kw-2">*mut &amp;mut </span>T;
+
+        <span class="kw">for </span>(i, <span class="kw-2">&amp;</span>key) <span class="kw">in </span>keys.iter().enumerate() {
+            <span class="kw">if </span>key &gt;= entries_cap {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(GetDisjointMutError::IndexOutOfBounds);
+            }
+            <span class="comment">// SAFETY: we made sure above that this key is in bounds.
+            </span><span class="kw">match unsafe </span>{ <span class="kw-2">&amp;mut *</span>entries_ptr.add(key) } {
+                Entry::Vacant(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(GetDisjointMutError::IndexVacant),
+                Entry::Occupied(entry) =&gt; {
+                    <span class="comment">// SAFETY: `res` and `keys` both have N elements so `i` must be in bounds.
+                    // We checked above that all selected `entry`s are distinct.
+                    </span><span class="kw">unsafe </span>{ res_ptr.add(i).write(entry) };
+                }
+            }
+        }
+        <span class="comment">// SAFETY: the loop above only terminates successfully if it initialized
+        // all elements of this array.
+        </span><span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ res.assume_init() })
+    }
+
     <span class="doccomment">/// Return a reference to the value associated with the given key without
     /// performing bounds checking.
     ///
@@ -2515,7 +2626,7 @@
     /// slab.key_of(bad); // this will panic
     /// unreachable!();
     /// ```
-    </span><span class="attr">#[cfg_attr(not(slab_no_track_caller), track_caller)]
+    </span><span class="attr">#[track_caller]
     </span><span class="kw">pub fn </span>key_of(<span class="kw-2">&amp;</span><span class="self">self</span>, present_element: <span class="kw-2">&amp;</span>T) -&gt; usize {
         <span class="kw">let </span>element_ptr = present_element <span class="kw">as </span><span class="kw-2">*const </span>T <span class="kw">as </span>usize;
         <span class="kw">let </span>base_ptr = <span class="self">self</span>.entries.as_ptr() <span class="kw">as </span>usize;
@@ -2684,7 +2795,7 @@
     /// assert_eq!(slab.remove(hello), "hello");
     /// assert!(!slab.contains(hello));
     /// ```
-    </span><span class="attr">#[cfg_attr(not(slab_no_track_caller), track_caller)]
+    </span><span class="attr">#[track_caller]
     </span><span class="kw">pub fn </span>remove(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: usize) -&gt; T {
         <span class="self">self</span>.try_remove(key).expect(<span class="string">"invalid key"</span>)
     }
@@ -2705,10 +2816,7 @@
     /// assert!(!slab.contains(hello));
     /// ```
     </span><span class="kw">pub fn </span>contains(<span class="kw-2">&amp;</span><span class="self">self</span>, key: usize) -&gt; bool {
-        <span class="kw">match </span><span class="self">self</span>.entries.get(key) {
-            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Entry::Occupied(<span class="kw">_</span>)) =&gt; <span class="bool-val">true</span>,
-            <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
-        }
+        <span class="macro">matches!</span>(<span class="self">self</span>.entries.get(key), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Entry::Occupied(<span class="kw">_</span>)))
     }
 
     <span class="doccomment">/// Retain only the elements specified by the predicate.
@@ -2792,7 +2900,7 @@
 <span class="kw">impl</span>&lt;T&gt; ops::Index&lt;usize&gt; <span class="kw">for </span>Slab&lt;T&gt; {
     <span class="kw">type </span>Output = T;
 
-    <span class="attr">#[cfg_attr(not(slab_no_track_caller), track_caller)]
+    <span class="attr">#[track_caller]
     </span><span class="kw">fn </span>index(<span class="kw-2">&amp;</span><span class="self">self</span>, key: usize) -&gt; <span class="kw-2">&amp;</span>T {
         <span class="kw">match </span><span class="self">self</span>.entries.get(key) {
             <span class="prelude-val">Some</span>(Entry::Occupied(v)) =&gt; v,
@@ -2802,7 +2910,7 @@
 }
 
 <span class="kw">impl</span>&lt;T&gt; ops::IndexMut&lt;usize&gt; <span class="kw">for </span>Slab&lt;T&gt; {
-    <span class="attr">#[cfg_attr(not(slab_no_track_caller), track_caller)]
+    <span class="attr">#[track_caller]
     </span><span class="kw">fn </span>index_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: usize) -&gt; <span class="kw-2">&amp;mut </span>T {
         <span class="kw">match </span><span class="self">self</span>.entries.get_mut(key) {
             <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>Entry::Occupied(<span class="kw-2">ref mut </span>v)) =&gt; v,

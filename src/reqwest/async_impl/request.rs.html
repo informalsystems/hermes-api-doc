@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/reqwest-0.12.15/src/async_impl/request.rs`."><title>request.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="reqwest" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">reqwest/async_impl/</div>request.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/reqwest-0.12.20/src/async_impl/request.rs`."><title>request.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="reqwest" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">reqwest/async_impl/</div>request.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1133,7 +1133,15 @@
 <a href="#1132" id="1132">1132</a>
 <a href="#1133" id="1133">1133</a>
 <a href="#1134" id="1134">1134</a>
-<a href="#1135" id="1135">1135</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::convert::TryFrom;
+<a href="#1135" id="1135">1135</a>
+<a href="#1136" id="1136">1136</a>
+<a href="#1137" id="1137">1137</a>
+<a href="#1138" id="1138">1138</a>
+<a href="#1139" id="1139">1139</a>
+<a href="#1140" id="1140">1140</a>
+<a href="#1141" id="1141">1141</a>
+<a href="#1142" id="1142">1142</a>
+<a href="#1143" id="1143">1143</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::convert::TryFrom;
 <span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::future::Future;
 <span class="kw">use </span>std::time::Duration;
@@ -1147,11 +1155,12 @@
 <span class="attr">#[cfg(feature = <span class="string">"multipart"</span>)]
 </span><span class="kw">use </span><span class="kw">super</span>::multipart;
 <span class="kw">use </span><span class="kw">super</span>::response::Response;
+<span class="kw">use </span><span class="kw">crate</span>::config::{RequestConfig, RequestTimeout};
 <span class="attr">#[cfg(feature = <span class="string">"multipart"</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::header::CONTENT_LENGTH;
 <span class="kw">use </span><span class="kw">crate</span>::header::{HeaderMap, HeaderName, HeaderValue, CONTENT_TYPE};
 <span class="kw">use crate</span>::{Method, Url};
-<span class="kw">use </span>http::{request::Parts, Request <span class="kw">as </span>HttpRequest, Version};
+<span class="kw">use </span>http::{request::Parts, Extensions, Request <span class="kw">as </span>HttpRequest, Version};
 
 <span class="doccomment">/// A request which can be executed with `Client::execute()`.
 </span><span class="kw">pub struct </span>Request {
@@ -1159,8 +1168,8 @@
     url: Url,
     headers: HeaderMap,
     body: <span class="prelude-ty">Option</span>&lt;Body&gt;,
-    timeout: <span class="prelude-ty">Option</span>&lt;Duration&gt;,
     version: Version,
+    extensions: Extensions,
 }
 
 <span class="doccomment">/// A builder to construct the properties of a `Request`.
@@ -1181,8 +1190,8 @@
             url,
             headers: HeaderMap::new(),
             body: <span class="prelude-val">None</span>,
-            timeout: <span class="prelude-val">None</span>,
             version: Version::default(),
+            extensions: Extensions::new(),
         }
     }
 
@@ -1234,16 +1243,28 @@
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.body
     }
 
+    <span class="doccomment">/// Get the extensions.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>extensions(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Extensions {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.extensions
+    }
+
+    <span class="doccomment">/// Get a mutable reference to the extensions.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>extensions_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Extensions {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.extensions
+    }
+
     <span class="doccomment">/// Get the timeout.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>timeout(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Duration&gt; {
-        <span class="self">self</span>.timeout.as_ref()
+        RequestConfig::&lt;RequestTimeout&gt;::get(<span class="kw-2">&amp;</span><span class="self">self</span>.extensions)
     }
 
     <span class="doccomment">/// Get a mutable reference to the timeout.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>timeout_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="prelude-ty">Option</span>&lt;Duration&gt; {
-        <span class="kw-2">&amp;mut </span><span class="self">self</span>.timeout
+        RequestConfig::&lt;RequestTimeout&gt;::get_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>.extensions)
     }
 
     <span class="doccomment">/// Get the http version.
@@ -1270,27 +1291,19 @@
         <span class="kw-2">*</span>req.timeout_mut() = <span class="self">self</span>.timeout().copied();
         <span class="kw-2">*</span>req.headers_mut() = <span class="self">self</span>.headers().clone();
         <span class="kw-2">*</span>req.version_mut() = <span class="self">self</span>.version();
+        <span class="kw-2">*</span>req.extensions_mut() = <span class="self">self</span>.extensions().clone();
         req.body = body;
         <span class="prelude-val">Some</span>(req)
     }
 
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>pieces(
-        <span class="self">self</span>,
-    ) -&gt; (
-        Method,
-        Url,
-        HeaderMap,
-        <span class="prelude-ty">Option</span>&lt;Body&gt;,
-        <span class="prelude-ty">Option</span>&lt;Duration&gt;,
-        Version,
-    ) {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>pieces(<span class="self">self</span>) -&gt; (Method, Url, HeaderMap, <span class="prelude-ty">Option</span>&lt;Body&gt;, Version, Extensions) {
         (
             <span class="self">self</span>.method,
             <span class="self">self</span>.url,
             <span class="self">self</span>.headers,
             <span class="self">self</span>.body,
-            <span class="self">self</span>.timeout,
             <span class="self">self</span>.version,
+            <span class="self">self</span>.extensions,
         )
     }
 }
@@ -1747,6 +1760,7 @@
             uri,
             headers,
             version,
+            extensions,
             ..
         } = parts;
         <span class="kw">let </span>url = Url::parse(<span class="kw-2">&amp;</span>uri.to_string()).map_err(<span class="kw">crate</span>::error::builder)<span class="question-mark">?</span>;
@@ -1755,8 +1769,8 @@
             url,
             headers,
             body: <span class="prelude-val">Some</span>(body.into()),
-            timeout: <span class="prelude-val">None</span>,
             version,
+            extensions,
         })
     }
 }
@@ -1771,6 +1785,7 @@
             headers,
             body,
             version,
+            extensions,
             ..
         } = req;
 
@@ -1782,6 +1797,7 @@
             .map_err(<span class="kw">crate</span>::error::builder)<span class="question-mark">?</span>;
 
         <span class="kw-2">*</span>req.headers_mut() = headers;
+        <span class="kw-2">*</span>req.extensions_mut() = extensions;
         <span class="prelude-val">Ok</span>(req)
     }
 }

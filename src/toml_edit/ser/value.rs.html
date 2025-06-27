@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/toml_edit-0.22.26/src/ser/value.rs`."><title>value.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="toml_edit" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">toml_edit/ser/</div>value.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/toml_edit-0.22.27/src/ser/value.rs`."><title>value.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="toml_edit" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">toml_edit/ser/</div>value.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -247,15 +247,11 @@
 <a href="#246" id="246">246</a>
 <a href="#247" id="247">247</a>
 <a href="#248" id="248">248</a>
-<a href="#249" id="249">249</a>
-<a href="#250" id="250">250</a>
-<a href="#251" id="251">251</a>
-<a href="#252" id="252">252</a>
-<a href="#253" id="253">253</a>
-<a href="#254" id="254">254</a>
-<a href="#255" id="255">255</a>
-<a href="#256" id="256">256</a>
-<a href="#257" id="257">257</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::Error;
+<a href="#249" id="249">249</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::Error;
+<span class="kw">use </span><span class="kw">super</span>::SerializeMap;
+<span class="kw">use </span><span class="kw">super</span>::SerializeStructVariant;
+<span class="kw">use </span><span class="kw">super</span>::SerializeTupleVariant;
+<span class="kw">use </span><span class="kw">super</span>::SerializeValueArray;
 
 <span class="doccomment">/// Serialization for TOML [values][crate::Value].
 ///
@@ -318,13 +314,13 @@
 <span class="kw">impl </span>serde::ser::Serializer <span class="kw">for </span>ValueSerializer {
     <span class="kw">type </span><span class="prelude-val">Ok </span>= <span class="kw">crate</span>::Value;
     <span class="kw">type </span>Error = Error;
-    <span class="kw">type </span>SerializeSeq = <span class="kw">super</span>::array::SerializeValueArray;
-    <span class="kw">type </span>SerializeTuple = <span class="kw">super</span>::array::SerializeValueArray;
-    <span class="kw">type </span>SerializeTupleStruct = <span class="kw">super</span>::array::SerializeValueArray;
-    <span class="kw">type </span>SerializeTupleVariant = <span class="kw">super</span>::array::SerializeTupleVariant;
-    <span class="kw">type </span>SerializeMap = <span class="kw">super</span>::map::SerializeMap;
-    <span class="kw">type </span>SerializeStruct = <span class="kw">super</span>::map::SerializeMap;
-    <span class="kw">type </span>SerializeStructVariant = <span class="kw">super</span>::map::SerializeStructVariant;
+    <span class="kw">type </span>SerializeSeq = SerializeValueArray;
+    <span class="kw">type </span>SerializeTuple = SerializeValueArray;
+    <span class="kw">type </span>SerializeTupleStruct = SerializeValueArray;
+    <span class="kw">type </span>SerializeTupleVariant = SerializeTupleVariant;
+    <span class="kw">type </span>SerializeMap = SerializeMap;
+    <span class="kw">type </span>SerializeStruct = SerializeMap;
+    <span class="kw">type </span>SerializeStructVariant = SerializeStructVariant;
 
     <span class="kw">fn </span>serialize_bool(<span class="self">self</span>, v: bool) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Ok, <span class="self">Self</span>::Error&gt; {
         <span class="prelude-val">Ok</span>(v.into())
@@ -453,11 +449,7 @@
     }
 
     <span class="kw">fn </span>serialize_seq(<span class="self">self</span>, len: <span class="prelude-ty">Option</span>&lt;usize&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::SerializeSeq, <span class="self">Self</span>::Error&gt; {
-        <span class="kw">let </span>serializer = <span class="kw">match </span>len {
-            <span class="prelude-val">Some</span>(len) =&gt; <span class="kw">super</span>::array::SerializeValueArray::with_capacity(len),
-            <span class="prelude-val">None </span>=&gt; <span class="kw">super</span>::array::SerializeValueArray::new(),
-        };
-        <span class="prelude-val">Ok</span>(serializer)
+        <span class="prelude-val">Ok</span>(SerializeValueArray::seq(len))
     }
 
     <span class="kw">fn </span>serialize_tuple(<span class="self">self</span>, len: usize) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::SerializeTuple, <span class="self">Self</span>::Error&gt; {
@@ -479,15 +471,11 @@
         variant: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
         len: usize,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::SerializeTupleVariant, <span class="self">Self</span>::Error&gt; {
-        <span class="prelude-val">Ok</span>(<span class="kw">super</span>::array::SerializeTupleVariant::tuple(variant, len))
+        <span class="prelude-val">Ok</span>(SerializeTupleVariant::tuple(variant, len))
     }
 
     <span class="kw">fn </span>serialize_map(<span class="self">self</span>, len: <span class="prelude-ty">Option</span>&lt;usize&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::SerializeMap, <span class="self">Self</span>::Error&gt; {
-        <span class="kw">let </span>serializer = <span class="kw">match </span>len {
-            <span class="prelude-val">Some</span>(len) =&gt; <span class="kw">super</span>::map::SerializeMap::table_with_capacity(len),
-            <span class="prelude-val">None </span>=&gt; <span class="kw">super</span>::map::SerializeMap::table(),
-        };
-        <span class="prelude-val">Ok</span>(serializer)
+        <span class="prelude-val">Ok</span>(SerializeMap::map(len))
     }
 
     <span class="kw">fn </span>serialize_struct(
@@ -495,11 +483,7 @@
         name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
         len: usize,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::SerializeStruct, <span class="self">Self</span>::Error&gt; {
-        <span class="kw">if </span>name == toml_datetime::__unstable::NAME {
-            <span class="prelude-val">Ok</span>(<span class="kw">super</span>::map::SerializeMap::datetime())
-        } <span class="kw">else </span>{
-            <span class="self">self</span>.serialize_map(<span class="prelude-val">Some</span>(len))
-        }
+        <span class="prelude-val">Ok</span>(SerializeMap::struct_(name, <span class="prelude-val">Some</span>(len)))
     }
 
     <span class="kw">fn </span>serialize_struct_variant(
@@ -509,7 +493,7 @@
         variant: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
         len: usize,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::SerializeStructVariant, <span class="self">Self</span>::Error&gt; {
-        <span class="prelude-val">Ok</span>(<span class="kw">super</span>::map::SerializeStructVariant::struct_(variant, len))
+        <span class="prelude-val">Ok</span>(SerializeStructVariant::struct_(variant, len))
     }
 }
 </code></pre></div></section></main></body></html>

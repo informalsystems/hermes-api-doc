@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/fiat-crypto-0.2.9/src/p448_solinas_64.rs`."><title>p448_solinas_64.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fiat_crypto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">fiat_crypto/</div>p448_solinas_64.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/fiat-crypto-0.3.0/src/p448_solinas_64.rs`."><title>p448_solinas_64.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fiat_crypto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">fiat_crypto/</div>p448_solinas_64.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -942,7 +942,59 @@
 <a href="#941" id="941">941</a>
 <a href="#942" id="942">942</a>
 <a href="#943" id="943">943</a>
-<a href="#944" id="944">944</a></pre></div><pre class="rust"><code><span class="doccomment">//! Autogenerated: 'src/ExtractionOCaml/unsaturated_solinas' --lang Rust --inline p448 64 8 '2^448 - 2^224 - 1' carry_mul carry_square carry add sub opp selectznz to_bytes from_bytes relax
+<a href="#944" id="944">944</a>
+<a href="#945" id="945">945</a>
+<a href="#946" id="946">946</a>
+<a href="#947" id="947">947</a>
+<a href="#948" id="948">948</a>
+<a href="#949" id="949">949</a>
+<a href="#950" id="950">950</a>
+<a href="#951" id="951">951</a>
+<a href="#952" id="952">952</a>
+<a href="#953" id="953">953</a>
+<a href="#954" id="954">954</a>
+<a href="#955" id="955">955</a>
+<a href="#956" id="956">956</a>
+<a href="#957" id="957">957</a>
+<a href="#958" id="958">958</a>
+<a href="#959" id="959">959</a>
+<a href="#960" id="960">960</a>
+<a href="#961" id="961">961</a>
+<a href="#962" id="962">962</a>
+<a href="#963" id="963">963</a>
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a>
+<a href="#968" id="968">968</a>
+<a href="#969" id="969">969</a>
+<a href="#970" id="970">970</a>
+<a href="#971" id="971">971</a>
+<a href="#972" id="972">972</a>
+<a href="#973" id="973">973</a>
+<a href="#974" id="974">974</a>
+<a href="#975" id="975">975</a>
+<a href="#976" id="976">976</a>
+<a href="#977" id="977">977</a>
+<a href="#978" id="978">978</a>
+<a href="#979" id="979">979</a>
+<a href="#980" id="980">980</a>
+<a href="#981" id="981">981</a>
+<a href="#982" id="982">982</a>
+<a href="#983" id="983">983</a>
+<a href="#984" id="984">984</a>
+<a href="#985" id="985">985</a>
+<a href="#986" id="986">986</a>
+<a href="#987" id="987">987</a>
+<a href="#988" id="988">988</a>
+<a href="#989" id="989">989</a>
+<a href="#990" id="990">990</a>
+<a href="#991" id="991">991</a>
+<a href="#992" id="992">992</a>
+<a href="#993" id="993">993</a>
+<a href="#994" id="994">994</a>
+<a href="#995" id="995">995</a>
+<a href="#996" id="996">996</a></pre></div><pre class="rust"><code><span class="doccomment">//! Autogenerated: 'src/ExtractionOCaml/unsaturated_solinas' --lang Rust --inline p448 64 8 '2^448 - 2^224 - 1' carry_mul carry_square carry add sub opp selectznz to_bytes from_bytes relax
 //! curve description: p448
 //! machine_wordsize = 64 (from "64")
 //! requested operations: carry_mul, carry_square, carry, add, sub, opp, selectznz, to_bytes, from_bytes, relax
@@ -959,7 +1011,27 @@
 </span><span class="attr">#![allow(unused_parens)]
 #![allow(non_camel_case_types)]
 
-</span><span class="doccomment">/** fiat_p448_u1 represents values of 1 bits, stored in one byte. */
+</span><span class="doccomment">/// Since `Index` and `IndexMut` aren't callable in `const` contexts yet, this helper type helps unify
+/// arrays and user-defined array-wrapper types into a single type which can be indexed in `const`
+/// contexts. Once `const trait`s are stabilized this type can go away
+</span><span class="kw">struct </span>IndexConst&lt;T: <span class="question-mark">?</span>Sized&gt;(T);
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T, <span class="kw">const </span>N: usize&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[T; N]&gt; {
+    <span class="attr">#[inline(always)]
+    #[allow(unused)]
+    </span><span class="kw">const fn </span>index(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>T {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>[i]
+    }
+}
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, T, <span class="kw">const </span>N: usize&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut &amp;</span><span class="lifetime">'b </span><span class="kw-2">mut </span>[T; N]&gt; {
+    <span class="attr">#[inline(always)]
+    #[allow(unused)]
+    </span><span class="kw">const fn </span>index_mut(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>T {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0</span>[i]
+    }
+}
+
+<span class="doccomment">/** fiat_p448_u1 represents values of 1 bits, stored in one byte. */
 </span><span class="kw">pub type </span>fiat_p448_u1 = u8;
 <span class="doccomment">/** fiat_p448_i1 represents values of 1 bits, stored in one byte. */
 </span><span class="kw">pub type </span>fiat_p448_i1 = i8;
@@ -988,6 +1060,22 @@
     }
 }
 
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>fiat_p448_loose_field_element&gt; {
+    <span class="attr">#[allow(unused)]
+    #[inline(always)]
+    </span><span class="kw">const fn </span>index(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>u64 {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0.0</span>[i]
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut &amp;</span><span class="lifetime">'b </span><span class="kw-2">mut </span>fiat_p448_loose_field_element&gt; {
+    <span class="attr">#[allow(unused)]
+    #[inline(always)]
+    </span><span class="kw">const fn </span>index_mut(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>u64 {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0.0</span>[i]
+    }
+}
+
 <span class="doccomment">/** The type fiat_p448_tight_field_element is a field element with tight bounds. */
 /** Bounds: [[0x0 ~&gt; 0x100000000000000], [0x0 ~&gt; 0x100000000000000], [0x0 ~&gt; 0x100000000000000], [0x0 ~&gt; 0x100000000000000], [0x0 ~&gt; 0x100000000000000], [0x0 ~&gt; 0x100000000000000], [0x0 ~&gt; 0x100000000000000], [0x0 ~&gt; 0x100000000000000]] */
 </span><span class="attr">#[derive(Clone, Copy)]
@@ -1008,6 +1096,22 @@
     }
 }
 
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>fiat_p448_tight_field_element&gt; {
+    <span class="attr">#[allow(unused)]
+    #[inline(always)]
+    </span><span class="kw">const fn </span>index(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>u64 {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0.0</span>[i]
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; IndexConst&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut &amp;</span><span class="lifetime">'b </span><span class="kw-2">mut </span>fiat_p448_tight_field_element&gt; {
+    <span class="attr">#[allow(unused)]
+    #[inline(always)]
+    </span><span class="kw">const fn </span>index_mut(<span class="self">self</span>, i: usize) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>u64 {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0.0</span>[i]
+    }
+}
+
 
 <span class="doccomment">/// The function fiat_p448_addcarryx_u56 is an addition with carry.
 ///
@@ -1023,7 +1127,7 @@
 ///   out1: [0x0 ~&gt; 0xffffffffffffff]
 ///   out2: [0x0 ~&gt; 0x1]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_addcarryx_u56(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>fiat_p448_u1, arg1: fiat_p448_u1, arg2: u64, arg3: u64) {
+</span><span class="kw">pub const fn </span>fiat_p448_addcarryx_u56(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>fiat_p448_u1, arg1: fiat_p448_u1, arg2: u64, arg3: u64) {
   <span class="kw">let </span>x1: u64 = (((arg1 <span class="kw">as </span>u64) + arg2) + arg3);
   <span class="kw">let </span>x2: u64 = (x1 &amp; <span class="number">0xffffffffffffff</span>);
   <span class="kw">let </span>x3: fiat_p448_u1 = ((x1 &gt;&gt; <span class="number">56</span>) <span class="kw">as </span>fiat_p448_u1);
@@ -1045,7 +1149,7 @@
 ///   out1: [0x0 ~&gt; 0xffffffffffffff]
 ///   out2: [0x0 ~&gt; 0x1]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_subborrowx_u56(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>fiat_p448_u1, arg1: fiat_p448_u1, arg2: u64, arg3: u64) {
+</span><span class="kw">pub const fn </span>fiat_p448_subborrowx_u56(out1: <span class="kw-2">&amp;mut </span>u64, out2: <span class="kw-2">&amp;mut </span>fiat_p448_u1, arg1: fiat_p448_u1, arg2: u64, arg3: u64) {
   <span class="kw">let </span>x1: i64 = ((((((arg2 <span class="kw">as </span>i128) - (arg1 <span class="kw">as </span>i128)) <span class="kw">as </span>i64) <span class="kw">as </span>i128) - (arg3 <span class="kw">as </span>i128)) <span class="kw">as </span>i64);
   <span class="kw">let </span>x2: fiat_p448_i1 = ((x1 &gt;&gt; <span class="number">56</span>) <span class="kw">as </span>fiat_p448_i1);
   <span class="kw">let </span>x3: u64 = (((x1 <span class="kw">as </span>i128) &amp; (<span class="number">0xffffffffffffff </span><span class="kw">as </span>i128)) <span class="kw">as </span>u64);
@@ -1065,7 +1169,7 @@
 /// Output Bounds:
 ///   out1: [0x0 ~&gt; 0xffffffffffffffff]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_cmovznz_u64(out1: <span class="kw-2">&amp;mut </span>u64, arg1: fiat_p448_u1, arg2: u64, arg3: u64) {
+</span><span class="kw">pub const fn </span>fiat_p448_cmovznz_u64(out1: <span class="kw-2">&amp;mut </span>u64, arg1: fiat_p448_u1, arg2: u64, arg3: u64) {
   <span class="kw">let </span>x1: fiat_p448_u1 = (!(!arg1));
   <span class="kw">let </span>x2: u64 = ((((((<span class="number">0x0 </span><span class="kw">as </span>fiat_p448_i2) - (x1 <span class="kw">as </span>fiat_p448_i2)) <span class="kw">as </span>fiat_p448_i1) <span class="kw">as </span>i128) &amp; (<span class="number">0xffffffffffffffff </span><span class="kw">as </span>i128)) <span class="kw">as </span>u64);
   <span class="kw">let </span>x3: u64 = ((x2 &amp; arg3) | ((!x2) &amp; arg2));
@@ -1078,105 +1182,105 @@
 ///   eval out1 mod m = (eval arg1 * eval arg2) mod m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_carry_mul(out1: <span class="kw-2">&amp;mut </span>fiat_p448_tight_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_loose_field_element, arg2: <span class="kw-2">&amp;</span>fiat_p448_loose_field_element) {
-  <span class="kw">let </span>x1: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x2: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x3: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x4: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x5: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x6: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x7: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x8: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x9: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x10: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x11: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x12: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x13: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x14: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x15: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x16: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">4</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x17: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">3</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x18: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">2</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x19: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">1</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x20: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x21: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x22: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x23: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">4</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x24: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">3</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x25: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">2</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x26: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x27: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x28: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x29: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">4</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x30: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">3</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x31: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x32: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x33: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x34: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">4</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x35: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x36: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x37: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x38: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x39: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x40: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x41: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">4</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x42: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">3</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x43: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">2</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x44: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">1</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x45: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x46: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">4</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x47: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">3</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x48: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">2</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x49: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x50: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x51: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">4</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x52: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">3</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x53: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x54: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x55: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x56: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">4</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x57: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x58: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x59: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x60: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x61: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x62: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x63: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">0</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x64: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">1</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x65: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">0</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x66: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">2</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x67: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">1</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x68: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">0</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x69: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">3</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x70: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">2</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x71: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">1</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x72: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">0</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x73: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">4</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x74: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">3</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x75: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">2</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x76: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">1</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x77: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">0</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x78: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x79: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">4</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x80: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">3</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x81: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">2</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x82: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">1</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x83: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">0</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x84: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x85: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x86: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">4</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x87: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">3</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x88: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">2</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x89: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">1</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x90: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">0</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x91: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">7</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x92: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">6</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x93: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">5</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x94: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">4</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x95: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">3</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x96: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">2</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x97: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">1</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x98: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * ((arg2[<span class="number">0</span>]) <span class="kw">as </span>u128));
+</span><span class="kw">pub const fn </span>fiat_p448_carry_mul(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_p448_tight_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_loose_field_element, arg2: <span class="kw-2">&amp;</span>fiat_p448_loose_field_element) {
+  <span class="kw">let </span>x1: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x2: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x3: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x4: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x5: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x6: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x7: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x8: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x9: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x10: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x11: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x12: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x13: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x14: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x15: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x16: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x17: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x18: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x19: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x20: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x21: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x22: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x23: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x24: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x25: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x26: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x27: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x28: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x29: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x30: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x31: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x32: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x33: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x34: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x35: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x36: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x37: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x38: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x39: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x40: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x41: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x42: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x43: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x44: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x45: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x46: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x47: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x48: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x49: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x50: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x51: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x52: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x53: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x54: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x55: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x56: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x57: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x58: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x59: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x60: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x61: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x62: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x63: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x64: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x65: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x66: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x67: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x68: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x69: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x70: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x71: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x72: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x73: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x74: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x75: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x76: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x77: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x78: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x79: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x80: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x81: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x82: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x83: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x84: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x85: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x86: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x87: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x88: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x89: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x90: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x91: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x92: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x93: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x94: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x95: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x96: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x97: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x98: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)) <span class="kw">as </span>u128));
   <span class="kw">let </span>x99: u128 = (x95 + (x88 + (x82 + (x77 + (x31 + (x27 + (x22 + x16)))))));
   <span class="kw">let </span>x100: u64 = ((x99 &gt;&gt; <span class="number">56</span>) <span class="kw">as </span>u64);
   <span class="kw">let </span>x101: u64 = ((x99 &amp; (<span class="number">0xffffffffffffff </span><span class="kw">as </span>u128)) <span class="kw">as </span>u64);
@@ -1223,14 +1327,14 @@
   <span class="kw">let </span>x142: fiat_p448_u1 = ((x137 &gt;&gt; <span class="number">56</span>) <span class="kw">as </span>fiat_p448_u1);
   <span class="kw">let </span>x143: u64 = (x137 &amp; <span class="number">0xffffffffffffff</span>);
   <span class="kw">let </span>x144: u64 = ((x142 <span class="kw">as </span>u64) + x124);
-  out1[<span class="number">0</span>] = x143;
-  out1[<span class="number">1</span>] = x144;
-  out1[<span class="number">2</span>] = x130;
-  out1[<span class="number">3</span>] = x135;
-  out1[<span class="number">4</span>] = x140;
-  out1[<span class="number">5</span>] = x141;
-  out1[<span class="number">6</span>] = x127;
-  out1[<span class="number">7</span>] = x133;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x143;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x144;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x130;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x135;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">4</span>) = x140;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">5</span>) = x141;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">6</span>) = x127;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">7</span>) = x133;
 }
 
 <span class="doccomment">/// The function fiat_p448_carry_square squares a field element and reduces the result.
@@ -1239,84 +1343,84 @@
 ///   eval out1 mod m = (eval arg1 * eval arg1) mod m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_carry_square(out1: <span class="kw-2">&amp;mut </span>fiat_p448_tight_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_loose_field_element) {
-  <span class="kw">let </span>x1: u64 = (arg1[<span class="number">7</span>]);
-  <span class="kw">let </span>x2: u64 = (arg1[<span class="number">7</span>]);
+</span><span class="kw">pub const fn </span>fiat_p448_carry_square(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_p448_tight_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_loose_field_element) {
+  <span class="kw">let </span>x1: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>));
+  <span class="kw">let </span>x2: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>));
   <span class="kw">let </span>x3: u64 = (x1 * <span class="number">0x2</span>);
   <span class="kw">let </span>x4: u64 = (x2 * <span class="number">0x2</span>);
-  <span class="kw">let </span>x5: u64 = ((arg1[<span class="number">7</span>]) * <span class="number">0x2</span>);
-  <span class="kw">let </span>x6: u64 = (arg1[<span class="number">6</span>]);
-  <span class="kw">let </span>x7: u64 = (arg1[<span class="number">6</span>]);
+  <span class="kw">let </span>x5: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) * <span class="number">0x2</span>);
+  <span class="kw">let </span>x6: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>));
+  <span class="kw">let </span>x7: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>));
   <span class="kw">let </span>x8: u64 = (x6 * <span class="number">0x2</span>);
   <span class="kw">let </span>x9: u64 = (x7 * <span class="number">0x2</span>);
-  <span class="kw">let </span>x10: u64 = ((arg1[<span class="number">6</span>]) * <span class="number">0x2</span>);
-  <span class="kw">let </span>x11: u64 = (arg1[<span class="number">5</span>]);
-  <span class="kw">let </span>x12: u64 = (arg1[<span class="number">5</span>]);
+  <span class="kw">let </span>x10: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) * <span class="number">0x2</span>);
+  <span class="kw">let </span>x11: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>));
+  <span class="kw">let </span>x12: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>));
   <span class="kw">let </span>x13: u64 = (x11 * <span class="number">0x2</span>);
   <span class="kw">let </span>x14: u64 = (x12 * <span class="number">0x2</span>);
-  <span class="kw">let </span>x15: u64 = ((arg1[<span class="number">5</span>]) * <span class="number">0x2</span>);
-  <span class="kw">let </span>x16: u64 = (arg1[<span class="number">4</span>]);
-  <span class="kw">let </span>x17: u64 = (arg1[<span class="number">4</span>]);
-  <span class="kw">let </span>x18: u64 = ((arg1[<span class="number">4</span>]) * <span class="number">0x2</span>);
-  <span class="kw">let </span>x19: u64 = ((arg1[<span class="number">3</span>]) * <span class="number">0x2</span>);
-  <span class="kw">let </span>x20: u64 = ((arg1[<span class="number">2</span>]) * <span class="number">0x2</span>);
-  <span class="kw">let </span>x21: u64 = ((arg1[<span class="number">1</span>]) * <span class="number">0x2</span>);
-  <span class="kw">let </span>x22: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * (x1 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x23: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x24: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * (x6 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x25: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x26: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * (x1 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x27: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x28: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * (x6 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x29: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x30: u128 = (((arg1[<span class="number">7</span>]) <span class="kw">as </span>u128) * (x2 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x31: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * (x4 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x32: u128 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u128) * (x7 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x33: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * (x4 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x34: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * (x9 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x35: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * (x8 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x36: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * (x12 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x37: u128 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u128) * (x11 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x38: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * (x4 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x39: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x40: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * (x9 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x41: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * (x8 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x42: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * (x14 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x43: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * (x13 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x44: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * (x17 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x45: u128 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u128) * (x16 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x46: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * (x4 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x47: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x48: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * (x9 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x49: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * (x8 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x50: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * (x14 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x51: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * (x13 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x52: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * (x18 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x53: u128 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128) * ((arg1[<span class="number">3</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x54: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * (x4 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x55: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x56: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * (x9 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x57: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * (x8 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x58: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * (x15 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x59: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * (x18 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x60: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * (x19 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x61: u128 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128) * ((arg1[<span class="number">2</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x62: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * (x4 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x63: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x64: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * (x10 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x65: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * (x15 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x66: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * (x18 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x67: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * (x19 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x68: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * (x20 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x69: u128 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128) * ((arg1[<span class="number">1</span>]) <span class="kw">as </span>u128));
-  <span class="kw">let </span>x70: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * (x5 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x71: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * (x10 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x72: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * (x15 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x73: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * (x18 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x74: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * (x19 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x75: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * (x20 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x76: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * (x21 <span class="kw">as </span>u128));
-  <span class="kw">let </span>x77: u128 = (((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128) * ((arg1[<span class="number">0</span>]) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x15: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) * <span class="number">0x2</span>);
+  <span class="kw">let </span>x16: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>));
+  <span class="kw">let </span>x17: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>));
+  <span class="kw">let </span>x18: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) * <span class="number">0x2</span>);
+  <span class="kw">let </span>x19: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) * <span class="number">0x2</span>);
+  <span class="kw">let </span>x20: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) * <span class="number">0x2</span>);
+  <span class="kw">let </span>x21: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) * <span class="number">0x2</span>);
+  <span class="kw">let </span>x22: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * (x1 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x23: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x24: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * (x6 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x25: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x26: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * (x1 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x27: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x28: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * (x6 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x29: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x30: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) <span class="kw">as </span>u128) * (x2 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x31: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * (x4 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x32: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u128) * (x7 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x33: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * (x4 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x34: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * (x9 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x35: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * (x8 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x36: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * (x12 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x37: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u128) * (x11 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x38: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * (x4 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x39: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x40: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * (x9 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x41: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * (x8 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x42: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * (x14 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x43: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * (x13 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x44: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * (x17 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x45: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u128) * (x16 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x46: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * (x4 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x47: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x48: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * (x9 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x49: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * (x8 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x50: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * (x14 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x51: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * (x13 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x52: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * (x18 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x53: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x54: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * (x4 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x55: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x56: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * (x9 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x57: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * (x8 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x58: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * (x15 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x59: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * (x18 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x60: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * (x19 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x61: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x62: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * (x4 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x63: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * (x3 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x64: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * (x10 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x65: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * (x15 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x66: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * (x18 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x67: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * (x19 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x68: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * (x20 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x69: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u128));
+  <span class="kw">let </span>x70: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * (x5 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x71: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * (x10 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x72: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * (x15 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x73: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * (x18 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x74: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * (x19 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x75: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * (x20 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x76: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * (x21 <span class="kw">as </span>u128));
+  <span class="kw">let </span>x77: u128 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128) * ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) <span class="kw">as </span>u128));
   <span class="kw">let </span>x78: u128 = (x74 + (x68 + (x38 + x34)));
   <span class="kw">let </span>x79: u64 = ((x78 &gt;&gt; <span class="number">56</span>) <span class="kw">as </span>u64);
   <span class="kw">let </span>x80: u64 = ((x78 &amp; (<span class="number">0xffffffffffffff </span><span class="kw">as </span>u128)) <span class="kw">as </span>u64);
@@ -1363,14 +1467,14 @@
   <span class="kw">let </span>x121: fiat_p448_u1 = ((x116 &gt;&gt; <span class="number">56</span>) <span class="kw">as </span>fiat_p448_u1);
   <span class="kw">let </span>x122: u64 = (x116 &amp; <span class="number">0xffffffffffffff</span>);
   <span class="kw">let </span>x123: u64 = ((x121 <span class="kw">as </span>u64) + x103);
-  out1[<span class="number">0</span>] = x122;
-  out1[<span class="number">1</span>] = x123;
-  out1[<span class="number">2</span>] = x109;
-  out1[<span class="number">3</span>] = x114;
-  out1[<span class="number">4</span>] = x119;
-  out1[<span class="number">5</span>] = x120;
-  out1[<span class="number">6</span>] = x106;
-  out1[<span class="number">7</span>] = x112;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x122;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x123;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x109;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x114;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">4</span>) = x119;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">5</span>) = x120;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">6</span>) = x106;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">7</span>) = x112;
 }
 
 <span class="doccomment">/// The function fiat_p448_carry reduces a field element.
@@ -1379,16 +1483,16 @@
 ///   eval out1 mod m = eval arg1 mod m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_carry(out1: <span class="kw-2">&amp;mut </span>fiat_p448_tight_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_loose_field_element) {
-  <span class="kw">let </span>x1: u64 = (arg1[<span class="number">3</span>]);
-  <span class="kw">let </span>x2: u64 = (arg1[<span class="number">7</span>]);
+</span><span class="kw">pub const fn </span>fiat_p448_carry(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_p448_tight_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_loose_field_element) {
+  <span class="kw">let </span>x1: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>));
+  <span class="kw">let </span>x2: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>));
   <span class="kw">let </span>x3: u64 = (x2 &gt;&gt; <span class="number">56</span>);
-  <span class="kw">let </span>x4: u64 = (((x1 &gt;&gt; <span class="number">56</span>) + (arg1[<span class="number">4</span>])) + x3);
-  <span class="kw">let </span>x5: u64 = ((arg1[<span class="number">0</span>]) + x3);
-  <span class="kw">let </span>x6: u64 = ((x4 &gt;&gt; <span class="number">56</span>) + (arg1[<span class="number">5</span>]));
-  <span class="kw">let </span>x7: u64 = ((x5 &gt;&gt; <span class="number">56</span>) + (arg1[<span class="number">1</span>]));
-  <span class="kw">let </span>x8: u64 = ((x6 &gt;&gt; <span class="number">56</span>) + (arg1[<span class="number">6</span>]));
-  <span class="kw">let </span>x9: u64 = ((x7 &gt;&gt; <span class="number">56</span>) + (arg1[<span class="number">2</span>]));
+  <span class="kw">let </span>x4: u64 = (((x1 &gt;&gt; <span class="number">56</span>) + (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>))) + x3);
+  <span class="kw">let </span>x5: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) + x3);
+  <span class="kw">let </span>x6: u64 = ((x4 &gt;&gt; <span class="number">56</span>) + (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)));
+  <span class="kw">let </span>x7: u64 = ((x5 &gt;&gt; <span class="number">56</span>) + (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)));
+  <span class="kw">let </span>x8: u64 = ((x6 &gt;&gt; <span class="number">56</span>) + (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)));
+  <span class="kw">let </span>x9: u64 = ((x7 &gt;&gt; <span class="number">56</span>) + (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)));
   <span class="kw">let </span>x10: u64 = ((x8 &gt;&gt; <span class="number">56</span>) + (x2 &amp; <span class="number">0xffffffffffffff</span>));
   <span class="kw">let </span>x11: u64 = ((x9 &gt;&gt; <span class="number">56</span>) + (x1 &amp; <span class="number">0xffffffffffffff</span>));
   <span class="kw">let </span>x12: fiat_p448_u1 = ((x10 &gt;&gt; <span class="number">56</span>) <span class="kw">as </span>fiat_p448_u1);
@@ -1402,14 +1506,14 @@
   <span class="kw">let </span>x20: u64 = ((((x14 &gt;&gt; <span class="number">56</span>) <span class="kw">as </span>fiat_p448_u1) <span class="kw">as </span>u64) + (x6 &amp; <span class="number">0xffffffffffffff</span>));
   <span class="kw">let </span>x21: u64 = (x8 &amp; <span class="number">0xffffffffffffff</span>);
   <span class="kw">let </span>x22: u64 = (x10 &amp; <span class="number">0xffffffffffffff</span>);
-  out1[<span class="number">0</span>] = x15;
-  out1[<span class="number">1</span>] = x16;
-  out1[<span class="number">2</span>] = x17;
-  out1[<span class="number">3</span>] = x18;
-  out1[<span class="number">4</span>] = x19;
-  out1[<span class="number">5</span>] = x20;
-  out1[<span class="number">6</span>] = x21;
-  out1[<span class="number">7</span>] = x22;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x15;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x16;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x17;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x18;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">4</span>) = x19;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">5</span>) = x20;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">6</span>) = x21;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">7</span>) = x22;
 }
 
 <span class="doccomment">/// The function fiat_p448_add adds two field elements.
@@ -1418,23 +1522,23 @@
 ///   eval out1 mod m = (eval arg1 + eval arg2) mod m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_add(out1: <span class="kw-2">&amp;mut </span>fiat_p448_loose_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element, arg2: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element) {
-  <span class="kw">let </span>x1: u64 = ((arg1[<span class="number">0</span>]) + (arg2[<span class="number">0</span>]));
-  <span class="kw">let </span>x2: u64 = ((arg1[<span class="number">1</span>]) + (arg2[<span class="number">1</span>]));
-  <span class="kw">let </span>x3: u64 = ((arg1[<span class="number">2</span>]) + (arg2[<span class="number">2</span>]));
-  <span class="kw">let </span>x4: u64 = ((arg1[<span class="number">3</span>]) + (arg2[<span class="number">3</span>]));
-  <span class="kw">let </span>x5: u64 = ((arg1[<span class="number">4</span>]) + (arg2[<span class="number">4</span>]));
-  <span class="kw">let </span>x6: u64 = ((arg1[<span class="number">5</span>]) + (arg2[<span class="number">5</span>]));
-  <span class="kw">let </span>x7: u64 = ((arg1[<span class="number">6</span>]) + (arg2[<span class="number">6</span>]));
-  <span class="kw">let </span>x8: u64 = ((arg1[<span class="number">7</span>]) + (arg2[<span class="number">7</span>]));
-  out1[<span class="number">0</span>] = x1;
-  out1[<span class="number">1</span>] = x2;
-  out1[<span class="number">2</span>] = x3;
-  out1[<span class="number">3</span>] = x4;
-  out1[<span class="number">4</span>] = x5;
-  out1[<span class="number">5</span>] = x6;
-  out1[<span class="number">6</span>] = x7;
-  out1[<span class="number">7</span>] = x8;
+</span><span class="kw">pub const fn </span>fiat_p448_add(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_p448_loose_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element, arg2: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element) {
+  <span class="kw">let </span>x1: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)) + (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)));
+  <span class="kw">let </span>x2: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) + (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)));
+  <span class="kw">let </span>x3: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) + (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)));
+  <span class="kw">let </span>x4: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) + (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)));
+  <span class="kw">let </span>x5: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) + (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)));
+  <span class="kw">let </span>x6: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) + (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)));
+  <span class="kw">let </span>x7: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) + (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)));
+  <span class="kw">let </span>x8: u64 = ((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)) + (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)));
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x1;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x2;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x3;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x4;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">4</span>) = x5;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">5</span>) = x6;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">6</span>) = x7;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">7</span>) = x8;
 }
 
 <span class="doccomment">/// The function fiat_p448_sub subtracts two field elements.
@@ -1443,23 +1547,23 @@
 ///   eval out1 mod m = (eval arg1 - eval arg2) mod m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_sub(out1: <span class="kw-2">&amp;mut </span>fiat_p448_loose_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element, arg2: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element) {
-  <span class="kw">let </span>x1: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (arg1[<span class="number">0</span>])) - (arg2[<span class="number">0</span>]));
-  <span class="kw">let </span>x2: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (arg1[<span class="number">1</span>])) - (arg2[<span class="number">1</span>]));
-  <span class="kw">let </span>x3: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (arg1[<span class="number">2</span>])) - (arg2[<span class="number">2</span>]));
-  <span class="kw">let </span>x4: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (arg1[<span class="number">3</span>])) - (arg2[<span class="number">3</span>]));
-  <span class="kw">let </span>x5: u64 = ((<span class="number">0x1fffffffffffffc </span>+ (arg1[<span class="number">4</span>])) - (arg2[<span class="number">4</span>]));
-  <span class="kw">let </span>x6: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (arg1[<span class="number">5</span>])) - (arg2[<span class="number">5</span>]));
-  <span class="kw">let </span>x7: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (arg1[<span class="number">6</span>])) - (arg2[<span class="number">6</span>]));
-  <span class="kw">let </span>x8: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (arg1[<span class="number">7</span>])) - (arg2[<span class="number">7</span>]));
-  out1[<span class="number">0</span>] = x1;
-  out1[<span class="number">1</span>] = x2;
-  out1[<span class="number">2</span>] = x3;
-  out1[<span class="number">3</span>] = x4;
-  out1[<span class="number">4</span>] = x5;
-  out1[<span class="number">5</span>] = x6;
-  out1[<span class="number">6</span>] = x7;
-  out1[<span class="number">7</span>] = x8;
+</span><span class="kw">pub const fn </span>fiat_p448_sub(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_p448_loose_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element, arg2: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element) {
+  <span class="kw">let </span>x1: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>))) - (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)));
+  <span class="kw">let </span>x2: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>))) - (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)));
+  <span class="kw">let </span>x3: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>))) - (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)));
+  <span class="kw">let </span>x4: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>))) - (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)));
+  <span class="kw">let </span>x5: u64 = ((<span class="number">0x1fffffffffffffc </span>+ (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>))) - (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)));
+  <span class="kw">let </span>x6: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>))) - (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)));
+  <span class="kw">let </span>x7: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>))) - (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)));
+  <span class="kw">let </span>x8: u64 = ((<span class="number">0x1fffffffffffffe </span>+ (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>))) - (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)));
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x1;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x2;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x3;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x4;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">4</span>) = x5;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">5</span>) = x6;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">6</span>) = x7;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">7</span>) = x8;
 }
 
 <span class="doccomment">/// The function fiat_p448_opp negates a field element.
@@ -1468,23 +1572,23 @@
 ///   eval out1 mod m = -eval arg1 mod m
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_opp(out1: <span class="kw-2">&amp;mut </span>fiat_p448_loose_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element) {
-  <span class="kw">let </span>x1: u64 = (<span class="number">0x1fffffffffffffe </span>- (arg1[<span class="number">0</span>]));
-  <span class="kw">let </span>x2: u64 = (<span class="number">0x1fffffffffffffe </span>- (arg1[<span class="number">1</span>]));
-  <span class="kw">let </span>x3: u64 = (<span class="number">0x1fffffffffffffe </span>- (arg1[<span class="number">2</span>]));
-  <span class="kw">let </span>x4: u64 = (<span class="number">0x1fffffffffffffe </span>- (arg1[<span class="number">3</span>]));
-  <span class="kw">let </span>x5: u64 = (<span class="number">0x1fffffffffffffc </span>- (arg1[<span class="number">4</span>]));
-  <span class="kw">let </span>x6: u64 = (<span class="number">0x1fffffffffffffe </span>- (arg1[<span class="number">5</span>]));
-  <span class="kw">let </span>x7: u64 = (<span class="number">0x1fffffffffffffe </span>- (arg1[<span class="number">6</span>]));
-  <span class="kw">let </span>x8: u64 = (<span class="number">0x1fffffffffffffe </span>- (arg1[<span class="number">7</span>]));
-  out1[<span class="number">0</span>] = x1;
-  out1[<span class="number">1</span>] = x2;
-  out1[<span class="number">2</span>] = x3;
-  out1[<span class="number">3</span>] = x4;
-  out1[<span class="number">4</span>] = x5;
-  out1[<span class="number">5</span>] = x6;
-  out1[<span class="number">6</span>] = x7;
-  out1[<span class="number">7</span>] = x8;
+</span><span class="kw">pub const fn </span>fiat_p448_opp(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_p448_loose_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element) {
+  <span class="kw">let </span>x1: u64 = (<span class="number">0x1fffffffffffffe </span>- (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)));
+  <span class="kw">let </span>x2: u64 = (<span class="number">0x1fffffffffffffe </span>- (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)));
+  <span class="kw">let </span>x3: u64 = (<span class="number">0x1fffffffffffffe </span>- (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)));
+  <span class="kw">let </span>x4: u64 = (<span class="number">0x1fffffffffffffe </span>- (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)));
+  <span class="kw">let </span>x5: u64 = (<span class="number">0x1fffffffffffffc </span>- (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)));
+  <span class="kw">let </span>x6: u64 = (<span class="number">0x1fffffffffffffe </span>- (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)));
+  <span class="kw">let </span>x7: u64 = (<span class="number">0x1fffffffffffffe </span>- (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)));
+  <span class="kw">let </span>x8: u64 = (<span class="number">0x1fffffffffffffe </span>- (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)));
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x1;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x2;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x3;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x4;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">4</span>) = x5;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">5</span>) = x6;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">6</span>) = x7;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">7</span>) = x8;
 }
 
 <span class="doccomment">/// The function fiat_p448_selectznz is a multi-limb conditional select.
@@ -1499,31 +1603,31 @@
 /// Output Bounds:
 ///   out1: [[0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff], [0x0 ~&gt; 0xffffffffffffffff]]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_selectznz(out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">8</span>], arg1: fiat_p448_u1, arg2: <span class="kw-2">&amp;</span>[u64; <span class="number">8</span>], arg3: <span class="kw-2">&amp;</span>[u64; <span class="number">8</span>]) {
+</span><span class="kw">pub const fn </span>fiat_p448_selectznz(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>[u64; <span class="number">8</span>], arg1: fiat_p448_u1, arg2: <span class="kw-2">&amp;</span>[u64; <span class="number">8</span>], arg3: <span class="kw-2">&amp;</span>[u64; <span class="number">8</span>]) {
   <span class="kw">let </span><span class="kw-2">mut </span>x1: u64 = <span class="number">0</span>;
-  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x1, arg1, (arg2[<span class="number">0</span>]), (arg3[<span class="number">0</span>]));
+  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x1, arg1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">0</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">0</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x2: u64 = <span class="number">0</span>;
-  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x2, arg1, (arg2[<span class="number">1</span>]), (arg3[<span class="number">1</span>]));
+  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x2, arg1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">1</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">1</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x3: u64 = <span class="number">0</span>;
-  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x3, arg1, (arg2[<span class="number">2</span>]), (arg3[<span class="number">2</span>]));
+  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x3, arg1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">2</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">2</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x4: u64 = <span class="number">0</span>;
-  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x4, arg1, (arg2[<span class="number">3</span>]), (arg3[<span class="number">3</span>]));
+  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x4, arg1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">3</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">3</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x5: u64 = <span class="number">0</span>;
-  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x5, arg1, (arg2[<span class="number">4</span>]), (arg3[<span class="number">4</span>]));
+  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x5, arg1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">4</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">4</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x6: u64 = <span class="number">0</span>;
-  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x6, arg1, (arg2[<span class="number">5</span>]), (arg3[<span class="number">5</span>]));
+  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x6, arg1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">5</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">5</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x7: u64 = <span class="number">0</span>;
-  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x7, arg1, (arg2[<span class="number">6</span>]), (arg3[<span class="number">6</span>]));
+  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x7, arg1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">6</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">6</span>)));
   <span class="kw">let </span><span class="kw-2">mut </span>x8: u64 = <span class="number">0</span>;
-  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x8, arg1, (arg2[<span class="number">7</span>]), (arg3[<span class="number">7</span>]));
-  out1[<span class="number">0</span>] = x1;
-  out1[<span class="number">1</span>] = x2;
-  out1[<span class="number">2</span>] = x3;
-  out1[<span class="number">3</span>] = x4;
-  out1[<span class="number">4</span>] = x5;
-  out1[<span class="number">5</span>] = x6;
-  out1[<span class="number">6</span>] = x7;
-  out1[<span class="number">7</span>] = x8;
+  fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x8, arg1, (<span class="kw-2">*</span>IndexConst(arg2).index(<span class="number">7</span>)), (<span class="kw-2">*</span>IndexConst(arg3).index(<span class="number">7</span>)));
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x1;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x2;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x3;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x4;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">4</span>) = x5;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">5</span>) = x6;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">6</span>) = x7;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">7</span>) = x8;
 }
 
 <span class="doccomment">/// The function fiat_p448_to_bytes serializes a field element to bytes in little-endian order.
@@ -1534,31 +1638,31 @@
 /// Output Bounds:
 ///   out1: [[0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff]]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_to_bytes(out1: <span class="kw-2">&amp;mut </span>[u8; <span class="number">56</span>], arg1: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element) {
+</span><span class="kw">pub const fn </span>fiat_p448_to_bytes(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>[u8; <span class="number">56</span>], arg1: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element) {
   <span class="kw">let </span><span class="kw-2">mut </span>x1: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x2: fiat_p448_u1 = <span class="number">0</span>;
-  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, <span class="number">0x0</span>, (arg1[<span class="number">0</span>]), <span class="number">0xffffffffffffff</span>);
+  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x1, <span class="kw-2">&amp;mut </span>x2, <span class="number">0x0</span>, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>)), <span class="number">0xffffffffffffff</span>);
   <span class="kw">let </span><span class="kw-2">mut </span>x3: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x4: fiat_p448_u1 = <span class="number">0</span>;
-  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x3, <span class="kw-2">&amp;mut </span>x4, x2, (arg1[<span class="number">1</span>]), <span class="number">0xffffffffffffff</span>);
+  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x3, <span class="kw-2">&amp;mut </span>x4, x2, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)), <span class="number">0xffffffffffffff</span>);
   <span class="kw">let </span><span class="kw-2">mut </span>x5: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x6: fiat_p448_u1 = <span class="number">0</span>;
-  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, (arg1[<span class="number">2</span>]), <span class="number">0xffffffffffffff</span>);
+  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x5, <span class="kw-2">&amp;mut </span>x6, x4, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)), <span class="number">0xffffffffffffff</span>);
   <span class="kw">let </span><span class="kw-2">mut </span>x7: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x8: fiat_p448_u1 = <span class="number">0</span>;
-  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, x6, (arg1[<span class="number">3</span>]), <span class="number">0xffffffffffffff</span>);
+  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x7, <span class="kw-2">&amp;mut </span>x8, x6, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)), <span class="number">0xffffffffffffff</span>);
   <span class="kw">let </span><span class="kw-2">mut </span>x9: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x10: fiat_p448_u1 = <span class="number">0</span>;
-  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x9, <span class="kw-2">&amp;mut </span>x10, x8, (arg1[<span class="number">4</span>]), <span class="number">0xfffffffffffffe</span>);
+  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x9, <span class="kw-2">&amp;mut </span>x10, x8, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)), <span class="number">0xfffffffffffffe</span>);
   <span class="kw">let </span><span class="kw-2">mut </span>x11: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x12: fiat_p448_u1 = <span class="number">0</span>;
-  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x11, <span class="kw-2">&amp;mut </span>x12, x10, (arg1[<span class="number">5</span>]), <span class="number">0xffffffffffffff</span>);
+  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x11, <span class="kw-2">&amp;mut </span>x12, x10, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)), <span class="number">0xffffffffffffff</span>);
   <span class="kw">let </span><span class="kw-2">mut </span>x13: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x14: fiat_p448_u1 = <span class="number">0</span>;
-  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x13, <span class="kw-2">&amp;mut </span>x14, x12, (arg1[<span class="number">6</span>]), <span class="number">0xffffffffffffff</span>);
+  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x13, <span class="kw-2">&amp;mut </span>x14, x12, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)), <span class="number">0xffffffffffffff</span>);
   <span class="kw">let </span><span class="kw-2">mut </span>x15: u64 = <span class="number">0</span>;
   <span class="kw">let </span><span class="kw-2">mut </span>x16: fiat_p448_u1 = <span class="number">0</span>;
-  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x15, <span class="kw-2">&amp;mut </span>x16, x14, (arg1[<span class="number">7</span>]), <span class="number">0xffffffffffffff</span>);
+  fiat_p448_subborrowx_u56(<span class="kw-2">&amp;mut </span>x15, <span class="kw-2">&amp;mut </span>x16, x14, (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>)), <span class="number">0xffffffffffffff</span>);
   <span class="kw">let </span><span class="kw-2">mut </span>x17: u64 = <span class="number">0</span>;
   fiat_p448_cmovznz_u64(<span class="kw-2">&amp;mut </span>x17, x16, (<span class="number">0x0 </span><span class="kw">as </span>u64), <span class="number">0xffffffffffffffff</span>);
   <span class="kw">let </span><span class="kw-2">mut </span>x18: u64 = <span class="number">0</span>;
@@ -1681,62 +1785,62 @@
   <span class="kw">let </span>x127: u64 = (x125 &gt;&gt; <span class="number">8</span>);
   <span class="kw">let </span>x128: u8 = ((x127 &amp; (<span class="number">0xff </span><span class="kw">as </span>u64)) <span class="kw">as </span>u8);
   <span class="kw">let </span>x129: u8 = ((x127 &gt;&gt; <span class="number">8</span>) <span class="kw">as </span>u8);
-  out1[<span class="number">0</span>] = x34;
-  out1[<span class="number">1</span>] = x36;
-  out1[<span class="number">2</span>] = x38;
-  out1[<span class="number">3</span>] = x40;
-  out1[<span class="number">4</span>] = x42;
-  out1[<span class="number">5</span>] = x44;
-  out1[<span class="number">6</span>] = x45;
-  out1[<span class="number">7</span>] = x46;
-  out1[<span class="number">8</span>] = x48;
-  out1[<span class="number">9</span>] = x50;
-  out1[<span class="number">10</span>] = x52;
-  out1[<span class="number">11</span>] = x54;
-  out1[<span class="number">12</span>] = x56;
-  out1[<span class="number">13</span>] = x57;
-  out1[<span class="number">14</span>] = x58;
-  out1[<span class="number">15</span>] = x60;
-  out1[<span class="number">16</span>] = x62;
-  out1[<span class="number">17</span>] = x64;
-  out1[<span class="number">18</span>] = x66;
-  out1[<span class="number">19</span>] = x68;
-  out1[<span class="number">20</span>] = x69;
-  out1[<span class="number">21</span>] = x70;
-  out1[<span class="number">22</span>] = x72;
-  out1[<span class="number">23</span>] = x74;
-  out1[<span class="number">24</span>] = x76;
-  out1[<span class="number">25</span>] = x78;
-  out1[<span class="number">26</span>] = x80;
-  out1[<span class="number">27</span>] = x81;
-  out1[<span class="number">28</span>] = x82;
-  out1[<span class="number">29</span>] = x84;
-  out1[<span class="number">30</span>] = x86;
-  out1[<span class="number">31</span>] = x88;
-  out1[<span class="number">32</span>] = x90;
-  out1[<span class="number">33</span>] = x92;
-  out1[<span class="number">34</span>] = x93;
-  out1[<span class="number">35</span>] = x94;
-  out1[<span class="number">36</span>] = x96;
-  out1[<span class="number">37</span>] = x98;
-  out1[<span class="number">38</span>] = x100;
-  out1[<span class="number">39</span>] = x102;
-  out1[<span class="number">40</span>] = x104;
-  out1[<span class="number">41</span>] = x105;
-  out1[<span class="number">42</span>] = x106;
-  out1[<span class="number">43</span>] = x108;
-  out1[<span class="number">44</span>] = x110;
-  out1[<span class="number">45</span>] = x112;
-  out1[<span class="number">46</span>] = x114;
-  out1[<span class="number">47</span>] = x116;
-  out1[<span class="number">48</span>] = x117;
-  out1[<span class="number">49</span>] = x118;
-  out1[<span class="number">50</span>] = x120;
-  out1[<span class="number">51</span>] = x122;
-  out1[<span class="number">52</span>] = x124;
-  out1[<span class="number">53</span>] = x126;
-  out1[<span class="number">54</span>] = x128;
-  out1[<span class="number">55</span>] = x129;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x34;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x36;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x38;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x40;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">4</span>) = x42;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">5</span>) = x44;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">6</span>) = x45;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">7</span>) = x46;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">8</span>) = x48;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">9</span>) = x50;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">10</span>) = x52;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">11</span>) = x54;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">12</span>) = x56;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">13</span>) = x57;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">14</span>) = x58;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">15</span>) = x60;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">16</span>) = x62;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">17</span>) = x64;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">18</span>) = x66;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">19</span>) = x68;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">20</span>) = x69;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">21</span>) = x70;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">22</span>) = x72;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">23</span>) = x74;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">24</span>) = x76;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">25</span>) = x78;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">26</span>) = x80;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">27</span>) = x81;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">28</span>) = x82;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">29</span>) = x84;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">30</span>) = x86;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">31</span>) = x88;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">32</span>) = x90;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">33</span>) = x92;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">34</span>) = x93;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">35</span>) = x94;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">36</span>) = x96;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">37</span>) = x98;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">38</span>) = x100;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">39</span>) = x102;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">40</span>) = x104;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">41</span>) = x105;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">42</span>) = x106;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">43</span>) = x108;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">44</span>) = x110;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">45</span>) = x112;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">46</span>) = x114;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">47</span>) = x116;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">48</span>) = x117;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">49</span>) = x118;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">50</span>) = x120;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">51</span>) = x122;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">52</span>) = x124;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">53</span>) = x126;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">54</span>) = x128;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">55</span>) = x129;
 }
 
 <span class="doccomment">/// The function fiat_p448_from_bytes deserializes a field element from bytes in little-endian order.
@@ -1747,63 +1851,63 @@
 /// Input Bounds:
 ///   arg1: [[0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff], [0x0 ~&gt; 0xff]]
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_from_bytes(out1: <span class="kw-2">&amp;mut </span>fiat_p448_tight_field_element, arg1: <span class="kw-2">&amp;</span>[u8; <span class="number">56</span>]) {
-  <span class="kw">let </span>x1: u64 = (((arg1[<span class="number">55</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
-  <span class="kw">let </span>x2: u64 = (((arg1[<span class="number">54</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
-  <span class="kw">let </span>x3: u64 = (((arg1[<span class="number">53</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
-  <span class="kw">let </span>x4: u64 = (((arg1[<span class="number">52</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
-  <span class="kw">let </span>x5: u64 = (((arg1[<span class="number">51</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
-  <span class="kw">let </span>x6: u64 = (((arg1[<span class="number">50</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
-  <span class="kw">let </span>x7: u8 = (arg1[<span class="number">49</span>]);
-  <span class="kw">let </span>x8: u64 = (((arg1[<span class="number">48</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
-  <span class="kw">let </span>x9: u64 = (((arg1[<span class="number">47</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
-  <span class="kw">let </span>x10: u64 = (((arg1[<span class="number">46</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
-  <span class="kw">let </span>x11: u64 = (((arg1[<span class="number">45</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
-  <span class="kw">let </span>x12: u64 = (((arg1[<span class="number">44</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
-  <span class="kw">let </span>x13: u64 = (((arg1[<span class="number">43</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
-  <span class="kw">let </span>x14: u8 = (arg1[<span class="number">42</span>]);
-  <span class="kw">let </span>x15: u64 = (((arg1[<span class="number">41</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
-  <span class="kw">let </span>x16: u64 = (((arg1[<span class="number">40</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
-  <span class="kw">let </span>x17: u64 = (((arg1[<span class="number">39</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
-  <span class="kw">let </span>x18: u64 = (((arg1[<span class="number">38</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
-  <span class="kw">let </span>x19: u64 = (((arg1[<span class="number">37</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
-  <span class="kw">let </span>x20: u64 = (((arg1[<span class="number">36</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
-  <span class="kw">let </span>x21: u8 = (arg1[<span class="number">35</span>]);
-  <span class="kw">let </span>x22: u64 = (((arg1[<span class="number">34</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
-  <span class="kw">let </span>x23: u64 = (((arg1[<span class="number">33</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
-  <span class="kw">let </span>x24: u64 = (((arg1[<span class="number">32</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
-  <span class="kw">let </span>x25: u64 = (((arg1[<span class="number">31</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
-  <span class="kw">let </span>x26: u64 = (((arg1[<span class="number">30</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
-  <span class="kw">let </span>x27: u64 = (((arg1[<span class="number">29</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
-  <span class="kw">let </span>x28: u8 = (arg1[<span class="number">28</span>]);
-  <span class="kw">let </span>x29: u64 = (((arg1[<span class="number">27</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
-  <span class="kw">let </span>x30: u64 = (((arg1[<span class="number">26</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
-  <span class="kw">let </span>x31: u64 = (((arg1[<span class="number">25</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
-  <span class="kw">let </span>x32: u64 = (((arg1[<span class="number">24</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
-  <span class="kw">let </span>x33: u64 = (((arg1[<span class="number">23</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
-  <span class="kw">let </span>x34: u64 = (((arg1[<span class="number">22</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
-  <span class="kw">let </span>x35: u8 = (arg1[<span class="number">21</span>]);
-  <span class="kw">let </span>x36: u64 = (((arg1[<span class="number">20</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
-  <span class="kw">let </span>x37: u64 = (((arg1[<span class="number">19</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
-  <span class="kw">let </span>x38: u64 = (((arg1[<span class="number">18</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
-  <span class="kw">let </span>x39: u64 = (((arg1[<span class="number">17</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
-  <span class="kw">let </span>x40: u64 = (((arg1[<span class="number">16</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
-  <span class="kw">let </span>x41: u64 = (((arg1[<span class="number">15</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
-  <span class="kw">let </span>x42: u8 = (arg1[<span class="number">14</span>]);
-  <span class="kw">let </span>x43: u64 = (((arg1[<span class="number">13</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
-  <span class="kw">let </span>x44: u64 = (((arg1[<span class="number">12</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
-  <span class="kw">let </span>x45: u64 = (((arg1[<span class="number">11</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
-  <span class="kw">let </span>x46: u64 = (((arg1[<span class="number">10</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
-  <span class="kw">let </span>x47: u64 = (((arg1[<span class="number">9</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
-  <span class="kw">let </span>x48: u64 = (((arg1[<span class="number">8</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
-  <span class="kw">let </span>x49: u8 = (arg1[<span class="number">7</span>]);
-  <span class="kw">let </span>x50: u64 = (((arg1[<span class="number">6</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
-  <span class="kw">let </span>x51: u64 = (((arg1[<span class="number">5</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
-  <span class="kw">let </span>x52: u64 = (((arg1[<span class="number">4</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
-  <span class="kw">let </span>x53: u64 = (((arg1[<span class="number">3</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
-  <span class="kw">let </span>x54: u64 = (((arg1[<span class="number">2</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
-  <span class="kw">let </span>x55: u64 = (((arg1[<span class="number">1</span>]) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
-  <span class="kw">let </span>x56: u8 = (arg1[<span class="number">0</span>]);
+</span><span class="kw">pub const fn </span>fiat_p448_from_bytes(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_p448_tight_field_element, arg1: <span class="kw-2">&amp;</span>[u8; <span class="number">56</span>]) {
+  <span class="kw">let </span>x1: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">55</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
+  <span class="kw">let </span>x2: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">54</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
+  <span class="kw">let </span>x3: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">53</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
+  <span class="kw">let </span>x4: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">52</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
+  <span class="kw">let </span>x5: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">51</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
+  <span class="kw">let </span>x6: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">50</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
+  <span class="kw">let </span>x7: u8 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">49</span>));
+  <span class="kw">let </span>x8: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">48</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
+  <span class="kw">let </span>x9: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">47</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
+  <span class="kw">let </span>x10: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">46</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
+  <span class="kw">let </span>x11: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">45</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
+  <span class="kw">let </span>x12: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">44</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
+  <span class="kw">let </span>x13: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">43</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
+  <span class="kw">let </span>x14: u8 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">42</span>));
+  <span class="kw">let </span>x15: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">41</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
+  <span class="kw">let </span>x16: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">40</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
+  <span class="kw">let </span>x17: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">39</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
+  <span class="kw">let </span>x18: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">38</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
+  <span class="kw">let </span>x19: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">37</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
+  <span class="kw">let </span>x20: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">36</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
+  <span class="kw">let </span>x21: u8 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">35</span>));
+  <span class="kw">let </span>x22: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">34</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
+  <span class="kw">let </span>x23: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">33</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
+  <span class="kw">let </span>x24: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">32</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
+  <span class="kw">let </span>x25: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">31</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
+  <span class="kw">let </span>x26: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">30</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
+  <span class="kw">let </span>x27: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">29</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
+  <span class="kw">let </span>x28: u8 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">28</span>));
+  <span class="kw">let </span>x29: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">27</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
+  <span class="kw">let </span>x30: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">26</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
+  <span class="kw">let </span>x31: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">25</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
+  <span class="kw">let </span>x32: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">24</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
+  <span class="kw">let </span>x33: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">23</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
+  <span class="kw">let </span>x34: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">22</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
+  <span class="kw">let </span>x35: u8 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">21</span>));
+  <span class="kw">let </span>x36: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">20</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
+  <span class="kw">let </span>x37: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">19</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
+  <span class="kw">let </span>x38: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">18</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
+  <span class="kw">let </span>x39: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">17</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
+  <span class="kw">let </span>x40: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">16</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
+  <span class="kw">let </span>x41: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">15</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
+  <span class="kw">let </span>x42: u8 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">14</span>));
+  <span class="kw">let </span>x43: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">13</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
+  <span class="kw">let </span>x44: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">12</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
+  <span class="kw">let </span>x45: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">11</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
+  <span class="kw">let </span>x46: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">10</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
+  <span class="kw">let </span>x47: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">9</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
+  <span class="kw">let </span>x48: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">8</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
+  <span class="kw">let </span>x49: u8 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>));
+  <span class="kw">let </span>x50: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">48</span>);
+  <span class="kw">let </span>x51: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">40</span>);
+  <span class="kw">let </span>x52: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>);
+  <span class="kw">let </span>x53: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">24</span>);
+  <span class="kw">let </span>x54: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>);
+  <span class="kw">let </span>x55: u64 = (((<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>)) <span class="kw">as </span>u64) &lt;&lt; <span class="number">8</span>);
+  <span class="kw">let </span>x56: u8 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>));
   <span class="kw">let </span>x57: u64 = (x55 + (x56 <span class="kw">as </span>u64));
   <span class="kw">let </span>x58: u64 = (x54 + x57);
   <span class="kw">let </span>x59: u64 = (x53 + x58);
@@ -1852,14 +1956,14 @@
   <span class="kw">let </span>x102: u64 = (x3 + x101);
   <span class="kw">let </span>x103: u64 = (x2 + x102);
   <span class="kw">let </span>x104: u64 = (x1 + x103);
-  out1[<span class="number">0</span>] = x62;
-  out1[<span class="number">1</span>] = x68;
-  out1[<span class="number">2</span>] = x74;
-  out1[<span class="number">3</span>] = x80;
-  out1[<span class="number">4</span>] = x86;
-  out1[<span class="number">5</span>] = x92;
-  out1[<span class="number">6</span>] = x98;
-  out1[<span class="number">7</span>] = x104;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x62;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x68;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x74;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x80;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">4</span>) = x86;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">5</span>) = x92;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">6</span>) = x98;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">7</span>) = x104;
 }
 
 <span class="doccomment">/// The function fiat_p448_relax is the identity function converting from tight field elements to loose field elements.
@@ -1868,22 +1972,22 @@
 ///   out1 = arg1
 ///
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>fiat_p448_relax(out1: <span class="kw-2">&amp;mut </span>fiat_p448_loose_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element) {
-  <span class="kw">let </span>x1: u64 = (arg1[<span class="number">0</span>]);
-  <span class="kw">let </span>x2: u64 = (arg1[<span class="number">1</span>]);
-  <span class="kw">let </span>x3: u64 = (arg1[<span class="number">2</span>]);
-  <span class="kw">let </span>x4: u64 = (arg1[<span class="number">3</span>]);
-  <span class="kw">let </span>x5: u64 = (arg1[<span class="number">4</span>]);
-  <span class="kw">let </span>x6: u64 = (arg1[<span class="number">5</span>]);
-  <span class="kw">let </span>x7: u64 = (arg1[<span class="number">6</span>]);
-  <span class="kw">let </span>x8: u64 = (arg1[<span class="number">7</span>]);
-  out1[<span class="number">0</span>] = x1;
-  out1[<span class="number">1</span>] = x2;
-  out1[<span class="number">2</span>] = x3;
-  out1[<span class="number">3</span>] = x4;
-  out1[<span class="number">4</span>] = x5;
-  out1[<span class="number">5</span>] = x6;
-  out1[<span class="number">6</span>] = x7;
-  out1[<span class="number">7</span>] = x8;
+</span><span class="kw">pub const fn </span>fiat_p448_relax(<span class="kw-2">mut </span>out1: <span class="kw-2">&amp;mut </span>fiat_p448_loose_field_element, arg1: <span class="kw-2">&amp;</span>fiat_p448_tight_field_element) {
+  <span class="kw">let </span>x1: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">0</span>));
+  <span class="kw">let </span>x2: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">1</span>));
+  <span class="kw">let </span>x3: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">2</span>));
+  <span class="kw">let </span>x4: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">3</span>));
+  <span class="kw">let </span>x5: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">4</span>));
+  <span class="kw">let </span>x6: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">5</span>));
+  <span class="kw">let </span>x7: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">6</span>));
+  <span class="kw">let </span>x8: u64 = (<span class="kw-2">*</span>IndexConst(arg1).index(<span class="number">7</span>));
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">0</span>) = x1;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">1</span>) = x2;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">2</span>) = x3;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">3</span>) = x4;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">4</span>) = x5;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">5</span>) = x6;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">6</span>) = x7;
+  <span class="kw-2">*</span>IndexConst(<span class="kw-2">&amp;mut </span>out1).index_mut(<span class="number">7</span>) = x8;
 }
 </code></pre></div></section></main></body></html>

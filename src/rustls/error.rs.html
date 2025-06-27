@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/error.rs`."><title>error.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/</div>error.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustls-0.23.28/src/error.rs`."><title>error.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/</div>error.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1198,7 +1198,24 @@
 <a href="#1197" id="1197">1197</a>
 <a href="#1198" id="1198">1198</a>
 <a href="#1199" id="1199">1199</a>
-<a href="#1200" id="1200">1200</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::format;
+<a href="#1200" id="1200">1200</a>
+<a href="#1201" id="1201">1201</a>
+<a href="#1202" id="1202">1202</a>
+<a href="#1203" id="1203">1203</a>
+<a href="#1204" id="1204">1204</a>
+<a href="#1205" id="1205">1205</a>
+<a href="#1206" id="1206">1206</a>
+<a href="#1207" id="1207">1207</a>
+<a href="#1208" id="1208">1208</a>
+<a href="#1209" id="1209">1209</a>
+<a href="#1210" id="1210">1210</a>
+<a href="#1211" id="1211">1211</a>
+<a href="#1212" id="1212">1212</a>
+<a href="#1213" id="1213">1213</a>
+<a href="#1214" id="1214">1214</a>
+<a href="#1215" id="1215">1215</a>
+<a href="#1216" id="1216">1216</a>
+<a href="#1217" id="1217">1217</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::format;
 <span class="kw">use </span>alloc::string::String;
 <span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>core::fmt;
@@ -1400,6 +1417,12 @@
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>from(e: InvalidMessage) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::InvalidMessage(e)
+    }
+}
+
+<span class="kw">impl </span>From&lt;InvalidMessage&gt; <span class="kw">for </span>AlertDescription {
+    <span class="kw">fn </span>from(<span class="kw">_</span>: InvalidMessage) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::DecodeError
     }
 }
 
@@ -1613,6 +1636,9 @@
     /// issuer.
     </span>BadSignature,
 
+    <span class="doccomment">/// A signature inside a certificate or on a handshake was made with an unsupported algorithm.
+    </span>UnsupportedSignatureAlgorithm,
+
     <span class="doccomment">/// The subject names in an end-entity certificate do not include
     /// the expected name.
     </span>NotValidForName,
@@ -1696,6 +1722,7 @@
             (UnhandledCriticalExtension, UnhandledCriticalExtension) =&gt; <span class="bool-val">true</span>,
             (UnknownIssuer, UnknownIssuer) =&gt; <span class="bool-val">true</span>,
             (BadSignature, BadSignature) =&gt; <span class="bool-val">true</span>,
+            (UnsupportedSignatureAlgorithm, UnsupportedSignatureAlgorithm) =&gt; <span class="bool-val">true</span>,
             (NotValidForName, NotValidForName) =&gt; <span class="bool-val">true</span>,
             (
                 NotValidForNameContext {
@@ -1760,7 +1787,7 @@
             | UnknownRevocationStatus
             | ExpiredRevocationList
             | ExpiredRevocationListContext { .. } =&gt; <span class="self">Self</span>::UnknownCA,
-            BadSignature =&gt; <span class="self">Self</span>::DecryptError,
+            BadSignature | UnsupportedSignatureAlgorithm =&gt; <span class="self">Self</span>::DecryptError,
             InvalidPurpose | InvalidPurposeContext { .. } =&gt; <span class="self">Self</span>::UnsupportedCertificate,
             ApplicationVerificationFailure =&gt; <span class="self">Self</span>::AccessDenied,
             <span class="comment">// RFC 5246/RFC 8446
@@ -1791,7 +1818,7 @@
                         f,
                         <span class="string">"is not valid for any names (according to its subjectAltName extension)"
                     </span>),
-                    [one] =&gt; <span class="macro">write!</span>(f, <span class="string">"is only valid for {}"</span>, one),
+                    [one] =&gt; <span class="macro">write!</span>(f, <span class="string">"is only valid for {one}"</span>),
                     many =&gt; {
                         <span class="macro">write!</span>(f, <span class="string">"is only valid for "</span>)<span class="question-mark">?</span>;
 
@@ -1800,12 +1827,12 @@
                         <span class="kw">let </span>last = <span class="kw-2">&amp;</span>many[n - <span class="number">1</span>];
 
                         <span class="kw">for </span>(i, name) <span class="kw">in </span>all_but_last.iter().enumerate() {
-                            <span class="macro">write!</span>(f, <span class="string">"{}"</span>, name)<span class="question-mark">?</span>;
+                            <span class="macro">write!</span>(f, <span class="string">"{name}"</span>)<span class="question-mark">?</span>;
                             <span class="kw">if </span>i &lt; n - <span class="number">2 </span>{
                                 <span class="macro">write!</span>(f, <span class="string">", "</span>)<span class="question-mark">?</span>;
                             }
                         }
-                        <span class="macro">write!</span>(f, <span class="string">" or {}"</span>, last)
+                        <span class="macro">write!</span>(f, <span class="string">" or {last}"</span>)
                     }
                 }
             }
@@ -1862,7 +1889,7 @@
                 <span class="prelude-val">Ok</span>(())
             }
 
-            other =&gt; <span class="macro">write!</span>(f, <span class="string">"{:?}"</span>, other),
+            other =&gt; <span class="macro">write!</span>(f, <span class="string">"{other:?}"</span>),
         }
     }
 }
@@ -1923,8 +1950,11 @@
 #[derive(Debug, Clone)]
 </span><span class="doccomment">/// The ways in which a certificate revocation list (CRL) can be invalid.
 </span><span class="kw">pub enum </span>CertRevocationListError {
-    <span class="doccomment">/// The CRL had a bad, or unsupported signature from its issuer.
+    <span class="doccomment">/// The CRL had a bad signature from its issuer.
     </span>BadSignature,
+
+    <span class="doccomment">/// The CRL had an unsupported signature from its issuer.
+    </span>UnsupportedSignatureAlgorithm,
 
     <span class="doccomment">/// The CRL contained an invalid CRL number.
     </span>InvalidCrlNumber,
@@ -1969,6 +1999,7 @@
         <span class="attr">#[allow(clippy::match_like_matches_macro)]
         </span><span class="kw">match </span>(<span class="self">self</span>, other) {
             (BadSignature, BadSignature) =&gt; <span class="bool-val">true</span>,
+            (UnsupportedSignatureAlgorithm, UnsupportedSignatureAlgorithm) =&gt; <span class="bool-val">true</span>,
             (InvalidCrlNumber, InvalidCrlNumber) =&gt; <span class="bool-val">true</span>,
             (InvalidRevokedCertSerialNumber, InvalidRevokedCertSerialNumber) =&gt; <span class="bool-val">true</span>,
             (IssuerInvalidForCrl, IssuerInvalidForCrl) =&gt; <span class="bool-val">true</span>,
@@ -2012,7 +2043,7 @@
 <span class="kw">fn </span>join&lt;T: fmt::Debug&gt;(items: <span class="kw-2">&amp;</span>[T]) -&gt; String {
     items
         .iter()
-        .map(|x| <span class="macro">format!</span>(<span class="string">"{:?}"</span>, x))
+        .map(|x| <span class="macro">format!</span>(<span class="string">"{x:?}"</span>))
         .collect::&lt;Vec&lt;String&gt;&gt;()
         .join(<span class="string">" or "</span>)
 }
@@ -2039,22 +2070,22 @@
                 join::&lt;HandshakeType&gt;(expect_types)
             ),
             <span class="self">Self</span>::InvalidMessage(typ) =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">"received corrupt message of type {:?}"</span>, typ)
+                <span class="macro">write!</span>(f, <span class="string">"received corrupt message of type {typ:?}"</span>)
             }
-            <span class="self">Self</span>::PeerIncompatible(why) =&gt; <span class="macro">write!</span>(f, <span class="string">"peer is incompatible: {:?}"</span>, why),
-            <span class="self">Self</span>::PeerMisbehaved(why) =&gt; <span class="macro">write!</span>(f, <span class="string">"peer misbehaved: {:?}"</span>, why),
-            <span class="self">Self</span>::AlertReceived(alert) =&gt; <span class="macro">write!</span>(f, <span class="string">"received fatal alert: {:?}"</span>, alert),
+            <span class="self">Self</span>::PeerIncompatible(why) =&gt; <span class="macro">write!</span>(f, <span class="string">"peer is incompatible: {why:?}"</span>),
+            <span class="self">Self</span>::PeerMisbehaved(why) =&gt; <span class="macro">write!</span>(f, <span class="string">"peer misbehaved: {why:?}"</span>),
+            <span class="self">Self</span>::AlertReceived(alert) =&gt; <span class="macro">write!</span>(f, <span class="string">"received fatal alert: {alert:?}"</span>),
             <span class="self">Self</span>::InvalidCertificate(err) =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">"invalid peer certificate: {}"</span>, err)
+                <span class="macro">write!</span>(f, <span class="string">"invalid peer certificate: {err}"</span>)
             }
             <span class="self">Self</span>::InvalidCertRevocationList(err) =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">"invalid certificate revocation list: {:?}"</span>, err)
+                <span class="macro">write!</span>(f, <span class="string">"invalid certificate revocation list: {err:?}"</span>)
             }
             <span class="self">Self</span>::NoCertificatesPresented =&gt; <span class="macro">write!</span>(f, <span class="string">"peer sent no certificates"</span>),
             <span class="self">Self</span>::UnsupportedNameType =&gt; <span class="macro">write!</span>(f, <span class="string">"presented server name type wasn't supported"</span>),
             <span class="self">Self</span>::DecryptError =&gt; <span class="macro">write!</span>(f, <span class="string">"cannot decrypt peer's message"</span>),
             <span class="self">Self</span>::InvalidEncryptedClientHello(err) =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">"encrypted client hello failure: {:?}"</span>, err)
+                <span class="macro">write!</span>(f, <span class="string">"encrypted client hello failure: {err:?}"</span>)
             }
             <span class="self">Self</span>::EncryptError =&gt; <span class="macro">write!</span>(f, <span class="string">"cannot encrypt message"</span>),
             <span class="self">Self</span>::PeerSentOversizedRecord =&gt; <span class="macro">write!</span>(f, <span class="string">"peer sent excess record size"</span>),
@@ -2066,10 +2097,10 @@
                 <span class="macro">write!</span>(f, <span class="string">"the supplied max_fragment_size was too small or large"</span>)
             }
             <span class="self">Self</span>::InconsistentKeys(why) =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">"keys may not be consistent: {:?}"</span>, why)
+                <span class="macro">write!</span>(f, <span class="string">"keys may not be consistent: {why:?}"</span>)
             }
-            <span class="self">Self</span>::General(err) =&gt; <span class="macro">write!</span>(f, <span class="string">"unexpected error: {}"</span>, err),
-            <span class="self">Self</span>::Other(err) =&gt; <span class="macro">write!</span>(f, <span class="string">"other error: {}"</span>, err),
+            <span class="self">Self</span>::General(err) =&gt; <span class="macro">write!</span>(f, <span class="string">"unexpected error: {err}"</span>),
+            <span class="self">Self</span>::Other(err) =&gt; <span class="macro">write!</span>(f, <span class="string">"other error: {err}"</span>),
         }
     }
 }
@@ -2150,12 +2181,13 @@
     <span class="kw">use </span>std::prelude::v1::<span class="kw-2">*</span>;
     <span class="kw">use </span>std::{println, vec};
 
+    <span class="kw">use </span>pki_types::ServerName;
+
     <span class="kw">use super</span>::{
         CertRevocationListError, Error, InconsistentKeys, InvalidMessage, OtherError, UnixTime,
     };
     <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
     </span><span class="kw">use </span><span class="kw">crate</span>::sync::Arc;
-    <span class="kw">use </span>pki_types::ServerName;
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>certificate_error_equality() {
@@ -2226,6 +2258,7 @@
             }
         );
         <span class="macro">assert_eq!</span>(BadSignature, BadSignature);
+        <span class="macro">assert_eq!</span>(UnsupportedSignatureAlgorithm, UnsupportedSignatureAlgorithm);
         <span class="macro">assert_eq!</span>(NotValidForName, NotValidForName);
         <span class="kw">let </span>context = NotValidForNameContext {
             expected: ServerName::try_from(<span class="string">"example.com"</span>)
@@ -2269,6 +2302,7 @@
     </span><span class="kw">fn </span>crl_error_equality() {
         <span class="kw">use </span><span class="kw">super</span>::CertRevocationListError::<span class="kw-2">*</span>;
         <span class="macro">assert_eq!</span>(BadSignature, BadSignature);
+        <span class="macro">assert_eq!</span>(UnsupportedSignatureAlgorithm, UnsupportedSignatureAlgorithm);
         <span class="macro">assert_eq!</span>(InvalidCrlNumber, InvalidCrlNumber);
         <span class="macro">assert_eq!</span>(
             InvalidRevokedCertSerialNumber,
@@ -2374,8 +2408,8 @@
         ];
 
         <span class="kw">for </span>err <span class="kw">in </span>all {
-            <span class="macro">println!</span>(<span class="string">"{:?}:"</span>, err);
-            <span class="macro">println!</span>(<span class="string">"  fmt '{}'"</span>, err);
+            <span class="macro">println!</span>(<span class="string">"{err:?}:"</span>);
+            <span class="macro">println!</span>(<span class="string">"  fmt '{err}'"</span>);
         }
     }
 

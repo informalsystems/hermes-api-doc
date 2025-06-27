@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustls-0.23.27/src/client/client_conn.rs`."><title>client_conn.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>client_conn.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustls-0.23.28/src/client/client_conn.rs`."><title>client_conn.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rustls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rustls/client/</div>client_conn.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1032,7 +1032,21 @@
 <a href="#1031" id="1031">1031</a>
 <a href="#1032" id="1032">1032</a>
 <a href="#1033" id="1033">1033</a>
-<a href="#1034" id="1034">1034</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::vec::Vec;
+<a href="#1034" id="1034">1034</a>
+<a href="#1035" id="1035">1035</a>
+<a href="#1036" id="1036">1036</a>
+<a href="#1037" id="1037">1037</a>
+<a href="#1038" id="1038">1038</a>
+<a href="#1039" id="1039">1039</a>
+<a href="#1040" id="1040">1040</a>
+<a href="#1041" id="1041">1041</a>
+<a href="#1042" id="1042">1042</a>
+<a href="#1043" id="1043">1043</a>
+<a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a>
+<a href="#1048" id="1048">1048</a></pre></div><pre class="rust"><code><span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>core::marker::PhantomData;
 <span class="kw">use </span>core::ops::{Deref, DerefMut};
 <span class="kw">use </span>core::{fmt, mem};
@@ -1053,7 +1067,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::kernel::KernelConnection;
 <span class="kw">use </span><span class="kw">crate</span>::log::trace;
 <span class="kw">use </span><span class="kw">crate</span>::msgs::enums::NamedGroup;
-<span class="kw">use </span><span class="kw">crate</span>::msgs::handshake::ClientExtension;
+<span class="kw">use </span><span class="kw">crate</span>::msgs::handshake::{ClientExtension, ProtocolName};
 <span class="kw">use </span><span class="kw">crate</span>::msgs::persist;
 <span class="kw">use </span><span class="kw">crate</span>::suites::{ExtractedSecrets, SupportedCipherSuite};
 <span class="kw">use </span><span class="kw">crate</span>::sync::Arc;
@@ -1347,9 +1361,9 @@
         <span class="comment">// Safety assumptions:
         // 1. that the provider has been installed (explicitly or implicitly)
         // 2. that the process-level default provider is usable with the supplied protocol versions.
-        </span><span class="self">Self</span>::builder_with_provider(Arc::clone(
-            CryptoProvider::get_default_or_install_from_crate_features(),
-        ))
+        </span><span class="self">Self</span>::builder_with_provider(
+            CryptoProvider::get_default_or_install_from_crate_features().clone(),
+        )
         .with_protocol_versions(versions)
         .unwrap()
     }
@@ -1737,7 +1751,7 @@
         /// we behave in the TLS protocol, `name` is the
         /// name of the server we want to talk to.
         </span><span class="kw">pub fn </span>new(config: Arc&lt;ClientConfig&gt;, name: ServerName&lt;<span class="lifetime">'static</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&gt; {
-            <span class="self">Self</span>::new_with_alpn(Arc::clone(<span class="kw-2">&amp;</span>config), name, config.alpn_protocols.clone())
+            <span class="self">Self</span>::new_with_alpn(config.clone(), name, config.alpn_protocols.clone())
         }
 
         <span class="doccomment">/// Make a new ClientConnection with custom ALPN protocols.
@@ -1806,6 +1820,11 @@
         <span class="doccomment">/// Return the connection's Encrypted Client Hello (ECH) status.
         </span><span class="kw">pub fn </span>ech_status(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; EchStatus {
             <span class="self">self</span>.inner.core.data.ech_status
+        }
+
+        <span class="doccomment">/// Returns the number of TLS1.3 tickets that have been received.
+        </span><span class="kw">pub fn </span>tls13_tickets_received(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+            <span class="self">self</span>.inner.tls13_tickets_received
         }
 
         <span class="doccomment">/// Return true if the connection was made with a `ClientConfig` that is FIPS compatible.
@@ -1880,6 +1899,10 @@
         common_state.enable_secret_extraction = config.enable_secret_extraction;
         common_state.fips = config.fips();
         <span class="kw">let </span><span class="kw-2">mut </span>data = ClientConnectionData::new();
+        <span class="kw">let </span>alpn_protocols = alpn_protocols
+            .into_iter()
+            .map(ProtocolName::from)
+            .collect();
 
         <span class="kw">let </span><span class="kw-2">mut </span>cx = hs::ClientContext {
             common: <span class="kw-2">&amp;mut </span>common_state,
@@ -1909,7 +1932,7 @@
     <span class="doccomment">/// Make a new ClientConnection. `config` controls how we behave in the TLS protocol, `name` is
     /// the name of the server we want to talk to.
     </span><span class="kw">pub fn </span>new(config: Arc&lt;ClientConfig&gt;, name: ServerName&lt;<span class="lifetime">'static</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&gt; {
-        <span class="self">Self</span>::new_with_alpn(Arc::clone(<span class="kw-2">&amp;</span>config), name, config.alpn_protocols.clone())
+        <span class="self">Self</span>::new_with_alpn(config.clone(), name, config.alpn_protocols.clone())
     }
 
     <span class="doccomment">/// Make a new UnbufferedClientConnection with custom ALPN protocols.
@@ -1952,6 +1975,11 @@
         <span class="self">self</span>.inner
             .core
             .dangerous_into_kernel_connection()
+    }
+
+    <span class="doccomment">/// Returns the number of TLS1.3 tickets that have been received.
+    </span><span class="kw">pub fn </span>tls13_tickets_received(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.inner.tls13_tickets_received
     }
 }
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerocopy-0.8.25/src/pointer/inner.rs`."><title>inner.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/pointer/</div>inner.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerocopy-0.8.26/src/pointer/inner.rs`."><title>inner.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/pointer/</div>inner.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -675,7 +675,77 @@
 <a href="#674" id="674">674</a>
 <a href="#675" id="675">675</a>
 <a href="#676" id="676">676</a>
-<a href="#677" id="677">677</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2024 The Fuchsia Authors
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
+<a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
+<a href="#725" id="725">725</a>
+<a href="#726" id="726">726</a>
+<a href="#727" id="727">727</a>
+<a href="#728" id="728">728</a>
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
+<a href="#732" id="732">732</a>
+<a href="#733" id="733">733</a>
+<a href="#734" id="734">734</a>
+<a href="#735" id="735">735</a>
+<a href="#736" id="736">736</a>
+<a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
+<a href="#739" id="739">739</a>
+<a href="#740" id="740">740</a>
+<a href="#741" id="741">741</a>
+<a href="#742" id="742">742</a>
+<a href="#743" id="743">743</a>
+<a href="#744" id="744">744</a>
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a>
+<a href="#747" id="747">747</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2024 The Fuchsia Authors
 //
 // Licensed under a BSD-style license &lt;LICENSE-BSD&gt;, Apache License, Version 2.0
 // &lt;LICENSE-APACHE or https://www.apache.org/licenses/LICENSE-2.0&gt;, or the MIT
@@ -683,7 +753,9 @@
 // This file may not be copied, modified, or distributed except according to
 // those terms.
 
-</span><span class="kw">use </span>core::{marker::PhantomData, ops::Range, ptr::NonNull};
+</span><span class="kw">use </span>core::{marker::PhantomData, mem, ops::Range, ptr::NonNull};
+
+<span class="kw">pub use </span>_def::PtrInner;
 
 <span class="attr">#[allow(unused_imports)]
 </span><span class="kw">use </span><span class="kw">crate</span>::util::polyfills::NumExt <span class="kw">as _</span>;
@@ -693,8 +765,6 @@
     AlignmentError, CastError, KnownLayout, MetadataOf, SizeError, SplitAt,
 };
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>_def::PtrInner;
-
 <span class="kw">mod </span>_def {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="doccomment">/// The inner pointer stored inside a [`Ptr`][crate::Ptr].
@@ -702,7 +772,8 @@
     /// `PtrInner&lt;'a, T&gt;` is [covariant] in `'a` and invariant in `T`.
     ///
     /// [covariant]: https://doc.rust-lang.org/reference/subtyping.html
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>PtrInner&lt;<span class="lifetime">'a</span>, T&gt;
+    </span><span class="attr">#[allow(missing_debug_implementations)]
+    </span><span class="kw">pub struct </span>PtrInner&lt;<span class="lifetime">'a</span>, T&gt;
     <span class="kw">where
         </span>T: <span class="question-mark">?</span>Sized,
     {
@@ -745,7 +816,8 @@
 
     <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: <span class="lifetime">'a </span>+ <span class="question-mark">?</span>Sized&gt; Copy <span class="kw">for </span>PtrInner&lt;<span class="lifetime">'a</span>, T&gt; {}
     <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: <span class="lifetime">'a </span>+ <span class="question-mark">?</span>Sized&gt; Clone <span class="kw">for </span>PtrInner&lt;<span class="lifetime">'a</span>, T&gt; {
-        <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PtrInner&lt;<span class="lifetime">'a</span>, T&gt; {
+        <span class="attr">#[inline(always)]
+        </span><span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PtrInner&lt;<span class="lifetime">'a</span>, T&gt; {
             <span class="comment">// SAFETY: None of the invariants on `ptr` are affected by having
             // multiple copies of a `PtrInner`.
             </span><span class="kw-2">*</span><span class="self">self
@@ -764,7 +836,9 @@
         ///    Rust allocation, `A`.
         /// 1. If `ptr`'s referent is not zero sized, `A` is guaranteed to live
         ///    for at least `'a`.
-        </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const unsafe fn </span>new(ptr: NonNull&lt;T&gt;) -&gt; PtrInner&lt;<span class="lifetime">'a</span>, T&gt; {
+        </span><span class="attr">#[inline(always)]
+        #[must_use]
+        </span><span class="kw">pub const unsafe fn </span>new(ptr: NonNull&lt;T&gt;) -&gt; PtrInner&lt;<span class="lifetime">'a</span>, T&gt; {
             <span class="comment">// SAFETY: The caller has promised to satisfy all safety invariants
             // of `PtrInner`.
             </span><span class="self">Self </span>{ ptr, _marker: PhantomData }
@@ -775,7 +849,9 @@
         /// Note that this method does not consume `self`. The caller should
         /// watch out for `unsafe` code which uses the returned `NonNull` in a
         /// way that violates the safety invariants of `self`.
-        </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>as_non_null(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; NonNull&lt;T&gt; {
+        </span><span class="attr">#[inline(always)]
+        #[must_use]
+        </span><span class="kw">pub const fn </span>as_non_null(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; NonNull&lt;T&gt; {
             <span class="self">self</span>.ptr
         }
     }
@@ -833,6 +909,39 @@
         //   single allocated object.
         </span><span class="kw">unsafe </span>{ <span class="self">Self</span>::new(ptr) }
     }
+
+    <span class="attr">#[must_use]
+    #[inline(always)]
+    </span><span class="kw">pub fn </span>cast_sized&lt;U&gt;(<span class="self">self</span>) -&gt; PtrInner&lt;<span class="lifetime">'a</span>, U&gt;
+    <span class="kw">where
+        </span>T: Sized,
+    {
+        <span class="macro">static_assert!</span>(T, U =&gt; mem::size_of::&lt;T&gt;() &gt;= mem::size_of::&lt;U&gt;());
+        <span class="comment">// SAFETY: By the preceding assert, `U` is no larger than `T`, which is
+        // the size of `self`'s referent.
+        </span><span class="kw">unsafe </span>{ <span class="self">self</span>.cast() }
+    }
+
+    <span class="doccomment">/// # Safety
+    ///
+    /// `U` must not be larger than the size of `self`'s referent.
+    </span><span class="attr">#[must_use]
+    #[inline(always)]
+    </span><span class="kw">pub unsafe fn </span>cast&lt;U&gt;(<span class="self">self</span>) -&gt; PtrInner&lt;<span class="lifetime">'a</span>, U&gt; {
+        <span class="kw">let </span>ptr = <span class="self">self</span>.as_non_null().cast::&lt;U&gt;();
+
+        <span class="comment">// SAFETY: The caller promises that `U` is no larger than `self`'s
+        // referent. Thus, `ptr` addresses a subset of the bytes addressed by
+        // `self`.
+        //
+        // 0. By invariant on `self`, if `self`'s referent is not zero sized,
+        //    then `self` has valid provenance for its referent, which is
+        //    entirely contained in some Rust allocation, `A`. Thus, the same
+        //    holds of `ptr`.
+        // 1. By invariant on `self`, if `self`'s referent is not zero sized,
+        //    then `A` is guaranteed to live for at least `'a`.
+        </span><span class="kw">unsafe </span>{ PtrInner::new(ptr) }
+    }
 }
 
 <span class="attr">#[allow(clippy::needless_lifetimes)]
@@ -888,6 +997,37 @@
         // 5. Per Lemma 0 and by invariant on `self`, if `ptr`'s referent is not
         //    zero sized, then `A` is guaranteed to live for at least `'a`.
         </span><span class="kw">unsafe </span>{ PtrInner::new(raw) }
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>as_bytes(<span class="self">self</span>) -&gt; PtrInner&lt;<span class="lifetime">'a</span>, [u8]&gt; {
+        <span class="kw">let </span>ptr = <span class="self">self</span>.as_non_null();
+        <span class="kw">let </span>bytes = <span class="kw">match </span>T::size_of_val_raw(ptr) {
+            <span class="prelude-val">Some</span>(bytes) =&gt; bytes,
+            <span class="comment">// SAFETY: `KnownLayout::size_of_val_raw` promises to always
+            // return `Some` so long as the resulting size fits in a
+            // `usize`. By invariant on `PtrInner`, `self` refers to a range
+            // of bytes whose size fits in an `isize`, which implies that it
+            // also fits in a `usize`.
+            </span><span class="prelude-val">None </span>=&gt; <span class="kw">unsafe </span>{ core::hint::unreachable_unchecked() },
+        };
+
+        <span class="kw">let </span>ptr = core::ptr::slice_from_raw_parts_mut(ptr.cast::&lt;u8&gt;().as_ptr(), bytes);
+
+        <span class="comment">// SAFETY: `ptr` has the same address as `ptr = self.as_non_null()`,
+        // which is non-null by construction.
+        </span><span class="kw">let </span>ptr = <span class="kw">unsafe </span>{ NonNull::new_unchecked(ptr) };
+
+        <span class="comment">// SAFETY: `ptr` points to `bytes` `u8`s starting at the same address as
+        // `self`'s referent. Since `bytes` is the length of `self`'s referent,
+        // `ptr` addresses the same byte range as `self`. Thus, by invariant on
+        // `self` (as a `PtrInner`):
+        //
+        // 0. If `ptr`'s referent is not zero sized, then `ptr` has valid
+        //    provenance for its referent, which is entirely contained in some
+        //    Rust allocation, `A`.
+        // 1. If `ptr`'s referent is not zero sized, `A` is guaranteed to live
+        //    for at least `'a`.
+        </span><span class="kw">unsafe </span>{ PtrInner::new(ptr) }
     }
 }
 

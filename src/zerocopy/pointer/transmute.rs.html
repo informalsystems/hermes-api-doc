@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/zerocopy-0.8.25/src/pointer/transmute.rs`."><title>transmute.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/pointer/</div>transmute.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zerocopy-0.8.26/src/pointer/transmute.rs`."><title>transmute.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="zerocopy" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">zerocopy/pointer/</div>transmute.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -459,7 +459,25 @@
 <a href="#458" id="458">458</a>
 <a href="#459" id="459">459</a>
 <a href="#460" id="460">460</a>
-<a href="#461" id="461">461</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2025 The Fuchsia Authors
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
+<a href="#463" id="463">463</a>
+<a href="#464" id="464">464</a>
+<a href="#465" id="465">465</a>
+<a href="#466" id="466">466</a>
+<a href="#467" id="467">467</a>
+<a href="#468" id="468">468</a>
+<a href="#469" id="469">469</a>
+<a href="#470" id="470">470</a>
+<a href="#471" id="471">471</a>
+<a href="#472" id="472">472</a>
+<a href="#473" id="473">473</a>
+<a href="#474" id="474">474</a>
+<a href="#475" id="475">475</a>
+<a href="#476" id="476">476</a>
+<a href="#477" id="477">477</a>
+<a href="#478" id="478">478</a>
+<a href="#479" id="479">479</a></pre></div><pre class="rust"><code><span class="comment">// Copyright 2025 The Fuchsia Authors
 //
 // Licensed under a BSD-style license &lt;LICENSE-BSD&gt;, Apache License, Version 2.0
 // &lt;LICENSE-APACHE or https://www.apache.org/licenses/LICENSE-2.0&gt;, or the MIT
@@ -471,10 +489,12 @@
     cell::{Cell, UnsafeCell},
     mem::{ManuallyDrop, MaybeUninit},
     num::Wrapping,
-    ptr::NonNull,
 };
 
-<span class="kw">use crate</span>::{pointer::invariant::<span class="kw-2">*</span>, FromBytes, Immutable, IntoBytes, Unalign};
+<span class="kw">use crate</span>::{
+    pointer::{invariant::<span class="kw-2">*</span>, PtrInner},
+    FromBytes, Immutable, IntoBytes, Unalign,
+};
 
 <span class="doccomment">/// Transmutations which are sound to attempt, conditional on validating the bit
 /// validity of the destination type.
@@ -590,10 +610,12 @@
 //       exists, no mutation is permitted except via that `Ptr`
 //     - Aliasing is `Shared`, `Src: Immutable`, and `Dst: Immutable`, in which
 //       case no mutation is possible via either `Ptr`
-//   - `Dst: TransmuteFrom&lt;Src, SV, DV&gt;`, and so the set of `DV`-valid `Dst`s is
-//     a supserset of the set of `SV`-valid `Src`s
-// - Reverse transmutation: `Src: TransmuteFrom&lt;Dst, DV, SV&gt;`, and so the set of
-//   `DV`-valid `Dst`s is a subset of the set of `SV`-valid `Src`s
+//   - `Dst: TransmuteFrom&lt;Src, SV, DV&gt;`. Since `Dst: SizeEq&lt;Src&gt;`, this bound
+//     guarantees that the set of `DV`-valid `Dst`s is a supserset of the set of
+//     `SV`-valid `Src`s.
+// - Reverse transmutation: `Src: TransmuteFrom&lt;Dst, DV, SV&gt;`. Since `Dst:
+//   SizeEq&lt;Src&gt;`, this guarantees that the set of `DV`-valid `Dst`s is a subset
+//   of the set of `SV`-valid `Src`s.
 // - No safe code, given access to `src` and `dst`, can cause undefined
 //   behavior: By `Dst: MutationCompatible&lt;Src, A, SV, DV, _&gt;`, at least one of
 //   the following holds:
@@ -665,13 +687,13 @@
 <span class="comment">// SAFETY: Trivially sound to have multiple `&amp;T` pointing to the same referent.
 </span><span class="kw">unsafe impl</span>&lt;T: <span class="question-mark">?</span>Sized&gt; InvariantsEq&lt;T&gt; <span class="kw">for </span>T {}
 
-<span class="comment">// SAFETY: `Dst: InvariantsEq&lt;Src&gt; + TransmuteFrom&lt;Src, V, V&gt;`, and `Src:
-// TransmuteFrom&lt;Dst, V, V&gt;`.
-</span><span class="kw">unsafe impl</span>&lt;Src: <span class="question-mark">?</span>Sized, Dst: <span class="question-mark">?</span>Sized, A: Aliasing, V: Validity&gt;
-    MutationCompatible&lt;Src, A, V, V, BecauseInvariantsEq&gt; <span class="kw">for </span>Dst
+<span class="comment">// SAFETY: `Dst: InvariantsEq&lt;Src&gt; + TransmuteFrom&lt;Src, SV, DV&gt;`, and `Src:
+// TransmuteFrom&lt;Dst, DV, SV&gt;`.
+</span><span class="kw">unsafe impl</span>&lt;Src: <span class="question-mark">?</span>Sized, Dst: <span class="question-mark">?</span>Sized, A: Aliasing, SV: Validity, DV: Validity&gt;
+    MutationCompatible&lt;Src, A, SV, DV, BecauseInvariantsEq&gt; <span class="kw">for </span>Dst
 <span class="kw">where
-    </span>Src: TransmuteFrom&lt;Dst, V, V&gt;,
-    Dst: TransmuteFrom&lt;Src, V, V&gt; + InvariantsEq&lt;Src&gt;,
+    </span>Src: TransmuteFrom&lt;Dst, DV, SV&gt;,
+    Dst: TransmuteFrom&lt;Src, SV, DV&gt; + InvariantsEq&lt;Src&gt;,
 {
 }
 
@@ -733,10 +755,14 @@
 ///
 /// # Safety
 ///
-/// The set of bit patterns allowed to appear in the referent of a `Ptr&lt;Src, (_,
-/// _, SV)&gt;` must be a subset of the set allowed to appear in the referent of a
-/// `Ptr&lt;Self, (_, _, DV)&gt;`.
-</span><span class="kw">pub unsafe trait </span>TransmuteFrom&lt;Src: <span class="question-mark">?</span>Sized, SV, DV&gt;: SizeEq&lt;Src&gt; {}
+/// Given `src: Ptr&lt;Src, (_, _, SV)&gt;` and `dst: Ptr&lt;Dst, (_, _, DV)&gt;`, if the
+/// referents of `src` and `dst` are the same size, then the set of bit patterns
+/// allowed to appear in `src`'s referent must be a subset of the set allowed to
+/// appear in `dst`'s referent.
+///
+/// If the referents are not the same size, then `Dst: TransmuteFrom&lt;Src, SV,
+/// DV&gt;` conveys no safety guarantee.
+</span><span class="kw">pub unsafe trait </span>TransmuteFrom&lt;Src: <span class="question-mark">?</span>Sized, SV, DV&gt; {}
 
 <span class="doccomment">/// # Safety
 ///
@@ -744,17 +770,21 @@
 /// etc) and have the same size. In particular:
 /// - If `T: Sized` and `Self: Sized`, then their sizes must be equal
 /// - If `T: ?Sized` and `Self: ?Sized`, then it must be the case that, given
-///   any `t: *mut T`, `t as *mut Self` produces a pointer which addresses the
-///   same number of bytes as `t`.
+///   any `t: PtrInner&lt;'_, T&gt;`, `&lt;Self as SizeEq&lt;T&gt;&gt;::cast_from_raw(t)` produces
+///   a pointer which addresses the same number of bytes as `t`. *Note that it
+///   is **not** guaranteed that an `as` cast preserves referent size: it may be
+///   the case that `cast_from_raw` modifies the pointer's metadata in order to
+///   preserve referent size, which an `as` cast does not do.*
 </span><span class="kw">pub unsafe trait </span>SizeEq&lt;T: <span class="question-mark">?</span>Sized&gt; {
-    <span class="kw">fn </span>cast_from_raw(t: NonNull&lt;T&gt;) -&gt; NonNull&lt;<span class="self">Self</span>&gt;;
+    <span class="kw">fn </span>cast_from_raw(t: PtrInner&lt;<span class="lifetime">'_</span>, T&gt;) -&gt; PtrInner&lt;<span class="lifetime">'_</span>, <span class="self">Self</span>&gt;;
 }
 
 <span class="comment">// SAFETY: `T` trivially has the same size and vtable kind as `T`, and since
 // pointer `*mut T -&gt; *mut T` pointer casts are no-ops, this cast trivially
 // preserves referent size (when `T: ?Sized`).
 </span><span class="kw">unsafe impl</span>&lt;T: <span class="question-mark">?</span>Sized&gt; SizeEq&lt;T&gt; <span class="kw">for </span>T {
-    <span class="kw">fn </span>cast_from_raw(t: NonNull&lt;T&gt;) -&gt; NonNull&lt;T&gt; {
+    <span class="attr">#[inline(always)]
+    </span><span class="kw">fn </span>cast_from_raw(t: PtrInner&lt;<span class="lifetime">'_</span>, T&gt;) -&gt; PtrInner&lt;<span class="lifetime">'_</span>, T&gt; {
         t
     }
 }
@@ -765,7 +795,7 @@
 </span><span class="kw">unsafe impl</span>&lt;Src, Dst&gt; TransmuteFrom&lt;Src, Valid, Initialized&gt; <span class="kw">for </span>Dst
 <span class="kw">where
     </span>Src: IntoBytes + <span class="question-mark">?</span>Sized,
-    Dst: SizeEq&lt;Src&gt; + <span class="question-mark">?</span>Sized,
+    Dst: <span class="question-mark">?</span>Sized,
 {
 }
 
@@ -775,7 +805,7 @@
 </span><span class="kw">unsafe impl</span>&lt;Src, Dst&gt; TransmuteFrom&lt;Src, Initialized, Valid&gt; <span class="kw">for </span>Dst
 <span class="kw">where
     </span>Src: <span class="question-mark">?</span>Sized,
-    Dst: FromBytes + SizeEq&lt;Src&gt; + <span class="question-mark">?</span>Sized,
+    Dst: FromBytes + <span class="question-mark">?</span>Sized,
 {
 }
 
@@ -788,7 +818,7 @@
 </span><span class="kw">unsafe impl</span>&lt;Src, Dst&gt; TransmuteFrom&lt;Src, Initialized, Initialized&gt; <span class="kw">for </span>Dst
 <span class="kw">where
     </span>Src: <span class="question-mark">?</span>Sized,
-    Dst: SizeEq&lt;Src&gt; + <span class="question-mark">?</span>Sized,
+    Dst: <span class="question-mark">?</span>Sized,
 {
 }
 
@@ -801,7 +831,7 @@
 </span><span class="kw">unsafe impl</span>&lt;Src, Dst, V&gt; TransmuteFrom&lt;Src, V, Uninit&gt; <span class="kw">for </span>Dst
 <span class="kw">where
     </span>Src: <span class="question-mark">?</span>Sized,
-    Dst: SizeEq&lt;Src&gt; + <span class="question-mark">?</span>Sized,
+    Dst: <span class="question-mark">?</span>Sized,
     V: Validity,
 {
 }
@@ -909,15 +939,21 @@
 //   `MaybeUninit&lt;T&gt;` is guaranteed to have the same size, alignment, and ABI as
 //   `T`
 </span><span class="kw">unsafe impl</span>&lt;T&gt; SizeEq&lt;T&gt; <span class="kw">for </span>MaybeUninit&lt;T&gt; {
-    <span class="kw">fn </span>cast_from_raw(t: NonNull&lt;T&gt;) -&gt; NonNull&lt;MaybeUninit&lt;T&gt;&gt; {
-        <span class="macro">cast!</span>(t)
+    <span class="attr">#[inline(always)]
+    </span><span class="kw">fn </span>cast_from_raw(t: PtrInner&lt;<span class="lifetime">'_</span>, T&gt;) -&gt; PtrInner&lt;<span class="lifetime">'_</span>, MaybeUninit&lt;T&gt;&gt; {
+        <span class="comment">// SAFETY: Per preceding safety comment, `MaybeUninit&lt;T&gt;` and `T` have
+        // the same size, and so this cast preserves referent size.
+        </span><span class="kw">unsafe </span>{ <span class="macro">cast!</span>(t) }
     }
 }
 
 <span class="comment">// SAFETY: See previous safety comment.
 </span><span class="kw">unsafe impl</span>&lt;T&gt; SizeEq&lt;MaybeUninit&lt;T&gt;&gt; <span class="kw">for </span>T {
-    <span class="kw">fn </span>cast_from_raw(t: NonNull&lt;MaybeUninit&lt;T&gt;&gt;) -&gt; NonNull&lt;T&gt; {
-        <span class="macro">cast!</span>(t)
+    <span class="attr">#[inline(always)]
+    </span><span class="kw">fn </span>cast_from_raw(t: PtrInner&lt;<span class="lifetime">'_</span>, MaybeUninit&lt;T&gt;&gt;) -&gt; PtrInner&lt;<span class="lifetime">'_</span>, T&gt; {
+        <span class="comment">// SAFETY: Per preceding safety comment, `MaybeUninit&lt;T&gt;` and `T` have
+        // the same size, and so this cast preserves referent size.
+        </span><span class="kw">unsafe </span>{ <span class="macro">cast!</span>(t) }
     }
 }
 </code></pre></div></section></main></body></html>

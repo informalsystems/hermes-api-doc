@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prettyplease-0.2.32/src/expr.rs`."><title>expr.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="prettyplease" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">prettyplease/</div>expr.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/prettyplease-0.2.35/src/expr.rs`."><title>expr.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="prettyplease" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">prettyplease/</div>expr.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -1507,7 +1507,31 @@
 <a href="#1506" id="1506">1506</a>
 <a href="#1507" id="1507">1507</a>
 <a href="#1508" id="1508">1508</a>
-<a href="#1509" id="1509">1509</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::algorithm::{BreakToken, Printer};
+<a href="#1509" id="1509">1509</a>
+<a href="#1510" id="1510">1510</a>
+<a href="#1511" id="1511">1511</a>
+<a href="#1512" id="1512">1512</a>
+<a href="#1513" id="1513">1513</a>
+<a href="#1514" id="1514">1514</a>
+<a href="#1515" id="1515">1515</a>
+<a href="#1516" id="1516">1516</a>
+<a href="#1517" id="1517">1517</a>
+<a href="#1518" id="1518">1518</a>
+<a href="#1519" id="1519">1519</a>
+<a href="#1520" id="1520">1520</a>
+<a href="#1521" id="1521">1521</a>
+<a href="#1522" id="1522">1522</a>
+<a href="#1523" id="1523">1523</a>
+<a href="#1524" id="1524">1524</a>
+<a href="#1525" id="1525">1525</a>
+<a href="#1526" id="1526">1526</a>
+<a href="#1527" id="1527">1527</a>
+<a href="#1528" id="1528">1528</a>
+<a href="#1529" id="1529">1529</a>
+<a href="#1530" id="1530">1530</a>
+<a href="#1531" id="1531">1531</a>
+<a href="#1532" id="1532">1532</a>
+<a href="#1533" id="1533">1533</a></pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::algorithm::{BreakToken, Printer};
 <span class="kw">use </span><span class="kw">crate</span>::attr;
 <span class="kw">use </span><span class="kw">crate</span>::classify;
 <span class="kw">use </span><span class="kw">crate</span>::fixup::FixupContext;
@@ -1720,10 +1744,16 @@
 
         <span class="self">self</span>.outer_attrs(<span class="kw-2">&amp;</span>expr.attrs);
         <span class="self">self</span>.ibox(<span class="number">0</span>);
+        <span class="kw">if </span>!expr.attrs.is_empty() {
+            <span class="self">self</span>.word(<span class="string">"("</span>);
+        }
         <span class="self">self</span>.subexpr(<span class="kw-2">&amp;</span>expr.left, left_prec &lt;= Precedence::Range, left_fixup);
         <span class="self">self</span>.word(<span class="string">" = "</span>);
         <span class="self">self</span>.neverbreak();
         <span class="self">self</span>.expr(<span class="kw-2">&amp;</span>expr.right, right_fixup);
+        <span class="kw">if </span>!expr.attrs.is_empty() {
+            <span class="self">self</span>.word(<span class="string">")"</span>);
+        }
         <span class="self">self</span>.end();
     }
 
@@ -1801,12 +1831,18 @@
         <span class="self">self</span>.outer_attrs(<span class="kw-2">&amp;</span>expr.attrs);
         <span class="self">self</span>.ibox(INDENT);
         <span class="self">self</span>.ibox(-INDENT);
+        <span class="kw">if </span>!expr.attrs.is_empty() {
+            <span class="self">self</span>.word(<span class="string">"("</span>);
+        }
         <span class="self">self</span>.subexpr(<span class="kw-2">&amp;</span>expr.left, left_needs_group, left_fixup);
         <span class="self">self</span>.end();
         <span class="self">self</span>.space();
         <span class="self">self</span>.binary_operator(<span class="kw-2">&amp;</span>expr.op);
         <span class="self">self</span>.nbsp();
         <span class="self">self</span>.subexpr(<span class="kw-2">&amp;</span>expr.right, right_needs_group, right_fixup);
+        <span class="kw">if </span>!expr.attrs.is_empty() {
+            <span class="self">self</span>.word(<span class="string">")"</span>);
+        }
         <span class="self">self</span>.end();
     }
 
@@ -1884,11 +1920,17 @@
         <span class="self">self</span>.outer_attrs(<span class="kw-2">&amp;</span>expr.attrs);
         <span class="self">self</span>.ibox(INDENT);
         <span class="self">self</span>.ibox(-INDENT);
+        <span class="kw">if </span>!expr.attrs.is_empty() {
+            <span class="self">self</span>.word(<span class="string">"("</span>);
+        }
         <span class="self">self</span>.subexpr(<span class="kw-2">&amp;</span>expr.expr, left_prec &lt; Precedence::Cast, left_fixup);
         <span class="self">self</span>.end();
         <span class="self">self</span>.space();
         <span class="self">self</span>.word(<span class="string">"as "</span>);
         <span class="self">self</span>.ty(<span class="kw-2">&amp;</span>expr.ty);
+        <span class="kw">if </span>!expr.attrs.is_empty() {
+            <span class="self">self</span>.word(<span class="string">")"</span>);
+        }
         <span class="self">self</span>.end();
     }
 
@@ -2286,6 +2328,9 @@
 
     <span class="kw">pub fn </span>expr_range(<span class="kw-2">&amp;mut </span><span class="self">self</span>, expr: <span class="kw-2">&amp;</span>ExprRange, fixup: FixupContext) {
         <span class="self">self</span>.outer_attrs(<span class="kw-2">&amp;</span>expr.attrs);
+        <span class="kw">if </span>!expr.attrs.is_empty() {
+            <span class="self">self</span>.word(<span class="string">"("</span>);
+        }
         <span class="kw">if let </span><span class="prelude-val">Some</span>(start) = <span class="kw-2">&amp;</span>expr.start {
             <span class="kw">let </span>(left_prec, left_fixup) =
                 fixup.leftmost_subexpression_with_operator(start, <span class="bool-val">true</span>, <span class="bool-val">false</span>, Precedence::Range);
@@ -2301,6 +2346,9 @@
             <span class="kw">let </span>right_fixup = fixup.rightmost_subexpression_fixup(<span class="bool-val">false</span>, <span class="bool-val">true</span>, Precedence::Range);
             <span class="kw">let </span>right_prec = right_fixup.rightmost_subexpression_precedence(end);
             <span class="self">self</span>.subexpr(end, right_prec &lt;= Precedence::Range, right_fixup);
+        }
+        <span class="kw">if </span>!expr.attrs.is_empty() {
+            <span class="self">self</span>.word(<span class="string">")"</span>);
         }
     }
 

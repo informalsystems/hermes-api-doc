@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/reqwest-0.12.15/src/async_impl/client.rs`."><title>client.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="reqwest" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">reqwest/async_impl/</div>client.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/reqwest-0.12.20/src/async_impl/client.rs`."><title>client.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="reqwest" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../../static.files/storage-59e33391.js"></script><script defer src="../../../static.files/src-script-56102188.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">reqwest/async_impl/</div>client.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -2921,8 +2921,209 @@
 <a href="#2920" id="2920">2920</a>
 <a href="#2921" id="2921">2921</a>
 <a href="#2922" id="2922">2922</a>
-<a href="#2923" id="2923">2923</a></pre></div><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">"native-tls"</span>, feature = <span class="string">"__rustls"</span>,))]
+<a href="#2923" id="2923">2923</a>
+<a href="#2924" id="2924">2924</a>
+<a href="#2925" id="2925">2925</a>
+<a href="#2926" id="2926">2926</a>
+<a href="#2927" id="2927">2927</a>
+<a href="#2928" id="2928">2928</a>
+<a href="#2929" id="2929">2929</a>
+<a href="#2930" id="2930">2930</a>
+<a href="#2931" id="2931">2931</a>
+<a href="#2932" id="2932">2932</a>
+<a href="#2933" id="2933">2933</a>
+<a href="#2934" id="2934">2934</a>
+<a href="#2935" id="2935">2935</a>
+<a href="#2936" id="2936">2936</a>
+<a href="#2937" id="2937">2937</a>
+<a href="#2938" id="2938">2938</a>
+<a href="#2939" id="2939">2939</a>
+<a href="#2940" id="2940">2940</a>
+<a href="#2941" id="2941">2941</a>
+<a href="#2942" id="2942">2942</a>
+<a href="#2943" id="2943">2943</a>
+<a href="#2944" id="2944">2944</a>
+<a href="#2945" id="2945">2945</a>
+<a href="#2946" id="2946">2946</a>
+<a href="#2947" id="2947">2947</a>
+<a href="#2948" id="2948">2948</a>
+<a href="#2949" id="2949">2949</a>
+<a href="#2950" id="2950">2950</a>
+<a href="#2951" id="2951">2951</a>
+<a href="#2952" id="2952">2952</a>
+<a href="#2953" id="2953">2953</a>
+<a href="#2954" id="2954">2954</a>
+<a href="#2955" id="2955">2955</a>
+<a href="#2956" id="2956">2956</a>
+<a href="#2957" id="2957">2957</a>
+<a href="#2958" id="2958">2958</a>
+<a href="#2959" id="2959">2959</a>
+<a href="#2960" id="2960">2960</a>
+<a href="#2961" id="2961">2961</a>
+<a href="#2962" id="2962">2962</a>
+<a href="#2963" id="2963">2963</a>
+<a href="#2964" id="2964">2964</a>
+<a href="#2965" id="2965">2965</a>
+<a href="#2966" id="2966">2966</a>
+<a href="#2967" id="2967">2967</a>
+<a href="#2968" id="2968">2968</a>
+<a href="#2969" id="2969">2969</a>
+<a href="#2970" id="2970">2970</a>
+<a href="#2971" id="2971">2971</a>
+<a href="#2972" id="2972">2972</a>
+<a href="#2973" id="2973">2973</a>
+<a href="#2974" id="2974">2974</a>
+<a href="#2975" id="2975">2975</a>
+<a href="#2976" id="2976">2976</a>
+<a href="#2977" id="2977">2977</a>
+<a href="#2978" id="2978">2978</a>
+<a href="#2979" id="2979">2979</a>
+<a href="#2980" id="2980">2980</a>
+<a href="#2981" id="2981">2981</a>
+<a href="#2982" id="2982">2982</a>
+<a href="#2983" id="2983">2983</a>
+<a href="#2984" id="2984">2984</a>
+<a href="#2985" id="2985">2985</a>
+<a href="#2986" id="2986">2986</a>
+<a href="#2987" id="2987">2987</a>
+<a href="#2988" id="2988">2988</a>
+<a href="#2989" id="2989">2989</a>
+<a href="#2990" id="2990">2990</a>
+<a href="#2991" id="2991">2991</a>
+<a href="#2992" id="2992">2992</a>
+<a href="#2993" id="2993">2993</a>
+<a href="#2994" id="2994">2994</a>
+<a href="#2995" id="2995">2995</a>
+<a href="#2996" id="2996">2996</a>
+<a href="#2997" id="2997">2997</a>
+<a href="#2998" id="2998">2998</a>
+<a href="#2999" id="2999">2999</a>
+<a href="#3000" id="3000">3000</a>
+<a href="#3001" id="3001">3001</a>
+<a href="#3002" id="3002">3002</a>
+<a href="#3003" id="3003">3003</a>
+<a href="#3004" id="3004">3004</a>
+<a href="#3005" id="3005">3005</a>
+<a href="#3006" id="3006">3006</a>
+<a href="#3007" id="3007">3007</a>
+<a href="#3008" id="3008">3008</a>
+<a href="#3009" id="3009">3009</a>
+<a href="#3010" id="3010">3010</a>
+<a href="#3011" id="3011">3011</a>
+<a href="#3012" id="3012">3012</a>
+<a href="#3013" id="3013">3013</a>
+<a href="#3014" id="3014">3014</a>
+<a href="#3015" id="3015">3015</a>
+<a href="#3016" id="3016">3016</a>
+<a href="#3017" id="3017">3017</a>
+<a href="#3018" id="3018">3018</a>
+<a href="#3019" id="3019">3019</a>
+<a href="#3020" id="3020">3020</a>
+<a href="#3021" id="3021">3021</a>
+<a href="#3022" id="3022">3022</a>
+<a href="#3023" id="3023">3023</a>
+<a href="#3024" id="3024">3024</a>
+<a href="#3025" id="3025">3025</a>
+<a href="#3026" id="3026">3026</a>
+<a href="#3027" id="3027">3027</a>
+<a href="#3028" id="3028">3028</a>
+<a href="#3029" id="3029">3029</a>
+<a href="#3030" id="3030">3030</a>
+<a href="#3031" id="3031">3031</a>
+<a href="#3032" id="3032">3032</a>
+<a href="#3033" id="3033">3033</a>
+<a href="#3034" id="3034">3034</a>
+<a href="#3035" id="3035">3035</a>
+<a href="#3036" id="3036">3036</a>
+<a href="#3037" id="3037">3037</a>
+<a href="#3038" id="3038">3038</a>
+<a href="#3039" id="3039">3039</a>
+<a href="#3040" id="3040">3040</a>
+<a href="#3041" id="3041">3041</a>
+<a href="#3042" id="3042">3042</a>
+<a href="#3043" id="3043">3043</a>
+<a href="#3044" id="3044">3044</a>
+<a href="#3045" id="3045">3045</a>
+<a href="#3046" id="3046">3046</a>
+<a href="#3047" id="3047">3047</a>
+<a href="#3048" id="3048">3048</a>
+<a href="#3049" id="3049">3049</a>
+<a href="#3050" id="3050">3050</a>
+<a href="#3051" id="3051">3051</a>
+<a href="#3052" id="3052">3052</a>
+<a href="#3053" id="3053">3053</a>
+<a href="#3054" id="3054">3054</a>
+<a href="#3055" id="3055">3055</a>
+<a href="#3056" id="3056">3056</a>
+<a href="#3057" id="3057">3057</a>
+<a href="#3058" id="3058">3058</a>
+<a href="#3059" id="3059">3059</a>
+<a href="#3060" id="3060">3060</a>
+<a href="#3061" id="3061">3061</a>
+<a href="#3062" id="3062">3062</a>
+<a href="#3063" id="3063">3063</a>
+<a href="#3064" id="3064">3064</a>
+<a href="#3065" id="3065">3065</a>
+<a href="#3066" id="3066">3066</a>
+<a href="#3067" id="3067">3067</a>
+<a href="#3068" id="3068">3068</a>
+<a href="#3069" id="3069">3069</a>
+<a href="#3070" id="3070">3070</a>
+<a href="#3071" id="3071">3071</a>
+<a href="#3072" id="3072">3072</a>
+<a href="#3073" id="3073">3073</a>
+<a href="#3074" id="3074">3074</a>
+<a href="#3075" id="3075">3075</a>
+<a href="#3076" id="3076">3076</a>
+<a href="#3077" id="3077">3077</a>
+<a href="#3078" id="3078">3078</a>
+<a href="#3079" id="3079">3079</a>
+<a href="#3080" id="3080">3080</a>
+<a href="#3081" id="3081">3081</a>
+<a href="#3082" id="3082">3082</a>
+<a href="#3083" id="3083">3083</a>
+<a href="#3084" id="3084">3084</a>
+<a href="#3085" id="3085">3085</a>
+<a href="#3086" id="3086">3086</a>
+<a href="#3087" id="3087">3087</a>
+<a href="#3088" id="3088">3088</a>
+<a href="#3089" id="3089">3089</a>
+<a href="#3090" id="3090">3090</a>
+<a href="#3091" id="3091">3091</a>
+<a href="#3092" id="3092">3092</a>
+<a href="#3093" id="3093">3093</a>
+<a href="#3094" id="3094">3094</a>
+<a href="#3095" id="3095">3095</a>
+<a href="#3096" id="3096">3096</a>
+<a href="#3097" id="3097">3097</a>
+<a href="#3098" id="3098">3098</a>
+<a href="#3099" id="3099">3099</a>
+<a href="#3100" id="3100">3100</a>
+<a href="#3101" id="3101">3101</a>
+<a href="#3102" id="3102">3102</a>
+<a href="#3103" id="3103">3103</a>
+<a href="#3104" id="3104">3104</a>
+<a href="#3105" id="3105">3105</a>
+<a href="#3106" id="3106">3106</a>
+<a href="#3107" id="3107">3107</a>
+<a href="#3108" id="3108">3108</a>
+<a href="#3109" id="3109">3109</a>
+<a href="#3110" id="3110">3110</a>
+<a href="#3111" id="3111">3111</a>
+<a href="#3112" id="3112">3112</a>
+<a href="#3113" id="3113">3113</a>
+<a href="#3114" id="3114">3114</a>
+<a href="#3115" id="3115">3115</a>
+<a href="#3116" id="3116">3116</a>
+<a href="#3117" id="3117">3117</a>
+<a href="#3118" id="3118">3118</a>
+<a href="#3119" id="3119">3119</a>
+<a href="#3120" id="3120">3120</a>
+<a href="#3121" id="3121">3121</a>
+<a href="#3122" id="3122">3122</a></pre></div><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">"native-tls"</span>, feature = <span class="string">"__rustls"</span>,))]
 </span><span class="kw">use </span>std::any::Any;
+<span class="attr">#[cfg(feature = <span class="string">"http2"</span>)]
+</span><span class="kw">use </span>std::error::Error;
 <span class="kw">use </span>std::future::Future;
 <span class="kw">use </span>std::net::IpAddr;
 <span class="kw">use </span>std::pin::Pin;
@@ -2937,9 +3138,10 @@
 <span class="kw">use </span><span class="kw">super</span>::response::Response;
 <span class="kw">use </span><span class="kw">super</span>::Body;
 <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::async_impl::h3_client::connect::H3Connector;
+</span><span class="kw">use </span><span class="kw">crate</span>::async_impl::h3_client::connect::{H3ClientConfig, H3Connector};
 <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::async_impl::h3_client::{H3Client, H3ResponseFuture};
+</span><span class="kw">use </span><span class="kw">crate</span>::async_impl::h3_client::H3Client;
+<span class="kw">use </span><span class="kw">crate</span>::config::{RequestConfig, RequestTimeout};
 <span class="kw">use </span><span class="kw">crate</span>::connect::{
     sealed::{Conn, Unnameable},
     BoxedConnectorLayer, BoxedConnectorService, Connector, ConnectorBuilder,
@@ -2951,7 +3153,8 @@
 <span class="kw">use </span><span class="kw">crate</span>::dns::{gai::GaiResolver, DnsResolverWithOverrides, DynResolver, Resolve};
 <span class="kw">use </span><span class="kw">crate</span>::error::{<span class="self">self</span>, BoxError};
 <span class="kw">use </span><span class="kw">crate</span>::into_url::try_uri;
-<span class="kw">use </span><span class="kw">crate</span>::redirect::{<span class="self">self</span>, remove_sensitive_headers};
+<span class="kw">use </span><span class="kw">crate</span>::proxy::Matcher <span class="kw">as </span>ProxyMatcher;
+<span class="kw">use </span><span class="kw">crate</span>::redirect::{<span class="self">self</span>, TowerRedirectPolicy};
 <span class="attr">#[cfg(feature = <span class="string">"__rustls"</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::tls::CertificateRevocationList;
 <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
@@ -2960,16 +3163,15 @@
 </span><span class="kw">use </span><span class="kw">crate</span>::Certificate;
 <span class="attr">#[cfg(any(feature = <span class="string">"native-tls"</span>, feature = <span class="string">"__rustls"</span>))]
 </span><span class="kw">use </span><span class="kw">crate</span>::Identity;
-<span class="kw">use crate</span>::{IntoUrl, Method, Proxy, StatusCode, Url};
+<span class="kw">use crate</span>::{IntoUrl, Method, Proxy, Url};
+
 <span class="kw">use </span>bytes::Bytes;
 <span class="kw">use </span>http::header::{
-    Entry, HeaderMap, HeaderValue, ACCEPT, ACCEPT_ENCODING, CONTENT_ENCODING, CONTENT_LENGTH,
-    CONTENT_TYPE, LOCATION, PROXY_AUTHORIZATION, RANGE, REFERER, TRANSFER_ENCODING, USER_AGENT,
+    Entry, HeaderMap, HeaderValue, ACCEPT, ACCEPT_ENCODING, PROXY_AUTHORIZATION, RANGE, USER_AGENT,
 };
 <span class="kw">use </span>http::uri::Scheme;
 <span class="kw">use </span>http::Uri;
 <span class="kw">use </span>hyper_util::client::legacy::connect::HttpConnector;
-<span class="kw">use </span>log::debug;
 <span class="attr">#[cfg(feature = <span class="string">"default-tls"</span>)]
 </span><span class="kw">use </span>native_tls_crate::TlsConnector;
 <span class="kw">use </span>pin_project_lite::pin_project;
@@ -2980,8 +3182,7 @@
 <span class="kw">use </span>tokio::time::Sleep;
 <span class="kw">use </span>tower::util::BoxCloneSyncServiceLayer;
 <span class="kw">use </span>tower::{Layer, Service};
-
-<span class="kw">type </span>HyperResponseFuture = hyper_util::client::legacy::ResponseFuture;
+<span class="kw">use </span>tower_http::follow_redirect::FollowRedirect;
 
 <span class="doccomment">/// An asynchronous `Client` to make Requests with.
 ///
@@ -3016,6 +3217,61 @@
     All,
 }
 
+<span class="attr">#[derive(Clone)]
+</span><span class="kw">struct </span>HyperService {
+    <span class="attr">#[cfg(feature = <span class="string">"cookies"</span>)]
+    </span>cookie_store: <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>cookie::CookieStore&gt;&gt;,
+    hyper: HyperClient,
+}
+
+<span class="kw">impl </span>Service&lt;hyper::Request&lt;<span class="kw">crate</span>::async_impl::body::Body&gt;&gt; <span class="kw">for </span>HyperService {
+    <span class="kw">type </span>Error = <span class="kw">crate</span>::Error;
+    <span class="kw">type </span>Response = http::Response&lt;hyper::body::Incoming&gt;;
+    <span class="kw">type </span>Future = Pin&lt;Box&lt;<span class="kw">dyn </span>Future&lt;Output = <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Response, <span class="self">Self</span>::Error&gt;&gt; + Send + Sync&gt;&gt;;
+
+    <span class="kw">fn </span>poll_ready(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
+        <span class="self">self</span>.hyper.poll_ready(cx).map_err(<span class="kw">crate</span>::error::request)
+    }
+
+    <span class="attr">#[cfg(not(feature = <span class="string">"cookies"</span>))]
+    </span><span class="kw">fn </span>call(<span class="kw-2">&amp;mut </span><span class="self">self</span>, req: hyper::Request&lt;<span class="kw">crate</span>::async_impl::body::Body&gt;) -&gt; <span class="self">Self</span>::Future {
+        <span class="kw">let </span>clone = <span class="self">self</span>.hyper.clone();
+        <span class="kw">let </span><span class="kw-2">mut </span>inner = std::mem::replace(<span class="kw-2">&amp;mut </span><span class="self">self</span>.hyper, clone);
+        Box::pin(<span class="kw">async move </span>{ inner.call(req).<span class="kw">await</span>.map_err(<span class="kw">crate</span>::error::request) })
+    }
+
+    <span class="attr">#[cfg(feature = <span class="string">"cookies"</span>)]
+    </span><span class="kw">fn </span>call(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>req: hyper::Request&lt;<span class="kw">crate</span>::async_impl::body::Body&gt;) -&gt; <span class="self">Self</span>::Future {
+        <span class="kw">let </span>clone = <span class="self">self</span>.hyper.clone();
+        <span class="kw">let </span><span class="kw-2">mut </span>inner = std::mem::replace(<span class="kw-2">&amp;mut </span><span class="self">self</span>.hyper, clone);
+        <span class="kw">let </span>url = Url::parse(req.uri().to_string().as_str()).expect(<span class="string">"invalid URL"</span>);
+
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(cookie_store) = <span class="self">self</span>.cookie_store.as_ref() {
+            <span class="kw">if </span>req.headers().get(<span class="kw">crate</span>::header::COOKIE).is_none() {
+                <span class="kw">let </span>headers = req.headers_mut();
+                <span class="kw">crate</span>::util::add_cookie_header(headers, <span class="kw-2">&amp;**</span>cookie_store, <span class="kw-2">&amp;</span>url);
+            }
+        }
+
+        <span class="kw">let </span>cookie_store = <span class="self">self</span>.cookie_store.clone();
+        Box::pin(<span class="kw">async move </span>{
+            <span class="kw">let </span>res = inner.call(req).<span class="kw">await</span>.map_err(<span class="kw">crate</span>::error::request);
+
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>cookie_store) = cookie_store {
+                <span class="kw">if let </span><span class="prelude-val">Ok</span>(res) = <span class="kw-2">&amp;</span>res {
+                    <span class="kw">let </span><span class="kw-2">mut </span>cookies =
+                        cookie::extract_response_cookie_headers(res.headers()).peekable();
+                    <span class="kw">if </span>cookies.peek().is_some() {
+                        cookie_store.set_cookies(<span class="kw-2">&amp;mut </span>cookies, <span class="kw-2">&amp;</span>url);
+                    }
+                }
+            }
+
+            res
+        })
+    }
+}
+
 <span class="kw">struct </span>Config {
     <span class="comment">// NOTE: When adding a new field, update `fmt::Debug for ClientBuilder`
     </span>accepts: Accepts,
@@ -3031,9 +3287,13 @@
     pool_idle_timeout: <span class="prelude-ty">Option</span>&lt;Duration&gt;,
     pool_max_idle_per_host: usize,
     tcp_keepalive: <span class="prelude-ty">Option</span>&lt;Duration&gt;,
+    tcp_keepalive_interval: <span class="prelude-ty">Option</span>&lt;Duration&gt;,
+    tcp_keepalive_retries: <span class="prelude-ty">Option</span>&lt;u32&gt;,
+    <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+    </span>tcp_user_timeout: <span class="prelude-ty">Option</span>&lt;Duration&gt;,
     <span class="attr">#[cfg(any(feature = <span class="string">"native-tls"</span>, feature = <span class="string">"__rustls"</span>))]
     </span>identity: <span class="prelude-ty">Option</span>&lt;Identity&gt;,
-    proxies: Vec&lt;Proxy&gt;,
+    proxies: Vec&lt;ProxyMatcher&gt;,
     auto_sys_proxy: bool,
     redirect_policy: redirect::Policy,
     referer: bool,
@@ -3081,7 +3341,18 @@
     <span class="attr">#[cfg(feature = <span class="string">"http2"</span>)]
     </span>http2_keep_alive_while_idle: bool,
     local_address: <span class="prelude-ty">Option</span>&lt;IpAddr&gt;,
-    <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+    <span class="attr">#[cfg(any(
+        target_os = <span class="string">"android"</span>,
+        target_os = <span class="string">"fuchsia"</span>,
+        target_os = <span class="string">"illumos"</span>,
+        target_os = <span class="string">"ios"</span>,
+        target_os = <span class="string">"linux"</span>,
+        target_os = <span class="string">"macos"</span>,
+        target_os = <span class="string">"solaris"</span>,
+        target_os = <span class="string">"tvos"</span>,
+        target_os = <span class="string">"visionos"</span>,
+        target_os = <span class="string">"watchos"</span>,
+    ))]
     </span>interface: <span class="prelude-ty">Option</span>&lt;String&gt;,
     nodelay: bool,
     <span class="attr">#[cfg(feature = <span class="string">"cookies"</span>)]
@@ -3099,6 +3370,12 @@
     </span>quic_receive_window: <span class="prelude-ty">Option</span>&lt;VarInt&gt;,
     <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
     </span>quic_send_window: <span class="prelude-ty">Option</span>&lt;u64&gt;,
+    <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
+    </span>quic_congestion_bbr: bool,
+    <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
+    </span>h3_max_field_section_size: <span class="prelude-ty">Option</span>&lt;u64&gt;,
+    <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
+    </span>h3_send_grease: <span class="prelude-ty">Option</span>&lt;bool&gt;,
     dns_overrides: HashMap&lt;String, Vec&lt;SocketAddr&gt;&gt;,
     dns_resolver: <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>Resolve&gt;&gt;,
 }
@@ -3135,7 +3412,11 @@
                 <span class="comment">// TODO: Re-enable default duration once hyper's HttpConnector is fixed
                 // to no longer error when an option fails.
                 </span>tcp_keepalive: <span class="prelude-val">None</span>, <span class="comment">//Some(Duration::from_secs(60)),
-                </span>proxies: Vec::new(),
+                </span>tcp_keepalive_interval: <span class="prelude-val">None</span>,
+                tcp_keepalive_retries: <span class="prelude-val">None</span>,
+                <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+                </span>tcp_user_timeout: <span class="prelude-val">None</span>,
+                proxies: Vec::new(),
                 auto_sys_proxy: <span class="bool-val">true</span>,
                 redirect_policy: redirect::Policy::default(),
                 referer: <span class="bool-val">true</span>,
@@ -3185,7 +3466,18 @@
                 <span class="attr">#[cfg(feature = <span class="string">"http2"</span>)]
                 </span>http2_keep_alive_while_idle: <span class="bool-val">false</span>,
                 local_address: <span class="prelude-val">None</span>,
-                <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+                <span class="attr">#[cfg(any(
+                    target_os = <span class="string">"android"</span>,
+                    target_os = <span class="string">"fuchsia"</span>,
+                    target_os = <span class="string">"illumos"</span>,
+                    target_os = <span class="string">"ios"</span>,
+                    target_os = <span class="string">"linux"</span>,
+                    target_os = <span class="string">"macos"</span>,
+                    target_os = <span class="string">"solaris"</span>,
+                    target_os = <span class="string">"tvos"</span>,
+                    target_os = <span class="string">"visionos"</span>,
+                    target_os = <span class="string">"watchos"</span>,
+                ))]
                 </span>interface: <span class="prelude-val">None</span>,
                 nodelay: <span class="bool-val">true</span>,
                 hickory_dns: <span class="macro">cfg!</span>(feature = <span class="string">"hickory-dns"</span>),
@@ -3203,6 +3495,12 @@
                 </span>quic_receive_window: <span class="prelude-val">None</span>,
                 <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
                 </span>quic_send_window: <span class="prelude-val">None</span>,
+                <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
+                </span>quic_congestion_bbr: <span class="bool-val">false</span>,
+                <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
+                </span>h3_max_field_section_size: <span class="prelude-val">None</span>,
+                <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
+                </span>h3_send_grease: <span class="prelude-val">None</span>,
                 dns_resolver: <span class="prelude-val">None</span>,
             },
         }
@@ -3225,7 +3523,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>proxies = config.proxies;
         <span class="kw">if </span>config.auto_sys_proxy {
-            proxies.push(Proxy::system());
+            proxies.push(ProxyMatcher::system());
         }
         <span class="kw">let </span>proxies = Arc::new(proxies);
 
@@ -3233,12 +3531,7 @@
         #[cfg(feature = <span class="string">"http3"</span>)]
         </span><span class="kw">let </span><span class="kw-2">mut </span>h3_connector = <span class="prelude-val">None</span>;
 
-        <span class="kw">let </span><span class="kw-2">mut </span>connector_builder = {
-            <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
-            </span><span class="kw">fn </span>user_agent(headers: <span class="kw-2">&amp;</span>HeaderMap) -&gt; <span class="prelude-ty">Option</span>&lt;HeaderValue&gt; {
-                headers.get(USER_AGENT).cloned()
-            }
-
+        <span class="kw">let </span>resolver = {
             <span class="kw">let </span><span class="kw-2">mut </span>resolver: Arc&lt;<span class="kw">dyn </span>Resolve&gt; = <span class="kw">match </span>config.hickory_dns {
                 <span class="bool-val">false </span>=&gt; Arc::new(GaiResolver::new()),
                 <span class="attr">#[cfg(feature = <span class="string">"hickory-dns"</span>)]
@@ -3255,7 +3548,16 @@
                     config.dns_overrides,
                 ));
             }
-            <span class="kw">let </span><span class="kw-2">mut </span>http = HttpConnector::new_with_resolver(DynResolver::new(resolver.clone()));
+            DynResolver::new(resolver)
+        };
+
+        <span class="kw">let </span><span class="kw-2">mut </span>connector_builder = {
+            <span class="attr">#[cfg(feature = <span class="string">"__tls"</span>)]
+            </span><span class="kw">fn </span>user_agent(headers: <span class="kw-2">&amp;</span>HeaderMap) -&gt; <span class="prelude-ty">Option</span>&lt;HeaderValue&gt; {
+                headers.get(USER_AGENT).cloned()
+            }
+
+            <span class="kw">let </span><span class="kw-2">mut </span>http = HttpConnector::new_with_resolver(resolver.clone());
             http.set_connect_timeout(config.connect_timeout);
 
             <span class="attr">#[cfg(all(feature = <span class="string">"http3"</span>, feature = <span class="string">"__rustls"</span>))]
@@ -3266,6 +3568,9 @@
                  quic_stream_receive_window,
                  quic_receive_window,
                  quic_send_window,
+                 quic_congestion_bbr,
+                 h3_max_field_section_size,
+                 h3_send_grease,
                  local_address,
                  http_version_pref: <span class="kw-2">&amp;</span>HttpVersionPref| {
                     <span class="kw">let </span><span class="kw-2">mut </span>transport_config = TransportConfig::default();
@@ -3288,11 +3593,27 @@
                         transport_config.send_window(send_window);
                     }
 
+                    <span class="kw">if </span>quic_congestion_bbr {
+                        <span class="kw">let </span>factory = Arc::new(quinn::congestion::BbrConfig::default());
+                        transport_config.congestion_controller_factory(factory);
+                    }
+
+                    <span class="kw">let </span><span class="kw-2">mut </span>h3_client_config = H3ClientConfig::default();
+
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(max_field_section_size) = h3_max_field_section_size {
+                        h3_client_config.max_field_section_size = <span class="prelude-val">Some</span>(max_field_section_size);
+                    }
+
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(send_grease) = h3_send_grease {
+                        h3_client_config.send_grease = <span class="prelude-val">Some</span>(send_grease);
+                    }
+
                     <span class="kw">let </span>res = H3Connector::new(
-                        DynResolver::new(resolver),
+                        resolver,
                         tls,
                         local_address,
                         transport_config,
+                        h3_client_config,
                     );
 
                     <span class="kw">match </span>res {
@@ -3385,8 +3706,15 @@
                         <span class="attr">#[cfg(any(
                             target_os = <span class="string">"android"</span>,
                             target_os = <span class="string">"fuchsia"</span>,
-                            target_os = <span class="string">"linux"
-                        </span>))]
+                            target_os = <span class="string">"illumos"</span>,
+                            target_os = <span class="string">"ios"</span>,
+                            target_os = <span class="string">"linux"</span>,
+                            target_os = <span class="string">"macos"</span>,
+                            target_os = <span class="string">"solaris"</span>,
+                            target_os = <span class="string">"tvos"</span>,
+                            target_os = <span class="string">"visionos"</span>,
+                            target_os = <span class="string">"watchos"</span>,
+                        ))]
                         </span>config.interface.as_deref(),
                         config.nodelay,
                         config.tls_info,
@@ -3399,7 +3727,18 @@
                     proxies.clone(),
                     user_agent(<span class="kw-2">&amp;</span>config.headers),
                     config.local_address,
-                    <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+                    <span class="attr">#[cfg(any(
+                        target_os = <span class="string">"android"</span>,
+                        target_os = <span class="string">"fuchsia"</span>,
+                        target_os = <span class="string">"illumos"</span>,
+                        target_os = <span class="string">"ios"</span>,
+                        target_os = <span class="string">"linux"</span>,
+                        target_os = <span class="string">"macos"</span>,
+                        target_os = <span class="string">"solaris"</span>,
+                        target_os = <span class="string">"tvos"</span>,
+                        target_os = <span class="string">"visionos"</span>,
+                        target_os = <span class="string">"watchos"</span>,
+                    ))]
                     </span>config.interface.as_deref(),
                     config.nodelay,
                     config.tls_info,
@@ -3409,12 +3748,15 @@
                     <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
                     </span>{
                         h3_connector = build_h3_connector(
-                            resolver,
+                            resolver.clone(),
                             conn.clone(),
                             config.quic_max_idle_timeout,
                             config.quic_stream_receive_window,
                             config.quic_receive_window,
                             config.quic_send_window,
+                            config.quic_congestion_bbr,
+                            config.h3_max_field_section_size,
+                            config.h3_send_grease,
                             config.local_address,
                             <span class="kw-2">&amp;</span>config.http_version_pref,
                         )<span class="question-mark">?</span>;
@@ -3429,8 +3771,15 @@
                         <span class="attr">#[cfg(any(
                             target_os = <span class="string">"android"</span>,
                             target_os = <span class="string">"fuchsia"</span>,
-                            target_os = <span class="string">"linux"
-                        </span>))]
+                            target_os = <span class="string">"illumos"</span>,
+                            target_os = <span class="string">"ios"</span>,
+                            target_os = <span class="string">"linux"</span>,
+                            target_os = <span class="string">"macos"</span>,
+                            target_os = <span class="string">"solaris"</span>,
+                            target_os = <span class="string">"tvos"</span>,
+                            target_os = <span class="string">"visionos"</span>,
+                            target_os = <span class="string">"watchos"</span>,
+                        ))]
                         </span>config.interface.as_deref(),
                         config.nodelay,
                         config.tls_info,
@@ -3604,12 +3953,15 @@
                         tls.enable_early_data = config.tls_enable_early_data;
 
                         h3_connector = build_h3_connector(
-                            resolver,
+                            resolver.clone(),
                             tls.clone(),
                             config.quic_max_idle_timeout,
                             config.quic_stream_receive_window,
                             config.quic_receive_window,
                             config.quic_send_window,
+                            config.quic_congestion_bbr,
+                            config.h3_max_field_section_size,
+                            config.h3_send_grease,
                             config.local_address,
                             <span class="kw-2">&amp;</span>config.http_version_pref,
                         )<span class="question-mark">?</span>;
@@ -3624,8 +3976,15 @@
                         <span class="attr">#[cfg(any(
                             target_os = <span class="string">"android"</span>,
                             target_os = <span class="string">"fuchsia"</span>,
-                            target_os = <span class="string">"linux"
-                        </span>))]
+                            target_os = <span class="string">"illumos"</span>,
+                            target_os = <span class="string">"ios"</span>,
+                            target_os = <span class="string">"linux"</span>,
+                            target_os = <span class="string">"macos"</span>,
+                            target_os = <span class="string">"solaris"</span>,
+                            target_os = <span class="string">"tvos"</span>,
+                            target_os = <span class="string">"visionos"</span>,
+                            target_os = <span class="string">"watchos"</span>,
+                        ))]
                         </span>config.interface.as_deref(),
                         config.nodelay,
                         config.tls_info,
@@ -3644,7 +4003,18 @@
                 http,
                 proxies.clone(),
                 config.local_address,
-                <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+                <span class="attr">#[cfg(any(
+                    target_os = <span class="string">"android"</span>,
+                    target_os = <span class="string">"fuchsia"</span>,
+                    target_os = <span class="string">"illumos"</span>,
+                    target_os = <span class="string">"ios"</span>,
+                    target_os = <span class="string">"linux"</span>,
+                    target_os = <span class="string">"macos"</span>,
+                    target_os = <span class="string">"solaris"</span>,
+                    target_os = <span class="string">"tvos"</span>,
+                    target_os = <span class="string">"visionos"</span>,
+                    target_os = <span class="string">"watchos"</span>,
+                ))]
                 </span>config.interface.as_deref(),
                 config.nodelay,
             )
@@ -3653,6 +4023,13 @@
         connector_builder.set_timeout(config.connect_timeout);
         connector_builder.set_verbose(config.connection_verbose);
         connector_builder.set_keepalive(config.tcp_keepalive);
+        connector_builder.set_keepalive_interval(config.tcp_keepalive_interval);
+        connector_builder.set_keepalive_retries(config.tcp_keepalive_retries);
+        <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+        </span>connector_builder.set_tcp_user_timeout(config.tcp_user_timeout);
+
+        <span class="attr">#[cfg(feature = <span class="string">"socks"</span>)]
+        </span>connector_builder.set_socks_resolver(resolver);
 
         <span class="kw">let </span><span class="kw-2">mut </span>builder =
             hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new());
@@ -3717,30 +4094,63 @@
         }
 
         <span class="kw">let </span>proxies_maybe_http_auth = proxies.iter().any(|p| p.maybe_has_http_auth());
+        <span class="kw">let </span>proxies_maybe_http_custom_headers =
+            proxies.iter().any(|p| p.maybe_has_http_custom_headers());
+
+        <span class="kw">let </span>redirect_policy_desc = <span class="kw">if </span>config.redirect_policy.is_default() {
+            <span class="prelude-val">None
+        </span>} <span class="kw">else </span>{
+            <span class="prelude-val">Some</span>(<span class="macro">format!</span>(<span class="string">"{:?}"</span>, <span class="kw-2">&amp;</span>config.redirect_policy))
+        };
+
+        <span class="kw">let </span>hyper_client = builder.build(connector_builder.build(config.connector_layers));
+        <span class="kw">let </span>hyper_service = HyperService {
+            <span class="attr">#[cfg(feature = <span class="string">"cookies"</span>)]
+            </span>cookie_store: config.cookie_store.clone(),
+            hyper: hyper_client,
+        };
+
+        <span class="kw">let </span>policy = {
+            <span class="kw">let </span><span class="kw-2">mut </span>p = TowerRedirectPolicy::new(config.redirect_policy);
+            p.with_referer(config.referer)
+                .with_https_only(config.https_only);
+            p
+        };
+
+        <span class="kw">let </span>hyper = FollowRedirect::with_policy(hyper_service, policy.clone());
 
         <span class="prelude-val">Ok</span>(Client {
             inner: Arc::new(ClientRef {
                 accepts: config.accepts,
                 <span class="attr">#[cfg(feature = <span class="string">"cookies"</span>)]
-                </span>cookie_store: config.cookie_store,
+                </span>cookie_store: config.cookie_store.clone(),
                 <span class="comment">// Use match instead of map since config is partially moved,
                 // and it cannot be used in closure
                 </span><span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
                 </span>h3_client: <span class="kw">match </span>h3_connector {
                     <span class="prelude-val">Some</span>(h3_connector) =&gt; {
-                        <span class="prelude-val">Some</span>(H3Client::new(h3_connector, config.pool_idle_timeout))
+                        <span class="attr">#[cfg(not(feature = <span class="string">"cookies"</span>))]
+                        </span><span class="kw">let </span>h3_service = H3Client::new(h3_connector, config.pool_idle_timeout);
+                        <span class="attr">#[cfg(feature = <span class="string">"cookies"</span>)]
+                        </span><span class="kw">let </span>h3_service = H3Client::new(
+                            h3_connector,
+                            config.pool_idle_timeout,
+                            config.cookie_store,
+                        );
+                        <span class="prelude-val">Some</span>(FollowRedirect::with_policy(h3_service, policy))
                     }
                     <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
                 },
-                hyper: builder.build(connector_builder.build(config.connector_layers)),
                 headers: config.headers,
-                redirect_policy: config.redirect_policy,
                 referer: config.referer,
                 read_timeout: config.read_timeout,
-                request_timeout: config.timeout,
+                request_timeout: RequestConfig::new(config.timeout),
+                hyper,
                 proxies,
                 proxies_maybe_http_auth,
+                proxies_maybe_http_custom_headers,
                 https_only: config.https_only,
+                redirect_policy_desc,
             }),
         })
     }
@@ -4046,7 +4456,7 @@
     ///
     /// Adding a proxy will disable the automatic usage of the "system" proxy.
     </span><span class="kw">pub fn </span>proxy(<span class="kw-2">mut </span><span class="self">self</span>, proxy: Proxy) -&gt; ClientBuilder {
-        <span class="self">self</span>.config.proxies.push(proxy);
+        <span class="self">self</span>.config.proxies.push(proxy.into_matcher());
         <span class="self">self</span>.config.auto_sys_proxy = <span class="bool-val">false</span>;
         <span class="self">self
     </span>}
@@ -4310,13 +4720,14 @@
     /// # Example
     ///
     /// ```
-    /// # #[cfg(all(feature = "__rustls", not(feature = "__rustls-ring")))]
-    /// # let _ = rustls::crypto::ring::default_provider().install_default();
+    /// # fn doc() -&gt; Result&lt;(), reqwest::Error&gt; {
     /// use std::net::IpAddr;
     /// let local_addr = IpAddr::from([12, 4, 1, 8]);
     /// let client = reqwest::Client::builder()
     ///     .local_address(local_addr)
-    ///     .build().unwrap();
+    ///     .build()?;
+    /// # Ok(())
+    /// # }
     /// ```
     </span><span class="kw">pub fn </span>local_address&lt;T&gt;(<span class="kw-2">mut </span><span class="self">self</span>, addr: T) -&gt; ClientBuilder
     <span class="kw">where
@@ -4326,19 +4737,50 @@
         <span class="self">self
     </span>}
 
-    <span class="doccomment">/// Bind to an interface by `SO_BINDTODEVICE`.
+    <span class="doccomment">/// Bind connections only on the specified network interface.
+    ///
+    /// This option is only available on the following operating systems:
+    ///
+    /// - Android
+    /// - Fuchsia
+    /// - Linux,
+    /// - macOS and macOS-like systems (iOS, tvOS, watchOS and visionOS)
+    /// - Solaris and illumos
+    ///
+    /// On Android, Linux, and Fuchsia, this uses the
+    /// [`SO_BINDTODEVICE`][man-7-socket] socket option. On macOS and macOS-like
+    /// systems, Solaris, and illumos, this instead uses the [`IP_BOUND_IF` and
+    /// `IPV6_BOUND_IF`][man-7p-ip] socket options (as appropriate).
+    ///
+    /// Note that connections will fail if the provided interface name is not a
+    /// network interface that currently exists when a connection is established.
     ///
     /// # Example
     ///
     /// ```
-    /// # #[cfg(all(feature = "__rustls", not(feature = "__rustls-ring")))]
-    /// # let _ = rustls::crypto::ring::default_provider().install_default();
+    /// # fn doc() -&gt; Result&lt;(), reqwest::Error&gt; {
     /// let interface = "lo";
     /// let client = reqwest::Client::builder()
     ///     .interface(interface)
-    ///     .build().unwrap();
+    ///     .build()?;
+    /// # Ok(())
+    /// # }
     /// ```
-    </span><span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+    ///
+    /// [man-7-socket]: https://man7.org/linux/man-pages/man7/socket.7.html
+    /// [man-7p-ip]: https://docs.oracle.com/cd/E86824_01/html/E54777/ip-7p.html
+    </span><span class="attr">#[cfg(any(
+        target_os = <span class="string">"android"</span>,
+        target_os = <span class="string">"fuchsia"</span>,
+        target_os = <span class="string">"illumos"</span>,
+        target_os = <span class="string">"ios"</span>,
+        target_os = <span class="string">"linux"</span>,
+        target_os = <span class="string">"macos"</span>,
+        target_os = <span class="string">"solaris"</span>,
+        target_os = <span class="string">"tvos"</span>,
+        target_os = <span class="string">"visionos"</span>,
+        target_os = <span class="string">"watchos"</span>,
+    ))]
     </span><span class="kw">pub fn </span>interface(<span class="kw-2">mut </span><span class="self">self</span>, interface: <span class="kw-2">&amp;</span>str) -&gt; ClientBuilder {
         <span class="self">self</span>.config.interface = <span class="prelude-val">Some</span>(interface.to_string());
         <span class="self">self
@@ -4352,6 +4794,43 @@
         </span>D: Into&lt;<span class="prelude-ty">Option</span>&lt;Duration&gt;&gt;,
     {
         <span class="self">self</span>.config.tcp_keepalive = val.into();
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Set that all sockets have `SO_KEEPALIVE` set with the supplied interval.
+    ///
+    /// If `None`, the option will not be set.
+    </span><span class="kw">pub fn </span>tcp_keepalive_interval&lt;D&gt;(<span class="kw-2">mut </span><span class="self">self</span>, val: D) -&gt; ClientBuilder
+    <span class="kw">where
+        </span>D: Into&lt;<span class="prelude-ty">Option</span>&lt;Duration&gt;&gt;,
+    {
+        <span class="self">self</span>.config.tcp_keepalive_interval = val.into();
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Set that all sockets have `SO_KEEPALIVE` set with the supplied retry count.
+    ///
+    /// If `None`, the option will not be set.
+    </span><span class="kw">pub fn </span>tcp_keepalive_retries&lt;C&gt;(<span class="kw-2">mut </span><span class="self">self</span>, retries: C) -&gt; ClientBuilder
+    <span class="kw">where
+        </span>C: Into&lt;<span class="prelude-ty">Option</span>&lt;u32&gt;&gt;,
+    {
+        <span class="self">self</span>.config.tcp_keepalive_retries = retries.into();
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Set that all sockets have `TCP_USER_TIMEOUT` set with the supplied duration.
+    ///
+    /// This option controls how long transmitted data may remain unacknowledged before
+    /// the connection is force-closed.
+    ///
+    /// The current default is `None` (option disabled).
+    </span><span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+    </span><span class="kw">pub fn </span>tcp_user_timeout&lt;D&gt;(<span class="kw-2">mut </span><span class="self">self</span>, val: D) -&gt; ClientBuilder
+    <span class="kw">where
+        </span>D: Into&lt;<span class="prelude-ty">Option</span>&lt;Duration&gt;&gt;,
+    {
+        <span class="self">self</span>.config.tcp_user_timeout = val.into();
         <span class="self">self
     </span>}
 
@@ -4885,6 +5364,54 @@
         <span class="self">self
     </span>}
 
+    <span class="doccomment">/// Override the default congestion control algorithm to use [BBR]
+    ///
+    /// The current default congestion control algorithm is [CUBIC]. This method overrides the
+    /// default.
+    ///
+    /// [BBR]: https://datatracker.ietf.org/doc/html/draft-ietf-ccwg-bbr
+    /// [CUBIC]: https://datatracker.ietf.org/doc/html/rfc8312
+    </span><span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
+    #[cfg_attr(docsrs, doc(cfg(all(reqwest_unstable, feature = <span class="string">"http3"</span>,))))]
+    </span><span class="kw">pub fn </span>http3_congestion_bbr(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; ClientBuilder {
+        <span class="self">self</span>.config.quic_congestion_bbr = <span class="bool-val">true</span>;
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Set the maximum HTTP/3 header size this client is willing to accept.
+    ///
+    /// See [header size constraints] section of the specification for details.
+    ///
+    /// [header size constraints]: https://www.rfc-editor.org/rfc/rfc9114.html#name-header-size-constraints
+    ///
+    /// Please see docs in [`Builder`] in [`h3`].
+    ///
+    /// [`Builder`]: https://docs.rs/h3/latest/h3/client/struct.Builder.html#method.max_field_section_size
+    </span><span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
+    #[cfg_attr(docsrs, doc(cfg(all(reqwest_unstable, feature = <span class="string">"http3"</span>,))))]
+    </span><span class="kw">pub fn </span>http3_max_field_section_size(<span class="kw-2">mut </span><span class="self">self</span>, value: u64) -&gt; ClientBuilder {
+        <span class="self">self</span>.config.h3_max_field_section_size = <span class="prelude-val">Some</span>(value.try_into().unwrap());
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Enable whether to send HTTP/3 protocol grease on the connections.
+    ///
+    /// HTTP/3 uses the concept of "grease"
+    ///
+    /// to prevent potential interoperability issues in the future.
+    /// In HTTP/3, the concept of grease is used to ensure that the protocol can evolve
+    /// and accommodate future changes without breaking existing implementations.
+    ///
+    /// Please see docs in [`Builder`] in [`h3`].
+    ///
+    /// [`Builder`]: https://docs.rs/h3/latest/h3/client/struct.Builder.html#method.send_grease
+    </span><span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
+    #[cfg_attr(docsrs, doc(cfg(all(reqwest_unstable, feature = <span class="string">"http3"</span>,))))]
+    </span><span class="kw">pub fn </span>http3_send_grease(<span class="kw-2">mut </span><span class="self">self</span>, enabled: bool) -&gt; ClientBuilder {
+        <span class="self">self</span>.config.h3_send_grease = <span class="prelude-val">Some</span>(enabled);
+        <span class="self">self
+    </span>}
+
     <span class="doccomment">/// Adds a new Tower [`Layer`](https://docs.rs/tower/latest/tower/trait.Layer.html) to the
     /// base connector [`Service`](https://docs.rs/tower/latest/tower/trait.Service.html) which
     /// is responsible for connection establishment.
@@ -5039,7 +5566,7 @@
     }
 
     <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>execute_request(<span class="kw-2">&amp;</span><span class="self">self</span>, req: Request) -&gt; Pending {
-        <span class="kw">let </span>(method, url, <span class="kw-2">mut </span>headers, body, timeout, version) = req.pieces();
+        <span class="kw">let </span>(method, url, <span class="kw-2">mut </span>headers, body, version, extensions) = req.pieces();
         <span class="kw">if </span>url.scheme() != <span class="string">"http" </span>&amp;&amp; url.scheme() != <span class="string">"https" </span>{
             <span class="kw">return </span>Pending::new_err(error::url_bad_scheme(url));
         }
@@ -5054,16 +5581,6 @@
         </span><span class="kw">for </span>(key, value) <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.inner.headers {
             <span class="kw">if let </span>Entry::Vacant(entry) = headers.entry(key) {
                 entry.insert(value.clone());
-            }
-        }
-
-        <span class="comment">// Add cookies from the cookie store.
-        </span><span class="attr">#[cfg(feature = <span class="string">"cookies"</span>)]
-        </span>{
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(cookie_store) = <span class="self">self</span>.inner.cookie_store.as_ref() {
-                <span class="kw">if </span>headers.get(<span class="kw">crate</span>::header::COOKIE).is_none() {
-                    add_cookie_header(<span class="kw-2">&amp;mut </span>headers, <span class="kw-2">&amp;**</span>cookie_store, <span class="kw-2">&amp;</span>url);
-                }
             }
         }
 
@@ -5089,6 +5606,7 @@
         };
 
         <span class="self">self</span>.proxy_auth(<span class="kw-2">&amp;</span>uri, <span class="kw-2">&amp;mut </span>headers);
+        <span class="self">self</span>.proxy_custom_headers(<span class="kw-2">&amp;</span>uri, <span class="kw-2">&amp;mut </span>headers);
 
         <span class="kw">let </span>builder = hyper::Request::builder()
             .method(method.clone())
@@ -5100,17 +5618,22 @@
             </span>http::Version::HTTP_3 <span class="kw">if </span><span class="self">self</span>.inner.h3_client.is_some() =&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>req = builder.body(body).expect(<span class="string">"valid request parts"</span>);
                 <span class="kw-2">*</span>req.headers_mut() = headers.clone();
-                ResponseFuture::H3(<span class="self">self</span>.inner.h3_client.as_ref().unwrap().request(req))
+                <span class="kw">let </span><span class="kw-2">mut </span>h3 = <span class="self">self</span>.inner.h3_client.as_ref().unwrap().clone();
+                ResponseFuture::H3(h3.call(req))
             }
             <span class="kw">_ </span>=&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>req = builder.body(body).expect(<span class="string">"valid request parts"</span>);
                 <span class="kw-2">*</span>req.headers_mut() = headers.clone();
-                ResponseFuture::Default(<span class="self">self</span>.inner.hyper.request(req))
+                <span class="kw">let </span><span class="kw-2">mut </span>hyper = <span class="self">self</span>.inner.hyper.clone();
+                ResponseFuture::Default(hyper.call(req))
             }
         };
 
-        <span class="kw">let </span>total_timeout = timeout
-            .or(<span class="self">self</span>.inner.request_timeout)
+        <span class="kw">let </span>total_timeout = <span class="self">self
+            </span>.inner
+            .request_timeout
+            .fetch(<span class="kw-2">&amp;</span>extensions)
+            .copied()
             .map(tokio::time::sleep)
             .map(Box::pin);
 
@@ -5121,13 +5644,11 @@
             .map(Box::pin);
 
         Pending {
-            inner: PendingInner::Request(PendingRequest {
+            inner: PendingInner::Request(Box::pin(PendingRequest {
                 method,
                 url,
                 headers,
                 body: reusable,
-
-                urls: Vec::new(),
 
                 retry_count: <span class="number">0</span>,
 
@@ -5137,7 +5658,7 @@
                 total_timeout,
                 read_timeout_fut,
                 read_timeout: <span class="self">self</span>.inner.read_timeout,
-            }),
+            })),
         }
     }
 
@@ -5158,11 +5679,27 @@
         }
 
         <span class="kw">for </span>proxy <span class="kw">in </span><span class="self">self</span>.inner.proxies.iter() {
-            <span class="kw">if </span>proxy.is_match(dst) {
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(header) = proxy.http_basic_auth(dst) {
-                    headers.insert(PROXY_AUTHORIZATION, header);
-                }
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(header) = proxy.http_non_tunnel_basic_auth(dst) {
+                headers.insert(PROXY_AUTHORIZATION, header);
+                <span class="kw">break</span>;
+            }
+        }
+    }
 
+    <span class="kw">fn </span>proxy_custom_headers(<span class="kw-2">&amp;</span><span class="self">self</span>, dst: <span class="kw-2">&amp;</span>Uri, headers: <span class="kw-2">&amp;mut </span>HeaderMap) {
+        <span class="kw">if </span>!<span class="self">self</span>.inner.proxies_maybe_http_custom_headers {
+            <span class="kw">return</span>;
+        }
+
+        <span class="kw">if </span>dst.scheme() != <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Scheme::HTTP) {
+            <span class="kw">return</span>;
+        }
+
+        <span class="kw">for </span>proxy <span class="kw">in </span><span class="self">self</span>.inner.proxies.iter() {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(iter) = proxy.http_non_tunnel_custom_headers(dst) {
+                iter.iter().for_each(|(key, value)| {
+                    headers.insert(key, value.clone());
+                });
                 <span class="kw">break</span>;
             }
         }
@@ -5278,7 +5815,18 @@
             f.field(<span class="string">"local_address"</span>, v);
         }
 
-        <span class="attr">#[cfg(any(target_os = <span class="string">"android"</span>, target_os = <span class="string">"fuchsia"</span>, target_os = <span class="string">"linux"</span>))]
+        <span class="attr">#[cfg(any(
+            target_os = <span class="string">"android"</span>,
+            target_os = <span class="string">"fuchsia"</span>,
+            target_os = <span class="string">"illumos"</span>,
+            target_os = <span class="string">"ios"</span>,
+            target_os = <span class="string">"linux"</span>,
+            target_os = <span class="string">"macos"</span>,
+            target_os = <span class="string">"solaris"</span>,
+            target_os = <span class="string">"tvos"</span>,
+            target_os = <span class="string">"visionos"</span>,
+            target_os = <span class="string">"watchos"</span>,
+        ))]
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>v) = <span class="self">self</span>.interface {
             f.field(<span class="string">"interface"</span>, v);
         }
@@ -5336,16 +5884,17 @@
     <span class="attr">#[cfg(feature = <span class="string">"cookies"</span>)]
     </span>cookie_store: <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>cookie::CookieStore&gt;&gt;,
     headers: HeaderMap,
-    hyper: HyperClient,
+    hyper: FollowRedirect&lt;HyperService, TowerRedirectPolicy&gt;,
     <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
-    </span>h3_client: <span class="prelude-ty">Option</span>&lt;H3Client&gt;,
-    redirect_policy: redirect::Policy,
+    </span>h3_client: <span class="prelude-ty">Option</span>&lt;FollowRedirect&lt;H3Client, TowerRedirectPolicy&gt;&gt;,
     referer: bool,
-    request_timeout: <span class="prelude-ty">Option</span>&lt;Duration&gt;,
+    request_timeout: RequestConfig&lt;RequestTimeout&gt;,
     read_timeout: <span class="prelude-ty">Option</span>&lt;Duration&gt;,
-    proxies: Arc&lt;Vec&lt;Proxy&gt;&gt;,
+    proxies: Arc&lt;Vec&lt;ProxyMatcher&gt;&gt;,
     proxies_maybe_http_auth: bool,
+    proxies_maybe_http_custom_headers: bool,
     https_only: bool,
+    redirect_policy_desc: <span class="prelude-ty">Option</span>&lt;String&gt;,
 }
 
 <span class="kw">impl </span>ClientRef {
@@ -5366,8 +5915,8 @@
             f.field(<span class="string">"proxies"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.proxies);
         }
 
-        <span class="kw">if </span>!<span class="self">self</span>.redirect_policy.is_default() {
-            f.field(<span class="string">"redirect_policy"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.redirect_policy);
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(s) = <span class="kw-2">&amp;</span><span class="self">self</span>.redirect_policy_desc {
+            f.field(<span class="string">"redirect_policy"</span>, s);
         }
 
         <span class="kw">if </span><span class="self">self</span>.referer {
@@ -5376,9 +5925,7 @@
 
         f.field(<span class="string">"default_headers"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.headers);
 
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>d) = <span class="self">self</span>.request_timeout {
-            f.field(<span class="string">"timeout"</span>, d);
-        }
+        <span class="self">self</span>.request_timeout.fmt_as_field(f);
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>d) = <span class="self">self</span>.read_timeout {
             f.field(<span class="string">"read_timeout"</span>, d);
@@ -5394,7 +5941,7 @@
 }
 
 <span class="kw">enum </span>PendingInner {
-    Request(PendingRequest),
+    Request(Pin&lt;Box&lt;PendingRequest&gt;&gt;),
     Error(<span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::Error&gt;),
 }
 
@@ -5404,8 +5951,6 @@
         url: Url,
         headers: HeaderMap,
         body: <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Option</span>&lt;Bytes&gt;&gt;,
-
-        urls: Vec&lt;Url&gt;,
 
         retry_count: usize,
 
@@ -5422,9 +5967,9 @@
 }
 
 <span class="kw">enum </span>ResponseFuture {
-    Default(HyperResponseFuture),
+    Default(tower_http::follow_redirect::ResponseFuture&lt;HyperService, Body, TowerRedirectPolicy&gt;),
     <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
-    </span>H3(H3ResponseFuture),
+    </span>H3(tower_http::follow_redirect::ResponseFuture&lt;H3Client, Body, TowerRedirectPolicy&gt;),
 }
 
 <span class="kw">impl </span>PendingRequest {
@@ -5440,14 +5985,6 @@
         <span class="self">self</span>.project().read_timeout_fut
     }
 
-    <span class="kw">fn </span>urls(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;) -&gt; <span class="kw-2">&amp;mut </span>Vec&lt;Url&gt; {
-        <span class="self">self</span>.project().urls
-    }
-
-    <span class="kw">fn </span>headers(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;) -&gt; <span class="kw-2">&amp;mut </span>HeaderMap {
-        <span class="self">self</span>.project().headers
-    }
-
     <span class="attr">#[cfg(any(feature = <span class="string">"http2"</span>, feature = <span class="string">"http3"</span>))]
     </span><span class="kw">fn </span>retry_error(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, err: <span class="kw-2">&amp;</span>(<span class="kw">dyn </span>std::error::Error + <span class="lifetime">'static</span>)) -&gt; bool {
         <span class="kw">use </span>log::trace;
@@ -5461,7 +5998,7 @@
         <span class="kw">let </span>body = <span class="kw">match </span><span class="self">self</span>.body {
             <span class="prelude-val">Some</span>(<span class="prelude-val">Some</span>(<span class="kw-2">ref </span>body)) =&gt; Body::reusable(body.clone()),
             <span class="prelude-val">Some</span>(<span class="prelude-val">None</span>) =&gt; {
-                <span class="macro">debug!</span>(<span class="string">"error was retryable, but body not reusable"</span>);
+                <span class="macro">log::debug!</span>(<span class="string">"error was retryable, but body not reusable"</span>);
                 <span class="kw">return </span><span class="bool-val">false</span>;
             }
             <span class="prelude-val">None </span>=&gt; Body::empty(),
@@ -5485,13 +6022,13 @@
                     .body(body)
                     .expect(<span class="string">"valid request parts"</span>);
                 <span class="kw-2">*</span>req.headers_mut() = <span class="self">self</span>.headers.clone();
-                ResponseFuture::H3(
-                    <span class="self">self</span>.client
-                        .h3_client
-                        .as_ref()
-                        .expect(<span class="string">"H3 client must exists, otherwise we can't have a h3 request here"</span>)
-                        .request(req),
-                )
+                <span class="kw">let </span><span class="kw-2">mut </span>h3 = <span class="self">self
+                    </span>.client
+                    .h3_client
+                    .as_ref()
+                    .expect(<span class="string">"H3 client must exists, otherwise we can't have a h3 request here"</span>)
+                    .clone();
+                ResponseFuture::H3(h3.call(req))
             }
             <span class="kw">_ </span>=&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>req = hyper::Request::builder()
@@ -5500,7 +6037,8 @@
                     .body(body)
                     .expect(<span class="string">"valid request parts"</span>);
                 <span class="kw-2">*</span>req.headers_mut() = <span class="self">self</span>.headers.clone();
-                ResponseFuture::Default(<span class="self">self</span>.client.hyper.request(req))
+                <span class="kw">let </span><span class="kw-2">mut </span>hyper = <span class="self">self</span>.client.hyper.clone();
+                ResponseFuture::Default(hyper.call(req))
             }
         };
 
@@ -5519,8 +6057,8 @@
 
     <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
     </span><span class="kw">if let </span><span class="prelude-val">Some</span>(cause) = err.source() {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(err) = cause.downcast_ref::&lt;h3::Error&gt;() {
-            <span class="macro">debug!</span>(<span class="string">"determining if HTTP/3 error {err} can be retried"</span>);
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(err) = cause.downcast_ref::&lt;h3::error::ConnectionError&gt;() {
+            <span class="macro">log::debug!</span>(<span class="string">"determining if HTTP/3 error {err} can be retried"</span>);
             <span class="comment">// TODO: Does h3 provide an API for checking the error?
             </span><span class="kw">return </span>err.to_string().as_str() == <span class="string">"timeout"</span>;
         }
@@ -5596,12 +6134,15 @@
                 ResponseFuture::Default(r) =&gt; <span class="kw">match </span>Pin::new(r).poll(cx) {
                     Poll::Ready(<span class="prelude-val">Err</span>(e)) =&gt; {
                         <span class="attr">#[cfg(feature = <span class="string">"http2"</span>)]
-                        </span><span class="kw">if </span><span class="self">self</span>.as_mut().retry_error(<span class="kw-2">&amp;</span>e) {
-                            <span class="kw">continue</span>;
+                        </span><span class="kw">if </span>e.is_request() {
+                            <span class="kw">if let </span><span class="prelude-val">Some</span>(e) = e.source() {
+                                <span class="kw">if </span><span class="self">self</span>.as_mut().retry_error(e) {
+                                    <span class="kw">continue</span>;
+                                }
+                            }
                         }
-                        <span class="kw">return </span>Poll::Ready(<span class="prelude-val">Err</span>(
-                            <span class="kw">crate</span>::error::request(e).with_url(<span class="self">self</span>.url.clone())
-                        ));
+
+                        <span class="kw">return </span>Poll::Ready(<span class="prelude-val">Err</span>(e));
                     }
                     Poll::Ready(<span class="prelude-val">Ok</span>(res)) =&gt; res.map(<span class="kw">super</span>::body::boxed),
                     Poll::Pending =&gt; <span class="kw">return </span>Poll::Pending,
@@ -5625,151 +6166,21 @@
             </span>{
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>cookie_store) = <span class="self">self</span>.client.cookie_store {
                     <span class="kw">let </span><span class="kw-2">mut </span>cookies =
-                        cookie::extract_response_cookie_headers(<span class="kw-2">&amp;</span>res.headers()).peekable();
+                        cookie::extract_response_cookie_headers(res.headers()).peekable();
                     <span class="kw">if </span>cookies.peek().is_some() {
                         cookie_store.set_cookies(<span class="kw-2">&amp;mut </span>cookies, <span class="kw-2">&amp;</span><span class="self">self</span>.url);
                     }
                 }
             }
-            <span class="kw">let </span>should_redirect = <span class="kw">match </span>res.status() {
-                StatusCode::MOVED_PERMANENTLY | StatusCode::FOUND | StatusCode::SEE_OTHER =&gt; {
-                    <span class="self">self</span>.body = <span class="prelude-val">None</span>;
-                    <span class="kw">for </span>header <span class="kw">in </span><span class="kw-2">&amp;</span>[
-                        TRANSFER_ENCODING,
-                        CONTENT_ENCODING,
-                        CONTENT_TYPE,
-                        CONTENT_LENGTH,
-                    ] {
-                        <span class="self">self</span>.headers.remove(header);
-                    }
-
-                    <span class="kw">match </span><span class="self">self</span>.method {
-                        Method::GET | Method::HEAD =&gt; {}
-                        <span class="kw">_ </span>=&gt; {
-                            <span class="self">self</span>.method = Method::GET;
-                        }
-                    }
-                    <span class="bool-val">true
-                </span>}
-                StatusCode::TEMPORARY_REDIRECT | StatusCode::PERMANENT_REDIRECT =&gt; {
-                    <span class="kw">match </span><span class="self">self</span>.body {
-                        <span class="prelude-val">Some</span>(<span class="prelude-val">Some</span>(<span class="kw">_</span>)) | <span class="prelude-val">None </span>=&gt; <span class="bool-val">true</span>,
-                        <span class="prelude-val">Some</span>(<span class="prelude-val">None</span>) =&gt; <span class="bool-val">false</span>,
-                    }
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(url) = <span class="kw-2">&amp;</span>res
+                .extensions()
+                .get::&lt;tower_http::follow_redirect::RequestUri&gt;()
+            {
+                <span class="self">self</span>.url = <span class="kw">match </span>Url::parse(<span class="kw-2">&amp;</span>url.<span class="number">0</span>.to_string()) {
+                    <span class="prelude-val">Ok</span>(url) =&gt; url,
+                    <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span>Poll::Ready(<span class="prelude-val">Err</span>(<span class="kw">crate</span>::error::decode(e))),
                 }
-                <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
             };
-            <span class="kw">if </span>should_redirect {
-                <span class="kw">let </span>loc = res.headers().get(LOCATION).and_then(|val| {
-                    <span class="kw">let </span>loc = (|| -&gt; <span class="prelude-ty">Option</span>&lt;Url&gt; {
-                        <span class="comment">// Some sites may send a UTF-8 Location header,
-                        // even though we're supposed to treat those bytes
-                        // as opaque, we'll check specifically for utf8.
-                        </span><span class="self">self</span>.url.join(str::from_utf8(val.as_bytes()).ok()<span class="question-mark">?</span>).ok()
-                    })();
-
-                    <span class="comment">// Check that the `url` is also a valid `http::Uri`.
-                    //
-                    // If not, just log it and skip the redirect.
-                    </span><span class="kw">let </span>loc = loc.and_then(|url| {
-                        <span class="kw">if </span>try_uri(<span class="kw-2">&amp;</span>url).is_ok() {
-                            <span class="prelude-val">Some</span>(url)
-                        } <span class="kw">else </span>{
-                            <span class="prelude-val">None
-                        </span>}
-                    });
-
-                    <span class="kw">if </span>loc.is_none() {
-                        <span class="macro">debug!</span>(<span class="string">"Location header had invalid URI: {val:?}"</span>);
-                    }
-                    loc
-                });
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(loc) = loc {
-                    <span class="kw">if </span><span class="self">self</span>.client.referer {
-                        <span class="kw">if let </span><span class="prelude-val">Some</span>(referer) = make_referer(<span class="kw-2">&amp;</span>loc, <span class="kw-2">&amp;</span><span class="self">self</span>.url) {
-                            <span class="self">self</span>.headers.insert(REFERER, referer);
-                        }
-                    }
-                    <span class="kw">let </span>url = <span class="self">self</span>.url.clone();
-                    <span class="self">self</span>.as_mut().urls().push(url);
-                    <span class="kw">let </span>action = <span class="self">self
-                        </span>.client
-                        .redirect_policy
-                        .check(res.status(), <span class="kw-2">&amp;</span>loc, <span class="kw-2">&amp;</span><span class="self">self</span>.urls);
-
-                    <span class="kw">match </span>action {
-                        redirect::ActionKind::Follow =&gt; {
-                            <span class="macro">debug!</span>(<span class="string">"redirecting '{}' to '{}'"</span>, <span class="self">self</span>.url, loc);
-
-                            <span class="kw">if </span>loc.scheme() != <span class="string">"http" </span>&amp;&amp; loc.scheme() != <span class="string">"https" </span>{
-                                <span class="kw">return </span>Poll::Ready(<span class="prelude-val">Err</span>(error::url_bad_scheme(loc)));
-                            }
-
-                            <span class="kw">if </span><span class="self">self</span>.client.https_only &amp;&amp; loc.scheme() != <span class="string">"https" </span>{
-                                <span class="kw">return </span>Poll::Ready(<span class="prelude-val">Err</span>(error::redirect(
-                                    error::url_bad_scheme(loc.clone()),
-                                    loc,
-                                )));
-                            }
-
-                            <span class="self">self</span>.url = loc;
-                            <span class="kw">let </span><span class="kw-2">mut </span>headers =
-                                std::mem::replace(<span class="self">self</span>.as_mut().headers(), HeaderMap::new());
-
-                            remove_sensitive_headers(<span class="kw-2">&amp;mut </span>headers, <span class="kw-2">&amp;</span><span class="self">self</span>.url, <span class="kw-2">&amp;</span><span class="self">self</span>.urls);
-                            <span class="kw">let </span>uri = try_uri(<span class="kw-2">&amp;</span><span class="self">self</span>.url)<span class="question-mark">?</span>;
-                            <span class="kw">let </span>body = <span class="kw">match </span><span class="self">self</span>.body {
-                                <span class="prelude-val">Some</span>(<span class="prelude-val">Some</span>(<span class="kw-2">ref </span>body)) =&gt; Body::reusable(body.clone()),
-                                <span class="kw">_ </span>=&gt; Body::empty(),
-                            };
-
-                            <span class="comment">// Add cookies from the cookie store.
-                            </span><span class="attr">#[cfg(feature = <span class="string">"cookies"</span>)]
-                            </span>{
-                                <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>cookie_store) = <span class="self">self</span>.client.cookie_store {
-                                    add_cookie_header(<span class="kw-2">&amp;mut </span>headers, <span class="kw-2">&amp;**</span>cookie_store, <span class="kw-2">&amp;</span><span class="self">self</span>.url);
-                                }
-                            }
-
-                            <span class="kw-2">*</span><span class="self">self</span>.as_mut().in_flight().get_mut() =
-                                <span class="kw">match </span><span class="kw-2">*</span><span class="self">self</span>.as_mut().in_flight().as_ref() {
-                                    <span class="attr">#[cfg(feature = <span class="string">"http3"</span>)]
-                                    </span>ResponseFuture::H3(<span class="kw">_</span>) =&gt; {
-                                        <span class="kw">let </span><span class="kw-2">mut </span>req = hyper::Request::builder()
-                                            .method(<span class="self">self</span>.method.clone())
-                                            .uri(uri.clone())
-                                            .body(body)
-                                            .expect(<span class="string">"valid request parts"</span>);
-                                        <span class="kw-2">*</span>req.headers_mut() = headers.clone();
-                                        std::mem::swap(<span class="self">self</span>.as_mut().headers(), <span class="kw-2">&amp;mut </span>headers);
-                                        ResponseFuture::H3(<span class="self">self</span>.client.h3_client
-                        .as_ref()
-                        .expect(<span class="string">"H3 client must exists, otherwise we can't have a h3 request here"</span>)
-                                            .request(req))
-                                    }
-                                    <span class="kw">_ </span>=&gt; {
-                                        <span class="kw">let </span><span class="kw-2">mut </span>req = hyper::Request::builder()
-                                            .method(<span class="self">self</span>.method.clone())
-                                            .uri(uri.clone())
-                                            .body(body)
-                                            .expect(<span class="string">"valid request parts"</span>);
-                                        <span class="kw-2">*</span>req.headers_mut() = headers.clone();
-                                        std::mem::swap(<span class="self">self</span>.as_mut().headers(), <span class="kw-2">&amp;mut </span>headers);
-                                        ResponseFuture::Default(<span class="self">self</span>.client.hyper.request(req))
-                                    }
-                                };
-
-                            <span class="kw">continue</span>;
-                        }
-                        redirect::ActionKind::Stop =&gt; {
-                            <span class="macro">debug!</span>(<span class="string">"redirect policy disallowed redirection to '{loc}'"</span>);
-                        }
-                        redirect::ActionKind::Error(err) =&gt; {
-                            <span class="kw">return </span>Poll::Ready(<span class="prelude-val">Err</span>(<span class="kw">crate</span>::error::redirect(err, <span class="self">self</span>.url.clone())));
-                        }
-                    }
-                }
-            }
 
             <span class="kw">let </span>res = Response::new(
                 res,
@@ -5793,25 +6204,6 @@
                 .finish(),
             PendingInner::Error(<span class="kw-2">ref </span>err) =&gt; f.debug_struct(<span class="string">"Pending"</span>).field(<span class="string">"error"</span>, err).finish(),
         }
-    }
-}
-
-<span class="kw">fn </span>make_referer(next: <span class="kw-2">&amp;</span>Url, previous: <span class="kw-2">&amp;</span>Url) -&gt; <span class="prelude-ty">Option</span>&lt;HeaderValue&gt; {
-    <span class="kw">if </span>next.scheme() == <span class="string">"http" </span>&amp;&amp; previous.scheme() == <span class="string">"https" </span>{
-        <span class="kw">return </span><span class="prelude-val">None</span>;
-    }
-
-    <span class="kw">let </span><span class="kw-2">mut </span>referer = previous.clone();
-    <span class="kw">let _ </span>= referer.set_username(<span class="string">""</span>);
-    <span class="kw">let _ </span>= referer.set_password(<span class="prelude-val">None</span>);
-    referer.set_fragment(<span class="prelude-val">None</span>);
-    referer.as_str().parse().ok()
-}
-
-<span class="attr">#[cfg(feature = <span class="string">"cookies"</span>)]
-</span><span class="kw">fn </span>add_cookie_header(headers: <span class="kw-2">&amp;mut </span>HeaderMap, cookie_store: <span class="kw-2">&amp;</span><span class="kw">dyn </span>cookie::CookieStore, url: <span class="kw-2">&amp;</span>Url) {
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(header) = cookie_store.cookies(url) {
-        headers.insert(<span class="kw">crate</span>::header::COOKIE, header);
     }
 }
 
@@ -5842,6 +6234,12 @@
         <span class="kw">let </span>err = result.err().unwrap();
         <span class="macro">assert!</span>(err.is_builder());
         <span class="macro">assert_eq!</span>(url_str, err.url().unwrap().as_str());
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_future_size() {
+        <span class="kw">let </span>s = std::mem::size_of::&lt;<span class="kw">super</span>::Pending&gt;();
+        <span class="macro">assert!</span>(s &lt; <span class="number">128</span>, <span class="string">"size_of::&lt;Pending&gt;() == {s}, too big"</span>);
     }
 }
 </code></pre></div></section></main></body></html>

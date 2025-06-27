@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/portable-atomic-1.11.0/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b0742ba02757f159.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="portable_atomic" data-themes="" data-resource-suffix="" data-rustdoc-version="1.84.0-nightly (9322d183f 2024-10-14)" data-channel="nightly" data-search-js="search-e056c65ede92db13.js" data-settings-js="settings-805db61a62df4bd2.js" ><script src="../../static.files/storage-1d39b6787ed640ff.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f070b9041d14864c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-0111fcff984fae8f.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">portable_atomic/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/portable-atomic-1.11.1/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="portable_atomic" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (4ba4ac612 2024-12-18)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">portable_atomic/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
 <a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
@@ -5162,7 +5162,37 @@
 <a href="#5161" id="5161">5161</a>
 <a href="#5162" id="5162">5162</a>
 <a href="#5163" id="5163">5163</a>
-<a href="#5164" id="5164">5164</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: Apache-2.0 OR MIT
+<a href="#5164" id="5164">5164</a>
+<a href="#5165" id="5165">5165</a>
+<a href="#5166" id="5166">5166</a>
+<a href="#5167" id="5167">5167</a>
+<a href="#5168" id="5168">5168</a>
+<a href="#5169" id="5169">5169</a>
+<a href="#5170" id="5170">5170</a>
+<a href="#5171" id="5171">5171</a>
+<a href="#5172" id="5172">5172</a>
+<a href="#5173" id="5173">5173</a>
+<a href="#5174" id="5174">5174</a>
+<a href="#5175" id="5175">5175</a>
+<a href="#5176" id="5176">5176</a>
+<a href="#5177" id="5177">5177</a>
+<a href="#5178" id="5178">5178</a>
+<a href="#5179" id="5179">5179</a>
+<a href="#5180" id="5180">5180</a>
+<a href="#5181" id="5181">5181</a>
+<a href="#5182" id="5182">5182</a>
+<a href="#5183" id="5183">5183</a>
+<a href="#5184" id="5184">5184</a>
+<a href="#5185" id="5185">5185</a>
+<a href="#5186" id="5186">5186</a>
+<a href="#5187" id="5187">5187</a>
+<a href="#5188" id="5188">5188</a>
+<a href="#5189" id="5189">5189</a>
+<a href="#5190" id="5190">5190</a>
+<a href="#5191" id="5191">5191</a>
+<a href="#5192" id="5192">5192</a>
+<a href="#5193" id="5193">5193</a>
+<a href="#5194" id="5194">5194</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: Apache-2.0 OR MIT
 
 </span><span class="doccomment">/*!
 &lt;!-- Note: Document from sync-markdown-to-rustdoc:start through sync-markdown-to-rustdoc:end
@@ -5216,7 +5246,7 @@ portable-atomic = { version = "1.3", default-features = false, features = ["requ
 
 Native 128-bit atomic operations are available on x86_64 (Rust 1.59+), AArch64 (Rust 1.59+), riscv64 (Rust 1.59+), Arm64EC (Rust 1.84+), s390x (Rust 1.84+), and powerpc64 (nightly only), otherwise the fallback implementation is used.
 
-On x86_64, even if `cmpxchg16b` is not available at compile-time (note: `cmpxchg16b` target feature is enabled by default only on Apple and Windows (except Windows 7) targets), run-time detection checks whether `cmpxchg16b` is available. If `cmpxchg16b` is not available at either compile-time or run-time detection, the fallback implementation is used. See also [`portable_atomic_no_outline_atomics`](#optional-cfg-no-outline-atomics) cfg.
+On x86_64, even if `cmpxchg16b` is not available at compile-time (Note: `cmpxchg16b` target feature is enabled by default only on Apple, Windows (except Windows 7), and Fuchsia targets), run-time detection checks whether `cmpxchg16b` is available. If `cmpxchg16b` is not available at either compile-time or run-time detection, the fallback implementation is used. See also [`portable_atomic_no_outline_atomics`](#optional-cfg-no-outline-atomics) cfg.
 
 They are usually implemented using inline assembly, and when using Miri or ThreadSanitizer that do not support inline assembly, core intrinsics are used instead of inline assembly if possible.
 
@@ -5236,7 +5266,7 @@ See the [`atomic128` module's readme](https://github.com/taiki-e/portable-atomic
   - When unstable `--cfg portable_atomic_unstable_f128` is also enabled, `AtomicF128` for [unstable `f128`](https://github.com/rust-lang/rust/issues/116909) is also provided.
 
   Note:
-  - Most of `fetch_*` operations of atomic floats are implemented using CAS loops, which can be slower than equivalent operations of atomic integers. (AArch64 with FEAT_LSFE and GPU targets have atomic instructions for float, [so we plan to use these instructions for them in the future.](https://github.com/taiki-e/portable-atomic/issues/34))
+  - Atomic float's `fetch_{add,sub,min,max}` are usually implemented using CAS loops, which can be slower than equivalent operations of atomic integers. As an exception, AArch64 with FEAT_LSFE and GPU targets have atomic float instructions and we use them on AArch64 when `lsfe` target feature is available at compile-time. We [plan to use atomic float instructions for GPU targets as well in the future.](https://github.com/taiki-e/portable-atomic/issues/34))
   - Unstable cfgs are outside of the normal semver guarantees and minor or patch versions of portable-atomic may make breaking changes to them at any time.
 
 - **`std`**&lt;br&gt;
@@ -5980,14 +6010,24 @@ RUSTFLAGS="--cfg portable_atomic_no_outline_atomics" cargo ...
     </span><span class="attr">#[inline]
     #[cfg_attr(miri, track_caller)] </span><span class="comment">// even without panics, this helps for Miri backtraces
     </span><span class="kw">pub fn </span>swap(<span class="kw-2">&amp;</span><span class="self">self</span>, val: bool, order: Ordering) -&gt; bool {
-        <span class="attr">#[cfg(any(target_arch = <span class="string">"riscv32"</span>, target_arch = <span class="string">"riscv64"</span>, target_arch = <span class="string">"loongarch64"</span>))]
+        <span class="attr">#[cfg(any(
+            target_arch = <span class="string">"riscv32"</span>,
+            target_arch = <span class="string">"riscv64"</span>,
+            target_arch = <span class="string">"loongarch32"</span>,
+            target_arch = <span class="string">"loongarch64"</span>,
+        ))]
         </span>{
             <span class="comment">// See https://github.com/rust-lang/rust/pull/114034 for details.
             // https://github.com/rust-lang/rust/blob/1.84.0/library/core/src/sync/atomic.rs#L249
             // https://godbolt.org/z/ofbGGdx44
             </span><span class="kw">if </span>val { <span class="self">self</span>.fetch_or(<span class="bool-val">true</span>, order) } <span class="kw">else </span>{ <span class="self">self</span>.fetch_and(<span class="bool-val">false</span>, order) }
         }
-        <span class="attr">#[cfg(not(any(target_arch = <span class="string">"riscv32"</span>, target_arch = <span class="string">"riscv64"</span>, target_arch = <span class="string">"loongarch64"</span>)))]
+        <span class="attr">#[cfg(not(any(
+            target_arch = <span class="string">"riscv32"</span>,
+            target_arch = <span class="string">"riscv64"</span>,
+            target_arch = <span class="string">"loongarch32"</span>,
+            target_arch = <span class="string">"loongarch64"</span>,
+        )))]
         </span>{
             <span class="self">self</span>.as_atomic_u8().swap(val <span class="kw">as </span>u8, order) != <span class="number">0
         </span>}
@@ -6042,7 +6082,12 @@ RUSTFLAGS="--cfg portable_atomic_no_outline_atomics" cargo ...
         success: Ordering,
         failure: Ordering,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;bool, bool&gt; {
-        <span class="attr">#[cfg(any(target_arch = <span class="string">"riscv32"</span>, target_arch = <span class="string">"riscv64"</span>, target_arch = <span class="string">"loongarch64"</span>))]
+        <span class="attr">#[cfg(any(
+            target_arch = <span class="string">"riscv32"</span>,
+            target_arch = <span class="string">"riscv64"</span>,
+            target_arch = <span class="string">"loongarch32"</span>,
+            target_arch = <span class="string">"loongarch64"</span>,
+        ))]
         </span>{
             <span class="comment">// See https://github.com/rust-lang/rust/pull/114034 for details.
             // https://github.com/rust-lang/rust/blob/1.84.0/library/core/src/sync/atomic.rs#L249
@@ -6059,7 +6104,12 @@ RUSTFLAGS="--cfg portable_atomic_no_outline_atomics" cargo ...
             };
             <span class="kw">if </span>old == current { <span class="prelude-val">Ok</span>(old) } <span class="kw">else </span>{ <span class="prelude-val">Err</span>(old) }
         }
-        <span class="attr">#[cfg(not(any(target_arch = <span class="string">"riscv32"</span>, target_arch = <span class="string">"riscv64"</span>, target_arch = <span class="string">"loongarch64"</span>)))]
+        <span class="attr">#[cfg(not(any(
+            target_arch = <span class="string">"riscv32"</span>,
+            target_arch = <span class="string">"riscv64"</span>,
+            target_arch = <span class="string">"loongarch32"</span>,
+            target_arch = <span class="string">"loongarch64"</span>,
+        )))]
         </span>{
             <span class="kw">match </span><span class="self">self</span>.as_atomic_u8().compare_exchange(current <span class="kw">as </span>u8, new <span class="kw">as </span>u8, success, failure) {
                 <span class="prelude-val">Ok</span>(x) =&gt; <span class="prelude-val">Ok</span>(x != <span class="number">0</span>),
@@ -6116,14 +6166,24 @@ RUSTFLAGS="--cfg portable_atomic_no_outline_atomics" cargo ...
         success: Ordering,
         failure: Ordering,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;bool, bool&gt; {
-        <span class="attr">#[cfg(any(target_arch = <span class="string">"riscv32"</span>, target_arch = <span class="string">"riscv64"</span>, target_arch = <span class="string">"loongarch64"</span>))]
+        <span class="attr">#[cfg(any(
+            target_arch = <span class="string">"riscv32"</span>,
+            target_arch = <span class="string">"riscv64"</span>,
+            target_arch = <span class="string">"loongarch32"</span>,
+            target_arch = <span class="string">"loongarch64"</span>,
+        ))]
         </span>{
             <span class="comment">// See https://github.com/rust-lang/rust/pull/114034 for details.
             // https://github.com/rust-lang/rust/blob/1.84.0/library/core/src/sync/atomic.rs#L249
             // https://godbolt.org/z/ofbGGdx44
             </span><span class="self">self</span>.compare_exchange(current, new, success, failure)
         }
-        <span class="attr">#[cfg(not(any(target_arch = <span class="string">"riscv32"</span>, target_arch = <span class="string">"riscv64"</span>, target_arch = <span class="string">"loongarch64"</span>)))]
+        <span class="attr">#[cfg(not(any(
+            target_arch = <span class="string">"riscv32"</span>,
+            target_arch = <span class="string">"riscv64"</span>,
+            target_arch = <span class="string">"loongarch32"</span>,
+            target_arch = <span class="string">"loongarch64"</span>,
+        )))]
         </span>{
             <span class="kw">match </span><span class="self">self
                 </span>.as_atomic_u8()
